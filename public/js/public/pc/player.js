@@ -1,6 +1,5 @@
 var CKHead = 'js/ckplayer/';
 var maxTimeOut = 0;
-var host = 'localhost';
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;

@@ -26,7 +26,7 @@ class LiveController extends Controller
     }
 
     public function betLivesStatic(Request $request){
-        $html = $this->footballLives(new Request());
+        $html = $this->betLives(new Request());
         try {
             Storage::disk("public")->put("/static/betting.html",$html);
         } catch (\Exception $exception) {

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>爱看球</title>
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=20180126">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=20180126">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="edge" />
@@ -28,8 +28,9 @@
         P.innerHTML = Text;
         document.body.appendChild(P)
     }
+    window.host = '{{$_SERVER['HTTP_HOST']}}';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=0126"></script>
 <script type="text/javascript">
     (function() {
         var hm = document.createElement("script");

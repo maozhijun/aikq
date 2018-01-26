@@ -39,11 +39,9 @@
             @endif
                 <div class="ADWarm_RU" style="display: none;"><p onclick="document.getElementById('Video').removeChild(this.parentNode)">· 我知道了 ·</p></div>
             </div>
-            @if($match['status'] != -1 && $show_live)
             <div class="share" id="Share">
                 复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
             </div>
-            @endif
         </div>
         {{--<div class="adbanner inner"><a href=""><img src="http://img2.titan007.com/image/56456gjf5.gif"></a></div>--}}
         {{--<div class="adbanner inner"><a href=""><img src="http://img2.titan007.com/image/56456gjf5.gif"></a></div>--}}
@@ -75,5 +73,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=20180126">
 @endsection
