@@ -291,7 +291,7 @@ class LiveController extends Controller
 //        $server_output = curl_exec ($ch);
 //        curl_close ($ch);
 //        $json = json_decode($server_output,true);
-        $cache = Storage::get('/public/static/json/basketball-lives.json');
+        $cache = Storage::get('/public/static/json/football-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
