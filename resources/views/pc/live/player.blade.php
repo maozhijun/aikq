@@ -31,13 +31,16 @@
     window.host = '{{$_SERVER['HTTP_HOST']}}';
 </script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=0126"></script>
-<script type="text/javascript">
+<script>
+    var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?2b2ed5595f2e5b67b0121a6caa8d1c1a";
+        hm.src = "https://hm.baidu.com/hm.js?2966b2031ac2b01631362b1474d7f853";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
+</script>
+<script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         LoadVideo();
     }
