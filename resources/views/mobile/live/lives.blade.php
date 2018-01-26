@@ -32,7 +32,7 @@
             @endforeach
         </div>
     @endforeach
-    <p id="PC">更多赛事线路与特色功能，请登录电脑版！<br/>www.akq.cc<button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    <p id="PC">更多赛事线路与特色功能，请登录电脑版！<br/>www.aikq.cc<button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 @section('js')
     <script type="text/javascript">
