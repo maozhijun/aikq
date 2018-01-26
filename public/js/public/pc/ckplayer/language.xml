@@ -9,7 +9,7 @@
 			<!--
 			当调用多段视频时，并且没有配置好各段视频的时间和字节数的情况下，播放器需要先读取各段视频的元数据进行计算，此时需要显示一个加载进度告诉用户已计算的情况。 
 			-->
-			<pr_noload>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}加载失败{/font}</pr_noload>
+			<pr_noload>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}加载失败，请刷新或切换线路{/font}</pr_noload>
 			<!--
 			加载视频失败时显示的内容 
 			-->
@@ -61,7 +61,7 @@
 			<!--
 			在默认不加载视频，即m=1的时候，同时并没有设置视频的时间和字节，即o和w值的时候，pr_clock和pr_clock2里的所有内容被替换成这里设置的值 
 			-->
-			<pr_live>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}视频直播中{/font}</pr_live>
+			<pr_live>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}{a href="http://www.lg310.com" target="_top"}更多高清直播，请看料狗TV{/a}{/font}</pr_live>
 			<!--
 			在直播的情况下显示的文字 
 			-->

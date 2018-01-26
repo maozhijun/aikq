@@ -16,21 +16,21 @@ use App\Http\Controllers\PC\TopicController;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
-class PlayerCommand extends Command
+class LivesJsonCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'player_cache:run';
+    protected $signature = 'live_json_cache:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '直播终端推荐缓存';
+    protected $description = '直播赛事缓存';
 
     /**
      * Create a new command instance.
@@ -49,6 +49,6 @@ class PlayerCommand extends Command
     public function handle()
     {
         $home = new LiveController();
-        $home->staticHtml(new Request());
+        $home->allLiveJsonStatic(new Request());
     }
 }

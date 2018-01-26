@@ -18,6 +18,10 @@ class LiveController extends Controller
 {
     const BET_MATCH = 1;
 
+    /**
+     * 首页（首页、竞彩、足球、篮球）缓存
+     * @param Request $request
+     */
     public function staticIndex(Request $request){
         $this->basketballLivesStatic($request);
         $this->footballLivesStatic($request);
@@ -25,6 +29,10 @@ class LiveController extends Controller
         $this->betLivesStatic($request);
     }
 
+    /**
+     * 竞彩缓存
+     * @param Request $request
+     */
     public function betLivesStatic(Request $request){
         $html = $this->betLives(new Request());
         try {
@@ -34,6 +42,10 @@ class LiveController extends Controller
         }
     }
 
+    /**
+     * 首页缓存
+     * @param Request $request
+     */
     public function livesStatic(Request $request){
         $html = $this->lives(new Request());
         try {
@@ -43,6 +55,10 @@ class LiveController extends Controller
         }
     }
 
+    /**
+     * 篮球缓存
+     * @param Request $request
+     */
     public function basketballLivesStatic(Request $request){
         $html = $this->basketballLives(new Request());
         try {
@@ -52,6 +68,11 @@ class LiveController extends Controller
         }
     }
 
+    /**
+     * 足球缓存
+     * 足球缓存
+     * @param Request $request
+     */
     public function footballLivesStatic(Request $request){
         $html = $this->footballLives(new Request());
         try {
@@ -60,6 +81,76 @@ class LiveController extends Controller
             echo $exception->getMessage();
         }
     }
+
+    /**
+     * PC直播赛事的json
+     * @param Request $request
+     */
+    public function allLiveJsonStatic(Request $request) {
+        $this->liveJson();//首页赛事缓存
+        $this->liveJson(self::BET_MATCH);//首页竞彩赛事缓存
+        $this->footballLiveJson();//首页足球赛事缓存
+        $this->basketballLiveJson();//首页篮球赛事缓存
+    }
+
+    /**
+     * 首页、竞彩赛事
+     * @param $bet
+     * @return mixed
+     */
+    protected function liveJson($bet = '') {
+        try {
+            $ch = curl_init();
+            $url = env('LIAOGOU_URL')."/livesJson?bet=" . $bet;
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+            if ($bet == self::BET_MATCH) {
+                Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);
+            } else{
+                Storage::disk("public")->put("/static/json/lives.json", $server_output);
+            }
+
+        } catch (\Exception $exception) {
+            Log::error($exception);
+        }
+    }
+
+    /**
+     * 篮球赛事json缓存
+     */
+    protected function basketballLiveJson() {
+        try {
+            $ch = curl_init();
+            $url = env('LIAOGOU_URL')."/basketballLivesJson";
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+            Storage::disk("public")->put("/static/json/basketball-lives.json", $server_output);
+        } catch (\Exception $exception) {
+            Log::error($exception);
+        }
+    }
+
+    /**
+     * 足球赛事json缓存
+     */
+    protected function footballLiveJson() {
+        try {
+            $ch = curl_init();
+            $url = env('LIAOGOU_URL')."/footballLivesJson";
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+            Storage::disk("public")->put("/static/json/football-lives.json", $server_output);
+        } catch (\Exception $exception) {
+            Log::error($exception);
+        }
+    }
+    //===============================================================================//
 
     /**
      * 播放失败
@@ -88,7 +179,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function lives(Request $request) {
-        $json = $this->getLives();
+        //$json = $this->getLives();
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
         if (is_null($json)){
             //return abort(404);
         }
@@ -103,7 +196,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function betLives(Request $request) {
-        $json = $this->getLives(self::BET_MATCH);
+        //$json = $this->getLives(self::BET_MATCH);
+        $cache = Storage::get('/public/static/json/bet-lives.json');
+        $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
         }
@@ -166,13 +261,15 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function basketballLives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/basketballLivesJson";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
+//        $ch = curl_init();
+//        $url = env('LIAOGOU_URL')."/basketballLivesJson";
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        $server_output = curl_exec ($ch);
+//        curl_close ($ch);
+//        $json = json_decode($server_output,true);
+        $cache = Storage::get('/public/static/json/basketball-lives.json');
+        $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
         }
@@ -187,13 +284,15 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function footballLives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/footballLivesJson";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
+//        $ch = curl_init();
+//        $url = env('LIAOGOU_URL')."/footballLivesJson";
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        $server_output = curl_exec ($ch);
+//        curl_close ($ch);
+//        $json = json_decode($server_output,true);
+        $cache = Storage::get('/public/static/json/basketball-lives.json');
+        $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
         }

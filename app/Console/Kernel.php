@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         PlayerJsonCommand::class,
         DeleteExpireFileCommand::class,
         MobileDetailCommand::class,
-
+        LivesJsonCommand::class,
     ];
 
     /**
@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
         $schedule->command('index_cache:run')->everyMinute();//每分钟刷新主页缓存
         $schedule->command('live_detail_cache:run')->everyFiveMinutes();//每五分钟刷新终端缓存
         $schedule->command('player_json_cache:run')->everyFiveMinutes();//五分钟刷新一次正在直播的比赛的线路内容

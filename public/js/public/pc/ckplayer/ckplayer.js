@@ -20,6 +20,8 @@
 */
 function ckcpt() {
     var cpt = '';
+    //cpt += 'https://img.liaogou168.com/kqm/file/img/ck_logo.png,0,2,6,-120,0,0|';
+    cpt += '/img/pc/logo_akq_white.png,2,0,-184,20,0,0|';
     return cpt;
 }
 /*
@@ -41,7 +43,7 @@ function ckstyle() { //定义总的风格
 		这里是用来做为对flashvars值的补充，除了c和x二个参数以外的设置都可以在这里进行配置
 		                          1 1 1 1   1 1 1 1 1 1 2 2 2  2 2 2 2 2    2 2 3 3 3 3 3 3 3 3 3   3 4  4 4 4
        			1 2 3 4 5 6 7 8 9 0 1 2 3   4 5 6 7 8 9 0 1 2  3 4 5 6 7    8 9 0 1 2 3 4 5 6 7 8   9 0  1 2 3*/
-     	setup: '1,1,1,0,1,2,0,1,0,0,0,1,200,0,2,1,0,1,1,1,1,10,3,0,1,2,3000,0,0,0,0,1,1,1,1,1,1,250,0,90,0,0,0',
+     	setup: '1,1,1,0,1,2,0,1,0,0,0,1,200,0,2,1,0,1,1,1,1,10,2,0,1,2,3000,0,1,0,0,1,1,1,1,1,1,250,0,90,0,0,0',
         /*
 		这是配置文件里比较重要的一个参数，共有N个功能控制参数，并且以后会继续的增加，各控制参数以英文逗号(,)隔开。下面列出各参数的说明：
 			1、鼠标经过按钮是否使用手型，0普通鼠标，1手型鼠标，2是只有按钮手型，3是控制栏手型
@@ -129,11 +131,12 @@ function ckstyle() { //定义总的风格
 		3、水平偏移量，举例说明，如果第1个参数设置成0左对齐，第3个偏移量设置成10，就是离左边10个像素，第一个参数设置成2，偏移量如果设置的是正值就会移到播放器外面，只有设置成负值才行，设置成-1，按钮就会跑到播放器外面
 		4、垂直偏移量 
 		*/
-        logo: 'http://www.liaogou168.com/img/ck_logo.png',
+        // logo: 'https://img.liaogou168.com/kqm/file/img/ck_logo.png',
+        logo: 'null',
         /*
 		默认右上角一直显示的logo，不使用设置成null，即logo='null';
 		*/
-        pm_logo: '0,2,0,-125',
+        pm_logo: '0,2,6,-120',
         /*
 		播放器右上角的logo的位置
 			1、水平对齐方式，0是左，1是中，2是右
@@ -207,7 +210,7 @@ function ckstyle() { //定义总的风格
 			3、水平偏移量
 			4、垂直偏移量
 		*/
-        pm_advms: '2,2,-46,-67',
+        pm_advms: '2,2,-26,-67',
         /*
 		滚动广告关闭按钮位置
 			1、水平对齐方式
@@ -229,7 +232,7 @@ function ckstyle() { //定义总的风格
 	 //                                                1    1
 	 // pm_advmarquee: '1,2,3,  4, 5, 6, 7,   8    , 9,0,11,2,13,14',
      // pm_advmarquee: '1,2,50,-60,50,18,0,0x000000,50,0,20,1,50,2000',
-		pm_advmarquee: '1,2,50,-70,50,20,0,0x000000,50,0,20,1,30,2000',
+		pm_advmarquee: '1,2,250,-70,30,20,0,0x000000,0,0,20,1,30,2000',
         /*
 		滚动广告的控制，要使用的话需要在setup里的第9个参数设置成1
 		这里分二种情况,前六个参数是定位控制，第7个参数是设置定位方式(0：相对定位，1：绝对定位)
@@ -271,7 +274,7 @@ function ckstyle() { //定义总的风格
 			8、(default = 0) — 指定发光是否为内侧发光。 值 1 指定发光是内侧发光。 值 0 指定发光是外侧发光（对象外缘周围的发光）  
 			9、(default = 0) — 指定对象是否具有挖空效果。 值为 1 将使对象的填充变为透明，并显示文档的背景颜色 
 		*/
-        advmarquee: escape(''),
+        advmarquee: '',
         /*
 		该处是滚动文字广告的内容，如果不想在这里设置，就把这里清空并且在页面中使用js的函数定义function ckmarqueeadv(){return '广告内容'}
 		*/
@@ -298,11 +301,12 @@ function ckstyle() { //定义总的风格
 		以下内容定义自定义插件的相关配置，这里也可以自定义任何自己的插件需要配置的内容，当然，如果你某个插件不使用的话，也可以删除相关的配置
 		------------------------------------------------------------------------------------------------------------------
 		*/
-        cpt_lights: '1',
+        cpt_lights: '0',
 		/*
 		该处定义是否使用开关灯，使用开灯效果时调用页面的js函数function closelights(){}，关灯调用 function closelights(){};
 		*/
-        cpt_share: 'ckplayer/share.xml',
+        // cpt_share: 'ckplayer/share.xml',
+        cpt_share: '',
         /*
 		分享插件调用的配置文件地址,此设设置成空，则不启用分享按钮
 		调用插件开始
@@ -824,6 +828,15 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
                 v: v
             };
         },
+        PCCheck: function() {   
+		    var userAgentInfo = navigator.userAgent;  
+		    var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");    
+		    var flag = true;    
+		    for (var v = 0; v < Agents.length; v++) {    
+		        if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }    
+		    }
+		    return flag;
+        },
 		embed:function(f,d,i,w,h,b,v,e,p,j){
 			var s=['all'];
 			if(b){
@@ -836,6 +849,9 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
 			}
 			else{
 				if(this.Flash()['f'] && parseInt(this.Flash()['v'])>10){
+					this.embedSWF(f,d,i,w,h,v,p);
+				}
+				else if(this.browser()['B'].toLowerCase().indexOf('chrome')>-1 && this.PCCheck()){
 					this.embedSWF(f,d,i,w,h,v,p);
 				}
 				else if(this.isHTML5()){
