@@ -19,7 +19,6 @@ window.onscroll = function () {
 
 function setPage(){
 	$('#TableHead').width($('#Show').width());
-	$('#TableHead').css('margin-left','-' + ($('#Show').width()/2) + 'px')
 
 	var BodyTh = $('#Show tbody th');
 	$('#TableHead tbody th').html($('#Show tbody th:first').html())
@@ -48,13 +47,11 @@ function setADClose () {
     })
 	
 }
+
+
 $(window).resize(function() {
-    $('#TableHead').width($('#Show').width());
-    $('#TableHead').css('margin-left','-' + ($('#Show').width()/2) + 'px')
+	$('#TableHead').width($('#Show').width());
 });
-
-
-
 
 
 

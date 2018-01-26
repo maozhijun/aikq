@@ -115,7 +115,7 @@ table.list tbody td img.icon{
 /*浮动*/
 #TableHead{
 	margin-top: 0;
-    position: fixed; top: 60px; left: 50%; z-index: 3;
+    position: fixed; top: 60px; left: 14%; right: 14%; z-index: 3;
     display: none;
 }
 
