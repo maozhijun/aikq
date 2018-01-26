@@ -48,7 +48,10 @@ function setADClose () {
     })
 	
 }
-
+$(window).resize(function() {
+    $('#TableHead').width($('#Show').width());
+    $('#TableHead').css('margin-left','-' + ($('#Show').width()/2) + 'px')
+});
 
 
 
