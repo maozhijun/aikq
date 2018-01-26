@@ -53,12 +53,6 @@
 .iframe p.loading{
 	position: absolute; left: 0; right: 0; top: 0; z-index: 0;
 }
-.iframe .ADWarm_RU{
-	width: 240px; height: 34px;
-	padding-top: 146px;
-	background: url(/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
-	position: absolute; right: -40px; bottom: -100px; z-index: 100;
-}
 .iframe .ADWarm_RU p{
 	width: 100px; height: 24px;
 	margin: 0 auto; border-radius: 16px; border: 1px solid #fff;
