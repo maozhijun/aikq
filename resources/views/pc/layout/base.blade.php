@@ -44,7 +44,7 @@
     </div>
 </div>
 @yield('content')
-<?php $links = \App\Http\Controllers\Controller::links(); ?>
+<?php $links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
     <p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>
     <p>Copyright 2014-2015 ©akq.cc, All rights reserved.</p>

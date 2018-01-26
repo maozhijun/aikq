@@ -1,7 +1,7 @@
 <?php if (!isset($match)) return ""; ?>
 <tr>
     <td>
-        @if($match['sport'] == 2) <p class="football">足球</p> @else <p class="basketball">篮球</p> @endif
+        @if($match['sport'] == 2) <p class="basketball">篮球</p> @else <p class="football">足球</p> @endif
     </td>
     <td>{{$match['league_name']}}</td>
     <td>{{date('H:i', strtotime($match['time']))}}</td>

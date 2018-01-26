@@ -40,42 +40,4 @@ class Controller extends BaseController
         return false;
     }
 
-    public static function links() {
-        $links = [];
-        $key = 'base_link_cache';
-        $server_output = Redis::get($key);
-
-        if (empty($server_output)) {
-            try {
-                $ch = curl_init();
-                $url = env('LIAOGOU_URL')."/json/link.json";
-                curl_setopt($ch, CURLOPT_URL,$url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $server_output = curl_exec($ch);
-                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close ($ch);
-                if ($http_code >= 400) {
-                    $server_output = "";
-                }
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
-            if (empty($server_output)) {
-                return $links;
-            }
-            Redis::setEx($key, 60 * 10, $server_output);
-        }
-
-        if (empty($server_output)) {
-            return $links;
-        }
-        $json = json_decode($server_output);
-        if (is_array($json)) {
-            foreach ($json as $j) {
-                $links[] = ['name'=>$j->name, 'url'=>$j->url];
-            }
-        }
-        return $links;
-    }
-
 }

@@ -11,6 +11,7 @@ namespace App\Http\Controllers\PC\Live;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class LiveController extends Controller
@@ -586,60 +587,6 @@ class LiveController extends Controller
     }
 
     /**
-     * 获取电视频道、热门录像 内容
-     * @return array|mixed
-     */
-    public static function getVideos() {
-        $result = [];
-
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/json/video.json";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-
-        if (empty($server_output)) return $result;
-        $json = json_decode($server_output,true);
-        $tvs = isset($json['tvs']) ? $json['tvs'] : [];
-        $tv_array = [];
-        foreach ($tvs as $index=>$tv) {
-            if ($index < 4) {
-                $tv_array['first'][] = $tv;
-            } else {
-                $tv_array['more'][] = $tv;
-            }
-        }
-        $json['index_tvs'] = $tv_array;
-        return $json;
-    }
-
-    /**
-     * 外链跳转中间页
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function exLink(Request $request, $id) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/ex-link/" . $id;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-
-        if ($code >= 400 || empty($server_output)) {
-            return redirect(asset('/'));
-        }
-        $json = json_decode($server_output);
-        if ($json->code != 0 || $json->player != 16) {//不是外链或者无返回则返回到首页。
-            return redirect(asset('/'));
-        }
-        return redirect($json->link);
-    }
-
-    /**
      * 刷新缓存
      * @param Request $request
      */
@@ -665,6 +612,44 @@ class LiveController extends Controller
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
+    }
+
+    public static function links() {
+        $links = [];
+        $key = 'base_link_cache';
+        $server_output = Redis::get($key);
+
+        if (empty($server_output)) {
+            try {
+                $ch = curl_init();
+                $url = env('LIAOGOU_URL')."/json/link.json";
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $server_output = curl_exec($ch);
+                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close ($ch);
+                if ($http_code >= 400) {
+                    $server_output = "";
+                }
+            } catch (\Exception $e) {
+                Log::error($e);
+            }
+            if (empty($server_output)) {
+                return $links;
+            }
+            Redis::setEx($key, 60 * 10, $server_output);
+        }
+
+        if (empty($server_output)) {
+            return $links;
+        }
+        $json = json_decode($server_output);
+        if (is_array($json)) {
+            foreach ($json as $j) {
+                $links[] = ['name'=>$j->name, 'url'=>$j->url];
+            }
+        }
+        return $links;
     }
 
 }
