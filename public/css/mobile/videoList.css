@@ -1,0 +1,103 @@
+﻿body{
+	padding-bottom: 80px;
+}
+
+img.logo{
+	position: absolute;
+	display: none;
+}
+
+.default{
+	margin-bottom: 0;
+	border: none;
+}
+.day{
+	height: 60px;
+	background: #f2f2f2;
+	font-size: 28px; line-height: 60px;	text-align: center; color: #5e8cca;
+	position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+}
+
+.default a{
+	height: 134px;
+	padding: 16px 64px 0;
+	background: url(/img/mobile/icon_right.png) no-repeat right center #fff; background-size: 74px;
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+.default a + a{
+	border-top: 1px solid #e6e6e6;
+}
+.default a p.time{
+	font-size: 22px; line-height: 24px; color: #666;
+	position: absolute; top: 22px; left: 24px;
+}
+.default a p.vs{
+	width: 160px; height: 134px;
+	font-size: 32px; line-height: 134px; text-align: center; font-weight: bold; color: #bc1c25;
+}
+.default a p.vs img{
+	height: 80px;
+	margin: 26px auto 0;
+	display: block;
+}
+.default a p.team{
+	height: 134px;
+	font-size: 32px; line-height: 134px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	overflow: hidden;
+}
+.default a p.host{
+	text-align: right;
+}
+
+#Navigation{
+	background: #bc1c25;
+}
+#Navigation p.type{
+	height: 60px; width: 240px;
+	margin: 0 auto;
+	border-radius: 30px;
+	background: #2e70c9;
+	position: relative; top: 14px;
+}
+#Navigation p.type button[name=type]{
+	width: 120px; height: 60px;
+	border-radius: 30px;
+	background: #2e70c9;
+	font-size: 28px; text-align: center; color: #7598ea;
+	position: absolute;
+}
+#Navigation p.type button#Allball{
+	left: 0;
+}
+#Navigation p.type button#Football{
+	left: 0;
+}
+#Navigation p.type button#Basketball{
+	right: 0;
+}
+#Navigation p.type button[name=type].on{
+	background: #fff;
+	color: #4492fd;
+}
+
+#PC{
+	padding: 6px 16px;
+	background: rgba(68,148,253,0.8);
+	font-size: 24px; line-height: 34px; text-align: center; color: #fff;
+	position: fixed; bottom: 0; left: 0; right: 0; z-index: 2;
+}
+#PC button.close{
+	width: 24px; height: 24px;
+	margin-top: -12px;
+	background: url(/img/mobile/icon_close_btn_white.png) no-repeat center; background-size: 24px;
+	position: absolute; top: 50%; right: 16px;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,115 @@
+﻿
+#Info{
+	height: 70px;
+	padding: 20px 20px 0;
+	background: #e1edff;
+}
+#Info p.name{
+	font-size: 18px; line-height: 28px;
+}
+#Info p.line{
+	height: 32px;
+	padding-top: 5px; margin-left: -2px;
+}
+#Info p.line button{
+	height: 32px;
+	padding: 0 2px;
+	border-radius: 0;
+	background: none;
+	font-size: 14px; text-align: center; color: #1267dc;
+	display: inline-block;
+}
+#Info p.line button + button{
+	margin-left: 48px;
+}
+#Info p.line button.on, #Info p.line button:hover{
+	border-bottom: 2px solid #1267dc;
+}
+#Info p.line span{
+	font-size: 14px; line-height: 32px; color: #999;
+	float: right;
+}
+#Info p.line span a{
+	padding-left: 8px;
+	color: #1267dc;
+}
+
+.iframe{
+	height: 500px;
+	background: url(/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
+	position: relative;
+}
+.iframe p.noframe,
+.iframe p.loading{
+	padding-top: 210px;
+	font-size: 22px; line-height: 22px; text-align: center; color: #c1c1c1;
+}
+.iframe p.noframe img,
+.iframe p.loading img{
+	width: 102px;
+	margin: 0 auto 40px;
+	display: block;
+}
+.iframe p.loading{
+	position: absolute; left: 0; right: 0; top: 0; z-index: 0;
+}
+.iframe .ADWarm_RU{
+	width: 240px; height: 34px;
+	padding-top: 146px;
+	background: url(/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
+	position: absolute; right: -40px; bottom: -100px; z-index: 100;
+}
+.iframe .ADWarm_RU p{
+	width: 100px; height: 24px;
+	margin: 0 auto; border-radius: 16px; border: 1px solid #fff;
+	background: #bc1c25;
+	font-size: 12px; line-height: 22px; text-align: center; color: #fff;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.iframe iframe{
+	height: 100%; width: 100%;
+}
+
+
+#Share{
+	height: 50px;
+	padding: 0 130px;
+	background: #fff;
+	font-size: 14px; line-height: 50px; text-align: center;
+	position: relative;
+}
+#Share:before{
+	width: 130px; height: 50px;
+	background: url(/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Share:after{
+	width: 130px; height: 50px;
+	background: url(/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
+	position: absolute; top: 0; right: 0;
+	content: '';
+}
+#Share input{
+	width: 350px; height: 28px;
+	margin-left: 10px; padding: 0 10px;
+	border: 1px solid #e6e6e6;
+	background: #f7f7f7;
+	line-height: 28px; text-align: center;
+}
+#Share input:hover{
+	border-color: #e1edff;
+	background: #e1edff;
+	cursor: pointer;
+}
+#Share span{
+	margin-left: 10px;
+	color: #e1edff;
+	position: absolute;
+}
+
+
+
+
+

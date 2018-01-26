@@ -1,0 +1,138 @@
+﻿
+
+table.list{
+	margin: 20px 0;
+}
+table.list thead th{
+	height: 40px;
+	background: #f2f8fd;
+	font-size: 16px; line-height: 40px; text-align: center; color: #002c90;
+}
+table.list thead th:nth-child(1){
+	min-width: 42px;
+	padding-left: 22px;
+}
+table.list thead th:nth-child(2){
+	width: 118px;
+}
+table.list thead th:nth-child(3){
+	width: 80px;
+}
+table.list thead th:nth-child(4){
+	width: 64px;
+}
+table.list thead th:nth-child(5){
+	width: 478px;
+}
+table.list thead th:nth-child(6){
+	width: 214px;
+}
+#TableHead{
+    width: 1024px;
+    margin-left: -512px;
+    position: fixed; top: 0; left: 50%; z-index: 3;
+    display: none;
+}
+
+table.list tbody th{
+	height: 28px;
+	background: #d3e1ed;
+	font-size: 14px; line-height: 28px; text-align: center; color: #002778;
+}
+
+table.list tbody td{
+	height: 70px;
+	border-top: 1px solid #dcdcdc;
+	background: #fff;
+	font-size: 16px; line-height: 28px; text-align: center;
+}
+table.list tbody tr:hover td{
+	background: #ecf5ff;
+}
+table.list tbody tr.adbanner + tr td,
+table.list tbody tr.date + tr td{
+	border-top: none;
+}
+table.list tbody td:nth-child(1){
+
+}
+table.list tbody td:nth-child(2){
+	
+}
+table.list tbody td:nth-child(3){
+	
+}
+table.list tbody td:nth-child(4){
+	
+}
+table.list tbody td:nth-child(5){
+	padding-right: 10px;
+	text-align: right;
+}
+table.list tbody td:nth-child(6){
+	
+}
+table.list tbody td:nth-child(7){
+	padding-right: 10px;
+	text-align: right;	
+}
+table.list tbody td:nth-child(8){
+	
+}
+table.list tbody td:nth-child(9){
+	padding-left: 10px;
+	text-align: left;
+}
+table.list tbody td:nth-child(10){
+	
+}
+table.list tbody td:nth-child(11){
+	padding-left: 12px;
+	text-align: left;
+}
+table.list tbody td:nth-child(12){
+	
+}
+table.list tbody td:nth-child(12) a{
+	padding: 0 10px;
+	color: #4587e8;
+	display: inline-block;
+}
+table.list tbody td:nth-child(12) a:hover{
+	color: #bc1c25;
+}
+
+table.list tbody td:nth-child(1) p{
+	height: 30px; width: 64px;
+	border-radius: 0 15px 15px 0;
+	font-size: 18px; line-height: 30px; text-align: center; color: #fff;
+}
+table.list tbody td:nth-child(1) p.football{
+	background: #8aacda;
+}
+table.list tbody td:nth-child(1) p.basketball{
+	background: #d78b83;
+}
+table.list tbody td img.icon{
+	width: 40px; height: 40px;
+}
+
+
+
+
+/*广告*/
+table.list tbody tr.adbanner a,
+table.list tbody tr.adbanner img{
+	width: 100%; height: auto;
+	display: block;
+}
+table.list tbody tr.adbanner td{
+	height: auto;
+	padding: 0;
+}
+
+
+
+
+
+
