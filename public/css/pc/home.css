@@ -1,7 +1,9 @@
 ﻿
 
 table.list{
+	width: 100%;
 	margin: 20px 0;
+	table-layout: fixed;
 }
 table.list thead th{
 	height: 40px;
@@ -27,13 +29,6 @@ table.list thead th:nth-child(5){
 table.list thead th:nth-child(6){
 	width: 214px;
 }
-#TableHead{
-    width: 1024px;
-    margin-left: -512px;
-    position: fixed; top: 0; left: 50%; z-index: 3;
-    display: none;
-}
-
 table.list tbody th{
 	height: 28px;
 	background: #d3e1ed;
@@ -117,7 +112,12 @@ table.list tbody td img.icon{
 	width: 40px; height: 40px;
 }
 
-
+/*浮动*/
+#TableHead{
+	margin-top: 0;
+    position: fixed; top: 60px; left: 50%; z-index: 3;
+    display: none;
+}
 
 
 /*广告*/
