@@ -1,23 +1,23 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=2018012619">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=2018012719">
 @endsection
 @section('content')
     <div id="Content">
         <div class="inner">
             <table class="list" id="TableHead">
-                <col number="1" width="64px">
-                <col number="2" width="11.7%">
-                <col number="3" width="6.8%">
-                <col number="4" width="6.8%">
-                <col number="5" width="14%">
-                <col number="6" width="40px">
-                <col number="7" width="46px">
+                <col number="1" width="50px">
+                <col number="2" width="64px">
+                <col number="3" width="64px">
+                <col number="4" width="40px">
+                <col number="5" width="16%">
+                <col number="6" width="20px">
+                <col number="7" width="12px">
                 <col number="8" width="26px">
-                <col number="9" width="46px">
-                <col number="10" width="40px">
-                <col number="11" width="14%">
-                <col number="12" width="20%">
+                <col number="9" width="12px">
+                <col number="10" width="20px">
+                <col number="11" width="16%">
+                <col number="12" width="300px">
                 <thead>
                 <tr>
                     <th>项目</th>
@@ -33,18 +33,18 @@
                 </tbody>
             </table>
             <table class="list" id="Show">
-                <col number="1" width="64px">
-                <col number="2" width="11.7%">
-                <col number="3" width="6.8%">
-                <col number="4" width="6.8%">
-                <col number="5" width="14%">
-                <col number="6" width="40px">
-                <col number="7" width="46px">
+                <col number="1" width="50px">
+                <col number="2" width="64px">
+                <col number="3" width="64px">
+                <col number="4" width="40px">
+                <col number="5" width="16%">
+                <col number="6" width="20px">
+                <col number="7" width="12px">
                 <col number="8" width="26px">
-                <col number="9" width="46px">
-                <col number="10" width="40px">
-                <col number="11" width="14%">
-                <col number="12" width="20%">
+                <col number="9" width="12px">
+                <col number="10" width="20px">
+                <col number="11" width="16%">
+                <col number="12" width="300px">
                 <thead>
                 <tr>
                     <th>项目</th>

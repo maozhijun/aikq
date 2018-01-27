@@ -12,7 +12,7 @@ table.list thead th{
 }
 table.list thead th:nth-child(1){
 	min-width: 42px;
-	padding-left: 22px;
+	padding-left: 12px;
 }
 table.list thead th:nth-child(2){
 	width: 118px;
@@ -36,7 +36,7 @@ table.list tbody th{
 }
 
 table.list tbody td{
-	height: 70px;
+	height: 50px;
 	border-top: 1px solid #dcdcdc;
 	background: #fff;
 	font-size: 16px; line-height: 28px; text-align: center;
@@ -86,7 +86,7 @@ table.list tbody td:nth-child(11){
 	text-align: left;
 }
 table.list tbody td:nth-child(12){
-	
+	text-align: left;
 }
 table.list tbody td:nth-child(12) a{
 	padding: 0 10px;
@@ -98,9 +98,9 @@ table.list tbody td:nth-child(12) a:hover{
 }
 
 table.list tbody td:nth-child(1) p{
-	height: 30px; width: 64px;
-	border-radius: 0 15px 15px 0;
-	font-size: 18px; line-height: 30px; text-align: center; color: #fff;
+	height: 24px; width: 50px;
+	border-radius: 0 12px 12px 0;
+	font-size: 14px; line-height: 24px; text-align: center; color: #fff;
 }
 table.list tbody td:nth-child(1) p.football{
 	background: #8aacda;
@@ -108,8 +108,11 @@ table.list tbody td:nth-child(1) p.football{
 table.list tbody td:nth-child(1) p.basketball{
 	background: #d78b83;
 }
+table.list tbody td:nth-child(4) img{
+	height: 40px;
+}
 table.list tbody td img.icon{
-	width: 40px; height: 40px;
+	width: 20px; height: 20px;
 }
 
 /*浮动*/
