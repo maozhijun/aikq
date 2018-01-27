@@ -425,7 +425,7 @@ class LiveController extends Controller
     public function getLiveUrl(Request $request,$mid){
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."/match/live/url/channel/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."/match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);

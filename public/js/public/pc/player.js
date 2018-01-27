@@ -1,4 +1,4 @@
-var CKHead = 'js/ckplayer/';
+var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
 //获取链点参数
 function GetQueryString(str,href) {
@@ -183,15 +183,18 @@ function PlayVideoShare (CID){
 				var show_live = match.show_live;
 				if(!show_live){
 					return;
-					if (match.status == 0) {
-					}else if (match.status == -1) {
-
-					}
 				}else if(show_live){
 					if (data.type == 1) { //如果是365，直接播放，不使用链接
 						var ID = data.id;
 						LoadSports365(ID)
-					}else{ //其他，获取播放地址和播放方式
+					} else if (data.type == 2) {
+                        var Link = getLink(data);
+						if (data.playurl) {
+                            LoadIframe(Link);
+						} else {
+                            CheckPlayerType(Link,0);
+						}
+					} else{ //其他，获取播放地址和播放方式
 						var Link = getLink(data);
 						var PlayType = data.player;
 						if (PlayType == 11) { //iframe
