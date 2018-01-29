@@ -652,22 +652,24 @@ class LiveController extends Controller
      */
     public function staticPlayerJson(Request $request) {
         $json = $this->getLives();
-        $json = $this->toNewMatchArray($json);
-        if (!isset($json) || !isset($json['play_matches'])) {
-            return;
-        }
-        $play_matches = $json['play_matches'];
-        foreach ($play_matches as $match) {
-            if (!isset($match)) {
-                return;
-            }
-            if (isset($match['channels'])) {
-                $channels = $match['channels'];
-                foreach ($channels as $channel) {
-                    $ch_id = $channel['id'];
-                    $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
-                    $this->staticLiveUrl($request, $ch_id, $has_mobile);
-                    usleep(300);
+        if (!isset($json['matches'])) return;
+        $matches = $json['matches'];
+        foreach ($matches as $time=>$match_array) {
+            foreach ($match_array as $match) {
+                if (!isset($match) || !isset($match['time'])) {
+                    continue;
+                }
+                $m_time = strtotime($match['time']);
+                if ($m_time - time() < (60 * 60) ) {//1小时内的比赛静态化接口
+                    if (isset($match['channels'])) {
+                        $channels = $match['channels'];
+                        foreach ($channels as $channel) {
+                            $ch_id = $channel['id'];
+                            $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
+                            $this->staticLiveUrl($request, $ch_id, $has_mobile);
+                            usleep(100);
+                        }
+                    }
                 }
             }
         }
@@ -691,7 +693,6 @@ class LiveController extends Controller
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
             }
-
             if ($has_mobile) {
                 $ch = curl_init();
                 $url = env('LIAOGOU_URL')."/match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);

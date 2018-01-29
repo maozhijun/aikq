@@ -26,7 +26,7 @@
                             $preUrl = str_replace("http://","https://",env('APP_URL'));
                         }
                         ?>
-                        <button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$preUrl.'live/player.html?cid='.$channel['id']}}', this)" @endif >{{$channel['name']}}</button>
+                        <button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif >{{$channel['name']}}</button>
                     @endforeach
                     <span>如视频出现卡顿或停止播放，请点击<a href="javascript:(function () {document.getElementById('Frame').src = document.getElementById('Frame').src;})();">[刷新]</a></span>
                 </p>
