@@ -1,6 +1,7 @@
 @extends('mobile.layout.base')
 @section('title')
-    <title>料狗TV</title>
+    <title>爱看球</title>
+@endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css">
 @endsection

@@ -171,7 +171,7 @@ function GetHttp () {
 
 //获取播放地址
 function PlayVideoShare (CID){
-	var url = GetHttp() + host + '/match/live/url/channel/' + CID;
+	var url = GetHttp() + host + '/match/live/url/channel/' + CID + '.json';
 	$.ajax({
 		url: url,
 		type:'GET',
