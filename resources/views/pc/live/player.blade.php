@@ -29,8 +29,9 @@
         document.body.appendChild(P)
     }
     window.host = '{{$_SERVER['HTTP_HOST']}}';
+    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=2018012716"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=201801291332"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {

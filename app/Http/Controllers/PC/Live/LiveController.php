@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\PC\Live;
 
+use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
@@ -651,6 +652,7 @@ class LiveController extends Controller
      */
     public function staticPlayerJson(Request $request) {
         $json = $this->getLives();
+        $json = $this->toNewMatchArray($json);
         if (!isset($json) || !isset($json['play_matches'])) {
             return;
         }
@@ -663,7 +665,9 @@ class LiveController extends Controller
                 $channels = $match['channels'];
                 foreach ($channels as $channel) {
                     $ch_id = $channel['id'];
-                    $this->staticLiveUrl($request, $ch_id);
+                    $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
+                    $this->staticLiveUrl($request, $ch_id, $has_mobile);
+                    usleep(300);
                 }
             }
         }
@@ -673,12 +677,35 @@ class LiveController extends Controller
      * 静态化直播线路的json
      * @param Request $request
      * @param $id
+     * @param $has_mobile
      */
-    public function staticLiveUrl(Request $request, $id) {
+    public function staticLiveUrl(Request $request, $id, $has_mobile = false) {
         try {
-            $json = $this->getLiveUrl($request, $id);
-            if (!empty($json)) {
-                Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $json);
+            //$json = $this->getLiveUrl($request, $id);
+            $ch = curl_init();
+            $url = env('LIAOGOU_URL')."/match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='.$request->input('sport',1);
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $pc_json = curl_exec ($ch);
+            curl_close ($ch);
+            if (!empty($pc_json)) {
+                Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
+            }
+
+            if ($has_mobile) {
+                $ch = curl_init();
+                $url = env('LIAOGOU_URL')."/match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $mobile_json = curl_exec ($ch);
+                curl_close ($ch);
+                if (!empty($mobile_json)) {
+                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
+                }
+            } else {
+                if (!empty($pc_json)) {
+                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $pc_json);
+                }
             }
         } catch (\Exception $e) {
             Log::error($e);

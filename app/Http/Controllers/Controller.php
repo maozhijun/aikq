@@ -40,4 +40,19 @@ class Controller extends BaseController
         return false;
     }
 
+    public static function isMobileUAgent($userAgent) {
+        if ($userAgent) {
+            if (preg_match("/(iPad).*OS\s([\d_]+)/", $userAgent)) {
+                return true;
+            }
+            else if (preg_match("/(iPhone\sOS)\s([\d_]+)/", $userAgent)){
+                return true;
+            }
+            else if (preg_match("/(Android)\s+([\d.]+)/", $userAgent)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

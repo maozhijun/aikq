@@ -43,6 +43,7 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get("/match/live/url/wcj/{id}", 'LiveController@getWCJLiveUrl');
 
     //channel通用
+    Route::get("/match/live/url/channel/mobile/{id}.json", 'LiveController@getLiveUrl');
     Route::get("/match/live/url/channel/{id}.json", 'LiveController@getLiveUrl');
     Route::get("/match/live/url/channel/{id}", 'LiveController@getLiveUrl');
     //match获取channel通用
