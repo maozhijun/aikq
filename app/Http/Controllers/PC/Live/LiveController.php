@@ -660,14 +660,16 @@ class LiveController extends Controller
                     continue;
                 }
                 $m_time = strtotime($match['time']);
-                if ($m_time - time() < (60 * 60) ) {//1小时内的比赛静态化接口
+                if ($m_time - time() < (60 * 60)) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
-                            $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
-                            $this->staticLiveUrl($request, $ch_id, $has_mobile);
-                            usleep(100);
+                            if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
+                                $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
+                                $this->staticLiveUrl($request, $ch_id, $has_mobile);
+                                usleep(100);
+                            }
                         }
                     }
                 }
