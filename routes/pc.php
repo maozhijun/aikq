@@ -73,6 +73,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/cache/match/detail', 'LiveController@staticLiveDetail');//静态化当前所有比赛的直播终端
     Route::get('/live/cache/player/json', 'LiveController@staticPlayerJson');//静态化所有当前正在比赛的线路
     Route::get('/live/cache/flush', 'LiveController@flushVideoCache');//刷新缓存文件
+    Route::get('/live/cache/match/detail_id/{id}/{sport}', 'LiveController@staticLiveDetailById');
 
 });
 

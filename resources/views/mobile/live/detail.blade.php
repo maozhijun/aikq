@@ -6,7 +6,7 @@
 @endsection
 @section('banner')
     <div id="Navigation">
-        <div class="banner"><a class="home" href="{{$match['sport'] == 2 ? '/m/basketball.html' : '/m/lives.html'}}"></a>比赛直播</div>
+        <div class="banner"><a class="home" href="{{$match['sport'] == 2 ? '/m/basketball.html' : '/m/'}}"></a>比赛直播</div>
     </div>
 @endsection
 @section('content')
