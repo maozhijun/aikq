@@ -17,9 +17,9 @@ Route::group(["namespace" => 'Live'], function () {
         return redirect('/index.html');
     });
     Route::get('/index.html',"LiveController@lives");//首页
-    Route::get('/betting.html',"LiveController@betLives");//竞彩
-    Route::get('/football.html',"LiveController@footballLives");//足球
-    Route::get('/basketball.html',"LiveController@basketballLives");//篮球
+    //Route::get('/betting.html',"LiveController@betLives");//竞彩
+    //Route::get('/football.html',"LiveController@footballLives");//足球
+    //Route::get('/basketball.html',"LiveController@basketballLives");//篮球
 
     Route::get('/live/football/{mid}.html',"LiveController@detail");//足球直播页
     Route::get('/live/basketball/{mid}.html',"LiveController@basketDetail");//篮球直播页

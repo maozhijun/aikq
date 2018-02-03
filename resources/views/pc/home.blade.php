@@ -1,58 +1,54 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=2018012719">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203">
 @endsection
 @section('content')
     <div id="Content">
         <div class="inner">
             <table class="list" id="TableHead">
                 <col number="1" width="50px">
-                <col number="2" width="64px">
-                <col number="3" width="64px">
-                <col number="4" width="40px">
-                <col number="5" width="16%">
-                <col number="6" width="20px">
+                <col number="2" width="80px">
+                <col number="3" width="70px">
+                <col number="4" width="16%">
+                <col number="5" width="12px">
+                <col number="6" width="26px">
                 <col number="7" width="12px">
-                <col number="8" width="26px">
-                <col number="9" width="12px">
-                <col number="10" width="20px">
-                <col number="11" width="16%">
-                <col number="12" width="300px">
+                <col number="8" width="16%">
+                <col number="9" width="300px">
+                <col number="10" width="60px">
                 <thead>
                 <tr>
                     <th>项目</th>
                     <th>赛事</th>
                     <th>时间</th>
-                    <th>状态</th>
-                    <th colspan="7">对阵</th>
+                    <th colspan="5">对阵</th>
                     <th>直播频道</th>
+                    <th>状态</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr><th colspan="12"></th></tr>
+                <tr><th colspan="10"></th></tr>
                 </tbody>
             </table>
             <table class="list" id="Show">
                 <col number="1" width="50px">
-                <col number="2" width="64px">
-                <col number="3" width="64px">
-                <col number="4" width="40px">
-                <col number="5" width="16%">
-                <col number="6" width="20px">
+                <col number="2" width="80px">
+                <col number="3" width="70px">
+                <col number="4" width="16%">
+                <col number="5" width="12px">
+                <col number="6" width="26px">
                 <col number="7" width="12px">
-                <col number="8" width="26px">
-                <col number="9" width="12px">
-                <col number="10" width="20px">
-                <col number="11" width="16%">
-                <col number="12" width="300px">
+                <col number="8" width="16%">
+                <col number="9" width="300px">
+                <col number="10" width="60px">
                 <thead>
                 <tr>
                     <th>项目</th>
                     <th>赛事</th>
                     <th>时间</th>
-                    <th>状态</th>
-                    <th colspan="7">对阵</th>
+                    <th colspan="5">对阵</th>
                     <th>直播频道</th>
+                    <th>状态</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,7 +59,7 @@
                     $week = date('w', strtotime($time));
                     ?>
                     <tr class="date">
-                        <th colspan="12">{{date_format(date_create($time),'Y年m月d日')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$week_array[$week]}}</th>
+                        <th colspan="10">{{date_format(date_create($time),'Y年m月d日')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$week_array[$week]}}</th>
                     </tr>
                     @foreach($match_array as $match)
                         @component('pc.cell.home_match_cell',['match'=>$match])

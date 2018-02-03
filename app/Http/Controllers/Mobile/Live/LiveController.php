@@ -25,8 +25,10 @@ class LiveController extends Controller
     public function livesStatic(Request $request){
         $html = $this->lives(new Request());
         try {
-            Storage::disk("public")->put("/static/m/lives.html",$html);
-            Storage::disk("public")->put("/static/m/index.html",$html);
+            if (!empty($html)) {
+                Storage::disk("public")->put("/static/m/lives.html",$html);
+                Storage::disk("public")->put("/static/m/index.html",$html);
+            }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
@@ -35,7 +37,9 @@ class LiveController extends Controller
     public function basketballLivesStatic(Request $request){
         $html = $this->basketballLives(new Request());
         try {
-            Storage::disk("public")->put("/static/m/basketball.html",$html);
+            if (!empty($html)) {
+                Storage::disk("public")->put("/static/m/basketball.html",$html);
+            }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
@@ -44,7 +48,9 @@ class LiveController extends Controller
     public function footballLivesStatic(Request $request){
         $html = $this->footballLives(new Request());
         try {
-            Storage::disk("public")->put("/static/m/football.html",$html);
+            if (!empty($html)) {
+                Storage::disk("public")->put("/static/m/football.html",$html);
+            }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }

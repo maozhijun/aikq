@@ -28,7 +28,7 @@
             window.location = str;
         }
     </script>
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?2017012602013">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?20180203">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
@@ -36,17 +36,17 @@
 <div id="Navigation">
     <div class="inner">
         <img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png">
-        <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">全部</a>
-        <a class="column{{isset($check) && $check == 'bet' ? ' on' : ''}}" href="/betting.html">竞彩</a>
-        <a class="column{{isset($check) && $check == 'foot' ? ' on' : ''}}" href="/football.html">足球</a>
-        <a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>
+        {{--<a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">全部</a>--}}
+        {{--<a class="column{{isset($check) && $check == 'bet' ? ' on' : ''}}" href="/betting.html">竞彩</a>--}}
+        {{--<a class="column{{isset($check) && $check == 'foot' ? ' on' : ''}}" href="/football.html">足球</a>--}}
+        {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
         @yield('nav_inner')
     </div>
 </div>
 @yield('content')
-<?php $links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
+<?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
-    <p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>
+    {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
     <p>Copyright 2014-2015 ©aikq.cc, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
 </div>

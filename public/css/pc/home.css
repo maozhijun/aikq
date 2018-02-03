@@ -1,37 +1,37 @@
 ﻿
-
 table.list{
 	width: 100%;
 	margin: 20px 0;
 	table-layout: fixed;
+	position: relative; z-index: 2;
 }
 table.list thead th{
-	height: 40px;
+	height: 50px;
 	background: #f2f8fd;
-	font-size: 16px; line-height: 40px; text-align: center; color: #002c90;
+	font-size: 16px; line-height: 50px; text-align: center; color: #002c90;
 }
 table.list thead th:nth-child(1){
 	min-width: 42px;
 	padding-left: 12px;
 }
 table.list thead th:nth-child(2){
-	width: 118px;
-}
-table.list thead th:nth-child(3){
 	width: 80px;
 }
-table.list thead th:nth-child(4){
-	width: 64px;
+table.list thead th:nth-child(3){
+	width: 70px;
 }
-table.list thead th:nth-child(5){
+table.list thead th:nth-child(4){
 	width: 478px;
 }
+table.list thead th:nth-child(5){
+	width: 300px;
+}
 table.list thead th:nth-child(6){
-	width: 214px;
+	width: 60px;
 }
 table.list tbody th{
 	height: 28px;
-	background: #d3e1ed;
+	background: #dadee1;
 	font-size: 14px; line-height: 28px; text-align: center; color: #002778;
 }
 
@@ -58,7 +58,8 @@ table.list tbody td:nth-child(3){
 	
 }
 table.list tbody td:nth-child(4){
-	
+	padding-right: 10px;
+	text-align: right; color: #bc1c25;
 }
 table.list tbody td:nth-child(5){
 	padding-right: 10px;
@@ -68,33 +69,26 @@ table.list tbody td:nth-child(6){
 	
 }
 table.list tbody td:nth-child(7){
-	padding-right: 10px;
-	text-align: right;	
+	padding-left: 10px;
+	text-align: left; 
 }
 table.list tbody td:nth-child(8){
-	
+	padding-left: 12px;
+	text-align: left; color: #4492fd;
 }
 table.list tbody td:nth-child(9){
-	padding-left: 10px;
 	text-align: left;
 }
 table.list tbody td:nth-child(10){
 	
 }
-table.list tbody td:nth-child(11){
-	padding-left: 12px;
-	text-align: left;
-}
-table.list tbody td:nth-child(12){
-	text-align: left;
-}
-table.list tbody td:nth-child(12) a{
+table.list tbody td:nth-child(9) a{
 	padding: 0 10px;
-	color: #4587e8;
+	color: #6a6a6a;
 	display: inline-block;
 }
-table.list tbody td:nth-child(12) a:hover{
-	color: #bc1c25;
+table.list tbody td:nth-child(9) a:hover{
+	color: #4492fd;
 }
 
 table.list tbody td:nth-child(1) p{
@@ -113,6 +107,13 @@ table.list tbody td:nth-child(4) img{
 }
 table.list tbody td img.icon{
 	width: 20px; height: 20px;
+}
+table.list p.live{
+	width: 44px; height: 20px;
+	margin: 0 auto;
+	border-radius: 2px;
+	background: #bc1c25;
+	font-size: 12px; line-height: 20px; text-align: center; color: #fff;
 }
 
 /*浮动*/

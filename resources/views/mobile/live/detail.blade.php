@@ -2,11 +2,11 @@
 @section('title')
     <title>我正在爱看球看【{{$match['hname']}}vs{{$match['aname']}}】</title>
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=20180126">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=20180203">
 @endsection
 @section('banner')
     <div id="Navigation">
-        <div class="banner"><a class="home" href="/m/"></a>比赛直播</div>
+        <div class="banner"><a class="home" href="{{$match['sport'] == 2 ? '/m/basketball.html' : '/m/lives.html'}}"></a>比赛直播</div>
     </div>
 @endsection
 @section('content')
@@ -72,9 +72,9 @@
             @if($show_live)
                 <iframe id="Frame"></iframe>
             @elseif($match['status'] == 0 && !$show_live)
-                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%">
+                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">
             @elseif($match['status'] == -1 && !$show_live)
-                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%">
+                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">
             @endif
     </div>
     <div id="Content">

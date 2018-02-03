@@ -1,5 +1,5 @@
 ﻿body{
-	padding-bottom: 80px;
+	/*padding-bottom: 80px;*/
 }
 
 img.logo{
@@ -12,18 +12,20 @@ img.logo{
 	border: none;
 }
 .day{
-	height: 60px;
+	height: 44px;
 	background: #f2f2f2;
-	font-size: 28px; line-height: 60px;	text-align: center; color: #5e8cca;
+	font-size: 24px; line-height: 44px;	text-align: center; color: #666;
 	position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
 }
 
 .default a{
-	height: 134px;
-	padding: 16px 64px 0;
-	background: url(/img/mobile/icon_right.png) no-repeat right center #fff; background-size: 74px;
+	height: 110px;
+	padding: 16px 104px 0 24px;
+	background: url(/img/pc/icon_right.png) no-repeat right center #fff; background-size: 74px;
 	position: relative;
-	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	vertical-align: top;
+	/*display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;*/
+	display: block;
 }
 .default a + a{
 	border-top: 1px solid #e6e6e6;
@@ -33,8 +35,10 @@ img.logo{
 	position: absolute; top: 22px; left: 24px;
 }
 .default a p.vs{
-	width: 160px; height: 134px;
-	font-size: 32px; line-height: 134px; text-align: center; font-weight: bold; color: #bc1c25;
+	width: 60px; height: 134px;
+	font-size: 32px; line-height: 134px; text-align: center; font-weight: bold; color: #2e70c9;
+	vertical-align: top;
+	display: inline-block;
 }
 .default a p.vs img{
 	height: 80px;
@@ -42,28 +46,31 @@ img.logo{
 	display: block;
 }
 .default a p.team{
-	height: 134px;
+	height: 134px; max-width: 288px;
 	font-size: 32px; line-height: 134px;
-	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	vertical-align: top;
+	/*-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;*/
+	display: inline-block;
 	overflow: hidden;
 }
-.default a p.host{
-	text-align: right;
+.default a p.live{
+	width: 90px; height: 44px;
+	margin-top: -22px;
+	background: #bc1c25;
+	border-radius: 4px;
+	font-size: 22px; line-height: 44px; text-align: center; color: #fff;
+	position: absolute; top: 50%; right: 20px;
 }
 
 #Navigation{
 	background: #bc1c25;
 }
 #Navigation p.type{
-	height: 60px; width: 240px;
-	margin: 0 auto;
-	border-radius: 30px;
-	background: #2e70c9;
-	position: relative; top: 14px;
+	height: 100%; width: 100%;
 }
 #Navigation p.type button[name=type]{
-	width: 120px; height: 60px;
-	border-radius: 30px;
+	width: 50%; height: 100%;
+	border-radius: 0;
 	background: #2e70c9;
 	font-size: 28px; text-align: center; color: #7598ea;
 	position: absolute;
@@ -78,8 +85,16 @@ img.logo{
 	right: 0;
 }
 #Navigation p.type button[name=type].on{
+	background: none;
+	color: #fff;
+}
+#Navigation p.type button[name=type].on:after{
+	width: 80px; height: 6px;
+	margin-left: -40px;
+	border-radius: 3px;
 	background: #fff;
-	color: #4492fd;
+	position: absolute; bottom: 6px; left: 50%;
+	content: '';
 }
 
 #PC{
@@ -91,12 +106,15 @@ img.logo{
 #PC button.close{
 	width: 24px; height: 24px;
 	margin-top: -12px;
-	background: url(/img/mobile/icon_close_btn_white.png) no-repeat center; background-size: 24px;
+	background: url(/img/pc/icon_close_btn_white.png) no-repeat center; background-size: 24px;
 	position: absolute; top: 50%; right: 16px;
 }
 
 
-
+.nolist{
+	padding-top: 300px !important;
+	background: url(/img/pc/bg_vip_nolist.png) no-repeat center 50px; background-size: 240px;
+}
 
 
 

@@ -58,7 +58,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .default > div.title > a{
 	padding-right: 50px;
 	margin-right: -30px;
-	background: url(/img/mobile/icon_right.png) no-repeat right center; background-size: 60px;
+	background: url(../../img/customer2/icon_right.png) no-repeat right center; background-size: 60px;
 	float: right;
 	font-size: 28px; text-align: right; color: #999; font-weight: normal;
 }
@@ -69,7 +69,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .default > div.title > button.close{
 	height: 80px;
 	padding-right: 32px; margin-right: -8px;
-	background: url(/img/mobile/bg_show_rotate.png) no-repeat right center; background-size: 22px;
+	background: url(../../img/customer2/bg_show_rotate.png) no-repeat right center; background-size: 22px;
 	float: right;
 	font-size: 24px; text-align: right; color: #e1223a; font-weight: normal;
 	display: block;
@@ -127,7 +127,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 a.home{
 	width: 88px; height: 88px;
-	background: url(/img/mobile/icon_home_white.png) no-repeat center; background-size: 54px;
+	background: url(/img/pc/icon_home_white.png) no-repeat center; background-size: 54px;
 	position: fixed; top: 0; left: 4px; z-index: 52;
 	display: block;
 }

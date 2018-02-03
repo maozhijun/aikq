@@ -89,12 +89,12 @@ class LiveController extends Controller
      */
     public function allLiveJsonStatic(Request $request) {
         $this->liveJson();//首页赛事缓存
-        usleep(300);
-        $this->footballLiveJson();//首页足球赛事缓存
-        usleep(300);
-        $this->basketballLiveJson();//首页篮球赛事缓存
-        usleep(300);
-        $this->liveJson(self::BET_MATCH);//首页竞彩赛事缓存
+        //usleep(300);
+        //$this->footballLiveJson();//首页足球赛事缓存
+        //usleep(300);
+        //$this->basketballLiveJson();//首页篮球赛事缓存
+        //usleep(300);
+        //$this->liveJson(self::BET_MATCH);//首页竞彩赛事缓存
     }
 
     /**

@@ -5,13 +5,12 @@
     </td>
     <td>{{$match['league_name']}}</td>
     <td>{{date('H:i', strtotime($match['time']))}}</td>
-    <td>@if(isset($match['isMatching']) && $match['isMatching'])<img src="/img/pc/icon_live.png"> @endif</td>
     <td>{{$match['hname']}}</td>
-    <td><img class="icon" src="{{$match['host_icon']}}"></td>
+    {{--<td><img class="icon" src="{{$match['host_icon']}}"></td>--}}
     <td></td>
     <td>VS</td>
     <td></td>
-    <td><img class="icon" src="{{$match['away_icon']}}"></td><!--球队默认icon-->
+    {{--<td><img class="icon" src="{{$match['away_icon']}}"></td><!--球队默认icon-->--}}
     <td>{{$match['aname']}}</td>
     <td>
         <?php $channels = $match['channels'];?>
@@ -27,4 +26,5 @@
             @endif
         @endforeach
     </td>
+    <td>@if(isset($match['isMatching']) && $match['isMatching'])<p class="live">直播中</p> @endif</td>
 </tr>

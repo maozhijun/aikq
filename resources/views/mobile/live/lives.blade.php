@@ -3,7 +3,7 @@
     <title>爱看球</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201802">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -27,8 +27,9 @@
                 <a href="{{str_replace('https://', 'http://', asset('m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'))}}">
                     <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                     <p class="team host">{{$match['hname']}}</p>
-                    <p class="vs">@if($match['isMatching'])<img src="/img/pc/icon_live.png">@else VS @endif</p>
+                    <p class="vs">VS</p>
                     <p class="team away">{{$match['aname']}}</p>
+                    @if($match['isMatching']) <p class="live">直播中</p> @endif
                 </a>
             @endforeach
         </div>
