@@ -325,6 +325,7 @@ class LiveController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
         $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
         $json = json_decode($server_output,true);
         return view('pc.live.video', $json);
@@ -647,19 +648,23 @@ class LiveController extends Controller
                 if ($time == 0 || (strtotime($time) < strtotime('+4 hours') )) {//只静态化赛前4小时内 的比赛终端。
                     continue;
                 }
-                echo '1,';
+                //echo '1,';
                 try {
                     $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
                     if ($match['sport'] == 1) {
                         $html = $this->detail($request, $mid);
-                        Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+                        if (!empty($html))
+                            Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
                         $mhtml = $mCon->footballdetail($request, $mid);
-                        Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                        if (!empty($mhtml))
+                            Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
                     } else {
                         $html = $this->basketDetail($request, $mid);
-                        Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+                        if (!empty($html))
+                            Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                         $mhtml = $mCon->basketballDetail($request, $mid);
-                        Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                        if (!empty($mhtml))
+                            Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
                     }
                 } catch (\Exception $exception) {
                     echo $exception->getMessage();
