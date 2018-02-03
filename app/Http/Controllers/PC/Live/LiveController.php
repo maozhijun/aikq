@@ -683,7 +683,7 @@ class LiveController extends Controller
                 $html = $this->basketDetail($request, $mid);
                 Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                 $mhtml = $mCon->basketballDetail($request, $mid);
-                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
