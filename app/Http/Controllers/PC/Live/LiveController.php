@@ -323,6 +323,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."/aik/lives/detailJson/$id";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -340,6 +341,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."/aik/lives/basketDetailJson/$id";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -642,9 +644,10 @@ class LiveController extends Controller
             foreach ($datas as $match){
                 $mid = $match['mid'];
                 $time = isset($match['time']) ? $match['time'] : 0;
-                if ($time == 0 || (strtotime($time) < strtotime('+12 hours') )) {//只静态化赛前30分钟 - 12小时内 的比赛终端。
+                if ($time == 0 || (strtotime($time) < strtotime('+4 hours') )) {//只静态化赛前4小时内 的比赛终端。
                     continue;
                 }
+                echo '1,';
                 try {
                     $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
                     if ($match['sport'] == 1) {

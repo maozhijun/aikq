@@ -103,6 +103,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."/lives/detailJson/$id?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -120,6 +121,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."/lives/basketDetailJson/$id?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
