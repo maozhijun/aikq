@@ -641,10 +641,10 @@ class LiveController extends Controller
         foreach ($json as $index=>$datas){
             foreach ($datas as $match){
                 $mid = $match['mid'];
-                /*$time = isset($match['time']) ? $match['time'] : 0;
+                $time = isset($match['time']) ? $match['time'] : 0;
                 if ($time == 0 || (strtotime($time) < strtotime('+12 hours') )) {//只静态化赛前30分钟 - 12小时内 的比赛终端。
                     continue;
-                }*/
+                }
                 try {
                     $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
                     if ($match['sport'] == 1) {
@@ -656,7 +656,7 @@ class LiveController extends Controller
                         $html = $this->basketDetail($request, $mid);
                         Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                         $mhtml = $mCon->basketballDetail($request, $mid);
-                        Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                        Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
                     }
                 } catch (\Exception $exception) {
                     echo $exception->getMessage();
