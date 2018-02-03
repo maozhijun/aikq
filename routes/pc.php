@@ -77,6 +77,7 @@ Route::group(["namespace" => 'Live'], function () {
 });
 
 //邀请注册
-Route::group([],function (){
+Route::group(["namespace" => 'Live'],function (){
+    Route::get('/live/all/json', 'LiveController@allLiveJsonStatic');
    //Route::get('/invitation/{code}',"HomeController@invitation");
 });

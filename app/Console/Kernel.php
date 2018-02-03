@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         DeleteExpireFileCommand::class,
         MobileDetailCommand::class,
         LivesJsonCommand::class,
+        DBSpreadCommand::class,
     ];
 
     /**
@@ -43,6 +44,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() use($mController){
             $mController->matchLiveStatic(new Request());//每分钟刷新比赛状态数据
         })->everyMinute();
+
+        $schedule->command('db_spread_cache:run')->hourlyAt(45);
     }
 
     /**

@@ -12,5 +12,6 @@
 */
 
 Route::group([], function () {
-    Route::get('/',"HomeController@index");
+    Route::get('/spread/matchList.html', 'ShareController@index');
+    //Route::get('/',"HomeController@index");
 });

@@ -35,7 +35,7 @@
     }
     //获取地址
     function PlayVideoShare(mid ,sport) {
-        var host = 'localhost';
+        var host = '{{$_SERVER['HTTP_HOST']}}';
         $.ajax({
             url: '/match/live/url/match/' + mid + '?sport=' + sport,
             type:'GET',

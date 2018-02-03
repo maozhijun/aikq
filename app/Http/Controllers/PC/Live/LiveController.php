@@ -105,11 +105,15 @@ class LiveController extends Controller
     protected function liveJson($bet = '') {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/livesJson?bet=" . $bet;
+            $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . $bet;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close ($ch);
+            if ($code >= 400 || empty($server_output)) {
+                return;
+            }
             if ($bet == self::BET_MATCH) {
                 Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);
             } else{
@@ -127,7 +131,7 @@ class LiveController extends Controller
     protected function basketballLiveJson() {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/basketballLivesJson";
+            $url = env('LIAOGOU_URL')."/aik/basketballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
@@ -144,11 +148,15 @@ class LiveController extends Controller
     protected function footballLiveJson() {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/footballLivesJson";
+            $url = env('LIAOGOU_URL')."/aik/footballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close ($ch);
+            if ($code >= 400 || empty($server_output)) {
+                return;
+            }
             Storage::disk("public")->put("/static/json/football-lives.json", $server_output);
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -173,7 +181,6 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
-        dump($url);
         return $json;
     }
 
@@ -218,7 +225,7 @@ class LiveController extends Controller
      */
     protected function getLives($bet = '') {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/livesJson?bet=" . $bet;
+        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . $bet;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //$code = curl_getinfo($ch, CURLE_RECV_ERROR);
@@ -313,7 +320,7 @@ class LiveController extends Controller
      */
     public function detail(Request $request, $id) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/detailJson/$id";
+        $url = env('LIAOGOU_URL')."/aik/lives/detailJson/$id";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -330,7 +337,7 @@ class LiveController extends Controller
      */
     public function basketDetail(Request $request, $id) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/basketDetailJson/$id";
+        $url = env('LIAOGOU_URL')."/aik/lives/basketDetailJson/$id";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -446,7 +453,7 @@ class LiveController extends Controller
         $mid = $request->input('mid');//当前页面直播中的id 格式应该是 id1-id2...-idn
         $ch = curl_init();
         $sport = $request->input('sport',0);
-        $url = env('LIAOGOU_URL')."/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
+        $url = env('LIAOGOU_URL')."/aik/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -530,7 +537,7 @@ class LiveController extends Controller
             return abort(404);
         }
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/multiBasketLiveJson/".$param;
+        $url = env('LIAOGOU_URL')."/aik/lives/multiBasketLiveJson/".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -594,7 +601,7 @@ class LiveController extends Controller
      */
     public function staticHtml(Request $request){
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/livesJson?bet=" . 0;
+        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -624,7 +631,7 @@ class LiveController extends Controller
      */
     public function staticLiveDetail(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/livesJson?bet=" . 0;
+        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -748,39 +755,39 @@ class LiveController extends Controller
 
     public static function links() {
         $links = [];
-        $key = 'base_link_cache';
-        $server_output = Redis::get($key);
-
-        if (empty($server_output)) {
-            try {
-                $ch = curl_init();
-                $url = env('LIAOGOU_URL')."/json/link.json";
-                curl_setopt($ch, CURLOPT_URL,$url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                $server_output = curl_exec($ch);
-                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close ($ch);
-                if ($http_code >= 400) {
-                    $server_output = "";
-                }
-            } catch (\Exception $e) {
-                Log::error($e);
-            }
-            if (empty($server_output)) {
-                return $links;
-            }
-            Redis::setEx($key, 60 * 10, $server_output);
-        }
-
-        if (empty($server_output)) {
-            return $links;
-        }
-        $json = json_decode($server_output);
-        if (is_array($json)) {
-            foreach ($json as $j) {
-                $links[] = ['name'=>$j->name, 'url'=>$j->url];
-            }
-        }
+//        $key = 'base_link_cache';
+//        $server_output = Redis::get($key);
+//
+//        if (empty($server_output)) {
+//            try {
+//                $ch = curl_init();
+//                $url = env('LIAOGOU_URL')."/json/link.json";
+//                curl_setopt($ch, CURLOPT_URL,$url);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                $server_output = curl_exec($ch);
+//                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//                curl_close ($ch);
+//                if ($http_code >= 400) {
+//                    $server_output = "";
+//                }
+//            } catch (\Exception $e) {
+//                Log::error($e);
+//            }
+//            if (empty($server_output)) {
+//                return $links;
+//            }
+//            Redis::setEx($key, 60 * 10, $server_output);
+//        }
+//
+//        if (empty($server_output)) {
+//            return $links;
+//        }
+//        $json = json_decode($server_output);
+//        if (is_array($json)) {
+//            foreach ($json as $j) {
+//                $links[] = ['name'=>$j->name, 'url'=>$j->url];
+//            }
+//        }
         return $links;
     }
 
