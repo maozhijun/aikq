@@ -105,7 +105,7 @@ class LiveController extends Controller
     protected function liveJson($bet = '') {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . $bet;
+            $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
@@ -131,7 +131,7 @@ class LiveController extends Controller
     protected function basketballLiveJson() {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/aik/basketballLivesJson";
+            $url = env('LIAOGOU_URL')."aik/basketballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
@@ -148,7 +148,7 @@ class LiveController extends Controller
     protected function footballLiveJson() {
         try {
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/aik/footballLivesJson";
+            $url = env('LIAOGOU_URL')."aik/footballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_output = curl_exec ($ch);
@@ -225,7 +225,7 @@ class LiveController extends Controller
      */
     protected function getLives($bet = '') {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . $bet;
+        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //$code = curl_getinfo($ch, CURLE_RECV_ERROR);
@@ -316,11 +316,16 @@ class LiveController extends Controller
      * 直播终端
      * @param Request $request
      * @param $id
+     * @param $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function detail(Request $request, $id) {
+    public function detail(Request $request, $id, $immediate = false) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
+        }
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
@@ -337,9 +342,13 @@ class LiveController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function basketDetail(Request $request, $id) {
+    public function basketDetail(Request $request, $id, $immediate = false) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id" . '.json';
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id" . '.json';
+        }
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
@@ -667,7 +676,7 @@ class LiveController extends Controller
                             Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
                     }
                 } catch (\Exception $exception) {
-                    echo $exception->getMessage();
+                    Log::error($exception);
                 }
             }
         }
@@ -684,14 +693,14 @@ class LiveController extends Controller
         try {
             $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             if ($sport == 1) {
-                $html = $this->detail($request, $mid);
+                $html = $this->detail($request, $mid, true);
                 Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-                $mhtml = $mCon->footballdetail($request, $mid);
+                $mhtml = $mCon->footballdetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
             } else {
-                $html = $this->basketDetail($request, $mid);
+                $html = $this->basketDetail($request, $mid, true);
                 Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-                $mhtml = $mCon->basketballDetail($request, $mid);
+                $mhtml = $mCon->basketballDetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
             }
             if (is_numeric($ch_id)) {
@@ -742,13 +751,17 @@ class LiveController extends Controller
     public function staticLiveUrl(Request $request, $id, $has_mobile = false) {
         try {
             //$json = $this->getLiveUrl($request, $id);
+            //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
             $ch = curl_init();
             $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='.$request->input('sport',1);
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);//5秒超时
             $pc_json = curl_exec ($ch);
             curl_close ($ch);
+            dump($url);
+            dump($pc_json);
+            dump(date('Y-m-d H:i:s'));
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
             }

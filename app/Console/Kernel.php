@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         DeleteExpireFileCommand::class,
         LivesJsonCommand::class,
         DBSpreadCommand::class,
+        TTzbPlayerJsonCommand::class,
     ];
 
     /**
@@ -34,7 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
         $schedule->command('index_cache:run')->everyMinute();//每分钟刷新主页缓存
         $schedule->command('live_detail_cache:run')->everyMinute();//每五分钟刷新终端缓存
-        $schedule->command('player_json_cache:run')->everyMinute();//五分钟刷新一次正在直播的比赛的线路内容
+        $schedule->command('player_json_cache:run')->cron('2 * * * *');;//五分钟刷新一次正在直播的比赛的线路内容
         $schedule->command('delete_cache:run')->dailyAt('07:00');//每天删除一次文件
 
         $schedule->command('mobile_detail_cache:run')->everyMinute();//每五分钟刷新移动直播终端缓存
@@ -45,6 +46,8 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->command('db_spread_cache:run')->hourlyAt(45);
+
+        $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');;//2分钟刷新一次天天直播的线路。
     }
 
     /**

@@ -176,7 +176,7 @@
         if ($("#Video #time").length > 0) {
             var overTime = {{strtotime($match['time']) - time()}};
             countDown();
-            setInterval(countDown, 1000);
+            //setInterval(countDown, 1000);
         }
 
         @if($match['sport'] == 1)

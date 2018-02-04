@@ -58,7 +58,7 @@ class LiveController extends Controller
 
     public function lives(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/footballLivesJson?isMobile=1";
+        $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -70,7 +70,7 @@ class LiveController extends Controller
 
     public function footballLives(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/footballLivesJson?isMobile=1";
+        $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -82,7 +82,7 @@ class LiveController extends Controller
 
     public function basketballLives(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/basketballLivesJson?isMobile=1";
+        $url = env('LIAOGOU_URL')."aik/basketballLivesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -96,11 +96,16 @@ class LiveController extends Controller
      * 直播终端
      * @param Request $request
      * @param $id
+     * @param $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function footballdetail(Request $request, $id) {
+    public function footballdetail(Request $request, $id, $immediate = false) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/detailJson/$id?isMobile=1";
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id?isMobile=1";
+        } else{
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$id" . '.json';
+        }
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,6);
@@ -114,11 +119,16 @@ class LiveController extends Controller
      * 直播终端
      * @param Request $request
      * @param $id
+     * @param $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function basketballDetail(Request $request, $id) {
+    public function basketballDetail(Request $request, $id, $immediate = false) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/basketDetailJson/$id?isMobile=1";
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id?isMobile=1";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$id" . '.json';
+        }
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,6);

@@ -9,7 +9,9 @@
 namespace App\Console;
 
 
+use App\Http\Controllers\PC\Live\LiveController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 class PlayerJsonCommand extends Command
 {
@@ -43,11 +45,13 @@ class PlayerJsonCommand extends Command
      */
     public function handle()
     {
-        $ch = curl_init();
-        $url = asset('/live/cache/player/json');
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec ($ch);
-        curl_close ($ch);
+        $con = new LiveController();
+        $con->staticPlayerJson(new Request());
+//        $ch = curl_init();
+//        $url = asset('/live/cache/player/json');
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_exec ($ch);
+//        curl_close ($ch);
     }
 }
