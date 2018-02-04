@@ -17,5 +17,5 @@ Homestead.yaml
 npm-debug.log
 .env
 composer.lock
-
+/public/live
 publish.sh

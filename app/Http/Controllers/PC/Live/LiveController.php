@@ -320,7 +320,7 @@ class LiveController extends Controller
      */
     public function detail(Request $request, $id) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/lives/detailJson/$id";
+        $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
@@ -339,7 +339,7 @@ class LiveController extends Controller
      */
     public function basketDetail(Request $request, $id) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/lives/basketDetailJson/$id";
+        $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id" . '.json';
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
@@ -388,7 +388,7 @@ class LiveController extends Controller
      */
     public function getTTZBLiveUrl(Request $request,$mid){
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/match/live/url/channel/$mid".'?sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -405,7 +405,7 @@ class LiveController extends Controller
     public function getWCJLiveUrl(Request $request,$mid){
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."/match/live/url/channel/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -422,7 +422,7 @@ class LiveController extends Controller
     public function getLiveUrlMatch(Request $request,$mid){
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."/match/live/url/match/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -439,7 +439,7 @@ class LiveController extends Controller
     public function getLiveUrl(Request $request,$mid){
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."/match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -456,7 +456,7 @@ class LiveController extends Controller
         $mid = $request->input('mid');//当前页面直播中的id 格式应该是 id1-id2...-idn
         $ch = curl_init();
         $sport = $request->input('sport',0);
-        $url = env('LIAOGOU_URL')."/aik/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
+        $url = env('LIAOGOU_URL')."aik/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -478,7 +478,7 @@ class LiveController extends Controller
 //            return abort(404);
         }
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/multiLiveJson/".$param;
+        $url = env('LIAOGOU_URL')."lives/multiLiveJson/".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -499,7 +499,7 @@ class LiveController extends Controller
 //            return abort(404);
         }
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/multiLiveDivJson/f".$param;
+        $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/f".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -518,7 +518,7 @@ class LiveController extends Controller
 //            return abort(404);
         }
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/multiLiveDivJson/b".$param;
+        $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/b".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -540,7 +540,7 @@ class LiveController extends Controller
             return abort(404);
         }
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/lives/multiBasketLiveJson/".$param;
+        $url = env('LIAOGOU_URL')."aik/lives/multiBasketLiveJson/".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -559,7 +559,7 @@ class LiveController extends Controller
      */
     public function getArticleOfFMid(Request $request,$mid){
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/football/recommend/$mid";
+        $url = env('LIAOGOU_URL')."lives/football/recommend/$mid";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -576,7 +576,7 @@ class LiveController extends Controller
      */
     public function getArticleOfBMid(Request $request,$mid){
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/lives/basketball/recommend/$mid";
+        $url = env('LIAOGOU_URL')."lives/basketball/recommend/$mid";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -604,7 +604,7 @@ class LiveController extends Controller
      */
     public function staticHtml(Request $request){
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . 0;
+        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -634,7 +634,7 @@ class LiveController extends Controller
      */
     public function staticLiveDetail(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/aik/livesJson?bet=" . 0;
+        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -680,6 +680,7 @@ class LiveController extends Controller
      * @param $sport
      */
     public function staticLiveDetailById(Request $request, $mid, $sport) {
+        $ch_id = $request->input('ch_id');
         try {
             $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             if ($sport == 1) {
@@ -692,6 +693,9 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                 $mhtml = $mCon->basketballDetail($request, $mid);
                 Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+            }
+            if (is_numeric($ch_id)) {
+                $this->staticLiveUrl($request, $ch_id, true);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
@@ -739,9 +743,10 @@ class LiveController extends Controller
         try {
             //$json = $this->getLiveUrl($request, $id);
             $ch = curl_init();
-            $url = env('LIAOGOU_URL')."/match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='.$request->input('sport',1);
+            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='.$request->input('sport',1);
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
             $pc_json = curl_exec ($ch);
             curl_close ($ch);
             if (!empty($pc_json)) {
@@ -749,9 +754,10 @@ class LiveController extends Controller
             }
             if ($has_mobile) {
                 $ch = curl_init();
-                $url = env('LIAOGOU_URL')."/match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
+                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
                 curl_setopt($ch, CURLOPT_URL,$url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
                 $mobile_json = curl_exec ($ch);
                 curl_close ($ch);
                 if (!empty($mobile_json)) {
