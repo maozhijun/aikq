@@ -654,29 +654,33 @@ class LiveController extends Controller
             foreach ($datas as $match){
                 $mid = $match['mid'];
                 $time = isset($match['time']) ? $match['time'] : 0;
-                if ($time == 0 || (strtotime($time) < strtotime('+4 hours') )) {//只静态化赛前4小时内 的比赛终端。
+                $now = time();
+                if ($time == 0 ) {//只静态化赛前4小时内 的比赛终端。
                     continue;
                 }
                 //echo '1,';
-                try {
-                    $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-                    if ($match['sport'] == 1) {
-                        $html = $this->detail($request, $mid);
-                        if (!empty($html))
-                            Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-                        $mhtml = $mCon->footballdetail($request, $mid);
-                        if (!empty($mhtml))
-                            Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
-                    } else {
-                        $html = $this->basketDetail($request, $mid);
-                        if (!empty($html))
-                            Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-                        $mhtml = $mCon->basketballDetail($request, $mid);
-                        if (!empty($mhtml))
-                            Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                if ( ($now >= strtotime($time) && $now - strtotime($time) <= 60 * 60 ) || ($now <= strtotime($time) && strtotime($time) - $now <= 3 * 60 * 60 ) ) {
+                    try {
+                        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+                        if ($match['sport'] == 1) {
+                            $html = $this->detail($request, $mid);
+                            if (!empty($html))
+                                Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+                            $mhtml = $mCon->footballdetail($request, $mid);
+                            if (!empty($mhtml))
+                                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                        } else {
+                            $html = $this->basketDetail($request, $mid);
+                            if (!empty($html))
+                                Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+                            $mhtml = $mCon->basketballDetail($request, $mid);
+                            if (!empty($mhtml))
+                                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                        }
+                        //刷新接口
+                    } catch (\Exception $exception) {
+                        dump($exception);
                     }
-                } catch (\Exception $exception) {
-                    Log::error($exception);
                 }
             }
         }
@@ -725,7 +729,9 @@ class LiveController extends Controller
                     continue;
                 }
                 $m_time = strtotime($match['time']);
-                if ($m_time - time() < (60 * 60)) {//1小时内的比赛静态化接口、天天源不做静态化。
+                $status = $match['status'];
+                $now = time();
+                if ($status > 0 || ($now >= $m_time && $now - $m_time <= (60 * 60) ) || ($now < $m_time && $m_time - $now <= (3 * 60 * 60) )  ) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
@@ -759,9 +765,6 @@ class LiveController extends Controller
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);//5秒超时
             $pc_json = curl_exec ($ch);
             curl_close ($ch);
-            dump($url);
-            dump($pc_json);
-            dump(date('Y-m-d H:i:s'));
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
             }
@@ -782,7 +785,7 @@ class LiveController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            Log::error($e);
+            //dump($e);
         }
     }
 
