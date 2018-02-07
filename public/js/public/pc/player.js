@@ -1,5 +1,6 @@
 var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
+var ad_time = 5;
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;
@@ -37,7 +38,7 @@ function LoadCK (Link){ //m3u8
         l:'/img/pc/demo.jpg',
         d:'/img/pc/demo.jpg',
         z:'/img/pc/demo.jpg',
-        t:10,
+        t: maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
     var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
@@ -57,7 +58,7 @@ function LoadFlv (Link){ //flv
         l:'/img/pc/demo.jpg',
         d:'/img/pc/demo.jpg',
         z:'/img/pc/demo.jpg',
-        t:10,
+        t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     }
     var video=[''+Link+'->video/mp4','http://www.ckplayer.com/webm/0.webm->video/webm','http://www.ckplayer.com/webm/0.ogv->video/ogg'];
@@ -73,7 +74,7 @@ function LoadRtmp (Link){ //rtmp
         l:'/img/pc/demo.jpg',
         d:'/img/pc/demo.jpg',
         z:'/img/pc/demo.jpg',
-        t:10,
+        t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
     var params = {
@@ -162,7 +163,7 @@ function bufferHandler (num) {
 }
 
 function errorHandler () {
-	if (maxTimeOut > 10) {
+	if (maxTimeOut > 5) {
 		return;
 	}
 	maxTimeOut++;

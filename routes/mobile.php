@@ -12,7 +12,7 @@
 */
 
 Route::group(["namespace" => 'Live'], function () {
-    Route::get('/',"LiveController@lives");
+    //Route::get('/',"LiveController@lives");
 });
 
 /**

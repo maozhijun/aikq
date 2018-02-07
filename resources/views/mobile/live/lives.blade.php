@@ -34,6 +34,7 @@
             @endforeach
         </div>
     @endforeach
+    <div class="nolist separated">暂时无直播比赛</div>
     <p id="PC">更多赛事线路与特色功能，请登录电脑版！<br/>www.aikq.cc<button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 @section('js')
