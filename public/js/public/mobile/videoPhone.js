@@ -38,7 +38,8 @@ function setPage () {
     	if (this.className != 'on') {
     		$('#Video button.on').removeAttr('class');
     		$(this).attr('class','on');
-    		if (document.getElementById('Frame')) {
+    		var value = $(this).attr('value');
+    		if (value && document.getElementById('Frame')) {
                 document.getElementById('Frame').src = $(this).attr('value');
             }
     	}

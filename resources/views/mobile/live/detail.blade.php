@@ -39,7 +39,7 @@
             </p>
         @else
             <?php $channels = $live['channels'];?>
-            <div class="line" style="display: none;">
+            <div class="line" style="visibility: hidden;">
                 @foreach($channels as $index=>$channel)
                     <?php
                     if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
@@ -60,7 +60,8 @@
                     else
                         $preUrl = str_replace("http://","https://",env('APP_URL'));
                     ?>
-                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}" @if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif >{{$channel['name']}}</button>
+                    {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
+                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}">{{$channel['name']}}</button>
                 @endforeach
                 <?php $ch_cn = ['线路一', '线路二', '线路三']; ?>
                 @for($index = count($channels); $index < 3; $index++)
@@ -83,7 +84,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CND_URL')}}/js/public/mobile/videoPhone.js"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js"></script>
     <script>
         window.onload = function () {
             setPage();
