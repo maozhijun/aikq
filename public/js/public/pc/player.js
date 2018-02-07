@@ -16,8 +16,21 @@ function GetQueryString(str,href) {
         return '';
     }
 }
-
+//判断微信
+function isWeiXin() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
+}
 function LoadVideo () {
+    if (isWeiXin()) {
+        //在这里写如果是微信的时候的状态
+        $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+        return;
+    }
 	var CID = GetQueryString('cid');
 	if (CID && CID != '') {
 		PlayVideoShare(CID);
@@ -248,7 +261,11 @@ function PlayVideoShare (CID){
 				//CloseLoading();
 				var match = data.match;
 				var show_live = match.show_live;
-				if(!show_live){
+                if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    return;
+                }
+                if(!show_live){
                     if (match.status && match.status == 0) countdownHtml(match.hour_html, match.minute_html, match.second_html);
 					return;
 				}else if(show_live){

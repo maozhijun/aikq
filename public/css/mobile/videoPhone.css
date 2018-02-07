@@ -440,6 +440,12 @@ div#Event dl dd.away ul li img{
 }
 
 
+/*微信*/
+#WX{
+	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
 
 /*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
 	#Video{

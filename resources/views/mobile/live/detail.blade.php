@@ -39,43 +39,43 @@
             </p>
         @else
             <?php $channels = $live['channels'];?>
-            <div class="line">
+            <div class="line" style="display: none;">
                 @foreach($channels as $index=>$channel)
                     <?php
-//                    if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-//                        $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                    else if($channel['type'] == 99){
-//                        if ($channel['player'] == 11){
-//                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                        }
-//                        else{
-//                            if (stristr($channel['link'],'player.pptv.com')){
-//                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                            }
-//                            else{
-//                                $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                            }
-//                        }
-//                    }
-//                    else
-//                        $preUrl = str_replace("http://","https://",env('APP_URL'));
-                        $preUrl = '';
+                    if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
+                        $preUrl = str_replace("https://","http://",env('APP_URL'));
+                    else if($channel['type'] == 99){
+                        if ($channel['player'] == 11){
+                            $preUrl = str_replace("https://","http://",env('APP_URL'));
+                        }
+                        else{
+                            if (stristr($channel['link'],'player.pptv.com')){
+                                $preUrl = str_replace("https://","http://",env('APP_URL'));
+                            }
+                            else{
+                                $preUrl = str_replace("http://","https://",env('APP_URL'));
+                            }
+                        }
+                    }
+                    else
+                        $preUrl = str_replace("http://","https://",env('APP_URL'));
                     ?>
-                    <button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif >{{$channel['name']}}</button>
+                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}" @if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif >{{$channel['name']}}</button>
                 @endforeach
                 <?php $ch_cn = ['线路一', '线路二', '线路三']; ?>
                 @for($index = count($channels); $index < 3; $index++)
-                    <button disabled>{{$ch_cn[$index]}}</button>
+                <button disabled>{{$ch_cn[$index]}}</button>
                 @endfor
             </div>
         @endif
-            @if($show_live)
-                <iframe id="Frame"></iframe>
-            @elseif($match['status'] == 0 && !$show_live)
-                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">
-            @elseif($match['status'] == -1 && !$show_live)
-                <img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">
-            @endif
+            <iframe id="Frame"></iframe>
+            {{--@if($show_live)--}}
+                {{--<iframe id="Frame"></iframe>--}}
+            {{--@elseif($match['status'] == 0 && !$show_live)--}}
+                {{--<img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">--}}
+            {{--@elseif($match['status'] == -1 && !$show_live)--}}
+                {{--<img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">--}}
+            {{--@endif--}}
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/code.jpg">
@@ -84,54 +84,9 @@
 @endsection
 @section('js')
     <script src="{{env('CND_URL')}}/js/public/mobile/videoPhone.js"></script>
-    <script type="text/javascript">
+    <script>
         window.onload = function () {
-            var NowID = location.href.split('/')[location.href.split('/').length -1].split('.html')[0];
-            if (localStorage.getItem('Video_' + NowID)) {
-                var Local = JSON.parse(localStorage.getItem('Video_' + NowID));
-                if ($('#Video .line button:eq(' + Local.btn + ')')) {
-                    $('#Video .line button:eq(' + Local.btn + ')').trigger("click");
-                }else{
-                    $('#Video .line button:eq(0)').trigger("click");
-                }
-            }else{
-                $('#Video .line button:eq(0)').trigger("click");
-            }
-        }
-
-        function ChangeChannel (Link,obj) {
-            if (obj.className.indexOf('on') != -1) {
-                return;
-            }
-            var MatchID = location.href.split('/')[location.href.split('/').length -1].split('.html')[0];
-            var BtnNum = 0;
-            var Btn = $('div .line button');
-            for (var i = 0; i < Btn.length; i++) {
-                if (obj == Btn[i]) {
-                    obj.className = 'on';
-                    BtnNum = i;
-                }else{
-                    Btn[i].className = '';
-                }
-            }
-            var Target = {
-                'id': MatchID,
-                'btn': BtnNum
-            }
-            localStorage.setItem('Video_' + MatchID,JSON.stringify(Target));
-            if (!document.getElementById('Frame')) {
-                var Iframe = document.createElement('iframe');
-                Iframe.id = 'Frame';
-                Iframe.setAttribute('allowfullscreen','true');
-                Iframe.setAttribute('scrolling','no');
-                Iframe.setAttribute('frameborder','0');
-                Iframe.width = '100%';
-                Iframe.height = '100%';
-                Iframe.src = Link;
-                document.getElementById('Video').appendChild(Iframe);
-            }else{
-                document.getElementById('Frame').src = Link;
-            }
+            setPage();
         }
     </script>
     <script type="text/javascript">
@@ -145,38 +100,6 @@
                 btn.html("隐藏比分");
                 score.show();
             }
-        }
-
-        /**
-         * 倒计时
-         */
-        function countDown() {
-            var time_span = $("#Video #time");
-            if (time_span.length > 0) {
-                if (overTime < 5 * 60) {
-                    location.reload();
-                    return;
-                }
-                var hour = parseInt(overTime / (60 * 60));
-                var minute = parseInt( (overTime - hour * 60 * 60) / 60 );
-                var second = overTime - hour * 60 * 60 - minute * 60;
-
-                var time_html = "";
-                if (hour > 0) {
-                    time_html = hour + "：" + (minute < 10 ? (0 + "" + minute) : minute ) + "：" + (second < 10 ? ( 0 + "" + second) : second);
-                } else if (minute > 0) {
-                    time_html = (minute < 10 ? (0 + "" + minute) : minute ) + "：" + (second < 10 ? ( 0 + "" + second) : second);
-                } else {
-                    time_html = second < 10 ? ( 0 + "" + second) : second;
-                }
-                $("#Video #time").html(time_html);
-                overTime--;
-            }
-        }
-        if ($("#Video #time").length > 0) {
-            var overTime = {{strtotime($match['time']) - time()}};
-            countDown();
-            //setInterval(countDown, 1000);
         }
 
         @if($match['sport'] == 1)

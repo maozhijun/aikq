@@ -13,6 +13,16 @@ function GetQueryString(str,href) {
     }
 }
 
+//判断微信
+function isWeiXin() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function setPage () {
  	var u = navigator.userAgent;
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
@@ -28,12 +38,16 @@ function setPage () {
     	if (this.className != 'on') {
     		$('#Video button.on').removeAttr('class');
     		$(this).attr('class','on');
-    		document.getElementById('MyIframe').src = $(this).attr('value');;
+    		if (document.getElementById('Frame')) {
+                document.getElementById('Frame').src = $(this).attr('value');
+            }
     	}
-    })
+    });
 
     $('#Video button:first').trigger("click");
-
+    if (isWeiXin()) {
+        $('body').html($('body').html() + '<div id="WX"></div>')
+    }
 }
 
 
