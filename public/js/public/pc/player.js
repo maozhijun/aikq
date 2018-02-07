@@ -24,36 +24,44 @@ function LoadVideo () {
 }
 
 function LoadCK (Link){ //m3u8
-	if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC()) {
-		Link = encodeURIComponent(Link)
-	}
-	var flashvars={
-		s:4,
-		f:CKHead + 'm3u8.swf',
-		a:Link,
-		lv:1,
-		c:0,
-		p:1,
-		loaded:'loadHandler'
-	};
-	var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
-	var video=[''+Link+'->video/mp4'];
-	CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+    if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC()) {
+        Link = encodeURIComponent(Link)
+    }
+    var flashvars={
+        s:4,
+        f:CKHead + 'm3u8.swf',
+        a:Link,
+        lv:1,
+        c:0,
+        p:1,
+        l:'/img/pc/demo.jpg',
+        d:'/img/pc/demo.jpg',
+        z:'/img/pc/demo.jpg',
+        t:10,
+        loaded:'loadHandler'
+    };
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=[''+Link+'->video/mp4'];
+    CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
 }
 
 function LoadFlv (Link){ //flv
-	if (Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) {
-		Link = encodeURIComponent(Link);
-	}
-	var flashvars={
-		f:''+Link+'',
-		lv:1,
-		c:0,
-		p:1,
-		loaded:'loadHandler'
-	}
-	var video=[''+Link+'->video/mp4','http://www.ckplayer.com/webm/0.webm->video/webm','http://www.ckplayer.com/webm/0.ogv->video/ogg']; 
-	CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video)
+    if (Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) {
+        Link = encodeURIComponent(Link);
+    }
+    var flashvars={
+        f:''+Link+'',
+        lv:1,
+        c:0,
+        p:1,
+        l:'/img/pc/demo.jpg',
+        d:'/img/pc/demo.jpg',
+        z:'/img/pc/demo.jpg',
+        t:10,
+        loaded:'loadHandler'
+    }
+    var video=[''+Link+'->video/mp4','http://www.ckplayer.com/webm/0.webm->video/webm','http://www.ckplayer.com/webm/0.ogv->video/ogg'];
+    CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video)
 }
 
 function LoadRtmp (Link){ //rtmp
@@ -62,20 +70,25 @@ function LoadRtmp (Link){ //rtmp
         lv:1,
         c:0,
         p:1,
-		loaded:'loadHandler'
-	};
-	var params = {
-		allowFullScreen: true,
-		allowScriptAccess: "always",
-		bgcolor: "#000000"
-	};
-	var attrs = {
-		name: "ckplayer"
-	};
-	var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+        l:'/img/pc/demo.jpg',
+        d:'/img/pc/demo.jpg',
+        z:'/img/pc/demo.jpg',
+        t:10,
+        loaded:'loadHandler'
+    };
+    var params = {
+        allowFullScreen: true,
+        allowScriptAccess: "always",
+        bgcolor: "#000000"
+    };
+    var attrs = {
+        name: "ckplayer"
+    };
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
     var video=[''+Link+'->video/mp4'];
     CKobject.embed( CKHead + 'ckplayer.swf?url=','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
 }
+
 
 function LoadIframe (Link) { //iframe
 	var Frame = document.createElement('iframe');
@@ -168,7 +181,57 @@ function GetHttp () {
 		return 'http://';
 	}
 }
-
+function countdownHtml(hour_html, minute_html, second_html) {
+    var hour = '00';
+    var minute = '00';
+    var second = '00';
+    if (hour_html) {
+        hour = $(hour_html).html();
+        hour = parseInt(hour);
+        hour = hour < 10 ? ('0' + hour) : hour;
+    }
+    if (minute_html) {
+        minute = $(minute_html).html();
+        minute = minute < 10 ? ('0' + minute) : minute;
+    }
+    if (second_html) {
+        second = $(second_html).html();
+        second = second < 10 ? ('0' + second) : second;
+    }
+    var time_html = hour + ":" + minute + ":" + second;
+    $("#MyFrame p.noframe").show().find('b:first').html(time_html);
+    setInterval(countdown, 1000);
+}
+function countdown() {
+    var time = $("#MyFrame p.noframe b:first").html();
+    if (time) {
+        var times = time.split(':');
+        if (times.length == 3) {
+            var hour = parseInt(times[0]);
+            var minute = parseInt(times[1]);
+            var second = parseInt(times[2]);
+            second--;
+            if (second < 0) {
+                second = 59;
+                minute--;
+                if (minute < 0 && hour > 0) {
+                    if (hour > 0) {
+                        minute = 59;
+                        hour--;
+                    } else {
+                        minute = 0;
+                    }
+                }
+            }
+            if (hour == 0) location.reload();
+            hour = hour < 10 ? ('0' + hour) : hour;
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            var time_html = hour + ":" + minute + ":" + second;
+            $("#MyFrame p.noframe b:first").html(time_html);
+        }
+    }
+}
 //获取播放地址
 function PlayVideoShare (CID){
     var url = GetHttp() + host + '/match/live/url/channel/' + CID + '.json';
@@ -181,10 +244,11 @@ function PlayVideoShare (CID){
 		dataType:'json',
 		success:function(data){
 			if (data.code == 0){
-				CloseLoading();
+				//CloseLoading();
 				var match = data.match;
 				var show_live = match.show_live;
 				if(!show_live){
+                    if (match.status && match.status == 0) countdownHtml(match.hour_html, match.minute_html, match.second_html);
 					return;
 				}else if(show_live){
 					if (data.type == 1) { //如果是365，直接播放，不使用链接

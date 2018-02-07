@@ -14,12 +14,12 @@
 </head>
 <body scroll="no">
 <div class="player_content" id="MyFrame">
-    {{--<p class="loading"><img src="https://img.liaogou168.com/kqm/file/img/loading.gif">加载中</p>--}}
+    <p class="noframe" style="display: none;">距离比赛还有 <b>08:23</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?2018020422"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?20180204222222"></script>
 
 <script type="text/javascript">
     function ShareWarm (Text) {
@@ -30,8 +30,9 @@
     }
     window.host = '{{$_SERVER['HTTP_HOST']}}';
     window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
+    //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=201801291332"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=2018012913322222"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {
