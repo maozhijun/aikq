@@ -6,7 +6,7 @@ body,html{
 	margin: 0; padding: 0;
 }
 body{
-	background: url(/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
+	background: no-repeat center; background-size: cover;/**url(/img/pc/image_video_bg.jpg) **/
 }
 
 

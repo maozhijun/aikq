@@ -35,7 +35,7 @@
 <body>
 <div id="Navigation">
     <div class="inner">
-        <img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png">
+        <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">全部</a>--}}
         {{--<a class="column{{isset($check) && $check == 'bet' ? ' on' : ''}}" href="/betting.html">竞彩</a>--}}
         {{--<a class="column{{isset($check) && $check == 'foot' ? ' on' : ''}}" href="/football.html">足球</a>--}}

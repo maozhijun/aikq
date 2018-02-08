@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>爱看球</title>
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=20180203">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=20180203">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="edge" />
@@ -19,7 +19,7 @@
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?20180204222222"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js"></script>
 
 <script type="text/javascript">
     function ShareWarm (Text) {
@@ -32,7 +32,7 @@
     window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?time=2018012913322222"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {
