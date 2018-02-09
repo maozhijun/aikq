@@ -663,17 +663,17 @@ class LiveController extends Controller
                     try {
                         $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
                         if ($match['sport'] == 1) {
-                            $html = $this->detail($request, $mid);
+                            $html = $this->detail($request, $mid, true);
                             if (!empty($html))
                                 Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-                            $mhtml = $mCon->footballdetail($request, $mid);
+                            $mhtml = $mCon->footballdetail($request, $mid, true);
                             if (!empty($mhtml))
                                 Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
                         } else {
-                            $html = $this->basketDetail($request, $mid);
+                            $html = $this->basketDetail($request, $mid, true);
                             if (!empty($html))
                                 Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-                            $mhtml = $mCon->basketballDetail($request, $mid);
+                            $mhtml = $mCon->basketballDetail($request, $mid, true);
                             if (!empty($mhtml))
                                 Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
                         }
@@ -737,8 +737,8 @@ class LiveController extends Controller
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
                             if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
-                                $has_mobile = MatchLiveChannel::hasMobile($channel['type']);
-                                $this->staticLiveUrl($request, $ch_id, $has_mobile);
+                                //$has_mobile = MatchLiveChannel::hasMobile($channel['type']);
+                                $this->staticLiveUrl($request, $ch_id, true);
                                 usleep(100);
                             }
                         }
