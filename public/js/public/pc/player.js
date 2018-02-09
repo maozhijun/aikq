@@ -313,7 +313,9 @@ function PlayVideoShare (CID){
 							LoadFlv (Link)
 						}else if (PlayType == 15) { //rtmp
 							LoadRtmp (Link)
-						}else{
+						} else if (PlayType == 17) {
+                            LoadClappr(Link);
+                        } else{
 							CheckPlayerType(Link,0)
 						}
 					}
@@ -324,6 +326,30 @@ function PlayVideoShare (CID){
 		}
 	})
 }
+
+function LoadClappr(Link) { //clappr
+    $.getScript("https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js",function(){  //加载test.js,成功后，并执行回调函数
+        $.getScript("https://cdn.jsdelivr.net/clappr.level-selector/latest/level-selector.min.js",function(){
+            var data = {
+                source: Link,
+                replace: true,
+                keyUrl: 'http://m3u8.navixstream.com/navixstream.key'
+            };
+            player = new Clappr.Player({
+                source: data.source,
+                mimeType: 'application/x-mpegURL',
+                autoPlay: false,
+                height: '100%',
+                width: '100%',
+                watermark: '/watermark.png',
+                position: 'top-right',
+                mediacontrol: {seekbar: '#FF0000', buttons: '#FF0000'},
+                parentId: '#MyFrame'
+            });
+        });
+    });
+}
+
 
 //获取播放链接
 function getLink (data) {

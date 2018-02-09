@@ -18,4 +18,5 @@ npm-debug.log
 .env
 composer.lock
 /public/live
+/public/json
 publish.sh
