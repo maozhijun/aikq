@@ -16,6 +16,14 @@ function GetQueryString(str,href) {
         return '';
     }
 }
+//判断手机
+function isPhone() {
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        return true;
+    }else{
+        return false;
+    }
+}
 //判断微信
 function isWeiXin() {
     var ua = window.navigator.userAgent.toLowerCase();
@@ -30,6 +38,19 @@ function LoadVideo () {
         //在这里写如果是微信的时候的状态
         $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
         return;
+    }
+    if (isPhone()) {
+        //如果是手机，加载5秒广告
+        $('body').append('<div id="PhoneAD"><img src="/img/pc/demo.jpg"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
+        var ADRun = setInterval(function(){
+            var Val = parseInt($('#PhoneAD b').html());
+            if (Val > 0) {
+                $('#PhoneAD b').html(Val - 1);
+            }else{
+                clearInterval(ADRun);
+                $('#PhoneAD').remove();
+            }
+        },1000)
     }
 	var CID = GetQueryString('cid');
 	if (CID && CID != '') {
