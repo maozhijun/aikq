@@ -56,9 +56,9 @@
                                 $preUrl = str_replace("http://","https://",env('APP_URL'));
                             }
                         }
-                    }
-                    else
+                    } else {
                         $preUrl = str_replace("http://","https://",env('APP_URL'));
+                    }
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}">{{$channel['name']}}</button>
