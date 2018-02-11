@@ -854,6 +854,9 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
 				else if(this.browser()['B'].toLowerCase().indexOf('chrome')>-1 && this.PCCheck()){
 					this.embedSWF(f,d,i,w,h,v,p);
 				}
+                else if(this.PCCheck()){
+                    this.embedSWF(f,d,i,w,h,v,p);
+                }
 				else if(this.isHTML5()){
 					this.embedHTML5(d,i,w,h,e,v,s,j);
 				}
