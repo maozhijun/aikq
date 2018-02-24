@@ -34,7 +34,7 @@ function isWeiXin() {
     }
 }
 function LoadVideo () {
-    if (isWeiXin()) {
+    if (isWeiXin() && parent.location.href.indexOf('aikq.cc') != -1) {
         //在这里写如果是微信的时候的状态
         $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
         return;
