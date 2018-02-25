@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    {{--<meta name="referrer" content="no-referrer">--}}
+    <meta name="referrer" content="no-referrer">
     <title>爱看球</title>
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css">
