@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referre">
+    {{--<meta name="referrer" content="no-referrer">--}}
     <title>爱看球</title>
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css">
@@ -33,7 +33,7 @@
     window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rn="></script>
 <script>
     var _hmt = _hmt || [];
     (function() {

@@ -46,9 +46,9 @@ function setPage () {
     });
 
     $('#Video button:first').trigger("click");
-    if (isWeiXin()) {
-        $('body').html($('body').html() + '<div id="WX"></div>')
-    }
+    // if (isWeiXin()) {
+    //     $('body').html($('body').html() + '<div id="WX"></div>')
+    // }
 }
 
 
