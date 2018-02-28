@@ -61,7 +61,7 @@
                     }
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
-                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}">{{$channel['name']}}</button>
+                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player.html?cid='.$channel['id']}}&type={{$channel['type']}}">{{$channel['name']}}</button>
                 @endforeach
                 <?php $ch_cn = ['线路一', '线路二', '线路三']; ?>
                 @for($index = count($channels); $index < 3; $index++)

@@ -6,7 +6,10 @@ body,html{
 	margin: 0; padding: 0;
 }
 body{
-	background: no-repeat center; background-size: cover;/**url(/img/pc/image_video_bg.jpg) **/
+	background: url(../img/image_video_bg.jpg) no-repeat center; background-size: cover;
+}
+body .inner{
+	width: 100%; height: 100%;
 }
 
 
@@ -54,6 +57,8 @@ p#ShareWarm a,p#ShareWarm span{
 	color: yellow;
 }
 
+
+
 #PhoneAD{
 	background: #000;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
@@ -70,24 +75,105 @@ p#ShareWarm a,p#ShareWarm span{
 	color: #e5f73e;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*微信*/
+/*电脑效果*/
+#WxAdd{
+	width: 160px;
+	padding: 10px;
+	background: rgba(0,0,0,0.6);
+	font-size: 12px; line-height: 20px; text-align: center; color: #fff;
+	position: absolute; top: 0; left: 0; right: 0; z-index: 500;
+}
+#WxAdd p.input{
+	height: 24px;
+	margin: 5px 0 10px;
+}
+#WxAdd input{
+	width: 90px; height: 24px;
+	padding: 0 5px;
+	vertical-align: top;
+	border: none; border-radius: 4px 0 0 4px;
+}
+#WxAdd button.com{
+	width: 40px; height: 24px;
+	border-radius: 0 4px 4px 0;
+	background: #fff;
+	font-size: 12px; text-align: center; color: #1267dc;
+}
+#WxAdd button.get{
+	width: 60px; height: 24px;
+	border-radius: 4px;
+	background: #1267dc;
+	font-size: 12px; text-align: center; color: #fff;
+}
+#WxAdd span.close{
+	margin-left: 10px;
+	font-size: 12px; line-height: 24px; color: #bcbcbc;
+	cursor: pointer;
+}
+#WxAdd p.app{
+	display: none;
+}
+#WxAdd p.app img{
+	width: 80%;
+	margin: 12px auto 8px;
+	display: block;
+}
+#WxAdd.close{
+	width: 80px; height: 12px;
+	overflow: hidden;
+	cursor: pointer;
+}
+#WxAdd.close input, #WxAdd.close p, #WxAdd.close button.com, #WxAdd.close button.get, #WxAdd.close span.close{
+	display: none;
+}
+#WxAdd p.show{
+	font-size: 12px; line-height: 12px; text-align: center; color: #fff;
+	display: none;
+}
+#WxAdd.close p.show{
+	display: block;
+}
+/*手机效果*/
+body.bb{
+	box-sizing: border-box;
+	padding-bottom: 70px;
+}
+#WxAddPhone{
+	height: 36px;
+	padding: 17px 10px;
+	background: rgba(0,0,0,0.8);
+	position: absolute; bottom: 0; left: 0; right: 0;
+	text-align: center;
+}
+#WxAddPhone p{
+	font-size: 24px; line-height: 36px; text-align: left; color: #fff;
+	display: inline-block;
+}
+#WxAddPhone p span{
+	padding: 0 8px;
+	color: #4492fd;
+}
+#WxAddPhone p + p{
+	margin-left: 20px;
+}
+#WxAddPhone input{
+	height: 36px; width: 100px;
+	padding: 0 4px;
+	border: none; border-radius: 4px 0 0 4px;
+	line-height: 30px;
+}
+textarea#Copy{
+	width: 0; height: 0;
+	visibility: hidden;
+	position: absolute;
+}
+#WxAddPhone button{
+	width: 100px; height: 36px;
+	border-radius: 0 4px 4px 0;
+	background: #4492fd;
+	font-size: 22px; color: #fff;
+}
 
 
 

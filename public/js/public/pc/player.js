@@ -52,9 +52,10 @@ function LoadVideo () {
             }
         },1000)
     }
-	var CID = GetQueryString('cid');
-	if (CID && CID != '') {
-		PlayVideoShare(CID);
+	var cid = GetQueryString('cid');
+    var type = GetQueryString('type');
+	if (cid && cid != '') {
+		PlayVideoShare(cid, type);
 	}
 }
 
@@ -192,7 +193,8 @@ function bufferHandler (num) {
 	if (num > 100 || num < 0) {
 		console.log(num)
 		var CID = GetQueryString('cid');
-		PlayVideoShare(CID);
+        var type = GetQueryString('type');
+		PlayVideoShare(CID, type);
 	}
 }
 
@@ -203,7 +205,8 @@ function errorHandler () {
 	maxTimeOut++;
 	console.log('error，重新请求链接');
 	var CID = GetQueryString('cid');
-	PlayVideoShare(CID);
+    var type = GetQueryString('type');
+	PlayVideoShare(CID, type);
 }
 
 
@@ -268,11 +271,18 @@ function countdown() {
     }
 }
 //获取播放地址
-function PlayVideoShare (CID){
-    var url = GetHttp() + host + '/match/live/url/channel/' + CID + '.json';
-	if (window.isMobile) {
-        var url = GetHttp() + host + '/match/live/url/channel/mobile/' + CID + '.json';
-	}
+function PlayVideoShare (cid, type){
+    var url;
+    if (type == 9) {
+        url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
+    } else {
+        if (window.isMobile) {
+            url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
+        } else {
+            url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
+        }
+    }
+
 	$.ajax({
 		url: url,
 		type:'GET',
@@ -290,6 +300,11 @@ function PlayVideoShare (CID){
                     if (match.status && match.status == 0) countdownHtml(match.hour_html, match.minute_html, match.second_html);
 					return;
 				}else if(show_live){
+                    if (data.type == 9 && !data.hd) {
+                        showCode();
+                    } else if (data.hd) {
+                        closeCode();
+                    }
 					if (data.type == 1) { //如果是365，直接播放，不使用链接
 						var ID = data.id;
 						LoadSports365(ID)
@@ -461,16 +476,89 @@ function countDownHour() {
     }
 }
 
+function showCode() {
+    if (isPhone()) {
+        //如果是手机
+        var clipboard = window.cdn_url + "/js/public/pc/clipboard.min.js";
+        $.getScript(clipboard, function(){
+            //处理样式
+            var wx = document.getElementById("WxAddPhone");
+            if (!wx) {
+                $('body').addClass('bb');
+                $('#MyFrame').css('height',$('#MyFrame').height() - 70 + 'px');
+                $('#MyFrame video').css('height',$('#MyFrame').height() + 'px');
+                $('body').append('<div id="WxAddPhone"><p>关注“ i 看球”<span id="id_copy" data-clipboard-text="i看球">[复制]</span>公众号，获取兑换码</p><p><input type="text" name="code"><button onclick="validCode();">看高清</button></p></div>');
+                var btn = document.getElementById('id_copy');
+                var clipboard = new Clipboard(btn);
+                clipboard.on('success', function(e) {
+                    alert('复制成功！')
+                });
+                clipboard.on('error', function(e) {
+                    // console.log(e);
+                });
+            }
+        });
 
+    }else{ //如果不是手机
+        var wxAdd = document.getElementById("WxAdd");
+        if (!wxAdd) {
+            var imgUrl = window.cdn_url + "/img/pc/WechatIMG60.jpeg";
+            $('body').append('<div id="WxAdd"><p>输入高清码，看高清视频</p><p class="input"><input type="text" name="code"><button class="com" onclick="validCode();">确认</button></p><p><button class="get">获取</button><span class="close">收起</span></p><p class="app"><img src="' + imgUrl + '">关注“爱看球”公众号<br/>获取高清信号码</p><p class="show">切换高清信号</p></div>');
 
+            $('#WxAdd p.show').click(function(){
+                $('#WxAdd').removeClass('close');
+            })
+            $('#WxAdd button.get').click(function(){
+                $('#WxAdd p.app').css('display','block');
+            })
+            $('#WxAdd span.close').click(function(){
+                $('#WxAdd').addClass('close');
+                $('#WxAdd p.app').removeAttr('style');
+            })
+        }
+    }
+}
 
+function closeCode() {
+    $('#WxAdd').remove();
+    $('#WxAddPhone').remove();
+    if (isPhone()) {
+        $('#MyFrame').css('height',$('#MyFrame').height() + 70 + 'px');
+        $('#MyFrame video').css('height',$('#MyFrame').height() + 'px');
+    }
+    $('body').removeClass('bb');
+}
 
-
-
-
-
-
-
-
-
-
+function validCode() {
+    var code;
+    if (isPhone()) {
+        code = $("#WxAddPhone input[name=code]").val();
+    } else {
+        code = $("#WxAdd input[name=code]").val();
+    }
+    if (code && $.trim(code).length > 0) {
+        $.ajax({
+            "url": "/live/valid/code",
+            "type": "post",
+            "data": {"code": code},
+            "success": function (json) {
+                if (json) {
+                    if (json.code == 200) {
+                        var cid = GetQueryString('cid');
+                        var type = GetQueryString('type');
+                        if (cid && cid != '') {
+                            PlayVideoShare(cid, type);
+                        }
+                    } else {
+                        alert(json.msg);
+                    }
+                }
+            },
+            "error": function () {
+                alert("验证失败");
+            }
+        });
+    } else {
+        alert('请输入验证码');
+    }
+}

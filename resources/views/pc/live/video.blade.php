@@ -25,7 +25,7 @@
                         } else {
                             $preUrl = str_replace("http://","https://",env('APP_URL'));
                         }
-                        $link = $preUrl.'/live/player.html?cid='.$channel['id'];
+                        $link = $preUrl.'/live/player.html?cid='.$channel['id'] . '&type=' . $channel['type'];
                         ?>
                         {{--<button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$link}}', this)" @else onclick="changeShare('{{$link}}', this);" @endif >{{$channel['name']}}</button>--}}
                         <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
