@@ -10,14 +10,17 @@ namespace App\Http\Controllers\PC\Live;
 
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class LiveController extends Controller
 {
     const BET_MATCH = 1;
+    const LIVE_HD_CODE_KEY = 'LIVE_HD_CODE_KEY';
 
     /**
      * 首页（首页、竞彩、足球、篮球）缓存
@@ -446,9 +449,11 @@ class LiveController extends Controller
      * @return mixed
      */
     public function getLiveUrl(Request $request,$mid){
+        $code = $request->cookie(self::LIVE_HD_CODE_KEY);
+        $sport = $request->input('sport',1);
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$request->input('sport',1);
+        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
@@ -853,6 +858,72 @@ class LiveController extends Controller
 //            }
 //        }
         return $links;
+    }
+
+    /**
+     * 输入验证码
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function validCode(Request $request) {
+        $code = $request->input('code');
+        if (empty($code)) {
+            return response()->json(['code'=>401, 'msg'=>'请输入验证码']);
+        }
+        $r_code = Redis::get(self::LIVE_HD_CODE_KEY);
+        $code = strtoupper($code);
+        if ($code != $r_code) {
+            return response()->json(['code'=>403, 'msg'=>'验证码错误']);
+        }
+        $c = cookie(self::LIVE_HD_CODE_KEY, $code, strtotime('+10 years'), '/');
+        return response()->json(['code'=>200, 'msg'=>'验证码正确'])->withCookie($c);
+    }
+
+    /**
+     * 接收验证码
+     * @param Request $request
+     * @param $code
+     */
+    public function recCode(Request $request, $code) {
+        Redis::set(self::LIVE_HD_CODE_KEY, $code);
+    }
+
+    /**
+     * playurl
+     * @param Request $request
+     * @param $ch_id
+     * @return mixed
+     */
+    public function getHLiveUrl(Request $request, $ch_id){
+        $code = $request->cookie(self::LIVE_HD_CODE_KEY);//cookie的验证码
+        $r_code = Redis::get(self::LIVE_HD_CODE_KEY);//服务器的高清验证码
+
+        try {
+            //获取缓存文件 开始
+            $server_output = Storage::get('/public/match/live/url/channel/' . $ch_id . '.json');//文件缓存
+            //获取缓存文件 结束
+        } catch (\Exception $exception) {
+            $sport = $request->input('sport',1);
+            $ch = curl_init();
+            $isMobile = \App\Http\Controllers\Controller::isMobile($request) ? 1 : 0;
+            $url = env('LIAOGOU_URL')."match/live/url/channel/$ch_id".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+        }
+        $json = json_decode($server_output, true);
+        if (is_null($json)) {
+            return response()->json(['code'=>-1]);
+        }
+        if (isset($json['h_playurl'])) {
+            if (!empty($code) && !empty($r_code) && strtoupper($code) == $r_code) {
+                $json['playurl'] = $json['h_playurl'];
+                $json['hd'] = true;
+            }
+            unset($json['h_playurl']);
+        }
+        return \response()->json($json);
     }
 
 }

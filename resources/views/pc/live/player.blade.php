@@ -31,10 +31,17 @@
     }
     window.host = '{{$_SERVER['HTTP_HOST']}}';
     window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
+    window.cdn_url = '{{env('CDN_URL')}}';
+    if (window.cdn_url && window.cdn_url != "") {
+        window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
+    }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rn="></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js"></script>
 <script>
+    $.ajaxSetup({
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+    });
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");

@@ -15,14 +15,14 @@
     <td>
         <?php $channels = $match['channels'];?>
         @foreach($channels as $index=>$channel)
-            <?php $od = isset($channel['od']) ? $channel['od'] : 99; $od_style = $od < 3 ? 'style="color: red"' : '' ?>
+            <?php $impt = isset($channel['impt']) ? $channel['impt'] : 1; $impt_style = $impt == 2 ? 'style="color: red"' : '' ?>
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a {!! $od_style !!} target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
+                <a {!! $impt_style !!} target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
             @else
                 @if($match['sport'] == 2)
-                    <a {!! $od_style !!} target="_blank" href="{{str_replace('https://','http://',asset('/live/basketball/'.$match['mid'].'.html?btn='.$index))}}">{{$channel['name']}}</a>
+                    <a {!! $impt_style !!} target="_blank" href="{{str_replace('https://','http://',asset('/live/basketball/'.$match['mid'].'.html?btn='.$index))}}">{{$channel['name']}}</a>
                 @else
-                    <a {!! $od_style !!} target="_blank" href="{{str_replace('https://','http://',asset('/live/football/'.$match['mid'].'.html?btn='.$index))}}">{{$channel['name']}}</a>
+                    <a {!! $impt_style !!} target="_blank" href="{{str_replace('https://','http://',asset('/live/football/'.$match['mid'].'.html?btn='.$index))}}">{{$channel['name']}}</a>
                 @endif
             @endif
         @endforeach

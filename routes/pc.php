@@ -56,6 +56,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get("/match/live/url/channel/mobile/{id}.json", 'LiveController@getLiveUrl');
     Route::get("/match/live/url/channel/{id}.json", 'LiveController@getLiveUrl');
     Route::get("/match/live/url/channel/{id}", 'LiveController@getLiveUrl');
+    Route::get("/match/live/url/channel/hd/{ch_id}", 'LiveController@getHLiveUrl');
     //match获取channel通用
     Route::get("/match/live/url/match/{id}", 'LiveController@getLiveUrlMatch');
 
@@ -90,5 +91,7 @@ Route::group(["namespace" => 'Live'], function () {
 //邀请注册
 Route::group(["namespace" => 'Live'],function (){
     Route::get('/live/all/json', 'LiveController@allLiveJsonStatic');
+    Route::post('/live/valid/code', 'LiveController@validCode');//验证高清验证码
+    Route::get('/live/rec-code/{code}', 'LiveController@recCode');//接收验证码
    //Route::get('/invitation/{code}',"HomeController@invitation");
 });
