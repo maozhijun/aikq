@@ -363,9 +363,7 @@ function getLink (data) {
 
 //按链接选择播放方式
 function CheckPlayerType (Link,CK) {
-	if(Link.indexOf('zb.tc.qq.com') != -1){
-        GoTcPlayer(Link);
-    }else if (Link.indexOf('.flv') != -1) {
+	if (Link.indexOf('.flv') != -1) {
     	LoadFlv (Link);
 	}else if (Link.indexOf('rtmp://') == 0) {
     	LoadRtmp (Link);
