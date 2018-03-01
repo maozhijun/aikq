@@ -37,7 +37,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rd=2018030111"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

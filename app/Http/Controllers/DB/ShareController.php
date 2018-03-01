@@ -26,6 +26,7 @@ class ShareController extends Controller
         $url = env('LIAOGOU_URL')."/spread/api/matchList.html" . $param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($code >= 400 && $code <= 599) {

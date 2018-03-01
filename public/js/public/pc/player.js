@@ -1,6 +1,17 @@
 var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
 var ad_time = 5;
+var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg';
+$.ajax({
+    "url": "/live/ad/images",
+    "success": function (json) {
+        if (json) {
+            if (json.l) ad_l = json.l;
+            if (json.d) ad_d = json.d;
+            if (json.z) ad_z = json.z;
+        }
+    }
+});
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;
@@ -70,9 +81,9 @@ function LoadCK (Link){ //m3u8
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t: maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
@@ -90,9 +101,9 @@ function LoadFlv (Link){ //flv
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     }
@@ -106,9 +117,9 @@ function LoadRtmp (Link){ //rtmp
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
@@ -522,12 +533,12 @@ function showCode() {
 }
 
 function closeCode() {
-    $('#WxAdd').remove();
-    $('#WxAddPhone').remove();
-    if (isPhone()) {
+    if (isPhone() && $('#WxAddPhone').length > 0) {
         $('#MyFrame').css('height',$('#MyFrame').height() + 70 + 'px');
         $('#MyFrame video').css('height',$('#MyFrame').height() + 'px');
     }
+    $('#WxAdd').remove();
+    $('#WxAddPhone').remove();
     $('body').removeClass('bb');
 }
 
@@ -546,6 +557,7 @@ function validCode() {
             "success": function (json) {
                 if (json) {
                     if (json.code == 200) {
+                        maxTimeOut++;
                         var cid = GetQueryString('cid');
                         var type = GetQueryString('type');
                         if (cid && cid != '') {

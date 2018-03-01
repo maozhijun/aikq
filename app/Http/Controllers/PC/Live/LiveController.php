@@ -111,6 +111,7 @@ class LiveController extends Controller
             $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
             $server_output = curl_exec ($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close ($ch);
@@ -137,6 +138,7 @@ class LiveController extends Controller
             $url = env('LIAOGOU_URL')."aik/basketballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
             $server_output = curl_exec ($ch);
             curl_close ($ch);
             Storage::disk("public")->put("/static/json/basketball-lives.json", $server_output);
@@ -154,6 +156,7 @@ class LiveController extends Controller
             $url = env('LIAOGOU_URL')."aik/footballLivesJson";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
             $server_output = curl_exec ($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close ($ch);
@@ -181,6 +184,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."/livesError?cid=" . $cid;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -231,6 +235,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         //$code = curl_getinfo($ch, CURLE_RECV_ERROR);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
@@ -403,6 +408,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         return $server_output;
@@ -420,6 +426,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         return $server_output;
@@ -437,6 +444,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         return $server_output;
@@ -456,6 +464,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         return $server_output;
@@ -473,6 +482,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -495,6 +505,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."lives/multiLiveJson/".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -516,6 +527,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/f".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -535,6 +547,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/b".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -557,6 +570,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/lives/multiBasketLiveJson/".$param;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -576,6 +590,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."lives/football/recommend/$mid";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -593,6 +608,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."lives/basketball/recommend/$mid";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -621,6 +637,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
@@ -651,9 +668,19 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
+        if ($http_code >= 400) {
+            echo '请求数据失败';
+            return;
+        }
         $json = json_decode($server_output,true);
+        if (is_null($json) || !isset($json['matches'])) {
+            echo '获取数据失败';
+            return;
+        }
         $json = $json['matches'];
         foreach ($json as $index=>$datas){
             foreach ($datas as $match){
@@ -767,7 +794,7 @@ class LiveController extends Controller
             $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='.$request->input('sport',1);
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);//5秒超时
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
             $pc_json = curl_exec ($ch);
             curl_close ($ch);
             if (!empty($pc_json)) {
@@ -778,7 +805,7 @@ class LiveController extends Controller
                 $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
                 curl_setopt($ch, CURLOPT_URL,$url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
                 $mobile_json = curl_exec ($ch);
                 curl_close ($ch);
                 if (!empty($mobile_json)) {
@@ -924,6 +951,106 @@ class LiveController extends Controller
             unset($json['h_playurl']);
         }
         return \response()->json($json);
+    }
+
+    /**
+     * 抓取网络图片
+     * @param Request $request
+     */
+    public function getImage(Request $request) {
+        $type = $request->input('type');//广告图片类型 1.前置广告类( l ), 2 . 暂停广告类 ( d ) , 3. 缓冲广告类 (z)
+        $patch = $request->input('patch');//图片路径
+        if (!in_array($type, [1, 2, 3])) {
+            echo "参数错误";
+            return;
+        }
+        $save_patch = '/static/m/ad_image/';
+        switch ($type) {
+            case 1:
+                $save_patch .= 'l/';
+                break;
+            case 2:
+                $save_patch .= 'd/';
+                break;
+            case 3:
+                $save_patch .= 'z/';
+                break;
+        }
+        $this->delStorageFiles('/public' . $save_patch);//删除图片
+        //保存图片
+        //获取远程文件所采用的方法
+        //$url = "http://d.hiphotos.baidu.com/image/pic/item/8601a18b87d6277fcdb9b01d24381f30e924fc68.jpg";
+        if (!empty($patch)) {
+            $start = substr($patch, 0, 1);
+            if($start == '/') {
+                $patch = substr($patch, 1);
+            }
+            $url = env('LIAOGOU_URL') . $patch;//"http://img2.plures.net/0b215072-9862-4fdf-a5af-6c142c3aa95b";
+            $ch = curl_init();
+            $timeout = 10;
+            curl_setopt($ch,CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, $timeout);
+            $img = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            if ($http_code >= 400) {
+                echo "获取链接内容失败";
+                return;
+            }
+            //header("Content-Type:image/png");
+            $list = explode("/", $url);
+            $ext = $list[count($list) - 1];
+            $list = explode('?', $ext);
+            $fileName = $list[0];
+            $file_patch = $save_patch . $fileName;
+            Storage::disk('public')->put($file_patch, $img);
+        }
+    }
+
+    /**
+     * 获取广告图片
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getVideoAdImage(Request $request) {
+        $patch = '/public/static/m/ad_image';
+        $default_img = '/img/pc/demo.jpg';
+        $l_file = $this->getStorageFirstFile($patch.'/l');
+        $d_file = $this->getStorageFirstFile($patch.'/d');
+        $z_file = $this->getStorageFirstFile($patch.'/z');
+
+        $l_file = empty($l_file) ? $default_img : str_replace('public/static', '', $l_file);
+        $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
+        $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
+
+        return \response()->json(['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file]);
+    }
+
+    /**
+     * 获取文件夹下的第一个文件
+     * @param $patch
+     * @return mixed|string
+     */
+    protected function getStorageFirstFile($patch) {
+        $files = Storage::files($patch);
+        if (is_array($files) && count($files) > 0) {
+            return $files[0];
+        }
+        return '';
+    }
+
+    /**
+     * 删除文件夹下面的所有文件
+     * @param $patch
+     */
+    protected function delStorageFiles($patch) {
+        $files = Storage::files($patch);
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                Storage::delete($file);
+            }
+        }
     }
 
 }
