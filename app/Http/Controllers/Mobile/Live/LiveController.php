@@ -65,7 +65,13 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
         $json = json_decode($server_output,true);
+        if (is_null($json)) {
+            return;
+        }
         $json['type'] = 'football';
         return view('mobile.live.lives', $json);
     }
@@ -77,8 +83,15 @@ class LiveController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
         $json = json_decode($server_output,true);
+        if (is_null($json)) {
+            return;
+        }
         $json['type'] = 'football';
         return view('mobile.live.lives', $json);
     }
@@ -90,8 +103,15 @@ class LiveController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
         $json = json_decode($server_output,true);
+        if (is_null($json)) {
+            return;
+        }
         $json['type'] = 'basketball';
         return view('mobile.live.lives', $json);
     }
