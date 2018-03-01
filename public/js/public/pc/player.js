@@ -186,13 +186,13 @@ function loadHandler(){
         console.log('播放器已加载，调用的是HTML5播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer',bufferHandler);
-        CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
+        //CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
-        CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
+        //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
     }
 }
 
