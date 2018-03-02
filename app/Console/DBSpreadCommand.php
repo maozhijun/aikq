@@ -49,6 +49,7 @@ class DBSpreadCommand extends Command
         $url = env('LIAOGOU_URL')."/spread/api/matchList.html";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         $server_output = curl_exec ($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($code >= 400 && $code <= 599) {

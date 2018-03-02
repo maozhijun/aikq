@@ -109,6 +109,7 @@ class LiveController extends Controller
         try {
             $ch = curl_init();
             $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
+            echo $url;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -664,19 +665,22 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticLiveDetail(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            echo '请求数据失败';
-            return;
-        }
-        $json = json_decode($server_output,true);
+//        $ch = curl_init();
+//        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+//        $server_output = curl_exec ($ch);
+//        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//        curl_close ($ch);
+//        if ($http_code >= 400) {
+//            echo '请求数据失败';
+//            return;
+//        }
+//        $json = json_decode($server_output,true);
+
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
         if (is_null($json) || !isset($json['matches'])) {
             echo '获取数据失败';
             return;
@@ -690,24 +694,32 @@ class LiveController extends Controller
                 if ($time == 0 ) {//只静态化赛前4小时内 的比赛终端。
                     continue;
                 }
-                //echo '1,';
-                if ( ($now >= strtotime($time) && $now - strtotime($time) <= 60 * 60 ) || ($now <= strtotime($time) && strtotime($time) - $now <= 3 * 60 * 60 ) ) {
+                $start_time = strtotime($time);//比赛时间
+                $flg_1 = $start_time >= $now && $now + 60 * 60 >= $start_time;//开赛前1小时
+                $flg_2 = $start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时
+                if ( $flg_1 || $flg_2 ) {
+                    //$match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
                     try {
                         $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
                         if ($match['sport'] == 1) {
                             $html = $this->detail($request, $mid, true);
-                            if (!empty($html))
+                            if (!empty($html)) {
                                 Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+                            }
+
                             $mhtml = $mCon->footballdetail($request, $mid, true);
-                            if (!empty($mhtml))
+                            if (!empty($mhtml)) {
                                 Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                            }
                         } else {
                             $html = $this->basketDetail($request, $mid, true);
-                            if (!empty($html))
+                            if (!empty($html)) {
                                 Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+                            }
                             $mhtml = $mCon->basketballDetail($request, $mid, true);
-                            if (!empty($mhtml))
+                            if (!empty($mhtml)) {
                                 Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                            }
                         }
                         //刷新接口
                     } catch (\Exception $exception) {
@@ -730,14 +742,24 @@ class LiveController extends Controller
             $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             if ($sport == 1) {
                 $html = $this->detail($request, $mid, true);
-                Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+                if (!empty($html)) {
+                    Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+                }
+
                 $mhtml = $mCon->footballdetail($request, $mid, true);
-                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                if (!empty($mhtml)) {
+                    Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+                }
             } else {
                 $html = $this->basketDetail($request, $mid, true);
-                Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+                if (!empty($html)) {
+                    Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+                }
+
                 $mhtml = $mCon->basketballDetail($request, $mid, true);
-                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                if (!empty($mhtml)) {
+                    Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                }
             }
             if (is_numeric($ch_id)) {
                 $this->staticLiveUrl($request, $ch_id, true);
@@ -752,7 +774,10 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticPlayerJson(Request $request) {
-        $json = $this->getLives();
+        //$json = $this->getLives();
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
+
         if (!isset($json['matches'])) return;
         $matches = $json['matches'];
         foreach ($matches as $time=>$match_array) {
@@ -763,8 +788,12 @@ class LiveController extends Controller
                 $m_time = strtotime($match['time']);
                 $status = $match['status'];
                 $now = time();
-                if ($status > 0 || ($now >= $m_time && $now - $m_time <= (60 * 60) ) || ($now < $m_time && $m_time - $now <= (3 * 60 * 60) )  ) {//1小时内的比赛静态化接口、天天源不做静态化。
+
+                $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
+                $flg_2 = $m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
+                if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
+                        //echo $match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
@@ -960,7 +989,7 @@ class LiveController extends Controller
     public function getImage(Request $request) {
         $type = $request->input('type');//广告图片类型 1.前置广告类( l ), 2 . 暂停广告类 ( d ) , 3. 缓冲广告类 (z)
         $patch = $request->input('patch');//图片路径
-        if (!in_array($type, [1, 2, 3])) {
+        if (!in_array($type, [1, 2, 3, 4])) {
             echo "参数错误";
             return;
         }
@@ -975,6 +1004,9 @@ class LiveController extends Controller
             case 3:
                 $save_patch .= 'z/';
                 break;
+            case 4:
+                $save_patch .= 'w/';
+                break;
         }
         $this->delStorageFiles('/public' . $save_patch);//删除图片
         //保存图片
@@ -987,6 +1019,7 @@ class LiveController extends Controller
             }
             $url = env('LIAOGOU_URL') . $patch;//"http://img2.plures.net/0b215072-9862-4fdf-a5af-6c142c3aa95b";
             $ch = curl_init();
+
             $timeout = 10;
             curl_setopt($ch,CURLOPT_URL, $url);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -1006,6 +1039,7 @@ class LiveController extends Controller
             $file_patch = $save_patch . $fileName;
             Storage::disk('public')->put($file_patch, $img);
         }
+        $this->staticAdImages();
     }
 
     /**
@@ -1019,12 +1053,33 @@ class LiveController extends Controller
         $l_file = $this->getStorageFirstFile($patch.'/l');
         $d_file = $this->getStorageFirstFile($patch.'/d');
         $z_file = $this->getStorageFirstFile($patch.'/z');
+        $w_file = $this->getStorageFirstFile($patch.'/w');
 
         $l_file = empty($l_file) ? $default_img : str_replace('public/static', '', $l_file);
         $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
         $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
+        $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
 
-        return \response()->json(['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file]);
+        return \response()->json(['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file]);
+    }
+
+    /**
+     * 静态化广告文件
+     */
+    protected function staticAdImages() {
+        $patch = '/public/static/m/ad_image';
+        $default_img = '/img/pc/demo.jpg';
+        $l_file = $this->getStorageFirstFile($patch.'/l');
+        $d_file = $this->getStorageFirstFile($patch.'/d');
+        $z_file = $this->getStorageFirstFile($patch.'/z');
+        $w_file = $this->getStorageFirstFile($patch.'/w');
+
+        $l_file = empty($l_file) ? $default_img : str_replace('public/static', '', $l_file);
+        $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
+        $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
+        $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
+        $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file];
+        Storage::disk('public')->put('/static/m/ad_image/images.json', json_encode($json));
     }
 
     /**

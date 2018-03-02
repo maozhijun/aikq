@@ -77,7 +77,7 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get("/video/channel/{id}", 'VideoController@videoChannel');//热门频道线路
 
     //Route::get('/live/ex-link/{id}', 'LiveController@exLink');//外链跳转
-    Route::get('/live/player-json/{id}', 'LiveController@staticLiveUrl');
+    Route::get('/live/player-json/{id}', 'LiveController@staticLiveUrl');//静态化 线路json
 
     //静态化
     Route::get('/live/cache/live-json', 'LiveController@allLiveJsonStatic');//直播赛事接口静态化
