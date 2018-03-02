@@ -5,7 +5,7 @@
     <meta name="referrer" content="no-referrer">
     <title>爱看球</title>
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?rd=20180301111">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="edge" />
