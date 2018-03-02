@@ -5,7 +5,7 @@
     <meta name="referrer" content="no-referrer">
     <title>爱看球</title>
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?rd=20180301111">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?rd=201803021111">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="edge" />
@@ -37,7 +37,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rd=2018030111"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rd=201803021111"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
