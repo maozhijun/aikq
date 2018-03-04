@@ -65,7 +65,10 @@ class TTzbPlayerJsonCommand extends Command
                 $m_time = strtotime($match['time']);
                 $now = time();
 
-                if ($status > 0 || ($now >= $m_time && $now - $m_time <= (60 * 60) ) || ($now < $m_time && $m_time - $now <= (3 * 60 * 60) ) ) {//1小时-3小时内的赛事的天天源做静态化。
+                $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
+                $flg_2 = $m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
+
+                if ($status > 0 || $flg_1 || $flg_2 ) {//1小时-3小时内的赛事的天天源做静态化。
                     if (isset($match['channels'])) {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {

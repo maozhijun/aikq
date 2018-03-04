@@ -1,6 +1,18 @@
 var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
 var ad_time = 5;
+var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
+$.ajax({
+    "url": "/m/ad_image/images.json",
+    "success": function (json) {
+        if (json) {
+            if (json.l) ad_l = json.l;
+            if (json.d) ad_d = json.d;
+            if (json.z) ad_z = json.z;
+            if (json.w) ad_w = json.w;
+        }
+    }
+});
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;
@@ -41,7 +53,7 @@ function LoadVideo () {
     // }
     if (isPhone()) {
         //如果是手机，加载5秒广告
-        $('body').append('<div id="PhoneAD"><img src="/img/pc/demo.jpg"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
+        $('body').append('<div id="PhoneAD"><img src="' + ad_w + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
         var ADRun = setInterval(function(){
             var Val = parseInt($('#PhoneAD b').html());
             if (Val > 0) {
@@ -70,9 +82,9 @@ function LoadCK (Link){ //m3u8
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t: maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
@@ -90,9 +102,9 @@ function LoadFlv (Link){ //flv
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     }
@@ -106,9 +118,9 @@ function LoadRtmp (Link){ //rtmp
         lv:1,
         c:0,
         p:1,
-        l:'/img/pc/demo.jpg',
-        d:'/img/pc/demo.jpg',
-        z:'/img/pc/demo.jpg',
+        l: ad_l,
+        d: ad_d,
+        z: ad_z,
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     };
@@ -175,13 +187,13 @@ function loadHandler(){
         console.log('播放器已加载，调用的是HTML5播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer',bufferHandler);
-        CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
+        //CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
-        CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
+        //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
     }
 }
 
@@ -209,8 +221,6 @@ function errorHandler () {
 	PlayVideoShare(CID, type);
 }
 
-
-
 //获取是S还是非S
 function GetHttp () {
 	if (location.href.indexOf('https://') != -1) {
@@ -237,6 +247,7 @@ function countdownHtml(hour_html, minute_html, second_html) {
         second = second < 10 ? ('0' + second) : second;
     }
     var time_html = hour + ":" + minute + ":" + second;
+    //$("#MyFrame p.noframe img").attr('src', ad_w);
     $("#MyFrame p.noframe").show().find('b:first').html(time_html);
     setInterval(countdown, 1000);
 }
@@ -282,7 +293,7 @@ function PlayVideoShare (cid, type){
             url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
         }
     }
-
+    url = url + '?time=' + (new Date()).getTime();
 	$.ajax({
 		url: url,
 		type:'GET',
@@ -297,7 +308,9 @@ function PlayVideoShare (cid, type){
                     return;
                 }
                 if(!show_live){
-                    if (match.status && match.status == 0) countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                    if (match.status && match.status == 0) {
+                        countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                    }
 					return;
 				}else if(show_live){
                     if (data.type == 9 && !data.hd) {
@@ -522,12 +535,12 @@ function showCode() {
 }
 
 function closeCode() {
-    $('#WxAdd').remove();
-    $('#WxAddPhone').remove();
-    if (isPhone()) {
+    if (isPhone() && $('#WxAddPhone').length > 0) {
         $('#MyFrame').css('height',$('#MyFrame').height() + 70 + 'px');
         $('#MyFrame video').css('height',$('#MyFrame').height() + 'px');
     }
+    $('#WxAdd').remove();
+    $('#WxAddPhone').remove();
     $('body').removeClass('bb');
 }
 
@@ -546,6 +559,7 @@ function validCode() {
             "success": function (json) {
                 if (json) {
                     if (json.code == 200) {
+                        maxTimeOut++;
                         var cid = GetQueryString('cid');
                         var type = GetQueryString('type');
                         if (cid && cid != '') {
