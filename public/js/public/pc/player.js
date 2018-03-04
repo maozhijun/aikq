@@ -69,6 +69,19 @@ function LoadVideo () {
 	if (cid && cid != '') {
 		PlayVideoShare(cid, type);
 	}
+	else{
+        var str = window.location.pathname;
+        var index = str .lastIndexOf("\/");
+        str  = str .substring(index + 1, str .length);
+        var params = str.split("-");
+        if (params.length == 3) {
+            cid = params[1];
+            type = params[2];
+            if (cid && cid != '') {
+                PlayVideoShare(cid, type);
+            }
+        }
+    }
 }
 
 function LoadCK (Link){ //m3u8

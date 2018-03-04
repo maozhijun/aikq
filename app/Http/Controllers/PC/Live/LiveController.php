@@ -845,6 +845,14 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $pc_json);
                 }
             }
+
+            //每一个channel的player页面生成
+            $html = $this->player($request);
+            $json = json_decode($pc_json,true);
+            if ($json && array_key_exists('code',$json) && $json['code'] == 0) {
+                Storage::disk("public")->put("/live/player/player-" . $id . '-' . $json['type'] . ".html", $html);
+            }
+
         } catch (\Exception $e) {
             //dump($e);
         }

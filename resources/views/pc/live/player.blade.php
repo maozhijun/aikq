@@ -23,6 +23,16 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js"></script>
 
 <script type="text/javascript">
+    function isMobileWithJS() {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1; //android终端或者uc浏览器
+        var isiPhone = u.indexOf('iPhone') > -1; //是否为iPhone或者QQ HD浏览器
+        var isiPad = u.indexOf('iPad') > -1; //是否iPad
+        return (isAndroid || isiPhone || isiPad) ? '1' : '';
+    }
+</script>
+
+<script type="text/javascript">
     function ShareWarm (Text) {
         var P = document.createElement('p');
         P.id = 'ShareWarm';
@@ -30,14 +40,15 @@
         document.body.appendChild(P)
     }
     window.host = '{{$_SERVER['HTTP_HOST']}}';
-    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';
+{{--    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';--}}
+            window.isMobile = isMobileWithJS();
     window.cdn_url = '{{env('CDN_URL')}}';
     if (window.cdn_url && window.cdn_url != "") {
         window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{env('CDN_URL')}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rd=201803021111"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player.js?rd=201803042004"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

@@ -61,7 +61,8 @@
                             //preUrl = 'https://' + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
                         }
                     }
-                    preUrl = preUrl + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid + "&type=" + data.type;
+//                    preUrl = preUrl + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid + "&type=" + data.type;
+                    preUrl = preUrl + host + '/live/player/player-'+data.cid+'-'+data.type+'.html';
                     var MyFrame = document.getElementById('MyFrame');
                     MyFrame.setAttribute('allowfullscreen','true');
                     MyFrame.setAttribute('scrolling','no');
