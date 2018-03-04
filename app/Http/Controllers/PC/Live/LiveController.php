@@ -391,7 +391,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function player(Request $request){
-        return view('pc.live.player');
+        return view('pc.live.player',array('cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
     }
 
     public function share(Request $request){
@@ -817,6 +817,8 @@ class LiveController extends Controller
      */
     public function staticLiveUrl(Request $request, $id, $has_mobile = false) {
         try {
+            $controller = new LiveController(new Request());
+            $player = $controller->player($request);
             //$json = $this->getLiveUrl($request, $id);
             //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
             $ch = curl_init();
@@ -828,6 +830,11 @@ class LiveController extends Controller
             curl_close ($ch);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
+                //每一个channel的player页面生成
+                $json = json_decode($pc_json,true);
+                if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
+                    Storage::disk("public")->put("/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
+                }
             }
             if ($has_mobile) {
                 $ch = curl_init();
@@ -845,16 +852,8 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $pc_json);
                 }
             }
-
-            //每一个channel的player页面生成
-            $html = $this->player($request);
-            $json = json_decode($pc_json,true);
-            if ($json && array_key_exists('code',$json) && $json['code'] == 0) {
-                Storage::disk("public")->put("/live/player/player-" . $id . '-' . $json['type'] . ".html", $html);
-            }
-
         } catch (\Exception $e) {
-            //dump($e);
+            dump($e);
         }
     }
 
