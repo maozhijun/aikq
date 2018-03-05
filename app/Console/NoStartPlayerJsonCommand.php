@@ -68,6 +68,7 @@ class NoStartPlayerJsonCommand extends Command
         $start = time();
         $index = 0;
         $con = new LiveController();
+        $ch_count = 0;
         foreach ($matches as $time=>$match_array) {
             foreach ($match_array as $match) {
                 if (!isset($match) || !isset($match['time'])) {
@@ -80,8 +81,10 @@ class NoStartPlayerJsonCommand extends Command
                 if ($status == 0 || $flg_1) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
                         $channels = $match['channels'];
+
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
+                            $ch_count++;
                             if (!in_array($ch_id, $ch_array)) {
                                 if ($index > self::Once_total) break;
                                 $ch_array[] = $ch_id;
@@ -95,8 +98,12 @@ class NoStartPlayerJsonCommand extends Command
             }
         }
         echo 'exec time : ' . ( time() - $start ) . '\n';
-        //echo 'ch_ids = ' . implode(',', $ch_array);
-        Redis::setEx(self::NoStartPlayerJsonCommandCacheKey, 60 * 60, json_encode($ch_array));
+        echo 'ch_ids = ' . implode(',', $ch_array);
+        if (count($ch_array) >= $ch_count) {
+            Redis::setex(self::NoStartPlayerJsonCommandCacheKey, 1, json_encode($ch_array));
+        } else {
+            Redis::setex(self::NoStartPlayerJsonCommandCacheKey, 60 * 60, json_encode($ch_array));
+        }
     }
 
     public static function flushPlayerJson($ch_id, $is_mobile = false, $time_out = 5) {
