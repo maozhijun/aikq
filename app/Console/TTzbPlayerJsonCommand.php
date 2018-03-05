@@ -74,7 +74,8 @@ class TTzbPlayerJsonCommand extends Command
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
                             if ($channel['type'] == MatchLiveChannel::kTypeTTZB) {
-                                $con->staticLiveUrl(new Request(), $ch_id, true);
+                                NoStartPlayerJsonCommand::flushPlayerJson($ch_id, true, 8);
+                                //$con->staticLiveUrl(new Request(), $ch_id, true);
                                 echo 'done ' . $ch_id . ';';
                                 usleep(100);
                             }

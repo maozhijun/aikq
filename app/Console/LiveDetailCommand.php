@@ -57,4 +57,14 @@ class LiveDetailCommand extends Command
 //        curl_close ($ch);
     }
 
+    public static function flushLiveDetailHtml($match_id, $sport, $ch_id = '') {
+        $ch = curl_init();
+        $url = asset('/live/cache/match/detail_id/' . $match_id . '/' . $sport) . 'ch_id=' . $ch_id;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 8);//8秒超时
+        curl_exec ($ch);
+        curl_close ($ch);
+    }
+
 }

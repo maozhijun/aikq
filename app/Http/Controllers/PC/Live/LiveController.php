@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\PC\Live;
 
+use App\Console\LiveDetailCommand;
+use App\Console\NoStartPlayerJsonCommand;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -695,46 +697,47 @@ class LiveController extends Controller
                     continue;
                 }
                 $start_time = strtotime($time);//比赛时间
-                $flg_1 = $start_time >= $now && $now + 60 * 60 >= $start_time;//开赛前1小时
+                $flg_1 = $start_time >= $now && $now + 5 * 60 * 60 >= $start_time;//开赛前1小时
                 $flg_2 = $start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时
                 if ( $flg_1 || $flg_2 ) {
                     //$match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
                     try {
-                        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-                        if ($match['sport'] == 1) {
-                            $html = $this->detail($request, $mid, true);
-                            if (!empty($html)) {
-                                Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-                            }
-
-                            $mhtml = $mCon->footballdetail($request, $mid, true);
-                            if (!empty($mhtml)) {
-                                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
-                            }
-
-                            //每一个比赛的player页面生成
-                            $controller = new LiveController(new Request());
-                            $phtml = $controller->matchPlayerChannel($request);
-                            if (!empty($phtml)) {
-                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
-                            }
-                        } else {
-                            $html = $this->basketDetail($request, $mid, true);
-                            if (!empty($html)) {
-                                Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-                            }
-                            $mhtml = $mCon->basketballDetail($request, $mid, true);
-                            if (!empty($mhtml)) {
-                                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
-                            }
-
-                            //每一个比赛的player页面生成
-                            $controller = new LiveController(new Request());
-                            $phtml = $controller->matchPlayerChannel($request);
-                            if (!empty($phtml)) {
-                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
-                            }
-                        }
+                        LiveDetailCommand::flushLiveDetailHtml($mid, $match['sport']);
+//                        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+//                        if ($match['sport'] == 1) {
+//                            $html = $this->detail($request, $mid, true);
+//                            if (!empty($html)) {
+//                                Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
+//                            }
+//
+//                            $mhtml = $mCon->footballdetail($request, $mid, true);
+//                            if (!empty($mhtml)) {
+//                                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
+//                            }
+//
+//                            //每一个比赛的player页面生成
+//                            $controller = new LiveController(new Request());
+//                            $phtml = $controller->matchPlayerChannel($request);
+//                            if (!empty($phtml)) {
+//                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
+//                            }
+//                        } else {
+//                            $html = $this->basketDetail($request, $mid, true);
+//                            if (!empty($html)) {
+//                                Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
+//                            }
+//                            $mhtml = $mCon->basketballDetail($request, $mid, true);
+//                            if (!empty($mhtml)) {
+//                                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+//                            }
+//
+//                            //每一个比赛的player页面生成
+//                            $controller = new LiveController(new Request());
+//                            $phtml = $controller->matchPlayerChannel($request);
+//                            if (!empty($phtml)) {
+//                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
+//                            }
+//                        }
                         //刷新接口
                     } catch (\Exception $exception) {
                         dump($exception);
@@ -827,7 +830,8 @@ class LiveController extends Controller
                             $ch_id = $channel['id'];
                             if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
                                 //$has_mobile = MatchLiveChannel::hasMobile($channel['type']);
-                                $this->staticLiveUrl($request, $ch_id, true);
+                                //$this->staticLiveUrl($request, $ch_id, true);
+                                NoStartPlayerJsonCommand::flushPlayerJson($ch_id, true);
                                 usleep(100);
                             }
                         }
@@ -847,6 +851,7 @@ class LiveController extends Controller
         try {
             $controller = new LiveController(new Request());
             $player = $controller->player($request);
+            $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
             //$json = $this->getLiveUrl($request, $id);
             //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
             $ch = curl_init();

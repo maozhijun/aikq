@@ -85,7 +85,8 @@ class NoStartPlayerJsonCommand extends Command
                             if (!in_array($ch_id, $ch_array)) {
                                 if ($index > self::Once_total) break;
                                 $ch_array[] = $ch_id;
-                                $con->staticLiveUrl(new Request(), $ch_id, true);
+                                $this->flushPlayerJson($ch_id, true);
+                                //$con->staticLiveUrl(new Request(), $ch_id, true);
                                 $index++;
                             }
                         }
@@ -96,6 +97,16 @@ class NoStartPlayerJsonCommand extends Command
         echo 'exec time : ' . ( time() - $start ) . '\n';
         //echo 'ch_ids = ' . implode(',', $ch_array);
         Redis::setEx(self::NoStartPlayerJsonCommandCacheKey, 60 * 60, json_encode($ch_array));
+    }
+
+    public static function flushPlayerJson($ch_id, $is_mobile = false, $time_out = 5) {
+        $ch = curl_init();
+        $url = asset('/live/player-json/' . $ch_id) . '?is_mobile=' . ($is_mobile ? '1' : '');
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $time_out);//8秒超时
+        curl_exec ($ch);
+        curl_close ($ch);
     }
 
 }
