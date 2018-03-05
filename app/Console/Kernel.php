@@ -15,16 +15,17 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        IndexCommand::class,
+        IndexCommand::class,//直播 列表静态化
         LiveDetailCommand::class,//PC终端、移动终端html缓存。
 
         PlayerJsonCommand::class,//静态化赛前1小时和正在比赛的 线路
         NoStartPlayerJsonCommand::class,//静态化 赛前1小时前未开始的 线路
 
-        DeleteExpireFileCommand::class,
-        LivesJsonCommand::class,
+        DeleteExpireFileCommand::class,//删除过期文件
+
+        LivesJsonCommand::class,//列表json静态化
         DBSpreadCommand::class,
-        TTzbPlayerJsonCommand::class,
+        TTzbPlayerJsonCommand::class,//天天直播 （开始前1小时 - 开始后 3小时的比赛） 线路静态化
     ];
 
     /**
