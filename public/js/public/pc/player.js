@@ -53,7 +53,7 @@ function LoadVideo () {
     // }
     if (isPhone()) {
         //如果是手机，加载5秒广告
-        $('body').append('<div id="PhoneAD"><img src="' + ad_w + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
+        $('body').append('<div id="PhoneAD"><img src="' + ad_l + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
         var ADRun = setInterval(function(){
             var Val = parseInt($('#PhoneAD b').html());
             if (Val > 0) {
@@ -578,6 +578,18 @@ function validCode() {
                         var type = GetQueryString('type');
                         if (cid && cid != '') {
                             PlayVideoShare(cid, type);
+                        } else{
+                            var str = window.location.pathname;
+                            var index = str .lastIndexOf("\/");
+                            str  = str .substring(index + 1, str .length);
+                            var params = str.split("-");
+                            if (params.length == 3) {
+                                cid = params[1];
+                                type = params[2];
+                                if (cid && cid != '') {
+                                    PlayVideoShare(cid, type);
+                                }
+                            }
                         }
                     } else {
                         alert(json.msg);
