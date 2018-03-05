@@ -73,6 +73,7 @@ function LoadVideo () {
         var str = window.location.pathname;
         var index = str .lastIndexOf("\/");
         str  = str .substring(index + 1, str .length);
+        str = str.replace('.html','');
         var params = str.split("-");
         if (params.length == 3) {
             cid = params[1];

@@ -373,7 +373,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function matchPlayerChannel(Request $request){
-        return view('pc.live.match_channel');
+        return view('pc.live.match_channel',array('cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
     }
 
     /**
@@ -711,6 +711,13 @@ class LiveController extends Controller
                             if (!empty($mhtml)) {
                                 Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
                             }
+
+                            //每一个比赛的player页面生成
+                            $controller = new LiveController(new Request());
+                            $phtml = $controller->matchPlayerChannel($request);
+                            if (!empty($phtml)) {
+                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
+                            }
                         } else {
                             $html = $this->basketDetail($request, $mid, true);
                             if (!empty($html)) {
@@ -719,6 +726,13 @@ class LiveController extends Controller
                             $mhtml = $mCon->basketballDetail($request, $mid, true);
                             if (!empty($mhtml)) {
                                 Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                            }
+
+                            //每一个比赛的player页面生成
+                            $controller = new LiveController(new Request());
+                            $phtml = $controller->matchPlayerChannel($request);
+                            if (!empty($phtml)) {
+                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
                             }
                         }
                         //刷新接口
@@ -750,6 +764,13 @@ class LiveController extends Controller
                 if (!empty($mhtml)) {
                     Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
                 }
+
+                //每一个比赛的player页面生成
+                $controller = new LiveController(new Request());
+                $phtml = $controller->matchPlayerChannel($request);
+                if (!empty($phtml)) {
+                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
+                }
             } else {
                 $html = $this->basketDetail($request, $mid, true);
                 if (!empty($html)) {
@@ -759,6 +780,13 @@ class LiveController extends Controller
                 $mhtml = $mCon->basketballDetail($request, $mid, true);
                 if (!empty($mhtml)) {
                     Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
+                }
+
+                //每一个比赛的player页面生成
+                $controller = new LiveController(new Request());
+                $phtml = $controller->matchPlayerChannel($request);
+                if (!empty($phtml)) {
+                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
                 }
             }
             if (is_numeric($ch_id)) {

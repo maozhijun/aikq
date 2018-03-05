@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>爱看球</title>
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=20180203">
+    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=20180203">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
+    <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
 </head>
 <body scroll="no">
 <iframe width="100%" height="100%" id="MyFrame">
@@ -35,7 +35,7 @@
     }
     //获取地址
     function PlayVideoShare(mid ,sport) {
-        var host = '{{$_SERVER['HTTP_HOST']}}';
+        var host = '{{$host}}';
         $.ajax({
             url: '/match/live/url/match/' + mid + '?sport=' + sport,
             type:'GET',
@@ -78,6 +78,20 @@
         var sport = '{{request('sport')}}';
         if (mid && mid != '') {
             PlayVideoShare(mid, sport);
+        }
+        else {
+            var str = window.location.pathname;
+            var index = str .lastIndexOf("\/");
+            str  = str .substring(index + 1, str .length);
+            str = str.replace('.html','');
+            var params = str.split("-");
+            if (params.length == 3) {
+                mid = params[1];
+                sport = params[2];
+                if (mid && mid != '') {
+                    PlayVideoShare(mid, sport);
+                }
+            }
         }
     }
 </script>

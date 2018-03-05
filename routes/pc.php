@@ -35,10 +35,11 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/basketball/{mid}.html',"LiveController@basketDetail");//篮球直播页
 
     Route::get('/live/player.html',"LiveController@player");//播放器
-    Route::get('/live/player/player-{cid}-{type}.html',"LiveController@player");//播放器
+    Route::get('/live/player/player-{cid}-{type}.html',"LiveController@player");//播放器 静态化
 
     Route::get('/live/match_player.html',"LiveController@matchPlayer");//比赛播放器
     Route::get('/live/match_channel.html',"LiveController@matchPlayerChannel");//比赛播放器
+    Route::get('/live/spPlayer/match_channel-{mid}-{sport}.html',"LiveController@matchPlayerChannel");//比赛播放器 静态化
 
 //    Route::get('/match/live-multi/{mid}.html',"LiveController@multiLive");//多屏直播页
 //    Route::get('/match/live/match-video/{mid}', 'LiveController@multiLiveDiv');//多屏直播添加
