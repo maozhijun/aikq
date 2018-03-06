@@ -2,14 +2,22 @@ var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
 var ad_time = 5;
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
+
+var WXCodeRun = false;
+var firstShowCode = false;
+var active_text = '加微信fs188fs与球迷赛事交流，乐享高清精彩赛事。';
+var active_code = '/img/pc/code.jpg';
+var valid_code = '';
+
 $.ajax({
-    "url": "/m/ad_image/images.json",
+    "url": "/m/ad_image/images.json?time=" + (new Date()).getTime(),
     "success": function (json) {
         if (json) {
             if (json.l) ad_l = json.l;
             if (json.d) ad_d = json.d;
             if (json.z) ad_z = json.z;
             if (json.w) ad_w = json.w;
+            if (json.code) valid_code = json.code;
         }
     }
 });
@@ -68,8 +76,7 @@ function LoadVideo () {
     var type = GetQueryString('type');
 	if (cid && cid != '') {
 		PlayVideoShare(cid, type);
-	}
-	else{
+	} else{
         var str = window.location.pathname;
         var index = str .lastIndexOf("\/");
         str  = str .substring(index + 1, str .length);
@@ -205,14 +212,30 @@ function loadHandler(){
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
-        // CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
+        CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
         //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
+        CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
+    }
+}
+
+function coordinateHandler (b){
+    var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
+    if (Status.controlBarShow) {
+        CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['y',0,-32,0.4]]);
+    }else{
+        CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['y',0,32,0.4]]);
     }
 }
 
 function playHandler (){
-	console.log(CKobject)
+    //PC时添加心跳请求
+    if (!isPhone() && !WXCodeRun) {
+        console.log(WXCodeRun);
+        WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
+            checkActive();
+        }, 5000);
+    }
 }
 
 function bufferHandler (num) {
@@ -567,7 +590,7 @@ function validCode() {
     }
     if (code && $.trim(code).length > 0) {
         $.ajax({
-            "url": "/live/valid/code",
+            "url": "/live/valid/code?time=" + (new Date()).getTime(),
             "type": "post",
             "data": {"code": code},
             "success": function (json) {
@@ -603,4 +626,162 @@ function validCode() {
     } else {
         alert('请输入验证码');
     }
+}
+
+//活动插件
+function activeValid() {
+    var code;
+    if (!isPhone()) {
+        code = $("#CloseADCode input[name=CloseAD]").val();
+    }
+    if (code && $.trim(code).length > 0) {
+        valid_code = code;
+        $.ajax({
+            "url": "/live/valid/code?time=" + (new Date()).getTime(),
+            "type": "post",
+            "data": {"code": code},
+            "success": function (json) {
+                if (json) {
+                    if (json.code == 200) {
+                        var param = getParam();
+                        if (param.type && param.type == 9) {
+                            maxTimeOut++;
+                            playerLink();
+                        } else {
+                            $('#CloseADCode').remove();
+                        }
+                    } else {
+                        alert(json.msg);
+                    }
+                }
+            },
+            "error": function () {
+                alert("验证失败");
+            }
+        });
+    } else {
+        alert('请输入验证码');
+    }
+}
+
+function playerLink() {
+    var param = getParam();
+    var cid = param.cid;
+    var type = param.type;
+    if (cid && cid != '') {
+        PlayVideoShare(cid, type);
+    }
+}
+
+function getParam() {
+    var cid = GetQueryString('cid');
+    var type = GetQueryString('type');
+    if (cid && cid != '') {  } else {
+        var str = window.location.pathname;
+        var index = str .lastIndexOf("\/");
+        str  = str .substring(index + 1, str .length);
+        var params = str.split("-");
+        if (params.length == 3) {
+            cid = params[1];
+            type = params[2];
+        }
+    }
+    return {'cid': cid, 'type': type};
+}
+
+function checkActive() {
+    $.ajax({
+        "url": "/m/ad_image/active.json?time=" + (new Date()).getTime(),
+        "success": function (json) {
+            if (json && json.txt && json.code && (json.txt != active_text || json.code != active_code) ) {
+                active_text = json.txt;
+                active_code = json.code;
+                showWXCode(active_text, active_code);
+            } else if (!firstShowCode) {
+                showWXCode(active_text, active_code);
+            }
+            firstShowCode = true;
+        },
+        "error": function () {
+            showWXCode(text, code);
+        }
+    });
+}
+
+//关注微信引导
+function showWXCode (Text,Code) { //文字和二维码图片地址，文字可以使用\n换行，最多两行。
+    CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
+    var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
+    var Coor = '0,2,-120,-30';
+    if (Status.controlBarShow && Text.indexOf('\n') == -1) {
+        Coor = '0,2,-120,-62';
+    }else if (Status.controlBarShow && Text.indexOf('\n') != -1) {
+        Coor = '0,2,-120,-82';
+    }else if (Text.indexOf('\n') != -1) {
+        Coor = '0,2,-120,-50';
+    }
+    var WXCode = {
+        name: 'AttWX', //该文本元件的名称，主要作用是关闭时需要用到
+        coor: Coor, //坐标
+        text: '{font color="#FFFFFF" face="Microsoft YaHei,微软雅黑" size="12"}' + Text + '{/font}', //文字
+        bgColor: '0x000000', //背景颜色
+        borderColor: '0x000000', //边框颜色
+        radius: 3, //圆角弧度
+        alpha:0,//总体透明度
+        bgAlpha: 50, //背景透明度
+        xWidth: 20, //宽度修正
+        xHeight: 5, //高度修正
+        pic: [Code, '/img/pc/icon_close_btn_white.png', 'temp/temp3.png'], //附加图片地址数组，可以增加多个图片
+        pwh:[[120,120],[10,10],[1,1]],//图片缩放宽高，和上面图片一一对应
+        pEvent:[['',''],['javascript','CloseWXCode()'],['close','']],//图片事件数组
+        pCoor: ['1,0,-60,-125','1,0,60,-135','2,2,-30,-30'], //图片坐标数组
+        pRadius: [10,0,0] //附加图片的弧度
+        // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
+    }
+    CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
+
+    CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,0,0.4]]);
+}
+
+function CloseWXCode () {
+    var cookie_code = getCookie('LIVE_HD_CODE_KEY');
+    if (cookie_code != valid_code) {//判断是否也已经输入验证码，或者验证码是否正确
+        CKobject.getObjectById('ckplayer_a1').quitFullScreen();
+        ShowADCode();
+    }else{
+        CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
+    }
+}
+
+function ShowADCode () {
+    var Code = $('<div id="CloseADCode"><div class="in"><p class="title">获取关闭广告权限</p><button class="close"></button>' +
+        '<div class="input"><input type="text" name="CloseAD" placeholder="请输入免广告码"><button onclick="activeValid();">获取权限</button></div>' +
+        '<img src="/img/pc/WechatIMG60.jpeg"><p class="text">关注“爱看球”公众号，获取免广告码！</p></div></div>');
+
+    Code.find('button.close').click(function(){
+        $('#CloseADCode').remove();
+    });
+
+    $('body').append(Code)
+}
+
+//修改控制栏文字
+function ChangeText (Text) {
+    // 关注{font color='#e3f42c'}【i看球】{/font}公众号，看球领现金红包！
+    CKobject.getObjectById('ckplayer_a1').changeStyle('pr_live',"{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}" + Text + "{/font}");
+}
+function getCookie(c_name)
+{
+    if (document.cookie.length>0)
+    {
+        c_start=document.cookie.indexOf(c_name + "=")
+        if (c_start!=-1)
+        {
+            c_start=c_start + c_name.length+1
+            c_end=document.cookie.indexOf(";",c_start)
+            if (c_end==-1) c_end=document.cookie.length
+            return unescape(document.cookie.substring(c_start,c_end))
+        }
+    }
+    return ""
 }

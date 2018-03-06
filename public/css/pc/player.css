@@ -176,14 +176,50 @@ textarea#Copy{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
+#CloseADCode{
+	position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 500;
+}
+#CloseADCode .in{
+	width: 496px; height: 236px;
+	margin: -120px 0 0 -250px;
+	border-radius: 4px; border: 2px solid #4492fd;
+	background: #fff;
+	text-align: center;
+	position: absolute; top: 50%; left: 50%;
+}
+#CloseADCode .in p.title{
+	background: #4492fd;
+	font-size: 16px; line-height: 42px; text-align: center; color: #fff;
+}
+#CloseADCode .in button.close{
+	width: 42px; height: 42px;
+	background: url(/img/pc/icon_close_btn_white.png) no-repeat center; background-size: 16px;
+	position: absolute; top: 0; right: 0;	
+}
+#CloseADCode .in div.input{
+	width: 210px; height: 120px;
+	padding: 20px; margin-top: 20px;
+	border-right: 1px solid #bdbdbd;
+	text-align: center;
+	float: left;
+}
+#CloseADCode .in div.input input{
+	height: 38px; width: 200px;
+	padding: 0;
+	border-radius: 4px; border: 1px solid #4492fd;
+	font-size: 14px; line-height: 38px; text-align: center;
+}
+#CloseADCode .in div.input button{
+	width: 160px; height: 30px;
+	margin-top: 16px;
+	border-radius: 4px;
+	background: #4492fd;
+	font-size: 12px; text-align: center; color: #fff;
+}
+#CloseADCode .in img{
+	width: 140px; height: 140px;
+	margin-top: 16px;
+}
+#CloseADCode .in p.text{
+	font-size: 12px; line-height: 24px; text-align: center; color: #999;
+}

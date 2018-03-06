@@ -974,8 +974,9 @@ class LiveController extends Controller
         if ($code != $r_code) {
             return response()->json(['code'=>403, 'msg'=>'验证码错误']);
         }
-        $c = cookie(self::LIVE_HD_CODE_KEY, $code, strtotime('+10 years'), '/');
-        return response()->json(['code'=>200, 'msg'=>'验证码正确'])->withCookie($c);
+        //$c = cookie(self::LIVE_HD_CODE_KEY, $code, strtotime('+10 years'), '/');
+        setcookie(self::LIVE_HD_CODE_KEY, $code, strtotime('+10 years'), '/');
+        return response()->json(['code'=>200, 'msg'=>'验证码正确']);//->withCookie($c);
     }
 
     /**
@@ -985,6 +986,17 @@ class LiveController extends Controller
      */
     public function recCode(Request $request, $code) {
         Redis::set(self::LIVE_HD_CODE_KEY, $code);
+        try {
+            $json = Storage::get('public/static/m/ad_image/images.json');
+            $json = json_decode($json, true);
+        } catch (\Exception $e) {
+        }
+        if (isset($json)) {
+            $json['code'] = $code;
+        } else {
+            $json = ['code'=>$code];
+        }
+        Storage::disk('public')->put('/static/m/ad_image/images.json', json_encode($json));
     }
 
     /**
@@ -994,9 +1006,8 @@ class LiveController extends Controller
      * @return mixed
      */
     public function getHLiveUrl(Request $request, $ch_id){
-        $code = $request->cookie(self::LIVE_HD_CODE_KEY);//cookie的验证码
+        $code = isset($_COOKIE[self::LIVE_HD_CODE_KEY]) ? $_COOKIE[self::LIVE_HD_CODE_KEY] : '';//$request->cookie(self::LIVE_HD_CODE_KEY);//cookie的验证码
         $r_code = Redis::get(self::LIVE_HD_CODE_KEY);//服务器的高清验证码
-
         try {
             //获取缓存文件 开始
             $server_output = Storage::get('/public/match/live/url/channel/' . $ch_id . '.json');//文件缓存
@@ -1121,8 +1132,67 @@ class LiveController extends Controller
         $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
         $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
         $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
-        $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file];
+        $r_code = Redis::get(self::LIVE_HD_CODE_KEY);
+        $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file, 'code'=>$r_code];
         Storage::disk('public')->put('/static/m/ad_image/images.json', json_encode($json));
+    }
+
+    /**
+     * @param Request $request
+     * @return string|void
+     */
+    public function setActive(Request $request) {
+        $type = $request->input('type');
+        if ($type == 99) {
+            //清空活动内容
+            Storage::disk('public')->put('/static/m/ad_image/active.json', json_encode([]));
+            return;
+        }
+        $active = $request->input('active');//json内容
+        if (!empty($active)) {
+            $active = urldecode($active);
+        }
+        $active = json_decode($active, true);
+        //dump($active);
+        if (!isset($active) || empty($active['code']) || empty($active['txt']) ) {
+            return "参数错误";
+        }
+        $save_patch = '/static/m/ad_image/active/';
+        $patch = $active['code'];
+
+        $this->delStorageFiles('/public' . $save_patch);//删除图片
+
+        //保存图片 开始
+        $start = substr($patch, 0, 1);
+        if($start == '/') {
+            $patch = substr($patch, 1);
+        }
+        $url = $patch;
+        $ch = curl_init();
+
+        $timeout = 10;
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, $timeout);
+        $img = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($http_code >= 400) {
+            echo "获取链接内容失败";
+            return;
+        }
+
+        $list = explode("/", $url);
+        $ext = $list[count($list) - 1];
+        $list = explode('?', $ext);
+        $fileName = $list[0];
+        $file_patch = $save_patch . $fileName;
+        Storage::disk('public')->put($file_patch, $img);
+        //保存图片 结束
+
+        $file_patch = str_replace('/static', '', $file_patch);
+        $active['code'] = $file_patch;
+        Storage::disk('public')->put('/static/m/ad_image/active.json', json_encode($active));
     }
 
     /**
