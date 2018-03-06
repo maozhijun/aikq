@@ -357,7 +357,19 @@ function PlayVideoShare (cid, type){
 							LoadRtmp (Link)
 						} else if (PlayType == 17) {
                             LoadClappr(Link);
-                        } else{
+                        }else if(PlayType == 28){
+                            $.ajax({
+                                url: Link,
+                                type:'GET',
+                                dataType:'json',
+                                success:function(data) {
+                                    Link = data.playurl;
+                                    Link = Link.replace('.flv','m3u8');
+                                    LoadCK (Link)
+                                }
+                            });
+                        }
+                        else{
 							CheckPlayerType(Link,0)
 						}
 					}
