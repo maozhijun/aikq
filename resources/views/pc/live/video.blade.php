@@ -83,5 +83,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=20180126">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018012611">
 @endsection
