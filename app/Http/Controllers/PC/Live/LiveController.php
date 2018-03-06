@@ -470,6 +470,9 @@ class LiveController extends Controller
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
+        if ($server_output == false) {
+            return "";
+        }
         return $server_output;
     }
 
