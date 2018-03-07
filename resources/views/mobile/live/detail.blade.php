@@ -2,7 +2,7 @@
 @section('title')
     <title>我正在爱看球看【{{$match['hname']}}vs{{$match['aname']}}】</title>
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=201803030001">
 @endsection
 @section('banner')
     <div id="Navigation">
