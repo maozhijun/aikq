@@ -375,20 +375,35 @@ function PlayVideoShare (cid, type){
 						}else if (PlayType == 13) { //m3u8
 							LoadCK (Link)
 						}else if (PlayType == 14) { //flv
-							LoadFlv (Link)
+							LoadFlv (Link);
 						}else if (PlayType == 15) { //rtmp
 							LoadRtmp (Link)
 						} else if (PlayType == 17) {
                             LoadClappr(Link);
-                        }else if(PlayType == 28){
+                        }else if(PlayType == 100){//腾讯体育专用
                             $.ajax({
                                 url: Link,
-                                type:'GET',
-                                dataType:'json',
-                                success:function(data) {
-                                    Link = data.playurl;
-                                    Link = Link.replace('.flv','m3u8');
-                                    LoadCK (Link)
+                                dataType: "jsonp",
+                                success: function (data) {
+                                    if(data.playurl) {
+                                        Link = data.playurl;
+                                        if (isMobileWithJS()) {
+                                            Link = Link.replace('.flv', 'm3u8');
+                                            LoadCK(Link);
+                                        }
+                                        else {
+                                            if (Link.indexOf('.flv') != -1) {
+                                                LoadFlv(Link);
+                                            }
+                                            else{
+                                                LoadCK(Link);
+                                            }
+                                        }
+
+                                    }
+                                    else{
+                                        document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+                                    }
                                 }
                             });
                         }
