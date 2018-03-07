@@ -33,6 +33,7 @@
 </script>
 
 <script type="text/javascript">
+    <?php $cdn = ''; $host = "user.liaogou168.com:9090"; ?>
     function ShareWarm (Text) {
         var P = document.createElement('p');
         P.id = 'ShareWarm';

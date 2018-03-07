@@ -5,7 +5,7 @@ var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.j
 
 var WXCodeRun = false;
 var firstShowCode = false;
-var active_text = '加微信fs188fs与球迷赛事交流，乐享高清精彩赛事。';
+var active_text = '加微信fs188fs与球迷赛事交流\n乐享高清精彩赛事';
 var active_code = '/img/pc/code.jpg';
 var valid_code = '';
 
@@ -215,7 +215,7 @@ function loadHandler(){
         CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
         //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
-        CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
+        //CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
     }
 }
 
@@ -724,13 +724,9 @@ function checkActive() {
 function showWXCode (Text,Code) { //文字和二维码图片地址，文字可以使用\n换行，最多两行。
     CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
     var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
-    var Coor = '0,2,-120,-30';
-    if (Status.controlBarShow && Text.indexOf('\n') == -1) {
-        Coor = '0,2,-120,-62';
-    }else if (Status.controlBarShow && Text.indexOf('\n') != -1) {
+    var Coor = '0,2,-120,-62';
+    if (Text.indexOf('\n') != -1) {
         Coor = '0,2,-120,-82';
-    }else if (Text.indexOf('\n') != -1) {
-        Coor = '0,2,-120,-50';
     }
     var WXCode = {
         name: 'AttWX', //该文本元件的名称，主要作用是关闭时需要用到
