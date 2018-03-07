@@ -33,7 +33,6 @@
 </script>
 
 <script type="text/javascript">
-    <?php $cdn = ''; $host = "user.liaogou168.com:9090"; ?>
     function ShareWarm (Text) {
         var P = document.createElement('p');
         P.id = 'ShareWarm';
@@ -49,7 +48,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803071047"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803071247"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
