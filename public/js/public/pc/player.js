@@ -8,6 +8,7 @@ var firstShowCode = false;
 var active_text = '加微信fs188fs与球迷赛事交流\n乐享高清精彩赛事';
 var active_code = '/img/pc/code.jpg';
 var valid_code = '';
+var show_ad = true;
 
 $.ajax({
     "url": "/m/ad_image/images.json?time=" + (new Date()).getTime(),
@@ -72,24 +73,7 @@ function LoadVideo () {
             }
         },1000)
     }
-	var cid = GetQueryString('cid');
-    var type = GetQueryString('type');
-	if (cid && cid != '') {
-		PlayVideoShare(cid, type);
-	} else{
-        var str = window.location.pathname;
-        var index = str .lastIndexOf("\/");
-        str  = str .substring(index + 1, str .length);
-        str = str.replace('.html','');
-        var params = str.split("-");
-        if (params.length == 3) {
-            cid = params[1];
-            type = params[2];
-            if (cid && cid != '') {
-                PlayVideoShare(cid, type);
-            }
-        }
-    }
+    playerLink();
 }
 
 function LoadCK (Link){ //m3u8
@@ -241,9 +225,7 @@ function playHandler (){
 function bufferHandler (num) {
 	if (num > 100 || num < 0) {
 		console.log(num)
-		var CID = GetQueryString('cid');
-        var type = GetQueryString('type');
-		PlayVideoShare(CID, type);
+        playerLink();
 	}
 }
 
@@ -253,9 +235,7 @@ function errorHandler () {
 	}
 	maxTimeOut++;
 	console.log('error，重新请求链接');
-	var CID = GetQueryString('cid');
-    var type = GetQueryString('type');
-	PlayVideoShare(CID, type);
+    playerLink();
 }
 
 //获取是S还是非S
@@ -350,9 +330,13 @@ function PlayVideoShare (cid, type){
                     }
 					return;
 				}else if(show_live){
+                    if (data.ad && data.ad == 2) {
+                        show_ad = false;
+                    }
                     if (data.type == 9 && !data.hd) {
                         showCode();
-                    } else if (data.hd) {
+                    } else if (data.hd) {//已获取高清码
+                        show_ad = false;
                         closeCode();
                     }
 					if (data.type == 1) { //如果是365，直接播放，不使用链接
@@ -399,7 +383,6 @@ function PlayVideoShare (cid, type){
                                                 LoadCK(Link);
                                             }
                                         }
-
                                     }
                                     else{
                                         document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
@@ -624,23 +607,7 @@ function validCode() {
                 if (json) {
                     if (json.code == 200) {
                         maxTimeOut++;
-                        var cid = GetQueryString('cid');
-                        var type = GetQueryString('type');
-                        if (cid && cid != '') {
-                            PlayVideoShare(cid, type);
-                        } else{
-                            var str = window.location.pathname;
-                            var index = str .lastIndexOf("\/");
-                            str  = str .substring(index + 1, str .length);
-                            var params = str.split("-");
-                            if (params.length == 3) {
-                                cid = params[1];
-                                type = params[2];
-                                if (cid && cid != '') {
-                                    PlayVideoShare(cid, type);
-                                }
-                            }
-                        }
+                        playerLink();
                     } else {
                         alert(json.msg);
                     }
@@ -670,12 +637,11 @@ function activeValid() {
             "success": function (json) {
                 if (json) {
                     if (json.code == 200) {
+                        $('#CloseADCode').remove();
                         var param = getParam();
                         if (param.type && param.type == 9) {
                             maxTimeOut++;
                             playerLink();
-                        } else {
-                            $('#CloseADCode').remove();
                         }
                     } else {
                         alert(json.msg);
@@ -707,6 +673,7 @@ function getParam() {
         var str = window.location.pathname;
         var index = str .lastIndexOf("\/");
         str  = str .substring(index + 1, str .length);
+        str = str.replace('.html','');
         var params = str.split("-");
         if (params.length == 3) {
             cid = params[1];
@@ -724,8 +691,11 @@ function checkActive() {
                 active_text = json.txt;
                 active_code = json.code;
                 showWXCode(active_text, active_code);
-            } else if (!firstShowCode) {
-                showWXCode(active_text, active_code);
+            } else {
+                var cookie_code = getCookie('LIVE_HD_CODE_KEY');
+                if (show_ad && !firstShowCode && cookie_code != valid_code){
+                    showWXCode(active_text, active_code);
+                }
             }
             firstShowCode = true;
         },
@@ -754,15 +724,14 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         bgAlpha: 50, //背景透明度
         xWidth: 20, //宽度修正
         xHeight: 5, //高度修正
-        pic: [Code, '/img/pc/icon_close_btn_white.png', 'temp/temp3.png'], //附加图片地址数组，可以增加多个图片
-        pwh:[[120,120],[10,10],[1,1]],//图片缩放宽高，和上面图片一一对应
+        pic: [Code,'/img/pc/icon_close_btn_video.png','temp/temp3.png'], //附加图片地址数组，可以增加多个图片
+        pwh:[[120,120],[20,20],[1,1]],//图片缩放宽高，和上面图片一一对应
         pEvent:[['',''],['javascript','CloseWXCode()'],['close','']],//图片事件数组
-        pCoor: ['1,0,-60,-125','1,0,60,-135','2,2,-30,-30'], //图片坐标数组
+        pCoor: ['1,0,-60,-125','1,0,55,-140','2,2,-30,-30'], //图片坐标数组
         pRadius: [10,0,0] //附加图片的弧度
         // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
     }
     CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
-
     CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,0,0.4]]);
 }
 

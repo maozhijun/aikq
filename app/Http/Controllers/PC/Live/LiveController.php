@@ -460,7 +460,7 @@ class LiveController extends Controller
      * @return mixed
      */
     public function getLiveUrl(Request $request,$mid){
-        $code = $request->cookie(self::LIVE_HD_CODE_KEY);
+        $code = isset($_COOKIE[self::LIVE_HD_CODE_KEY]) ? $_COOKIE[self::LIVE_HD_CODE_KEY] : '';//$request->cookie(self::LIVE_HD_CODE_KEY);//cookie的验证码//$code = $request->cookie(self::LIVE_HD_CODE_KEY);
         $sport = $request->input('sport',1);
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
