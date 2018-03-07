@@ -12,6 +12,7 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        '/live/ad/set-active'
+        '/live/ad/set-active',
+        '/live/valid/code'
     ];
 }

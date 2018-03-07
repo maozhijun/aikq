@@ -1163,10 +1163,10 @@ class LiveController extends Controller
         $this->delStorageFiles('/public' . $save_patch);//删除图片
 
         //保存图片 开始
-        $start = substr($patch, 0, 1);
-        if($start == '/') {
-            $patch = substr($patch, 1);
-        }
+//        $start = substr($patch, 0, 1);
+//        if($start == '/') {
+//            $patch = substr($patch, 1);
+//        }
         $url = $patch;
         $ch = curl_init();
 
