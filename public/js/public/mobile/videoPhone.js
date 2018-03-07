@@ -50,7 +50,26 @@ function setPage () {
     //     $('body').html($('body').html() + '<div id="WX"></div>')
     // }
 }
-
+function showWXCode (text, code) {
+    $('#Content p').html(text.replace(/\n/g, '<br/>'));
+    $('#Content img')[0].src = code;
+}
+function videoActive() {
+    $.ajax({
+        "url": "/m/ad_image/active.json?time=" + (new Date()).getTime(),
+        "success": function (json) {
+            if (json && json.txt && json.code) {
+                showWXCode(json.txt, json.code);
+            }
+        },
+        "error": function () {
+            showWXCode(active_text, active_code);
+        }
+    });
+}
+var wxCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
+    videoActive();
+}, 5000);
 
 
 

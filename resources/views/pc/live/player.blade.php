@@ -48,7 +48,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803071247"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803030000"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

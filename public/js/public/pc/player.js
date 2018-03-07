@@ -20,6 +20,10 @@ $.ajax({
             if (json.w) ad_w = json.w;
             if (json.code) valid_code = json.code;
         }
+        var code = getCookie('LIVE_HD_CODE_KEY');
+        if (code == valid_code) {
+            ad_time = 0;//已输入验证码，不出广告
+        }
     }
 });
 //获取链点参数
@@ -60,7 +64,7 @@ function LoadVideo () {
     //     $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
     //     return;
     // }
-    if (isPhone()) {
+    if (isPhone() && ad_time > 0) {
         //如果是手机，加载5秒广告
         $('body').append('<div id="PhoneAD"><img src="' + ad_l + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
         var ADRun = setInterval(function(){
@@ -71,7 +75,7 @@ function LoadVideo () {
                 clearInterval(ADRun);
                 $('#PhoneAD').remove();
             }
-        },1000)
+        },1000);
     }
     playerLink();
 }
@@ -92,10 +96,18 @@ function LoadCK (Link){ //m3u8
         z: ad_z,
         t: maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
-    };
+    }
+    if (flashvars.t == 0) {
+        flashvars.l = "";
+        flashvars.d = "";
+        flashvars.z = "";
+    }
     var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
     var video=[''+Link+'->video/mp4'];
     CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+    if (isPhone()) {
+        $('video').attr('playsinline','true')
+    }
 }
 
 function LoadFlv (Link){ //flv
@@ -113,6 +125,11 @@ function LoadFlv (Link){ //flv
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
     }
+    if (flashvars.t == 0) {
+        flashvars.l = "";
+        flashvars.d = "";
+        flashvars.z = "";
+    }
     var video=[''+Link+'->video/mp4','http://www.ckplayer.com/webm/0.webm->video/webm','http://www.ckplayer.com/webm/0.ogv->video/ogg'];
     CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video)
 }
@@ -128,7 +145,12 @@ function LoadRtmp (Link){ //rtmp
         z: ad_z,
         t:maxTimeOut > 0 ? 0 : ad_time,
         loaded:'loadHandler'
-    };
+    }
+    if (flashvars.t == 0) {
+        flashvars.l = "";
+        flashvars.d = "";
+        flashvars.z = "";
+    }
     var params = {
         allowFullScreen: true,
         allowScriptAccess: "always",
@@ -423,6 +445,9 @@ function LoadClappr(Link) { //clappr
             });
         });
     });
+    if (isPhone()) {
+        $('video').attr('playsinline','true')
+    }
 }
 
 
@@ -549,7 +574,7 @@ function showCode() {
                 $('body').addClass('bb');
                 $('#MyFrame').css('height',$('#MyFrame').height() - 70 + 'px');
                 $('#MyFrame video').css('height',$('#MyFrame').height() + 'px');
-                $('body').append('<div id="WxAddPhone"><p>关注“ i 看球”<span id="id_copy" data-clipboard-text="i看球">[复制]</span>公众号，获取兑换码</p><p><input type="text" name="code"><button onclick="validCode();">看高清</button></p></div>');
+                $('body').append('<div id="WxAddPhone"><p>关注“ i 看球”<span id="id_copy" data-clipboard-text="i看球">[复制]</span>公众号，获取活动码</p><p><input type="text" name="code"><button onclick="validCode();">领红包</button></p></div>');
                 var btn = document.getElementById('id_copy');
                 var clipboard = new Clipboard(btn);
                 clipboard.on('success', function(e) {
@@ -562,22 +587,22 @@ function showCode() {
         });
 
     }else{ //如果不是手机
-        var wxAdd = document.getElementById("WxAdd");
-        if (!wxAdd) {
-            var imgUrl = window.cdn_url + "/img/pc/WechatIMG60.jpeg";
-            $('body').append('<div id="WxAdd"><p>输入高清码，看高清视频</p><p class="input"><input type="text" name="code"><button class="com" onclick="validCode();">确认</button></p><p><button class="get">获取</button><span class="close">收起</span></p><p class="app"><img src="' + imgUrl + '">关注“爱看球”公众号<br/>获取高清信号码</p><p class="show">切换高清信号</p></div>');
-
-            $('#WxAdd p.show').click(function(){
-                $('#WxAdd').removeClass('close');
-            })
-            $('#WxAdd button.get').click(function(){
-                $('#WxAdd p.app').css('display','block');
-            })
-            $('#WxAdd span.close').click(function(){
-                $('#WxAdd').addClass('close');
-                $('#WxAdd p.app').removeAttr('style');
-            })
-        }
+        // var wxAdd = document.getElementById("WxAdd");
+        // if (!wxAdd) {
+        //     var imgUrl = window.cdn_url + "/img/pc/WechatIMG60.jpeg";
+        //     $('body').append('<div id="WxAdd"><p>输入高清码，看高清视频</p><p class="input"><input type="text" name="code"><button class="com" onclick="validCode();">确认</button></p><p><button class="get">获取</button><span class="close">收起</span></p><p class="app"><img src="' + imgUrl + '">关注“爱看球”公众号<br/>获取高清信号码</p><p class="show">切换高清信号</p></div>');
+        //
+        //     $('#WxAdd p.show').click(function(){
+        //         $('#WxAdd').removeClass('close');
+        //     })
+        //     $('#WxAdd button.get').click(function(){
+        //         $('#WxAdd p.app').css('display','block');
+        //     })
+        //     $('#WxAdd span.close').click(function(){
+        //         $('#WxAdd').addClass('close');
+        //         $('#WxAdd p.app').removeAttr('style');
+        //     })
+        // }
     }
 }
 
@@ -638,6 +663,7 @@ function activeValid() {
                 if (json) {
                     if (json.code == 200) {
                         $('#CloseADCode').remove();
+                        CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
                         var param = getParam();
                         if (param.type && param.type == 9) {
                             maxTimeOut++;
@@ -700,7 +726,7 @@ function checkActive() {
             firstShowCode = true;
         },
         "error": function () {
-            showWXCode(text, code);
+            showWXCode(active_text, active_code);
         }
     });
 }
