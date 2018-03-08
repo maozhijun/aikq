@@ -1,12 +1,12 @@
 var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
 var ad_time = 5;
-var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
+var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 
 var WXCodeRun = false;
 var firstShowCode = false;
-var active_text = '加微信fs188fs与球迷赛事交流\n乐享高清精彩赛事';
-var active_code = '/img/pc/code.jpg';
+var active_text = '加微信【aikanqiu666】\n球迷乐享超清精彩赛事';
+var active_code = '/img/pc/i_wx_code.jpg';
 var valid_code = '';
 var show_ad = true;
 
@@ -61,12 +61,12 @@ function isWeiXin() {
 function LoadVideo () {
     // if (isWeiXin() && top.location.href.indexOf('aikq.cc') != -1) {
     //     //在这里写如果是微信的时候的状态
-    //     $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+    //     $('#MyFrame').html('<p class="noframe">请使用 <b>浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>aikanqiu666</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
     //     return;
     // }
     if (isPhone() && ad_time > 0) {
         //如果是手机，加载5秒广告
-        $('body').append('<div id="PhoneAD"><img src="' + ad_l + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
+        $('body').append('<div id="PhoneAD"><img src="' + ad_w + '"><p class="time">广告剩余：<b>5</b> 秒</p></div>');
         var ADRun = setInterval(function(){
             var Val = parseInt($('#PhoneAD b').html());
             if (Val > 0) {
@@ -201,7 +201,7 @@ function ShareWarm (Text) {
 	document.body.appendChild(P)
 }
 
-function ckmarqueeadv(){return '免费看球用爱看球：<a href="http://www.lg310.com" target="_blank">akq.cc</a> 进千人球迷群领红包 加微信<span>fs188fs</span>'}
+function ckmarqueeadv(){return '免费看球用爱看球：<a href="http://www.lg310.com" target="_blank">akq.cc</a> 进千人球迷群领红包 加微信<span>aikanqiu666</span>'}
 
 function CloseLoading () {
 	document.getElementById('MyFrame').innerHTML = '';
@@ -343,7 +343,7 @@ function PlayVideoShare (cid, type){
 				var match = data.match;
 				var show_live = match.show_live;
                 if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>aikanqiu666</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
