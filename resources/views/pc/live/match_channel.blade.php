@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>爱看球</title>
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=20180203">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=20180203">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
