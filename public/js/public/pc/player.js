@@ -238,9 +238,10 @@ function playHandler (){
     //PC时添加心跳请求
     if (!isPhone() && !WXCodeRun) {
         console.log(WXCodeRun);
+        checkActive();
         WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
             checkActive();
-        }, 5000);
+        }, 1 * 60 * 1000);
     }
 }
 
