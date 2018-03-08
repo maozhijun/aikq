@@ -2,8 +2,8 @@
 <html>
 <head>
     @yield('title')
-    <meta name="Keywords" content="免费直播,体育直播,足球直播,NBA直播,JRS,低调看直播,直播吧,CCTV5在线直播,CCTV5+在线直播">
-    <meta name="Description" content="爱看球——专注小联赛，专业为球迷和彩民服务的体育直播，赛事最全，线路最多。">
+    <meta name="Keywords" content="JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">
+    <meta name="Description" content="爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多">
     <meta charset="utf-8"/>
     <meta content="telephone=no,email=no" name="format-detection"/>
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">

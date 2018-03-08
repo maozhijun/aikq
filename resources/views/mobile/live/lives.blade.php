@@ -1,10 +1,13 @@
 @extends('mobile.layout.base')
+
 @section('title')
-    <title>爱看球</title>
+    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
 @endsection
+
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201802">
 @endsection
+
 @section('banner')
     <div id="Navigation">
         <div class="banner">
@@ -15,6 +18,7 @@
         </div>
     </div>
 @endsection
+
 @section('content')
     @foreach($matches as $time=>$match_array)
         <?php
@@ -37,6 +41,7 @@
     <div class="nolist separated">暂时无直播比赛</div>
     <p id="PC">更多赛事线路与特色功能，请登录电脑版！<br/>www.aikq.cc<button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
+
 @section('js')
     <script type="text/javascript">
         function changeTab(tab) {
