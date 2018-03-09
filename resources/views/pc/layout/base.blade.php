@@ -28,7 +28,7 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?20180203">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?2018020300001">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
@@ -36,6 +36,7 @@
 <div id="Navigation">
     <div class="inner">
         <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
+        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="/img/pc/WechatIMG60.jpeg"></p>
         {{--<a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">全部</a>--}}
         {{--<a class="column{{isset($check) && $check == 'bet' ? ' on' : ''}}" href="/betting.html">竞彩</a>--}}
         {{--<a class="column{{isset($check) && $check == 'foot' ? ' on' : ''}}" href="/football.html">足球</a>--}}

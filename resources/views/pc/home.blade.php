@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203030001">
 @endsection
 @section('content')
     <div id="Content">
@@ -84,7 +84,7 @@
     {{--</div>--}}
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201801261931"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=2018012619310001"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setADClose();

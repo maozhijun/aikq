@@ -776,6 +776,8 @@ class LiveController extends Controller
                 $phtml = $controller->matchPlayerChannel($request);
                 if (!empty($phtml)) {
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
+                    //暂时兼容旧链接
+                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 1 . ".html", $phtml);
                 }
             } else {
                 $html = $this->basketDetail($request, $mid, true);
@@ -793,6 +795,8 @@ class LiveController extends Controller
                 $phtml = $controller->matchPlayerChannel($request);
                 if (!empty($phtml)) {
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
+                    //暂时兼容旧链接
+                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 2 . ".html", $phtml);
                 }
             }
             if (is_numeric($ch_id)) {
