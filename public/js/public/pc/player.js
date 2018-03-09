@@ -11,7 +11,7 @@ var valid_code = '';
 var show_ad = true;
 
 $.ajax({
-    "url": "/m/ad_image/images.json?time=" + (new Date()).getTime(),
+    "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
     "success": function (json) {
         if (json) {
             if (json.l) ad_l = json.l;
@@ -712,7 +712,7 @@ function getParam() {
 
 function checkActive() {
     $.ajax({
-        "url": "/m/ad_image/active.json?time=" + (new Date()).getTime(),
+        "url": "/m/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code && (json.txt != active_text || json.code != active_code) ) {
                 active_text = json.txt;

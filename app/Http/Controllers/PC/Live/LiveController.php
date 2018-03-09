@@ -991,7 +991,7 @@ class LiveController extends Controller
     public function recCode(Request $request, $code) {
         Redis::set(self::LIVE_HD_CODE_KEY, $code);
         try {
-            $json = Storage::get('public/static/m/ad_image/images.json');
+            $json = Storage::get('public/static/m/dd_image/images.json');
             $json = json_decode($json, true);
         } catch (\Exception $e) {
         }
@@ -1000,7 +1000,7 @@ class LiveController extends Controller
         } else {
             $json = ['code'=>$code];
         }
-        Storage::disk('public')->put('/static/m/ad_image/images.json', json_encode($json));
+        Storage::disk('public')->put('/static/m/dd_image/images.json', json_encode($json));
     }
 
     /**
@@ -1051,7 +1051,7 @@ class LiveController extends Controller
             echo "参数错误";
             return;
         }
-        $save_patch = '/static/m/ad_image/';
+        $save_patch = '/static/m/dd_image/';
         switch ($type) {
             case 1:
                 $save_patch .= 'l/';
@@ -1106,7 +1106,7 @@ class LiveController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function getVideoAdImage(Request $request) {
-        $patch = '/public/static/m/ad_image';
+        $patch = '/public/static/m/dd_image';
         $default_img = '/img/pc/demo.jpg';
         $l_file = $this->getStorageFirstFile($patch.'/l');
         $d_file = $this->getStorageFirstFile($patch.'/d');
@@ -1125,7 +1125,7 @@ class LiveController extends Controller
      * 静态化广告文件
      */
     protected function staticAdImages() {
-        $patch = '/public/static/m/ad_image';
+        $patch = '/public/static/m/dd_image';
         $default_img = '/img/pc/demo.jpg';
         $l_file = $this->getStorageFirstFile($patch.'/l');
         $d_file = $this->getStorageFirstFile($patch.'/d');
@@ -1138,7 +1138,7 @@ class LiveController extends Controller
         $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
         $r_code = Redis::get(self::LIVE_HD_CODE_KEY);
         $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file, 'code'=>$r_code];
-        Storage::disk('public')->put('/static/m/ad_image/images.json', json_encode($json));
+        Storage::disk('public')->put('/static/m/dd_image/images.json', json_encode($json));
     }
 
     /**
@@ -1149,7 +1149,7 @@ class LiveController extends Controller
         $type = $request->input('type');
         if ($type == 99) {
             //清空活动内容
-            Storage::disk('public')->put('/static/m/ad_image/active.json', json_encode([]));
+            Storage::disk('public')->put('/static/m/dd_image/active.json', json_encode([]));
             return;
         }
         $active = $request->input('active');//json内容
@@ -1161,7 +1161,7 @@ class LiveController extends Controller
         if (!isset($active) || empty($active['code']) || empty($active['txt']) ) {
             return "参数错误";
         }
-        $save_patch = '/static/m/ad_image/active/';
+        $save_patch = '/static/m/dd_image/active/';
         $patch = $active['code'];
 
         $this->delStorageFiles('/public' . $save_patch);//删除图片
@@ -1196,7 +1196,7 @@ class LiveController extends Controller
 
         $file_patch = str_replace('/static', '', $file_patch);
         $active['code'] = $file_patch;
-        Storage::disk('public')->put('/static/m/ad_image/active.json', json_encode($active));
+        Storage::disk('public')->put('/static/m/dd_image/active.json', json_encode($active));
     }
 
     /**

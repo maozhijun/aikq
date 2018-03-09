@@ -85,7 +85,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=20180303"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030001"></script>
     <script>
         window.onload = function () {
             setPage();
