@@ -1195,6 +1195,10 @@ class LiveController extends Controller
         //保存图片 结束
 
         $file_patch = str_replace('/static', '', $file_patch);
+        $txt = $active['txt'];
+        $pattern = '[\n+\r*|\r+\n*]';
+        $txt = preg_replace($pattern, "\n", $txt);
+        $active['txt'] = $txt;
         $active['code'] = $file_patch;
         Storage::disk('public')->put('/static/m/dd_image/active.json', json_encode($active));
     }
