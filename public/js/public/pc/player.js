@@ -7,7 +7,7 @@ var WXCodeRun = false;
 var firstShowCode = false;
 var active_text = '加微信【aikanqiu666】\n球迷乐享超清精彩赛事';
 var active_code = '/img/pc/i_wx_code.jpg';
-var valid_code = '';
+var valid_code = '8888';
 var show_ad = true;
 
 $.ajax({
@@ -324,15 +324,15 @@ function countdown() {
 //获取播放地址
 function PlayVideoShare (cid, type){
     var url;
-    if (type == 9) {
-        url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
-    } else {
+    // if (type == 9) {
+    //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
+    // } else {
         if (window.isMobile) {
             url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
         } else {
             url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
         }
-    }
+    // }
     url = url + '?time=' + (new Date()).getTime();
 	$.ajax({
 		url: url,
@@ -356,12 +356,24 @@ function PlayVideoShare (cid, type){
                     if (data.ad && data.ad == 2) {
                         show_ad = false;
                     }
-                    if (data.type == 9 && !data.hd) {
-                        showCode();
-                    } else if (data.hd) {//已获取高清码
-                        show_ad = false;
-                        closeCode();
+                    //高清线路 处理
+                    if (data.type == 9 || (data.h_playurl && data.h_playurl.length > 0)) {
+                        var code = getCookie('LIVE_HD_CODE_KEY');
+                        if (code == valid_code) {//已获取高清码
+                            show_ad = false;
+                            closeCode();
+                            data.playurl = data.h_playurl;
+                        } else {
+                            showCode();
+                        }
                     }
+                    // if (data.type == 9 && !data.hd) {
+                    //     showCode();
+                    // } else if (data.hd) {//已获取高清码
+                    //     show_ad = false;
+                    //     closeCode();
+                    // }
+                    //高清线路 处理
 					if (data.type == 1) { //如果是365，直接播放，不使用链接
 						var ID = data.id;
 						LoadSports365(ID)
