@@ -33,10 +33,26 @@
             return 'http://';
         }
     }
+
+    function isMobileWithJS() {
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1; //android终端或者uc浏览器
+        var isiPhone = u.indexOf('iPhone') > -1; //是否为iPhone或者QQ HD浏览器
+        var isiPad = u.indexOf('iPad') > -1; //是否iPad
+        return (isAndroid || isiPhone || isiPad) ? '1' : '';
+    }
+
     //获取地址
     function PlayVideoShare(mid ,sport) {
         var host = '{{$host}}';
-        var url = '/match/live/url/match/' + mid + '_' + sport +'.json';
+        var url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
+        if (isMobileWithJS()){
+            url = '/match/live/url/match/m/' + mid + '_' + sport +'.json';
+        }
+        else{
+            url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
+        }
+        alert(url);
         $.ajax({
             url: url,
             type:'GET',

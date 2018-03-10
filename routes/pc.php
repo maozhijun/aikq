@@ -62,6 +62,8 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get("/match/live/url/channel/hd/{ch_id}", 'LiveController@getHLiveUrl');
     //match获取channel通用
     Route::get("/match/live/url/match/{id}", 'LiveController@getLiveUrlMatch');
+    Route::get("/match/live/url/match/pc/{mid}_{sport}", 'LiveController@getLiveUrlMatchPC');
+    Route::get("/match/live/url/match/m/{mid}_{sport}", 'LiveController@getLiveUrlMatchM');
 
     //分享
     Route::get("/player.html", 'LiveController@share');
