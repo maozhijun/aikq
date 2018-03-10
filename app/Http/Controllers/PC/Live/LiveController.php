@@ -792,9 +792,9 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 1 . ".html", $phtml);
                 }
                 //match.json
-                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,$sport);
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,1);
                 if (!empty($mjson)) {
-                    Storage::disk("public")->put("/match/live/url/match/" . $mid . "_" . $sport .".json", $mjson);
+                    Storage::disk("public")->put("/match/live/url/match/" . $mid . "_" . 1 .".json", $mjson);
                 }
             } else {
                 $html = $this->basketDetail($request, $mid, true);
@@ -814,6 +814,11 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
                     //暂时兼容旧链接
                     Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 2 . ".html", $phtml);
+                }
+                //match.json
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,2);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/" . $mid . "_" . 2 .".json", $mjson);
                 }
             }
             if (is_numeric($ch_id)) {
