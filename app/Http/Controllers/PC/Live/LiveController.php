@@ -453,6 +453,39 @@ class LiveController extends Controller
         return $server_output;
     }
 
+    public function getLiveUrlMatch2(Request $request,$mid,$sport,$isMobile){
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.($isMobile?1:0).'&sport='.$sport;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        return $server_output;
+    }
+
+    public function getLiveUrlMatchM(Request $request,$mid,$sport){
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile=1&sport='.$sport;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        return $server_output;
+    }
+
+    public function getLiveUrlMatchPC(Request $request,$mid,$sport){
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile=0&sport='.$sport;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        return $server_output;
+    }
+
     /**
      * 获取无插件playurl
      * @param Request $request
@@ -779,6 +812,15 @@ class LiveController extends Controller
                     //暂时兼容旧链接
                     Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 1 . ".html", $phtml);
                 }
+                //match.json
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,1,true);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . 1 .".json", $mjson);
+                }
+                $pjson = $controller->getLiveUrlMatch2(new Request(),$mid,1,false);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . 1 .".json", $pjson);
+                }
             } else {
                 $html = $this->basketDetail($request, $mid, true);
                 if (!empty($html)) {
@@ -797,6 +839,15 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
                     //暂时兼容旧链接
                     Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 2 . ".html", $phtml);
+                }
+                //match.json
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,2,true);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . 2 .".json", $mjson);
+                }
+                $pjson = $controller->getLiveUrlMatch2(new Request(),$mid,2,false);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . 2 .".json", $pjson);
                 }
             }
             if (is_numeric($ch_id)) {
