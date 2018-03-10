@@ -453,6 +453,18 @@ class LiveController extends Controller
         return $server_output;
     }
 
+    public function getLiveUrlMatch2(Request $request,$mid,$sport){
+        $ch = curl_init();
+        $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
+        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.$isMobile.'&sport='.$sport;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        return $server_output;
+    }
+
     /**
      * 获取无插件playurl
      * @param Request $request
@@ -778,6 +790,11 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
                     //暂时兼容旧链接
                     Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 1 . ".html", $phtml);
+                }
+                //match.json
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,$sport);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/" . $mid . "_" . $sport .".json", $mjson);
                 }
             } else {
                 $html = $this->basketDetail($request, $mid, true);

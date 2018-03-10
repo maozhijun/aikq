@@ -36,8 +36,9 @@
     //获取地址
     function PlayVideoShare(mid ,sport) {
         var host = '{{$host}}';
+        var url = '/match/live/url/match/' + mid + '_' + sport +'.json';
         $.ajax({
-            url: '/match/live/url/match/' + mid + '?sport=' + sport,
+            url: url,
             type:'GET',
             dataType:'json',
             success:function(data){
