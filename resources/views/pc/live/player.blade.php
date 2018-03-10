@@ -20,7 +20,7 @@
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300001"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300003"></script>
 
 <script type="text/javascript">
     function isMobileWithJS() {
