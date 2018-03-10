@@ -52,7 +52,6 @@
         else{
             url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
         }
-        alert(url);
         $.ajax({
             url: url,
             type:'GET',
