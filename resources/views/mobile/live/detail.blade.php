@@ -80,12 +80,12 @@
             {{--@endif--}}
     </div>
     <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/demo.jpg">
+        <img src="{{env('CDN_URL')}}/img/pc/code.jpg">
         <p>扫二维码进入群</p>
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030001"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030002"></script>
     <script>
         window.onload = function () {
             setPage();

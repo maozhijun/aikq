@@ -63,7 +63,7 @@ function videoActive() {
             }
         },
         "error": function () {
-            showWXCode(active_text, active_code);
+            showWXCode('扫二维码进入群', '/img/pc/code.jpg');
         }
     });
 }
