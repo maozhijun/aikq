@@ -1,6 +1,6 @@
 var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0;
-var ad_time = 5;
+var ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
 var WXCodeRun = false;
