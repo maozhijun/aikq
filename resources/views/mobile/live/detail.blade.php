@@ -80,7 +80,7 @@
             {{--@endif--}}
     </div>
     <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/i_wx_code.jpg">
+        <img src="{{env('CDN_URL')}}/img/pc/demo.jpg">
         <p>扫二维码进入群</p>
     </div>
 @endsection
