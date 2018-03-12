@@ -5,7 +5,7 @@ var ad_time = 0;
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
 var WXCodeRun = false;
 var firstShowCode = false;
-var active_text = '加微信【fs188fs】\n球迷乐享超清精彩赛事';
+var active_text = '加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888';
 var show_ad = true;
