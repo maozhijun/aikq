@@ -31,16 +31,16 @@
             <p>{{$match['aname']}}</p>
         </div>
     </div>
-    <div class="default" id="Video">
+    <div class="default" id="Video" style="height: 436px;">
         @if(!isset($live))
-            <p class="line">
+            <p class="line" style="display: none;">
                 <button disabled>线路一</button>
                 <button disabled>线路二</button>
                 <button disabled>线路三</button>
             </p>
         @else
             <?php $channels = $live['channels'];?>
-            <div class="line" style="visibility: hidden;">
+            <div class="line" style="display: none">
                 @foreach($channels as $index=>$channel)
                     <?php
                     if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)

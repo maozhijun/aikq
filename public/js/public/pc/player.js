@@ -749,8 +749,9 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
     CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
     var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
     var Coor = '0,2,-120,-62';
-    if (Text.indexOf('\n') != -1) {
-        Coor = '0,2,-120,-82';
+    if (Text.split('\n').length > 1) {
+        var len = Text.split('\n').length - 1;
+        Coor = '0,2,-120,' + (-62 - len * 20);
     }
     var WXCode = {
         name: 'AttWX', //该文本元件的名称，主要作用是关闭时需要用到
@@ -766,12 +767,12 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         pic: [Code,'/img/pc/icon_close_btn_video.png','temp/temp3.png'], //附加图片地址数组，可以增加多个图片
         pwh:[[120,120],[20,20],[1,1]],//图片缩放宽高，和上面图片一一对应
         pEvent:[['',''],['javascript','CloseWXCode()'],['close','']],//图片事件数组
-        pCoor: ['1,0,-60,-125','1,0,55,-140','2,2,-30,-30'], //图片坐标数组
+        pCoor:  ['0,2,-120,-120','2,0,0,-20','2,2,-30,-30'], //图片坐标数组
         pRadius: [10,0,0] //附加图片的弧度
         // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
     }
     CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
-    CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,0,0.4]]);
+    CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
 }
 
 function CloseWXCode () {
