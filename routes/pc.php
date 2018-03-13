@@ -101,5 +101,5 @@ Route::group(["namespace" => 'Live'],function (){
     Route::get('/live/ad/get-image', 'LiveController@getImage');//获取远程图片
     Route::get('/live/ad/images', 'LiveController@getVideoAdImage');//获取播放器广告图片
     Route::post('/live/ad/set-active', 'LiveController@setActive');//设置播放器活动
-   //Route::get('/invitation/{code}',"HomeController@invitation");
+    //Route::get('/invitation/{code}',"HomeController@invitation");
 });
