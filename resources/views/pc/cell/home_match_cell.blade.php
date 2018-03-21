@@ -26,7 +26,11 @@
                 @endif
             @endif
         @endforeach
-        @if($match['sport'] == 1 && isset($match['has_article']) && $match['has_article']) <a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Talent">专家推荐</a> @endif
+        @if($match['sport'] == 1)
+            <a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Talent">专家推荐</a>
+        @else
+            <a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html">专家推荐</a>
+        @endif
     </td>
     <td>@if(isset($match['isMatching']) && $match['isMatching'])<p class="live">直播中</p> @endif</td>
 </tr>
