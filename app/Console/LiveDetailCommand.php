@@ -48,13 +48,6 @@ class LiveDetailCommand extends Command
     {
         $controller = new LiveController();
         $controller->staticLiveDetail(new Request());
-
-//        $url = asset('/live/cache/match/detail');
-//        $ch = curl_init();
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_exec($ch);
-//        curl_close ($ch);
     }
 
     public static function flushLiveDetailHtml($match_id, $sport, $ch_id = '') {

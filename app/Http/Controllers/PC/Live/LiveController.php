@@ -703,20 +703,6 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticLiveDetail(Request $request) {
-//        $ch = curl_init();
-//        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-//        $server_output = curl_exec ($ch);
-//        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        if ($http_code >= 400) {
-//            echo '请求数据失败';
-//            return;
-//        }
-//        $json = json_decode($server_output,true);
-
         $cache = Storage::get('/public/static/json/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json) || !isset($json['matches'])) {
@@ -734,47 +720,11 @@ class LiveController extends Controller
                 }
                 $start_time = strtotime($time);//比赛时间
                 $flg_1 = $start_time >= $now && $now + 5 * 60 * 60 >= $start_time;//开赛前1小时
-                $flg_2 = $start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时
+                $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
                 if ( $flg_1 || $flg_2 ) {
                     //$match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
                     try {
                         LiveDetailCommand::flushLiveDetailHtml($mid, $match['sport']);
-//                        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-//                        if ($match['sport'] == 1) {
-//                            $html = $this->detail($request, $mid, true);
-//                            if (!empty($html)) {
-//                                Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-//                            }
-//
-//                            $mhtml = $mCon->footballdetail($request, $mid, true);
-//                            if (!empty($mhtml)) {
-//                                Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
-//                            }
-//
-//                            //每一个比赛的player页面生成
-//                            $controller = new LiveController(new Request());
-//                            $phtml = $controller->matchPlayerChannel($request);
-//                            if (!empty($phtml)) {
-//                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
-//                            }
-//                        } else {
-//                            $html = $this->basketDetail($request, $mid, true);
-//                            if (!empty($html)) {
-//                                Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-//                            }
-//                            $mhtml = $mCon->basketballDetail($request, $mid, true);
-//                            if (!empty($mhtml)) {
-//                                Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
-//                            }
-//
-//                            //每一个比赛的player页面生成
-//                            $controller = new LiveController(new Request());
-//                            $phtml = $controller->matchPlayerChannel($request);
-//                            if (!empty($phtml)) {
-//                                Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
-//                            }
-//                        }
-                        //刷新接口
                     } catch (\Exception $exception) {
                         dump($exception);
                     }
@@ -879,7 +829,7 @@ class LiveController extends Controller
                 $now = time();
 
                 $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
-                $flg_2 = $m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
+                $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
                 if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
                         //echo $match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
