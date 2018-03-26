@@ -772,7 +772,9 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
     }
     CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
-    CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
+    setTimeout(function(){
+        CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
+    },100);
 }
 
 function CloseWXCode () {
