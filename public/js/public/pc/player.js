@@ -748,10 +748,10 @@ function checkActive() {
 function showWXCode (Text,Code) { //文字和二维码图片地址，文字可以使用\n换行，最多两行。
     CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
     var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
-    var Coor = '0,2,-120,-62';
+    var Coor = '0,2,130,-62';
     if (Text.split('\n').length > 1) {
         var len = Text.split('\n').length - 1;
-        Coor = '0,2,-120,' + (-62 - len * 20);
+        Coor = '0,2,130,' + (-62 - len * 20);
     }
     var WXCode = {
         name: 'AttWX', //该文本元件的名称，主要作用是关闭时需要用到
@@ -772,9 +772,9 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
     }
     CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
-    setTimeout(function(){
-        CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
-    },100);
+    // setTimeout(function(){
+    //     CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
+    // },100);
 }
 
 function CloseWXCode () {

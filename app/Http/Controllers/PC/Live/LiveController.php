@@ -370,6 +370,29 @@ class LiveController extends Controller
     }
 
     /**
+     * 自建直播终端
+     * @param Request $request
+     * @param $id
+     * @param $immediate
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function otherDetail(Request $request, $id, $immediate = false) {
+        $ch = curl_init();
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id" . '.json';
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        return view('pc.live.video', $json);
+    }
+
+    /**
      * 播放器channel
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

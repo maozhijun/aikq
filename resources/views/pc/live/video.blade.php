@@ -3,7 +3,7 @@
     <div id="Content">
         <div class="inner">
             <div id="Info">
-                <p class="name">{{$match['lname']}}直播：{{$match['hname']}}&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</p>
+                <p class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</p>@endif
                 <p class="line">
                 <?php $channels = $live['channels']; ?>
                     @foreach($channels as $index=>$channel)
