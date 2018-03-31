@@ -81,7 +81,7 @@ function LoadVideo () {
 }
 
 function LoadCK (Link){ //m3u8
-    if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC()) {
+    if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC() && navigator.userAgent.indexOf('Safari') == -1) {
         Link = encodeURIComponent(Link)
     }
     var flashvars={
