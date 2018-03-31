@@ -33,7 +33,7 @@
 </script>
 
 <script type="text/javascript">
-    <?php $host = '//localhost:9090'; $cnd = ''; ?>
+    <?php //$host = '//localhost:9090'; $cnd = ''; ?>
     function ShareWarm (Text) {
         var P = document.createElement('p');
         P.id = 'ShareWarm';
