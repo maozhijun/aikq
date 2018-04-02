@@ -16,24 +16,39 @@ use Illuminate\Support\Facades\Storage;
 
 class LiveController extends Controller
 {
+    /////////////////////////////////////  静态化列表 开始   /////////////////////////////////////
+    /**
+     * 静态化wap全部列表文件
+     * @param Request $request
+     */
     public function staticIndex(Request $request){
         $this->basketballLivesStatic($request);
-        $this->footballLivesStatic($request);
-        $this->livesStatic($request);
+        //$this->footballLivesStatic($request);
+        $this->livesStatic($request);//静态化首页/足球列表/lives列表
+        $this->otherLivesStatic($request);
     }
 
+    /**
+     * 静态化 wap 首页
+     * @param Request $request
+     */
     public function livesStatic(Request $request){
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
                 Storage::disk("public")->put("/static/m/lives.html",$html);
                 Storage::disk("public")->put("/static/m/index.html",$html);
+                Storage::disk("public")->put("/static/m/football.html",$html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
     }
 
+    /**
+     * 静态化wap篮球列表
+     * @param Request $request
+     */
     public function basketballLivesStatic(Request $request){
         $html = $this->basketballLives(new Request());
         try {
@@ -45,6 +60,10 @@ class LiveController extends Controller
         }
     }
 
+    /**
+     * 静态化wap足球列表
+     * @param Request $request
+     */
     public function footballLivesStatic(Request $request){
         $html = $this->footballLives(new Request());
         try {
@@ -56,12 +75,35 @@ class LiveController extends Controller
         }
     }
 
+    /**
+     * 静态化wap足球列表
+     * @param Request $request
+     */
+    public function otherLivesStatic(Request $request){
+        $html = $this->otherLives(new Request());
+        try {
+            if (!empty($html)) {
+                Storage::disk("public")->put("/static/m/other.html",$html);
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
+    }
+
+    /////////////////////////////////////  静态化列表 结束   /////////////////////////////////////
+
+    /////////////////////////////////////  wap列表 开始   /////////////////////////////////////
+    /**
+     * 足球列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function lives(Request $request) {
         $ch = curl_init();
         $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         $server_output = curl_exec ($ch);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
@@ -76,6 +118,11 @@ class LiveController extends Controller
         return view('mobile.live.lives', $json);
     }
 
+    /**
+     * 足球列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function footballLives(Request $request) {
         $ch = curl_init();
         $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
@@ -96,6 +143,11 @@ class LiveController extends Controller
         return view('mobile.live.lives', $json);
     }
 
+    /**
+     * 篮球列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function basketballLives(Request $request) {
         $ch = curl_init();
         $url = env('LIAOGOU_URL')."aik/basketballLivesJson?isMobile=1";
@@ -117,10 +169,38 @@ class LiveController extends Controller
     }
 
     /**
+     * 篮球列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function otherLives(Request $request) {
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."aik/otherLivesJson?isMobile=1";
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
+        $json = json_decode($server_output,true);
+        if (is_null($json)) {
+            return;
+        }
+        $json['type'] = 'other';
+        return view('mobile.live.lives', $json);
+    }
+
+    /////////////////////////////////////  wap列表 结束   /////////////////////////////////////
+
+    /////////////////////////////////////  wap终端 开始   /////////////////////////////////////
+    /**
      * 直播终端
      * @param Request $request
      * @param $id
-     * @param $immediate 是否即时获取数据
+     * @param bool $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function footballdetail(Request $request, $id, $immediate = false) {
@@ -143,7 +223,7 @@ class LiveController extends Controller
      * 直播终端
      * @param Request $request
      * @param $id
-     * @param $immediate 是否即时获取数据
+     * @param bool $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function basketballDetail(Request $request, $id, $immediate = false) {
@@ -161,6 +241,26 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         return view('mobile.live.detail', $json);
     }
+
+    /**
+     * 自建赛事直播终端
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function otherDetail(Request $request, $id) {
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id?isMobile=1";
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        return view('mobile.live.detail', $json);
+    }
+
+    /////////////////////////////////////  wap终端 结束   /////////////////////////////////////
 
     /**
      * 获取滚球赔率
@@ -544,13 +644,16 @@ class LiveController extends Controller
      * @param $sport
      */
     public function liveDetailStatic(Request $request, $mid, $sport) {
-        if (is_numeric($mid) && is_numeric($sport) && in_array($sport, [1, 2])) {
+        if (is_numeric($mid) && is_numeric($sport) && in_array($sport, [1, 2, 3])) {
             if ($sport == 1) {
                 $html = $this->footballdetail($request, $mid);
                 Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
-            } else {
+            } else if ($sport == 2) {
                 $html = $this->basketballDetail($request, $mid);
                 Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
+            } else if ($sport == 3) {
+                $html = $this->otherDetail($request, $mid);
+                Storage::disk("public")->put("/static/m/live/other/" . $mid . ".html", $html);
             }
         }
     }

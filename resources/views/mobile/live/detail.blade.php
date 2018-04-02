@@ -6,30 +6,55 @@
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=201803030001">
 @endsection
 @section('banner')
+    <?php
+        if ($match['sport'] == 2) {
+            $href = "/m/basketball.html";
+        } else if ($match['sport'] == 3) {
+            $href = "/m/other.html";
+        } else {
+            $href = "/m/football.html";
+        }
+    ?>
     <div id="Navigation">
-        <div class="banner"><a class="home" href="{{$match['sport'] == 2 ? '/m/basketball.html' : '/m/'}}"></a>比赛直播</div>
+        <div class="banner"><a class="home" href="{{$href}}"></a>比赛直播</div>
     </div>
 @endsection
 @section('content')
     <div class="default" id="Info">
-        <div class="team host">
-            <img src="{{$host_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_team_default.png"' >
-            <p>{{$match['hname']}}</p>
-        </div>
-        <div class="score">
-            @if($show_live || $match['status'] == -1)
-            <p style="display: {{$show_live ? 'none' : 'block'}};">
-                <span class="host">{{$match['hscore']}}</span>
-                <span class="away">{{$match['ascore']}}</span>
-            </p>
-            <button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>
-            @else <b>VS</b>
+        @if($match['sport'] == 3)
+            @if(isset($match['type']) && $match['type'] == 1)
+                <p class="other">{{$match['hname']}}</p>
+            @else
+                <div class="team host">
+                    <img src="{{$host_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"' >
+                    <p>{{$match['hname']}}</p>
+                </div>
+                <div class="score"><b>VS</b></div>
+                <div class="team away">
+                    <img src="{{$away_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"' >
+                    <p>{{$match['aname']}}</p>
+                </div>
             @endif
-        </div>
-        <div class="team away">
-            <img src="{{$away_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_team_default.png"' >
-            <p>{{$match['aname']}}</p>
-        </div>
+        @else
+            <div class="team host">
+                <img src="{{$host_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"' >
+                <p>{{$match['hname']}}</p>
+            </div>
+            <div class="score">
+                @if($show_live || $match['status'] == -1)
+                <p style="display: {{$show_live ? 'none' : 'block'}};">
+                    <span class="host">{{$match['hscore']}}</span>
+                    <span class="away">{{$match['ascore']}}</span>
+                </p>
+                <button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>
+                @else <b>VS</b>
+                @endif
+            </div>
+            <div class="team away">
+                <img src="{{$away_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"' >
+                <p>{{$match['aname']}}</p>
+            </div>
+        @endif
     </div>
     <div class="default" id="Video" style="height: 436px;">
         @if(!isset($live))

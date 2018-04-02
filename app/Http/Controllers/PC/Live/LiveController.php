@@ -772,10 +772,7 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
                 }
 
-                $mhtml = $mCon->footballdetail($request, $mid, true);
-                if (!empty($mhtml)) {
-                    Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
-                }
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
                 $phtml = $this->matchPlayerChannel($request);
@@ -799,10 +796,7 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                 }
 
-                $mhtml = $mCon->basketballDetail($request, $mid, true);
-                if (!empty($mhtml)) {
-                    Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
-                }
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
                 $controller = new LiveController(new Request());
@@ -826,7 +820,8 @@ class LiveController extends Controller
                 if (!empty($html)) {
                     Storage::disk("public")->put("/live/other/". $mid. ".html", $html);
                 }
-                //wap 页面静态化 TODO
+
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
                 $phtml = $this->matchPlayerChannel($request);

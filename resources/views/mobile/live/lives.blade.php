@@ -14,6 +14,7 @@
             <p class="type">
                 <button onclick="changeTab('football')" @if(!isset($type) || $type == 'football') class="on" @endif id="Football" name="type">足球</button>
                 <button onclick="changeTab('basketball')" @if(isset($type) && $type == 'basketball') class="on" @endif id="Basketball" name="type">篮球</button>
+                <button onclick="changeTab('other')" @if(isset($type) && $type == 'other') class="on" @endif id="Other" name="type">其他</button>
             </p>
         </div>
     </div>
@@ -28,13 +29,27 @@
         <div class="default">
             <p class="day">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
             @foreach($match_array as $match)
-                <a href="{{str_replace('https://', 'http://', asset('m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'))}}">
-                    <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
-                    <p class="team host">{{$match['hname']}}</p>
-                    <p class="vs">VS</p>
-                    <p class="team away">{{$match['aname']}}</p>
-                    @if($match['isMatching']) <p class="live">直播中</p> @endif
-                </a>
+                @if($match['sport'] == 3)
+                    <a href="{{str_replace('https://', 'http://', asset('m/live/other/' . $match['mid'].'.html'))}}">
+                        <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
+                        @if(isset($match['type']) && $match['type'] == 1)
+                            <p class="other">{{$match['hname']}}</p>
+                        @else
+                            <p class="team host">{{$match['hname']}}</p>
+                            <p class="vs">VS</p>
+                            <p class="team away">{{$match['aname']}}</p>
+                        @endif
+                        @if($match['isMatching']) <p class="live">直播中</p> @endif
+                    </a>
+                @else
+                    <a href="{{str_replace('https://', 'http://', asset('m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'))}}">
+                        <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
+                        <p class="team host">{{$match['hname']}}</p>
+                        <p class="vs">VS</p>
+                        <p class="team away">{{$match['aname']}}</p>
+                        @if($match['isMatching']) <p class="live">直播中</p> @endif
+                    </a>
+                @endif
             @endforeach
         </div>
     @endforeach
@@ -54,6 +69,9 @@
                     break;
                 case 'basketball':
                     window.location.replace('/m/basketball.html');
+                    break;
+                case 'other':
+                    window.location.replace('/m/other.html');
                     break;
             }
         }
