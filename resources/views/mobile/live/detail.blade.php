@@ -16,7 +16,7 @@
         }
     ?>
     <div id="Navigation">
-        <div class="banner"><a class="home" href="{{$href}}"></a>比赛直播</div>
+        <div class="banner"><a class="home" href="{{$href}}"></a>爱看球</div>
     </div>
 @endsection
 @section('content')
