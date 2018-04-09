@@ -35,4 +35,26 @@ class ShareController extends Controller
 
         return $server_output;
     }
+
+    public function url(Request $request) {
+        $all = $request->all();
+        $param = '?intf=aik';
+        if (isset($all)) {
+            foreach ($all as $key=>$value) {
+                $param .= '&' . $key . '=' . $value;
+            }
+        }
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."/spread/api/matchListUrl.html" . $param;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($code >= 400 && $code <= 599) {
+            return "您访问的链接出错或者不存在。";
+        }
+
+        return $server_output;
+    }
 }
