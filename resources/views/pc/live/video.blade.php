@@ -5,31 +5,33 @@
             <div id="Info">
                 <p class="name">{{$match['lname']}}直播：{{$match['hname']}}&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</p>
                 <p class="line">
-                <?php $channels = $live['channels']; ?>
-                    @foreach($channels as $index=>$channel)
-                        <?php
-                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-                        else if($channel['type'] == 99){
-                            if ($channel['player'] == 11){
+                    <?php $channels = $live['channels']; ?>
+                    @if(isset($channels))
+                        @foreach($channels as $index=>$channel)
+                            <?php
+                            if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
                                 $preUrl = str_replace("https://","http://",env('APP_URL'));
-                            }
-                            else{
-                                if (stristr($channel['link'],'player.pptv.com')){
+                            else if($channel['type'] == 99){
+                                if ($channel['player'] == 11){
                                     $preUrl = str_replace("https://","http://",env('APP_URL'));
                                 }
                                 else{
-                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
+                                    if (stristr($channel['link'],'player.pptv.com')){
+                                        $preUrl = str_replace("https://","http://",env('APP_URL'));
+                                    }
+                                    else{
+                                        $preUrl = str_replace("http://","https://",env('APP_URL'));
+                                    }
                                 }
+                            } else {
+                                $preUrl = str_replace("http://","https://",env('APP_URL'));
                             }
-                        } else {
-                            $preUrl = str_replace("http://","https://",env('APP_URL'));
-                        }
-                        $link = $preUrl.'/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                        ?>
-                        {{--<button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$link}}', this)" @else onclick="changeShare('{{$link}}', this);" @endif >{{$channel['name']}}</button>--}}
-                        <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
-                    @endforeach
+                            $link = $preUrl.'/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                            ?>
+                            {{--<button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$link}}', this)" @else onclick="changeShare('{{$link}}', this);" @endif >{{$channel['name']}}</button>--}}
+                            <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+                        @endforeach
+                    @endif
                     {{--<span>如视频出现卡顿或停止播放，请点击<a href="javascript:(function () {document.getElementById('Frame').src = document.getElementById('Frame').src;})();">[刷新]</a></span>--}}
                 </p>
             </div>
@@ -38,7 +40,7 @@
                 @elseif($show_live)
                 @elseif($match['status'] == -1 && !$show_live)
                     {{--<p class="noframe"><img src="/img/pc/icon_matchOver.png">比赛已结束</p>--}}
-            @endif
+                @endif
                 <div class="ADWarm_RU" style="display: none;"><p onclick="document.getElementById('Video').removeChild(this.parentNode)">· 我知道了 ·</p></div>
             </div>
             <div class="share" id="Share">
@@ -53,16 +55,16 @@
     </div>
     <div class="clear"></div>
     {{--<div class="adflag left">--}}
-        {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-        {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-        {{--<br>--}}
-        {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
+    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
+    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
+    {{--<br>--}}
+    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
     {{--</div>--}}
     {{--<div class="adflag right">--}}
-        {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-        {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-        {{--<br>--}}
-        {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
+    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
+    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
+    {{--<br>--}}
+    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
     {{--</div>--}}
 @endsection
 @section('js')
