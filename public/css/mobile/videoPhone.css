@@ -8,10 +8,12 @@
 	padding-top: 10px; margin-bottom: 0;
 	border: none;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	-webkit-justify-content: center; -moz-justify-content: center; -ms-justify-content: center; -o-justify-content: center; justify-content: center;
 }
 #Info .score{
 	width: 150px;
-	padding-top: 60px;
+	margin-top: -60px;
 	font-size: 40px; line-height: 60px; text-align: center;
 }
 #Info .score p{
@@ -26,7 +28,7 @@
 	content: '-';
 }
 #Info .score p span{
-	width: 46%;
+	width: 47%;
 	display: inline-block;
 }
 #Info .score p span.host{
@@ -46,6 +48,10 @@
 	margin-top: 36px; padding: 0 10px;
 	background: #fff;
 	font-size: 24px; color: #999;
+}
+#Info p.other{
+	padding-bottom: 10px;
+	font-size: 40px; line-height: 60px; text-align: center;
 }
 
 #Info .team{
@@ -72,7 +78,7 @@
 }
 
 #Video{
-	height: 496px;
+	max-height: 496px;
 	border: none;
 	overflow: hidden;
 }
@@ -104,11 +110,6 @@
 	width: 100%; height: 420px;
 	background: #333;
 	display: block;
-}
-#Video .outPlay{
-	width: 100%; height: 420px;
-	background: url(../../img/customer2/bg_video.jpg) no-repeat center; background-size: cover;
-	position: relative;
 }
 #Video .outPlay:before{
 	background: rgba(0,0,0,0.5);
@@ -343,11 +344,6 @@ div#Event dl dt{
 div#Event dl dt.end{
 	color: #bdbdbd;
 }
-div#Event dl dt:first-child{
-	padding-bottom: 72px;
-	background: url(../../img/customer2/icon_video_end.png) no-repeat center bottom 24px; background-size: 30px;
-	top: -92px;
-}
 div#Event dl dt:first-child:before{
 	width: 18px; height: 18px;
 	margin-left: -9px;
@@ -355,11 +351,6 @@ div#Event dl dt:first-child:before{
 	background: #d8d8d8;
 	position: absolute; top: 81px; left: 50%;
 	content: '';
-}
-div#Event dl dt:last-child{
-	padding-top: 72px;
-	background: url(../../img/customer2/icon_video_begin.png) no-repeat center 24px; background-size: 30px;
-	bottom: -92px;
 }
 div#Event dl dt:last-child:before{
 	width: 18px; height: 18px;
@@ -439,7 +430,6 @@ div#Event dl dd.away ul li img{
 	left: 47px;
 }
 
-
 /*微信*/
 #WX{
 	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
@@ -471,21 +461,3 @@ div#Event dl dd.away ul li img{
 		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
 	}
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

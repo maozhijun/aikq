@@ -54,6 +54,9 @@
 @yield('bottom')
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="{{env('CND_URL')}}/js/pc/jquery_191.js"></script>
+<![endif]-->
 @yield('js')
 <script>
     var _hmt = _hmt || [];

@@ -33,6 +33,7 @@ Route::group(["namespace" => 'Live'], function () {
 
     Route::get('/live/football/{mid}.html',"LiveController@detail");//足球直播页
     Route::get('/live/basketball/{mid}.html',"LiveController@basketDetail");//篮球直播页
+    Route::get('/live/other/{mid}.html',"LiveController@otherDetail");//自建赛事直播页
 
     Route::get('/live/player.html',"LiveController@player");//播放器
     Route::get('/live/player/player-{cid}-{type}.html',"LiveController@player");//播放器 静态化

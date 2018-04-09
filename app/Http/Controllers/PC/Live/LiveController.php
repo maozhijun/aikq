@@ -370,6 +370,29 @@ class LiveController extends Controller
     }
 
     /**
+     * 自建直播终端
+     * @param Request $request
+     * @param $id
+     * @param $immediate
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function otherDetail(Request $request, $id, $immediate = false) {
+        $ch = curl_init();
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id" . '.json';
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        return view('pc.live.video', $json);
+    }
+
+    /**
      * 播放器channel
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -749,55 +772,70 @@ class LiveController extends Controller
                     Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
                 }
 
-                $mhtml = $mCon->footballdetail($request, $mid, true);
-                if (!empty($mhtml)) {
-                    Storage::disk("public")->put("/static/m/live/football/". $mid. ".html", $mhtml);
-                }
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
-                $controller = new LiveController(new Request());
-                $phtml = $controller->matchPlayerChannel($request);
+                $phtml = $this->matchPlayerChannel($request);
                 if (!empty($phtml)) {
-                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 1 . ".html", $phtml);
+                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
                     //暂时兼容旧链接
-                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 1 . ".html", $phtml);
+                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . $sport . ".html", $phtml);
                 }
                 //match.json
-                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,1,true);
+                $mjson = $this->getLiveUrlMatch2(new Request(),$mid,$sport,true);
                 if (!empty($mjson)) {
-                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . 1 .".json", $mjson);
+                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . $sport .".json", $mjson);
                 }
-                $pjson = $controller->getLiveUrlMatch2(new Request(),$mid,1,false);
+                $pjson = $this->getLiveUrlMatch2(new Request(),$mid,$sport,false);
                 if (!empty($mjson)) {
-                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . 1 .".json", $pjson);
+                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . $sport .".json", $pjson);
                 }
-            } else {
+            } else if($sport == 2){
                 $html = $this->basketDetail($request, $mid, true);
                 if (!empty($html)) {
                     Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
                 }
 
-                $mhtml = $mCon->basketballDetail($request, $mid, true);
-                if (!empty($mhtml)) {
-                    Storage::disk("public")->put("/static/m/live/basketball/". $mid. ".html", $mhtml);
-                }
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
                 $controller = new LiveController(new Request());
                 $phtml = $controller->matchPlayerChannel($request);
                 if (!empty($phtml)) {
-                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . 2 . ".html", $phtml);
+                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
                     //暂时兼容旧链接
-                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . 2 . ".html", $phtml);
+                    Storage::disk("public")->put("/live/spPlayer/match_channel-" . $mid . '-' . $sport . ".html", $phtml);
                 }
                 //match.json
-                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid,2,true);
+                $mjson = $controller->getLiveUrlMatch2(new Request(),$mid, $sport,true);
                 if (!empty($mjson)) {
-                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . 2 .".json", $mjson);
+                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . $sport .".json", $mjson);
                 }
-                $pjson = $controller->getLiveUrlMatch2(new Request(),$mid,2,false);
+                $pjson = $controller->getLiveUrlMatch2(new Request(),$mid, $sport,false);
                 if (!empty($mjson)) {
-                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . 2 .".json", $pjson);
+                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . $sport .".json", $pjson);
+                }
+            } else if ($sport == 3) {
+                $html = $this->otherDetail($request, $mid, true);
+                if (!empty($html)) {
+                    Storage::disk("public")->put("/live/other/". $mid. ".html", $html);
+                }
+
+                $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
+
+                //每一个比赛的player页面生成
+                $phtml = $this->matchPlayerChannel($request);
+                if (!empty($phtml)) {
+                    Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
+                }
+                //match.json
+                $mjson = $this->getLiveUrlMatch2(new Request(),$mid, $sport,true);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/m/" . $mid . "_" . $sport .".json", $mjson);
+                }
+                $pjson = $this->getLiveUrlMatch2(new Request(),$mid, $sport,false);
+                if (!empty($mjson)) {
+                    Storage::disk("public")->put("/match/live/url/match/pc/" . $mid . "_" . $sport .".json", $pjson);
                 }
             }
             if (is_numeric($ch_id)) {
