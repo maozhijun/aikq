@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Subject\DetailCommand;
+use App\Console\Subject\LeaguesJsonCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -26,6 +28,9 @@ class Kernel extends ConsoleKernel
         LivesJsonCommand::class,//列表json静态化
         DBSpreadCommand::class,
         TTzbPlayerJsonCommand::class,//天天直播 （开始前1小时 - 开始后 3小时的比赛） 线路静态化
+
+        DetailCommand::class,//subject 专题终端静态化
+        LeaguesJsonCommand::class,//subject 专题列表json静态化
     ];
 
     /**
@@ -55,6 +60,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('db_spread_cache:run')->hourlyAt(45);
 
         $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
+
+        //专题静态化
+        $schedule->command('subject_detail_cache:run')->everyTenMinutes();//->everyMinute();//10分钟刷新一次专题终端
+        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
     }
 
     /**

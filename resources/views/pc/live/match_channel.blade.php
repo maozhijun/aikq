@@ -16,6 +16,9 @@
 </iframe>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
+<![endif]-->
 <script type="text/javascript">
     //获取是S还是非S
     function GetHttp () {

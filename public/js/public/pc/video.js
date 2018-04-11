@@ -20,14 +20,16 @@ function LoadVideo () {
 
 	if (NowBtn && NowBtn != '' && $('#Info .line button:eq(' + parseInt(NowBtn) + ')')){
 		$('#Info .line button:eq(' + parseInt(NowBtn) + ')').trigger("click");
-	}else if (localStorage.getItem('Video_' + MatchID)) {
-		var Local = JSON.parse(localStorage.getItem('Video_' + MatchID));
-		if ($('#Info .line button:eq(' + Local.btn + ')')) {
-			$('#Info .line button:eq(' + Local.btn + ')').trigger("click");
-		}else{
-			$("#Info .line button:first").trigger("click");	
-		}
-	}else{
+	}else
+	// if (localStorage && localStorage.getItem('Video_' + MatchID)) {
+	// 	var Local = JSON.parse(localStorage.getItem('Video_' + MatchID));
+	// 	if ($('#Info .line button:eq(' + Local.btn + ')')) {
+	// 		$('#Info .line button:eq(' + Local.btn + ')').trigger("click");
+	// 	}else{
+	// 		$("#Info .line button:first").trigger("click");
+	// 	}
+	// }else
+	{
 		$("#Info .line button:first").trigger("click");
 	}
 }
@@ -51,7 +53,9 @@ function ChangeChannel (Link,obj) {
 		'btn': BtnNum
 	}
 
-	localStorage.setItem('Video_' + MatchID,JSON.stringify(Target));
+    // if(localStorage) {
+    //     localStorage.setItem('Video_' + MatchID, JSON.stringify(Target));
+    // }
 
 	if (!document.getElementById('Frame')) {
 		var Iframe = document.createElement('iframe');

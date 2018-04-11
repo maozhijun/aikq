@@ -44,6 +44,12 @@
         @yield('nav_inner')
     </div>
 </div>
+<?php //$subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
+@if(isset($subjects) && count($subjects) > 0)
+<div id="Link">
+    @foreach($subjects as $id=>$s_name) <a href="/live/subject/{{$id}}.html">{{$s_name}}</a> @endforeach
+</div>
+@endif
 @yield('content')
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
@@ -55,7 +61,7 @@
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!--[if lte IE 8]>
-<script type="text/javascript" src="{{env('CND_URL')}}/js/pc/jquery_191.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 @yield('js')
 <script>

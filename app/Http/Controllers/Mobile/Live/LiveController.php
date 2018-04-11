@@ -646,10 +646,10 @@ class LiveController extends Controller
     public function liveDetailStatic(Request $request, $mid, $sport) {
         if (is_numeric($mid) && is_numeric($sport) && in_array($sport, [1, 2, 3])) {
             if ($sport == 1) {
-                $html = $this->footballdetail($request, $mid);
+                $html = $this->footballdetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
             } else if ($sport == 2) {
-                $html = $this->basketballDetail($request, $mid);
+                $html = $this->basketballDetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
             } else if ($sport == 3) {
                 $html = $this->otherDetail($request, $mid);

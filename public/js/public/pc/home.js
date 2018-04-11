@@ -27,6 +27,33 @@ function setPage(){
 	}
 }
 
+function setPage(){
+    $('#TableHead').width($('#Show').width());
+
+    var BodyTh = $('#Show tbody th');
+    $('#TableHead tbody th').html($('#Show tbody th:first').html())
+    for (var i = 0; i < BodyTh.length; i++) {
+        TopArr = TopArr.concat($('#Show tbody th:eq(' + i + ')').parent().offset().top - 100);
+    }
+
+    if (canSaveIE()) {
+        $('#Navigation .inner').append('<a class="save" href="javascript:void(0)">【收藏本站】</a>');
+        $('#Navigation a.save').click(function(e) {
+            var href = 'http://www.aikq.cc', title = '爱看球，世界各大体育赛事直播！';
+            try{
+                if(window.sidebar){
+                    sidebar.addPanel(title, href, "");
+                }else{
+                    external.addFavorite(href, title);
+                }
+            }catch(e){
+                alert("加入收藏失败，请按Ctrl+D进行添加");
+            }
+            return false;
+        });
+    }
+}
+
 function ChangeMoreTV () {
 	if (document.getElementById('MoreTV').style.display == 'block') {
 		document.getElementById('MoreTV').style.display = 'none';
@@ -48,6 +75,17 @@ function setADClose () {
 	
 }
 
+function canSaveIE () {
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+    if(isIE || isIE11) {
+        return true;
+    }else{
+        return false;
+    }
+}
 
 $(window).resize(function() {
 	$('#TableHead').width($('#Show').width());

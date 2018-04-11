@@ -1,0 +1,325 @@
+﻿
+#Content:after{
+	display: block;
+	clear: both;
+	content: '';
+}
+
+#Info{
+	min-height: 150px;
+	padding: 13px 50px 0 344px; margin-bottom: 10px;
+	border-bottom: 8px solid #009944; border-radius: 20px 20px 0 0;
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#44001838,endColorstr=#44001838)\0/; background: rgba(0, 24, 56, 0.8);
+	position: relative;
+}
+#Info .imgbox{
+	width: 80px; height: 80px;
+	border-radius: 50%; border: 4px solid #009944;
+	background: #fff;
+	line-height: 80px; text-align: center;
+	position: absolute; top: 25px; left: 130px;
+	overflow: hidden;
+}
+#Info .imgbox:before{
+	width: 0px; height: 80px;
+	vertical-align: middle;
+	display: inline-block;
+	content: '';
+}
+#Info .imgbox img{
+	max-height: 80px; max-width: 80px;
+	vertical-align: middle;
+}
+#Info p.name{
+	width: 300px;
+	font-size: 22px; line-height: 22px; text-align: center; color: #fff;
+	position: absolute; top: 128px; left: 22px;
+}
+#Info .con{
+	min-height: 118px;
+	padding: 16px 20px;
+	border: 1px solid #009944; border-bottom: none; border-radius: 20px 20px 0 0;
+	font-size: 12px; line-height: 18px; color: #c6c6c6;
+	overflow-x: hidden; overflow-y: auto;
+}
+#Info .con p{
+	text-indent: 24px;
+}
+#Info.bk, #Info.bk .imgbox, #Info.bk .con{
+	border-color: #d54e3f;
+}
+
+.right_part{
+	width: 220px;
+	float: right;
+}
+.left_part{
+	margin-right: 240px;
+}
+
+/*资讯情报*/
+#News{
+	margin-bottom: 20px;
+}
+#News ul{
+	padding: 20px 12px 20px 0;
+	background: #fff;
+}
+#News ul a.li{
+	height: 12px;
+	padding-left: 15px;
+	background: url(/img/pc/icon_trangle_n@2x.png) no-repeat 4px center; background: url(/img/pc/icon_trangle_n.png) no-repeat 4px center\0/; background-size: 10px;
+	font-size: 12px; line-height: 12px;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	display: block;
+}
+#News ul a.li:hover{
+	color: #4492fd;
+}
+#News ul a.li + a.li{
+	margin-top: 9px;
+}
+
+/*排名*/
+#Rank{
+	margin-bottom: 20px;
+}
+#Rank .tab{
+	height: 50px;
+	border-bottom: 2px solid #4492fd;
+	background: #fff;
+	font-size: 0px;
+}
+#Rank .tab button{
+	width: 50%; height: 50px;
+	font-size: 16px; text-align: center; color: #242526;
+	position: relative;
+	overflow: hidden;
+}
+#Rank .tab button.on:after{
+	width: 12px; height: 12px;
+	margin-left: -6px;
+	background: #3e87e0;
+	position: absolute; bottom: -8px; left: 50%;
+	transform: rotate(45deg); -ms-transform: rotate(45deg); -webkit-transform: rotate(45deg); -o-transform: rotate(45deg); -moz-transform: rotate(45deg);
+	display: none\0/;
+	content: '';
+}
+#Rank .tab button.on{
+	color: #3e87e0;
+}
+#Rank table{
+	width: 100%;
+	background: #fff;
+}
+#Rank table th{
+	height: 30px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #adadad;
+}
+#Rank table td{
+	height: 40px;
+	font-size: 12px; line-height: 14px; text-align: center; color: #666;
+}
+#Rank table tr:nth-child(odd) td{
+	background: #f7fbff;
+}
+#Rank table td:first-child span{
+	width: 20px; height: 20px;
+	border-radius: 50%;
+	background: #aab3c0;
+	line-height: 20px; color: #fff;
+	display: inline-block;
+}
+#Rank.league table tr:first-child td:first-child span,
+#Rank.league table tr:first-child + tr td:first-child span,
+#Rank.league table tr:first-child + tr + tr td:first-child span,
+#Rank.cup table tr:first-child td:first-child span,
+#Rank.cup table tr:first-child + tr td:first-child span{
+	background: #4492fd
+}
+
+/*左边tab*/
+.left_part .tab{
+	height: 50px;
+	border-bottom: 2px solid #4492fd;
+	background: #fff;
+	font-size: 0px;
+}
+.left_part .tab button{
+	width: 100px; height: 50px;
+	background: #fff;
+	font-size: 18px; text-align: center; color: #666;
+}
+.left_part .tab button.on{
+	background: #4492fd;
+	color: #fff;
+}
+
+/*直播*/
+table#Live{
+	width: 100%;
+	margin-bottom: 20px;
+	position: relative; z-index: 2;
+}
+table#Live thead th{
+	height: 50px;
+	background: #f2f8fd;
+	font-size: 14px; line-height: 50px; text-align: center; color: #3f3f3f;
+}
+table#Live tbody th{
+	height: 28px;
+	background: #dadee1;
+	font-size: 12px; line-height: 28px; text-align: center; color: #666;
+}
+table#Live thead th:first-child p{
+	height: 50px;
+	overflow: hidden;
+}
+table#Live tbody td{
+	height: 60px;
+	border-top: 1px solid #dcdcdc;
+	background: #fff;
+	font-size: 14px; line-height: 20px; text-align: center;
+}
+table#Live tbody td:first-child + td + td + td{
+	padding-left: 5px;
+	text-align: right; color: #bc1c25;
+}
+table#Live tbody td:first-child + td + td + td + td + td{
+	padding-right: 5px;
+	text-align: left; color: #4492fd;
+}
+table#Live tbody td:first-child span{
+	width: 100%; max-width: 60px; height: 24px;
+	border-radius: 0 12px 12px 0;
+	background: #83a0d7;
+	font-size: 12px; line-height: 24px; text-align: center; color: #fff;
+	display: inline-block;
+	overflow: hidden;
+	float: left;
+}
+table#Live tbody td p.live{
+	width: 100%; max-width: 44px; height: 20px;
+	border-radius: 2px;
+	background: #bc1c25;
+	font-size: 12px; line-height: 20px; text-align: center; color: #fff;
+	display: inline-block;
+}
+table#Live tbody td a{
+	height: 24px;
+	padding: 0 5px; margin: 0 5px;
+	display: inline-block;
+}
+table#Live tbody td a:hover{
+	color: #4492fd;
+}
+
+/*录像*/
+dl#Video{
+	margin-bottom: 20px;
+	background: #fff;
+}
+dl#Video dt{
+	height: 28px;
+	background: #dadee1;
+	font-size: 12px; line-height: 28px; text-align: center; color: #666;
+}
+dl#Video dd{
+	padding-top: 70px;
+	font-size: 0px; text-align: left;
+	position: relative;
+}
+dl#Video dd p.match{
+	height: 50px;
+	background: #f1f7fc;
+	font-size: 14px; line-height: 50px; text-align: center; color: #242526;
+	position: absolute; top: 0; left: 0; right: 0;
+}
+dl#Video dd p.match span.time{
+	width: 60px; height: 24px;
+	margin-top: -12px;
+	border-radius: 0 12px 12px 0;
+	background: #83a0d7;
+	line-height: 24px; color: #fff;
+	position: absolute; top: 50%; left: 0;
+}
+dl#Video dd p.match span.host{
+	width: 40%; height: 50%;
+	text-align: right;
+	display: inline-block;
+}
+dl#Video dd p.match span.away{
+	width: 40%; height: 50%;	
+	text-align: left;
+	display: inline-block;
+}
+dl#Video dd p.match span.score{
+	width: 16%; max-width: 120px; height: 50px;
+	display: inline-block;
+}
+dl#Video dd a{
+	height: 134px; width: 33.3%;
+	font-size: 12px; line-height: 32px; text-align: center; color: #4492fd;
+	position: relative;
+	display: inline-block;
+}
+dl#Video dd a:before{
+	width: 40px; height: 40px;
+	margin-left: -20px;
+	background: url(/img/pc/icon_pause_n@2x.png) no-repeat center; background: url(/img/pc/icon_pause_n.png) no-repeat center\0/; background-size: 40px;
+	position: absolute; top: 30px; left: 50%; z-index: 1;
+	content: '';
+}
+dl#Video dd a img{
+	width: 160px; height: 100px;
+	margin: 0 auto;
+	display: block;
+}
+
+/*集锦*/
+dl#Collect{
+	margin-bottom: 20px;
+	background: #fff;
+}
+dl#Collect dt{
+	height: 28px;
+	background: #dadee1;
+	font-size: 12px; line-height: 28px; text-align: center; color: #666;
+}
+dl#Collect dd{
+	padding: 0 0 20px 0;
+	font-size: 0px; text-align: left;
+}
+dl#Collect dd a{
+	height: 100px; width: 50%;
+	margin-top: 20px;
+	position: relative;
+	display: inline-block;
+}
+dl#Collect dd a:before{
+	width: 40px; height: 40px;
+	background: url(/img/pc/icon_pause_n@2x.png) no-repeat center; background: url(/img/pc/icon_pause_n.png) no-repeat center\0/; background-size: 40px;
+	position: absolute; top: 30px; left: 80px; z-index: 1;
+	content: '';
+}
+dl#Collect dd a img{
+	height: 100px; width: 160px;
+	position: absolute; top: 0; left: 20px;
+}
+dl#Collect dd a p{
+	height: 100px;
+	padding: 0 10px 0 16px;
+	background: #f1f7fc;
+	font-size: 12px; line-height: 20px; color: #4492fd;
+	position: absolute; top: 0; left: 180px; right: 0;
+}
+dl#Collect dd a p:before{
+	height: 100px; width: 0px;
+	vertical-align: middle;
+	display: inline-block;
+	content: '';
+}
+dl#Collect dd a p span{
+	vertical-align: middle;
+	display: inline-block;
+}
