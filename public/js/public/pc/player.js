@@ -438,16 +438,15 @@ function PlayVideoShare (cid, type){
 }
 
 function PlayVideoSubject (cid, type){
-    var url;
     var isPhone = window.isMobile;
 
-    if (isPhone) {
-        url = '/live/subject/' + type + '/channel/mobile/' + cid + '.json';
-    } else {
-        url = '/live/subject/' + type + '/channel/' + cid + '.json';
-    }
-
+    var cidStr = cid + '';
+    var first = cidStr.substr(0, 2);
+    var second = cidStr.substr(2, 4);
+    var mobil = isPhone ? '/mobile' : '';
+    var url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
     url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    alert(url);
     $.ajax({
         url: url,
         type:'GET',

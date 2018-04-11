@@ -88,14 +88,16 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面
 
     Route::get('/live/subject/{s_lid}.html', 'SubjectController@detail');
-    Route::get('/live/subject/video/{vid}.html', 'SubjectController@subjectVideo');//集锦终端页面
-    Route::get('/live/subject/specimen/{sid}.html', 'SubjectController@subjectSpecimen');//集锦播放终端页面
 
-    Route::get('/live/subject/video/channel/mobile/{id}.json', 'SubjectController@subjectVideoChannelJson');
-    Route::get('/live/subject/video/channel/{id}.json', 'SubjectController@subjectVideoChannelJson');
 
-    Route::get('/live/subject/specimen/channel/mobile/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
-    Route::get('/live/subject/specimen/channel/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    Route::get('/live/subject/video/{first}/{second}/{vid}.html', 'SubjectController@subjectVideo');//集锦终端页面
+    Route::get('/live/subject/specimen/{first}/{second}/{sid}.html', 'SubjectController@subjectSpecimen');//集锦播放终端页面
+
+    Route::get('/live/subject/video/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+    Route::get('/live/subject/video/channel/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+
+    Route::get('/live/subject/specimen/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
     //==================================================================================================================//
 
 
@@ -111,6 +113,11 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/static/subject/leagues', 'SubjectController@staticSubjectLeagues');//静态化专题列表json
     Route::get('/static/subject/detail/{slid}', 'SubjectController@staticSubjectHtml');//静态化专题终端
 
+    Route::get('/static/subject/video/{vid}', 'SubjectController@staticSubjectVideoHtml');//专题录像终端静态化
+    Route::get('/static/subject/video/channel/{ch_id}', 'SubjectController@staticSubjectVideoChannelJson');//专题录像线路静态化
+    Route::get('/static/subject/specimen/{sid}', 'SubjectController@staticSubjectSpecimenHtml');//专题集锦html静态化，线路静态化
+
+    Route::get('/static/subject/player', 'SubjectController@staticPlayer');//专题player页面静态化
 });
 
 //邀请注册

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
+use App\Console\Subject\PlayerCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -31,6 +32,8 @@ class Kernel extends ConsoleKernel
 
         DetailCommand::class,//subject 专题终端静态化
         LeaguesJsonCommand::class,//subject 专题列表json静态化
+        PlayerCommand::class,//subject 专题播放终端静态化
+
     ];
 
     /**

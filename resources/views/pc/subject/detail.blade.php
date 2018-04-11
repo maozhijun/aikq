@@ -124,8 +124,8 @@
                                 <span class="score">{{$v['hscore']}} - {{$v['ascore']}}</span>
                                 <span class="away">{{$v['aname']}}</span>
                             </p>
-                            @foreach($v['channels'] as $channel)
-                                <a href=""><img src="{{$channel['cover']}}">{{$channel['title']}}</a>
+                            @foreach($v['channels'] as $c_index=>$channel)
+                                <a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($v['id'], 'video')}}?btn={{$c_index}}"><img src="{{$channel['cover']}}">{{$channel['title']}}</a>
                             @endforeach
                         </dd>
                         @endforeach
@@ -138,7 +138,7 @@
                         <dt>{{date('Y年m月d日', $s_day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $s_day)]}}</dt>
                         <dd>
                             @foreach($se_array as $se)
-                                <a href=""><img src="{{$se['cover']}}"><p><span>{{$se['title']}}</span></p></a>
+                                <a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($se['id'], 'specimen')}}"><img src="{{$se['cover']}}"><p><span>{{$se['title']}}</span></p></a>
                             @endforeach
                         </dd>
                     @endforeach

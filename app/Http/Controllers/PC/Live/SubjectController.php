@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\PC\MatchTool;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -63,10 +64,12 @@ class SubjectController extends Controller
     /**
      * 录像播放终端
      * @param Request $request
+     * @param $first
+     * @param $second
      * @param $vid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideo(Request $request, $vid) {
+    public function subjectVideo(Request $request,$first, $second, $vid) {
         //录像 播放页面
         $video = $this->getSubjectVideo($vid);
         if (isset($video['error'])) {
@@ -80,10 +83,12 @@ class SubjectController extends Controller
     /**
      *
      * @param Request $request
+     * @param $first
+     * @param $second
      * @param $sid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectSpecimen(Request $request, $sid) {
+    public function subjectSpecimen(Request $request, $first, $second, $sid) {
         $specimen = $this->getSubjectSpecimen($sid);
         if (isset($specimen['error'])) {
             return "";
@@ -96,10 +101,12 @@ class SubjectController extends Controller
     /**
      * 线路播放json
      * @param Request $request
+     * @param $first
+     * @param $second
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectVideoChannelJson(Request $request, $id) {
+    public function subjectVideoChannelJson(Request $request, $first, $second, $id) {
         $json = $this->getSubjectVideoChannel($id);
         return response()->json($json);
     }
@@ -107,10 +114,12 @@ class SubjectController extends Controller
     /**
      * 线路播放json
      * @param Request $request
+     * @param $first
+     * @param $second
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectSpecimenChannelJson(Request $request, $id) {
+    public function subjectSpecimenChannelJson(Request $request,$first, $second, $id) {
         $json = $this->getSubjectSpecimenChannel($id);
         return response()->json($json);
     }
@@ -234,7 +243,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * 静态化
+     * 静态化专题终端页
      * @param Request $request
      * @param $slid
      */
@@ -244,6 +253,65 @@ class SubjectController extends Controller
             Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
         }
     }
+
+    /**
+     * 静态化录像html
+     * @param Request $request
+     * @param $vid
+     */
+    public function staticSubjectVideoHtml(Request $request, $vid) {
+        $html = $this->subjectVideo($request, '', '', $vid);
+        if (!empty($html)) {//静态化录像终端
+            $patch = MatchTool::subjectLink($vid, 'video');
+            Storage::disk("public")->put($patch, $html);
+        }
+    }
+
+    /**
+     * 静态化录像线路json
+     * @param Request $request
+     * @param $ch_id
+     */
+    public function staticSubjectVideoChannelJson(Request $request, $ch_id) {
+        $json = $this->getSubjectVideoChannel($ch_id);
+        $jsonStr = json_encode($json);
+        if (!empty($jsonStr)) {
+            $patch = MatchTool::subjectChannelLink($ch_id, 'video');
+            Storage::disk("public")->put($patch, $jsonStr);
+        }
+    }
+
+    /**
+     * 静态化集锦 html 线路json
+     * @param Request $request
+     * @param $sid
+     */
+    public function staticSubjectSpecimenHtml(Request $request, $sid) {
+        $html = $this->subjectSpecimen($request, '', '', $sid);
+        if (!empty($html)) {
+            $patch = MatchTool::subjectLink($sid, 'specimen');
+            Storage::disk("public")->put($patch, $html);
+        }
+        $json = $this->getSubjectSpecimenChannel($sid);
+        $jsonStr = json_encode($json);
+        if (!empty($jsonStr)) {
+            $patch = MatchTool::subjectChannelLink($sid, 'specimen');
+            Storage::disk("public")->put($patch, $jsonStr);
+        }
+    }
+
+    /**
+     * 静态化player页面
+     * @param Request $request
+     */
+    public function staticPlayer(Request $request) {
+        $html = $this->subjectPlayer($request);
+        if (!empty($html)) {
+            Storage::disk("public")->put("/live/subject/player.html", $html);
+        }
+    }
+
+
 
     //================================================公共方法================================================//
 

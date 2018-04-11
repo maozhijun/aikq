@@ -48,4 +48,41 @@ trait MatchTool
         if ($asc >= -11055 && $asc <= -10247) return 'Z';
         return null;
     }
+
+    /**
+     * 集锦/录像 路径
+     * @param $id
+     * @param $type
+     * @return string
+     */
+    public static function subjectLink($id, $type) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        //dump($first);
+        $second = substr($id, 2, 3);
+        return '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
+    }
+
+    /**
+     * 集锦/录像 线路的路径
+     * @param $id
+     * @param $type
+     * @param bool $isMobile
+     * @return string
+     */
+    public static function subjectChannelLink($id, $type, $isMobile = false) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        //dump($first);
+        $second = substr($id, 2, 3);
+        $mobile = $isMobile ? '/mobile' : '';
+        return '/live/subject/' . $type . '/channel' . $mobile . '/' . $first . '/' . $second . '/' . $id . '.json';
+    }
+
 }
