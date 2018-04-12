@@ -446,7 +446,6 @@ function PlayVideoSubject (cid, type){
     var mobil = isPhone ? '/mobile' : '';
     var url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
     url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
-    alert(url);
     $.ajax({
         url: url,
         type:'GET',
