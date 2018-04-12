@@ -44,7 +44,7 @@
         @yield('nav_inner')
     </div>
 </div>
-<?php //$subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
+<?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
 @if(isset($subjects) && count($subjects) > 0)
 <div id="Link">
     @foreach($subjects as $id=>$s_name) <a href="/live/subject/{{$id}}.html">{{$s_name}}</a> @endforeach

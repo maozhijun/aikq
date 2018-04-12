@@ -164,6 +164,33 @@ function LoadRtmp (Link){ //rtmp
     CKobject.embed( CKHead + 'ckplayer.swf?url=','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
 }
 
+function LoadMP4 (Link){ //录像
+    if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC() && navigator.userAgent.indexOf('Safari') == -1) {
+        Link = encodeURIComponent(Link)
+    }
+    var flashvars={
+        f:Link,
+        c:0,
+        p:1,
+        l: maxTimeOut > 0 ? '' : 'img/demo.jpg',
+        d:'img/demo.jpg',
+        z:'img/demo.jpg',
+        t: maxTimeOut > 0 ? 0 : 5,
+        loaded:'loadHandler'
+    };
+    if (flashvars.t == 0) {
+        flashvars.l = "";
+        flashvars.d = "";
+        flashvars.z = "";
+    }
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=[''+Link+'->video/mp4'];
+    CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+
+    if (isPhone()) {
+        $('video').attr('playsinline','true')
+    }
+}
 
 function LoadIframe (Link) { //iframe
 	var Frame = document.createElement('iframe');
@@ -399,6 +426,8 @@ function PlayVideoShare (cid, type){
 							LoadRtmp (Link)
 						} else if (PlayType == 17) {
                             LoadClappr(Link);
+                        } else if (PlayType == 18) {
+						    LoadMP4(Link);
                         }else if(PlayType == 100){//腾讯体育专用
                             $.ajax({
                                 url: Link,
@@ -470,6 +499,7 @@ function PlayVideoSubject (cid, type){
                     }
                     var Link = getLink(data);
                     var PlayType = data.player;
+
                     if (PlayType == 11) { //iframe
                         LoadIframe(Link)
                     }else if (PlayType == 12) { //ckplayer
@@ -482,6 +512,8 @@ function PlayVideoSubject (cid, type){
                         LoadRtmp (Link)
                     } else if (PlayType == 17) {
                         LoadClappr(Link);
+                    } else if (PlayType == 18) {
+                        LoadMP4(Link);
                     }else if(PlayType == 100){//腾讯体育专用
                         $.ajax({
                             url: Link,
@@ -559,9 +591,9 @@ function getLink (data) {
 
 //按链接选择播放方式
 function CheckPlayerType (Link,CK) {
-	/*if(Link.indexOf('zb.tc.qq.com') != -1){
-        GoTcPlayer(Link);
-    }else*/ if (Link.indexOf('.flv') != -1) {
+	if(Link.indexOf('.mp4') != -1){
+        LoadMP4(Link);
+    }else if (Link.indexOf('.flv') != -1) {
     	LoadFlv (Link);
 	}else if (Link.indexOf('rtmp://') == 0) {
     	LoadRtmp (Link);
