@@ -83,8 +83,7 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get("/video/channel/{id}", 'VideoController@videoChannel');//热门频道线路
 
     //Route::get('/live/ex-link/{id}', 'LiveController@exLink');//外链跳转
-    //==================================================================================================================//
-    //专题页面
+    //========================================================专题页面========================================================//
     Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面
 
     Route::get('/live/subject/{s_lid}.html', 'SubjectController@detail');
@@ -98,7 +97,11 @@ Route::group(["namespace" => 'Live'], function () {
 
     Route::get('/live/subject/specimen/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
     Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
-    //==================================================================================================================//
+    //========================================================专题页面========================================================//
+
+    //========================================================热门录像 开始========================================================//
+    Route::get('/live/videos/{type}/{page}.html', 'VideoController@videos');//录像列表
+    //========================================================热门录像 结束========================================================//
 
 
     //直播相关静态化

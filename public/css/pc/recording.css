@@ -1,0 +1,117 @@
+﻿
+.moreVideo{
+	
+}
+.moreVideo div.labelbox{
+	height: 42px;
+	margin-top: 10px;
+	border-bottom: 1px solid #dbdbdb;
+	background: #fff;
+}
+.moreVideo .labelbox button{
+	height: 42px;
+	margin-left: 4%;
+	border-radius: 0;
+	background: #fff;
+	font-size: 16px; text-align: center; line-height: 42px;
+	float: left;
+}
+.moreVideo .labelbox button:first-child{
+	margin-left: 20px;
+}
+.moreVideo .labelbox button:hover,.moreVideo .labelbox button.on{
+	border-bottom: 3px solid #4492fd;
+	color: #4492fd;
+}
+.moreVideo .list{
+	padding: 0 10px 10px;
+	background: #fff;
+}
+.moreVideo .list a{
+	font-size: 14px; line-height: 20px; text-align: center;
+	float: left;
+	display: inline-block;
+}
+.moreVideo .list a:hover{
+	color: #4492fd;
+}
+.moreVideo .list a p{
+	padding: 0 10px; margin-bottom: 10px;
+}
+.moreVideo .list a.big{
+	width: 20%;
+	height: 180px;
+}
+.moreVideo .list a.big img{
+	width: 94%;
+	margin: 20px 3% 10px;
+	display: block;
+    max-height: 100px;
+}
+.moreVideo .list a.small{
+	width: 25%; height: 20px;
+	margin: 5px 0;
+	text-align: left;
+	overflow: hidden;
+}
+.moreVideo .list a.small p{
+	padding-left: 20px;
+	position: relative;
+}
+.moreVideo .list a.small p:before{
+	width: 4px; height: 4px;
+	background: #dadada;
+	position: absolute; top: 8px; left: 8px;
+	content: '';
+}
+
+
+#Page{
+	height: 26px;
+	padding: 22px 0;
+	border-top: 1px solid #dbdbdb;
+	background: #fff;
+	font-size: 0px; text-align: center;
+}
+#Page a{
+	height: 24px; min-width: 14px;
+	padding: 0 5px;
+	border-radius: 2px; border: 1px solid #adadad;
+	font-size: 12px; line-height: 24px; text-align: center; color: #adadad;
+	display: inline-block;
+}
+#Page a + a{
+	margin-left: 14px;
+}
+#Page a.up + a{
+	margin-left: 50px;
+}
+#Page a:hover{
+	border-color: #4492fd;
+	color: #4492fd;
+}
+#Page a.up, #Page a.down{
+	width: 54px;
+	border: 1px solid #4492fd;
+	color: #4492fd;
+}
+#Page a.on{
+	border-color: #4492fd;
+	background: #4492fd;
+	color: #fff;
+}
+#Page p{
+	width: 50px; height: 26px;
+	font-size: 12px; line-height: 26px; text-align: center; color: #adadad;
+	display: inline-block;
+}
+#Page p span{
+	color: #4492fd;
+}
+
+
+
+
+
+
+
