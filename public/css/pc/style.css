@@ -16,7 +16,7 @@ em{ font-style:normal; }
 a{text-decoration:none; -webkit-tap-highlight-color: rgba(255,255,255,0);}
 a,a:link,a:visited,a:active{ color: inherit; cursor: pointer; -webkit-tap-highlight-color:rgba(0,0,0,0); color: #4492fd;}
 button{ text-align: center; border: 0px; cursor: pointer; -webkit-tap-highlight-color:rgba(0,0,0,0);}
-input:-webkit-autofill { background-color: none; }
+input:-webkit-autofill { background-color: none; } 
 input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{ -webkit-appearance: none !important; margin: 0; }
 input[type="number"]{-moz-appearance:textfield;}
 label{cursor: pointer;}
@@ -91,18 +91,24 @@ body{
 }
 #Navigation .inner{
 	height: 58px;
-	/*background: url(../img/image_slogan.png) no-repeat center; background-size: 120px;*/
+	/*background: url(/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
+	position: initial;
 }
 #Navigation img.icon{
 	height: 44px;
-	position: absolute; left: 0; top: 8px;
+	display: block;
+	float: left;
+	position: relative; top: 8px;
 }
 #Navigation a.column{
-	height: 60px; width: 10%; min-width: 50px; max-width: 120px;
-	margin-left: 4%;
+	height: 60px; width: 10%; min-width: 40px; max-width: 120px;
+	margin-left: 60px;
 	font-size: 22px; line-height: 60px; text-align: center; color: #000;
 	position: relative;
 	display: inline-block;
+}
+#Navigation a.column + a.column{
+	margin-left: 40px;
 }
 #Navigation a.column:hover, #Navigation a.on{
 	background: #4492fd;
@@ -112,9 +118,9 @@ body{
 	margin-left: 214px;
 }
 #Navigation .inner p.wx{
+	height: 58px;
 	font-size: 16px; line-height: 58px; text-align: right;
-	position: relative;
-	float: right;
+	position: absolute; right: 2%; top: 0;
 }
 #Navigation .inner p.wx span{
 	color: #c52601;
@@ -154,6 +160,7 @@ body{
 #Link a + a{
 	margin-left: 16px;
 }
+
 
 /*内容*/
 #Content{
@@ -197,7 +204,7 @@ body{
 }
 .adflag{
 	max-width: 208px; width: 11%;
-	position: fixed; top: 80px;
+	position: fixed; top: 110px;
 }
 .adflag a, .adbanner a{
 	display: block;
@@ -224,3 +231,28 @@ body{
 .adflag a + a{
 	margin-top: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
