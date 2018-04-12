@@ -514,6 +514,8 @@ function PlayVideoSubject (cid, type){
                         LoadClappr(Link);
                     } else if (PlayType == 18) {
                         LoadMP4(Link);
+                    } else if (PlayType == 19) {//jsj
+                        LoadIframe(window.jsj + Link);
                     }else if(PlayType == 100){//腾讯体育专用
                         $.ajax({
                             url: Link,

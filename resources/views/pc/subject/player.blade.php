@@ -45,6 +45,7 @@
     if (window.cdn_url && window.cdn_url != "") {
         window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
     }
+    window.jsj = 'http://www.jsjhealth.cn/video/?url=';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803030023"></script>
