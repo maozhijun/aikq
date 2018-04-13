@@ -11,7 +11,15 @@
                 </div>
                 @if(isset($videos) && count($videos) > 0)
                 <div class="list">
-                    @foreach($videos as $video) <a class="big" href=""><img src="{{$video['cover']}}"><p>{{$video['hname']}}</p></a> @endforeach
+                    @foreach($videos as $video)
+                        <?php
+                            $cover = $video['cover'];
+                            $cover = str_replace('https://www.liaogou168.com', '', $cover);
+                            $cover = str_replace('http://www.liaogou168.com', '', $cover);
+                            $cover = env('CDN_URL') . '/live/videos' . $cover;
+                        ?>
+                        <a class="big" href="/live/videos/detail.html?id={{$video['id']}}" target="_blank"><img src="{{$cover}}"><p>{{$video['hname']}}</p></a>
+                    @endforeach
                     <div class="clear"></div>
                 </div>
                 @endif
@@ -28,6 +36,7 @@
             setADClose();
             createPageHtml('Page');
             bindPageA("Page");
+            bindType();
         }
     </script>
 @endsection

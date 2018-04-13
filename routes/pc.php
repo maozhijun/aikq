@@ -101,6 +101,7 @@ Route::group(["namespace" => 'Live'], function () {
 
     //========================================================热门录像 开始========================================================//
     Route::get('/live/videos/{type}/{page}.html', 'VideoController@videos');//录像列表
+    Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
     //========================================================热门录像 结束========================================================//
 
 
@@ -121,6 +122,12 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/static/subject/specimen/{sid}', 'SubjectController@staticSubjectSpecimenHtml');//专题集锦html静态化，线路静态化
 
     Route::get('/static/subject/player', 'SubjectController@staticPlayer');//专题player页面静态化
+
+    //热门录像静态化
+    Route::get('/static/videos/types', 'VideoController@staticVideoTypesJson');//静态化热门录像类型json
+    Route::get('/static/videos/page/{type}/{page}', 'VideoController@staticVideosHtml');//静态化热门录像 分页列表/终端json
+    Route::get('/static/videos/detail/{id}', 'VideoController@staticVideoJson');
+
 });
 
 //邀请注册

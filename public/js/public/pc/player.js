@@ -469,11 +469,18 @@ function PlayVideoShare (cid, type){
 function PlayVideoSubject (cid, type){
     var isPhone = window.isMobile;
 
-    var cidStr = cid + '';
-    var first = cidStr.substr(0, 2);
-    var second = cidStr.substr(2, 4);
     var mobil = isPhone ? '/mobile' : '';
-    var url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
+    var url;
+    if (type == 'video' || type == 'specimen') {
+        var cidStr = cid + '';
+        var first = cidStr.substr(0, 2);
+        var second = cidStr.substr(2, 4);
+        url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
+    } else {
+        var index = Math.floor(cid / 10000);
+        url = '/live/videos/channel' + mobil + '/' + index + '/' + cid + '.json';
+    }
+
     url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
     $.ajax({
         url: url,
@@ -818,7 +825,7 @@ function playerLink() {
     var cid = param.cid;
     var type = param.type;
     if (cid && cid != '') {
-        if (type == 'video' || type == 'specimen') {
+        if (type == 'video' || type == 'specimen' || type == 'hv') {
             PlayVideoSubject(cid, type);
         } else {
             PlayVideoShare(cid, type);

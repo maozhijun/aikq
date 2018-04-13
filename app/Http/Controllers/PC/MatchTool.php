@@ -85,4 +85,16 @@ trait MatchTool
         return '/live/subject/' . $type . '/channel' . $mobile . '/' . $first . '/' . $second . '/' . $id . '.json';
     }
 
+    /**
+     * 热门录像内容
+     * @param $id
+     * @param $isMobile
+     * @return string
+     */
+    public static function hotVideoJsonLink($id, $isMobile = false) {
+        $index = floor($id / 10000);
+        $mobile = $isMobile ? '/mobile' : '';
+        return '/live/videos/channel' . $mobile . '/' . $index . '/' . $id .'.json';
+    }
+
 }

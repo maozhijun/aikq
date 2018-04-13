@@ -24,9 +24,11 @@
     } else {
         lastBtn = index + showBtn;
     }
+     index = index <= 1 ? 2 : index;
     if (index > 2) {
         pageHtml += '<p>...</p>';
     }
+
     for(; index < lastBtn; index++) {
         var css = '';
         if (curPage === index) {
@@ -65,5 +67,12 @@ function bindPageA(pageId) {
             url = url.replace(/\d+\.html/, (curPage + 1) + '.html');
             location.href = url;
         }
+    });
+}
+function bindType() {
+    $('div.labelbox button').click(function () {
+        var id = this.getAttribute('id');
+        var url = '/live/videos/' + id + '/1.html';
+        location.href = url;
     });
 }
