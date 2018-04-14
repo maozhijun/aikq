@@ -63,7 +63,7 @@
                         <tr>
                             <td>
                                 @if($hasRound)
-                                    @if($subject['type'] == 1)
+                                    @if(isset($subject['type']) && $subject['type'] == 1)
                                         <span>第{{$match['round']}}轮 </span>
                                     @else
                                         <span>{{$match['round']}}</span>

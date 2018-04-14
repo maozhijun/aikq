@@ -56,6 +56,8 @@ class DeleteExpireFileCommand extends Command
 
         $this->delStorageFiles('/public/match/live/url/channel', $del_time);//删除电脑的 json 文件
         $this->delStorageFiles('/public/match/live/url/channel/mobile', $del_time);//删除移动的 json 文件
+
+        $this->delStorageFiles('/public/live/spPlayer', $del_time);
     }
 
     /**
@@ -65,6 +67,7 @@ class DeleteExpireFileCommand extends Command
      */
     protected function delStorageFiles($patch, $ex_time) {
         $files = Storage::files($patch);
+        //echo $patch . ' files ' . count($files) . "\n";
         if (is_array($files)) {
             foreach ($files as $file) {
                 $time = Storage::lastModified($file);

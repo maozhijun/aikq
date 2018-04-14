@@ -1,5 +1,8 @@
 @if(isset($ranks) && count($ranks) > 0)
     <?php
+        if (!isset($subject['type'])) {
+            $subject['type'] = 1;
+        }
         $divCss = ($subject['type'] == 2) ? 'cup' : 'league';
     ?>
     <div class="default {{$divCss}}" id="Rank"><!--足球联赛-->
