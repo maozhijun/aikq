@@ -140,6 +140,15 @@ class VideoController extends Controller
         Storage::disk("public")->put('/live/videos/types.json', $typesStr);
     }
 
+    /**
+     * 静态化类型列表json
+     * @param Request $request
+     */
+    public function staticVideoDetail(Request $request) {
+        $html = $this->videoDetail($request);
+        Storage::disk("public")->put('/live/videos/detail.html', $html);
+    }
+
 
     public function syncVideoImages(Request $request) {
         $save_patch = '/live/videos/cover';

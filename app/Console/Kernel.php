@@ -69,8 +69,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
         //专题静态化
-        $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
         $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
+        $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
         $schedule->command('subject_player_cache')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
 
         //热门录像静态化

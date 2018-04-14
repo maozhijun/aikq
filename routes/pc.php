@@ -125,6 +125,7 @@ Route::group(["namespace" => 'Live'], function () {
 
     //热门录像静态化
     Route::get('/static/videos/types', 'VideoController@staticVideoTypesJson');//静态化热门录像类型json
+    Route::get('/static/videos/detail', 'VideoController@staticVideoDetail');//静态化热门录像类型json
     Route::get('/static/videos/page/{type}/{page}', 'VideoController@staticVideosHtml');//静态化热门录像 分页列表/终端json
     Route::get('/static/videos/detail/{id}', 'VideoController@staticVideoJson');
 

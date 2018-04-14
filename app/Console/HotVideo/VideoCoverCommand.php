@@ -48,6 +48,7 @@ class VideoCoverCommand extends Command
     public function handle()
     {
         $start = time();
+        $this->staticDetail();
         $lastTime = $this->getLastSyncTime();
         $coverUrl = env('LIAOGOU_URL')."aik/videos/covers?time=" . $lastTime;
         $server_output = SubjectController::execUrl($coverUrl);
@@ -89,6 +90,14 @@ class VideoCoverCommand extends Command
                 Storage::disk('public')->put("live/videos" . $patch, $img);
             }
         }
+    }
+
+    /**
+     * 静态化热门录像终端html
+     */
+    protected function staticDetail() {
+        $url = asset('/static/videos/detail');
+        SubjectController::execUrl($url);
     }
 
     /**

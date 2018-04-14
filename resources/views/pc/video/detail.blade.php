@@ -46,9 +46,9 @@
                             $("#Info p.name").html(json.lname + "：" + json.hname);
                             var host = window.location.host;
                             if (json.player == 11 || json.playurl.indexOf('player.pptv.com') != -1) {
-                                host = 'https://' + host;
-                            } else {
                                 host = 'http://' + host;
+                            } else {
+                                host = 'https://' + host;
                             }
                             var link = host + '/live/subject/player.html?cid=' + id + '&type=hv';
                             var btnHtml = '<button id="' + id + '"onclick="ChangeChannel(\'' + link + '\', this)" style="display: none;"></button>';

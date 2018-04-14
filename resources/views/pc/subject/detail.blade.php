@@ -25,37 +25,7 @@
                 </div>
                 @endif
                 @if(isset($ranks) && count($ranks) > 0)
-                <div class="default league" id="Rank"><!--足球联赛-->
-                    <div class="title">
-                        <p>{{$subject["name"]}}积分榜</p>
-                    </div>
-                    <table>
-                        <colgroup>
-                            <col width="34px">
-                            <col width="">
-                            <col width="54px">
-                            <col width="48px">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>排名</th>
-                            <th>球队</th>
-                            <th>胜/平/负</th>
-                            <th>积分</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($ranks as $rank)
-                        <tr>
-                            <td><span>{{$rank['rank']}}</span></td>
-                            <td>{{$rank['name']}}</td>
-                            <td>{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</td>
-                            <td>{{$rank['score']}}</td>
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                @component('pc.subject.detail_rank_cell', ['ranks'=>$ranks, 'subject'=>$subject ]) @endcomponent
                 @endif
             </div>
             @endif
@@ -91,7 +61,14 @@
                     </tr>
                         @foreach($matches as $match)
                         <tr>
-                            <td>@if($hasRound) <span>第{{$match['round']}}轮 </span>@endif</td>
+                            <td>
+                                @if($hasRound)
+                                    @if($subject['type'] == 1)
+                                        <span>第{{$match['round']}}轮 </span>
+                                    @else
+                                        <span>{{$match['round']}}</span>
+                                    @endif
+                                @endif</td>
                             <td>{{date('H:i', $match['time'])}}</td>
                             <td>@if($match['status'] > 0 && count($match['channels']) > 0)<p class="live">直播中</p>@endif</td>
                             <td>{{$match['hname']}}</td>
