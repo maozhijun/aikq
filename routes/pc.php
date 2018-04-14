@@ -99,6 +99,11 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
     //========================================================专题页面========================================================//
 
+    //========================================================专题热门录像 开始========================================================//
+    Route::get('/live/subject/videos/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
+    Route::get('/live/subject/videos/detail.html', 'SubjectVideoController@videoDetail');//录像终端
+    //========================================================专题热门录像 结束========================================================//
+
     //========================================================热门录像 开始========================================================//
     Route::get('/live/videos/{type}/{page}.html', 'VideoController@videos');//录像列表
     Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
@@ -123,11 +128,17 @@ Route::group(["namespace" => 'Live'], function () {
 
     Route::get('/static/subject/player', 'SubjectController@staticPlayer');//专题player页面静态化
 
-    //热门录像静态化
+    //专题录像静态化 开始
+    Route::get('/static/subject-videos/leagues', 'SubjectVideoController@staticVideoLeaguesJson');//静态化热门录像类型json
+    Route::get('/static/subject-videos/detail/{type}/{page}', 'SubjectVideoController@staticSubjectVideosHtml');//静态化热门录像类型json
+    //专题录像静态化 结束
+
+    //热门录像静态化 开始
     Route::get('/static/videos/types', 'VideoController@staticVideoTypesJson');//静态化热门录像类型json
     Route::get('/static/videos/detail', 'VideoController@staticVideoDetail');//静态化热门录像类型json
     Route::get('/static/videos/page/{type}/{page}', 'VideoController@staticVideosHtml');//静态化热门录像 分页列表/终端json
-    Route::get('/static/videos/detail/{id}', 'VideoController@staticVideoJson');
+//    Route::get('/static/videos/detail/{id}', 'VideoController@staticVideoJson');
+    //热门录像静态化 结束
 
 });
 

@@ -35,9 +35,16 @@
         }
         $(function () {
             var id = GetQueryString('id');
+            var type = GetQueryString('type');
+            if (type != 'sv') type = 'hv';
             if (/\d+/.test(id)) {
                 var index = Math.floor(id / 10000);
-                var url = "/live/videos/channel/" + index + "/" + id + '.json';
+                var url;
+                if (type == 'sv') {
+                    url = "/live/subject/videos/channel/" + index + "/" + id + '.json';
+                } else {
+                    url = "/live/videos/channel/" + index + "/" + id + '.json';
+                }
                 $.ajax({
                     "url": url,
                     "dataType": "json",
@@ -50,7 +57,7 @@
                             } else {
                                 host = 'https://' + host;
                             }
-                            var link = host + '/live/subject/player.html?cid=' + id + '&type=hv';
+                            var link = host + '/live/subject/player.html?cid=' + id + '&type=' + type;
                             var btnHtml = '<button id="' + id + '"onclick="ChangeChannel(\'' + link + '\', this)" style="display: none;"></button>';
                             $("#Info p.line").html(btnHtml);
                             LoadVideo();

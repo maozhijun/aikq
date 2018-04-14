@@ -63,10 +63,10 @@
                         <tr>
                             <td>
                                 @if($hasRound)
-                                    @if(isset($subject['type']) && $subject['type'] == 1)
-                                        <span>第{{$match['round']}}轮 </span>
-                                    @else
+                                    @if(isset($subject['type']) && $subject['type'] == 2)
                                         <span>{{$match['round']}}</span>
+                                    @else
+                                        <span>第{{$match['round']}}轮 </span>
                                     @endif
                                 @endif</td>
                             <td>{{date('H:i', $match['time'])}}</td>

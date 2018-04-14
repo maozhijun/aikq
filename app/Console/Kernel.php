@@ -7,6 +7,8 @@ use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
 use App\Console\HotVideo\VideoPageCommand;
+use App\Console\SubjectVideo\SubjectVideoCoverCommand;
+use App\Console\SubjectVideo\SubjectVideoPageCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -38,6 +40,9 @@ class Kernel extends ConsoleKernel
 
         VideoPageCommand::class,//热门录像分页列表静态化
         VideoCoverCommand::class,//热门录像封面图同步
+
+        SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
+        SubjectVideoPageCommand::class,//专题录像 静态化分页列表
     ];
 
     /**
@@ -74,8 +79,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('subject_player_cache')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
 
         //热门录像静态化
-        $schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次热门视频封面同步
-        $schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次热门视频分页静态化
+        //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
+        //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
+
+        //专题录像静态化
+        $schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
+        $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
     }
 
     /**
