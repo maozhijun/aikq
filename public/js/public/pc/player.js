@@ -5,8 +5,8 @@ var ad_time = 0;
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
 var WXCodeRun = false;
 var firstShowCode = false;
-var active_text = '加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
-var active_code = '/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
+var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
+var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888';
 var show_ad = true;
 
@@ -874,6 +874,7 @@ function checkActive() {
 
 //关注微信引导
 function showWXCode (Text,Code) { //文字和二维码图片地址，文字可以使用\n换行，最多两行。
+    if (Code == "") return;
     CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
     var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
     var Coor = '0,2,130,-62';

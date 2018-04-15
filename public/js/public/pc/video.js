@@ -18,8 +18,10 @@ function LoadVideo () {
 	var MatchID = location.href.split('/')[location.href.split('/').length -1].split('.html')[0];
 	var NowBtn = GetQueryString('btn');
 	var cid = GetQueryString('cid');
-
-	var btn = $("#Info .line").find("#" + cid);
+    var btn = {};
+	if (cid) {
+        $("#Info .line").find("#" + cid);
+	}
 	if (btn.length > 0) {
         btn.trigger("click");
 	} else if (NowBtn && NowBtn != '' && $('#Info .line button:eq(' + parseInt(NowBtn) + ')')){
