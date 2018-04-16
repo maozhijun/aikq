@@ -10,7 +10,7 @@
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
                             <?php
-                                if ($channel['player'] == 11){
+                                if ($channel['player'] == 11 || $channel['player'] == 19){
                                     $preUrl = str_replace("https://","http://",env('APP_URL'));
                                 } else{
                                     if (isset($channel['link']) && stristr($channel['link'],'player.pptv.com')){
