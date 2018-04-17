@@ -75,10 +75,14 @@ class SubjectVideoController extends Controller
      * 获取录像列表
      * @param $type
      * @param $page
+     * @param $isMobile
      * @return array|mixed
      */
-    public function getSubjectVideos($type, $page) {
+    public function getSubjectVideos($type, $page, $isMobile = false) {
         $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . '?page=' . $page;
+        if ($isMobile) {
+            $url .= "&isMobile=1";
+        }
         $server_output = SubjectController::execUrl($url);
         $videos = json_decode($server_output, true);
         $videos = isset($videos) ? $videos : [];
@@ -124,17 +128,47 @@ class SubjectVideoController extends Controller
      * @param $page
      */
     public function staticSubjectVideosHtml(Request $request, $type, $page) {
-        $data = $this->getSubjectVideos($type, $page);
-        $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
-        if (!isset($data['videos']) || !isset($data['page'])) {
-            Storage::delete('public/' . $patch);
-            return;
-        }
-        $leagues = $this->getLeagues();
-        $html = $this->videosHtml($type, $leagues, $data);
-        if (!empty($html)) {
-            echo $type . ' patch : ' . $patch . "\n";
-            Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表
+        $isMobile = $request->input('isMobile', 0);
+        $data = $this->getSubjectVideos($type, $page, $isMobile);
+        if ($isMobile) {
+            $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+            if ($page == 1) {
+                //第一页静态化页面
+                $m_html = $msCon->subjectVideosHtml($data);
+                if (!empty($m_html)) {
+                    $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
+                    Storage::disk("public")->put($patch, $m_html);
+                }
+            } else {
+                //其他静态化json
+                if (isset($data['page']) && isset($data['videos'])) {
+                    $json = $msCon->subjectVideoData2Json($data);
+                    $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.json';
+                    Storage::disk("public")->put($patch, json_encode($json));
+                }
+            }
+            //静态化终端html
+            $videos = isset($data['videos']) ? $data['videos'] : [];
+            foreach ($videos as $video) {
+                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
+                if (!empty($m_detail_html)) {
+                    $m_patch = MatchTool::subjectLink($video['id'], 'video');
+                    $m_patch = '/static/m' . $m_patch;
+                    Storage::disk("public")->put($m_patch, $m_detail_html);
+                }
+            }
+        } else {
+            $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
+            if (!isset($data['videos']) || !isset($data['page'])) {
+                Storage::delete('public/' . $patch);
+                return;
+            }
+            $leagues = $this->getLeagues();
+            $html = $this->videosHtml($type, $leagues, $data);
+            if (!empty($html)) {
+                //echo $type . ' patch : ' . $patch . "\n";
+                Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表
+            }
         }
     }
     //=====================================静态化 结束=====================================//

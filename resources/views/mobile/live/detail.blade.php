@@ -7,13 +7,14 @@
 @endsection
 @section('banner')
     <?php
-        if ($match['sport'] == 2) {
-            $href = "/m/basketball.html";
-        } else if ($match['sport'] == 3) {
-            $href = "/m/other.html";
-        } else {
-            $href = "/m/football.html";
-        }
+//        if ($match['sport'] == 2) {
+//            $href = "/m/basketball.html";
+//        } else if ($match['sport'] == 3) {
+//            $href = "/m/other.html";
+//        } else {
+//            $href = "/m/football.html";
+//        }
+        $href = '/m/index.html'
     ?>
     <div id="Navigation">
         <div class="banner"><a class="home" href="{{$href}}"></a>爱看球</div>

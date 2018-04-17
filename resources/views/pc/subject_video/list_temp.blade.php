@@ -16,24 +16,15 @@
                 @if(isset($videos) && count($videos) > 0)
                 <div class="list">
                     @foreach($videos as $video)
-                        <p class="match">
-                            <span class="time">{{date('Y-m-d H:i', $video['time'])}}</span>
-                            <span class="host">{{$video['hname']}}</span>
-                            <span class="score">{{$video['hscore']}} - {{$video['ascore']}}</span>
-                            <span class="away">{{$video['aname']}}</span>
-                        </p>
-                        <?php $channels = $video['channels']; ?>
-                        @foreach($channels as $channel)
-                            <?php
-                                $cover = $channel['cover'];
-                                $cover = str_replace('https://www.liaogou168.com', '', $cover);
-                                $cover = str_replace('http://www.liaogou168.com', '', $cover);
-                                $cover = env('CDN_URL') . '/live/subject/videos' . $cover;
-                            ?>
-                            <a class="big" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($video['id'], 'video')}}?cid={{$channel['id']}}" target="_blank">
-                            <img src="{{$cover}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_video_bg.jpg'"><p>{{$channel['title']}}</p>
-                            </a>
-                        @endforeach
+                        <?php
+                            $cover = $video['cover'];
+                            $cover = str_replace('https://www.liaogou168.com', '', $cover);
+                            $cover = str_replace('http://www.liaogou168.com', '', $cover);
+                            $cover = env('CDN_URL') . '/live/subject/videos' . $cover;
+                        ?>
+                        <a class="big" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($video['sv_id'], 'video')}}?cid={{$video['id']}}" target="_blank">
+                            <img src="{{$cover}}"><p>{{$video['title']}}</p>
+                        </a>
                     @endforeach
                     <div class="clear"></div>
                 </div>

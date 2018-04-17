@@ -7,6 +7,7 @@ use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
 use App\Console\HotVideo\VideoPageCommand;
+use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
@@ -43,6 +44,7 @@ class Kernel extends ConsoleKernel
 
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表
+        MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
     ];
 
     /**
@@ -85,6 +87,7 @@ class Kernel extends ConsoleKernel
         //专题录像静态化
         $schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
+        $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
     }
 
     /**

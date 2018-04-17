@@ -273,10 +273,12 @@ class SubjectController extends Controller
      * @param $ch_id
      */
     public function staticSubjectVideoChannelJson(Request $request, $ch_id) {
-        $json = $this->getSubjectVideoChannel($ch_id);
+        $json = $this->getSubjectVideo($ch_id);//$this->getSubjectVideoChannel($ch_id);
         $jsonStr = json_encode($json);
         if (!empty($jsonStr)) {
             $patch = MatchTool::subjectChannelLink($ch_id, 'video');
+            Storage::disk("public")->put($patch, $jsonStr);
+            $patch = MatchTool::subjectChannelLink($ch_id, 'video', true);
             Storage::disk("public")->put($patch, $jsonStr);
         }
     }

@@ -1,4 +1,5 @@
-﻿table.list{
+﻿
+table.list{
 	width: 100%;
 	margin: 20px 0;
 	table-layout: fixed;
@@ -51,10 +52,10 @@ table.list tbody td:nth-child(1){
 
 }
 table.list tbody td:nth-child(2){
-
+	
 }
 table.list tbody td:nth-child(3){
-
+	
 }
 table.list tbody td:nth-child(4){
 	padding-right: 10px;
@@ -65,11 +66,11 @@ table.list tbody td:nth-child(5){
 	text-align: right;
 }
 table.list tbody td:nth-child(6){
-
+	
 }
 table.list tbody td:nth-child(7){
 	padding-left: 10px;
-	text-align: left;
+	text-align: left; 
 }
 table.list tbody td:nth-child(8){
 	padding-left: 12px;
@@ -79,7 +80,7 @@ table.list tbody td:nth-child(9), table.list tbody td[colspan='5'] + td{
 	text-align: left;
 }
 table.list tbody td:nth-child(10){
-
+	
 }
 table.list tbody td:nth-child(9) a, table.list tbody td[colspan='5'] + td a{
 	padding: 0 10px;
@@ -121,8 +122,8 @@ table.list p.live{
 /*浮动*/
 #TableHead{
 	margin-top: 0;
-	position: fixed; top: 90px; left: 14%; right: 14%; z-index: 3;
-	display: none;
+    position: fixed; top: 90px; left: 50%; z-index: 3;
+    display: none;
 }
 
 
@@ -136,3 +137,9 @@ table.list tbody tr.adbanner td{
 	height: auto;
 	padding: 0;
 }
+
+
+
+
+
+
