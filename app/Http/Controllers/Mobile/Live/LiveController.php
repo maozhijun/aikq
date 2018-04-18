@@ -231,6 +231,7 @@ class LiveController extends Controller
      */
     public function subjectVideosHtml($data) {
         $json = $this->subjectVideoData2Json($data);
+
         return view('mobile.video.lives', $json);
     }
 

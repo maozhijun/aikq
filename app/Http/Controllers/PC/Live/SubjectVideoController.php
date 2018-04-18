@@ -42,11 +42,19 @@ class SubjectVideoController extends Controller
         if (!isset($videos['videos'])) {
             return "";
         }
+        $items = $videos['videos'];
+        $matches = [];
+        foreach ($items as $item) {
+            $day = strtotime(date('Y-m-d', $item['time']));
+            $matches[$day][] = $item;
+        }
         $result['leagues'] = $leagues;
         $result['page'] = $videos['page'];
-        $result['videos'] = $videos['videos'];
+        $result['matches'] = $matches;
         $result['type'] = $type;
         $result['check'] = 'videos';
+        $result['week_array'] = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        $result['subjects'] = [];
         return view('pc.subject_video.list', $result);
     }
 
