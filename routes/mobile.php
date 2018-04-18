@@ -22,6 +22,15 @@ Route::group(["namespace" => 'Live'], function () {
     Route::any("/", function (){
         return redirect('/m/lives.html');
     });
+    Route::any("/football.html", function (){
+        return redirect('/m/lives.html');
+    });
+    Route::any("/basketball.html", function (){
+        return redirect('/m/lives.html');
+    });
+    Route::any("/other.html", function (){
+        return redirect('/m/lives.html');
+    });
     Route::get("/lives.html", "LiveController@lives");//直播列表
     //Route::get("/football.html", "LiveController@footballLives");//直播列表
     //Route::get("/basketball.html", "LiveController@basketballLives");//直播列表

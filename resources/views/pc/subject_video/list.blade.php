@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/recording.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/recording.css?time=20180000003">
 @endsection
 @section('content')
     <div id="Content">
@@ -31,7 +31,7 @@
                                 $cover = env('CDN_URL') . '/live/subject/videos' . $cover;
                             ?>
                             <a class="big" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($video['id'], 'video')}}?cid={{$channel['id']}}" target="_blank">
-                            <img src="{{$cover}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_video_bg.jpg'"><p>{{$channel['title']}}</p>
+                            <img style="height: 110px;" src="{{$cover}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_video_bg.jpg'"><p>{{$channel['title']}}</p>
                             </a>
                         @endforeach
                     @endforeach

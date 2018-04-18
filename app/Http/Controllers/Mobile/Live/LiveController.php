@@ -38,6 +38,9 @@ class LiveController extends Controller
             if (!empty($html)) {
                 Storage::disk("public")->put("/static/m/lives.html",$html);
                 Storage::disk("public")->put("/static/m/index.html",$html);
+                Storage::disk("public")->put("/static/m/football.html",$html);
+                Storage::disk("public")->put("/static/m/basketball.html",$html);
+                Storage::disk("public")->put("/static/m/other.html",$html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();

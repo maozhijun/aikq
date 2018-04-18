@@ -44,6 +44,7 @@ class Kernel extends ConsoleKernel
 
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表
+        PlayerCommand::class,//录像player静态化
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
     ];
 
@@ -78,7 +79,7 @@ class Kernel extends ConsoleKernel
         //专题静态化
         $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
         $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
-        $schedule->command('subject_player_cache')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
+        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
 
         //热门录像静态化
         //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
