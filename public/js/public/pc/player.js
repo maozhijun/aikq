@@ -1,14 +1,11 @@
 var CKHead = '/js/public/pc/ckplayer/';
-var maxTimeOut = 0;
-var ad_time = 0;
+var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
-var WXCodeRun = false;
-var firstShowCode = false;
+var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
-var valid_code = '8888';
-var show_ad = true;
+var valid_code = '8888', show_ad = true, matchTime, matchStatus;
 
 $.ajax({
     "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
@@ -241,13 +238,13 @@ function loadHandler(){
         console.log('播放器已加载，调用的是HTML5播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer',bufferHandler);
-        //CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
+        CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
         CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
-        //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
+        CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
         //CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
     }
 }
@@ -280,12 +277,16 @@ function bufferHandler (num) {
 }
 
 function errorHandler () {
-	if (maxTimeOut > 5) {
-		return;
-	}
-	maxTimeOut++;
-	console.log('error，重新请求链接');
-    playerLink();
+    if (matchStatus == 0) {
+        countdownHtmlNew();
+    }
+    return;
+    // if (maxTimeOut > 5) {
+		// return;
+    // }
+    // maxTimeOut++;
+    // console.log('error，重新请求链接');
+    // playerLink();
 }
 
 //获取是S还是非S
@@ -295,6 +296,26 @@ function GetHttp () {
 	}else{
 		return 'http://';
 	}
+}
+function countdownHtmlNew() {
+    var mTime = matchTime;
+    var now = (new Date()).getTime() / 1000;
+
+    var hour = Math.floor( (mTime - now) / (60 * 60) );
+    var minute = Math.floor( (mTime - now - hour * 60 * 60) / 60 );
+    var second = Math.floor( (mTime - now - hour * 60 * 60 - minute * 60) );
+
+    hour = hour < 10 ? "0" + hour : hour;
+    minute = minute < 10 ? "0" + minute : minute;
+    second = second < 10 ? "0" + second : second;
+
+    var html = hour + ":" + minute + ":" + second;
+    if ($("#MyFrame p.noframe").length == 0) {
+        $("#MyFrame").html('<p class="noframe" style="display: none;">距离比赛还有 <b>' + html + '</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>');
+    } else {
+        $("#MyFrame p.noframe").show().find('b:first').html(html);
+    }
+    setInterval(countdownHtmlNew, 1000);
 }
 function countdownHtml(hour_html, minute_html, second_html) {
     var hour = '00';
@@ -369,14 +390,17 @@ function PlayVideoShare (cid, type){
 			if (data.code == 0){
 				//CloseLoading();
 				var match = data.match;
+                matchStatus = match.status;
+                matchTime = match.time;
 				var show_live = match.show_live;
                 if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
                     $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
-                    if (match.status && match.status == 0) {
-                        countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                    if (match.status == 0) {
+                        //countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                        countdownHtmlNew();
                     }
 					return;
 				}else if(show_live){

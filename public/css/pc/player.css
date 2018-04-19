@@ -23,6 +23,7 @@ body .inner{
 	padding-top: 60px;
 	background: #000;
 	font-size: 18px; line-height: 42px; text-align: center; color: #fff; letter-spacing: 2px;
+	position: relative; z-index: 999;
 }
 #MyFrame p.noframe img{
 	width: 160px;
