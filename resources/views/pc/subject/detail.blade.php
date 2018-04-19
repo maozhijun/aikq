@@ -35,7 +35,7 @@
                     @if(isset($videos) && count($videos) > 0) <button value="Video">录像</button> @endif
                     @if(isset($specimens) && count($specimens) > 0) <button value="Collect">集锦</button> @endif
                 </div>
-                <table id="Live">
+                <table id="Live" class="live">
                     <colgroup>
                         <col num="1" width="{{$hasRound ? '8%' : '0'}}">
                         <col num="2" width="8%">
@@ -90,24 +90,25 @@
                     </tbody>
                 </table>
                 @if(isset($videos) && count($videos) > 0)
-                <dl id="Video" style="display: none;">
-                    @foreach($videos as $day=>$vs)
-                        <dt>{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</dt>
-                        @foreach($vs as $v)
-                        <dd>
-                            <p class="match">
-                                <span class="time">{{date('H:i', $v['time'])}}</span>
-                                <span class="host">{{$v['hname']}}</span>
-                                <span class="score">{{$v['hscore']}} - {{$v['ascore']}}</span>
-                                <span class="away">{{$v['aname']}}</span>
-                            </p>
-                            @foreach($v['channels'] as $c_index=>$channel)
-                                <a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($v['id'], 'video')}}?btn={{$c_index}}"><img src="{{$channel['cover']}}">{{$channel['title']}}</a>
-                            @endforeach
-                        </dd>
-                        @endforeach
-                    @endforeach
-                </dl>
+                    @component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent
+                    {{--<dl id="Video" style="display: none;">--}}
+                    {{--@foreach($videos as $day=>$vs)--}}
+                        {{--<dt>{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</dt>--}}
+                        {{--@foreach($vs as $v)--}}
+                        {{--<dd>--}}
+                            {{--<p class="match">--}}
+                                {{--<span class="time">{{date('H:i', $v['time'])}}</span>--}}
+                                {{--<span class="host">{{$v['hname']}}</span>--}}
+                                {{--<span class="score">{{$v['hscore']}} - {{$v['ascore']}}</span>--}}
+                                {{--<span class="away">{{$v['aname']}}</span>--}}
+                            {{--</p>--}}
+                            {{--@foreach($v['channels'] as $c_index=>$channel)--}}
+                                {{--<a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($v['id'], 'video')}}?btn={{$c_index}}"><img src="{{$channel['cover']}}">{{$channel['title']}}</a>--}}
+                            {{--@endforeach--}}
+                        {{--</dd>--}}
+                        {{--@endforeach--}}
+                    {{--@endforeach--}}
+                    {{--</dl>--}}
                 @endif
                 @if(isset($specimens) && count($specimens) > 0)
                 <dl id="Collect" style="display: none;">

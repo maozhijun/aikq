@@ -156,40 +156,40 @@
 }
 
 /*直播*/
-table#Live{
+table.live{
 	width: 100%;
 	margin-bottom: 20px;
 	position: relative; z-index: 2;
 }
-table#Live thead th{
+table.live thead th{
 	height: 50px;
 	background: #f2f8fd;
 	font-size: 14px; line-height: 50px; text-align: center; color: #3f3f3f;
 }
-table#Live tbody th{
+table.live tbody th{
 	height: 28px;
 	background: #dadee1;
 	font-size: 12px; line-height: 28px; text-align: center; color: #666;
 }
-table#Live thead th:first-child p{
+table.live thead th:first-child p{
 	height: 50px;
 	overflow: hidden;
 }
-table#Live tbody td{
+table.live tbody td{
 	height: 60px;
 	border-top: 1px solid #dcdcdc;
 	background: #fff;
 	font-size: 14px; line-height: 20px; text-align: center;
 }
-table#Live tbody td:first-child + td + td + td{
+table.live tbody td:first-child + td + td + td{
 	padding-left: 5px;
 	text-align: right; color: #bc1c25;
 }
-table#Live tbody td:first-child + td + td + td + td + td{
+table.live tbody td:first-child + td + td + td + td + td{
 	padding-right: 5px;
 	text-align: left; color: #4492fd;
 }
-table#Live tbody td:first-child span{
+table.live tbody td:first-child span{
 	width: 100%; max-width: 60px; height: 24px;
 	border-radius: 0 12px 12px 0;
 	background: #83a0d7;
@@ -198,19 +198,19 @@ table#Live tbody td:first-child span{
 	overflow: hidden;
 	float: left;
 }
-table#Live tbody td p.live{
+table.live tbody td p.live{
 	width: 100%; max-width: 44px; height: 20px;
 	border-radius: 2px;
 	background: #bc1c25;
 	font-size: 12px; line-height: 20px; text-align: center; color: #fff;
 	display: inline-block;
 }
-table#Live tbody td a{
+table.live tbody td a{
 	height: 24px;
 	padding: 0 5px; margin: 0 5px;
 	display: inline-block;
 }
-table#Live tbody td a:hover{
+table.live tbody td a:hover{
 	color: #4492fd;
 }
 
@@ -323,3 +323,16 @@ dl#Collect dd a p span{
 	vertical-align: middle;
 	display: inline-block;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

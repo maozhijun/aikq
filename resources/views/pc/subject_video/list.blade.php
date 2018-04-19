@@ -52,7 +52,7 @@
                 <col number="3" width="70px">
                 <col number="4" width="22%">
                 <col number="5" width="12px">
-                <col number="6" width="26px">
+                <col number="6" width="100px">
                 <col number="7" width="12px">
                 <col number="8" width="22%">
                 <col number="9" width="200px">

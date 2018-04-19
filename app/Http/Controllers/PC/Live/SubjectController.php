@@ -58,6 +58,7 @@ class SubjectController extends Controller
             }
         }
         $result['hasRound'] = $hasRound;
+        $result['slid'] = $s_lid;
         return view('pc.subject.detail', $result);
     }
 

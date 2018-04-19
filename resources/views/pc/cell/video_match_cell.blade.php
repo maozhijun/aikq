@@ -11,7 +11,11 @@
     @else
         <td>{{$match['hname']}}</td>
         <td></td>
-        <td>VS</td>
+        <td>{{$match['hscore']}} - {{$match['ascore']}}
+            {{--@if($match['hscore'] > $match['ascore'])<b>{{$match['hscore']}}</b> @else {{$match['hscore']}} @endif--}}
+            {{-----}}
+            {{--@if($match['ascore'] > $match['hscore'])<b>{{$match['ascore']}}</b> @else {{$match['ascore']}} @endif--}}
+        </td>
         <td></td>
         <td>{{$match['aname']}}</td>
     @endif
