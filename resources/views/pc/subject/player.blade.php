@@ -45,7 +45,7 @@
     if (window.cdn_url && window.cdn_url != "") {
         window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
     }
-    window.jsj = 'http://api.nobij.top/vip/?url=';//'http://api.daliuba.com/?url=';//'http://www.jsjhealth.cn/video/?url=';
+    window.jsj = 'http://jx.618g.com/?url=';//'http://api.nobij.top/vip/?url=';//'http://api.daliuba.com/?url=';//'http://www.jsjhealth.cn/video/?url=';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803030030"></script>
