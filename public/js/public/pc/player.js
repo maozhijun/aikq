@@ -277,7 +277,9 @@ function bufferHandler (num) {
 }
 
 function errorHandler () {
-    if (matchStatus == 0) {
+    var nowTime = (new Date()).getTime() / 1000;
+
+    if (matchStatus == 0 || matchTime > nowTime) {
         countdownHtmlNew();
     }
     return;
@@ -300,7 +302,10 @@ function GetHttp () {
 function countdownHtmlNew() {
     var mTime = matchTime;
     var now = (new Date()).getTime() / 1000;
-
+    if (now >= mTime) {//现在大于等比赛时间，再请求一次
+        playerLink();
+        return;
+    }
     var hour = Math.floor( (mTime - now) / (60 * 60) );
     var minute = Math.floor( (mTime - now - hour * 60 * 60) / 60 );
     var second = Math.floor( (mTime - now - hour * 60 * 60 - minute * 60) );
