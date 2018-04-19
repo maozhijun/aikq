@@ -12,30 +12,24 @@
         pageHtml += '<a class="up">上一页</a>';
     }
     pageHtml += '<a ' + (curPage === 1 ? 'class="on"' : '') + '>1</a>';
-    var index, lastBtn, showBtn = lastPage > 7 ? 7 : lastPage - 1;
-    if (curPage <= showBtn) {
-        index = 2;
+    var index, showBtn = 7;
+    if (lastPage - curPage <= 3) {
+        index = lastPage - showBtn;
     } else {
         index = curPage - 3;
     }
-    if (index + showBtn > lastPage) {
-        index = lastPage - showBtn < showBtn ? 2 : lastPage - showBtn;
-        lastBtn = lastPage;
-    } else {
-        lastBtn = index + showBtn;
-    }
-     index = index <= 1 ? 2 : index;
-    if (index > 2) {
-        pageHtml += '<p>...</p>';
-    }
-
-    for(; index < lastBtn; index++) {
-        var css = '';
-        if (curPage === index) {
-            css = 'class="on"';
-        }
-        pageHtml += '<a ' + css + '>' + index + '</a>';
-    }
+    index = index <= 1 ? 2 : index;
+     if (index > 2) {
+         pageHtml += '<p>...</p>';
+     }
+     for(var f_index = 0; f_index < showBtn; f_index++) {
+         if (index >= lastPage) continue;
+         var css = '';
+         if (curPage === index) {
+             css = 'class="on"';
+         }
+         pageHtml += '<a ' + css + '>' + index++ + '</a>';
+     }
     if (index < lastPage) {
         pageHtml += '<p>...</p>';
     }
