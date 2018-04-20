@@ -57,7 +57,7 @@ class SubjectVideoCoverCommand extends Command
         $covers = isset($data['covers']) ? $data['covers'] : [];
         $data_time = isset($data['last']) ? $data['last'] : '';
         foreach ($covers as $cover) {
-            $this->syncImage($cover);
+            self::syncImage($cover, 'live/subject/videos');
         }
         $this->setLastSyncTime($data_time);
         echo "专题录像封面图同步任务耗时：" . (time() - $start) . " 秒，共同步" . count($covers) . "张图片。\n";
@@ -66,8 +66,9 @@ class SubjectVideoCoverCommand extends Command
     /**
      * 同步图片到本地服务器
      * @param $imageUrl
+     * @param $savePatch
      */
-    protected function syncImage($imageUrl) {
+    public static function syncImage($imageUrl, $savePatch) {
         $timeout = 5;
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $imageUrl);
@@ -87,7 +88,7 @@ class SubjectVideoCoverCommand extends Command
             $patch = str_replace('https://www.liaogou168.com', '', $imageUrl);
             $patch = str_replace('http://www.liaogou168.com', '', $patch);
             if (starts_with($patch, '/')) {
-                Storage::disk('public')->put("live/subject/videos" . $patch, $img);
+                Storage::disk('public')->put($savePatch . $patch, $img);
             }
         }
     }

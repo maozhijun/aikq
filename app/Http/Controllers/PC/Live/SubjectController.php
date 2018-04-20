@@ -43,6 +43,13 @@ class SubjectController extends Controller
             $new_content .= '<p>' . $c. '</p>';
         }
         $subject['content'] = $new_content;
+        $icon = $subject['icon'];
+        $icon = str_replace('https://www.liaogou168.com', '', $icon);
+        $icon = str_replace('http://www.liaogou168.com', '', $icon);
+        if (!starts_with('http', $icon)) {
+            $icon = env('CDN_URL') . '/live/subject' . $icon;
+        }
+        $subject['icon'] = $icon;
         $result['subject'] = $subject;
         //处理专题内容
 

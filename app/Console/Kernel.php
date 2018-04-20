@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\HotVideo\VideoCoverCommand;
+use App\Console\Subject\CoverCommand;
 use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
@@ -42,6 +43,7 @@ class Kernel extends ConsoleKernel
         VideoPageCommand::class,//热门录像分页列表静态化
         VideoCoverCommand::class,//热门录像封面图同步
 
+        CoverCommand::class,//专题封面同步
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表
         PlayerCommand::class,//录像player静态化
@@ -77,6 +79,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
         //专题静态化
+        $schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面
         $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
         $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html

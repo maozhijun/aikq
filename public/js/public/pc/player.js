@@ -265,7 +265,7 @@ function playHandler (){
         checkActive();
         WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
             checkActive();
-        }, 1 * 60 * 1000);
+        }, 15 * 60 * 1000);
     }
 }
 
