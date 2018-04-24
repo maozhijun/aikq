@@ -42,14 +42,15 @@
                 <p>{{$match['hname']}}</p>
             </div>
             <div class="score">
-                @if($show_live || $match['status'] == -1)
-                <p style="display: {{$show_live ? 'none' : 'block'}};">
-                    <span class="host">{{$match['hscore']}}</span>
-                    <span class="away">{{$match['ascore']}}</span>
-                </p>
-                <button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>
-                @else <b>VS</b>
-                @endif
+                {{--@if($show_live || $match['status'] == -1)--}}
+                {{--<p style="display: {{$show_live ? 'none' : 'block'}};">--}}
+                    {{--<span class="host">{{$match['hscore']}}</span>--}}
+                    {{--<span class="away">{{$match['ascore']}}</span>--}}
+                {{--</p>--}}
+                {{--<button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>--}}
+                {{--@else <b>VS</b>--}}
+                {{--@endif--}}
+                <b>VS</b>
             </div>
             <div class="team away">
                 <img src="{{$away_icon}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"' >
@@ -106,7 +107,7 @@
             {{--@endif--}}
     </div>
     <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/code.jpg">
+        <img src="{{env('CDN_URL')}}/img/pc/zhibo616.jpg">
         <p>扫二维码进入群</p>
     </div>
 @endsection
@@ -164,7 +165,7 @@
         }
         //----------------------------------------------------------//
             @if($match['status'] > 0 && $match['status'] < 4)
-            setInterval(refresh, 5000);//获取比赛统计数据
+            //setInterval(refresh, 5000);//获取比赛统计数据
             @endif
         @endif
     </script>

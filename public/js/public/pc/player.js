@@ -2,6 +2,7 @@ var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
+var cd = '/img/pc/code.jpg', cd_name = 'fs188fs', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
 var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
@@ -15,6 +16,9 @@ $.ajax({
             if (json.d) ad_d = json.d;
             if (json.z) ad_z = json.z;
             if (json.w) ad_w = json.w;
+            if (json.cd) cd = json.cd;
+            if (json.cd_name) cd_name = json.cd_name;
+            if (json.cd_text) cd_text = json.cd_text;
             if (json.code) valid_code = json.code;
         }
         var code = getCookie('LIVE_HD_CODE_KEY');
@@ -316,7 +320,7 @@ function countdownHtmlNew() {
 
     var html = hour + ":" + minute + ":" + second;
     if ($("#MyFrame p.noframe").length == 0) {
-        $("#MyFrame").html('<p class="noframe" style="display: none;">距离比赛还有 <b>' + html + '</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>');
+        $("#MyFrame").html('<p class="noframe" style="display: none;">距离比赛还有 <b>' + html + '</b><img class="code" src="' + cd + '">加微信 <b>' + cd_name + '</b><br/>' + cd_text + '</p>');
     } else {
         $("#MyFrame p.noframe").show().find('b:first').html(html);
     }
