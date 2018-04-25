@@ -85,6 +85,14 @@ class SubjectController extends Controller
         }
         $result['match'] = $video;
         $result['type'] = 'video';
+
+        $lname = $video['lname'];
+        $hname = $video['hname'];
+        $aname = $video['aname'];
+
+        $match_title = $hname . "VS" . $aname;
+        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像-爱看球";
+        $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }
 
