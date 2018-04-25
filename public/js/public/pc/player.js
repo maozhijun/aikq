@@ -6,7 +6,7 @@ var cd = '/img/pc/code.jpg', cd_name = 'fs188fs', cd_text = '与球迷赛事交�
 var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
-var valid_code = '8888', show_ad = true, matchTime, matchStatus;
+var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
 $.ajax({
     "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
@@ -306,8 +306,12 @@ function GetHttp () {
 function countdownHtmlNew() {
     var mTime = matchTime;
     var now = (new Date()).getTime() / 1000;
-    if (now >= mTime) {//现在大于等比赛时间，再请求一次
+    if (now >= mTime && errorRepeat < 2) {//现在大于等比赛时间，再请求一次
+        errorRepeat++;
         playerLink();
+        return;
+    }
+    if (now >= mTime && errorRepeat >= 2) {
         return;
     }
     var hour = Math.floor( (mTime - now) / (60 * 60) );
@@ -324,7 +328,7 @@ function countdownHtmlNew() {
     } else {
         $("#MyFrame p.noframe").show().find('b:first').html(html);
     }
-    setInterval(countdownHtmlNew, 1000);
+    setTimeout(countdownHtmlNew, 1000);
 }
 function countdownHtml(hour_html, minute_html, second_html) {
     var hour = '00';
