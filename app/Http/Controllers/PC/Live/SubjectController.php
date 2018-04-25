@@ -97,6 +97,25 @@ class SubjectController extends Controller
     }
 
     /**
+     * 专题录像终端HTML
+     * @param $video
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function subjectVideoHtml($video) {
+        $result['match'] = $video;
+        $result['type'] = 'video';
+
+        $lname = $video['lname'];
+        $hname = $video['hname'];
+        $aname = $video['aname'];
+
+        $match_title = $hname . "VS" . $aname;
+        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像-爱看球";
+        $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
+        return view('pc.subject.video', $result);
+    }
+
+    /**
      *
      * @param Request $request
      * @param $first
@@ -280,6 +299,30 @@ class SubjectController extends Controller
         if (!empty($html)) {//静态化录像终端
             $patch = MatchTool::subjectLink($vid, 'video');
             Storage::disk("public")->put($patch, $html);
+        }
+    }
+
+    /**
+     * 获取列表中所有录像并静态化其终端
+     * @param Request $request
+     * @param $type
+     * @param $page
+     */
+    public function staticSubjectVideoHtmlFromVideos(Request $request, $type, $page) {
+        $videoIntF = new SubjectVideoController();
+        $data = $videoIntF->getSubjectVideos($type, $page);
+        if (!isset($data['videos'])) {
+            echo "专题录像终端静态化无数据，执行完毕。\n";
+            return;
+        }
+        $videos = $data['videos'];
+        foreach ($videos as $video) {
+            $html = $this->subjectVideoHtml($video);
+            if (!empty($html)) {//静态化录像终端
+                $vid = $video['id'];
+                $patch = MatchTool::subjectLink($vid, 'video');
+                Storage::disk("public")->put($patch, $html);
+            }
         }
     }
 

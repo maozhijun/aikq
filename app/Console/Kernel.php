@@ -10,6 +10,7 @@ use App\Console\Subject\PlayerCommand;
 use App\Console\HotVideo\VideoPageCommand;
 use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 use App\Console\SubjectVideo\SubjectVideoCoverCommand;
+use App\Console\SubjectVideo\SubjectVideoDetailCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
@@ -42,6 +43,7 @@ class Kernel extends ConsoleKernel
 
         VideoPageCommand::class,//热门录像分页列表静态化
         VideoCoverCommand::class,//热门录像封面图同步
+        SubjectVideoDetailCommand::class,//专题录像终端静态化
 
         CoverCommand::class,//专题封面同步
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机

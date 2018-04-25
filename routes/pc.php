@@ -123,6 +123,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/static/subject/detail/{slid}', 'SubjectController@staticSubjectHtml');//静态化专题终端
 
     Route::get('/static/subject/video/{vid}', 'SubjectController@staticSubjectVideoHtml');//专题录像终端静态化
+    Route::get('/static/subject/videos/detail/{type}/{page}', 'SubjectController@staticSubjectVideoHtmlFromVideos');//静态化列表中所有录像终端页面静态化
     Route::get('/static/subject/video/channel/{ch_id}', 'SubjectController@staticSubjectVideoChannelJson');//专题录像线路静态化
     Route::get('/static/subject/specimen/{sid}', 'SubjectController@staticSubjectSpecimenHtml');//专题集锦html静态化，线路静态化
 
