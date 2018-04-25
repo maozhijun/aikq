@@ -22,8 +22,8 @@
         }
     </script>
     <meta charset="UTF-8">
-    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
-    <meta name="Keywords" content="JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">
+    <title>爱看球|爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
+    <meta name="Keywords" content="爱看球,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">
     <meta name="Description" content="爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -36,7 +36,7 @@
 <div id="Navigation">
     <div class="inner">
         <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
-        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="/img/pc/WechatIMG60.jpeg"></p>
+        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
