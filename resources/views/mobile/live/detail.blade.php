@@ -67,7 +67,7 @@
             </p>
         @else
             <?php $channels = $live['channels'];?>
-            <div class="line" style="display: none">
+            <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
                     if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
@@ -91,10 +91,13 @@
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
                 @endforeach
-                <?php $ch_cn = ['线路一', '线路二', '线路三']; ?>
-                @for($index = count($channels); $index < 3; $index++)
-                <button disabled>{{$ch_cn[$index]}}</button>
-                @endfor
+                @if($match['sport'] < 3 && count($channels) < 3)
+                    <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>
+                @endif
+                <?php //$ch_cn = ['线路一', '线路二', '线路三']; ?>
+                {{--@for($index = count($channels); $index < 3; $index++)--}}
+                    {{--<button disabled>{{$ch_cn[$index]}}</button>--}}
+                {{--@endfor--}}
             </div>
         @endif
             <iframe id="Frame"></iframe>
@@ -165,7 +168,7 @@
         }
         //----------------------------------------------------------//
             @if($match['status'] > 0 && $match['status'] < 4)
-            //setInterval(refresh, 5000);//获取比赛统计数据
+            setInterval(refresh, 5000);//获取比赛统计数据
             @endif
         @endif
     </script>
