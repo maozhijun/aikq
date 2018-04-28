@@ -58,7 +58,8 @@
             </div>
         @endif
     </div>
-    <div class="default" id="Video" style="height: 436px;">
+    <?php $channels = $live['channels'];?>
+    <div class="default" id="Video" @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif >
         @if(!isset($live))
             <p class="line" style="display: none;">
                 <button disabled>线路一</button>
@@ -66,7 +67,6 @@
                 <button disabled>线路三</button>
             </p>
         @else
-            <?php $channels = $live['channels'];?>
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php

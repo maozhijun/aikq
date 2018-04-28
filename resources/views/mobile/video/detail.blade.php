@@ -14,7 +14,7 @@
     <div class="default" id="Info" style="height: 140px;">
         <p class="other">{{$match['hname'] . ' ' . $match['hscore'] . ' - ' . $match['ascore'] . ' ' . $match['aname']}}</p>
     </div>
-    <div class="default" id="Video" style="height: 436px;">
+    <div class="default" id="Video" @if(1==2) style="height: 436px;" @endif >
         <?php $channels = $match['channels'];?>
         <div class="line">
             @foreach($channels as $index=>$channel)
