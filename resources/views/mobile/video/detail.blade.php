@@ -14,7 +14,7 @@
     <div class="default" id="Info" style="height: 140px;">
         <p class="other">{{$match['hname'] . ' ' . $match['hscore'] . ' - ' . $match['ascore'] . ' ' . $match['aname']}}</p>
     </div>
-    <div class="default" id="Video" @if(1==2) style="height: 436px;" @endif >
+    <div class="default" id="Video" @if() style="height: 436px;">
         <?php $channels = $match['channels'];?>
         <div class="line">
             @foreach($channels as $index=>$channel)
@@ -30,6 +30,7 @@
             @endforeach
         </div>
         <iframe id="Frame" src=""></iframe>
+        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/mobile/banner_app_n@3x.jpg"></div>
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/code.jpg">

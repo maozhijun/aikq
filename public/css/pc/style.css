@@ -91,7 +91,7 @@ body{
 }
 #Navigation .inner{
 	height: 58px;
-	/*background: url(/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
+	/*background: url(../img/image_slogan.png) no-repeat center; background-size: 120px;*/
 	position: initial;
 }
 #Navigation img.icon{
@@ -231,8 +231,16 @@ body{
 .adflag a + a{
 	margin-top: 10px;
 }
-
-
+.adbanner img.show{
+	width: 200px;
+	margin-left: -100px;
+	box-shadow: 0px 0px 20px #000;
+	position: absolute; bottom: 60%; left: 50%;
+	display: none;
+}
+.adbanner:hover img.show{
+	display: block;
+}
 
 
 

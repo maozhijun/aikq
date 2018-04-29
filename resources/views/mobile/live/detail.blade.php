@@ -101,13 +101,7 @@
             </div>
         @endif
             <iframe id="Frame"></iframe>
-            {{--@if($show_live)--}}
-                {{--<iframe id="Frame"></iframe>--}}
-            {{--@elseif($match['status'] == 0 && !$show_live)--}}
-                {{--<img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">--}}
-            {{--@elseif($match['status'] == -1 && !$show_live)--}}
-                {{--<img src="{{env('CDN_URL')}}/img/pc/image_video_bg.jpg" width="100%" height="100%">--}}
-            {{--@endif--}}
+            <div class="publicAd"><img src="{{env('CDN_URL')}}/img/mobile/banner_app_n@3x.jpg"></div>
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/zhibo616.jpg">
