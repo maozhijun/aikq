@@ -3,7 +3,7 @@
     <title>我正在爱看球看【{{$match['hname']}}vs{{$match['aname']}}】</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=201803030002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css">
 @endsection
 @section('banner')
     <?php

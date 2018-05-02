@@ -3,7 +3,7 @@
     <title>我正在爱看球看【{{$match['hname'] . ' VS ' . $match['aname']}}】</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=201803030002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -14,7 +14,7 @@
     <div class="default" id="Info" style="height: 140px;">
         <p class="other">{{$match['hname'] . ' ' . $match['hscore'] . ' - ' . $match['ascore'] . ' ' . $match['aname']}}</p>
     </div>
-    <div class="default" id="Video" @if() style="height: 436px;">
+    <div class="default" id="Video" style="height: 436px;">
         <?php $channels = $match['channels'];?>
         <div class="line">
             @foreach($channels as $index=>$channel)
