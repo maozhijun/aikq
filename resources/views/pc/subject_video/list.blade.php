@@ -18,34 +18,11 @@
                 <div class="labelbox">
                     @foreach($leagues as $lid=>$league)
                         @if(isset($league['count']) && isset($league['name']) && $league['count'] > 0)
-                            <button id="{{$lid}}" class="{{$lid == $type ? 'on' : ''}}">{{$league['name']}}</button>
+                            <a id="{{$lid}}" href="/live/subject/videos/{{$lid}}/1.html" class="{{$lid == $type ? 'on' : ''}}">{{$league['name']}}</a>
                         @endif
                     @endforeach
                 </div>
             </div>
-            {{--<table class="list" id="TableHead">--}}
-                {{--<col number="1" width="50px">--}}
-                {{--<col number="2" width="80px">--}}
-                {{--<col number="3" width="70px">--}}
-                {{--<col number="4" width="16%">--}}
-                {{--<col number="5" width="12px">--}}
-                {{--<col number="6" width="26px">--}}
-                {{--<col number="7" width="12px">--}}
-                {{--<col number="8" width="16%">--}}
-                {{--<col number="9" width="360px">--}}
-                {{--<thead>--}}
-                {{--<tr>--}}
-                    {{--<th>项目</th>--}}
-                    {{--<th>赛事</th>--}}
-                    {{--<th>时间</th>--}}
-                    {{--<th colspan="5">对阵</th>--}}
-                    {{--<th>直播频道</th>--}}
-                {{--</tr>--}}
-                {{--</thead>--}}
-                {{--<tbody>--}}
-                {{--<tr><th colspan="9"></th></tr>--}}
-                {{--</tbody>--}}
-            {{--</table>--}}
             <table class="list" id="Show" style="margin: 0 auto;">
                 <col number="1" width="50px">
                 <col number="2" width="80px">
@@ -56,15 +33,6 @@
                 <col number="7" width="12px">
                 <col number="8" width="22%">
                 <col number="9" width="200px">
-                {{--<thead>--}}
-                {{--<tr>--}}
-                    {{--<th>项目</th>--}}
-                    {{--<th>赛事</th>--}}
-                    {{--<th>时间</th>--}}
-                    {{--<th colspan="5">对阵</th>--}}
-                    {{--<th>直播频道</th>--}}
-                {{--</tr>--}}
-                {{--</thead>--}}
                 <tbody>
                 <?php $bj = 0; ?>
                 @foreach($matches as $time=>$match_array)
