@@ -49,7 +49,9 @@
             </table>
         </div>
     </div>
-    <div id="Page" curPage="{{$page['curPage']}}" lastPage="{{$page['lastPage']}}" style="display: none;"></div>
+    <div id="Page" curPage="{{$page['curPage']}}" lastPage="{{$page['lastPage']}}" @if($page['lastPage'] == 1) style="display: none;" @endif >
+        @component('pc.subject_video.list_page_cell', ['curPage'=>$page['curPage'], 'lastPage'=>$page['lastPage'], 'type'=>$type ]) @endcomponent
+    </div>
     {{--<div class="adflag left">--}}
         {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
         {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
@@ -70,7 +72,7 @@
         window.onload = function () { //需要添加的监控放在这里
             setADClose();
             setPage();
-            createPageHtml('Page');
+            //createPageHtml('Page');
             bindPageA("Page");
             bindType();
         }
