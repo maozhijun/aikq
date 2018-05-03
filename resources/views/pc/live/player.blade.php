@@ -15,12 +15,15 @@
 </head>
 <body scroll="no">
 <div class="player_content" id="MyFrame">
-    <p class="noframe" style="display: none;">距离比赛还有 <b>08:23</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>
+    {{--<p class="noframe" style="display: none;">距离比赛还有 <b>08:23</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>--}}
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
+<![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300004"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300007"></script>
 
 <script type="text/javascript">
     function isMobileWithJS() {
@@ -40,7 +43,7 @@
         P.innerHTML = Text;
         document.body.appendChild(P)
     }
-    window.host = '{{$host}}';
+    window.host = window.location.host;//'{{$host}}';
 {{--    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';--}}
             window.isMobile = isMobileWithJS();
     window.cdn_url = '{{$cdn}}';
@@ -49,7 +52,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803030020"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player.js?rd=201803030035"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

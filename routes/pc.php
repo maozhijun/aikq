@@ -83,14 +83,63 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get("/video/channel/{id}", 'VideoController@videoChannel');//热门频道线路
 
     //Route::get('/live/ex-link/{id}', 'LiveController@exLink');//外链跳转
-    Route::get('/live/player-json/{id}', 'LiveController@staticLiveUrl');//静态化 线路json
+    //========================================================专题页面========================================================//
+    Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面
 
-    //静态化
+    Route::get('/live/subject/{s_lid}.html', 'SubjectController@detail');
+
+
+    Route::get('/live/subject/video/{first}/{second}/{vid}.html', 'SubjectController@subjectVideo');//集锦终端页面
+    Route::get('/live/subject/specimen/{first}/{second}/{sid}.html', 'SubjectController@subjectSpecimen');//集锦播放终端页面
+
+    Route::get('/live/subject/video/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+    Route::get('/live/subject/video/channel/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+
+    Route::get('/live/subject/specimen/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    //========================================================专题页面========================================================//
+
+    //========================================================专题热门录像 开始========================================================//
+    Route::get('/live/subject/videos/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
+    Route::get('/live/subject/videos/detail.html', 'SubjectVideoController@videoDetail');//录像终端
+    //========================================================专题热门录像 结束========================================================//
+
+    //========================================================热门录像 开始========================================================//
+    Route::get('/live/videos/{type}/{page}.html', 'VideoController@videos');//录像列表
+    Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
+    //========================================================热门录像 结束========================================================//
+
+
+    //直播相关静态化
+    Route::get('/live/player-json/{id}', 'LiveController@staticLiveUrl');//静态化 线路json
     Route::get('/live/cache/live-json', 'LiveController@allLiveJsonStatic');//直播赛事接口静态化
     Route::get('/live/cache/match/detail', 'LiveController@staticLiveDetail');//静态化当前所有比赛的直播终端
     Route::get('/live/cache/player/json', 'LiveController@staticPlayerJson');//静态化所有当前正在比赛的线路
     Route::get('/live/cache/flush', 'LiveController@flushVideoCache');//刷新缓存文件
-    Route::get('/live/cache/match/detail_id/{id}/{sport}', 'LiveController@staticLiveDetailById');
+    Route::get('/live/cache/match/detail_id/{id}/{sport}', 'LiveController@staticLiveDetailById');//静态化wap/pc终端/线路
+
+    //专题静态化
+    Route::get('/static/subject/leagues', 'SubjectController@staticSubjectLeagues');//静态化专题列表json
+    Route::get('/static/subject/detail/{slid}', 'SubjectController@staticSubjectHtml');//静态化专题终端
+
+    Route::get('/static/subject/video/{vid}', 'SubjectController@staticSubjectVideoHtml');//专题录像终端静态化
+    Route::get('/static/subject/videos/detail/{type}/{page}', 'SubjectController@staticSubjectVideoHtmlFromVideos');//静态化列表中所有录像终端页面静态化
+    Route::get('/static/subject/video/channel/{ch_id}', 'SubjectController@staticSubjectVideoChannelJson');//专题录像线路静态化
+    Route::get('/static/subject/specimen/{sid}', 'SubjectController@staticSubjectSpecimenHtml');//专题集锦html静态化，线路静态化
+
+    Route::get('/static/subject/player', 'SubjectController@staticPlayer');//专题player页面静态化
+
+    //专题录像静态化 开始
+    Route::get('/static/subject-videos/leagues', 'SubjectVideoController@staticVideoLeaguesJson');//静态化热门录像类型json
+    Route::get('/static/subject-videos/detail/{type}/{page}', 'SubjectVideoController@staticSubjectVideosHtml');//静态化热门录像类型json
+    //专题录像静态化 结束
+
+    //热门录像静态化 开始
+    Route::get('/static/videos/types', 'VideoController@staticVideoTypesJson');//静态化热门录像类型json
+    Route::get('/static/videos/detail', 'VideoController@staticVideoDetail');//静态化热门录像类型json
+    Route::get('/static/videos/page/{type}/{page}', 'VideoController@staticVideosHtml');//静态化热门录像 分页列表/终端json
+//    Route::get('/static/videos/detail/{id}', 'VideoController@staticVideoJson');
+    //热门录像静态化 结束
 
 });
 

@@ -22,14 +22,26 @@ Route::group(["namespace" => 'Live'], function () {
     Route::any("/", function (){
         return redirect('/m/lives.html');
     });
+    Route::any("/football.html", function (){
+        return redirect('/m/lives.html');
+    });
+    Route::any("/basketball.html", function (){
+        return redirect('/m/lives.html');
+    });
+    Route::any("/other.html", function (){
+        return redirect('/m/lives.html');
+    });
     Route::get("/lives.html", "LiveController@lives");//直播列表
-    Route::get("/football.html", "LiveController@footballLives");//直播列表
-    Route::get("/basketball.html", "LiveController@basketballLives");//直播列表
-    Route::get("/other.html", "LiveController@otherLives");//自建赛事 直播列表
+    //Route::get("/football.html", "LiveController@footballLives");//直播列表
+    //Route::get("/basketball.html", "LiveController@basketballLives");//直播列表
+    //Route::get("/other.html", "LiveController@otherLives");//自建赛事 直播列表
 
     Route::get("/live/football/{id}.html", "LiveController@footballdetail");//直播终端
     Route::get("/live/basketball/{id}.html", "LiveController@basketballDetail");//直播终端
     Route::get("/live/other/{id}.html", "LiveController@otherDetail");//直播终端
+
+    Route::get("/live/subject/videos/{type}/{page}.html", 'LiveController@subjectVideos');//录像列表
+    Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
 
 //    Route::get('/lives/player.html', function () {return view('mobile.live.player');});
 //    Route::get("/lives/roll/{time}/{id}.html", "LiveController@roll");//直播滚球

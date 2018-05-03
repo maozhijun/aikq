@@ -2,7 +2,7 @@
 <tr>
     <td>
         @if($match['sport'] == 2) <p class="basketball">篮球</p> @elseif($match['sport'] == 1) <p class="football">足球</p>
-        @else <p class="football">{{$match['type'] == 1 ? '节目' : '比赛'}}</p> @endif
+        @else <p class="football">{{isset($match['project']) ? $match['project'] : ''}}</p> @endif
     </td>
     <td>{{$match['league_name']}}</td>
     <td>{{date('H:i', strtotime($match['time']))}}</td>

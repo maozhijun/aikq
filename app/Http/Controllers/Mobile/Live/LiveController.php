@@ -22,10 +22,10 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticIndex(Request $request){
-        $this->basketballLivesStatic($request);
+        //$this->basketballLivesStatic($request);
         //$this->footballLivesStatic($request);
-        $this->livesStatic($request);//静态化首页/足球列表/lives列表
-        $this->otherLivesStatic($request);
+        $this->livesStatic($request);//静态化首页
+        //$this->otherLivesStatic($request);
     }
 
     /**
@@ -39,6 +39,8 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/static/m/lives.html",$html);
                 Storage::disk("public")->put("/static/m/index.html",$html);
                 Storage::disk("public")->put("/static/m/football.html",$html);
+                Storage::disk("public")->put("/static/m/basketball.html",$html);
+                Storage::disk("public")->put("/static/m/other.html",$html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
@@ -100,7 +102,7 @@ class LiveController extends Controller
      */
     public function lives(Request $request) {
         $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
+        $url = env('LIAOGOU_URL')."aik/livesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
@@ -114,7 +116,7 @@ class LiveController extends Controller
         if (is_null($json)) {
             return;
         }
-        $json['type'] = 'football';
+        $json['type'] = 'live';
         return view('mobile.live.lives', $json);
     }
 
@@ -191,6 +193,104 @@ class LiveController extends Controller
         }
         $json['type'] = 'other';
         return view('mobile.live.lives', $json);
+    }
+
+    /**
+     * 热门录像 wap 列表
+     * @param Request $request
+     * @param $type
+     * @param $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function subjectVideos(Request $request, $type, $page) {
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . "?isMobile=1&page=" . $page;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
+        $json = json_decode($server_output,true);
+        if (is_null($json)) {
+            return;
+        }
+        if (!isset($json['videos'])) {
+            return;
+        }
+        return $this->subjectVideosHtml($json);
+    }
+
+    /**
+     * 页面html信息
+     * @param $data
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function subjectVideosHtml($data) {
+        $json = $this->subjectVideoData2Json($data);
+
+        return view('mobile.video.lives', $json);
+    }
+
+    /**
+     * 转化json数据格式
+     * @param $data
+     * @return mixed
+     */
+    public function subjectVideoData2Json($data) {
+        $videos = $data['videos'];
+        $matches = [];
+        foreach ($videos as $video) {
+            $time = $video['time'];
+            $day = date('Y-m-d', $time);
+            $matches[$day][] = $video;
+        }
+        $json['matches'] = $matches;
+        $json['page'] = $data['page'];
+        $json['videos'] = [];
+        $json['type'] = 'video';
+        return $json;
+    }
+
+    /**
+     * wap专题终端
+     * @param Request $request
+     * @param $first
+     * @param $second
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function subjectVideoDetail(Request $request, $first, $second, $id) {
+        $ch = curl_init();
+        //$url = env('LIAOGOU_URL')."aik/subjects/league/video/detail/" . $id . "?isMobile=1";
+        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id . "?isMobile=1";
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $server_output = curl_exec ($ch);
+        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        if ($http_code >= 400) {
+            return;
+        }
+        $json = json_decode($server_output,true);
+        if (is_null($json) || count($json) == 0) {
+            return;
+        }
+        return $this->subjectVideoDetailHtml($json);
+    }
+
+    /**
+     * wap专题终端HTML
+     * @param $data
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function subjectVideoDetailHtml($data) {
+        $json['match'] = $data;
+        return view('mobile.video.detail', $json);
     }
 
     /////////////////////////////////////  wap列表 结束   /////////////////////////////////////
@@ -646,10 +746,10 @@ class LiveController extends Controller
     public function liveDetailStatic(Request $request, $mid, $sport) {
         if (is_numeric($mid) && is_numeric($sport) && in_array($sport, [1, 2, 3])) {
             if ($sport == 1) {
-                $html = $this->footballdetail($request, $mid);
+                $html = $this->footballdetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
             } else if ($sport == 2) {
-                $html = $this->basketballDetail($request, $mid);
+                $html = $this->basketballDetail($request, $mid, true);
                 Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
             } else if ($sport == 3) {
                 $html = $this->otherDetail($request, $mid);

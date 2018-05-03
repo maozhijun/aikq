@@ -43,29 +43,13 @@
                 @endif
                 <div class="ADWarm_RU" style="display: none;"><p onclick="document.getElementById('Video').removeChild(this.parentNode)">· 我知道了 ·</p></div>
             </div>
-            <div class="share" id="Share">
+            <div class="share" id="Share" style="display:none;">
                 复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
             </div>
         </div>
-        {{--<div class="adbanner inner"><a href=""><img src="http://img2.titan007.com/image/56456gjf5.gif"></a></div>--}}
-        {{--<div class="adbanner inner"><a href=""><img src="http://img2.titan007.com/image/56456gjf5.gif"></a></div>--}}
-        {{--<div class="adbanner inner"><a><img src="/img/pc/ad/all.jpg"></a></div>--}}
-        {{--<div class="adbanner inner"><a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_all.jpg"></a></div>--}}
-        <div id="Talent" class="tabContent inner" style=""></div>
+        <div class="adbanner inner"><img src="{{env('CDN_URL')}}/img/pc/banner_pc_n@1x.jpg"><img class="show" src="{{env('CDN_URL')}}/img/pc/wechat.jpeg"></div>
     </div>
     <div class="clear"></div>
-    {{--<div class="adflag left">--}}
-    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-    {{--<br>--}}
-    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-    {{--</div>--}}
-    {{--<div class="adflag right">--}}
-    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-    {{--<br>--}}
-    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-    {{--</div>--}}
 @endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
@@ -85,5 +69,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018012611">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
 @endsection

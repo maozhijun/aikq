@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    @yield("first_js")
     <script type="text/javascript">
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;

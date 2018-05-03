@@ -1,14 +1,12 @@
 var CKHead = '/js/public/pc/ckplayer/';
-var maxTimeOut = 0;
-var ad_time = 0;
+var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
-var WXCodeRun = false;
-var firstShowCode = false;
-var active_text = '加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
-var active_code = '/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
-var valid_code = '8888';
-var show_ad = true;
+var cd = '/img/pc/code.jpg', cd_name = 'fs188fs', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
+var WXCodeRun = false, firstShowCode = false;
+var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
+var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
+var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
 $.ajax({
     "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
@@ -18,6 +16,9 @@ $.ajax({
             if (json.d) ad_d = json.d;
             if (json.z) ad_z = json.z;
             if (json.w) ad_w = json.w;
+            if (json.cd) cd = json.cd;
+            if (json.cd_name) cd_name = json.cd_name;
+            if (json.cd_text) cd_text = json.cd_text;
             if (json.code) valid_code = json.code;
         }
         var code = getCookie('LIVE_HD_CODE_KEY');
@@ -164,6 +165,33 @@ function LoadRtmp (Link){ //rtmp
     CKobject.embed( CKHead + 'ckplayer.swf?url=','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
 }
 
+function LoadMP4 (Link){ //录像
+    if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC() && navigator.userAgent.indexOf('Safari') == -1) {
+        Link = encodeURIComponent(Link)
+    }
+    var flashvars={
+        f:Link,
+        c:0,
+        p:1,
+        l: maxTimeOut > 0 ? '' : 'img/demo.jpg',
+        d:'img/demo.jpg',
+        z:'img/demo.jpg',
+        t: maxTimeOut > 0 ? 0 : 5,
+        loaded:'loadHandler'
+    };
+    if (flashvars.t == 0) {
+        flashvars.l = "";
+        flashvars.d = "";
+        flashvars.z = "";
+    }
+    var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+    var video=[''+Link+'->video/mp4'];
+    CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+
+    if (isPhone()) {
+        $('video').attr('playsinline','true')
+    }
+}
 
 function LoadIframe (Link) { //iframe
 	var Frame = document.createElement('iframe');
@@ -214,13 +242,13 @@ function loadHandler(){
         console.log('播放器已加载，调用的是HTML5播放模块');
         // CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer',bufferHandler);
-        //CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
+        CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
         CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
-        //CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
+        CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
         //CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
     }
 }
@@ -241,7 +269,7 @@ function playHandler (){
         checkActive();
         WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
             checkActive();
-        }, 1 * 60 * 1000);
+        }, 15 * 60 * 1000);
     }
 }
 
@@ -253,12 +281,18 @@ function bufferHandler (num) {
 }
 
 function errorHandler () {
-	if (maxTimeOut > 5) {
-		return;
-	}
-	maxTimeOut++;
-	console.log('error，重新请求链接');
-    playerLink();
+    var nowTime = (new Date()).getTime() / 1000;
+
+    if (matchStatus == 0 || matchTime > nowTime) {
+        countdownHtmlNew();
+    }
+    return;
+    // if (maxTimeOut > 5) {
+		// return;
+    // }
+    // maxTimeOut++;
+    // console.log('error，重新请求链接');
+    // playerLink();
 }
 
 //获取是S还是非S
@@ -268,6 +302,33 @@ function GetHttp () {
 	}else{
 		return 'http://';
 	}
+}
+function countdownHtmlNew() {
+    var mTime = matchTime;
+    var now = (new Date()).getTime() / 1000;
+    if (now >= mTime && errorRepeat < 2) {//现在大于等比赛时间，再请求一次
+        errorRepeat++;
+        playerLink();
+        return;
+    }
+    if (now >= mTime && errorRepeat >= 2) {
+        return;
+    }
+    var hour = Math.floor( (mTime - now) / (60 * 60) );
+    var minute = Math.floor( (mTime - now - hour * 60 * 60) / 60 );
+    var second = Math.floor( (mTime - now - hour * 60 * 60 - minute * 60) );
+
+    hour = hour < 10 ? "0" + hour : hour;
+    minute = minute < 10 ? "0" + minute : minute;
+    second = second < 10 ? "0" + second : second;
+
+    var html = hour + ":" + minute + ":" + second;
+    if ($("#MyFrame p.noframe").length == 0) {
+        $("#MyFrame").html('<p class="noframe" style="display: none;">距离比赛还有 <b>' + html + '</b><img class="code" src="' + cd + '">加微信 <b>' + cd_name + '</b><br/>' + cd_text + '</p>');
+    } else {
+        $("#MyFrame p.noframe").show().find('b:first').html(html);
+    }
+    setTimeout(countdownHtmlNew, 1000);
 }
 function countdownHtml(hour_html, minute_html, second_html) {
     var hour = '00';
@@ -327,11 +388,11 @@ function PlayVideoShare (cid, type){
     // if (type == 9) {
     //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
     // } else {
-        if (window.isMobile) {
-            url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
-        } else {
-            url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
-        }
+    if (isPhone()) {
+        url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
+    } else {
+        url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
+    }
     // }
     url = url + '?time=' + (new Date()).getTime();
 	$.ajax({
@@ -342,14 +403,17 @@ function PlayVideoShare (cid, type){
 			if (data.code == 0){
 				//CloseLoading();
 				var match = data.match;
+                matchStatus = match.status;
+                matchTime = match.time;
 				var show_live = match.show_live;
                 if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
                     $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
-                    if (match.status && match.status == 0) {
-                        countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                    if (match.status == 0) {
+                        //countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                        countdownHtmlNew();
                     }
 					return;
 				}else if(show_live){
@@ -399,6 +463,8 @@ function PlayVideoShare (cid, type){
 							LoadRtmp (Link)
 						} else if (PlayType == 17) {
                             LoadClappr(Link);
+                        } else if (PlayType == 18) {
+						    LoadMP4(Link);
                         }else if(PlayType == 100){//腾讯体育专用
                             $.ajax({
                                 url: Link,
@@ -435,6 +501,101 @@ function PlayVideoShare (cid, type){
             }
 		}
 	})
+}
+
+function PlayVideoSubject (cid, type){
+    var isPhone = window.isMobile;
+
+    var mobil = isPhone ? '/mobile' : '';
+    var url;
+    if (type == 'video' || type == 'specimen') {
+        var cidStr = cid + '';
+        var first = cidStr.substr(0, 2);
+        var second = cidStr.substr(2, 4);
+        url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
+    } else {
+        var index = Math.floor(cid / 10000);
+        url = '/live/videos/channel' + mobil + '/' + index + '/' + cid + '.json';
+    }
+
+    url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    $.ajax({
+        url: url,
+        type:'GET',
+        dataType:'json',
+        success:function(data){
+            if (data.code == 0){
+                //CloseLoading();
+                var show_live = true;
+                if (isPhone && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    return;
+                }
+                if(!show_live){
+                    // var match = data.match;//倒计时
+                    // if (match.status && match.status == 0) {
+                    //     countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                    // }
+                    return;
+                }else if(show_live){
+                    if (data.ad && data.ad == 2) {
+                        show_ad = false;
+                    }
+                    var Link = getLink(data);
+                    var PlayType = data.player;
+
+                    if (PlayType == 11) { //iframe
+                        LoadIframe(Link)
+                    }else if (PlayType == 12) { //ckplayer
+                        CheckPlayerType(Link,1);
+                    }else if (PlayType == 13) { //m3u8
+                        LoadCK (Link)
+                    }else if (PlayType == 14) { //flv
+                        LoadFlv (Link);
+                    }else if (PlayType == 15) { //rtmp
+                        LoadRtmp (Link)
+                    } else if (PlayType == 17) {
+                        LoadClappr(Link);
+                    } else if (PlayType == 18) {
+                        LoadMP4(Link);
+                    } else if (PlayType == 19) {//jsj
+                        LoadIframe(window.jsj + Link);
+                    }else if(PlayType == 100){//腾讯体育专用
+                        $.ajax({
+                            url: Link,
+                            dataType: "jsonp",
+                            success: function (data) {
+                                if(data.playurl) {
+                                    Link = data.playurl;
+                                    if (isMobileWithJS()) {
+                                        Link = Link.replace('.flv', '.m3u8');
+                                        LoadCK(Link);
+                                    }
+                                    else {
+                                        if (Link.indexOf('.flv') != -1) {
+                                            LoadFlv(Link);
+                                        }
+                                        else{
+                                            LoadCK(Link);
+                                        }
+                                    }
+                                }
+                                else{
+                                    document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        CheckPlayerType(Link,0)
+                    }
+
+                }
+            }else{
+                document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+            }
+        }
+    })
 }
 
 function LoadClappr(Link) { //clappr
@@ -476,9 +637,9 @@ function getLink (data) {
 
 //按链接选择播放方式
 function CheckPlayerType (Link,CK) {
-	/*if(Link.indexOf('zb.tc.qq.com') != -1){
-        GoTcPlayer(Link);
-    }else*/ if (Link.indexOf('.flv') != -1) {
+	if(Link.indexOf('.mp4') != -1){
+        LoadMP4(Link);
+    }else if (Link.indexOf('.flv') != -1) {
     	LoadFlv (Link);
 	}else if (Link.indexOf('rtmp://') == 0) {
     	LoadRtmp (Link);
@@ -701,7 +862,11 @@ function playerLink() {
     var cid = param.cid;
     var type = param.type;
     if (cid && cid != '') {
-        PlayVideoShare(cid, type);
+        if (type == 'video' || type == 'specimen' || type == 'hv') {
+            PlayVideoSubject(cid, type);
+        } else {
+            PlayVideoShare(cid, type);
+        }
     }
 }
 
@@ -746,6 +911,7 @@ function checkActive() {
 
 //关注微信引导
 function showWXCode (Text,Code) { //文字和二维码图片地址，文字可以使用\n换行，最多两行。
+    if (Code == "") return;
     CKobject.getObjectById('ckplayer_a1').textBoxClose('AttWX');
     var Status = CKobject.getObjectById('ckplayer_a1').getStatus();
     var Coor = '0,2,130,-62';

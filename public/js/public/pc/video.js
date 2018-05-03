@@ -17,17 +17,16 @@ function GetQueryString(str,href) {
 function LoadVideo () {
 	var MatchID = location.href.split('/')[location.href.split('/').length -1].split('.html')[0];
 	var NowBtn = GetQueryString('btn');
-
-	if (NowBtn && NowBtn != '' && $('#Info .line button:eq(' + parseInt(NowBtn) + ')')){
+	var cid = GetQueryString('cid');
+    var btn = {};
+	if (cid) {
+        $("#Info .line").find("#" + cid);
+	}
+	if (btn.length > 0) {
+        btn.trigger("click");
+	} else if (NowBtn && NowBtn != '' && $('#Info .line button:eq(' + parseInt(NowBtn) + ')')){
 		$('#Info .line button:eq(' + parseInt(NowBtn) + ')').trigger("click");
-	}else if (localStorage.getItem('Video_' + MatchID)) {
-		var Local = JSON.parse(localStorage.getItem('Video_' + MatchID));
-		if ($('#Info .line button:eq(' + Local.btn + ')')) {
-			$('#Info .line button:eq(' + Local.btn + ')').trigger("click");
-		}else{
-			$("#Info .line button:first").trigger("click");	
-		}
-	}else{
+	} else {
 		$("#Info .line button:first").trigger("click");
 	}
 }
@@ -51,7 +50,9 @@ function ChangeChannel (Link,obj) {
 		'btn': BtnNum
 	}
 
-	localStorage.setItem('Video_' + MatchID,JSON.stringify(Target));
+    // if(localStorage) {
+    //     localStorage.setItem('Video_' + MatchID, JSON.stringify(Target));
+    // }
 
 	if (!document.getElementById('Frame')) {
 		var Iframe = document.createElement('iframe');

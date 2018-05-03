@@ -114,7 +114,7 @@ class LiveController extends Controller
 //            echo $url;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
             $server_output = curl_exec ($ch);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close ($ch);
@@ -206,6 +206,7 @@ class LiveController extends Controller
         if (is_null($json)){
             //return abort(404);
         }
+        //$json['subjects'] = SubjectController::getSubjects();
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['check'] = 'all';
         return view('pc.home', $json);
@@ -1086,7 +1087,9 @@ class LiveController extends Controller
     public function getImage(Request $request) {
         $type = $request->input('type');//广告图片类型 1.前置广告类( l ), 2 . 暂停广告类 ( d ) , 3. 缓冲广告类 (z)
         $patch = $request->input('patch');//图片路径
-        if (!in_array($type, [1, 2, 3, 4])) {
+        $name = $request->input('name');
+        $text = $request->input('text');
+        if (!in_array($type, [1, 2, 3, 4, 5])) {
             echo "参数错误";
             return;
         }
@@ -1103,6 +1106,9 @@ class LiveController extends Controller
                 break;
             case 4:
                 $save_patch .= 'w/';
+                break;
+            case 5:
+                $save_patch .= 'cd/';
                 break;
         }
         $this->delStorageFiles('/public' . $save_patch);//删除图片
@@ -1136,7 +1142,7 @@ class LiveController extends Controller
             $file_patch = $save_patch . $fileName;
             Storage::disk('public')->put($file_patch, $img);
         }
-        $this->staticAdImages();
+        $this->staticAdImages($type, $name, $text);
     }
 
     /**
@@ -1162,21 +1168,31 @@ class LiveController extends Controller
 
     /**
      * 静态化广告文件
+     * @param $type
+     * @param $cd_name
+     * @param $cd_text
      */
-    protected function staticAdImages() {
+    protected function staticAdImages($type, $cd_name, $cd_text) {
         $patch = '/public/static/m/dd_image';
         $default_img = '/img/pc/demo.jpg';
         $l_file = $this->getStorageFirstFile($patch.'/l');
         $d_file = $this->getStorageFirstFile($patch.'/d');
         $z_file = $this->getStorageFirstFile($patch.'/z');
         $w_file = $this->getStorageFirstFile($patch.'/w');
+        $cd_file = $this->getStorageFirstFile($patch.'/cd');
 
         $l_file = empty($l_file) ? $default_img : str_replace('public/static', '', $l_file);
         $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
         $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
         $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
+        $cd_file = empty($cd_file) ? '/img/pc/code.jpg' : str_replace('public/static', '', $cd_file);
+
         $r_code = Redis::get(self::LIVE_HD_CODE_KEY);
-        $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file, 'code'=>$r_code];
+        $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file, 'code'=>$r_code, 'cd'=>$cd_file];
+        if ($type == 5) {
+            $json['cd_name'] = $cd_name;
+            $json['cd_text'] = $cd_text;
+        }
         Storage::disk('public')->put('/static/m/dd_image/images.json', json_encode($json));
     }
 

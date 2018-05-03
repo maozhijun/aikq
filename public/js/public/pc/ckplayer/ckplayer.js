@@ -21,7 +21,7 @@
 function ckcpt() {
     var cpt = '';
     //cpt += '/img/pc/2961515143003_pic_hd.png,0,2,6,-120,0,0|';
-    cpt += '/img/pc/logo_akq_white.png,2,0,-184,20,0,0|';
+    //cpt += '/img/pc/logo_akq_white.png,2,0,-184,20,0,0|';
     return cpt;
 }
 /*

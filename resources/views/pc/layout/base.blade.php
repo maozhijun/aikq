@@ -21,14 +21,19 @@
             window.location = str;
         }
     </script>
+    <?php
+        $title = isset($title) ? $title : '爱看球直播|爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线-爱看球';
+        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
+        $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
+    ?>
     <meta charset="UTF-8">
-    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
-    <meta name="Keywords" content="JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">
-    <meta name="Description" content="爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多">
+    <title>{{$title}}</title>
+    <meta name="Keywords" content="{{$keywords}}">
+    <meta name="Description" content="{{$description}}">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?2018020300001">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style2.css">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
@@ -36,14 +41,20 @@
 <div id="Navigation">
     <div class="inner">
         <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
-        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="/img/pc/WechatIMG60.jpeg"></p>
-        {{--<a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">全部</a>--}}
-        {{--<a class="column{{isset($check) && $check == 'bet' ? ' on' : ''}}" href="/betting.html">竞彩</a>--}}
-        {{--<a class="column{{isset($check) && $check == 'foot' ? ' on' : ''}}" href="/football.html">足球</a>--}}
+        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>
+        <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
+        <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
+        <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
         {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
         @yield('nav_inner')
     </div>
 </div>
+<?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
+@if(isset($subjects) && count($subjects) > 0)
+<div id="Link">
+    @foreach($subjects as $id=>$s_name) <a href="/live/subject/{{$id}}.html">{{$s_name}}</a> @endforeach
+</div>
+@endif
 @yield('content')
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
@@ -55,7 +66,7 @@
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!--[if lte IE 8]>
-<script type="text/javascript" src="{{env('CND_URL')}}/js/pc/jquery_191.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 @yield('js')
 <script>
