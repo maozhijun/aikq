@@ -33,6 +33,9 @@ class ShareController extends Controller
             return "您访问的链接出错或者不存在。";
         }
 
+        $server_output = str_replace('料狗','爱看球',$server_output);
+        $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
+
         return $server_output;
     }
 
@@ -54,7 +57,8 @@ class ShareController extends Controller
         if ($code >= 400 && $code <= 599) {
             return "您访问的链接出错或者不存在。";
         }
-
+        $server_output = str_replace('料狗','爱看球',$server_output);
+        $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
         return $server_output;
     }
 }
