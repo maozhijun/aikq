@@ -238,7 +238,7 @@ class LiveController extends Controller
             //return abort(404);
         }
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        $json['title'] = "站长合作-爱看球";
+        $json['title'] = "爱看球-站长合作";
         return view('pc.business', $json);
     }
 
@@ -377,7 +377,7 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '-爱看球';
+            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
         }
         return view('pc.live.video', $json);
     }
@@ -403,7 +403,7 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '-爱看球';
+            $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
         }
         return view('pc.live.video', $json);
     }
@@ -430,7 +430,7 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '-爱看球';
+            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
         }
         return view('pc.live.video', $json);
     }

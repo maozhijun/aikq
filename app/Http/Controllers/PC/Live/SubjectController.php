@@ -91,7 +91,7 @@ class SubjectController extends Controller
         $aname = $video['aname'];
 
         $match_title = $hname . "VS" . $aname;
-        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像-爱看球";
+        $result['title'] = '爱看球-' . $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }
@@ -110,7 +110,7 @@ class SubjectController extends Controller
         $aname = $video['aname'];
 
         $match_title = $hname . "VS" . $aname;
-        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像-爱看球";
+        $result['title'] = '爱看球-' . $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }
