@@ -22,7 +22,7 @@
         }
     </script>
     <?php
-        $title = isset($title) ? $title : '爱看球直播|爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线-爱看球';
+        $title = isset($title) ? $title : '爱看球-爱看球直播|爱看球JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线';
         $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
         $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
     ?>
@@ -33,7 +33,7 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style2.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
@@ -59,6 +59,7 @@
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
     {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
+    <p class="business"><a target="_blank" href="/live/business.html">站长合作</a></p>
     <p>Copyright 2014-2015 ©aikq.cc, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
 </div>

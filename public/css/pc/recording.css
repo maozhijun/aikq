@@ -8,20 +8,29 @@
 	border-bottom: 1px solid #dbdbdb;
 	background: #fff;
 }
-.moreVideo .labelbox button{
+.moreVideo .labelbox button, .moreVideo .labelbox a{
 	height: 42px;
 	margin-left: 4%;
 	border-radius: 0;
 	background: #fff;
-	font-size: 16px; text-align: center; line-height: 42px;
+	font-size: 16px; text-align: center; line-height: 42px; color: #242526;
+	position: relative;
+	display: block;
 	float: left;
 }
-.moreVideo .labelbox button:first-child{
+.moreVideo .labelbox button:first-child, .moreVideo .labelbox a:first-child{
 	margin-left: 20px;
 }
-.moreVideo .labelbox button:hover,.moreVideo .labelbox button.on{
-	border-bottom: 3px solid #4492fd;
+.moreVideo .labelbox button:hover,.moreVideo .labelbox button.on,
+.moreVideo .labelbox a:hover,.moreVideo .labelbox a.on{
 	color: #4492fd;
+}
+.moreVideo .labelbox button:hover:after,.moreVideo .labelbox button.on:after,
+.moreVideo .labelbox a:hover:after,.moreVideo .labelbox a.on:after{
+	height: 3px;
+	background: #4492fd;
+	position: absolute; bottom: 0; left: 0; right: 0;
+	content: '';
 }
 .moreVideo .list{
 	padding: 0 10px 10px;
@@ -37,11 +46,11 @@
 }
 .moreVideo .list .match span.time{
 	min-width: 40px; height: 24px;
-	margin-top: -12px; padding: 0 10px;
-	border-radius: 0 12px 12px 0;
-	background: #83a0d7;
-	line-height: 24px; color: #fff;
-	position: absolute; top: 50%; left: 0;
+    margin-top: -12px; padding: 0 10px;
+    border-radius: 0 12px 12px 0;
+    background: #83a0d7;
+    line-height: 24px; color: #fff;
+    position: absolute; top: 50%; left: 0;
 }
 .moreVideo .list .match span.host {
     width: 40%;

@@ -78,12 +78,17 @@ function canSaveIE () {
         return false;
     }
 }
-
-
 $(window).resize(function() {
 	$('#TableHead').width($('#Show').width());
 	$('#TableHead').css('left',$('#Content').offset().left);
 });
+function Copy() {
+    $('button.copy').click(function(){
+        $('#' + $(this).attr('for'))[0].select();
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        alert("已复制好，可贴粘。");
+    });
+}
 
 
 

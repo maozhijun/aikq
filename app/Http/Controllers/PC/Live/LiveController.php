@@ -33,6 +33,7 @@ class LiveController extends Controller
         $this->footballLivesStatic($request);
         $this->livesStatic($request);
         $this->betLivesStatic($request);
+        $this->businessStatic($request);
     }
 
     /**
@@ -43,6 +44,19 @@ class LiveController extends Controller
         $html = $this->betLives(new Request());
         try {
             Storage::disk("public")->put("/static/betting.html",$html);
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
+    }
+
+    /**
+     * 静态化站长合作
+     * @param Request $request
+     */
+    public function businessStatic(Request $request) {
+        $businessHtml = $this->business($request);
+        try {
+            Storage::disk("public")->put("/live/business.html", $businessHtml);
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
@@ -213,6 +227,22 @@ class LiveController extends Controller
     }
 
     /**
+     * 商务合作
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function business(Request $request) {
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
+        if (is_null($json)){
+            //return abort(404);
+        }
+        $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
+        $json['title'] = "爱看球-站长合作";
+        return view('pc.business', $json);
+    }
+
+    /**
      * 竞彩直播比赛列表
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
@@ -328,7 +358,7 @@ class LiveController extends Controller
      * 直播终端
      * @param Request $request
      * @param $id
-     * @param $immediate 是否即时获取数据
+     * @param bool $immediate  是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $id, $immediate = false) {
@@ -345,6 +375,10 @@ class LiveController extends Controller
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+        }
         return view('pc.live.video', $json);
     }
 
@@ -367,6 +401,10 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+        }
         return view('pc.live.video', $json);
     }
 
@@ -390,6 +428,10 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+        }
         return view('pc.live.video', $json);
     }
 
