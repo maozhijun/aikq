@@ -58,7 +58,8 @@ class DBSpreadCommand extends Command
         $server_output = str_replace('料狗','爱看球',$server_output);
         $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
 
-        Storage::disk("public")->put("/db/spread/matchList.html", $server_output);
+        if (!empty($server_output))
+            Storage::disk("public")->put("/db/spread/matchList.html", $server_output);
     }
 
 }
