@@ -238,7 +238,7 @@ class LiveController extends Controller
             //return abort(404);
         }
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        $json['title'] = "爱看球-站长合作";
+        $json['title'] = "爱看球-视频调用";
         return view('pc.business', $json);
     }
 
