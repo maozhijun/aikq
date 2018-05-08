@@ -59,7 +59,7 @@
         @endif
     </div>
     <?php $channels = $live['channels'];?>
-    <div class="default" id="Video" @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif >
+    <div class="default" id="Video"> {{-- @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif --}}
         @if(!isset($live))
             <p class="line" style="display: none;">
                 <button disabled>线路一</button>
