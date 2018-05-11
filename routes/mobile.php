@@ -21,6 +21,7 @@ Route::group(["namespace" => 'FIFA'], function () {
     Route::get("/worldcup/2018/rank.html", "WorldCupController@rank");
     Route::get("/worldcup/2018/team_index.html", "WorldCupController@teamIndex");
     Route::get("/worldcup/2018/team/{tid}.html", "WorldCupController@teamDetail");
+    Route::get("/worldcup/2018/topic/index.html", "WorldCupController@topicList");
 });
 
 /**
