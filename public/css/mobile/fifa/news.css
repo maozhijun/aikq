@@ -1,0 +1,38 @@
+﻿
+body{
+	padding: 88px 0 80px;
+}
+
+a.li{
+	height: 132px; 
+	padding: 20px 24px;
+	background: #fff;
+	position: relative;
+	display: block;
+}
+a.li + a.li:before{
+	height: 1px;
+	background: #e0e3ea;
+	position: absolute; top: 0; left: 24px; right: 0;
+	content: '';
+}
+a.li .img{
+	width: 240px; height: 132px;
+	margin-left: 60px;
+	float: right;
+}
+a.li p.title{
+	max-height: 84px;
+	font-size: 30px; line-height: 42px; 
+}
+a.li p.time{
+	font-size: 22px; line-height: 30px; color: #a7a1a1;
+	position: absolute; bottom: 20px; left: 24px;
+}
+
+
+
+
+
+
+

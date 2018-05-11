@@ -1,0 +1,310 @@
+﻿@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0;  font-style: inherit; font-size: 100%; font-family: inherit; }
+:focus { outline: 0; }
+table { border-collapse: collapse; border-spacing: 0; overflow: auto;}
+caption, th, td { font-weight: normal; }
+a img, iframe { border: none; padding: 0px;}
+ol, ul, li { list-style: none; }
+input, textarea, select, button { font-size: 100%; box-shadow:none; margin: 0; padding: 0; -webkit-appearance: none;}
+input:focus, textarea:focus{ background: #fff !important; border-color: rgba(222,32,55,0.5) !important;}
+select { margin: inherit; appearance:none; -moz-appearance:none; -webkit-appearance:none;}
+div,a,p,label{max-height: 999999px; color: #4f4f4f;}
+ol { margin-left:2em; }
+em{ font-style:normal}
+body{background-color: #f2f2f2; font-family: 'PingFang','苹方','STHeitiSC-Light','MicrosoftYaHei','微软雅黑'; text-align: left; color: #443f3f; -webkit-text-size-adjust: none;}
+a{text-decoration:none; -webkit-tap-highlight-color: rgba(255,255,255,0);}
+a,a:link,a:visited,a:hover,a:active{ color: inherit; cursor: pointer;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+button{padding: 0px; margin: 0px; border: 0px; cursor: pointer;-webkit-tap-highlight-color:rgba(0,0,0,0); text-align: center; font-family: 'PingFang','苹方','STHeitiSC-Light','MicrosoftYaHei','微软雅黑';}
+input:-webkit-autofill { background-color: none; } 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0; 
+}
+input[type="number"]{-moz-appearance:textfield;}
+*{-webkit-tap-highlight-color:rgba(0, 0, 0, 0);-ms-touch-action: manipulation;touch-action: manipulation;}
+
+/*基础样式*/
+.hidden{visibility: hidden;}
+.clear{clear: both;}
+
+/*默认框*/
+.default{
+	margin-bottom: 20px;
+	border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;
+	background: #fff;
+	display: block;
+	position: relative;
+}
+.default[close]{
+	height: 100px;
+	overflow: hidden;
+}
+.default > div.title{
+	min-height: 100px;
+	padding: 0 40px 0 44px;
+	border-bottom: 1px solid #e6e6e6;
+	background: #fff;
+	font-size: 32px; line-height: 100px; font-weight: bold;
+	position: none; position: sticky; position: -webkit-sticky; position: -ms-sticky; position: -o-sticky; top: 88px; left: 0; right: 0; z-index: 11;
+}
+.default > div.title:before{
+	width: 8px; height: 40px;
+	background: #bc1c25;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+.default > div.title > a{
+	padding-right: 50px;
+	margin-right: -30px;
+	background: url(../../img/customer2/icon_right.png) no-repeat right center; background-size: 60px;
+	float: right;
+	font-size: 28px; text-align: right; color: #999; font-weight: normal;
+}
+.default > div.title > span{
+	float: right;
+	font-size: 24px; text-align: right; color: #999; font-weight: normal;
+}
+.default > div.title > button.close{
+	height: 100px;
+	padding-right: 32px; margin-right: -8px;
+	background: url(../../img/customer2/bg_show_rotate.png) no-repeat right center; background-size: 22px;
+	float: right;
+	font-size: 24px; text-align: right; color: #bc1c25; font-weight: normal;
+	display: block;
+	float: right;
+}
+.default[close] > div.title > button.close{
+	background: url(../../img/customer2/bg_show.png) no-repeat right center; background-size: 22px;
+}
+.default > div.title > button.close:before{
+	content: '收起';
+}
+.default[close] > div.title > button.close:before{
+	content: '展开';
+}
+
+/*表单*/
+.default > table{
+	width: 100%;
+}
+.default > table th{
+	height: 70px;
+	background: #f3f3f3;
+	font-size: 24px; line-height: 32px; text-align: center; color: #7e7e7e;
+}
+.default div.title + table th{
+	border-top: none;
+}
+.default > table td{
+	border-top: 1px solid #e6e6e6;
+	font-size: 28px; line-height: 36px; text-align: center; color: #494949;
+}
+
+/*顶部*/
+#Topbar{
+	height: 88px;
+	background: #fff;
+	box-shadow: 0 2px 6px 0 rgba(41, 88, 153, 0.3);
+	position: fixed; top: 0; left: 0; right: 0; z-index: 2;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Topbar a{
+	height: 88px;
+	font-size: 30px; line-height: 88px; text-align: center;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	display: block;
+}
+#Topbar a.on{
+	color: #0c397d;
+}
+#Topbar a.on:before, #Topbar a.on:after{
+	height: 6px; width: 20px;
+	position: absolute; bottom: 4px; left: 50%;
+	content: '';
+}
+#Topbar a.on:before{
+	margin-left: -20px;
+	border-radius: 3px 0 0 3px;
+	background: #0c397d;
+}
+#Topbar a.on:after{
+	border-radius: 0 3px 3px 0;
+	background: #e32013;
+}
+
+#Bombar{
+	height: 80px;
+	background: #fff;
+	box-shadow: 0 -2px 6px 0 rgba(41, 88, 153, 0.3);
+	position: fixed; bottom: 0; left: 0; right: 0;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Bombar a{
+	height: 80px;
+	font-size: 32px; line-height: 80px; text-align: center; color: #9e9e9e;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	display: block;
+}
+#Bombar a.on{
+	color: #0c397d;
+}
+#Bombar a.on:before, #Bombar a.on:after{
+	width: 32px; height: 6px;
+	position: absolute; bottom: 0; left: 50%;
+	content: ''
+}
+#Bombar a.on:before{
+	margin-left: -32px;
+	border-radius: 2px 0 0 2px;
+	background: #0c397d;
+}
+#Bombar a.on:after{
+	border-radius: 0 2px 2px 0;
+	background: #e32013;
+}
+
+/*无内容状态*/
+.nolist{
+	display: none;
+}
+.nolist:first-child, #Navigation + .nolist{
+	display: block;
+}
+
+/*确认弹框*/
+div#ComfirmBox{
+	background: rgba(0,0,0,0.6);
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 60;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+div#ComfirmBox .default{
+	width: 80%; max-width: 80%;
+	margin: auto;
+	border-radius: 4px;
+	box-shadow: none;
+	position: relative; top: -64px;
+}
+div#ComfirmBox .default .title{
+	/*padding-left: 46px;*/
+	border-bottom: none;
+	text-align: center;
+	position: relative; top: 0;
+}
+div#ComfirmBox .default .title:before{
+	display: none;
+}
+div#ComfirmBox .comText{
+	padding: 20px 30px 40px;
+	font-size: 28px; line-height: 40px;
+}
+div#ComfirmBox .comText h4{
+	font-size: 28px; font-weight: bold;
+}
+div#ComfirmBox .comText p + p, div#ComfirmBox .comText p + span, div#ComfirmBox .comText span + p, div#ComfirmBox .comText p + h4{
+	padding-top: 16px;
+}
+div#ComfirmBox .comText p{
+	color: #6a6464;
+}
+div#ComfirmBox .comText span{
+	font-size: 24px; color: #999;
+	display: block;
+}
+div#ComfirmBox .comText b{
+	padding: 0 4px; color: #bc1c25;
+}
+div#ComfirmBox div.btn{
+	height: 80px;
+	margin: 0 20px; 
+	border-top: 1px solid #e6e6e6;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+div#ComfirmBox div.btn button{
+	height: 80px;
+	background: #fff;
+	font-size: 28px; color: #a82828;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	overflow: hidden;
+	position: relative;
+}
+div#ComfirmBox div.btn button + button:before{
+	width: 1px;
+	background: #e6e6e6;
+	position: absolute; top: 20px; bottom: 20px; left: 0;
+	content: '';
+}
+div#ComfirmBox div.btn button.comfirm{
+	color: #bc1c25;
+}
+
+/*加载及状态弹框*/
+div#Alert{
+	background: rgba(0,0,0,0.1);
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 300; /*Loading等状态alert框高度300*/
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; /*适配各个浏览器*/
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; /*适配各个浏览器*/
+	display: flex; align-items: center;
+}
+div#Alert[status=error]{
+	background: rgba(0,0,0,0);
+}
+div#Alert > div.loading, div#Alert > div.success{
+	width: 220px; height: 36px;
+	padding: 114px 20px 26px; margin: -88px 0 0 -130px;
+	border-radius: 4px;
+	background: #fff;
+	font-size: 26px; line-height: 36px; text-align: center; color: #2B3D45;
+	position: absolute; top: 50%; left: 50%;
+	visibility: hidden;
+	opacity: 0; filter:Alpha(opacity=0);
+	-ms-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -moz-transform: scale(1.1); transform: scale(1.1);
+	-moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s;
+}
+div#Alert > div.error{
+	max-width: 400px;
+	padding: 18px 30px; margin: 0 auto;
+	background: rgba(0,0,0,0.8);
+	border-radius: 4px;
+	font-size: 26px; line-height: 36px; text-align: center; color: #fff;
+	visibility: hidden;
+	opacity: 0; filter:Alpha(opacity=0);
+	-ms-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -moz-transform: scale(1.1); transform: scale(1.1);
+	-moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s;
+}
+div#Alert.hidden > div.loading, div#Alert.hidden > div.success, div#Alert.hidden > div.error{
+	-ms-transform: scale(1.1) !important; -webkit-transform: scale(1.1) !important; -o-transform: scale(1.1) !important; -moz-transform: scale(1.1) !important; transform: scale(1.1) !important;
+	opacity: 0 !important; filter:Alpha(opacity=0) !important;
+}
+div#Alert > div.loading:before, div#Alert > div.success:before{
+	width: 64px; height: 64px;
+	margin-left: -32px;
+	position: absolute; top: 30px; left: 50%;
+	content: '';
+}
+div#Alert[status=loading] > div.loading, div#Alert[status=success] > div.success, div#Alert[status=error] > div.error{
+	visibility: inherit;
+	opacity: 1; filter:Alpha(opacity=100);
+	-ms-transform: scale(1); -webkit-transform: scale(1); -o-transform: scale(1); -moz-transform: scale(1); transform: scale(1);
+}
+div#Alert > div.loading:before{
+	background: url(../../img/customer2/icon_loading_ring.png) no-repeat center; background-size: 64px;
+	-moz-animation: loading 0.5s linear infinite; -webkit-animation: loading 0.5s linear infinite; -o-animation: loading 0.5s linear infinite; animation: loading 0.5s linear infinite;
+}
+div#Alert > div.success:before{
+	background: url(../../img/customer2/icon_loading_draw.png) no-repeat center; background-size: 64px;
+	-ms-transform: rotate(-45deg); -webkit-transform: rotate(-45deg); -o-transform: rotate(-45deg); -moz-transform: rotate(-45deg); transform: rotate(-45deg);
+	-moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s;
+}
+div#Alert[status=success] > div.success:before{
+	-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg); transform: rotate(0deg);
+}
+
+@keyframes loading{
+	from {-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg); transform: rotate(0deg);}
+	to {-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); -o-transform: rotate(360deg); -moz-transform: rotate(360deg); transform: rotate(360deg);}
+}
