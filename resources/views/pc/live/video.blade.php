@@ -47,7 +47,7 @@
                 复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
             </div>
         </div>
-        <div class="adbanner inner"><img src="{{env('CDN_URL')}}/img/pc/banner_pc_n@1x.jpg"><img class="show" src="{{env('CDN_URL')}}/img/pc/wechat.jpeg"></div>
+        <div class="adbanner inner"><img src="{{env('CDN_URL')}}/img/pc/banner_pc_858@1x.jpg"><img class="show" src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg"></div>
     </div>
     <div class="clear"></div>
 @endsection

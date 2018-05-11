@@ -1,6 +1,14 @@
 @extends('pc.layout.base')
 @section('css')
 	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203030006">
+	<style type="text/css">
+		table.list thead th{height: 30px; font-size: 12px; line-height: 30px;}
+		table.list tbody th{height: 20px; font-size: 12px; line-height: 20px;}
+		table.list tbody td{height: 30px; font-size: 12px; line-height: 30px;}
+		table.list tbody td:nth-child(1) p{height: 20px; font-size: 12px; line-height: 20px;}
+		table.list tbody tr:nth-child(even) td{background: #f2f8fd;}
+		table.list tbody tr:nth-child(odd) td{background: #f9efed;}
+	</style>
 @endsection
 @section('content')
 	<div id="Content">

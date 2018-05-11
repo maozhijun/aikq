@@ -59,7 +59,7 @@
         @endif
     </div>
     <?php $channels = $live['channels'];?>
-    <div class="default" id="Video" @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif >
+    <div class="default" id="Video"> {{-- @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif --}}
         @if(!isset($live))
             <p class="line" style="display: none;">
                 <button disabled>线路一</button>
@@ -101,10 +101,10 @@
             </div>
         @endif
             <iframe id="Frame"></iframe>
-            <div class="publicAd"><img src="{{env('CDN_URL')}}/img/mobile/banner_app_n@3x.jpg"></div>
+            <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
     </div>
     <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/zhibo616.jpg">
+        <img src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg">
         <p>扫二维码进入群</p>
     </div>
 @endsection
