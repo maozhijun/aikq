@@ -1,0 +1,151 @@
+﻿
+.matchList{
+
+}
+.matchList .item{
+	height: 160px;
+	background: #fff;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	overflow: hidden;
+}
+.matchList .item + .item{
+	border-top: 1px solid #e0e3ea;
+}
+.matchList .item .part{
+	height: 160px;
+	font-size: 26px; line-height: 80px;
+	position: relative;
+}
+.matchList .item .part:nth-child(1){
+	width: 200px;
+	text-align: center;
+}
+.matchList .item .part:nth-child(2){
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+.matchList .item .part:nth-child(3){
+	width: 50px;
+	text-align: center;
+}
+.matchList .item .part:nth-child(4){
+	width: 50px;	
+	text-align: center;
+}
+.matchList .item .part:nth-child(5){
+	width: 56px;
+	padding: 0 40px 0 20px;
+}
+.matchList .item .part p{
+	height: 80px;
+}
+.matchList .item .part:nth-child(4) p{
+	color: #c1c1c1;
+}
+.matchList .item .group p:first-child{
+	padding-left: 22px;
+	text-align: left;
+}
+.matchList .item .group span.time{
+	padding-left: 20px;
+	color: #e32013;
+}
+.matchList .item .group .live:before{
+	width: 90px; height: 44px;
+	margin-top: 18px;
+	border-radius: 4px 0 0 4px;
+	background: #e32013;
+	font-size: 22px; line-height: 44px; text-align: center; color: #fff; vertical-align: top;
+	display: inline-block;
+	content: '直播中';
+}
+.matchList .item .group .end:before{
+	width: 90px; height: 44px;
+	border-radius: 4px;
+	background: #c1c1c1;
+	font-size: 22px; line-height: 44px; text-align: center; color: #fff;
+	display: inline-block;
+	content: '已结束';
+}
+.matchList .item .group span.minute{
+	width: 52px; height: 40px;
+	margin-top: 18px;
+	border-radius: 0 4px 4px 0; border: 2px solid #094c90;
+	font-size: 22px; line-height: 42px; text-align: center; color: #0c397d; vertical-align: top;
+	display: inline-block;
+}
+.matchList .item .group span.minute:after{
+	position: absolute;
+	content: "'"
+}
+.matchList .item .group img{
+	width: 50px; height: 50px;
+	margin: 15px auto;
+	display: block;
+}
+
+.matchList .team{
+	padding-left: 70px;
+	position: relative;
+}
+.matchList .team img{
+	width: 50px; height: 50px;
+	margin-top: -25px;
+	position: absolute; top: 50%; left: 0;
+}
+
+.matchList .half:before{
+	height: 80px;
+	margin-top: -40px;
+	font-size: 20px; line-height: 80px; text-align: center; color: #c1c1c1;
+	position: absolute; top: 50%; left: 0; right: 0;
+	content: '(半)';
+}
+.matchList .part .yellow, .matchList .part .red{
+	width: 28px; height: 36px;
+	line-height: 36px; text-align: center; color: #fff;
+	display: inline-block;
+}
+.matchList .part .yellow{
+	background: #d0a555;
+}
+.matchList .part .red{
+	background: #b65443;
+}
+.matchList .part.noStart .yellow{
+	background: #d1d1d1;
+}
+.matchList .part.noStart .red{
+	background: #9b9b9b;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
