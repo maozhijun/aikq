@@ -70,23 +70,24 @@
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
-                    if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-                        $preUrl = str_replace("https://","http://",env('APP_URL'));
-                    else if($channel['type'] == 99){
-                        if ($channel['player'] == 11){
-                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-                        }
-                        else{
-                            if (stristr($channel['link'],'player.pptv.com')){
-                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-                            }
-                            else{
-                                $preUrl = str_replace("http://","https://",env('APP_URL'));
-                            }
-                        }
-                    } else {
-                        $preUrl = str_replace("http://","https://",env('APP_URL'));
-                    }
+//                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
+//                            $preUrl = str_replace("https://","http://",env('APP_URL'));
+//                        else if($channel['type'] == 99){
+//                            if ($channel['player'] == 11){
+//                                $preUrl = str_replace("https://","http://",env('APP_URL'));
+//                            }
+//                            else{
+//                                if (stristr($channel['link'],'player.pptv.com')){
+//                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
+//                                }
+//                                else{
+//                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
+//                                }
+//                            }
+//                        } else {
+//                            $preUrl = str_replace("http://","https://",env('APP_URL'));
+//                        }
+                        $preUrl = '';
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
