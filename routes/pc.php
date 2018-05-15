@@ -157,3 +157,8 @@ Route::group(["namespace" => 'Live'],function (){
     Route::post('/live/ad/set-active', 'LiveController@setActive');//设置播放器活动
     //Route::get('/invitation/{code}',"HomeController@invitation");
 });
+
+Route::group(["namespace" => 'FIFA'], function () {
+//世界杯专题
+    Route::get("/worldcup/2018/index.html", "WorldCupController@index");
+});

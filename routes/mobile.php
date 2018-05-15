@@ -15,13 +15,15 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get('/',"LiveController@lives");
 });
 
-Route::group(["namespace" => 'FIFA'], function () {
 //世界杯专题
+Route::group(["namespace" => 'FIFA'], function () {
     Route::get("/worldcup/2018/index.html", "WorldCupController@index");
     Route::get("/worldcup/2018/rank.html", "WorldCupController@rank");
     Route::get("/worldcup/2018/team_index.html", "WorldCupController@teamIndex");
     Route::get("/worldcup/2018/team/{tid}.html", "WorldCupController@teamDetail");
     Route::get("/worldcup/2018/topic/index.html", "WorldCupController@topicList");
+    //静态化
+
 });
 
 /**
