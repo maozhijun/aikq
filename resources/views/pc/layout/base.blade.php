@@ -41,10 +41,11 @@
 <div id="Navigation">
     <div class="inner">
         <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
-        <p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>
+        {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
+        <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/live/business.html" target="_blank">视频调用</a>
         {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
         @yield('nav_inner')
     </div>
