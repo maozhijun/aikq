@@ -60,6 +60,21 @@ class DBSpreadCommand extends Command
 
         if (!empty($server_output))
             Storage::disk("public")->put("/db/spread/matchList.html", $server_output);
+
+        //json版
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."/spread/api/matchList.json";
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($code >= 400 && $code <= 599) {
+            return;
+        }
+
+        if (!empty($server_output))
+            Storage::disk("public")->put("/db/spread/matchList.json", $server_output);
     }
 
 }

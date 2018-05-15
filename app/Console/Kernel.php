@@ -76,7 +76,7 @@ class Kernel extends ConsoleKernel
             $mController->matchLiveStatic(new Request());//每分钟刷新比赛状态数据
         })->everyMinute();
 
-        $schedule->command('db_spread_cache:run')->everyThirtyMinutes();
+        $schedule->command('db_spread_cache:run')->everyTenMinutes();
 
         $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
