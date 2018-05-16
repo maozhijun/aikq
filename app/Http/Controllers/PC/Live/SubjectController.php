@@ -64,8 +64,10 @@ class SubjectController extends Controller
                 break;
             }
         }
+        $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
+        $result['title'] = '爱看球-' . $subjectName . '直播|' . $subjectName . '决赛直播|' . $subjectName . '录像';
         return view('pc.subject.detail', $result);
     }
 
