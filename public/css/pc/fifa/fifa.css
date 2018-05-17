@@ -409,7 +409,7 @@
 	display: block;
 }
 #Group .group{
-	padding-right: 348px; margin-top: 12px;
+	padding-right: 34%; margin-top: 12px;
 	position: relative;
 }
 #Group .group .title{
@@ -417,7 +417,7 @@
 	font-size: 20px; line-height: 36px; text-align: left; color: #0a0909;
 }
 #Group .group .right{
-	width: 336px;
+	width: 33%;
 	padding-top: 4px;
 	background: #fff;
 	position: absolute; top: 36px; bottom: 0; right: 0;
@@ -531,12 +531,13 @@
 	font-size: 0; text-align: center;
 }
 #Group .group .left ul.team .li{
-	width: 25%;
+	width: 25%; height: 106px;
 	position: relative;
 	display: inline-block;
 }
 #Group .group .left ul.team .li .imgbox{
-	padding: 0 10px;
+	height: 78px;
+	margin: 0 10px;
 }
 #Group .group .left ul.team .li .imgbox img{
 	width: 100%;
@@ -550,7 +551,7 @@
 }
 #Group .group .left ul.team .li p{
 	height: 24px;
-	padding-left: 48px;
+	padding-left: 58px;
 	font-size: 14px; line-height: 24px; text-align: left;
 	overflow: hidden;
 }

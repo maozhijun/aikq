@@ -53,7 +53,7 @@ function setFocus () {
 
 
 function setNews () {
-    $('#News .imgList').width(parseInt($('#News .con').width() - $('#News dl').width()-1) + 'px');
+    $('#News .imgList').width(parseInt($('#News .con').width() - $('#News dl').width() - 1) + 'px');
 
     $('#News .right .tab .item').click(function(){
         if (!$(this).hasClass('on')) {

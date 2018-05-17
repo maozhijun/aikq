@@ -401,7 +401,7 @@
                                     <th>平</th>
                                     <th>负</th>
                                     <th>净</th>
-                                    <th>积分</th>
+                                    <th>积</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -454,7 +454,7 @@
                             <ul class="team">
                                 @foreach($data['scores'] as $score)
                                     <a href="/worldcup/2018/team/{{$score['tid']}}.html" target="_blank" class="li">
-                                        <div class="imgbox"><img src="{{isset($score['bg_img'])?$score['bg_img']:env('CDN_URL').'/img/pc/fifa/image_bg.jpg'}}"></div>
+                                        <div class="imgbox" style="background: url({{isset($score['bg_img'])?$score['bg_img']:env('CDN_URL').'/img/pc/fifa/image_bg.jpg'}}) no-repeat center; background-size: cover;"></div>
                                         <img src="{{isset($score['ticon'])?$score['ticon']:env('CDN_URL').'/img/pc/fifa/icon_teamDefault.png'}}" class="icon">
                                         <p>{{$score['tname']}}</p>
                                     </a>
