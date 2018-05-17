@@ -10,8 +10,6 @@ else{
     $matchTime = '';
 }
 
-$matchUrl = \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($mid,1);
-
 if($status > 0)
     $matchUrl = $matchUrl.'#Match';
 
@@ -29,6 +27,7 @@ if ($status > 0 || $status == -1) {
 
 //默认是否显示
 $liveUrl = \App\Http\Controllers\PC\CommonTool::matchWapLivePathWithId($match['mid']);
+$matchUrl = \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($mid,1);
 
 $hicon = isset($match['hicon']) && strlen($match['hicon']) > 0 ? $match['hicon'] : '/phone/img/icon_teamDefault.png';
 $aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon'] : '/phone/img/icon_teamDefault.png';

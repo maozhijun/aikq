@@ -20,6 +20,7 @@
                 <div id="Focus">
                     @foreach($top['focus'] as $focus)
                         <a
+                                target="_blank"
                                 @if($loop->index == 0)
                                 class="item on"
                                 @else
@@ -71,8 +72,8 @@
                         ?>
                         <dl>
                             @for($i = 0 ; $i < 3 ;$i++)
-                                @if(count($topicsF) > $i)<dt><a href="">{{$topicsF[$i]['title']}}</a></dt>@endif
-                                <dd>@if(count($topicsS) > $i*4 + 0)<a href="">{{mb_substr($topicsS[$i*4 + 0]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 0]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 1)&nbsp;&nbsp;|&nbsp;&nbsp;<a href="">{{mb_substr($topicsS[$i*4 + 1]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 1]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 2)<a href="">{{mb_substr($topicsS[$i*4 + 2]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 2]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 3)&nbsp;&nbsp;|&nbsp;&nbsp;<a href="">{{mb_substr($topicsS[$i*4 + 3]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 3]['title'])))}}</a>@endif</dd>
+                                @if(count($topicsF) > $i)<dt><a target="_blank" href="{{$topicsF[$i]['link']}}">{{$topicsF[$i]['title']}}</a></dt>@endif
+                                <dd>@if(count($topicsS) > $i*4 + 0)<a target="_blank" href="{{$topicsS[$i*4 + 0]['link']}}">{{mb_substr($topicsS[$i*4 + 0]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 0]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 1)&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_blank" href="{{$topicsS[$i*4 + 1]['link']}}">{{mb_substr($topicsS[$i*4 + 1]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 1]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 2)<a target="_blank" href="{{$topicsS[$i*4 + 2]['link']}}">{{mb_substr($topicsS[$i*4 + 2]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 2]['title'])))}}</a>@endif @if(count($topicsS) > $i*4 + 3)&nbsp;&nbsp;|&nbsp;&nbsp;<a target="_blank" href="{{$topicsS[$i*4 + 3]['link']}}">{{mb_substr($topicsS[$i*4 + 3]['title'],0,min(11,mb_strlen($topicsS[$i*4 + 3]['title'])))}}</a>@endif</dd>
                             @endfor
                         </dl>
                         <div class="imgList">
@@ -149,9 +150,11 @@
                             $status = 0;
                             if(isset($match)){
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                             }
                             ?>
-                            <a href="" class="match" style="{{$posCss[$loop->index]}}">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl :$matchUrl}}" class="match" style="{{$posCss[$loop->index]}}">
                                 @if(isset($item['hteam']))
                                     <p @if($status == -1 && $match['hscore'] > $match['ascore']) class="team win" @else class="team" @endif>
                                         <img src="{{$item['hteam']['icon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'">
@@ -195,9 +198,11 @@
                             $status = 0;
                             if(isset($match)){
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                             }
                             ?>
-                            <a href="" class="match" style="{{$posCss[$loop->index]}}">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl :$matchUrl}}" class="match" style="{{$posCss[$loop->index]}}">
                                 @if(isset($item['hteam']))
                                     <p @if($status == -1 && $match['hscore'] > $match['ascore']) class="team win" @else class="team" @endif>
                                         <img src="{{$item['hteam']['icon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'">
@@ -239,9 +244,11 @@
                             $status = 0;
                             if(isset($match)){
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                             }
                             ?>
-                            <a href="" class="match" style="{{$posCss[$loop->index]}}">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl :$matchUrl}}" class="match" style="{{$posCss[$loop->index]}}">
                                 @if(isset($item['hteam']))
                                     <p @if($status == -1 && $match['hscore'] > $match['ascore']) class="team win" @else class="team" @endif>
                                         <img src="{{$item['hteam']['icon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'">
@@ -282,9 +289,11 @@
                             $status = 0;
                             if(isset($match)){
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                             }
                             ?>
-                            <a href="" class="match" style="{{$posCss[$loop->index]}}">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl :$matchUrl}}" class="match" style="{{$posCss[$loop->index]}}">
                                 @if(isset($item['hteam']))
                                     <p @if($status == -1 && $match['hscore'] > $match['ascore']) class="team win" @else class="team" @endif>
                                         <img src="{{$item['hteam']['icon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'">
@@ -320,9 +329,11 @@
                             $status = 0;
                             if(isset($match)){
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                             }
                             ?>
-                            <a href="" class="match finals">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl :$matchUrl}}" class="match finals">
                                 @if(isset($item['hteam']))
                                     <p @if($status == -1 && $match['hscore'] > $match['ascore']) class="team win" @else class="team" @endif>
                                         <img src="{{$item['hteam']['icon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'">
@@ -414,6 +425,8 @@
                                 @foreach($data['matches'] as $match)
                                     <?php
                                     $status = $match['status'];
+                                    $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
+                                    $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                                     ?>
                                     <li>
                                         <p class="time">{{date('m.d',$match['time'])}}<br/>{{date('H:i',$match['time'])}}</p>
@@ -427,20 +440,20 @@
                                         @if($status == -1)
                                             <p class="status">已结束</p>
                                         @elseif($status == 0)
-                                            <p class="status"><img src="{{env('CDN_URL')}}/img/pc/fifa/icon_living_n.png"></p>
+                                            <p class="status"><a href="{{$liveUrl}}" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/fifa/icon_living_n.png"></a></p>
                                         @elseif($status > 0)
                                             <p class="status live">比赛中</p>
                                         @endif
                                         <p class="abox">
-                                            <a href="">析</a>
-                                            <a href="">荐</a>
+                                            <a target="_blank" href="{{$matchUrl}}">析</a>
+                                            <a target="_blank" href="{{$matchUrl.'#Article'}}">荐</a>
                                         </p>
                                     </li>
                                 @endforeach
                             </ul>
                             <ul class="team">
                                 @foreach($data['scores'] as $score)
-                                    <a href="team.html" class="li">
+                                    <a href="/worldcup/2018/team/{{$score['tid']}}.html" target="_blank" class="li">
                                         <div class="imgbox"><img src="{{isset($score['bg_img'])?$score['bg_img']:env('CDN_URL').'/img/pc/fifa/image_bg.jpg'}}"></div>
                                         <img src="{{isset($score['ticon'])?$score['ticon']:env('CDN_URL').'/img/pc/fifa/icon_teamDefault.png'}}" class="icon">
                                         <p>{{$score['tname']}}</p>

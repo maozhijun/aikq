@@ -91,15 +91,14 @@ class CommonTool
      * @param int $sport
      * @return string
      */
-    public static function matchPathWithId($mid,$sport=CommonTool::kSportFootball){
+    public static function matchPathWithId($mid,$sport=CommonTool::kSportFootball,$time){
         $path = '';
         if ($mid > 1000) {
-            $first = substr($mid,0,2);
-            $second = substr($mid,2,2);
             if ($sport == 2) {
-                $path = '/match/basket/detail/' . $first . '/'. $second . '/' . $mid . '.html';
+                $path = '';
             } else {
-                $path = '/match/foot/detail/' . $first . '/'. $second . '/' . $mid . '.html';
+                $time = date('Ymd',$time);
+                $path = 'https://www.liaogou168.com/match_detail/' . $time . '/' . $mid . '.html';
             }
         }
         return $path;

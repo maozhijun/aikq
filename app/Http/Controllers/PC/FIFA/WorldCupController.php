@@ -35,10 +35,10 @@ class WorldCupController extends Controller{
         }
         $rest['top']['videos'] = $tmp;
         //资讯,先拿app接口
-        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',5);
+        $json = self::curlData('http://www.liaogou168.com/aik/subjects/detail/1008',5);
         $tmp = array();
-        if($json && $json['code'] == 0){
-            $tmp = $json['data'];
+        if($json && isset($json['articles'])){
+            $tmp = $json['articles'];
         }
         $rest['top']['topics'] = $tmp;
         //重点的比赛
@@ -51,7 +51,8 @@ class WorldCupController extends Controller{
         $rest['rank'] = $json;
 //        dump($rest);
         //淘汰赛
-        $json = json_decode(Storage::disk('public')->get('/static/tmp.json'), true);
+//        $json = json_decode(Storage::disk('public')->get('/static/tmp.json'), true);
+        $json = self::curlData('https://www.liaogou168.com/aik/worldcup/schedule',5);
         $rest['dieQuit'] = $json;
         return view('pc.fifa.index',$rest);
     }
