@@ -22,8 +22,13 @@ Route::group(["namespace" => 'FIFA'], function () {
     Route::get("/worldcup/2018/team_index.html", "WorldCupController@teamIndex");
     Route::get("/worldcup/2018/team/{tid}.html", "WorldCupController@teamDetail");
     Route::get("/worldcup/2018/topic/index.html", "WorldCupController@topicList");
-    //静态化
 
+    //静态化,只有球队列表才在这里做一次,没有必要定时任务,一次就够了
+    Route::get("/static/worldcup/team_index","WorldCupController@staticTeamIndex");
+    Route::get("/static/worldcup/rank","WorldCupController@staticRank");
+    Route::get("/static/worldcup/index","WorldCupController@staticIndex");
+    Route::get("/static/worldcup/team/{tid}","WorldCupController@staticTeamDetail");
+    Route::get("/static/worldcup/topic","WorldCupController@staticTopicList");
 });
 
 /**

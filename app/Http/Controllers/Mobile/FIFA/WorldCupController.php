@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Mobile\FIFA;
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -22,6 +23,11 @@ class WorldCupController extends Controller{
         return view('mobile.fifa.index',$rest);
     }
 
+    /**
+     * 积分射手榜
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function rank(Request $request){
 //        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
         $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
@@ -46,6 +52,11 @@ class WorldCupController extends Controller{
         return view('mobile.fifa.team_detail',$rest);
     }
 
+    /**
+     * 资讯列表
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function topicList(Request $request){
         $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',20);
         $rest['topics'] = $json['data'];
@@ -70,4 +81,59 @@ class WorldCupController extends Controller{
     }
 
     /****************** 静态化 *********************/
+    /**
+     * 球队列表,只要一次就好,基本上不会变了
+     * @param Request $request
+     */
+    public function staticTeamIndex(Request $request){
+        $html = $this->teamIndex($request);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/m/worldcup/2018/team_index.html", $html);
+        }
+    }
+
+    /**
+     * 球队终端
+     * @param Request $request
+     * @param $tid
+     */
+    public function staticTeamDetail(Request $request,$tid){
+        $html = $this->teamDetail($request,$tid);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/m/worldcup/2018/team/".$tid.".html", $html);
+        }
+    }
+
+    /**
+     * 积分射手榜
+     * @param Request $request
+     */
+    public function staticRank(Request $request){
+        $html = $this->rank($request);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/m/worldcup/2018/rank.html", $html);
+        }
+    }
+
+    /**
+     * 首页
+     * @param Request $request
+     */
+    public function staticIndex(Request $request){
+        $html = $this->index($request);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/m/worldcup/2018/index.html", $html);
+        }
+    }
+
+    /**
+     * 资讯
+     * @param Request $request
+     */
+    public function staticTopicList(Request $request){
+        $html = $this->topicList($request);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/m/worldcup/2018/topic/index.html", $html);
+        }
+    }
 }
