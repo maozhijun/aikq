@@ -88,7 +88,15 @@ class WorldCupController extends Controller{
     public function staticTeamIndex(Request $request){
         $html = $this->teamIndex($request);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/m/worldcup/2018/team_index.html", $html);
+            try {
+                Storage::disk("public")->put("/static/m/worldcup/2018/team_index.html", $html);
+            }
+            catch (\Exception $exception){
+                echo $exception;
+            }
+        }
+        else{
+            echo 'html为空';
         }
     }
 
@@ -100,7 +108,7 @@ class WorldCupController extends Controller{
     public function staticTeamDetail(Request $request,$tid){
         $html = $this->teamDetail($request,$tid);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/m/worldcup/2018/team/".$tid.".html", $html);
+            Storage::disk("public")->put("/static/m/worldcup/2018/team/".$tid.".html", $html);
         }
     }
 
@@ -111,7 +119,7 @@ class WorldCupController extends Controller{
     public function staticRank(Request $request){
         $html = $this->rank($request);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/m/worldcup/2018/rank.html", $html);
+            Storage::disk("public")->put("/static/m/worldcup/2018/rank.html", $html);
         }
     }
 
@@ -122,7 +130,7 @@ class WorldCupController extends Controller{
     public function staticIndex(Request $request){
         $html = $this->index($request);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/m/worldcup/2018/index.html", $html);
+            Storage::disk("public")->put("/static/m/worldcup/2018/index.html", $html);
         }
     }
 
@@ -133,7 +141,7 @@ class WorldCupController extends Controller{
     public function staticTopicList(Request $request){
         $html = $this->topicList($request);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/m/worldcup/2018/topic/index.html", $html);
+            Storage::disk("public")->put("/static/m/worldcup/2018/topic/index.html", $html);
         }
     }
 }

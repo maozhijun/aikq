@@ -80,12 +80,6 @@ class WorldCupController extends Controller{
         return view('pc.fifa.team_detail',$rest);
     }
 
-    public function topicList(Request $request){
-        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',20);
-        $rest['topics'] = $json['data'];
-        return view('mobile.fifa.topic_index',$rest);
-    }
-
     /**
      * 通过接口获取专题终端内容
      * @param $id
@@ -120,5 +114,37 @@ class WorldCupController extends Controller{
         curl_close ($ch);
         $pc_json = json_decode($pc_json,true);
         return $pc_json;
+    }
+
+    /********** 静态化 ************/
+    /**
+     * 球队列表,只要一次就好,基本上不会变了
+     * @param Request $request
+     */
+    public function staticIndex(Request $request){
+        $html = $this->index($request);
+        if (!is_null($html) && strlen($html) > 0){
+            try {
+                Storage::disk("public")->put("/static/worldcup/2018/index.html", $html);
+            }
+            catch (\Exception $exception){
+                echo $exception;
+            }
+        }
+        else{
+            echo 'html为空';
+        }
+    }
+
+    /**
+     * 球队终端
+     * @param Request $request
+     * @param $tid
+     */
+    public function staticTeamDetail(Request $request,$tid){
+        $html = $this->teamDetail($request,$tid);
+        if (!is_null($html) && strlen($html) > 0){
+            Storage::disk("public")->put("/static/worldcup/2018/team/".$tid.".html", $html);
+        }
     }
 }

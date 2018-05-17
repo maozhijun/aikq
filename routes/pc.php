@@ -162,4 +162,7 @@ Route::group(["namespace" => 'FIFA'], function () {
 //世界杯专题
     Route::get("/worldcup/2018/index.html", "WorldCupController@index");
     Route::get("/worldcup/2018/team/{tid}.html", "WorldCupController@teamDetail");
+    //静态化
+    Route::get("/pc/static/worldcup/index","WorldCupController@staticIndex");
+    Route::get("/pc/static/worldcup/team/{tid}","WorldCupController@staticTeamDetail");
 });

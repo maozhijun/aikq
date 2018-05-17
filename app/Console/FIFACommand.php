@@ -100,6 +100,7 @@ class FIFACommand extends Command
             $this->staticUrl(asset('/m/static/worldcup/rank'));
         }
         $this->staticUrl(asset('/m/static/worldcup/index'));
+        $this->staticUrl(asset('/pc/static/worldcup/index'));
         if ($min%5 == 0) {
             //5分钟一次资讯
             $this->staticUrl(asset('/m/static/worldcup/topic'));
@@ -109,6 +110,7 @@ class FIFACommand extends Command
             for ($i = 0 ; $i < 8 ;$i++){
                 $team = $tids[$min/15 + $i];
                 $this->staticUrl(asset('/m/static/worldcup/team/'.$team['tid']));
+                $this->staticUrl(asset('/pc/static/worldcup/team/'.$team['tid']));
             }
         }
     }
