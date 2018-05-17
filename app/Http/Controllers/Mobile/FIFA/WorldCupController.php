@@ -47,7 +47,7 @@ class WorldCupController extends Controller{
     }
 
     public function topicList(Request $request){
-        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=9',20);
+        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',20);
         $rest['topics'] = $json['data'];
         return view('mobile.fifa.topic_index',$rest);
     }

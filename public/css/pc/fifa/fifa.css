@@ -1,0 +1,572 @@
+﻿
+/*焦点图*/
+#Focus{
+	height: 420px;
+	position: relative;
+}
+#Focus .item{
+	opacity: 0;
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+	transition: opacity 0.5s; -moz-transition: opacity 0.5s; -webkit-transition: opacity 0.5s; -o-transition: opacity 0.5s;
+}
+#Focus .item.on{
+	opacity: 100;
+	z-index: 2;
+}
+#Focus .item p{
+	height: 60px;
+	background: #000; background: rgba(0,0,0,0.6);
+	font-size: 18px; line-height: 60px; text-align: center; color: #fff;
+	position: absolute; bottom: 0; left: 0; right: 0;
+}
+
+
+/*头条*/
+#News{
+	margin-top: 22px;
+}
+#News .right{
+	width: 20%; min-width: 206px;
+	margin-left: 12px; padding-top: 36px;
+	position: relative;
+	overflow: hidden;
+	float: right;
+}
+#News .right .tab{
+	height: 40px;
+	padding-top: 4px;
+	border-bottom: 1px solid #e6e6e6;
+	background: #fff;
+	text-align: center; font-size: 0;
+	position: relative;
+}
+#News .right .tab:before{
+	height: 4px;
+	background: #e32c3e;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#News .right .tab:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #15246e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#News .right .tab .item{
+	width: 40%;
+	font-size: 14px; line-height: 40px; color: #0a0909;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+#News .right .tab .item.on{
+	color: #4492fd;
+}
+#News .right .tab .item.on:after{
+	width: 40px; height: 2px;
+	margin-left: -20px;
+	background: #4492fd;
+	position: absolute; bottom: 4px; left: 50%;
+	content: '';
+}
+#News .right ul{
+	background: #fff;
+}
+#News .right ul li{
+	height: 30px;
+	padding: 0 20px 0 42px;
+	font-size: 13px; line-height: 30px; text-align: left; color: #484848;
+	position: relative;
+	overflow: hidden;
+}
+#News .right ul li:nth-child(1), #News .right ul li:nth-child(2), #News .right ul li:nth-child(3){
+	height: 40px;
+	font-size: 14px; line-height: 40px;
+}
+#News .right ul li p{
+	width: 14px; height: 14px;
+	margin-top: -7px;
+	background: #9fb1ca;
+	font-size: 12px; line-height: 14px; text-align: center; color: #fff;
+	position: absolute; top: 50%; left: 13px;
+}
+#News .right ul li:nth-child(1) p, #News .right ul li:nth-child(2) p, #News .right ul li:nth-child(3) p{
+	width: 18px; height: 18px;
+	margin-top: -9px;
+	background: #4492fd;
+	font-size: 14px; line-height: 18px;
+}
+#News .right ul li span{
+	float: right;
+}
+#News .left{
+
+}
+#News .left .title{
+	height: 36px;
+	font-size: 20px; line-height: 36px; text-align: left; color: #0a0909;
+}
+#News .left .title a{
+	font-size: 12px; color: #0a0909;
+	float: right;
+}
+#News .left .con{
+	height: 310px;
+	padding-top: 4px;
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+}
+#News .left .con:before{
+	height: 4px;
+	background: #15246e;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#News .left .con:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #e32c3e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#News .left .con dl{
+	min-width: 338px; width: 42%;
+	float: left;
+}
+#News .left .con dl dt{
+	height: 30px;
+	margin: 20px 16px 5px;
+	background: #9fb1ca;
+	font-size: 14px; line-height: 30px; text-align: center;
+}
+#News .left .con dl dt a{
+	color: #fff;
+}
+#News .left .con dl dd{
+	padding-left: 16px;
+	font-size: 12px; line-height: 12px;
+}
+#News .left .con dl dd a{
+	margin-top: 9px;
+	color: #484848;
+	display: inline-block;
+}
+#News .left .con dl dd a:hover{
+	color: #4492fd;
+}
+#News .left .con .imgList{
+	height: 310px;
+	margin-top: 20px;
+	float: right;
+}
+#News .left .con .imgList ul{
+	padding: 0 5% 0 6%;
+	font-size: 0;
+}
+#News .left .con .imgList a.li{
+	width: 50%;
+	font-size: 12px; line-height: 28px; text-align: center; color: #484848;
+	display: inline-block;
+}
+#News .left .con .imgList a.li .imgBox{
+	height: 110px;
+	margin-right: 10px;
+}
+#News .left .con .imgList a.li p{
+	height: 28px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+/*焦点对决*/
+#Match{
+	margin-top: 22px;
+}
+#Match .title{
+	height: 36px;
+	font-size: 20px; line-height: 36px; text-align: left; color: #0a0909;
+}
+#Match .con{
+	padding-top: 4px;
+	background: url(../img/match_bg.jpg) no-repeat center top; background-size: 100% 60px;
+	font-size: 0px; text-align: center;
+	position: relative;
+}
+#Match .con:before{
+	height: 4px;
+	background: #bfa428;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#Match .con:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #e32c3e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#Match .con a{
+	height: 50px; width: 44%;
+	margin: 20px 20px 0; padding: 38px 0 12px;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0px 4px 10px 0px rgba(104, 0, 6, 0.2);
+	position: relative;
+	display: inline-block;
+}
+#Match .con a .time{
+	height: 0px;
+	border-left: 50px solid transparent; border-right: 50px solid transparent; border-top: 30px solid #7193c2; 
+	font-size: 12px; line-height: 30px; text-align: center; color: #fff;
+	position: absolute; top: 0; left: 50px; right: 50px;
+}
+#Match .con a .time span{
+	background: #9bbce9;
+	position: absolute; top: -30px; left: 0; right: 0;
+}
+#Match .con a .item{
+	height: 50%;
+	padding: 0 90px;
+	font-size: 0px; text-align: center;
+	position: absolute; bottom: 12px; left: 0; right: 0;
+}
+#Match .con a .item img{
+	width: 50px; height: 50px;
+	margin-top: -25px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0px 4px 10px 0px rgba(68, 146, 253, 0.3);
+	position: absolute; top: 50%;
+}
+#Match .con a .item img.host{
+	left: 20px;
+}
+#Match .con a .item img.away{
+	right: 20px;
+}
+#Match .con a .item p{
+	width: 40%; height: 50px;
+	font-size: 14px; line-height: 50px; text-align: center; color: #0a0909;
+	overflow: hidden;
+	display: inline-block;
+}
+#Match .con a .item p.vs{
+	width: 20%;
+}
+
+/*淘汰赛*/
+#DieOut{
+	margin-top: 22px;
+}
+#DieOut .title{
+	height: 36px;
+	font-size: 20px; line-height: 36px; text-align: left; color: #0a0909;
+}
+#DieOut .con{
+	height: 544px;
+	padding-top: 4px;
+	background: url(../img/icon_cup.png) no-repeat center 12px #fff;
+	position: relative;
+}
+#DieOut .con:before{
+	height: 4px;
+	background: #004c81;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#DieOut .con:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #e32c3e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#DieOut .con .line{
+	background: #fff;
+	position: absolute;
+}
+#DieOut .con .line.left{
+	border: 2px solid #9fb1ca;
+	border-left: none;
+}
+#DieOut .con .line.right{
+	border: 2px solid #9fb1ca;
+	border-right: none;
+}
+#DieOut .con .line.horizontal{
+	height: 2px;
+	background: #9fb1ca;
+}
+#DieOut .con .line.vertical{
+	width: 2px;
+	background: #9fb1ca;
+}
+#DieOut .con .match{
+	width: 14.6%; height: 80px;
+	border: 1px solid #9fb1ca;
+	background: #fff;
+	position: absolute;
+	display: block;
+}
+#DieOut .con .match:before{
+	width: 40px;
+	background: #f1f1f1;
+	position: absolute; top: 0; left: 0; bottom: 0;
+	content: '';
+}
+#DieOut .con .match.finals{
+	width: 25.4%; height: 100px;
+	margin-left: -12.7%;
+	top: 85px; left: 50%;
+}
+#DieOut .con .match.finals:before{
+	width: 50px;
+}
+#DieOut .con .match .team{
+	height: 50%;
+	padding-left: 44px;
+	font-size: 12px; line-height: 40px; color: #0a0909;
+	overflow: hidden;
+	position: relative;
+}
+#DieOut .con .match .team.empty:before{
+	height: 10px;
+	margin-top: -5px;
+	background: #f1f1f1;
+	position: absolute; left: 44px; right: 36px; top: 50%;
+	content: '';
+}
+#DieOut .con .match.finals .team{
+	padding-left: 54px;
+	line-height: 50px;
+}
+#DieOut .con .match.finals .team.empty:before{
+	left: 54px;
+}
+#DieOut .con .match .team.win{
+	background: #4492fd;
+	color: #fff;
+}
+#DieOut .con .match .team.win:first-child{
+	background: #e32c3e;
+}
+#DieOut .con .match .team img{
+	width: 30px; height: 30px;
+	padding: 5px;
+	background: #fff;
+	position: absolute; top: 0; left: 0; z-index: 1;
+}
+#DieOut .con .match.finals .team img{
+	width: 40px; height: 40px;
+}
+#DieOut .con .match .team span{
+	width: 30px;
+	text-align: center;
+	display: inline-block;
+	float: right;
+}
+#DieOut .con .match .team.win span{
+	background: #004c81;
+}
+#DieOut .con .match .team.win:first-child span{
+	background: #bc1c25;
+}
+
+#Group{
+	margin: 30px 0 50px;
+}
+#Group .tab{
+	height: 30px;
+	background: #fff;
+}
+#Group .simulation{
+	box-shadow: 0px 4px 10px 0px rgba(104, 0, 6, 0.2);
+	position: fixed; top: 90px; left: 14%; right: 14%; z-index: 10;
+	display: none;
+}
+#Group .tab p{
+	height: 30px; width: 50px;
+	font-size: 12px; line-height: 30px; text-align: center; color: #0a0909;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+#Group .tab p:before, #Group .tab p::after{
+	height: 2px; width: 10px;
+	position: absolute; bottom: 0; left: 50%;
+	display: none;
+	content: '';
+}
+#Group .tab p:before{
+	margin-left: -10px;
+	background: #e32c3e;
+}
+#Group .tab p:after{
+	background: #4492fd;
+}
+#Group .tab[site=A] p[for=A_Group]:before, #Group .tab[site=A] p[for=A_Group]:after,
+#Group .tab[site=B] p[for=B_Group]:before, #Group .tab[site=B] p[for=B_Group]:after,
+#Group .tab[site=C] p[for=C_Group]:before, #Group .tab[site=C] p[for=C_Group]:after,
+#Group .tab[site=D] p[for=D_Group]:before, #Group .tab[site=D] p[for=D_Group]:after,
+#Group .tab[site=E] p[for=E_Group]:before, #Group .tab[site=E] p[for=E_Group]:after,
+#Group .tab[site=F] p[for=F_Group]:before, #Group .tab[site=F] p[for=F_Group]:after,
+#Group .tab[site=G] p[for=G_Group]:before, #Group .tab[site=G] p[for=G_Group]:after,
+#Group .tab[site=H] p[for=H_Group]:before, #Group .tab[site=H] p[for=H_Group]:after{
+	display: block;
+}
+#Group .group{
+	padding-right: 348px; margin-top: 12px;
+	position: relative;
+}
+#Group .group .title{
+	height: 36px;
+	font-size: 20px; line-height: 36px; text-align: left; color: #0a0909;
+}
+#Group .group .right{
+	width: 336px;
+	padding-top: 4px;
+	background: #fff;
+	position: absolute; top: 36px; bottom: 0; right: 0;
+}
+#Group .group .right:before{
+	height: 4px;
+	background: #e32c3e;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#Group .group .right:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #15246e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#Group .group .right table{
+	width: 100%;
+}
+#Group .group .right table th{
+	height: 40px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 14px; line-height: 40px; text-align: center; color: #484848;
+}
+#Group .group .right table td{
+	height: 50px;
+	font-size: 14px; line-height: 24px; text-align: center; color: #484848;
+}
+#Group .group .right table td p{
+	width: 18px; height: 18px;
+	margin: 0 auto;
+	background: #9fb1ca;
+	line-height: 18px; text-align: center; color: #fff;
+}
+#Group .group .right table tr:first-child td p, #Group .group .right table tr:first-child + tr td p{
+	background: #4492fd;
+}
+#Group .group .left{
+	padding: 4px 0 30px;
+	background: #fff;
+	position: relative;
+}
+#Group .group .left:before{
+	height: 4px;
+	background: #15246e;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+#Group .group .left:after{
+	border-left: 10px solid transparent; border-bottom: 4px solid #e32c3e; 
+	position: absolute; top: 0; left: 50%; right: 0;
+	content: '';
+}
+#Group .group .left ul.match{
+	padding: 10px 0;
+	font-size: 0px;
+}
+#Group .group .left ul.match li{
+	width: 50%; height: 30px;
+	text-align: center;
+	position: relative;
+	display: inline-block;
+}
+#Group .group .left ul.match li:nth-child(2n):before{
+	width: 1px;
+	background: #15246e;
+	position: absolute; left: 0; top: 5px; bottom: 5px;
+	content: '';
+}
+#Group .group .left ul.match li p{
+	height: 30px;
+	line-height: 30px; text-align: center; vertical-align: middle;
+	display: inline-block;
+	overflow: hidden;
+}
+#Group .group .left ul.match li p.time{
+	width: 48px;
+	font-size: 12px; line-height: 14px; color: #484848;
+}
+#Group .group .left ul.match li p.team{
+	font-size: 12px; line-height: 30px; color: #0a0909;
+}
+#Group .group .left ul.match li p.vs{
+	width: 40px;
+	font-size: 14px; line-height: 30px; color: #0a0909;
+}
+#Group .group .left ul.match li p.status{
+	width: 50px; height: 22px;
+	border-radius: 2px;
+	font-size: 12px; line-height: 22px; text-align: center; color: #e8e8e8;
+}
+#Group .group .left ul.match li p.status.live{
+	background: #bc1c25;
+	color: #fff;
+}
+#Group .group .left ul.match li p.status img{
+	height: 24px; height: 24px;
+}
+#Group .group .left ul.match li p.abox{
+	width: 60px;
+	font-size: 12px; line-height: 30px; color: #484848;
+}
+#Group .group .left ul.match li p.abox a{
+	padding: 0 4px;
+	text-decoration: underline;
+}
+#Group .group .left ul.match li p.abox a:hover{
+	color: #4492fd;
+}
+#Group .group .left ul.team{
+	padding: 0 18px;
+	font-size: 0; text-align: center;
+}
+#Group .group .left ul.team .li{
+	width: 25%;
+	position: relative;
+	display: inline-block;
+}
+#Group .group .left ul.team .li .imgbox{
+	padding: 0 10px;
+}
+#Group .group .left ul.team .li .imgbox img{
+	width: 100%;
+}
+#Group .group .left ul.team .li img.icon{
+	width: 30px; height: 30px;
+	padding: 4px;
+	border-radius: 50%; border: solid 1px #f1f1f1;
+	background: #fff;
+	position: absolute; bottom: 0; left: 10px;
+}
+#Group .group .left ul.team .li p{
+	height: 24px;
+	padding-left: 48px;
+	font-size: 14px; line-height: 24px; text-align: left;
+	overflow: hidden;
+}
+
+
+
+@media screen and (min-width: 1550px){
+	#News .left .title a{
+		color: #fff;
+	}
+}
+
+
+
+
+
+
+
+

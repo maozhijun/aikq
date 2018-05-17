@@ -13,12 +13,6 @@
     <title>世界杯看球助手</title>
 </head>
 <body>
-<div id="Topbar">
-    <a href="">直播</a>
-    <a href="">录像</a>
-    <a href="">推荐</a>
-    <a class="on">世界杯</a>
-</div>
 @yield('content')
 </body>
 @yield('js')

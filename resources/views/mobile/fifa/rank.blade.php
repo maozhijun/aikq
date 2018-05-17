@@ -1,5 +1,11 @@
 @extends('mobile.fifa.base')
 @section('content')
+    <div id="Topbar">
+        <a href="https://www.aikq.cc/m/">直播</a>
+        <a href="https://www.aikq.cc/m/live/subject/videos/all/1.html">录像</a>
+        <a href="https://shop.liaogou168.com/article/recommends">推荐</a>
+        <a class="on">世界杯</a>
+    </div>
     <div id="roundTab">
         <p class="on" for="group">积分榜</p>
         <p for="goal">射手榜</p>

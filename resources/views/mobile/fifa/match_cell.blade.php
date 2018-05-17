@@ -33,7 +33,7 @@ $liveUrl = \App\Http\Controllers\PC\CommonTool::matchWapLivePathWithId($match['m
 $hicon = isset($match['hicon']) && strlen($match['hicon']) > 0 ? $match['hicon'] : '/phone/img/icon_teamDefault.png';
 $aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon'] : '/phone/img/icon_teamDefault.png';
 ?>
-<a class="item" href="#">
+<a class="item" href="{{$status > 0 ? $liveUrl : $matchUrl}}">
     <div class="part group">
         <p>{{date('m/d H:i',$match['time'])}}</p>
         @if($status > 0)
@@ -41,7 +41,7 @@ $aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon']
         @elseif($status == -1)
             <p class="end"></p>
         @else
-            <p><img src="img/icon_living_n.png"></p>
+            <p><img src="{{env('CDN_URL')}}/img/mobile/fifa/icon_living_n.png"></p>
         @endif
     </div>
     <div class="part">

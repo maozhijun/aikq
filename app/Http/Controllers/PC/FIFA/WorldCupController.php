@@ -17,65 +17,70 @@ use Illuminate\Support\Facades\Storage;
 
 class WorldCupController extends Controller{
     public function index(Request $request){
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',10);
+        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',5);
         $rest = array();
         //赛程
         $rest['schedule'] = $json;
         //顶部推荐类
         $rest['top'] = array();
         //集锦
-        $detail = $this->getSubjectDetail(1007);
+        $detail = $this->getSubjectDetail(1008);
         $tmp = array();
-        foreach ($detail['specimens'] as $key=>$item){
-            foreach ($item as $video){
-                $tmp[] = $video;
+        if (isset($detail) && isset($detail['specimens'])) {
+            foreach ($detail['specimens'] as $key => $item) {
+                foreach ($item as $video) {
+                    $tmp[] = $video;
+                }
             }
         }
         $rest['top']['videos'] = $tmp;
         //资讯,先拿app接口
-        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=9',10);
+        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',5);
         $tmp = array();
         if($json && $json['code'] == 0){
             $tmp = $json['data'];
         }
         $rest['top']['topics'] = $tmp;
         //重点的比赛
-        $rest['top']['focus_matches'] = array();
+        $json = self::curlData('https://www.liaogou168.com/aik/worldcup/hotMatch',5);
+        $rest['top']['focus_matches'] = $json;
         //焦点图
         $rest['top']['focus'] = $this->getIndexCarousel(1008);
         //排行榜
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
+        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',5);
         $rest['rank'] = $json;
-        dump($rest);
+//        dump($rest);
+        //淘汰赛
+        $json = json_decode(Storage::disk('public')->get('/static/tmp.json'), true);
+        $rest['dieQuit'] = $json;
         return view('pc.fifa.index',$rest);
     }
 
-    public function rank(Request $request){
-//        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
-        $json = json_decode(Storage::disk('public')->get('/static/rank.json'), true);
-        $rest = array();
-        $rest['rank'] = $json;
-        $json = json_decode(Storage::disk('public')->get('/static/tmp.json'), true);
-        $rest['score'] = $json;
-        return view('mobile.fifa.rank',$rest);
-    }
-
-    //球队列表
-    public function teamIndex(Request $request){
-        $json = json_decode(Storage::disk('public')->get('/static/tmp.json'), true);
-        $rest['group'] = $json['stages'][0]['groupMatch'];
-        return view('mobile.fifa.team_index',$rest);
-    }
-
     //球队终端
-    public function teamDetail(Request $request){
-        $json = json_decode(Storage::disk('public')->get('/static/detail.json'), true);
+    public function teamDetail(Request $request,$tid){
+        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/'.$tid.'/detail.json',10);
         $rest = $json;
-        return view('mobile.fifa.team_detail',$rest);
+        //小组积分
+        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',10);
+        $groups = $json['stages'][0]['groupMatch'];
+        $isHere = false;
+        $rest['scores'] = array();
+        foreach ($groups as $key=>$item){
+            foreach ($item['scores'] as $score){
+                if ($score['tid'] == $tid){
+                    $isHere = true;
+                }
+            }
+            if ($isHere){
+                $rest['scores'] = $item['scores'];
+                break;
+            }
+        }
+        return view('pc.fifa.team_detail',$rest);
     }
 
     public function topicList(Request $request){
-        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=9',20);
+        $json = self::curlData('https://shop.liaogou168.com/api/v140/app/topic/list?type=12',20);
         $rest['topics'] = $json['data'];
         return view('mobile.fifa.topic_index',$rest);
     }

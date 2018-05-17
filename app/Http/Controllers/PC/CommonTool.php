@@ -24,19 +24,17 @@ class CommonTool
     public static function matchLivePathWithId($mid,$sport=CommonTool::kSportFootball){
         $path = '';
         if ($mid > 1000) {
-            $first = substr($mid,0,2);
-            $second = substr($mid,2,2);
             if ($sport == 2) {
-                $path = '/live/basket/' . $first . '/'. $second . '/' . $mid . '.html';
+                $path = '/live/basketball/' . $mid . '.html';
             } else {
-                $path = '/live/foot/' . $first . '/'. $second . '/' . $mid . '.html';
+                $path = '/live/football/' . $mid . '.html';
             }
         }
         return $path;
     }
 
     public static function matchWapLivePathWithId($mid,$sport=CommonTool::kSportFootball){
-        $path = '/wap'. CommonTool::matchLivePathWithId($mid,$sport);
+        $path = '/m'. CommonTool::matchLivePathWithId($mid,$sport);
         return $path;
     }
 
@@ -76,7 +74,14 @@ class CommonTool
      * @return string
      */
     public static function matchWapPathWithId($mid,$sport=CommonTool::kSportFootball){
-        $path = '/wap'. CommonTool::matchPathWithId($mid,$sport);
+        $first = substr($mid,0,2);
+        $second = substr($mid,2,2);
+        if ($sport == CommonTool::kSportFootball){
+            $path = 'https://shop.liaogou168.com/match/football/detail/'.$first.'/'.$second.'/'.$mid.'.html';
+        }
+        else{
+            $path = 'https://shop.liaogou168.com/match/basketball/detail/'.$first.'/'.$second.'/'.$mid.'.html';
+        }
         return $path;
     }
 
