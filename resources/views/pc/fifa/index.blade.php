@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/fifa/fifa.css?time=20180203030004">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/fifa/fifa.css?time=20180517125904">
     <style>
 
     </style>
@@ -79,7 +79,10 @@
                         <div class="imgList">
                             <ul>
                                 @foreach($top['videos'] as $video)
-                                    <a class="li" href="">
+                                    <?php
+                                    $videoUrl = env('APP_URL').'/live/subject/specimen/'.substr($video['id'],0,2).'/'.substr($video['id'],2,2).'/'.$video['id'].'.html'
+                                    ?>
+                                    <a target="_blank" class="li" href="{{$videoUrl}}">
                                         <div class="imgBox" style="background: url({{isset($video['cover'])?$video['cover']:env('CDN_URL').'/img/pc/fifa/image_bg.jpg'}}) no-repeat center; background-size: cover"></div>
                                         <p>{{$video['title']}}</p>
                                     </a>
@@ -96,8 +99,10 @@
                         @foreach($top['focus_matches'] as $match)
                             <?php
                             $status = $match['status'];
+                            $liveUrl = \App\Http\Controllers\PC\CommonTool::matchWapLivePathWithId($match['mid']);
+                            $matchUrl = \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($match['mid'],1);
                             ?>
-                            <a href="">
+                            <a target="_blank" href="{{$status > 0 ? $liveUrl : $matchUrl}}">
                                 <div class="time"><span>{{date('m.d',$match['time'])}}&nbsp;&nbsp;{{date('H:i',$match['time'])}}&nbsp;&nbsp;{{$group}}组</span></div>
                                 <div class="item">
                                     <img src="{{$match['hicon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'" class="host">

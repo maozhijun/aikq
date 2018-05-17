@@ -1,5 +1,49 @@
 @extends('pc.layout.base')
 @section('content')
+    <?php $tids = [
+        //A
+            '578'=>['tid'=>578,'win_tid'=>735,'name'=>'埃及','url'=>'https://www.liaogou168.com/news/WorldCup/20180516/15885.html'],
+            '586'=>['tid'=>586,'win_tid'=>746,'name'=>'俄罗斯','url'=>'https://www.liaogou168.com/news/WorldCup/20180516/15892.html'],
+            '607'=>['tid'=>607,'win_tid'=>767,'name'=>'乌拉圭','url'=>'https://www.liaogou168.com/news/WorldCup/20180516/15899.html'],
+            '716'=>['tid'=>716,'win_tid'=>891,'name'=>'沙地阿拉伯','url'=>'https://www.liaogou168.com/news/info/20180516/15889.html'],
+        //B
+            '605'=>['tid'=>605,'win_tid'=>765,'name'=>'葡萄牙','url'=>'https://www.liaogou168.com/news/info/20180515/15844.html'],
+            '612'=>['tid'=>612,'win_tid'=>772,'name'=>'西班牙','url'=>'https://www.liaogou168.com/news/info/20180516/15900.html'],
+            '622'=>['tid'=>622,'win_tid'=>783,'name'=>'伊朗','url'=>'https://www.liaogou168.com/news/info/20180515/15845.html'],
+            '646'=>['tid'=>646,'win_tid'=>813,'name'=>'摩洛哥','url'=>'https://www.liaogou168.com/news/info/20180515/15846.html'],
+        //C
+            '509'=>['tid'=>509,'win_tid'=>638,'name'=>'丹麦','url'=>'https://www.liaogou168.com/news/info/20180516/15891.html'],
+            '518'=>['tid'=>518,'win_tid'=>649,'name'=>'法国','url'=>'https://www.liaogou168.com/news/info/20180516/15893.html'],
+            '614'=>['tid'=>614,'win_tid'=>774,'name'=>'秘鲁','url'=>'https://www.liaogou168.com/news/info/20180516/15895.html'],
+            '732'=>['tid'=>732,'win_tid'=>913,'name'=>'澳大利亚','url'=>'https://www.liaogou168.com/news/info/20180516/15886.html'],
+        //D
+            '596'=>['tid'=>596,'win_tid'=>756,'name'=>'冰岛','url'=>'https://www.liaogou168.com/news/info/20180515/15850.html'],
+            '606'=>['tid'=>606,'win_tid'=>766,'name'=>'阿根廷','url'=>'https://www.liaogou168.com/news/info/20180515/15847.html'],
+            '608'=>['tid'=>608,'win_tid'=>768,'name'=>'克罗地亚','url'=>'https://www.liaogou168.com/news/info/20180515/15848.html'],
+            '626'=>['tid'=>626,'win_tid'=>789,'name'=>'尼日利亚','url'=>'https://www.liaogou168.com/news/info/20180515/15849.html'],
+        //E
+            '512'=>['tid'=>512,'win_tid'=>642,'name'=>'塞尔维亚','url'=>'https://www.liaogou168.com/news/info/20180516/15897.html'],
+            '517'=>['tid'=>517,'win_tid'=>648,'name'=>'瑞士','url'=>'https://www.liaogou168.com/news/info/20180516/15896.html'],
+            '618'=>['tid'=>618,'win_tid'=>778,'name'=>'巴西','url'=>'https://www.liaogou168.com/news/info/20180516/15888.html'],
+            '733'=>['tid'=>733,'win_tid'=>914,'name'=>'哥斯达黎加','url'=>'https://www.liaogou168.com/news/info/20180516/15894.html'],
+        //F
+            '513'=>['tid'=>513,'win_tid'=>644,'name'=>'瑞典','url'=>'https://www.liaogou168.com/news/info/20180515/15854.html'],
+            '519'=>['tid'=>519,'win_tid'=>650,'name'=>'德国','url'=>'https://www.liaogou168.com/news/info/20180515/15851.html'],
+            '651'=>['tid'=>651,'win_tid'=>819,'name'=>'墨西哥','url'=>'https://www.liaogou168.com/news/info/20180515/15852.html'],
+            '721'=>['tid'=>721,'win_tid'=>898,'name'=>'韩国','url'=>'https://www.liaogou168.com/news/info/20180515/15855.html'],
+        //G
+            '514'=>['tid'=>514,'win_tid'=>645,'name'=>'比利时','url'=>'https://www.liaogou168.com/news/info/20180516/15890.html'],
+            '584'=>['tid'=>584,'win_tid'=>744,'name'=>'英格兰','url'=>'https://www.liaogou168.com/news/info/20180516/15901.html'],
+            '634'=>['tid'=>634,'win_tid'=>798,'name'=>'巴拿马','url'=>'https://www.liaogou168.com/news/info/20180516/15887.html'],
+            '653'=>['tid'=>653,'win_tid'=>823,'name'=>'突尼斯','url'=>'https://www.liaogou168.com/news/info/20180516/15898.html'],
+        //H
+            '508'=>['tid'=>508,'win_tid'=>637,'name'=>'波兰','url'=>'https://www.liaogou168.com/news/info/20180515/15857.html'],
+            '615'=>['tid'=>615,'win_tid'=>775,'name'=>'哥伦比亚','url'=>'https://www.liaogou168.com/news/info/20180515/15856.html'],
+            '648'=>['tid'=>648,'win_tid'=>815,'name'=>'塞内加尔','url'=>'https://www.liaogou168.com/news/info/20180515/15858.html'],
+            '726'=>['tid'=>726,'win_tid'=>903,'name'=>'日本','url'=>'https://www.liaogou168.com/news/info/20180515/15859.html'],
+    ];
+    $desUrl = $tids[$team['id']]['url'];
+    ?>
     <div id="Content">
         <div class="inner">
             <div id="Info">
@@ -9,7 +53,7 @@
                 <div class="con">
                     <h1>{{$team['name']}}</h1>
                     <p>{{$team['describe']}}</p>
-                    <a href="">详细介绍&nbsp;&nbsp;>></a>
+                    <a target="_blank" href="{{$desUrl}}">详细介绍&nbsp;&nbsp;>></a>
                 </div>
             </div>
             <div class="right">
