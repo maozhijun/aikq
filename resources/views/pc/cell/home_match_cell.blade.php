@@ -1,5 +1,27 @@
 <?php if (!isset($match)) return ""; ?>
-<tr>
+<?php
+    $channels = $match['channels'];
+    $sport = $match['sport'];
+    $mid = $match['mid'];
+    if ($sport == 3) {
+        $url = str_replace('https://','http://',asset('/live/other/'. $mid .'.html'));
+    } else if ($sport == 2) {
+        $url = str_replace('https://','http://',asset('/live/basketball/'. $mid .'.html'));
+    } else {
+        $url = str_replace('https://','http://',asset('/live/football/'. $mid .'.html'));
+    }
+    $firstChannel = isset($channels[0]) ? $channels[0] : [];
+    $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
+    $impt_style = '';
+    if ($impt == 2) {
+        if ($sport == 1) {
+            $impt_style = 'class=good_ft';
+        } else if ($sport == 2) {
+            $impt_style = 'class=good_bk';
+        }
+    }
+?>
+<tr {!! $impt_style !!}>
     <td>
         @if($match['sport'] == 2) <p class="basketball">篮球</p> @elseif($match['sport'] == 1) <p class="football">足球</p>
         @else <p class="football">{{isset($match['project']) ? $match['project'] : ''}}</p> @endif
@@ -16,24 +38,11 @@
         <td>{{$match['aname']}}</td>
     @endif
     <td>
-        <?php
-            $channels = $match['channels'];
-            $sport = $match['sport'];
-            $mid = $match['mid'];
-            if ($sport == 3) {
-                $url = str_replace('https://','http://',asset('/live/other/'. $mid .'.html'));
-            } else if ($sport == 2) {
-                $url = str_replace('https://','http://',asset('/live/basketball/'. $mid .'.html'));
-            } else {
-                $url = str_replace('https://','http://',asset('/live/football/'. $mid .'.html'));
-            }
-        ?>
         @foreach($channels as $index=>$channel)
-            <?php $impt = isset($channel['impt']) ? $channel['impt'] : 1; $impt_style = $impt == 2 ? 'style="color: red"' : '' ?>
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a {!! $impt_style !!} target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
+                <a target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
             @else
-                <a {!! $impt_style !!} target="_blank" href="{{$url . '?btn=' . $index}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$url . '?btn=' . $index}}">{{$channel['name']}}</a>
             @endif
         @endforeach
         @if($match['sport'] == 1)

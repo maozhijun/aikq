@@ -44,6 +44,20 @@ table.list tbody td{
 table.list tbody tr:hover td{
 	background: #ecf5ff;
 }
+table.list tbody tr.good_ft td{
+	background: #c1cfeb;
+	color: #031F58;
+}
+table.list tbody tr.good_bk td{
+	background: #ebc5c1;
+	color: #6a0202;
+}
+table.list tbody tr.good_ft td a{
+	color: #031F58 !important;
+}
+table.list tbody tr.good_bk td a{
+	color: #6a0202 !important;
+}
 table.list tbody tr.adbanner + tr td,
 table.list tbody tr.date + tr td{
 	border-top: none;
@@ -52,10 +66,10 @@ table.list tbody td:nth-child(1){
 
 }
 table.list tbody td:nth-child(2){
-
+	
 }
 table.list tbody td:nth-child(3){
-
+	
 }
 table.list tbody td:nth-child(4){
 	padding-right: 10px;
@@ -66,11 +80,11 @@ table.list tbody td:nth-child(5){
 	text-align: right;
 }
 table.list tbody td:nth-child(6){
-
+	
 }
 table.list tbody td:nth-child(7){
 	padding-left: 10px;
-	text-align: left;
+	text-align: left; 
 }
 table.list tbody td:nth-child(8){
 	padding-left: 12px;
@@ -80,7 +94,7 @@ table.list tbody td:nth-child(9), table.list tbody td[colspan='5'] + td{
 	text-align: left;
 }
 table.list tbody td:nth-child(10){
-
+	
 }
 table.list tbody td:nth-child(9) a, table.list tbody td[colspan='5'] + td a{
 	padding: 0 10px;
@@ -101,6 +115,12 @@ table.list tbody td:nth-child(1) p.football{
 }
 table.list tbody td:nth-child(1) p.basketball{
 	background: #d78b83;
+}
+table.list tbody tr.good_ft td:nth-child(1) p.football{
+	background: #6a7999;
+}
+table.list tbody tr.good_bk td:nth-child(1) p.basketball{
+	background: #a3665d;
 }
 table.list tbody td:nth-child(4) img{
 	height: 40px;
@@ -125,8 +145,8 @@ table.list p.live{
 /*浮动*/
 #TableHead{
 	margin-top: 0;
-	position: fixed; top: 90px; left: 50%; z-index: 3;
-	display: none;
+    position: fixed; top: 90px; left: 50%; z-index: 3;
+    display: none;
 }
 
 
@@ -143,12 +163,15 @@ table.list tbody tr.adbanner td{
 
 /*接入*/
 table.list input[name=link]{
-	width: 80%; height: 24px;
+	width: 80%; height: 20px;
 	border: 1px solid #ccc; border-right: none;
-	text-align: center;
+	text-align: center; line-height: 20px;
 }
 table.list button.copy{
-	width: 15%; height: 26px;
+	width: 15%; height: 22px;
 	background: #4492fd;
-	font-size: 14px; text-align: center; color: #fff; vertical-align: top;
+	font-size: 12px; text-align: center; color: #fff; vertical-align: top;
 }
+
+
+
