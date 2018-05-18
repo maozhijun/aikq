@@ -61,9 +61,11 @@ trait MatchTool
             return "";
         }
         $first = substr($id, 0, 2);
-        //dump($first);
         $second = substr($id, 2, 3);
-        return '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
+        $url = '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
+        $url = asset($url);
+        $url = str_replace('https', 'http', $url);
+        return $url;
     }
 
     /**
