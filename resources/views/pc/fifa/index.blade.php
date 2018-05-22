@@ -12,6 +12,58 @@
             setPage()
         }
     </script>
+    <script type="text/javascript">
+        function refreshMatch() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var url = "http://match.liaogou168.com/static/schedule/"+year+month+strDate+"/1/all.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var matches = json['matches'];
+                    for(var i = 0 ; i < matches.length ; i++){
+                        var match = matches[i];
+                        var a = $('li#match_cell_' + match['mid']);
+                        if (a && a.length > 0){
+                            a.find('.vs')[0].innerHTML=match['hscore'] + ' - ' +match['ascore'];
+                            //切换比赛状态
+                            var status = a[0].getAttribute('m_status');
+                            a[0].setAttribute('m_status',match['status']);
+                            if (status != match['status']){
+                                if (match['status'] > 0){
+                                    a.find('.status')[0].className = 'status live';
+                                    a.find('.status')[0].innerHTML = '比赛中';
+                                }
+                                else if(match['status'] == -1){
+                                    a.find('.status')[0].className = 'status';
+                                    a.find('.status')[0].innerHTML = '已结束';
+                                }
+                                else if(match['status'] == 0){
+                                    a.find('.status')[0].className = 'status';
+                                    a.find('.status')[0].innerHTML = '<a href=""><img src="{{env('CDN_URL')}}/img/pc/fifa/icon_living_n.png"></a>';
+                                }else{
+
+                                }
+                            }
+                        }
+                    }
+                    setTimeout(refreshMatch, 60000);
+                },
+                "error": function () {
+                    setTimeout(refreshMatch, 60000);
+                }
+            });
+        }
+    </script>
 @endsection
 @section('content')
     <div id="Content">
@@ -433,7 +485,7 @@
                                     $liveUrl = \App\Http\Controllers\PC\CommonTool::matchLivePathWithId($match['mid']);
                                     $matchUrl = \App\Http\Controllers\PC\CommonTool::matchPathWithId($match['mid'],1,$match['time']);
                                     ?>
-                                    <li>
+                                    <li id="match_cell_{{$match['mid']}}" m_status="{{$match['status']}}">
                                         <p class="time">{{date('m.d',$match['time'])}}<br/>{{date('H:i',$match['time'])}}</p>
                                         <p class="team">{{$match['hname']}}</p>
                                         @if($status == 0)

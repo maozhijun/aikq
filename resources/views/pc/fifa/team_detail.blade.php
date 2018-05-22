@@ -77,22 +77,22 @@
                     $md = array();
                     $df = array();
                     $gk = array();
-                        foreach ($lineup['lineup'] as $player){
-                            if (is_null($player['icon']))
-                                $player['icon'] = '';
-                            if ($player['pos'] == '后卫'){
-                                $df[] = $player;
-                            }
-                            if ($player['pos'] == '中场'){
-                                $md[] = $player;
-                            }
-                            if ($player['pos'] == '前锋'){
-                                $fw[] = $player;
-                            }
-                            if ($player['pos'] == '守门员'){
-                                $gk[] = $player;
-                            }
+                    foreach ($lineup['lineup'] as $player){
+                        if (is_null($player['icon']))
+                            $player['icon'] = '';
+                        if ($player['pos'] == '后卫'){
+                            $df[] = $player;
                         }
+                        if ($player['pos'] == '中场'){
+                            $md[] = $player;
+                        }
+                        if ($player['pos'] == '前锋'){
+                            $fw[] = $player;
+                        }
+                        if ($player['pos'] == '守门员'){
+                            $gk[] = $player;
+                        }
+                    }
                     ?>
                     <table>
                         <colgroup>
@@ -100,22 +100,22 @@
                             <col width="60px">
                         </colgroup>
                         <tbody class="coach" style="display: none;">
-                            @foreach($coach as $item)
+                        @foreach($coach as $item)
                             <tr>
                                 <td><p>教</p></td>
                                 <td><img src="{{$item['icon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/fifa/image_player_n.jpg'"></td>
                                 <td>{{$item['name']}}</td>
                             </tr>
-                            @endforeach
+                        @endforeach
                         </tbody>
                         <tbody class="fw">
-                            @foreach($fw as $item)
-                                <tr>
+                        @foreach($fw as $item)
+                            <tr>
                                 <td><p>{{isset($item['num'])?$item['num']:''}}</p></td>
                                 <td><img src="{{$item['icon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/fifa/image_player_n.jpg'"></td>
                                 <td>{{$item['name']}}</td>
-                                </tr>
-                            @endforeach
+                            </tr>
+                        @endforeach
                         </tbody>
                         <tbody class="md" style="display: none;">
                         @foreach($md as $item)
@@ -172,7 +172,7 @@
                             </thead>
                             <tbody>
                             @foreach($scores as $score)
-                                <tr>
+                                <tr id="rank_t_{{$score['tid']}}">
                                     <td><p>{{$loop->index + 1}}</p></td>
                                     <td><img src="{{$score['ticon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'"></td>
                                     <td class="name">{{$score['tname']}}</td>
@@ -183,7 +183,7 @@
                                     <td>{{$score['goal'] - $score['fumble']}}</td>
                                     <td>{{$score['score']}}</td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -217,10 +217,12 @@
                                 <col num="6" width="110px">
                                 <col num="7" width="150px">
                             </colgroup>
+                            <tbody>
                             @foreach($notStart as $match)
                                 @component('pc.fifa.match_cell',['match'=>$match])
                                 @endcomponent
-                                @endforeach
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -237,10 +239,12 @@
                                 <col num="6" width="110px">
                                 <col num="7" width="150px">
                             </colgroup>
+                            <tbody>
                             @foreach($end as $match)
                                 @component('pc.fifa.match_cell',['match'=>$match])
                                 @endcomponent
                             @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -259,6 +263,105 @@
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage()
+        }
+    </script>
+    <script type="text/javascript">
+        function refreshHead() {
+            var divs = $('div.match');
+            for (var i = 0 ; i < divs.length ; i++){
+                if (divs[i].getElementsByTagName('tr').length > 0){
+                    divs[i].style['display'] = '';
+                }
+                else{
+                    divs[i].style['display'] = 'none';
+                }
+            }
+        }
+        refreshHead();
+
+        function refreshScore() {
+            var url = "http://match.liaogou168.com/static/league/1/57.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var groups = json['stages'][0]['groupMatch'];
+                    for (var key in groups){
+                        var group = groups[key]['scores'];
+                        for (var i = 0 ; i < group.length ; i++){
+                            var score = group[i];
+                            var tr = $('div#Group tr#rank_t_'+score['tid']);
+                            if (tr && tr.length > 0){
+                                tr[0].innerHTML = '<td><p>'+(i + 1)+'</p></td>'+
+                                        '<td><img src="' + score['ticon']+'" onerror="this.src = \'' + '{{env('CDN_URL')}}/img/mobile/fifa/image_player_n.jpg' + '\'"></td>'+
+                                        '<td class="name">' + score['tname'] + '</td>'+
+                                        '<td>'+score['count']+'</td>'+
+                                        '<td>'+score['win']+'</td>'+
+                                        '<td>'+score['draw']+'</td>'+
+                                        '<td>'+score['lose']+'</td>'+
+                                        '<td>'+(score['goal'] - score['fumble'])+'</td>'+
+                                        '<td>'+score['score']+'</td>';
+                            }
+                        }
+                    }
+//                    setTimeout(refreshScore, 60000);
+                },
+                "error": function () {
+//                    setTimeout(refreshScore, 60000);
+                }
+            });
+        }
+
+        function refreshMatch() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var url = "http://match.liaogou168.com/static/schedule/"+year+month+strDate+"/1/all.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var matches = json['matches'];
+                    for(var i = 0 ; i < matches.length ; i++){
+                        var match = matches[i];
+                        var a = $('tr#match_cell_' + match['mid']);
+                        if (a && a.length > 0){
+                            a.find('.match_cell_score')[0].innerHTML=match['hscore'] + ' - ' +match['ascore'];
+                            //切换比赛状态
+                            var status = a[0].getAttribute('m_status');
+                            a[0].setAttribute('m_status',match['status']);
+                            if (status != match['status']){
+                                if (match['status'] > 0){
+                                    a.find('.match_cell_status')[0].innerHTML = '<p class="live">比赛中</p>';
+                                    $($($('div.match')[0]).find('tbody')[0]).append(a);
+                                }
+                                else if(match['status'] == -1){
+                                    a.find('.match_cell_status')[0].innerHTML = '<p class="end">已结束</p>';
+                                    $($($('div.match')[1]).find('tbody')[0]).append(a);
+                                }
+                                else if(match['status'] == 0){
+                                    a.find('.match_cell_status')[0].innerHTML = '<img src="{{env('CDN_URL')}}/img/pc/fifa/icon_living_n.png">';
+                                    $($($('div.match')[0]).find('tbody')[0]).append(a);
+                                }else{
+                                    $($($('div.match')[0]).find('tbody')[0]).append(a);
+                                }
+                            }
+                        }
+                    }
+                    refreshHead();
+                    setTimeout(refreshMatch, 60000);
+                },
+                "error": function () {
+                    setTimeout(refreshMatch, 60000);
+                }
+            });
         }
     </script>
 @endsection
