@@ -155,14 +155,15 @@ class SubjectVideoController extends Controller
                     $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
                     Storage::disk("public")->put($patch, $m_html);
                 }
-            } else {
-                //其他静态化json
-                if (isset($data['page']) && isset($data['videos'])) {
-                    $json = $msCon->subjectVideoData2Json($data);
-                    $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.json';
-                    Storage::disk("public")->put($patch, json_encode($json));
-                }
             }
+
+            //静态化json
+            if (isset($data['page']) && isset($data['videos'])) {
+                $json = $msCon->subjectVideoData2Json($data);
+                $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.json';
+                Storage::disk("public")->put($patch, json_encode($json));
+            }
+
             //静态化终端html
             $videos = isset($data['videos']) ? $data['videos'] : [];
             foreach ($videos as $video) {
