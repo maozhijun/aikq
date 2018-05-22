@@ -31,7 +31,7 @@ $matchUrl = \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($mid,1);
 $hicon = isset($match['hicon']) && strlen($match['hicon']) > 0 ? $match['hicon'] : env('CDN_URL').'/img/pc/fifa/phone/img/icon_teamDefault.png';
 $aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon'] : env('CDN_URL').'/img/pc/fifa/phone/img/icon_teamDefault.png';
 ?>
-<tr @if($status == -1)class="end"@endif>
+<tr id="match_cell_{{$match['mid']}}" @if($status == -1)class="end"@endif>
     <td>{{date('m.d',$match['time'])}}<br/>{{date('H:i',$match['time'])}}</td>
     <td>{{$match['hname']}}</td>
     @if($status > 0 || $status == -1)

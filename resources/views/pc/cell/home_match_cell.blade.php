@@ -10,6 +10,7 @@
     } else {
         $url = str_replace('https://','http://',asset('/live/football/'. $mid .'.html'));
     }
+
     $firstChannel = isset($channels[0]) ? $channels[0] : [];
     $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
     $impt_style = '';

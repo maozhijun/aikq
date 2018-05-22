@@ -39,6 +39,71 @@
 @endsection
 @section('js')
     <script src="{{env('CDN_URL')}}/js/public/mobile/fifa/teamEnd.js?time=201803030002"></script>
+    <script type="text/javascript">
+        function refreshMatch() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var url = "http://match.liaogou168.com/static/schedule/"+year+month+strDate+"/1/all.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var matches = json['matches'];
+                    for(var i = 0 ; i < matches.length ; i++){
+                        var match = matches[i];
+                        var a = $('a#match_cell_' + match['mid']);
+                        if (a && a.length > 0){
+                            a.find('.hscore')[0].innerHTML=match['hscore'];
+                            a.find('.ascore')[0].innerHTML=match['ascore'];
+                            a.find('.hscorehalf')[0].innerHTML=match['hscorehalf'];
+                            a.find('.ascorehalf')[0].innerHTML=match['ascorehalf'];
+                            a.find('.hyellow')[0].innerHTML=match['h_yellow'];
+                            a.find('.hred')[0].innerHTML=match['h_red'];
+                            a.find('.ayellow')[0].innerHTML=match['a_yellow'];
+                            a.find('.ared')[0].innerHTML=match['a_red'];
+                            //切换比赛状态
+                            var status = a[0].getAttribute('m_status');
+                            a[0].setAttribute('m_status',match['status']);
+                            if (status != match['status']){
+                                if (match['status'] > 0){
+                                    $(a.parent().parent().find('.matches_div')[0]).append(a);
+                                }
+                                else if(match['status'] == -1){
+                                    $(a.parent().parent().find('.matches_div')[2]).append(a);
+                                }
+                                else if(match['status'] == 0){
+                                    $(a.parent().parent().find('.matches_div')[1]).append(a);
+                                }
+                            }
+                            var time = $('div#time_'+ match['mid']);
+                            if (time && time.length > 0){
+                                var p = time.find('p')[1];
+                                p.innerHTML = '';
+                                if (match['status'] == -1){
+                                    p.innerHTML = '<p class="end"></p>';
+                                }
+                                else if(match['status'] > 0){
+                                    p.innerHTML = '<p class="live"><span class="minute">123</span></p>';
+                                }
+                            }
+                            break;
+                        }
+                    }
+                },
+                "error": function () {
+
+                }
+            });
+        }
+    </script>
 @endsection
 
 @section('css')

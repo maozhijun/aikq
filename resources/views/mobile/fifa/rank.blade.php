@@ -37,7 +37,7 @@
                         <?php
                         $score = $scores[$i];
                         ?>
-                        <tr>
+                        <tr id="rank_t_{{$score['tid']}}">
                             <td>{{$i+1}}</td>
                             <td>{{$score['tname']}}</td>
                             <td>{{$score['count']}}</td>
@@ -126,4 +126,77 @@
 @endsection
 @section('js')
     <script src="{{env('CDN_URL')}}/js/public/mobile/fifa/rank.js?time=201803030002"></script>
+    <script type="text/javascript">
+        function refreshScore() {
+            var url = "http://match.liaogou168.com/static/league/1/57.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var groups = json['stages'][0]['groupMatch'];
+                    for (var key in groups){
+                        var group = groups[key]['scores'];
+                        for (var i = 0 ; i < group.length ; i++){
+                            var score = group[i];
+                            var tr = $('div#group tr#rank_t_'+score['tid']);
+                            if (tr && tr.length > 0){
+                                tr[0].innerHTML = '<td>'+(i+1)+'</td>'+
+                                        '<td>'+ score['tname']+'</td>'+
+                                        '<td>'+score['count']+'</td>'+
+                                        '<td>'+score['win']+'/'+score['draw']+'/'+score['lose']+'</td>'+
+                                        '<td>'+score['goal']+'/'+score['fumble']+'</td>'+
+                                        '<td>'+(score['goal'] - score['fumble'])+'</td>'+
+                                        '<td>'+ score['score'] +'</td>';
+                            }
+                        }
+                    }
+                },
+                "error": function () {
+
+                }
+            });
+        }
+
+        function refreshRank() {
+            var url = "http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json";
+            $.ajax({
+                "url": url,
+                dataType: "jsonp",
+                "success": function (json) {
+                    var ranks = json['total'];
+                    var div = $('div#goal');
+                    if (div == null || div.length == 0){
+                        return;
+                    }
+                    var trs = '<tr><th>排名</th><th>球员</th><th>球队</th><th>进球</th></tr>';
+                    var trbs = '';
+                    div.find('tbody')[0].innerHTML = '';
+                    for(var i = 0 ; i < ranks.length ; i++){
+                        var item = ranks[i];
+                        if (i < 3) {
+                            trs = trs + '<tr>' +
+                                    '<td>' + (i + 1) + '</td>' +
+                                    '<td><img src="' + ((item['icon'] && item['icon'].length > 0) ? item['icon'] : '') + '" onerror="this.src = \'' + '{{env('CDN_URL')}}/img/mobile/fifa/image_player_n.jpg' + '\'">' + item['name'] + '</td>' +
+                                    '<td>' + item['team'] + '</td>' +
+                                    '<td>' + item['goal'] + '</td>' +
+                                    '</tr>'
+                        }
+                        else{
+                            trbs = trbs + '<tr>' +
+                                    '<td>' + (i + 1) + '</td>' +
+                                    '<td>' + item['name'] + '</td>' +
+                                    '<td>' + item['team'] + '</td>' +
+                                    '<td>' + item['goal'] + '</td>' +
+                                    '</tr>'
+                        }
+                    }
+                    div.find('thead')[0].innerHTML = trs;
+                    div.find('tbody')[0].innerHTML = trbs;
+                },
+                "error": function () {
+
+                }
+            });
+        }
+    </script>
 @endsection
