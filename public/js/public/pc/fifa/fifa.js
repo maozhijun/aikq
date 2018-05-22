@@ -67,7 +67,7 @@ function setNews () {
 }
 
 function setGroup () {
-    $('#Group p.team').width(parseInt(($('#Group li').width() - 198) / 2) + 'px')
+    $('#Group p.team').width(parseInt(($('#Group li').width() - 198.5) / 2) + 'px')
 }
 
 function setGroup2Top () {
