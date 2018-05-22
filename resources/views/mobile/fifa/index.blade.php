@@ -258,11 +258,13 @@
                         }
                     }
                     refreshHead();
+                    setTimeout(refreshMatch, 60000);
                 },
                 "error": function () {
-
+                    setTimeout(refreshMatch, 60000);
                 }
             });
         }
+        refreshMatch();
     </script>
 @endsection

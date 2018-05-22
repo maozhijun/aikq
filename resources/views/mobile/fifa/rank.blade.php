@@ -150,9 +150,10 @@
                             }
                         }
                     }
+//                    setTimeout(refreshScore, 60000);
                 },
                 "error": function () {
-
+//                    setTimeout(refreshScore, 60000);
                 }
             });
         }
@@ -192,11 +193,14 @@
                     }
                     div.find('thead')[0].innerHTML = trs;
                     div.find('tbody')[0].innerHTML = trbs;
+//                    setTimeout(refreshRank, 60000);
                 },
                 "error": function () {
-
+//                    setTimeout(refreshRank, 60000);
                 }
             });
         }
+        refreshRank();
+        refreshScore();
     </script>
 @endsection
