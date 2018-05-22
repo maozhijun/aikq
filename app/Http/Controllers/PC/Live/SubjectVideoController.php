@@ -59,9 +59,11 @@ class SubjectVideoController extends Controller
             $result['title'] = '爱看球-NBA录像_英超录像_西甲录像_中超录像_德甲录像_意甲录像_法甲录像_高清录像_全场回放';
             $result['keywords'] = '爱看球,高清录像,全场回放,NBA录像,英超录像,西甲录像,中超录像,德甲录像,意甲录像,法甲录像';
         } else {
-            $typeCn = $leagues[$type]['name'];
-            $result['title'] = '爱看球-' . $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放';
-            $result['keywords'] = '爱看球,' . $typeCn . ',' . $typeCn . '高清录像,' . $typeCn . ',全场回放';
+            if (isset($leagues[$type])) {
+                $typeCn = $leagues[$type]['name'];
+                $result['title'] = '爱看球-' . $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放';
+                $result['keywords'] = '爱看球,' . $typeCn . ',' . $typeCn . '高清录像,' . $typeCn . ',全场回放';
+            }
         }
         return view('pc.subject_video.list', $result);
     }

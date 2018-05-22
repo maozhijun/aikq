@@ -379,6 +379,8 @@ class LiveController extends Controller
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+        } else {
+            return abort(404);
         }
         return view('pc.live.video', $json);
     }
