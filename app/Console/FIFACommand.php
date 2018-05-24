@@ -108,7 +108,7 @@ class FIFACommand extends Command
         if (($hour > 21 || $hour < 6) && $min%15 == 0){
             //15分钟一次球队终端,一次8个,一小时刷新全部一次
             for ($i = 0 ; $i < 8 ;$i++){
-                $team = $tids[$min/15 + $i];
+                $team = $tids[8*($min/15) + $i];
                 $this->staticUrl(asset('/m/static/worldcup/team/'.$team['tid']));
                 $this->staticUrl(asset('/pc/static/worldcup/team/'.$team['tid']));
             }

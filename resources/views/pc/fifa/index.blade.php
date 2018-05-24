@@ -155,7 +155,7 @@
                             $matchUrl = isset($match['mid']) ? \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($match['mid'],1): '';
                             ?>
                             <a target="_blank" href="{{$status > 0 ? $liveUrl : $matchUrl}}">
-                                <div class="time"><span>{{date('m.d',strtotime($match['time']))}}&nbsp;&nbsp;{{date('H:i',strtotime($match['time']))}}&nbsp;&nbsp;{{$match['group']}}组</span></div>
+                                <div class="time"><span>{{date('m.d',$match['time'])}}&nbsp;&nbsp;{{date('H:i',$match['time'])}}&nbsp;&nbsp;{{$match['group']}}组</span></div>
                                 <div class="item">
                                     <img src="{{$match['hicon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'" class="host">
                                     <img src="{{$match['aicon']}}" onerror="this.src = '{{env('CDN_URL')}}/img/pc/fifa/icon_teamDefault.png'" class="away">
