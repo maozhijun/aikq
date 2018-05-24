@@ -44,7 +44,7 @@ class WorldCupController extends Controller{
         //重点的比赛
         $json = self::curlData('https://www.liaogou168.com/aik/worldcup/hotMatch',5);
         if (isset($json)){
-            Storage::disk("public")->put("/static/worldcup/2018/hotmatch.json", json_encode($json));
+            Storage::disk("public")->put("/json/worldcup/2018/hotmatch.json", json_encode($json));
         }
         $rest['top']['focus_matches'] = $json;
         //焦点图
