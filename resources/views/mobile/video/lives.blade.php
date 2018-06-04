@@ -30,7 +30,7 @@
         <div class="default">
             <p class="day" day="{{$time}}">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
             @foreach($match_array as $match)
-                <a href="/m{{\App\Http\Controllers\PC\MatchTool::subjectLink($match['id'], 'video')}}">
+                <a href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($match['id'], 'video')}}">
                     <p class="time">{{$match['lname']}}&nbsp;&nbsp;{{date('H:i', $match['time'])}}</p>
                     <p class="other">{{$match['hname'] . ' ' . $match['hscore'] . ' - ' . $match['ascore'] . ' ' . $match['aname']}}</p>
                 </a>
