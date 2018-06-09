@@ -18,6 +18,20 @@
                 window.location = str;
             }
         }
+        // var ua = window.navigator.userAgent.toLowerCase();
+        // if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        //     var url = GetUrlRelativePath();
+        //     location.href = 'http://mp.dlfyb.com' + url;
+        // }
+        // function GetUrlRelativePath()
+        // {
+        //     var url = document.location.toString();
+        //     var arrUrl = url.split("//");
+        //
+        //     var start = arrUrl[1].indexOf("/");
+        //     var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+        //     return relUrl;
+        // }
     </script>
     @yield('title')
     <meta name="Keywords" content="JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">
