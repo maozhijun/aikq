@@ -316,6 +316,7 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        $json['detail_url'] = '/m/live/football/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }
 
@@ -339,6 +340,7 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        $json['detail_url'] = '/m/live/basketball/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }
 
@@ -357,6 +359,7 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        $json['detail_url'] = '/m/live/other/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }
 

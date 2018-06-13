@@ -110,7 +110,7 @@
             </div>
         @endif
             <iframe id="Frame"></iframe>
-            <p class="weixin"><a href="http://mp.dlfyb.com{{$_SERVER['REQUEST_URI']}}">微信用户点击播放</a></p>
+            <p class="weixin"><a href="http://mp.dlfyb.com{{$detail_url}}">微信用户点击播放</a></p>
             <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
     </div>
     <div id="Content">
