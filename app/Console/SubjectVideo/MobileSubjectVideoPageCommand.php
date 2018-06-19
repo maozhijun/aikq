@@ -51,7 +51,7 @@ class MobileSubjectVideoPageCommand extends Command
         $leagues = $videoIntF->getLeagues();
 
         foreach ($leagues as $tid=>$league) {//暂时只静态化 all
-            if ($tid != 'all') continue;
+            //if ($tid != 'all') continue;
             if (isset($league['count']) && $league['count'] == 0) {
                 continue;
             }

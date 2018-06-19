@@ -69,6 +69,9 @@ class SubjectVideoPageCommand extends Command
             }
             $forPage = min($lastPage, $curPage + 1);
             //echo 'curPage = ' . $curPage . ' lastPage = ' . $lastPage . ' forPage = ' . $forPage . "\n";
+            if ($curPage != 1) {
+                $this->staticPage($tid, 1);//每次更新第一页
+            }
             for (;$curPage <= $forPage; $curPage++) {
                 $this->staticPage($tid, $curPage);
             }

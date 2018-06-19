@@ -4,6 +4,14 @@
 @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css">
+    <style>
+        .weixin {
+            padding-bottom: 10px;
+            font-size: 40px;
+            line-height: 60px;
+            text-align: center;
+        }
+    </style>
 @endsection
 @section('banner')
     <?php
@@ -102,6 +110,7 @@
             </div>
         @endif
             <iframe id="Frame"></iframe>
+            <p class="weixin"><a href="http://mp.dlfyb.com{{$detail_url}}">微信用户点击播放</a></p>
             <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
     </div>
     <div id="Content">
@@ -115,6 +124,7 @@
         window.onload = function () {
             setPage();
         }
+        $(".weixin").hide();
     </script>
     <script type="text/javascript">
         function showScore(btnObj) {

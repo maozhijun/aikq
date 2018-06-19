@@ -29,7 +29,7 @@
             <p class="day">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
             @foreach($match_array as $match)
                 @if($match['sport'] == 3)
-                    <a href="{{str_replace('https://', 'http://', asset('m/live/other/' . $match['mid'].'.html'))}}">
+                    <a href="/m/live/other/{{$match['mid']}}.html">
                         <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
                             <p class="other">{{$match['hname']}}</p>
@@ -41,7 +41,7 @@
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
-                    <a href="{{str_replace('https://', 'http://', asset('m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'))}}">
+                    <a href="{{'/m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'}}">
                         <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         <p class="team host">{{$match['hname']}}</p>
                         <p class="vs">VS</p>

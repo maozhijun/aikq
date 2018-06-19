@@ -4,11 +4,14 @@
     $sport = $match['sport'];
     $mid = $match['mid'];
     if ($sport == 3) {
-        $url = str_replace('https://','http://',asset('/live/other/'. $mid .'.html'));
+        //$url = str_replace('https://','http://',asset('/live/other/'. $mid .'.html'));
+        $url = '/live/other/'. $mid .'.html';
     } else if ($sport == 2) {
-        $url = str_replace('https://','http://',asset('/live/basketball/'. $mid .'.html'));
+        //$url = str_replace('https://','http://',asset('/live/basketball/'. $mid .'.html'));
+        $url = '/live/basketball/'. $mid .'.html';
     } else {
-        $url = str_replace('https://','http://',asset('/live/football/'. $mid .'.html'));
+        //$url = str_replace('https://','http://',asset('/live/football/'. $mid .'.html'));
+        $url = '/live/football/'. $mid .'.html';
     }
 
     $firstChannel = isset($channels[0]) ? $channels[0] : [];
