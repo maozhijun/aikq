@@ -443,8 +443,26 @@ class LiveController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function matchPlayerChannel(Request $request){
-        return view('pc.live.match_channel',array('cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+    public function matchPlayerChannel(Request $request,$mid,$sport){
+        $ch = curl_init();
+        if ($sport == 3)
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
+        else
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$mid" . '.json';
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+        $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        if ($code == 200 && isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+            $channels = $json['live']['channels'];
+        }
+        else{
+            $channels = array();
+        }
+        return view('pc.live.match_channel',array('channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
     }
 
     /**
@@ -821,7 +839,7 @@ class LiveController extends Controller
                 $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
-                $phtml = $this->matchPlayerChannel($request);
+                $phtml = $this->matchPlayerChannel($request,$mid,$sport);
                 if (!empty($phtml)) {
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
                     //暂时兼容旧链接
@@ -846,7 +864,7 @@ class LiveController extends Controller
 
                 //每一个比赛的player页面生成
                 $controller = new LiveController(new Request());
-                $phtml = $controller->matchPlayerChannel($request);
+                $phtml = $controller->matchPlayerChannel($request,$mid,$sport);
                 if (!empty($phtml)) {
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
                     //暂时兼容旧链接
@@ -870,7 +888,7 @@ class LiveController extends Controller
                 $mCon->liveDetailStatic($request, $mid, $sport);//wap 页面静态化
 
                 //每一个比赛的player页面生成
-                $phtml = $this->matchPlayerChannel($request);
+                $phtml = $this->matchPlayerChannel($request,$mid,$sport);
                 if (!empty($phtml)) {
                     Storage::disk("public")->put("/live/spPlayer/player-" . $mid . '-' . $sport . ".html", $phtml);
                 }

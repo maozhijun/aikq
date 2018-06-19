@@ -12,6 +12,16 @@
     <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
 </head>
 <body scroll="no">
+<div class="line">
+    @if(isset($channels))
+        @foreach($channels as $index=>$channel)
+            <?php
+            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+            ?>
+            <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+        @endforeach
+    @endif
+</div>
 <iframe width="100%" height="100%" id="MyFrame">
 </iframe>
 </body>
@@ -50,9 +60,11 @@
         var host = '{{$host}}';
         var url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
         if (isMobileWithJS()){
+            //http://www.aikq.cc/match/live/url/channel/mobile/39716.json?time=1529393999444
             url = '/match/live/url/match/m/' + mid + '_' + sport +'.json';
         }
         else{
+            //http://www.aikq.cc/match/live/url/channel/39716.json?time=1529393956092
             url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
         }
         $.ajax({
@@ -93,25 +105,30 @@
     }
 
     window.onload = function () { //需要添加的监控放在这里
-        var mid = '{{request('mid')}}';
-        var sport = '{{request('sport')}}';
-        if (mid && mid != '') {
-            PlayVideoShare(mid, sport);
+        $($('.line button')[0]).trigger("click");
+    }
+
+    function ChangeChannel (Link,obj) {
+        if (obj.className.indexOf('on') != -1) {
+            return;
         }
-        else {
-            var str = window.location.pathname;
-            var index = str .lastIndexOf("\/");
-            str  = str .substring(index + 1, str .length);
-            str = str.replace('.html','');
-            var params = str.split("-");
-            if (params.length == 3) {
-                mid = params[1];
-                sport = params[2];
-                if (mid && mid != '') {
-                    PlayVideoShare(mid, sport);
-                }
+        var MatchID = location.href.split('/')[location.href.split('/').length -1].split('.html')[0];
+        var Btn = $('.line button');
+        for (var i = 0; i < Btn.length; i++) {
+            if (obj == Btn[i]) {
+                obj.className = 'on';
+                BtnNum = i;
+            }else{
+                Btn[i].className = '';
             }
         }
+
+        var Target = {
+            'id': MatchID,
+            'btn': BtnNum
+        }
+
+        document.getElementById('MyFrame').src = Link;
     }
 </script>
 <script>
