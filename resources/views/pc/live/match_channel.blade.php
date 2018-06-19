@@ -17,8 +17,12 @@
         @foreach($channels as $index=>$channel)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                if (stristr($channel['link'],'leqiuba.cc'))
+                    $link = '';
             ?>
+        @if(strlen($link) > 0)
             <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+                @endif
         @endforeach
     @endif
 </div>
