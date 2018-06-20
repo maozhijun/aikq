@@ -28,24 +28,33 @@
         <div class="default">
             <p class="day">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
             @foreach($match_array as $match)
+                <?php
+                $channels = $match['channels'];
+                $firstChannel = isset($channels[0]) ? $channels[0] : [];
+                $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
+                $impt_style = '';
+                if ($impt == 2) {
+                    $impt_style = 'style="color:#bc1c25;"';
+                }
+                ?>
                 @if($match['sport'] == 3)
                     <a href="/m/live/other/{{$match['mid']}}.html">
-                        <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
+                        <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
-                            <p class="other">{{$match['hname']}}</p>
+                            <p class="other" {!! $impt_style !!} >{{$match['hname']}}</p>
                         @else
-                            <p class="team host">{{$match['hname']}}</p>
-                            <p class="vs">VS</p>
-                            <p class="team away">{{$match['aname']}}</p>
+                            <p class="team host" {!! $impt_style !!} >{{$match['hname']}}</p>
+                            <p class="vs" {!! $impt_style !!} >VS</p>
+                            <p class="team away" {!! $impt_style !!} >{{$match['aname']}}</p>
                         @endif
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
                     <a href="{{'/m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'}}">
-                        <p class="time">{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
-                        <p class="team host">{{$match['hname']}}</p>
-                        <p class="vs">VS</p>
-                        <p class="team away">{{$match['aname']}}</p>
+                        <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
+                        <p class="team host" {!! $impt_style !!}>{{$match['hname']}}</p>
+                        <p class="vs" {!! $impt_style !!} >VS</p>
+                        <p class="team away" {!! $impt_style !!}>{{$match['aname']}}</p>
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @endif
