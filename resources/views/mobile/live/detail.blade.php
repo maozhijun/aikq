@@ -29,6 +29,7 @@
     </div>
 @endsection
 @section('content')
+    <div id="qsk_click"><img src="{{env('CDN_URL')}}/img/mobile/qsk_click_n.png" ></div>
     <div class="default" id="Info">
         @if($match['sport'] == 3)
             @if(isset($match['type']) && $match['type'] == 1)
@@ -110,7 +111,6 @@
             </div>
         @endif
             <iframe id="Frame"></iframe>
-            <p class="weixin"><a href="http://mp.dlfyb.com{{$detail_url}}">微信用户点击播放</a></p>
             <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
     </div>
     <div id="Content">
@@ -124,7 +124,7 @@
         window.onload = function () {
             setPage();
         }
-        $(".weixin").hide();
+        $("#qsk_click").hide();
     </script>
     <script type="text/javascript">
         function showScore(btnObj) {
