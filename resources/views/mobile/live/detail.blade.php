@@ -30,6 +30,7 @@
 @endsection
 @section('content')
     <div id="qsk_click"><img src="{{env('CDN_URL')}}/img/mobile/qsk_click_n.png" ></div>
+    <script type="text/javascript">//document.getElementById("qsk_click").style.display = 'none';</script>
     <div class="default" id="Info">
         @if($match['sport'] == 3)
             @if(isset($match['type']) && $match['type'] == 1)
@@ -120,11 +121,23 @@
 @endsection
 @section('js')
     <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030002"></script>
-    <script>
+    <script type="text/javascript">
         window.onload = function () {
             setPage();
+            var ua = window.navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                var domain = document.domain;
+                if (domain.indexOf('aikq.cc')) {
+                    $("#qsk_click").hide();
+                }
+                // var $prev = $("#qsk_click").prev().find("a:not(.home)");
+                // if ($prev.length == 0) {
+                //     $("#qsk_click").hide();
+                // }
+            } else {
+                $("#qsk_click").hide();
+            }
         }
-        $("#qsk_click").hide();
     </script>
     <script type="text/javascript">
         function showScore(btnObj) {
