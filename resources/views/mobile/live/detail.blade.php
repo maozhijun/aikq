@@ -11,6 +11,9 @@
             line-height: 60px;
             text-align: center;
         }
+        #Navigation + #qsk_click{
+            display: none;
+        }
     </style>
 @endsection
 @section('banner')
@@ -124,19 +127,6 @@
     <script type="text/javascript">
         window.onload = function () {
             setPage();
-            var ua = window.navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-                var domain = document.domain;
-                if (domain.indexOf('aikq.cc')) {
-                    $("#qsk_click").hide();
-                }
-                // var $prev = $("#qsk_click").prev().find("a:not(.home)");
-                // if ($prev.length == 0) {
-                //     $("#qsk_click").hide();
-                // }
-            } else {
-                $("#qsk_click").hide();
-            }
         }
     </script>
     <script type="text/javascript">
