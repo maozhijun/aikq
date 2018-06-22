@@ -462,7 +462,25 @@ class LiveController extends Controller
         else{
             $channels = array();
         }
-        return view('pc.live.match_channel',array('channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+        $ch = curl_init();
+        if ($sport == 3)
+            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/mobile/$mid" . '.json';
+        else
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$mid" . '.json';
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+        $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        if ($code == 200 && isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+            $mchannels = $json['live']['channels'];
+        }
+        else{
+            $mchannels = array();
+        }
+        return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
     }
 
     /**

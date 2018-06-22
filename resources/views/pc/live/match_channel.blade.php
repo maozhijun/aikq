@@ -12,17 +12,31 @@
     <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
 </head>
 <body scroll="no">
-<div class="line">
+<div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                if (stristr($channel['link'],'leqiuba.cc'))
-                    $link = '';
+            if (stristr($channel['link'],'leqiuba.cc'))
+                $link = '';
             ?>
-        @if(strlen($link) > 0)
-            <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
-                @endif
+            @if(strlen($link) > 0)
+                <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+            @endif
+        @endforeach
+    @endif
+</div>
+<div class="line mchannel" style="display: none">
+    @if(isset($mchannels))
+        @foreach($mchannels as $index=>$channel)
+            <?php
+            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+            if (stristr($channel['link'],'leqiuba.cc'))
+                $link = '';
+            ?>
+            @if(strlen($link) > 0)
+                <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+            @endif
         @endforeach
     @endif
 </div>
@@ -109,7 +123,16 @@
     }
 
     window.onload = function () { //需要添加的监控放在这里
-        $($('.line button')[0]).trigger("click");
+        if (isMobileWithJS()){
+            $('div.mchannel')[0].style.display = '';
+            if ($('.mchannel button').length > 0)
+                $($('.mchannel button')[0]).trigger("click");
+        }
+        else {
+            $('div.channel')[0].style.display = '';
+            if ($('.channel button').length > 0)
+                $($('.channel button')[0]).trigger("click");
+        }
     }
 
     function ChangeChannel (Link,obj) {
