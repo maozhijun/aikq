@@ -8,7 +8,18 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-   public function index(Request $request){
+    public function appConfig(Request $request){
+        return response()->json(
+            [
+                'code'=>0,
+                'data'=>[
+                    'more'=>'https://shop.liaogou168.com'
+                ]
+            ]
+        );
+    }
+
+    public function index(Request $request){
        return view('pc.home');
    }
 

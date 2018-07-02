@@ -166,3 +166,8 @@ Route::group(["namespace" => 'FIFA'], function () {
     Route::get("/pc/static/worldcup/index","WorldCupController@staticIndex");
     Route::get("/pc/static/worldcup/team/{tid}","WorldCupController@staticTeamDetail");
 });
+
+Route::group([], function () {
+//app配置
+    Route::get("/app/config.json", "HomeController@appConfig");
+});
