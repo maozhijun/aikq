@@ -13,7 +13,11 @@ class HomeController extends Controller
             [
                 'code'=>0,
                 'data'=>[
-                    'more'=>'https://shop.liaogou168.com'
+                    'more'=>'https://shop.liaogou168.com',
+                    'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
+                    'weixin'=>'kanqiu858',
+                    'ios_version'=>'1.0.0',
+                    'update_url'=>'https://shop.liaogou168.com'
                 ]
             ]
         );

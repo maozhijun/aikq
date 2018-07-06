@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="/css/mobile/style_phone.css">
+    <link rel="stylesheet" type="text/css" href="/css/mobile/downloadPhone.css">
+    <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="img/ico.ico">
+    <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
+    <title>料狗</title>
+</head>
+<body>
+    <div class="down">
+        <a id="Down" href="itms-services://?action=download-manifest&url=https://www.aikq.cc/test.plist">立即下载</a>
+        <p class="ios">苹果用户安装步骤>></a>
+    </div>
+    <div id="Step" step="1" style="display: none;">
+        <div class="inner">
+            <button class="close"></button>
+            <div class="imgbox">
+                <img src="/img/mobile/image_ex1.jpg">
+                <img src="/img/mobile/image_ex2.jpg">
+                <img src="/img/mobile/image_ex3.jpg">
+                <img src="/img/mobile/image_ex4.jpg">
+                <div class="text">
+                    <p>打开APP时，如出现上面弹窗<br/>请记住划线部分内容</p>
+                    <p>点击刚才记住的证书名称</p>
+                    <p>点击信任证书</p>
+                    <p>点击信任证书</p>
+                </div>
+                <img src="/img/mobile/image_ex1.jpg" class="bg">
+            </div>
+            <div class="step">
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/jquery.js"></script>
+<script src="/js/jquery.mobile.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        $('#Step .imgbox').bind('swipeleft',function(){
+            if (parseInt($('#Step').attr('step')) < 4) {
+                $('#Step').attr('step',parseInt($('#Step').attr('step')) + 1);
+            }
+        });
+
+        $('#Step .imgbox').bind('swiperight',function(){
+            if (parseInt($('#Step').attr('step')) > 1) {
+                $('#Step').attr('step',parseInt($('#Step').attr('step')) - 1);
+            }
+        });
+
+        $('p.ios').click(function () {
+            $('#Step').css('display','');
+        })
+        $('#Step button.close').click(function () {
+            $('#Step').css('display','none');
+        })
+    }
+</script>
+</html>
+
