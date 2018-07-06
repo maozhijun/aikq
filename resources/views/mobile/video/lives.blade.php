@@ -18,6 +18,7 @@
                 <button onclick="changeTab('live')" @if(!isset($type) || $type == 'live') class="on" @endif id="Football" name="type">直播</button>
                 <button onclick="changeTab('video')" @if(isset($type) && $type == 'video') class="on" @endif id="Basketball" name="type">录像</button>
                 <button onclick="window.open('https://shop.liaogou168.com/article/recommends')" @if(isset($type) && $type == 'other') class="on" @endif id="Other" name="type">推荐</button>
+                <button onclick="window.open('/downloadPhone.html')" id="download" name="type">下载</button>
             </p>
         </div>
     </div>

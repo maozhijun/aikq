@@ -47,6 +47,7 @@
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
         <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/live/business.html" target="_blank">视频调用</a>
         {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
+        <a class="column" href="/download.html" target="">下载</a>
         @yield('nav_inner')
     </div>
 </div>

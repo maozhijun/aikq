@@ -10,6 +10,14 @@
     <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     <title>料狗</title>
 </head>
+<script type="text/javascript">
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (!isAndroid && !isiOS){
+        window.location = '/download.html';
+    }
+</script>
 <body>
     <div class="down">
         <a id="Down" href="itms-services://?action=download-manifest&url=https://www.aikq.cc/test.plist">立即下载</a>
@@ -23,8 +31,12 @@
                 <img src="/img/mobile/image_ex2.jpg">
                 <img src="/img/mobile/image_ex3.jpg">
                 <img src="/img/mobile/image_ex4.jpg">
+                <img src="/img/mobile/image_ex5.jpg">
+                <img src="/img/mobile/image_ex6.jpg">
                 <div class="text">
                     <p>打开APP时，如出现上面弹窗<br/>请记住划线部分内容</p>
+                    <p>设置,选择通用</p>
+                    <p>选择设备管理</p>
                     <p>点击刚才记住的证书名称</p>
                     <p>点击信任证书</p>
                     <p>点击信任证书</p>
@@ -32,6 +44,8 @@
                 <img src="/img/mobile/image_ex1.jpg" class="bg">
             </div>
             <div class="step">
+                <p></p>
+                <p></p>
                 <p></p>
                 <p></p>
                 <p></p>
@@ -46,14 +60,33 @@
     var u = navigator.userAgent;
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
     if (isAndroid){
         $('a#Down').attr('href','https://www.aikq.cc/android.apk');
     }
+    if (isWeiXin()){
+        $('a#Down').attr('href','');
+        $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
+    }
+    if(navigator.userAgent.indexOf('UCBrowser') > -1) {
+        $('a#Down').attr('href','');
+        $('a#Down').attr('onclick','alert("请在Safari中打开，即可下载")');
+    }
+
+    function isWeiXin() {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 </script>
 <script type="text/javascript">
     window.onload = function () {
         $('#Step .imgbox').bind('swipeleft',function(){
-            if (parseInt($('#Step').attr('step')) < 4) {
+            if (parseInt($('#Step').attr('step')) < 6) {
                 $('#Step').attr('step',parseInt($('#Step').attr('step')) + 1);
             }
         });

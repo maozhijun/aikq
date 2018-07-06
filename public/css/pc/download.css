@@ -1,0 +1,44 @@
+﻿
+
+body{
+	height: 100%;
+	padding: 60px 0 134px;
+	background: url(/img/pc/image_download_bg.jpg) no-repeat right -40% center #fff; background-size: auto 100%;
+}
+
+#Content{
+	height: 100%; max-width: none;
+	margin: 0 auto; padding: 2.5% 14%;
+	box-sizing: border-box;
+}
+
+#Content img.phone{
+	height: 100%;
+	margin-right: 5%;
+	float: left;
+}
+
+#Content .code{
+	height: 100%;
+}
+#Content .code img.icon{
+	height: 13%;
+	margin-bottom: 7.3%;
+	display: block;
+}
+#Content .code .code{
+	height: 30%;
+	padding: 1%;
+	border-radius: 20px;
+	background: #fff;
+	box-shadow: 0px 7px 21px 0px rgba(68, 146, 253, 0.18);
+	position: relative;
+	display: inline-block;
+}
+#Content .code .code img{
+	height: 100%;
+}
+#Content .code .code p{
+	font-size: 16px; line-height: 16px; text-align: center; color: #1b1b1b;
+	position: absolute; bottom: -40px; left: 0; right: 0;
+}
