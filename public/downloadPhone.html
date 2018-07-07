@@ -8,6 +8,11 @@
     <link rel="stylesheet" type="text/css" href="/css/mobile/downloadPhone.css">
     <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="img/ico.ico">
     <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
+    <style>
+        #Navigation + #qsk_click{
+            display: none;
+        }
+    </style>
     <title>料狗</title>
 </head>
 <script type="text/javascript">
@@ -18,9 +23,13 @@
         window.location = '/download.html';
     }
 </script>
-<body>
+<body style="padding: 0px;">
+<div id="Navigation" style="display: none">
+
+</div>
+<div id="qsk_click" style="height: 50px; padding-top: -88px; background-color: white"><p style="height:50px;line-height:50px;font-size: 30px;padding-left: 10px">请点击原网页打开</p></div>
     <div class="down">
-        <a id="Down" href="itms-services://?action=download-manifest&url=https://www.aikq.cc/test.plist">立即下载</a>
+        <a id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist">立即下载</a>
         <p class="ios">苹果用户安装步骤>></a>
     </div>
     <div id="Step" step="1" style="display: none;">
@@ -62,7 +71,7 @@
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
     if (isAndroid){
-        $('a#Down').attr('href','https://www.aikq.cc/android.apk');
+        $('a#Down').attr('href','https://static.cdn.dlfyb.com/android.apk');
     }
     if (isWeiXin()){
         $('a#Down').attr('href','');

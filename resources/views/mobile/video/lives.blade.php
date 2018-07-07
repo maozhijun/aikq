@@ -6,6 +6,11 @@
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201804">
+    <style>
+        #Navigation {
+            background: #4492fd;
+        }
+    </style>
 @endsection
 
 @section('banner')
@@ -18,13 +23,14 @@
                 <button onclick="changeTab('live')" @if(!isset($type) || $type == 'live') class="on" @endif id="Football" name="type">直播</button>
                 <button onclick="changeTab('video')" @if(isset($type) && $type == 'video') class="on" @endif id="Basketball" name="type">录像</button>
                 <button onclick="window.open('https://shop.liaogou168.com/article/recommends')" @if(isset($type) && $type == 'other') class="on" @endif id="Other" name="type">推荐</button>
-                <button onclick="window.open('/downloadPhone.html')" id="download" name="type">下载</button>
+                {{--<button onclick="window.open('/downloadPhone.html')" id="download" name="type">下载</button>--}}
             </p>
         </div>
     </div>
 @endsection
 
 @section('content')
+    <a href="/downloadPhone.html"><img style="width: 100%" src="/img/mobile/image_ad_wap.jpg"></a>
     <?php $week_array = array('周日','周一','周二','周三','周四','周五','周六'); ?>
     @foreach($matches as $time=>$match_array)
         <?php $week = date('w', strtotime($time)); ?>
@@ -39,7 +45,7 @@
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
-    <p id="PC">更多赛事线路与特色功能，请登录电脑版！<br/>www.aikq.cc<button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    <p id="PC"><a href="/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 
 @section('js')
