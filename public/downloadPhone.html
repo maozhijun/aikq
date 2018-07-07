@@ -13,7 +13,7 @@
             display: none;
         }
     </style>
-    <title>料狗</title>
+    <title>爱看球下载</title>
 </head>
 <script type="text/javascript">
     var u = navigator.userAgent;
@@ -75,11 +75,18 @@
     }
     if (isWeiXin()){
         $('a#Down').attr('href','');
-        $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
+        if (isiOS)
+            $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
+        else{
+            $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可下载")');
+        }
     }
     if(navigator.userAgent.indexOf('UCBrowser') > -1) {
         $('a#Down').attr('href','');
-        $('a#Down').attr('onclick','alert("请在Safari中打开，即可下载")');
+        if (isiOS)
+            $('a#Down').attr('onclick','alert("请在Safari中打开，即可下载")');
+        else
+            $('a#Down').attr('onclick','alert("请在浏览器中打开，即可下载")');
     }
 
     function isWeiXin() {
