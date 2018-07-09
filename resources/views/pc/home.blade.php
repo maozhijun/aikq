@@ -65,6 +65,12 @@
                         @component('pc.cell.home_match_cell',['match'=>$match])
                         @endcomponent
                     @endforeach
+                    @if($bj == 0 && $loop->index == 0)
+                        <?php
+                        $bj = 1;
+                        ?>
+                        <tr class="adbanner"><td colspan="10"><a href="/download.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/image_ad_pc.jpg"><button class="close"></button></a></td></tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>

@@ -71,6 +71,7 @@
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 
     if (isAndroid){
+        $('a#Down').attr('href','');
         $('a#Down').attr('href','https://static.cdn.dlfyb.com/android.apk');
     }
     if (isWeiXin()){
@@ -78,15 +79,15 @@
         if (isiOS)
             $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
         else{
-            $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可下载")');
+            $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在【浏览器中打开】，即可下载")');
         }
     }
     if(navigator.userAgent.indexOf('UCBrowser') > -1) {
         $('a#Down').attr('href','');
         if (isiOS)
             $('a#Down').attr('onclick','alert("请在Safari中打开，即可下载")');
-        else
-            $('a#Down').attr('onclick','alert("请在浏览器中打开，即可下载")');
+//        else
+//            $('a#Down').attr('onclick','alert("请【在浏览器中打开】，即可下载")');
     }
 
     function isWeiXin() {
