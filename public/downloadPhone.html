@@ -29,21 +29,21 @@
 </div>
 <div id="qsk_click" style="height: 50px; padding-top: -88px; background-color: white"><p style="height:50px;line-height:50px;font-size: 30px;padding-left: 10px">请点击原网页打开</p></div>
     <div class="down">
-        <a id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist">立即下载</a>
+        <a download="android.apk" id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist">立即下载</a>
         <p class="ios">苹果用户安装步骤>></a>
     </div>
     <div id="Step" step="1" style="display: none;">
         <div class="inner">
             <button class="close"></button>
             <div class="imgbox">
-                <img src="/img/mobile/image_ex1.jpg">
+                <img src="/img/mobile/image_ex1.jpg" class="on">
                 <img src="/img/mobile/image_ex2.jpg">
                 <img src="/img/mobile/image_ex3.jpg">
                 <img src="/img/mobile/image_ex4.jpg">
                 <img src="/img/mobile/image_ex5.jpg">
                 <img src="/img/mobile/image_ex6.jpg">
                 <div class="text">
-                    <p>打开APP时，如出现上面弹窗<br/>请记住划线部分内容</p>
+                    <p class="on">打开APP时，如出现上面弹窗<br/>请记住划线部分内容</p>
                     <p>设置,选择通用</p>
                     <p>选择设备管理</p>
                     <p>点击刚才记住的证书名称</p>
@@ -53,7 +53,7 @@
                 <img src="/img/mobile/image_ex1.jpg" class="bg">
             </div>
             <div class="step">
-                <p></p>
+                <p class="on"></p>
                 <p></p>
                 <p></p>
                 <p></p>
@@ -103,15 +103,11 @@
 <script type="text/javascript">
     window.onload = function () {
         $('#Step .imgbox').bind('swipeleft',function(){
-            if (parseInt($('#Step').attr('step')) < 6) {
-                $('#Step').attr('step',parseInt($('#Step').attr('step')) + 1);
-            }
+            LeftSW()
         });
 
         $('#Step .imgbox').bind('swiperight',function(){
-            if (parseInt($('#Step').attr('step')) > 1) {
-                $('#Step').attr('step',parseInt($('#Step').attr('step')) - 1);
-            }
+            RightSW()
         });
 
         $('p.ios').click(function () {
@@ -120,6 +116,28 @@
         $('#Step button.close').click(function () {
             $('#Step').css('display','none');
         })
+    }
+
+    function LeftSW () {
+        var Target = $('#Step .step p.on');
+        if (Target[0] != $('#Step .step p:last')[0]) {
+
+            Target.removeClass('on').next().addClass('on');
+            $('#Step .imgbox img.on').removeClass('on').addClass('before').next().addClass('on');
+            $('#Step .text p.on').removeClass('on').addClass('before').next().addClass('on');
+
+        }
+    }
+
+    function RightSW () {
+        var Target = $('#Step .step p.on');
+        if (Target[0] != $('#Step .step p:first')[0]) {
+
+            Target.removeClass('on').prev().addClass('on');
+            $('#Step .imgbox img.on').removeClass('on').prev().addClass('on').removeClass('before');
+            $('#Step .text p.on').removeClass('on').prev().addClass('on').removeClass('before');
+
+        }
     }
 </script>
 </html>

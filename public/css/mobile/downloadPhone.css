@@ -87,38 +87,19 @@ a#Down{
 	margin-left: 20px;
 }
 
-#Step[step="1"] .inner .imgbox img:nth-child(1),
-#Step[step="2"] .inner .imgbox img:nth-child(2),
-#Step[step="3"] .inner .imgbox img:nth-child(3),
-#Step[step="4"] .inner .imgbox img:nth-child(4),
-#Step[step="5"] .inner .imgbox img:nth-child(5),
-#Step[step="6"] .inner .imgbox img:nth-child(6){
+#Step .inner .imgbox img.on{
 	transform: translateX(0); -ms-transform: translateX(0);	-webkit-transform: translateX(0); -o-transform: translateX(0); -moz-transform: translateX(0);
 }
 
-#Step[step="2"] .inner .imgbox img:nth-child(1),
-#Step[step="3"] .inner .imgbox img:nth-child(1), #Step[step="3"] .inner .imgbox img:nth-child(2),
-#Step[step="4"] .inner .imgbox img:nth-child(1), #Step[step="4"] .inner .imgbox img:nth-child(2), #Step[step="4"] .inner .imgbox img:nth-child(3),
-#Step[step="5"] .inner .imgbox img:nth-child(1), #Step[step="5"] .inner .imgbox img:nth-child(2), #Step[step="5"] .inner .imgbox img:nth-child(3),#Step[step="5"] .inner .imgbox img:nth-child(4),
-#Step[step="6"] .inner .imgbox img:nth-child(1), #Step[step="6"] .inner .imgbox img:nth-child(2), #Step[step="6"] .inner .imgbox img:nth-child(3),#Step[step="6"] .inner .imgbox img:nth-child(4),#Step[step="6"] .inner .imgbox img:nth-child(5){
+#Step .inner .imgbox img.before{
 	transform: translateX(-100%); -ms-transform: translateX(-100%);	-webkit-transform: translateX(-100%); -o-transform: translateX(-100%); -moz-transform: translateX(-100%);
 }
 
-#Step[step="1"] .inner .imgbox .text p:nth-child(1),
-#Step[step="2"] .inner .imgbox .text p:nth-child(2),
-#Step[step="3"] .inner .imgbox .text p:nth-child(3),
-#Step[step="4"] .inner .imgbox .text p:nth-child(4),
-#Step[step="5"] .inner .imgbox .text p:nth-child(5),
-#Step[step="6"] .inner .imgbox .text p:nth-child(6){
+#Step .inner .imgbox .text p.on{
 	display: block;
 }
 
-#Step[step="1"] .inner .step p:nth-child(1),
-#Step[step="2"] .inner .step p:nth-child(2),
-#Step[step="3"] .inner .step p:nth-child(3),
-#Step[step="4"] .inner .step p:nth-child(4),
-#Step[step="5"] .inner .step p:nth-child(5),
-#Step[step="6"] .inner .step p:nth-child(6){
+#Step .inner .step p.on{
 	background: #4492fd;
 }
 

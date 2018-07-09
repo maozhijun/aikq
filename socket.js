@@ -29,6 +29,11 @@ io.on('connect', function (socket) {
     socket.on('user_send_message', function (info) {
         try {
             var message = info.message;
+
+            if (message.length <= 0){
+                return;
+            }
+
             //匹配不应该发的内容
             var phoneReg = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
             if (phoneReg.exec(message).length > 0){
@@ -48,7 +53,7 @@ io.on('connect', function (socket) {
             // console.log('key ' + key);
             // console.log('result ' + result);
             var current_time = Date.parse( new Date())/1000 + '';
-            if (result == verification && current_time - time < 10) {
+            if (result == verification && Math.abs(current_time - time) < 10) {
                 io.to('mid:' + mid).emit('notification', info.message);
                 var nickname = '安卓用户';
                 if (info.nickname && info.nickname.length > 0){
@@ -84,7 +89,7 @@ io.on('connect', function (socket) {
             var key = message + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
             var result = md5.update(key).digest('hex');
             var current_time = Date.parse( new Date())/1000 + '';
-            if (result == verification && current_time - time < 10) {
+            if (result == verification && Math.abs(current_time - time) < 10) {
                 socket.join('mid:' + mid);
             }
             else{
