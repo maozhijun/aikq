@@ -170,4 +170,5 @@ Route::group(["namespace" => 'FIFA'], function () {
 Route::group([], function () {
 //app配置
     Route::get("/app/config.json", "HomeController@appConfig");
+    Route::get("/app/v101/config.json", "HomeController@appConfig");
 });

@@ -139,6 +139,8 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);
             } else{
                 Storage::disk("public")->put("/static/json/lives.json", $server_output);
+                //app
+                Storage::disk("public")->put("/app/v101/lives.json", $server_output);
             }
 
         } catch (\Exception $exception) {
@@ -382,6 +384,7 @@ class LiveController extends Controller
         } else {
             return abort(404);
         }
+        $this->_saveAppData($json,1,$id);
         return view('pc.live.video', $json);
     }
 
@@ -408,6 +411,7 @@ class LiveController extends Controller
             $match = $json['match'];
             $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
         }
+        $this->_saveAppData($json,2,$id);
         return view('pc.live.video', $json);
     }
 
@@ -435,6 +439,7 @@ class LiveController extends Controller
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
         }
+        $this->_saveAppData($json,3,$id);
         return view('pc.live.video', $json);
     }
 
@@ -996,6 +1001,17 @@ class LiveController extends Controller
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
                     Storage::disk("public")->put("/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
                 }
+
+                //保存app
+                $key = env('APP_DES_KEY');
+                $iv=env('APP_DES_IV');
+                $appData = $json;
+                dump($appData);
+                if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                    $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                }
+                $appData = json_encode($appData);
+                Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
                 $ch = curl_init();
@@ -1365,4 +1381,23 @@ class LiveController extends Controller
         }
     }
 
+    private function _saveAppData($json,$sport,$mid){
+        $key = env('APP_DES_KEY');
+        $iv=env('APP_DES_IV');
+        $appData = $json;
+        $channels = array();
+        if ($json['live'] && $json['live']['channels']) {
+            foreach ($json['live']['channels'] as $channel) {
+                if (!stristr($channel['link'],'leqiuba.cc'))
+                {
+                    //乐球吧不要
+                    $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
+                    $channels[] = $channel;
+                }
+            }
+            $appData['live']['channels'] = $channels;
+        }
+        $appData = json_encode($appData);
+        Storage::disk("public")->put("/app/v101/lives/" . $sport . '/' . $mid . '.json', $appData);
+    }
 }
