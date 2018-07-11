@@ -12,6 +12,8 @@ use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 use App\Console\SubjectVideo\SubjectVideoDetailCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
+use App\Console\Sync\BasketballMatchCommand;
+use App\Console\Sync\FootballMatchCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -51,6 +53,11 @@ class Kernel extends ConsoleKernel
         PlayerCommand::class,//录像player静态化
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
         FIFACommand::class,//世界杯
+
+        //同步数据相关 开始
+        FootballMatchCommand::class,//同步matches数据到爱看球
+        BasketballMatchCommand::class,//同步basket_matches数据到爱看球
+        //同步数据相关 结束
     ];
 
     /**
