@@ -137,6 +137,12 @@ class SubjectVideoController extends Controller
         $types = isset($types) ? $types : [];
         $typesStr = json_encode($types);
         Storage::disk("public")->put('/live/subject/videos/leagues.json', $typesStr);
+        $data = array();
+        foreach ($types as $key=>$item){
+            $item['type'] = $key;
+            $data[] = $item;
+        }
+        Storage::disk("public")->put("/app/v101/subject/videos/leagues.json", json_encode($data));
     }
 
     /**
@@ -184,6 +190,7 @@ class SubjectVideoController extends Controller
             }
             $leagues = $this->getLeagues();
             $html = $this->videosHtml($type, $leagues, $data);
+            Storage::disk("public")->put("/app/v101/subject/videos/" . $type . '/' . $page . ".json", json_encode($data));
             if (!empty($html)) {
                 //echo $type . ' patch : ' . $patch . "\n";
                 Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表

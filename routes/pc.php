@@ -171,4 +171,6 @@ Route::group([], function () {
 //app配置
     Route::get("/app/config.json", "HomeController@appConfig");
     Route::get("/app/v101/config.json", "HomeController@appConfig");
+    Route::get("/app/v101/config.json", "HomeController@appConfig");
+    Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 });

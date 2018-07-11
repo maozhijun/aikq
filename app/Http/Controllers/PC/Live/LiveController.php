@@ -1381,6 +1381,7 @@ class LiveController extends Controller
         }
     }
 
+    /* app用 */
     private function _saveAppData($json,$sport,$mid){
         $key = env('APP_DES_KEY');
         $iv=env('APP_DES_IV');
@@ -1399,5 +1400,29 @@ class LiveController extends Controller
         }
         $appData = json_encode($appData);
         Storage::disk("public")->put("/app/v101/lives/" . $sport . '/' . $mid . '.json', $appData);
+    }
+
+    public function appLiveDetail(Request $request,$sport,$mid){
+        $ch = curl_init();
+        if ($sport == 1) {
+            $url = env('LIAOGOU_URL') . "aik/lives/detailJson/$mid" . '.json';
+        }
+        else if ($sport == 2) {
+            $url = env('LIAOGOU_URL') . "aik/lives/basketDetailJson/$mid" . '.json';
+        }
+        else if ($sport == 3) {
+            $url = env('LIAOGOU_URL') . "aik/lives/otherDetailJson/$mid" . '.json';
+        }
+        if (is_null($url)){
+            return null;
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        $this->_saveAppData($json,$sport,$mid);
+        return $server_output;
     }
 }
