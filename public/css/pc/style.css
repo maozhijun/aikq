@@ -26,7 +26,7 @@ html{height: 100%;}
 body{
 	min-height: 100%;
 	padding: 90px 14% 134px;
-	background: url(/img/pc/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
+	background: url(../img/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 	position: relative;
@@ -72,7 +72,7 @@ body{
 /*无内容*/
 .noList{
 	padding: 160px 0 40px;
-	background: url(/img/pc/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
+	background: url(../img/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
 	font-size: 16px; line-height: 24px; text-align: center; color: #999;
 	display: none;
 }
@@ -101,21 +101,21 @@ body{
 	position: relative; top: 8px;
 }
 #Navigation a.column{
-	height: 60px; width: 10%; min-width: 40px; max-width: 120px;
+	height: 60px; width: 9%; min-width: 40px; max-width: 120px;
 	margin-left: 60px;
 	font-size: 22px; line-height: 60px; text-align: center; color: #000;
 	position: relative;
 	display: inline-block;
 }
 #Navigation a.column + a.column{
-	margin-left: 40px;
+	margin-left: 2.5%;
 }
 #Navigation a.column:hover, #Navigation a.on{
 	background: #4492fd;
 	color: #fff;
 }
 #Navigation img.icon + a.column{
-	margin-left: 214px;
+	margin-left: 6%;
 }
 #Navigation .inner p.wx{
 	height: 58px;
@@ -144,7 +144,7 @@ body{
 #Link{
 	height: 30px;
 	padding: 0 12%;
-	background: url(/img/pc/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
+	background: url(../img/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
 	text-align: center;
 	position: fixed; top: 60px; left: 0; right: 0; z-index: 9;
 }
@@ -192,6 +192,7 @@ body{
 	margin-left: 0;
 	color: #bc1c25;
 }
+
 
 /*弹框*/
 .pop{
