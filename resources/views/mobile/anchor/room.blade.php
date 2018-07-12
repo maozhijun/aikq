@@ -1,6 +1,23 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <script type="text/javascript">
+        if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            var url = window.location.href;
+            url = url.split('/');
+            var str = '';
+            if (url[3] == 'm'){
+                for (var i = 0 ; i < url.length ; i++){
+                    if (i == 3){
+                        continue;
+                    }
+                    str = str + url[i] + '/';
+                }
+                str = str.substr(0,str.length - 1);
+                window.location = str;
+            }
+        }
+    </script>
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
