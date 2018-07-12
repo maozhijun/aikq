@@ -1,5 +1,5 @@
 ﻿body{
-	/*padding-bottom: 80px;*/
+	padding-bottom: 200px;
 }
 
 img.logo{
@@ -21,7 +21,7 @@ img.logo{
 .default a{
 	height: 110px;
 	padding: 16px 104px 0 24px;
-	background: url(/img/pc/icon_right.png) no-repeat right center #fff; background-size: 74px;
+	background: url(../img/icon_right.png) no-repeat right center #fff; background-size: 74px;
 	position: relative;
 	vertical-align: top;
 	/*display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;*/
@@ -63,7 +63,7 @@ img.logo{
 	position: absolute; top: 50%; right: 20px;
 }
 .default a p.other{
-	font-size: 32px; line-height: 134px;
+	font-size: 32px; line-height: 94px;
 }
 
 #Navigation{
@@ -108,15 +108,20 @@ img.logo{
 	padding: 6px 16px;
 	background: rgba(68,148,253,0.8);
 	font-size: 24px; line-height: 34px; text-align: center; color: #fff;
-	position: fixed; bottom: 0; left: 0; right: 0; z-index: 2;
+	position: fixed; bottom: 100px; left: 0; right: 0; z-index: 2;
 }
 #PC button.close{
 	width: 24px; height: 24px;
 	margin-top: -12px;
-	background: url(/img/pc/icon_close_btn_white.png) no-repeat center; background-size: 24px;
+	background: url(../img/icon_close_btn_white.png) no-repeat center; background-size: 24px;
 	position: absolute; top: 50%; right: 16px;
 }
+
+
 .nolist{
 	padding-top: 300px !important;
-	background: url(/img/pc/bg_vip_nolist.png) no-repeat center 50px; background-size: 240px;
+	background: url(../img/bg_vip_nolist.png) no-repeat center 50px; background-size: 240px;
 }
+
+
+

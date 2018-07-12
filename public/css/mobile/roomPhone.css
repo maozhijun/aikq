@@ -1,0 +1,58 @@
+﻿body{
+	padding: 508px 0 88px;
+}
+
+
+#Video{
+	height: 420px;
+	padding-top: 150px;
+	background: url(/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	font-size: 28px; line-height: 40px; text-align: center; color: #fff;
+	position: fixed; top: 88px; left: 0; right: 0;
+	box-sizing: border-box;
+}
+#Video a{
+	width: 310px; height: 88px;
+	margin: 26px auto 0;
+	background: rgba(68,146,253,0.8);
+	font-size: 32px; line-height: 88px; text-align: center; color: #fff;
+	display: block;
+}
+
+#Chat{
+	padding: 20px 24px;
+}
+#Chat .ev{
+	font-size: 30px; line-height: 40px; text-align: left; color: #443f3f;
+}
+#Chat .ev + .ev{
+	margin-top: 20px;
+}
+#Chat .ev span{
+	color: #9e9e9e;
+}
+
+#Input{
+	height: 64px;
+	padding: 12px 150px 12px 40px;
+	background: #fff;
+	position: fixed; bottom: 0; left: 0; right: 0;
+}
+#Input input{
+	height: 62px; width: 100%;
+	border-radius: 4px; border: 1px solid #cfcfcf;
+	background: #f2f2f2;
+	font-size: 28px; line-height: 62px; text-align: center; color: #443f3f;
+}
+#Input button{
+	height: 64px; width: 150px;
+	margin-top: -32px;
+	background: none;
+	font-size: 32px; line-height: normal; text-align: center; color: #4492fd; font-weight: bold;
+	position: absolute; right: 0; top: 50%;
+}
+
+
+
+
+

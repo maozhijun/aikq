@@ -1,0 +1,214 @@
+﻿body{
+	padding-bottom: 100px;
+}
+
+#Hot{
+	height: 180px;
+	margin: -88px 0 20px; padding: 116px 0 104px;
+	background: url(/img/mobile/image_bg_focus_n.jpg) no-repeat left top; background-size: cover;
+	position: relative;
+}
+#Hot:after{
+	height: 64px;
+	background: rgba(1,8,17,0.3);
+	font-size: 32px; line-height: 64px; text-align: center; color: #fff;
+	position: absolute; bottom: 0; left: 0; right: 0;
+	content: '焦点比赛';
+}
+
+#Hot .inner{
+	height: 180px;
+	padding: 0 0 0 24px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+}
+
+#Hot .item{
+	height: 180px; min-width: 320px;
+	padding-right: 20px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	display: block;
+}
+#Hot .item:last-child{
+	padding-right: 24px;
+}
+#Hot .item.empty{
+	display: none;
+}
+#Hot .item .match{
+	height: 154px;
+	padding: 14px 0 12px 20px;
+	border-radius: 8px;
+	background: #fff;
+	overflow: hidden;
+}
+#Hot .item.live .match:before{
+	height: 180px; width: 24px;
+	margin: -14px 0 -12px; padding: 0 12px;
+	border-radius: 4px; border-left: 12px solid #fdd9db;
+	background: #f34249;
+	font-size: 24px; line-height: 30px; text-align: center; color: #fff;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	float: right;
+	content: '直播中';
+}
+#Hot .item.empty .match:before{
+	height: 180px; width: 24px;
+	margin: -14px 0 -12px; padding: 0 12px;
+	border-radius: 4px; border-left: 12px solid #efefef;
+	background: #d8d8d8;
+	float: right;
+	content: '';
+}
+#Hot .item .match .team{
+	height: 44px;
+	padding: 6px 0;
+	font-size: 32px; line-height: 44px; text-align: left; color: #443f3f;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	position: relative;
+}
+#Hot .item.empty .match .team:before{
+	width: 44px; height: 44px;
+	margin-top: -22px;
+	border-radius: 50%;
+	background: #d8d8d8;
+	position: absolute; top: 50%; left: 0;
+	content: '';
+}
+#Hot .item.empty .match .team:after{
+	width: 100px; height: 14px;
+	margin-top: -7px;
+	background: #efefef;
+	position: absolute; top: 50%; left: 64px;
+	content: '';
+}
+#Hot .item .match .team img{
+	height: 42px; width: 42px;
+	margin-right: 14px;
+	border-radius: 50%; border: 1px solid #4492fd;
+	background: #d8d8d8;
+	vertical-align: middle;
+}
+#Hot .item .match .anchor{
+	height: 28px;
+	margin-top: 14px;
+	font-size: 24px; line-height: 28px; text-align: left; color: #9e9e9e;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	position: relative;
+}
+#Hot .item.empty .match .anchor:before{
+	width: 164px; height: 14px;
+	margin-top: -7px;
+	background: #efefef;
+	position: absolute; top: 50%; left: 0;
+	content: '';
+}
+
+
+#Anchor{
+
+}
+#Anchor .title{
+	border-bottom: none;
+}
+#Anchor ul{
+	height: 200px;
+	padding: 10px 0 30px 24px; margin-top: -8px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch;
+}
+#Anchor ul li{
+	height: 200px; min-width: 180px;
+	padding-right: 20px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Anchor ul li:last-child{
+	padding-right: 24px;
+}
+#Anchor ul li a{
+	height: 180px;
+	padding-top: 20px;
+	background: #fff;
+	box-shadow: 0 2px 8px 0 rgba(68, 146, 253, 0.4);
+	display: block;
+}
+#Anchor ul li a img{
+	width: 76px; height: 76px;
+	margin: 0 auto 40px;
+	border-radius: 50%; border: 2px solid #4492fd;
+	display: block;
+}
+#Anchor ul li a p{
+	height: 40px;
+	font-size: 28px; line-height: 40px; text-align: center; color: #443f3f;
+	overflow: hidden;
+}
+
+
+#Live{
+
+}
+#Live .title{
+	border-bottom: none;
+}
+#Live ul{
+	font-size: 0px;
+}
+#Live ul li{
+	width: 50%;
+	padding-bottom: 40px;
+	box-sizing: border-box;
+	display: inline-block;
+}
+#Live ul li:nth-child(even){
+	padding-left: 10px;
+}
+#Live ul li:nth-child(odd){
+	padding-right: 10px;	
+}
+#Live ul li .imgbox{
+	height: 220px;
+	background: #d8d8d8;
+	position: relative;
+}
+#Live ul li .imgbox p{
+	font-size: 24px; line-height: 30px; text-align: left; color: #fff;
+	position: absolute; bottom: 10px; left: 20px; right: 20px;
+	overflow: hidden;
+}
+#Live ul li p.name{
+	height: 38px;
+	padding-top: 16px;
+	font-size: 28px; line-height: 38px; text-align: center; color: #4f4f4f;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
