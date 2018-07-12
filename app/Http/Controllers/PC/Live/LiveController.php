@@ -125,7 +125,6 @@ class LiveController extends Controller
         try {
             $ch = curl_init();
             $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
-//            echo $url;
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 20);
@@ -139,10 +138,8 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);
             } else{
                 Storage::disk("public")->put("/static/json/lives.json", $server_output);
-                //app
                 Storage::disk("public")->put("/app/v101/lives.json", $server_output);
             }
-
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -317,13 +314,6 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function basketballLives(Request $request) {
-//        $ch = curl_init();
-//        $url = env('LIAOGOU_URL')."/basketballLivesJson";
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        $server_output = curl_exec ($ch);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $cache = Storage::get('/public/static/json/basketball-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
@@ -340,13 +330,6 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function footballLives(Request $request) {
-//        $ch = curl_init();
-//        $url = env('LIAOGOU_URL')."/footballLivesJson";
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        $server_output = curl_exec ($ch);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $cache = Storage::get('/public/static/json/football-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){

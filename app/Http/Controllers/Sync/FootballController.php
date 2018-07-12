@@ -48,8 +48,26 @@ class FootballController extends Controller
      */
     public function updateMatch(Request $request) {
         $max = \App\Models\Match\Match::query()->selectRaw('max(updated_at) as updated_at')->first();
+        $lastUpdate = date('Y-m-d H:i', strtotime('-10 hours'));
+        if (isset($max)) {
+            $lastUpdate = $max->updated_at;
+        }
+        $lgMatches = Match::query()->where('updated_at', '>=', $lastUpdate)->get();
 
-        //TODO
+        foreach ($lgMatches as $lgMatch) {
+            $id = $lgMatch->id;
+
+            $aMatch = \App\Models\Match\Match::query()->find($id);
+            if (!isset($aMatch)) {
+                $aMatch = new \App\Models\Match\Match();
+                $aMatch->id = $id;
+            }
+
+            $this->copyMatch($lgMatch, $aMatch);
+
+            $aMatch->save();
+        }
+        dump("本次更新时间为：" . $lastUpdate . ",更新条数：" . count($lgMatches));
     }
 
 

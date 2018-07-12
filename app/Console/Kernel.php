@@ -13,7 +13,9 @@ use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 use App\Console\SubjectVideo\SubjectVideoDetailCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
 use App\Console\Sync\BasketballMatchCommand;
+use App\Console\Sync\BasketballUpdateMatchCommand;
 use App\Console\Sync\FootballMatchCommand;
+use App\Console\Sync\FootballMatchUpdateCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -56,7 +58,10 @@ class Kernel extends ConsoleKernel
 
         //同步数据相关 开始
         FootballMatchCommand::class,//同步matches数据到爱看球
+        FootballMatchUpdateCommand::class,//更新matches数据到爱看球
+
         BasketballMatchCommand::class,//同步basket_matches数据到爱看球
+        BasketballUpdateMatchCommand::class,//更新basket_matches数据到爱看球
         //同步数据相关 结束
     ];
 

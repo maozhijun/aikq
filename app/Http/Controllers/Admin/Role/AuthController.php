@@ -28,7 +28,7 @@ class AuthController extends Controller
             return view('admin.login');
         }
 
-        $target = $request->input("target", '/admin');
+        $target = $request->input("target", '/admin/index');
         $account = $request->input("email", '');
         $password = $request->input("password");
         $remember = $request->input("remember", 0);
@@ -202,7 +202,7 @@ class AuthController extends Controller
     {
         session()->forget(Account::AIKQ_ADMIN_AUTH_SESSION);
         setcookie(Account::AIKQ_ADMIN_AUTH_TOKEN, '', time() - 3600, '/', 'aikq.cc');
-        return redirect('/admin/login/');
+        return response()->redirectTo('/admin/login');
     }
 
 }

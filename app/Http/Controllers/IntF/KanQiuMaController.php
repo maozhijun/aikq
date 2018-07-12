@@ -176,7 +176,7 @@ class KanQiuMaController extends Controller
      * @param $sport
      * @return array
      */
-    protected function match2Array($match, $isMobile, $sport) {
+    public static function match2Array($match, $isMobile, $sport) {
         $obj = ['hname'=>$match->hname, 'aname'=>$match->aname, 'hscore'=>$match->hscore];
         $obj['mid'] = $match['mid'];
         $obj['ascore'] = $match->ascore;
@@ -189,8 +189,7 @@ class KanQiuMaController extends Controller
         $obj['away_icon'] = $match->getTeamIcon(false);
         if ($isMobile){
             $array = MatchLive::query()->find($match['live_id'])->mChannels();
-        }
-        else{
+        } else{
             $array = MatchLive::query()->find($match['live_id'])->kChannels();
         }
         $obj['channels'] = $array;

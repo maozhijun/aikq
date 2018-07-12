@@ -11,6 +11,12 @@
 |
 */
 
+Route::group(['middleware' => 'admin_auth'], function () {
+    Route::any("/index", function () {
+        return view('admin.index');
+    });
+});
+
 /**
  * 用户相关
  */

@@ -94,8 +94,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapIntFRoutes()
     {
-        Route::prefix('lg310')
-            ->middleware('web')
+        Route::middleware('web')
             ->namespace($this->namespace .'\IntF')
             ->group(base_path('routes/web.php'));
     }
