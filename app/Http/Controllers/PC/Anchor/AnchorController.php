@@ -50,4 +50,17 @@ class AnchorController extends Controller
         $room = AnchorRoom::find($room_id);
         return response()->json(array('code'=>0,'live_url'=>$room->url));
     }
+
+    /*** app 接口 ****/
+    public function appV110(Request $request){
+        $result = array();
+        $result['hotAnchors'] = Anchor::getHotAnchor();
+        $result['livingRooms'] = AnchorRoom::getLivingRooms();
+        $hotMatches = AnchorRoomTag::getHotMatch();
+        $result['hotMatches'] = $hotMatches;
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$result
+        ));
+    }
 }
