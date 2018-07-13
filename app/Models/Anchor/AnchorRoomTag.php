@@ -16,7 +16,7 @@ class AnchorRoomTag extends Model{
     const kIsHot = 1, kNotHot = 0;
     static public function getHotMatch(){
         $rooms = AnchorRoomTag::where('hot',AnchorRoomTag::kIsHot)
-            ->where('match_time','>=', strtotime('-4 hours'))
+            ->where('match_time','>=', date_create('-4 hours'))
             ->get();
         return $rooms;
     }
@@ -24,6 +24,13 @@ class AnchorRoomTag extends Model{
     public function room()
     {
         return $this->hasOne('App\Models\Anchor\AnchorRoom', 'id', 'room_id');
+    }
+
+    public function match(){
+        if($this->sport == 1)
+            return $this->hasOne('App\Models\Match\Match', 'id', 'match_id');
+        else
+            return $this->hasOne('App\Models\Match\BasketMatch', 'id', 'match_id');
     }
 
     public function getMatch(){

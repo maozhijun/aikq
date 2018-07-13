@@ -111,3 +111,18 @@ Route::group(['namespace'=>'Subject', 'middleware' => 'admin_auth'], function ()
 Route::group(['middleware' => 'admin_auth'], function () {
     Route::post("/upload/cover/", "UploadController@uploadCover");//上传封面
 });
+
+/**
+ * 主播相关
+ */
+Route::group(['namespace'=>'Anchor', 'middleware' => 'admin_auth'], function () {
+    Route::get('/anchor/list', 'AnchorController@anchors');//主播列表
+    Route::post('/anchor/del', 'AnchorController@delAnchor');//删除主播
+    Route::post('/anchor/update', 'AnchorController@update');//修改主播信息
+
+    Route::get('/anchor/room/list', 'AnchorRoomController@rooms');//主播房间列表
+    Route::post('/anchor/room/update', 'AnchorRoomController@update');//修改主播信息
+
+    Route::get('/anchor/room/book_list', 'AnchorRoomController@bookList');//预约比赛列表
+    Route::post('/anchor/tag/update', 'AnchorRoomController@bookUpdate');//修改预约比赛
+});
