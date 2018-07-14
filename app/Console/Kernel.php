@@ -43,7 +43,6 @@ class Kernel extends ConsoleKernel
 
         DetailCommand::class,//subject 专题终端静态化
         LeaguesJsonCommand::class,//subject 专题列表json静态化
-        PlayerCommand::class,//subject 专题播放终端静态化
 
         VideoPageCommand::class,//热门录像分页列表静态化
         VideoCoverCommand::class,//热门录像封面图同步
@@ -73,6 +72,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        //足球、篮球比赛 数据同步 开始
+        $schedule->command('sync_update_football_matches:run')->everyMinute();
+        $schedule->command('sync_update_basketball_matches:run')->everyMinute();
+        //足球、篮球比赛 数据同步 结束
+
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
         $schedule->command('index_cache:run')->everyMinute();//每分钟刷新主页缓存
         $schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存
@@ -91,10 +95,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('db_spread_cache:run')->everyTenMinutes();
 
-        $schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
+        //$schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
         //专题静态化
-        $schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面
+        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面
         $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
         $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
@@ -104,7 +108,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
 
         //专题录像静态化
-        $schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
+        //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 

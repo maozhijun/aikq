@@ -102,6 +102,9 @@ class SubjectVideoController extends Controller
             $url .= "&isMobile=1";
         }
         $server_output = SubjectController::execUrl($url);
+//        $svCon = new \App\Http\Controllers\IntF\SubjectVideoController();
+//        $server_output = $svCon->subjectVideos(new Request(), $type, $page)->getData();
+//        $server_output = json_encode($server_output);
         $videos = json_decode($server_output, true);
         $videos = isset($videos) ? $videos : [];
         return $videos;
@@ -136,6 +139,10 @@ class SubjectVideoController extends Controller
         $types = json_decode($server_output, true);
         $types = isset($types) ? $types : [];
         $typesStr = json_encode($types);
+//        $aiCon = new \App\Http\Controllers\IntF\SubjectVideoController();
+//        $data = $aiCon->subjectVideoTypes(new Request())->getData();
+//        $typesStr = json_encode($data);
+//        $types = json_decode($typesStr);
         Storage::disk("public")->put('/live/subject/videos/leagues.json', $typesStr);
         $data = array();
         foreach ($types as $key=>$item){
@@ -185,7 +192,7 @@ class SubjectVideoController extends Controller
         } else {
             $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
             if (!isset($data['videos']) || !isset($data['page'])) {
-                Storage::delete('public/' . $patch);
+                Storage::delete('public' . $patch);
                 return;
             }
             $leagues = $this->getLeagues();

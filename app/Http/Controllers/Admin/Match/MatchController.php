@@ -294,6 +294,15 @@ class MatchController extends Controller
         if ($type != MatchLiveChannel::kTypeCode) {
             $h_content = '';
         }
+        //根据线路填写内容 自动选择播放平台。
+        if (preg_match("/^rtmp:\/\//", $content) || preg_match("/.flv/", $content)) {
+            $platform = MatchLiveChannel::kPlatformPC;
+        } else if (preg_match("/.m3u8/", $content)) {
+            $platform = MatchLiveChannel::kPlatformAll;
+        } else if (strlen($content) < 6) {//预留线路，显示为全部
+            $platform = MatchLiveChannel::kPlatformAll;
+        }
+
         $channel->type = $type;
         $channel->platform = $platform;
         $channel->isPrivate = $isPrivate;
@@ -328,7 +337,7 @@ class MatchController extends Controller
         }
         $this->flush310Live($match_id, $sport, $channel->id);
         $this->flushAikqLive($match_id, $sport, $channel->id);
-        $this->flushHeiTuLive($match_id, $sport, $channel->id);
+        //$this->flushHeiTuLive($match_id, $sport, $channel->id);
         return response()->json(['code'=>200, 'msg'=>'保存线路成功']);
     }
 
@@ -362,7 +371,7 @@ class MatchController extends Controller
         }
         $this->flush310Live($match_id, $sport, $id);
         $this->flushAikqLive($match_id, $sport, $id);
-        $this->flushHeiTuLive($match_id, $sport, $id);
+        //$this->flushHeiTuLive($match_id, $sport, $id);
         return response()->json(['code'=>200, 'msg'=>'删除线路成功']);
     }
 
@@ -393,7 +402,9 @@ class MatchController extends Controller
     }
 
     protected function flush310Live($match_id, $sport, $ch_id) {
-        $url = 'https://www.lg310.com/live/cache/flush?mid=' . $match_id . '&sport=' . $sport . '&ch_id=' . $ch_id . '&time=' . time();
+        $url = '/live/cache/flush?mid=' . $match_id . '&sport=' . $sport . '&ch_id=' . $ch_id . '&time=' . time();
+        $url = env('LG310_URL', 'https://www.lg310.com') . $url;
+
         //QueryList::getInstance()->get($url)->getHtml();
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
@@ -418,11 +429,12 @@ class MatchController extends Controller
 
 
     protected function flushAikqLive($match_id, $sport, $ch_id) {
-        $url = 'http://www.aikq.cc/live/cache/match/detail_id/' . $match_id . '/' . $sport . '?ch_id=' . $ch_id;
+        $url = '/live/cache/match/detail_id/' . $match_id . '/' . $sport . '?ch_id=' . $ch_id;
+        $url = asset($url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,1);
+        curl_setopt($ch, CURLOPT_TIMEOUT,2);
         $server_output = curl_exec ($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
@@ -532,7 +544,8 @@ class MatchController extends Controller
     }
 
     protected function setCode2AiKq($code) {
-        $url = 'http://www.aikq.cc/live/rec-code/' . $code;
+        $url = '/live/rec-code/' . $code;
+        $url = asset($url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
