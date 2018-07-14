@@ -21,4 +21,10 @@ class Anchor extends Model{
     {
         return $this->hasOne('App\Models\Anchor\AnchorRoom', 'anchor_id', 'id');
     }
+
+    public static function shaPassword($salt, $password)
+    {
+        return sha1($salt . $password);
+    }
+
 }

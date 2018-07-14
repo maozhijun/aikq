@@ -1,0 +1,153 @@
+﻿
+
+.box{
+	padding: 20px 0 0 30px;
+	border-left: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;
+}
+.box .title{
+	padding-bottom: 7px; margin-bottom: 20px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 14px; line-height: 14px; text-align: left; color: #545557;
+}
+.box .item{
+	min-height: 36px;
+	margin-bottom: 20px; padding-left: 80px;
+	position: relative;
+}
+.item:after{
+	display: block; clear: both;
+	content: '';
+}
+.box .item .name{
+	height: 36px; width: 75px;
+	font-size: 12px; line-height: 36px; text-align: right; color: #8a8a8a;
+	position: absolute; top: 0; left: 0;
+}
+.box .item input{
+	height: 24px; width: 30%;
+	padding: 5px 10px; margin-right: 10px;
+	border: 1px solid #e6e6e6;
+	background: #fff;
+	font-size: 12px; line-height: 24px; text-align: left; color: #8a8a8a;
+	float: left;
+}
+.box .item button.comfirm{
+	width: 150px; height: 38px;
+	margin: 0 auto;
+	border-radius: 2px; border: 1px solid #4492fd;
+	font-size: 13px; line-height: normal; text-align: center; color: #4492fd;
+	transform: translateX(-80px); -ms-transform: translateX(-80px); -webkit-transform: translateX(-80px); -o-transform: translateX(-80px); -moz-transform: translateX(-80px);
+	display: block;
+}
+.box .item button.comfirm:hover{
+	background: #4492fd;
+	color: #fff;
+}
+
+
+#Match{
+	font-size: 0;
+}
+#Match .name{
+	height: 50px;
+	line-height: 50px;
+}
+.item .hot{
+	width: 120px; height: 50px;
+	margin: 0 10px 6px 0;
+	border-radius: 4px;
+	background: url(../img/image_bg_match_little.jpg) no-repeat center; background-size: 120px 50px;
+	font-size: 0; line-height: 50px;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+.item .hot.on:before{
+	border: solid 2px #0000ff; border-radius: 4px;
+	background: #fff;
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+	opacity: 0.5;
+	content: '';
+}
+.item .hot .team{
+	width: 50px; max-height: 32px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #fff;
+	vertical-align: middle;
+	display: inline-block;
+	overflow: hidden;
+}
+.item .hot .vs{
+	width: 20px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #ff9f65;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+
+#Sreach .hot{
+	margin-top: -7px;
+}
+#Sreach .list{
+	width: 30%;
+	padding: 6px 10px;
+	background: #fff;
+	box-shadow: 0px 2px 6px 0px rgba(68, 146, 253, 0.28);
+	position: absolute; top: 42px; left: 80px; z-index: 10;
+	box-sizing: border-box;
+}
+#Sreach .list li{
+	height: 24px;
+	font-size: 12px; line-height: 24px; text-align: left; color: #8a8a8a;
+	cursor: pointer;
+}
+#Sreach .list li:hover{
+	color: #4492fd;
+}
+
+
+table{
+	width: 100%;
+	margin: -20px 0 30px;
+	background: #fafbfd;
+}
+table td{
+	height: 50px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 12px; line-height: 16px; text-align: center; color: #545557;
+}
+table td:first-child{
+	padding-left: 20px;
+	text-align: left;
+}
+table td span{
+	color: #8a8a8a;
+}
+table td span.team{
+	color: #4492fd;
+}
+table td span.live{
+	color: #cb6c56;
+}
+table td button{
+	width: 80px; height: 32px;
+	border: solid 1px #4492fd;
+	background-color: #fff;
+	font-size: 12px; line-height: normal; text-align: center; color: #4492fd;
+}
+table td button:hover{
+	background: #4492fd;
+	color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
