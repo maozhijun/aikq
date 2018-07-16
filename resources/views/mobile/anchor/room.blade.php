@@ -99,10 +99,10 @@
     };
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
-    //var socket = io.connect('http://localhost:6001');
+//    var socket = io.connect('http://localhost:6001');
     var socket = io.connect('http://ws.aikq.cc');
     socket.on('connect', function (data) {
-        var mid = '{{$room_id}}';
+        var mid = '{{'99_'.$room_id}}';
         var time = Date.parse( new Date())/1000 + '';
         var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
         var key = new Uint8Array(encodeUTF8(key));

@@ -61,6 +61,7 @@
                     @foreach($livingRooms as $livingRoom)
                         <?php
 //                        $match = $livingRoom->getLivingMatch();
+                            $count = \Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount')>0?\Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount'):0;
                         ?>
                         <div class="item">
                             <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
@@ -68,7 +69,7 @@
                                 <div class="info">
                                     <img src="{{$livingRoom->anchor->icon}}">
                                     <p class="room">{{$livingRoom['title']}}</p>
-                                    <p class="name"><span>1234人</span>{{$livingRoom->anchor->name}}</p>
+                                    <p class="name"><span>{{$count}}人</span>{{$livingRoom->anchor->name}}</p>
                                 </div>
                             </a>
                         </div>

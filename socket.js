@@ -2,22 +2,10 @@ var app = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http, {'transports': ['websocket', 'polling']});
 var Redis = require('ioredis');
-var redis = new Redis();
+var redis = require("redis"),
+    client = redis.createClient();
 
 var crypto = require('crypto');
-
-redis.subscribe('notification', function(err, count) {
-    console.log('connect!');
-});
-
-redis.on('message', function(channel, notification) {
-    // console.log(notification);
-    notification = JSON.parse(notification);
-    // 將訊息推播給使用者
-    io.emit('notification', notification.data.message);
-    // io.emit('bjtest', notification.data.message);
-    console.log('api send done');
-});
 
 io.on('connect', function (socket) {
     console.log('a user connected');
@@ -92,6 +80,21 @@ io.on('connect', function (socket) {
             var current_time = Date.parse( new Date())/1000 + '';
             if (result == verification && Math.abs(current_time - time) < 10) {
                 socket.join('mid:' + mid);
+
+                //直播人数
+                client.get(mid+'_userCount', function(err, object) {
+                    var count = 0;
+                    if (null == err) {
+                        count = parseInt(object);
+                        if (myIsNaN2(count)){
+                            count = 0;
+                        }
+                        // console.log('count ' + count);
+                    }
+                    client.set(mid+'_userCount', (count+1), function(err) {
+                        // console.log(err)
+                    });
+                });
             }
             else{
 
@@ -101,7 +104,29 @@ io.on('connect', function (socket) {
             console.log(e);
         }
     });
+
+    socket.on('disconnect', function (socket) {
+        client.get(mid+'_userCount', function (err, object) {
+            var count = 0;
+            if (null == err) {
+                count = parseInt(object);
+                if (myIsNaN2(count)){
+                    count = 0;
+                }
+            }
+            if (count <= 0){
+                count = 1;
+            }
+            client.set(mid+'_userCount', (count - 1), function (err) {
+
+            });
+        });
+    });
 });
+
+function myIsNaN2(value) {
+    return typeof value === 'number' && isNaN(value);
+}
 
 // 監聽 6001 port
 http.listen(6001, function() {
