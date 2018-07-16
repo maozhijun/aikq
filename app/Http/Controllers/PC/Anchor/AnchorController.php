@@ -64,6 +64,15 @@ class AnchorController extends Controller
             $tmp[] = $hotMatch;
         }
         $result['hotMatches'] = $tmp;
+
+        $tmp = array();
+        foreach ($result['livingRooms'] as $livingRoom) {
+            $livingRoom->anchor;
+            $livingRoom['match'] = $livingRoom->getLivingMatch();
+            $livingRoom['cover'] = env('APP_URL').$livingRoom['cover'];
+            $tmp[] = $livingRoom;
+        }
+        $result['livingRooms'] = $tmp;
         return response()->json(array(
             'code'=>0,
             'data'=>$result
