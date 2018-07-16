@@ -57,7 +57,13 @@ class AnchorController extends Controller
         $result['hotAnchors'] = Anchor::getHotAnchor();
         $result['livingRooms'] = AnchorRoom::getLivingRooms();
         $hotMatches = AnchorRoomTag::getHotMatch();
-        $result['hotMatches'] = $hotMatches;
+        $tmp = array();
+        foreach ($hotMatches as $hotMatch) {
+            $hotMatch->room->anchor;
+            $hotMatch['match'] = $hotMatch->getMatch();
+            $tmp[] = $hotMatch;
+        }
+        $result['hotMatches'] = $tmp;
         return response()->json(array(
             'code'=>0,
             'data'=>$result
