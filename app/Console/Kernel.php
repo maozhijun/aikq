@@ -107,9 +107,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
-
-        //世界杯
-        $schedule->command('fifa_cache:run')->everyMinute();
     }
 
     /**
