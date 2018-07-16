@@ -44,6 +44,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapIntFRoutes();
         //
         $this->mapAPPRoutes();
+
+        $this->mapBackstageRoutes();
     }
 
     /**
@@ -105,5 +107,12 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace .'\PC')
             ->group(base_path('routes/app/v110.php'));
+    }
+
+    protected function mapBackstageRoutes(){
+        Route::prefix('backstage')
+            ->middleware('web')
+            ->namespace($this->namespace .'\Backstage')
+            ->group(base_path('routes/backstage.php'));
     }
 }
