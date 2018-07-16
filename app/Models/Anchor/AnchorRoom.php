@@ -67,6 +67,7 @@ class AnchorRoom extends Model{
 
     public function appModel(){
         $tmp = array();
+        $tmp['id'] = $this->id;
         $tmp['title'] = $this->title;
         $tmp['cover'] = $this->cover;
         return $tmp;
