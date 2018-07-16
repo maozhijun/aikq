@@ -27,4 +27,10 @@ class Anchor extends Model{
         return sha1($salt . $password);
     }
 
+    public function appModel(){
+        $tmp = array();
+        $tmp['name'] = $this->name;
+        $tmp['icon'] = $this->icon;
+        return $tmp;
+    }
 }

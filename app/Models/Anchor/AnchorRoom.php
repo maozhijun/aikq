@@ -28,7 +28,8 @@ class AnchorRoom extends Model{
     {
 //        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
         $tags = AnchorRoomTag::where('room_id',$this->id)
-            ->where('match_time','>',date_create('-4 hours'))->get();
+            ->where('match_time','>',date_create('-4 hours'))
+            ->get();
         $mids = array();
         foreach ($tags as $tag){
             $mids[] = $tag['match_id'];
@@ -64,4 +65,10 @@ class AnchorRoom extends Model{
         return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
     }
 
+    public function appModel(){
+        $tmp = array();
+        $tmp['title'] = $this->title;
+        $tmp['cover'] = $this->cover;
+        return $tmp;
+    }
 }

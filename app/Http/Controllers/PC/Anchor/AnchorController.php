@@ -54,23 +54,29 @@ class AnchorController extends Controller
     /*** app 接口 ****/
     public function appV110(Request $request){
         $result = array();
+        //热门主播
         $result['hotAnchors'] = Anchor::getHotAnchor();
-        $result['livingRooms'] = AnchorRoom::getLivingRooms();
+        $tmp = array();
+        foreach ($result['hotAnchors'] as $anchor) {
+            $tmp[] = $anchor->appModel();
+        }
+        $result['hotAnchors'] = $tmp;
+        //热门比赛
         $hotMatches = AnchorRoomTag::getHotMatch();
         $tmp = array();
         foreach ($hotMatches as $hotMatch) {
-            $hotMatch->room->anchor;
-            $hotMatch['match'] = $hotMatch->getMatch();
-            $tmp[] = $hotMatch;
+            $tmp[] = $hotMatch->appModel();
         }
         $result['hotMatches'] = $tmp;
-
+        //正在直播
+        $result['livingRooms'] = AnchorRoom::getLivingRooms();
         $tmp = array();
         foreach ($result['livingRooms'] as $livingRoom) {
-            $livingRoom->anchor;
-            $livingRoom['match'] = $livingRoom->getLivingMatch();
-            $livingRoom['cover'] = env('APP_URL').$livingRoom['cover'];
-            $tmp[] = $livingRoom;
+            $data = $livingRoom->appModel();
+            $data['anchor'] = $livingRoom->anchor->appModel();
+            $data['match'] = $livingRoom->getLivingMatch();
+            $data['cover'] = env('APP_URL').$livingRoom['cover'];
+            $tmp[] = $data;
         }
         $result['livingRooms'] = $tmp;
         return response()->json(array(
