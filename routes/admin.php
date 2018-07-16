@@ -12,6 +12,9 @@
 */
 
 Route::group(['middleware' => 'admin_auth'], function () {
+    Route::any("/", function () {
+        return view('admin.index');
+    });
     Route::any("/index", function () {
         return view('admin.index');
     });

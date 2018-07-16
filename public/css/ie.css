@@ -1,0 +1,164 @@
+﻿
+
+/*公用*/
+#Navigation .tab ul{
+	width: 120px;
+	padding-top: 0; margin-left: -60px;
+}
+#Navigation .tab ul:before{
+	display: none;
+}
+#Navigation .tab ul a{
+	width: 120px;
+}
+#Navigation a.home{
+	background: url(../img/icon_logo_ie.png) no-repeat left center; background-size: 140px;
+}
+
+#Navigation .user > a[href*=my]{
+	padding-right: 16px;
+	background: url(../img/icon_qa_open_ie.png) no-repeat right center; background-size: 8px;
+}
+
+/*弹框*/
+.pop > *{
+	border: 1px solid #bc1c25;
+}
+.pop button.close{
+	background: url(../img/icon_close_btn_ie.png) no-repeat center; background-size: 20px;
+}
+
+/*无内容*/
+.noList{
+	background: url(../img/bg_nolist_ie.png) no-repeat center 40px #fff !important; background-size: 120px !important;
+}
+
+
+/*推荐列表*/
+.remlist li.remEv div.profit em[number="%"]{
+	background: url(../img/percent_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="0"]{
+	background: url(../img/0_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="1"]{
+	background: url(../img/1_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="2"]{
+	background: url(../img/2_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="3"]{
+	background: url(../img/3_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="4"]{
+	background: url(../img/4_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="5"]{
+	background: url(../img/5_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="6"]{
+	background: url(../img/6_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="7"]{
+	background: url(../img/7_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="8"]{
+	background: url(../img/8_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv div.profit em[number="9"]{
+	background: url(../img/9_ie.png) no-repeat center; background-size: 22px;
+}
+.remlist li.remEv[result=win]:after{
+	background: url(../img/icon_win_ie.png) no-repeat center; background-size: 65px;
+}
+.remlist li.remEv[result=draw]:after{
+	background: url(../img/icon_draw_ie.png) no-repeat center; background-size: 65px;
+}
+.remlist li.remEv[result=lose]:after{
+	background: url(../img/icon_lose_ie.png) no-repeat center; background-size: 65px;
+}
+.remlist li.remEv[result=other]:after{
+	background: url(../img/icon_other_ie.png) no-repeat center; background-size: 65px;
+}
+
+
+/*套餐*/
+.paglist li.pagEv div.profit em[number="%"]{
+	width: 22px;
+	background: url(../img/percent_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="0"]{
+	background: url(../img/0_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="1"]{
+	background: url(../img/1_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="2"]{
+	background: url(../img/2_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="3"]{
+	background: url(../img/3_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="4"]{
+	background: url(../img/4_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="5"]{
+	background: url(../img/5_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="6"]{
+	background: url(../img/6_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="7"]{
+	background: url(../img/7_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="8"]{
+	background: url(../img/8_ie.png) no-repeat center; background-size: 22px;
+}
+.paglist li.pagEv div.profit em[number="9"]{
+	background: url(../img/9_ie.png) no-repeat center; background-size: 22px;
+}
+
+/*付费弹框*/
+#Paybox{
+	border-left: 1px solid #e6e6e6; border-right: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;
+}
+#Paybox ul.payType li.wallet{
+	background: url(../img/icon_pay_wallet_ie.png) no-repeat left center; background-size: 30px;
+}
+#Paybox ul.payType li.wx{
+	background: url(../img/icon_pay_wx_ie.png) no-repeat left center; background-size: 30px;
+}
+#Paybox ul.payType li.ali{
+	background: url(../img/icon_pay_ali_ie.png) no-repeat left center; background-size: 30px;
+}
+#Paybox ul.payType li button{
+	background: url(../img/icon_pay_choose_ie.png) no-repeat center; background-size: 24px;
+}
+#Paybox ul.payType li button.on{
+	background: url(../img/icon_pay_choosed_ie.png) no-repeat center; background-size: 24px;
+}
+#Paybox div.coupon button{
+	background: url(../img/icon_pay_choose_ie.png) no-repeat center; background-size: 24px;
+}
+#Paybox div.coupon button.on{
+	background: url(../img/icon_pay_choosed_ie.png) no-repeat center; background-size: 24px;
+}
+#Paybox ul.couponList li .info{
+	background: url(../img/bg_coupon_football_ie.png) no-repeat right top #fff; background-size: 80px;
+}
+#Paybox ul.couponList button{
+	background: url(../img/icon_pay_choose_ie.png) no-repeat center; background-size: 20px;
+}
+#Paybox ul.couponList button.on{
+	background: url(../img/icon_pay_choosed_ie.png) no-repeat center; background-size: 20px;
+}
+#Paybox ul.couponList li .money:before,
+#Paybox ul.couponList li .money:after{
+	display: none;
+}
+#Paybox ul.couponList li .info:before,
+#Paybox ul.couponList li .info:after{
+	display: none;
+}
+
+

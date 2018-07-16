@@ -62,7 +62,7 @@
                         {{--<a class="btn btn-sm btn-warning" target="_blank" href="http://match.liaogou168.com/api/spider/ss365/spider365BasketBall">抓取ss365</a>--}}
                         {{--<a class="btn btn-sm btn-warning" target="_blank" href="http://match.liaogou168.com/api/spider/ttzb/spiderBasketLiveData">抓取天天直播</a>--}}
                     @endif
-                    <a class="btn btn-sm btn-success" onclick="randomCode(this);">高清验证码</a><input class="form-control" style="width:99px;height: 30px;display: inline;margin-left: 5px;vertical-align: bottom;" readonly value="{{$ch_code or '暂无验证码'}}">
+                    {{--<a class="btn btn-sm btn-success" onclick="randomCode(this);">高清验证码</a><input class="form-control" style="width:99px;height: 30px;display: inline;margin-left: 5px;vertical-align: bottom;" readonly value="{{$ch_code or '暂无验证码'}}">--}}
                 </form>
             </div>
             <table class="table table-striped">

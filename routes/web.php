@@ -47,6 +47,8 @@ Route::group([], function () {
 
     Route::get("/aik/lives/liveMatchesJson", "AikanQController@getLiveMatchesJson");//正在直播比赛
 
+    Route::get("/match/live/url/channel/{id}", "AikanQController@getLiveUrl");//正在直播比赛
+
     //===========================专题相关===========================//
     Route::get("/aik/subjects", "AikanQController@subjects");//专题列表
     Route::get("/aik/subjects/covers", 'AikanQController@subjectLeaguesImages');//专题icon列表
@@ -71,4 +73,10 @@ Route::group([], function () {
     //Route::get('/aik/worldcup/hotMatch', 'AikanQController@fifaHotMatch');//热门比赛
     //淘汰赛赛程
     //Route::get('/aik/worldcup/schedule', 'AikanQController@getFIFASchedule');
+});
+
+
+Route::group([], function () {
+    Route::get("/db/spread/matchList.html", "DongQiuZhiBoController@matchList");
+    Route::get("/spread/api/matchList.json", "DongQiuZhiBoController@matchListJson");
 });

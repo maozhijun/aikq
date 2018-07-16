@@ -48,11 +48,11 @@ class FootballController extends Controller
      */
     public function updateMatch(Request $request) {
         $max = \App\Models\Match\Match::query()->selectRaw('max(updated_at) as updated_at')->first();
-        $lastUpdate = date('Y-m-d H:i', strtotime('-10 hours'));
+        $lastUpdate = date('Y-m-d H:i:s', strtotime('-10 hours'));
         if (isset($max)) {
             $lastUpdate = $max->updated_at;
         }
-        $lgMatches = Match::query()->where('updated_at', '>=', $lastUpdate)->get();
+        $lgMatches = Match::query()->where('updated_at', '>', $lastUpdate)->get();
 
         foreach ($lgMatches as $lgMatch) {
             $id = $lgMatch->id;

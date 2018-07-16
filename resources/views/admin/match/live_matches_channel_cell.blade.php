@@ -1,17 +1,17 @@
 <div>
     <p>
-        <select name="ad">
+        <select name="ad" style="display: none">
             <option value="1">有广告</option>
             <option value="2" @if(isset($channel) && $channel->ad == 2) selected @endif >无广告</option>
         </select>
-        <select name="type" onclick="selectType(this);" >
+        <select name="type" onclick="selectType(this);" style="display: none">
             @foreach($types as $id=>$type)
                 <option value="{{$id}}" @if((!isset($channel) && $id == 99) || (isset($channel) && $channel->type == $id) ) selected @endif >{{$type}}</option>
             @endforeach
         </select>
-        <input style="width: 80px;" name="name" value="{{$channel->name or '高清直播'}}" placeholder="名称">
-        <input style="width: 120px;" name="content" value="{{$channel->content or ''}}" placeholder="内容">
-        <select name="player" onchange="changePlatform(this);">
+        <input style="width: 180px;" name="name" value="{{$channel->name or '高清直播'}}" placeholder="名称">
+        <input style="width: 320px;" name="content" value="{{$channel->content or ''}}" placeholder="内容">
+        <select name="player" onchange="changePlatform(this);" style="display: none">
             <option value="1">自动选择</option>
             <option value="11" @if(isset($channel) && $channel->player == 11) selected @endif >iFrame</option>
             <option value="12" @if(isset($channel) && $channel->player == 12) selected @endif >ckPlayer</option>
@@ -25,12 +25,12 @@
             <option value="1">显示</option>
             <option value="2" @if(isset($channel) && $channel->show == 2) selected @endif >不显示</option>
         </select>
-        <select name="platform">
+        <select name="platform" style="display: none;">
             <option value="1">全部</option>
             <option value="2" @if(isset($channel) && $channel->platform == 2) selected @endif >电脑</option>
             <option value="3" @if(isset($channel) && $channel->platform == 3) selected @endif >手机</option>
         </select>
-        <select name="use">
+        <select name="use" style="display: none;">
             {{--<option value="1">通用</option>--}}
             <option value="2" @if(isset($channel) && $channel->use == 2) selected @endif >爱看球专用</option>
             {{--<option value="3" @if($channel->use == 3) selected @endif >黑土专用</option>--}}

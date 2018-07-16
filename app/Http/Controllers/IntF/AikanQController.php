@@ -65,10 +65,11 @@ class AikanQController extends Controller
     /**
      * 足球、篮球所有比赛列表接口
      * @param Request $request
+     * @param $isMobile
      * @return mixed
      */
-    public function livesJson(Request $request) {
-        $isMobile = $request->input('isMobile',0);
+    public function livesJson(Request $request, $isMobile = null) {
+        $isMobile = isset($isMobile) ? $isMobile : $request->input('isMobile',0);
         $bet = $request->input('bet', 0);//0：非竞彩，1：竞彩
         $match_array = [];
         $query = $this->getLiveMatches(MatchLive::kSportFootball, $bet);
@@ -419,10 +420,11 @@ class AikanQController extends Controller
      * 直播终端接口
      * @param Request $request
      * @param $id
+     * @param $mobile
      * @return mixed
      */
-    public function detailJson(Request $request,$id){
-        $mobile = $request->input('isMobile',0);
+    public function detailJson(Request $request, $id, $mobile = false){
+        //$mobile = $request->input('isMobile',0);
         $match = Match::query()->select('matches.*',"matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -462,7 +464,7 @@ class AikanQController extends Controller
         $result['live'] = $live;
         $result['show_live'] = $show_live;
 
-        return Response::json($result);
+        return response()->json($result);
     }
 
     /////////////////////////////   终端接口结束   /////////////////////////////
@@ -624,7 +626,7 @@ class AikanQController extends Controller
         foreach ($sls as $sl) {
             $subjects[$sl->id] = $sl->name;
         }
-        return \response()->json($subjects);
+        return response()->json($subjects);
     }
 
     /**
@@ -1007,4 +1009,161 @@ class AikanQController extends Controller
         );
         return Response::json($json);
     }
+
+    /**
+     * 根据channel id获取url
+     * @param Request $request
+     * @param $channelId
+     * @return mixed
+     */
+    public function getLiveUrl(Request $request, $channelId){
+        $channel = MatchLiveChannel::query()->find($channelId);
+        if (is_null($channel) || is_null($channel->content)){
+            return response()->json(array('code'=>-1,'message'=>'no channel'));
+        }
+        //$breakTTZB = $request->input('breakTTZB');//是否使用破解的天天直播，天天直播未给白名单，所以使用破解版。
+        $live = $channel->matchLive;
+        if (isset($live)) {
+            //比赛数据
+            $match = $live->getMatch();
+        }
+        if (!isset($match)){
+            return response()->json(array('code'=>-1,'message'=>'no match'));
+        }
+
+        if ($live->sport == MatchLive::kSportSelfMatch) {//自建赛事返回
+
+        }
+
+        $show_live = false;
+        if (!$show_live) {//比赛中
+            $show_live = $match->status > 0;
+        }
+        if (!$show_live) {
+            $matchTime = strtotime($match->time);
+            if ($match->status == 0) {//未开始
+                $show_live = (($matchTime - time()) / 60) <= 60;//赛前五分钟
+            } else if ($match->status == -1) {//已结束
+                if (isset($match->timehalf))
+                    $time = strtotime($match->timehalf);
+                else
+                    $time = strtotime($match->time);
+                if (isset($match->timehalf)) {
+                    $show_live = ((time() - $time) / 60) <= (45 + 60);//赛后十分钟
+                }
+                else {
+                    $show_live = ((time() - $time) / 60) <= (120 + 60);//赛后十分钟
+                }
+            }
+        }
+
+        $tmp = array('status'=>$match->status,'show_live'=>$show_live, 'time'=>strtotime($match['time']));
+        if ($match['status'] == 0 && !$show_live){
+            $matchTime = strtotime($match['time']);
+            $now = strtotime(date('Y-m-d H:i:s'));
+            $hour = floor(($matchTime - $now) / (60 * 60));
+            $minute = floor(($matchTime - $now - ($hour * 60 * 60)) / 60);
+            $second = $matchTime - $now - ($hour * 60 * 60) - ($minute * 60);
+            $hour_html = $hour > 0 ? '<i id="hour">' . $hour . '</i>小时' : '';
+            $minute_html = $hour > 0 ? '<i id="minute">' . $minute . '</i>分钟' : (($minute > 0 ? '<i id="minute">' . $minute . '</i>分钟' : ''));
+            $second_html = '<i id="second">' . $second . '</i>秒';
+            $tmp['hour_html'] = $hour_html;
+            $tmp['minute_html'] = $minute_html;
+            $tmp['second_html'] = $second_html;
+        }
+        $match = $tmp;
+
+        switch ($channel->type){
+            case MatchLiveChannel::kTypeSS365:
+                return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeSS365,'player'=>$channel->player,'cid'=>$channel->id,'id'=>$channel->content,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                break;
+            case MatchLiveChannel::kTypeBallBar:
+                $playurl = $channel->content;
+                if (!stristr($playurl,'https://www.ballbar.cc/live/')){
+                    $playurl = 'https://www.ballbar.cc/live/' . $playurl;
+                }
+                return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeBallBar,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                break;
+            case MatchLiveChannel::kTypeTTZB:
+//                if ($breakTTZB == 'break') {//破解TTZB
+//                    if (self::isMobile($request)||$request->input('isMobile',0)) {
+//                        $js = $this->ttzbLiveUrl($channel->content);
+//                    }
+//                    else{
+//                        $js = $this->breakTTZBLiveRTMPUrl($channel->content);
+//                    }
+//                    if (isset($js))
+//                        return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'js'=>$js,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                    else
+//                        return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+//                } else {
+//                    if (self::isMobile($request)||$request->input('isMobile',0)) {
+//                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
+//                        if (isset($playurl))
+//                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                        else
+//                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+//                    }
+//                    else{
+//                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
+//                        if (isset($playurl))
+//                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                        else
+//                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+//                    }
+//                }
+                break;
+            case MatchLiveChannel::kTypeWCJ:
+//                $url = $this->wcjLiveUrl($channel->content,self::isMobile($request)||$request->input('isMobile',0));
+//                if (isset($url))
+//                    return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeWCJ,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$url,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                else
+//                    return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeWCJ,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+                break;
+            case MatchLiveChannel::kTypeDDK:
+//                $data = $this->ddkLiveData($channel->content, self::isMobile($request) || $request->input('isMobile',0));
+//                $url = $data['url'];
+//                $js = $data['js'];
+//                if (!empty($url)) {
+//                    return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeDDK,'player'=>$channel->player,'cid'=>$channel->id, 'playurl'=>$url,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                } else if (!empty($js)) {
+//                    return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeDDK,'player'=>$channel->player,'cid'=>$channel->id, 'js'=>$js, 'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                } else {
+//                    return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeDDK, 'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+//                }
+                break;
+            case MatchLiveChannel::kTypeKBS:
+//                $url = $channel->getKBSLink();
+//                if (isset($url))
+//                    return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeDDK,'player'=>$channel->player,'cid'=>$channel->id, 'playurl'=>$url,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+//                else
+//                    return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeDDK, 'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+                break;
+            case MatchLiveChannel::kTypeQQ:
+                //$url = $channel->content;//$this->qqSportData($channel->content,self::isMobile($request)||$request->input('isMobile',0));
+                //if ($url)
+                //    return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeQQ,'player'=>MatchLiveChannel::kPlayerQQSport,'cid'=>$channel->id,'playurl'=>$url,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad  ));
+                //else
+                //    return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeQQ, 'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+                break;
+            case MatchLiveChannel::kTypeLZ:
+            case MatchLiveChannel::kTypeOther:
+                return response()->json(array('code'=>0,'type'=>$channel->type,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$channel->content,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                break;
+            case MatchLiveChannel::kTypeCCTVAPP:
+                //$url = $this->getCCTVUrl($request,$channel->content);
+                //return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeCCTVAPP,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$url,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                break;
+            case MatchLiveChannel::kTypeCode:
+                $array = ['code'=>0, 'type'=>$channel->type, 'player'=>$channel->player, 'cid'=>$channel->id, 'platform'=>$channel->platform, 'ad'=>$channel->ad];
+                $array['playurl'] = $channel->content;
+                $array['h_playurl'] = $channel->h_content;
+                $array['match'] = $match;
+                return response()->json($array);
+                break;
+            default:
+                return response()->json(array('code'=>0,'type'=>$channel->type,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$channel->content,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+        }
+    }
+
 }

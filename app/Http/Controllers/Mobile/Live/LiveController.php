@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Mobile\Live;
 
+use App\Http\Controllers\IntF\AikanQController;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -36,7 +37,7 @@ class LiveController extends Controller
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
-                Storage::disk("public")->put("/static/m/lives.html",$html);
+                //Storage::disk("public")->put("/static/m/lives.html",$html);
                 Storage::disk("public")->put("/static/m/index.html",$html);
                 Storage::disk("public")->put("/static/m/football.html",$html);
                 Storage::disk("public")->put("/static/m/basketball.html",$html);
@@ -105,7 +106,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."aik/livesJson?isMobile=1";
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, env('DEV_TIME_OUT', 10));
         $server_output = curl_exec ($ch);
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
@@ -113,6 +114,10 @@ class LiveController extends Controller
             return;
         }
         $json = json_decode($server_output,true);
+//        $aiCon = new AikanQController();
+//        $data = $aiCon->livesJson($request, true)->getData();
+//        $data = json_encode($data);
+//        $json = json_decode($data, true);
         if (is_null($json)) {
             return;
         }
@@ -316,6 +321,10 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+//        $akqCon = new AikanQController();
+//        $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
+//        $jsonStr = json_encode($jsonStr);
+//        $json = json_decode($jsonStr, true);
         $json['detail_url'] = '/m/live/football/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }

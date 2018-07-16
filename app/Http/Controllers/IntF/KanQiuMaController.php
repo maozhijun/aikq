@@ -90,8 +90,7 @@ class KanQiuMaController extends Controller
             $match['betting_num'] = '';
             if ($isMobile){
                 $array = MatchLive::query()->find($match['live_id'])->mChannels();
-            }
-            else{
+            } else{
                 $array = MatchLive::query()->find($match['live_id'])->kChannels();
             }
             $match['channels'] = $array;
@@ -183,6 +182,7 @@ class KanQiuMaController extends Controller
         $obj['sport'] = $sport;
         $obj['betting_num'] = $match->betting_num;
         $obj['time'] = $match->time;
+        $obj['status'] = $match->status;
         $obj['league_name'] = $match->getLeagueName();
         $obj['isMatching'] = ($match->status > 0 && $match->status <= 4);
         $obj['host_icon'] = $match->getTeamIcon(true);

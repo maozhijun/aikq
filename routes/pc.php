@@ -43,19 +43,6 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/spPlayer/match_channel-{mid}-{sport}.html',"LiveController@matchPlayerChannel");//比赛播放器 静态化
     Route::get('/live/spPlayer/player-{mid}-{sport}.html',"LiveController@matchPlayerChannel");//比赛播放器 静态化
 
-//    Route::get('/match/live-multi/{mid}.html',"LiveController@multiLive");//多屏直播页
-//    Route::get('/match/live/match-video/{mid}', 'LiveController@multiLiveDiv');//多屏直播添加
-//    Route::get('/match/live/basket-match-video/{mid}', 'LiveController@multiBasketLiveDiv');//篮球多屏直播添加
-//    Route::get("/live/football/recommend/{mid}.html", "LiveController@getArticleOfFMid");//直播终端足球推荐
-//    Route::get("/live/basketball/recommend/{mid}.html", "LiveController@getArticleOfBMid");//直播终端篮球推荐
-
-    //正在直播
-    //Route::get('/live/living_match',"LiveController@getLiveMatches");
-    //天天直播
-    //Route::get("/match/live/url/zb/{id}", 'LiveController@getTTZBLiveUrl');
-    //无插件
-    //Route::get("/match/live/url/wcj/{id}", 'LiveController@getWCJLiveUrl');
-
     //channel通用
     Route::get("/match/live/url/channel/mobile/{id}.json", 'LiveController@getLiveUrl');
     Route::get("/match/live/url/channel/{id}.json", 'LiveController@getLiveUrl');
@@ -69,20 +56,8 @@ Route::group(["namespace" => 'Live'], function () {
     //分享
     Route::get("/player.html", 'LiveController@share');
 
-    //Route::get("/cache/player/recommend/{mid}", 'LiveController@deleteStaticHtml');//推荐
-
     //播放失败
     Route::any('/live/url_error',"LiveController@liveError");
-
-    //Route::get("/tv/{id}.html", 'VideoController@tvDetail');//热门频道终端
-    //Route::get("/tv/channel/{id}", 'VideoController@tvChannel');//热门频道线路
-
-    //Route::get('/video/player.html',"VideoController@player");//播放器
-
-    //Route::get("/video/{id}.html", 'VideoController@videoDetail');//热门视频终端
-    //Route::get("/video/channel/{id}", 'VideoController@videoChannel');//热门频道线路
-
-    //Route::get('/live/ex-link/{id}', 'LiveController@exLink');//外链跳转
     //========================================================专题页面========================================================//
     Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面
 

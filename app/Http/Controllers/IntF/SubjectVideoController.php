@@ -75,10 +75,12 @@ class SubjectVideoController extends Controller
      * 获取专题录像分页列表
      * @param Request $request
      * @param $slid 专题类型
+     * @param $curPage
+     * @param $isMobile
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectVideos(Request $request, $slid) {
-        $isMobile = $request->input('isMobile') == 1;
+    public function subjectVideos(Request $request, $slid, $curPage = 0, $isMobile = null) {
+        $isMobile = isset($isMobile) ? $isMobile : ($request->input('isMobile') == 1);
         $pageSize = $request->input('pageSize', self::page_size);
         if ($slid != 'all') {
             if ($slid == SubjectVideo::kOther) {
@@ -94,7 +96,11 @@ class SubjectVideoController extends Controller
         if (isset($league)) {
             $query->where('subject_videos.s_lid', $slid);
         }
-        $page = $query->paginate($pageSize);
+        if ($curPage > 0) {
+            $page = $query->paginate($pageSize, ['*'], 'page', $curPage);
+        } else {
+            $page = $query->paginate($pageSize);
+        }
         $videos = $page->items();
 
         $array = [];

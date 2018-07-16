@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\MatchTool;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -198,6 +199,11 @@ class SubjectController extends Controller
         $server_output = $this->execUrl($url);
         $subjects = json_decode($server_output, true);
         $subjects = isset($subjects) ? $subjects : [];
+
+//        $aiCon = new AikanQController();
+//        $data = $aiCon->subjectDetail(new Request(), $id)->getData();
+//        $data = json_encode($data);
+//        $subjects = json_decode($data, true);
         return $subjects;
     }
 
@@ -261,6 +267,10 @@ class SubjectController extends Controller
     public function staticSubjectLeagues(Request $request) {
         $url = env('LIAOGOU_URL')."aik/subjects";
         $server_output = self::execUrl($url);
+
+//        $aiCon = new AikanQController();
+//        $data = $aiCon->subjects(new Request())->getData();
+//        $server_output = json_encode($data);
         if (!empty($server_output)) {
             Storage::disk("public")->put("/static/json/subject/leagues.json", $server_output);
         }
