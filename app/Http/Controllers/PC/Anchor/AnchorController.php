@@ -48,7 +48,11 @@ class AnchorController extends Controller
 
     public function playerUrl(Request $request,$room_id){
         $room = AnchorRoom::find($room_id);
-        return response()->json(array('code'=>0,'live_url'=>$room->url));
+        if (isset($room))
+            return response()->json(array('code'=>0,'status'=>$room->status,'title'=>$room->title,'live_url'=>$room->url));
+        else{
+            return response()->json(array('code'=>-1,'live_url'=>''));
+        }
     }
 
     /*** app 接口 ****/
