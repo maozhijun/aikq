@@ -80,6 +80,16 @@ io.on('connect', function (socket) {
             var current_time = Date.parse( new Date())/1000 + '';
             if (result == verification && Math.abs(current_time - time) < 10) {
                 socket.join('mid:' + mid);
+                if (info.nickname && info.nickname.length > 0){
+                    var nickname = info.nickname;
+                    var tmp = {
+                        'message': '进入了直播间',
+                        'nickname':nickname ,
+                        'type':99 ,
+                        'time':info.time
+                    }
+                    io.to('mid:' + mid).emit('server_send_message', tmp);
+                }
 
                 //直播人数
                 client.get(mid+'_userCount', function(err, object) {
