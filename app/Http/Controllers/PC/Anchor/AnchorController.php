@@ -57,6 +57,20 @@ class AnchorController extends Controller
     }
 
     /*** app 接口 ****/
+    public function playerUrlApp(Request $request,$room_id){
+        $room = AnchorRoom::find($room_id);
+        if (isset($room)) {
+            $key = env('APP_DES_KEY');
+            $iv = env('APP_DES_IV');
+            $url = $room->url;
+            $url = openssl_encrypt($url, "DES", $key, 0, $iv);
+            return response()->json(array('code' => 0, 'status' => $room->status, 'title' => $room->title, 'live_url' => $url));
+        }
+        else{
+            return response()->json(array('code'=>-1,'live_url'=>''));
+        }
+    }
+
     public function appV110(Request $request){
         $result = array();
         //热门主播

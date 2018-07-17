@@ -23,5 +23,5 @@ Route::group([], function () {
     Route::get("/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 
     //主播
-    Route::get('/anchor/room/url/{room_id}.json','Anchor\AnchorController@playerUrl');
+    Route::get('/anchor/room/url/{room_id}.json','Anchor\AnchorController@playerUrlApp');
 });
