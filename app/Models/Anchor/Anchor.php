@@ -28,10 +28,7 @@ class Anchor extends Model{
     }
 
     public function appModel(){
-        $tmp = array();
-        $tmp['name'] = $this->name;
-        $tmp['icon'] = $this->icon;
-        $tmp['room'] = $this->room->appModel();
-        return $tmp;
+        $room = $this->room;
+        return $room->appModel();
     }
 }

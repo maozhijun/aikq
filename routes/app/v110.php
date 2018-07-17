@@ -19,5 +19,9 @@ Route::group(["namespace" => 'Anchor'], function () {
 Route::group([], function () {
 //app配置
     Route::get("/config.json", "HomeController@appConfig");
+    //比赛 录像
     Route::get("/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
+
+    //主播
+    Route::get('/anchor/room/url/{room_id}.json','Anchor\AnchorController@playerUrl');
 });

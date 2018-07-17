@@ -15,6 +15,7 @@ use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class AnchorController extends Controller
@@ -76,11 +77,7 @@ class AnchorController extends Controller
         $result['livingRooms'] = AnchorRoom::getLivingRooms();
         $tmp = array();
         foreach ($result['livingRooms'] as $livingRoom) {
-            $data = $livingRoom->appModel();
-            $data['anchor'] = $livingRoom->anchor->appModel();
-            $data['match'] = $livingRoom->getLivingMatch();
-            $data['cover'] = env('APP_URL').$livingRoom['cover'];
-            $tmp[] = $data;
+            $tmp[] = $livingRoom->appModel(true);
         }
         $result['livingRooms'] = $tmp;
         return response()->json(array(

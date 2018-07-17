@@ -117,8 +117,10 @@ Route::group(['middleware' => 'admin_auth'], function () {
  */
 Route::group(['namespace'=>'Anchor', 'middleware' => 'admin_auth'], function () {
     Route::get('/anchor/list', 'AnchorController@anchors');//主播列表
-    Route::post('/anchor/del', 'AnchorController@delAnchor');//删除主播
+    Route::post('/anchor/delete', 'AnchorController@delAnchor');//删除主播
     Route::post('/anchor/update', 'AnchorController@update');//修改主播信息
+    Route::get('/anchor/register', 'AnchorController@register');//新建主播 页面
+    Route::post('/anchor/create', 'AnchorController@create');//新建主播
 
     Route::get('/anchor/room/list', 'AnchorRoomController@rooms');//主播房间列表
     Route::post('/anchor/room/update', 'AnchorRoomController@update');//修改主播信息

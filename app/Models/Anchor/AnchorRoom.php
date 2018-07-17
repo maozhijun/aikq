@@ -20,6 +20,11 @@ class AnchorRoom extends Model{
         return $rooms;
     }
 
+    public function anchor()
+    {
+        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
+    }
+
     /**
      * 正在直播什么比赛
      * @return Model|null|static
@@ -29,15 +34,16 @@ class AnchorRoom extends Model{
 //        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
+            ->orderby('match_time','asc')
             ->get();
-        $mids = array();
+        $match = null;
         foreach ($tags as $tag){
-            $mids[] = $tag['match_id'];
+            $tmp = $tag->getMatch();
+            if($tmp['status'] > 0){
+                $match = $tmp;
+                break;
+            }
         }
-        $match = Match::whereIn('id',$mids)
-        ->where('status' , '>' , 0)
-        ->orderby('time','asc')
-        ->first();
         return $match;
     }
 
@@ -60,16 +66,23 @@ class AnchorRoom extends Model{
         return $matches;
     }
 
-    public function anchor()
-    {
-        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
-    }
-
-    public function appModel(){
+    public function appModel($withMatch = false){
         $tmp = array();
         $tmp['id'] = $this->id;
         $tmp['title'] = $this->title;
         $tmp['cover'] = $this->cover;
+        //主播
+        $anchor = $this->anchor;
+        $tmp['anchor']['name'] = $anchor->name;
+        $tmp['anchor']['id'] = $anchor->id;
+        $tmp['anchor']['icon'] = $anchor->icon;
+        //比赛
+        if($withMatch) {
+            $tmp['match'] = $this->getLivingMatch();
+        }
+        else{
+            $tmp['match'] = null;
+        }
         return $tmp;
     }
 }

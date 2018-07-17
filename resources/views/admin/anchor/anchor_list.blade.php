@@ -6,6 +6,11 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th colspan="9">
+                        <button onclick="showRegister()" class="btn btn-success btn-sm" style="float: right;">新建</button>
+                    </th>
+                </tr>
+                <tr>
                     <th width="5%">#</th>
                     <th width="20%">名字</th>
                     <th width="10%">头像</th>
@@ -66,22 +71,22 @@
                 return;
             }
             $.ajax({
-                "url": "/admin/anchor/del",
+                "url": "/admin/anchor/delete",
                 "type": "post",
-                "data": {"id": id},
+                "data": {'_token':'{{csrf_token()}}',"id": id},
                 "dataType": "json",
                 "success": function (json) {
-                    if (json) {
-                        alert(json.msg);
-                        if (json.code == 200) {
-                            location.reload();
-                        }
+                    if (json && json.code == 0) {
+                        toastr.success("删除成功");
+                        location.reload();
+                    } else if (json) {
+                        toastr.error(json.msg);
                     } else {
-                        alert("删除失败");
+                        toastr.error("删除失败");
                     }
                 },
                 "error": function () {
-                    alert("删除失败");
+                    toastr.error("删除失败");
                 }
             });
         }
@@ -109,6 +114,11 @@
                 return false;
             }
             return true;
+        }
+
+
+        function showRegister() {
+            window.open('/admin/anchor/register', '', 'width=600,height=600,left=100,top=200')
         }
     </script>
 @endsection

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Admin\Anchor;
 
 use App\Models\Anchor\Anchor;
+use App\Models\Anchor\AnchorRoom;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -66,17 +67,65 @@ class AnchorController extends Controller
      */
     public function delAnchor(Request $request){
         if ($request->input('id',0) == 0){
-            return back()->with('error', 'id不能为空');
+            return response()->json(array('error'=>'id不能为空'));
         }
         $anchor = Anchor::find($request->input('id'));
         if (is_null($anchor)){
-            return back()->with('error', '找不到该主播');
+            return response()->json(array('error'=>'找不到该主播'));
         }
         if ($anchor->delete()){
-            return back()->with('success', '删除成功');
+            return response()->json(array('success'=>'删除成功'));
         }
         else{
-            return back()->with('error', '删除失败');
+            return response()->json(array('error'=>'删除失败'));
+        }
+    }
+
+    public function register(Request $request){
+        return view('admin.anchor.anchor_register');
+    }
+
+    public function create(Request $request){
+        $phone = $request->input("phone");//只能是数字和字母的组合
+        $password = $request->input("password");//加密后的密码
+        $re_password = $request->input("re_password");//加密后的密码
+        $name = $request->input("name");//用户名称
+
+        if (empty($phone) || empty($password) || empty($re_password) || empty($name)) {
+            return response()->json(["code" => 401, "msg" => "参数错误"]);
+        }
+
+        if ($password != $re_password) {
+            return response()->json(["code" => 401, "msg" => "两次输入的密码不一致"]);
+        }
+
+        $admin = Anchor::query()
+            ->where("phone", $phone)
+            ->orwhere("name", $name)
+            ->first();
+        if (isset($admin)) {
+            return response()->json(["code" => 403, "msg" => "此手机号或主播名已有账户"]);
+        }
+
+        try {
+            DB::transaction(function () use ($phone, $name, $password) {
+                $salt = uniqid();
+                $admin = new Anchor();
+                $admin->phone = $phone;
+                $admin->name = $name;
+                $admin->salt = $salt;
+                $admin->passport = Anchor::shaPassword($salt, $password);
+                $admin->save();
+
+                $room = new AnchorRoom();
+                $room->anchor_id = $admin->id;
+                $room->title = $admin->name.'的直播间';
+                $room->save();
+            });
+            return response()->json(["code" => 0, "msg" => "success"]);
+        } catch (\Exception $e) {
+            Log::info('create merchant error : ' . $e->getMessage());
+            return response()->json(["code" => 500, "msg" => "数据库异常",'e'=>$e->getMessage()]);
         }
     }
 }

@@ -1374,7 +1374,7 @@ class LiveController extends Controller
         $channels = array();
         if ($json['live'] && $json['live']['channels']) {
             foreach ($json['live']['channels'] as $channel) {
-                if (!stristr($channel['link'],'leqiuba.cc'))
+                if (isset($channel['link']) && !stristr($channel['link'],'leqiuba.cc'))
                 {
                     //乐球吧不要
                     $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
