@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Admin\Anchor;
 
+use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use Illuminate\Http\Request;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Redis;
 
 class AnchorController extends Controller
 {
+    use UploadTrait;
     /**
      * 主播列表
      * @param Request $request
@@ -48,10 +50,12 @@ class AnchorController extends Controller
         $anchor->name = $request->input('name');
         $anchor->phone = $request->input('phone');
         $anchor->hot = $request->input('hot');
-        $cover = $request->input('icon');
-        if (isset($cover)) {
-            $anchor->icon = $cover;
+
+        if ($request->hasFile("icon")) {
+            $icon = $this->saveUploadedFile($request->file("icon"), 'cover');
+            $anchor->icon = $icon->getUrl();
         }
+
         if ($anchor->save()){
             return back()->with('success', '保存成功');
         }

@@ -30,7 +30,9 @@
                                 <input type="text" name="name" class="form-control" placeholder="昵称" value="{{ $anchor->name }}" required>
                             </td>
                             <td>
-                                @if(!empty($anchor->icon)) <p style="width: 180px;"><img style="max-width: 180px;max-height: 200px;" src="{{$anchor->icon}}"></p> @endif
+                                @if(!empty($anchor->icon))
+                                    <p style="width: 180px;"><img style="max-width: 50px;max-height: 50px;" src="{{$anchor->icon}}"></p>
+                                @endif
                                 <p style="width: 180px;"><input type="file" name="icon"></p>
                             </td>
                             <td>

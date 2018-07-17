@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers\Admin\Anchor;
 
+use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Anchor\AnchorRoomTag;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Redis;
 
 class AnchorRoomController extends Controller
 {
+    use UploadTrait;
     /**
      * 主播房间列表
      * @param Request $request
@@ -46,9 +48,9 @@ class AnchorRoomController extends Controller
             return back()->with('error', '找不到该房间');
         }
         $anchor->title = $request->input('name');
-        $cover = $request->input('cover');
-        if (isset($cover)) {
-            $anchor->cover = $cover;
+        if ($request->hasFile("cover")) {
+            $icon = $this->saveUploadedFile($request->file("cover"), 'cover');
+            $anchor->cover = $icon->getUrl();
         }
         $anchor->status = $request->input('status');
         if ($anchor->save()){
