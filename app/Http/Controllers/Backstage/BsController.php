@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Backstage;
 
 
+use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Anchor\Anchor;
+use App\Models\Anchor\AnchorRoom;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AuthController extends Controller
+class BsController extends Controller
 {
     const BS_LOGIN_SESSION = 'AKQ_BS_LOGIN_SESSION';
+
+    use UploadTrait;
 
     public function __construct()
     {
@@ -62,8 +66,94 @@ class AuthController extends Controller
      */
     public function info(Request $request) {
         $anchor = $request->admin_user;
+        $room = $anchor->room;
         $result['anchor'] = $anchor;
+        $result['room'] = $room;
         return view('backstage.info', $result);
+    }
+
+    /**
+     * 修改主播房间状态为 直播中
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function startLive(Request $request) {
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room)) {
+            $room = new AnchorRoom();
+            $room->anchor_id = $anchor->id;
+        }
+        try {
+            if ($room->status == AnchorRoom::kStatusLiving) {
+                return response()->json(['code'=>302, 'msg'=>'直播间正在直播，获取推流地址失败。']);
+            }
+            //TODO  获取推流地址
+            $room->status = AnchorRoom::kStatusLiving;
+            $room->save();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'msg'=>'获取推流地址失败']);
+        }
+        return response()->json(['code'=>200, 'msg'=>'获取推流地址成功']);
+    }
+
+    /**
+     * 停止直播
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function endLive(Request $request) {
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room)) {
+            $room = new AnchorRoom();
+            $room->anchor_id = $anchor->id;
+        }
+        try {
+            if ($room->status == AnchorRoom::kStatusLiving) {
+                //TODO  停止直播
+                $room->status = AnchorRoom::kStatusNormal;
+                $room->save();
+            }
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'msg'=>'停止直播失败']);
+        }
+        return response()->json(['code'=>200, 'msg'=>'停止直播成功']);
+    }
+
+    /**
+     * 保存主播信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveInfo(Request $request) {
+        $room_title = $request->input('room_title');//房间名称
+        if (empty($room_title)) {
+            return back()->with(['error'=>'房间标题不能为空']);
+        }
+        //$anchor_icon; $room_cover;
+        try {
+            $anchor = $request->admin_user;
+            if ($request->hasFile("anchor_icon")) {
+                $icon = $this->saveUploadedFile($request->file("anchor_icon"), 'cover');
+                $anchor->icon = $icon->getUrl();
+                $anchor->save();
+            }
+            $room = $anchor->room;
+            if (!isset($room)) {
+                $room = new AnchorRoom();
+                $room->anchor_id = $anchor->id;
+            }
+            $room->title = $room_title;
+            if ($request->hasFile("room_cover")) {
+                $cover = $this->saveUploadedFile($request->file("room_cover"), 'cover');
+                $room->cover = $cover->getUrl();
+            }
+            $room->save();
+        } catch (\Exception $exception) {
+            return back()->with(['error'=>'保存失败']);
+        }
+        return back()->with(['success'=>'保存成功']);
     }
 
     /**
@@ -124,6 +214,16 @@ class AuthController extends Controller
         session()->forget(self::BS_LOGIN_SESSION);
         setcookie(self::BS_LOGIN_SESSION, '', time() - 3600, '/', 'aikq.cc');
         return response()->redirectTo('/backstage/login');
+    }
+
+    /**
+     * 赛事预约
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function matches(Request $request) {
+        //TODO
+        return view('backstage.match');
     }
 
 }

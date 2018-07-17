@@ -7,9 +7,12 @@
 |
 */
 Route::group([], function () {
-    Route::any("/login", "AuthController@login");
-    Route::any("/logout", "AuthController@logout");
+    Route::any("/login", "BsController@login");
+    Route::any("/logout", "BsController@logout");
 
-    Route::any("/password/edit", "AuthController@passwordEdit");
-    Route::get("/info", "AuthController@info");
+    Route::any("/password/edit", "BsController@passwordEdit");
+    Route::get("/info", "BsController@info");
+    Route::post("/info/save", "BsController@saveInfo");
+
+    Route::get("/matches", "BsController@matches");
 });
