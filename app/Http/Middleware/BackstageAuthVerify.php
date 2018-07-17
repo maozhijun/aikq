@@ -8,7 +8,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Controllers\Backstage\AuthController;
+use App\Http\Controllers\Backstage\BsController;
 use App\Models\Anchor\Anchor;
 use Closure;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class BackstageAuthVerify
      */
     public static function hasAuth(Request $request) {
         //检查session
-        $aid = session(AuthController::BS_LOGIN_SESSION);
+        $aid = session(BsController::BS_LOGIN_SESSION);
         if (isset($aid)) {
             $anchor = Anchor::query()->find($aid);
             if (isset($anchor)) {
@@ -46,7 +46,7 @@ class BackstageAuthVerify
                 return true;
             }
         }
-        $cookie = isset($_COOKIE[AuthController::BS_LOGIN_SESSION]) ? $_COOKIE[AuthController::BS_LOGIN_SESSION] : "";//获取cookie
+        $cookie = isset($_COOKIE[BsController::BS_LOGIN_SESSION]) ? $_COOKIE[BsController::BS_LOGIN_SESSION] : "";//获取cookie
         if (!empty($cookie)) {
             $aid = Redis::get($cookie);
             if (isset($aid)) {
