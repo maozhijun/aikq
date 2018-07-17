@@ -47,9 +47,9 @@ class AnchorRoomTag extends Model{
         return null;
     }
 
-    public function appModel(){
+    public function appModel($withMatch = false){
         $room = $this->room;
-        return $room->appModel();
+        return $room->appModel($withMatch);
     }
 
     /**

@@ -84,7 +84,7 @@ class AnchorController extends Controller
         $hotMatches = AnchorRoomTag::getHotMatch();
         $tmp = array();
         foreach ($hotMatches as $hotMatch) {
-            $tmp[] = $hotMatch->appModel();
+            $tmp[] = $hotMatch->appModel(true);
         }
         $result['hotMatches'] = $tmp;
         //正在直播
