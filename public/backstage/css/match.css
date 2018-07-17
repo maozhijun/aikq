@@ -44,7 +44,7 @@
 	font-size: 15px; color: #4492fd;
 }
 .box .item input{
-	height: 24px; width: 30%;
+	height: 24px; width: 40%;
 	padding: 5px 10px; margin-right: 10px;
 	border: 1px solid #e6e6e6; border-left: none; border-radius: 0 2px 2px 0;
 	background: #fff;
@@ -111,16 +111,17 @@
 	margin-top: -7px;
 }
 #Sreach .list{
-	width: 30%;
+	width: 50%;
 	padding: 6px 10px;
 	background: #fff;
 	box-shadow: 0px 2px 6px 0px rgba(68, 146, 253, 0.28);
-	position: absolute; top: 42px; left: 80px; z-index: 10;
+	position: absolute; top: 42px; left: 171px; z-index: 10;
 	box-sizing: border-box;
 }
 #Sreach .list li{
 	height: 24px;
 	font-size: 12px; line-height: 24px; text-align: left; color: #8a8a8a;
+	overflow: hidden;
 	cursor: pointer;
 }
 #Sreach .list li:hover{

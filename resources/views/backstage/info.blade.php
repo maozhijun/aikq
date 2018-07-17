@@ -10,16 +10,13 @@
 				<a href="/backstage/matches">赛事预约</a>
 			</div>
 			<div id="Link">
-				@if(!isset($room) || $room->status == 0)
-					<button class="get">开始直播，获取推流地址</button>
-				@else
-					<div class="link">
-						<input type="text" name="link" value="http://www.baidu.com">
-						<button class="copy">复制</button>
-					</div>
-					<button class="end">结束直播</button>
-					<button class="reset">重置推流地址</button>
-				@endif
+				<button class="get" style="display: {{$iLive ? 'none' : 'block'}};">开始直播，获取推流地址</button>
+				<button class="reset live" style="display: {{$iLive ? 'block' : 'none'}};" >重置推流地址</button>
+				<button class="end live" style="display: {{$iLive ? 'block' : 'none'}};" >结束直播</button>
+				<div class="link live" style="display: {{$iLive ? 'block' : 'none'}};" >
+					<input type="text" name="link" value="{{$room->url or ''}}">
+					<button class="copy">复制</button>
+				</div>
 			</div>
 			<div class="box">
 				<p class="title">主播信息</p>
@@ -122,5 +119,57 @@
 		} else if (success) {
 		    alert(success);
 		}
+
+        /**
+         * 异步表单验证
+         */
+        $.ajaxSetup({
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+        });
+
+		$(".end").click(function () {
+			if (!confirm("是否确认结束直播？")) {
+			    return;
+			}
+			$.ajax({
+				"url": "/backstage/info/room/end",
+				"type": "post",
+				"dataType": "json",
+				"data": {},
+				"success": function (json) {
+                    alert(json.message);
+                    if (json.code == 200) {
+                        $(".live").hide();
+                        $(".get").show();
+					}
+				},
+				"error": function () {
+
+				}
+			});
+        });
+
+		$(".get").click(function () {
+            if (!confirm("是否确认开始直播？")) {
+                return;
+            }
+            var $btn = $(this);
+            $.ajax({
+                "url": "/backstage/info/room/start",
+                "type": "post",
+                "dataType": "json",
+                "data": {},
+                "success": function (json) {
+                    alert(json.message);
+                    if (json.code == 200) {
+                        $btn.hide();
+                        $(".live").show();
+					}
+                },
+                "error": function () {
+
+                }
+            });
+        });
 	</script>
 @endsection

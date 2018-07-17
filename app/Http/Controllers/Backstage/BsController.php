@@ -6,6 +6,9 @@ namespace App\Http\Controllers\Backstage;
 use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
+use App\Models\Anchor\AnchorRoomTag;
+use App\Models\Match\BasketMatch;
+use App\Models\Match\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -69,6 +72,7 @@ class BsController extends Controller
         $room = $anchor->room;
         $result['anchor'] = $anchor;
         $result['room'] = $room;
+        $result['iLive'] = isset($room) && $room->status == AnchorRoom::kStatusLiving;
         return view('backstage.info', $result);
     }
 
@@ -86,15 +90,16 @@ class BsController extends Controller
         }
         try {
             if ($room->status == AnchorRoom::kStatusLiving) {
-                return response()->json(['code'=>302, 'msg'=>'直播间正在直播，获取推流地址失败。']);
+                return response()->json(['code'=>302, 'message'=>'直播间正在直播，获取推流地址失败。']);
             }
             //TODO  获取推流地址
+//            $room->url = "";
             $room->status = AnchorRoom::kStatusLiving;
             $room->save();
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'msg'=>'获取推流地址失败']);
+            return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
         }
-        return response()->json(['code'=>200, 'msg'=>'获取推流地址成功']);
+        return response()->json(['code'=>200, 'message'=>'获取推流地址成功']);
     }
 
     /**
@@ -112,13 +117,14 @@ class BsController extends Controller
         try {
             if ($room->status == AnchorRoom::kStatusLiving) {
                 //TODO  停止直播
+                $room->url = "";
                 $room->status = AnchorRoom::kStatusNormal;
                 $room->save();
             }
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'msg'=>'停止直播失败']);
+            return response()->json(['code'=>500, 'message'=>'停止直播失败']);
         }
-        return response()->json(['code'=>200, 'msg'=>'停止直播成功']);
+        return response()->json(['code'=>200, 'message'=>'停止直播成功']);
     }
 
     /**
@@ -223,7 +229,160 @@ class BsController extends Controller
      */
     public function matches(Request $request) {
         //TODO
-        return view('backstage.match');
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        $result = [];
+        if (isset($room)) {
+            $query = AnchorRoomTag::query()->where('room_id', $room->id);
+            $tags = $query->orderByDesc('match_time')->get();
+            $result['tags'] = $tags;
+        }
+        return view('backstage.match', $result);
     }
 
+
+    /**
+     * 主播预约赛事
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bookMatch(Request $request) {
+        $mid = $request->input('mid');//主播预约的比赛ID
+        $sport = $request->input('sport');//比赛类型
+
+        if (!is_numeric($mid)) {
+            return response()->json(['code'=>401, 'message'=>'请选择比赛']);
+        }
+        if (!in_array($sport, [1, 2])) {
+            return response()->json(['code'=>401, 'message'=>'比赛类型错误']);
+        }
+        if ($sport == 1) {
+            $match = Match::query()->find($mid);
+        } else {
+            $match = BasketMatch::query()->find($mid);
+        }
+        if (!isset($match)) {
+            return response()->json(['code'=>'403', 'message'=>'比赛不存在']);
+        }
+        try {
+            $anchor = $request->admin_user;
+            $room = $anchor->room;
+            if (!isset($room)) {
+                $room = new AnchorRoom();
+                $room->anchor_id = $anchor->id;
+                $room->save();
+            }
+            $count = AnchorRoomTag::query()->where('room_id', $room->id)->where('match_id', $mid)->count();
+            if ($count > 0) {
+                return response()->json(['code'=>403, 'message'=>'您已预约过本场比赛']);
+            }
+            $art = new AnchorRoomTag();
+            $art->room_id = $room->id;
+            $art->match_id = $mid;
+            $art->sport = $sport;
+            $art->match_time = $match->time;
+            $art->save();
+        } catch (\Exception $exception) {
+            //dump($exception);
+            return response()->json(['code'=>500, 'message'=>'预约比赛失败']);
+        }
+        return response()->json(['code'=>200, 'message'=>'预约比赛成功']);
+    }
+
+    /**
+     * 取消预约比赛
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cancelBookMatch(Request $request) {
+        $id = $request->input('id');
+        if (!is_numeric($id)) {
+            return response()->json(['code'=>401, 'message'=>'参错错误']);
+        }
+
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room)) {
+            return response()->json(['code'=>401, 'message'=>'您还没有预约比赛']);
+        }
+        $tag = AnchorRoomTag::query()->find($id);
+        if (!isset($tag)) {
+            return response()->json(['code'=>401, 'message'=>'您没有预约本场比赛']);
+        }
+        if ($tag->room_id != $room->id) {
+            return response()->json(['code'=>401, 'message'=>'没有权限']);
+        }
+        try {
+            $tag->delete();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'message'=>'取消预约失败']);
+        }
+        return response()->json(['code'=>200, 'message'=>'取消预约成功']);
+    }
+
+    /**
+     * 查询比赛
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findMatches(Request $request) {
+        $sport = $request->input('sport');
+        $search = $request->input('search');
+        if (!in_array($sport, [1, 2])) {
+            return response()->json(['code'=>401, 'message'=>'比赛类型错误。']);
+        }
+        if (empty($search)) {
+            return response()->json(['code'=>401, 'message'=>'请输入球队名称或者联赛名称。']);
+        }
+        if ($sport == 1) {
+            $matches = $this->findFootballMatches($search);
+        } else {
+            $matches = $this->findBasketballMatches($search);
+        }
+
+        return response()->json(['code'=>200, 'matches'=>$matches]);
+    }
+
+    /**
+     * 根据球队名称获取足球比赛
+     * @param $search
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    protected function findFootballMatches($search) {
+        //
+        $start = date('Y-m-d H:i');
+        $end = date('Y-m-d H:i', strtotime('+7 days'));
+        $query = Match::query();
+        $query->where('status', '>=', 0);
+        $query->where(function ($orQuery) use ($search) {
+            $orQuery->where('hname', 'like', '%' . $search . '%');
+            $orQuery->orWhere('aname', 'like', '%' . $search . '%');
+            $orQuery->orWhere('win_lname', 'like', '%' . $search . '%');
+        });
+        $query->whereBetween('time', [$start, $end]);
+        $query->selectRaw("hname, aname, time, id as mid, win_lname, lname, status");
+        $query->orderBy("time")->orderBy("id");
+        return $query->take(15)->get();
+    }
+
+    /**
+     * 根据球队名称 获取篮球比赛
+     * @param $search
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    protected function findBasketballMatches($search) {
+        $start = date('Y-m-d H:i');
+        $end = date('Y-m-d H:i', strtotime('+7 days'));
+        $query = BasketMatch::query();
+        $query->where('status', '>=', 0);
+        $query->where(function ($orQuery) use ($search) {
+            $orQuery->where('hname', 'like', '%' . $search . '%');
+            $orQuery->orWhere('aname', 'like', '%' . $search . '%');
+            $orQuery->orWhere('win_lname', 'like', '%' . $search . '%');
+        });
+        $query->whereBetween('time', [$start, $end]);
+        $query->selectRaw("hname, aname, time, id as mid, win_lname, lname, status");
+        $query->orderBy("time")->orderBy("id");
+        return $query->take(15)->get();
+    }
 }
