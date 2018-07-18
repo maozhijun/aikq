@@ -17,13 +17,16 @@
     <div id="Content">
         <div class="inner">
             <div id="Info">
-                <img src="{{$anchor['icon']}}">
+                <img src="{{$anchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
                 <h1>{{$room['title']}}</h1>
                 <?php
                 $matchText = '';
-                    if (isset($match)){
+                if (isset($match) && $match['status'] > 0){
+                    if (isset($match['league']))
                         $matchText = '比赛：【'.$match['league'].'】'.$match['hname'].' VS '. $match['aname'];
-                    }
+                    else
+                        $matchText = '比赛： '.$match['hname'].' VS '. $match['aname'];
+                }
                 ?>
                 <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$matchText}}</p>
             </div>

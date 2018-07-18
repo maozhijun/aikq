@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>爱看球</title>
+    <title>爱看球主播后台</title>
     <link rel="stylesheet" type="text/css" href="/backstage/css/style.css">
     @yield("css")
     <meta name="Keywords" content="">

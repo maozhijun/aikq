@@ -24,21 +24,23 @@
                         <?php
                         $match = $hotMatch->getMatch();
                         ?>
+                    @if(isset($match))
                         <div class="item">
                             <a href="/anchor/room/{{$hotMatch['room_id']}}.html" target="_blank">
-                                <p class="time">{{$match['league']}}<span>{{date('y.m.d H:i',$match['time'])}}</span></p>
+                                <p class="time">{{$match['league'] or ''}}<span>{{date('m.d H:i',$match['time'])}}</span></p>
                                 <div class="team">
-                                    <p class="host"><img src="{{$match['hicon']}}">{{$match['hname']}}</p>
+                                    <p class="host"><img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">{{$match['hname']}}</p>
                                     @if($match['status'] > 0)
                                         <p class="vs"><span class="live">直播中</span></p>
                                     @else
                                         <p class="vs"><span>VS</span></p>
                                     @endif
-                                    <p class="away"><img src="{{$match['aicon']}}">{{$match['aname']}}</p>
+                                    <p class="away"><img src="{{$match['aicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">{{$match['aname']}}</p>
                                 </div>
                                 <p class="anchor">主播：{{$hotMatch->room->anchor->name}}</p>
                             </a>
                         </div>
+                            @endif
                     @endforeach
                 </div>
             </div>
@@ -67,7 +69,7 @@
                             <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
                                 <div class="imgbox" style="background: url({{$livingRoom['cover']}}) no-repeat center; background-size: cover;"></div>
                                 <div class="info">
-                                    <img src="{{$livingRoom->anchor->icon}}">
+                                    <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
                                     <p class="name"><span>{{$count}}人</span>{{$livingRoom->anchor->name}}</p>
                                 </div>

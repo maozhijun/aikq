@@ -23,31 +23,17 @@
                 <a href="/m/anchor/room/{{$hotMatch['room_id']}}.html" class="item {{$match['status'] > 0 ? 'live':''}}">
                     <div class="match">
                         <p class="team">
-                            <img src="//static.liaogou168.com/images/team/fb/608/5b1787e90c407.jpg">
+                            <img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">
                             {{$match['hname']}}
                         </p>
                         <p class="team">
-                            <img src="//static.liaogou168.com/images/team/fb/584/5b1787e505b00.jpg">
+                            <img src="{{$match['aicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">
                             {{$match['aname']}}
                         </p>
                         <p class="anchor">主播：{{$hotMatch->room->anchor->name}}</p>
                     </div>
                 </a>
             @endforeach
-            <div class="item empty">
-                <div class="match">
-                    <p class="team"></p>
-                    <p class="team"></p>
-                    <p class="anchor"></p>
-                </div>
-            </div>
-            <div class="item empty">
-                <div class="match">
-                    <p class="team"></p>
-                    <p class="team"></p>
-                    <p class="anchor"></p>
-                </div>
-            </div>
         </div>
     </div>
     <div class="default" id="Anchor">
@@ -56,7 +42,7 @@
         </div>
         <ul>
             @foreach($hotAnchors as $hotAnchor)
-                <li><a href="/m/anchor/room/{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon'] or env('CDN_URL').'/img/mobile/image_player_n.jpg'}}"><p>{{$hotAnchor['name']}}</p></a></li>
+                <li><a href="/m/anchor/room/{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon']}}"  onerror="this.src='/img/pc/image_default_head.png'"><p>{{$hotAnchor['name']}}</p></a></li>
             @endforeach
         </ul>
     </div>

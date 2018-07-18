@@ -16,7 +16,8 @@ class AnchorRoomTag extends Model{
     const kIsHot = 1, kNotHot = 0;
     static public function getHotMatch(){
         $rooms = AnchorRoomTag::where('hot',AnchorRoomTag::kIsHot)
-//            ->where('match_time','>=', date_create('-4 hours'))
+            ->where('match_time','>=', date_create('-4 hours'))
+            ->orderby('match_time','asc')
             ->get();
         return $rooms;
     }
