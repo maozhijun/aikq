@@ -265,6 +265,7 @@ class BsController extends Controller
             return response()->json(['code'=>'403', 'message'=>'比赛不存在']);
         }
         try {
+            $matchTime = $match->time;
             $anchor = $request->admin_user;
             $room = $anchor->room;
             if (!isset($room)) {
@@ -274,16 +275,23 @@ class BsController extends Controller
             }
             $count = AnchorRoomTag::query()->where('room_id', $room->id)->where('match_id', $mid)->count();
             if ($count > 0) {
-                return response()->json(['code'=>403, 'message'=>'您已预约过本场比赛']);
+                //return response()->json(['code'=>403, 'message'=>'您已预约过本场比赛']);
+            }
+            //判断2小时内是不是有其他赛事预约。
+            $start = date('Y-m-d H:i', strtotime($matchTime . ' -2 hours'));
+            $end = date('Y-m-d H:i', strtotime($matchTime . ' +2 hours'));
+            $count = AnchorRoomTag::query()->where('room_id', $room->id)->whereBetween('match_time', [$start, $end])->count();
+            if ($count > 0) {
+                return response()->json(['code'=>403, 'message'=>'同一比赛时段，只能预约一场比赛，请重新预约。']);
             }
             $art = new AnchorRoomTag();
             $art->room_id = $room->id;
             $art->match_id = $mid;
             $art->sport = $sport;
-            $art->match_time = $match->time;
+            $art->match_time = $matchTime;
             $art->save();
         } catch (\Exception $exception) {
-            //dump($exception);
+            dump($exception);
             return response()->json(['code'=>500, 'message'=>'预约比赛失败']);
         }
         return response()->json(['code'=>200, 'message'=>'预约比赛成功']);
