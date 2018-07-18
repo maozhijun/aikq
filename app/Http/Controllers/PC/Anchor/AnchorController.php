@@ -30,11 +30,17 @@ class AnchorController extends Controller
         return view('pc.anchor.index',$result);
     }
 
-    public function room(Request $request,$room_id){
-        $tag = AnchorRoomTag::find($room_id);
-        $match = $tag->getMatch();
+    public function room(Request $request,$room_id)
+    {
         $result = array();
-        $result['match'] = $match;
+        $tag = AnchorRoomTag::find($room_id);
+        if (isset($tag)) {
+            $match = $tag->getMatch();
+            $result['match'] = $match;
+        }
+        else{
+            $result['match'] = null;
+        }
         $result['check'] = 'anchor';
         $result['room_id'] = $room_id;
         $result['room'] = AnchorRoom::find($room_id);

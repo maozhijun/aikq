@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin\Anchor;
 use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
+use App\Models\Anchor\AnchorRoomTag;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -73,15 +74,33 @@ class AnchorController extends Controller
         if ($request->input('id',0) == 0){
             return response()->json(array('error'=>'id不能为空'));
         }
-        $anchor = Anchor::find($request->input('id'));
+        $aid = $request->input('id');
+        $anchor = Anchor::find($aid);
         if (is_null($anchor)){
             return response()->json(array('error'=>'找不到该主播'));
         }
-        if ($anchor->delete()){
-            return response()->json(array('success'=>'删除成功'));
-        }
-        else{
-            return response()->json(array('error'=>'删除失败'));
+
+        try {
+            DB::transaction(function () use ($aid) {
+                $anchor = Anchor::find($aid);
+                if (isset($anchor)) {
+                    $anchor->delete();
+                }
+
+                $room = AnchorRoom::where('anchor_id',$aid)->first();
+                if (isset($room)){
+                    $tags = AnchorRoomTag::where('room_id',$room->id)->get();
+                    foreach ($tags as $tag){
+                        $tag->delete();
+                    }
+
+                    $room->delete();
+                }
+            });
+            return response()->json(["code" => 0, "msg" => "删除成功"]);
+        } catch (\Exception $e) {
+            Log::info('create merchant error : ' . $e->getMessage());
+            return response()->json(["code" => 500, "msg" => "数据库异常",'e'=>$e->getMessage()]);
         }
     }
 

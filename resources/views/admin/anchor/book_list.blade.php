@@ -15,6 +15,7 @@
                 </thead>
                 <tbody style="text-align: left;">
                 @foreach($page as $tag)
+                    @if(isset($tag->room) && isset($tag->room->anchor))
                     <form action="/admin/anchor/tag/update" enctype="multipart/form-data" method="post" onsubmit="return checkFormData(this);">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $tag->id }}">
@@ -42,6 +43,7 @@
                             </td>
                         </tr>
                     </form>
+                    @endif
                 @endforeach
                 </tbody>
             </table>

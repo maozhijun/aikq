@@ -33,7 +33,7 @@
 	padding-right: 24px;
 }
 #Hot .item.empty{
-	display: none;
+	/*display: none;*/
 }
 #Hot .item .match{
 	height: 154px;

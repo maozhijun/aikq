@@ -25,12 +25,12 @@
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/roomPhone.css">
     <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="{{env('CDN_URL')}}/img/mobile/ico.ico">
     <link href="{{env('CDN_URL')}}/img/mobile/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
-    <title>料狗</title>
+    <title>爱看球</title>
 </head>
 <body>
 <div id="Navigation">
     <div class="banner">
-        {{$match['hname']}} VS {{$match['aname']}}
+        {{$room['title']}}
     </div>
 </div>
 <div id="Video">
