@@ -90,16 +90,27 @@ class BsController extends Controller
         }
         try {
             if ($room->status == AnchorRoom::kStatusLiving) {
-                return response()->json(['code'=>302, 'message'=>'直播间正在直播，获取推流地址失败。']);
+                return response()->json(['code'=>302, 'message'=>'直播间正在直播，如果断流了，请使用重新推流。']);
             }
-            //TODO  获取推流地址
-//            $room->url = "";
+            $json = $this->getPushLive($room->id, 1, false);
+            if (is_null($json) || !isset($json['data']['push_rtmp']) || !isset($json['data']['push_key'])) {
+                dump($json);
+                return response()->json(['code'=>302, 'message'=>'获取推流地址失败']);
+            }
+            $jsonData = $json['data'];
+            $room->url = $jsonData['push_rtmp'];
+            $room->url_key = $jsonData['push_key'];
+            $room->live_flv = $jsonData['live_flv'];
+            $room->live_rtmp = $jsonData['live_rtmp'];
+            $room->live_m3u8 = $jsonData['live_m3u8'];
             $room->status = AnchorRoom::kStatusLiving;
             $room->save();
         } catch (\Exception $exception) {
+            dump($exception);
             return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
         }
-        return response()->json(['code'=>200, 'message'=>'获取推流地址成功']);
+        $data = ['url_key'=>$jsonData['push_key'], 'url'=>$jsonData['push_rtmp'] ];
+        return response()->json(['code'=>200, 'message'=>'获取推流地址成功', 'data'=>$data]);
     }
 
     /**
@@ -116,8 +127,11 @@ class BsController extends Controller
         }
         try {
             if ($room->status == AnchorRoom::kStatusLiving) {
-                //TODO  停止直播
-                $room->url = "";
+                $room->url = null;
+                $room->url_key = null;
+                $room->live_flv = null;
+                $room->live_rtmp = null;
+                $room->live_m3u8 = null;
                 $room->status = AnchorRoom::kStatusNormal;
                 $room->save();
             }
@@ -392,5 +406,20 @@ class BsController extends Controller
         $query->selectRaw("hname, aname, time, id as mid, win_lname, lname, status");
         $query->orderBy("time")->orderBy("id");
         return $query->take(15)->get();
+    }
+
+    /**
+     * 获取推流信息
+     * @param $room_id
+     * @param $level
+     * @param $isHttp
+     * @return mixed
+     */
+    protected function getPushLive($room_id, $level, $isHttp) {
+        $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
+        $url = $host . '/api/v1/get_push_stream?uid=12345&level=1';
+        $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 2, $isHttp);
+        $json = json_decode($jsonStr, true);
+        return $json;
     }
 }

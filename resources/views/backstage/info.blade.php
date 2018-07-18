@@ -12,10 +12,16 @@
 			<div id="Link">
 				<button class="get" style="display: {{$iLive ? 'none' : 'block'}};">开始直播，获取推流地址</button>
 				<button class="reset live" style="display: {{$iLive ? 'block' : 'none'}};" >重置推流地址</button>
-				<button class="end live" style="display: {{$iLive ? 'block' : 'none'}};" >结束直播</button>
+				{{--<button class="end live" style="display: {{$iLive ? 'block' : 'none'}};" >结束直播</button>--}}
 				<div class="link live" style="display: {{$iLive ? 'block' : 'none'}};" >
-					<input type="text" name="link" value="{{$room->url or ''}}">
-					<button class="copy">复制</button>
+					<p class="url">
+						<input type="text" name="link" value="{{$room->url or ''}}">
+						<button class="copy">复制</button>
+					</p>
+					<p class="name">
+						<input type="text" name="link" value="{{$room->url_key or ''}}">
+						<button class="copy">复制</button>
+					</p>
 				</div>
 			</div>
 			<div class="box">
@@ -163,6 +169,8 @@
                     alert(json.message);
                     if (json.code == 200) {
                         $btn.hide();
+                        $(".live .url input").val(json.data.url);
+                        $(".live .name input").val(json.data.url_key);
                         $(".live").show();
 					}
                 },
