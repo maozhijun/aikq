@@ -160,24 +160,35 @@
                 return;
             }
             var $btn = $(this);
+            startLive($btn, false);
+        });
+
+		$(".reset").click(function () {
+            if (!confirm("是否确认重置推流地址？")) {
+                return;
+            }
+            startLive(null, 1);
+        });
+
+		function startLive($btn, refulsh) {
             $.ajax({
                 "url": "/backstage/info/room/start",
                 "type": "post",
                 "dataType": "json",
-                "data": {},
+                "data": {"refresh": refulsh},
                 "success": function (json) {
                     alert(json.message);
                     if (json.code == 200) {
-                        $btn.hide();
+                        if ($btn) $btn.hide();
                         $(".live .url input").val(json.data.url);
                         $(".live .name input").val(json.data.url_key);
                         $(".live").show();
-					}
+                    }
                 },
                 "error": function () {
 
                 }
             });
-        });
+        }
 	</script>
 @endsection

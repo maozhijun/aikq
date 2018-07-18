@@ -84,17 +84,17 @@ class BsController extends Controller
     public function startLive(Request $request) {
         $anchor = $request->admin_user;
         $room = $anchor->room;
+        $refresh = $request->input("refresh");
         if (!isset($room)) {
             $room = new AnchorRoom();
             $room->anchor_id = $anchor->id;
         }
         try {
-            if ($room->status == AnchorRoom::kStatusLiving) {
+            if ($refresh != 1 && $room->status == AnchorRoom::kStatusLiving) {
                 return response()->json(['code'=>302, 'message'=>'直播间正在直播，如果断流了，请使用重新推流。']);
             }
-            $json = $this->getPushLive($room->id, 1, false);
+            $json = $this->getPushLive($room->id, 1, false, $refresh == 1);
             if (is_null($json) || !isset($json['data']['push_rtmp']) || !isset($json['data']['push_key'])) {
-                dump($json);
                 return response()->json(['code'=>302, 'message'=>'获取推流地址失败']);
             }
             $jsonData = $json['data'];
@@ -103,10 +103,10 @@ class BsController extends Controller
             $room->live_flv = $jsonData['live_flv'];
             $room->live_rtmp = $jsonData['live_rtmp'];
             $room->live_m3u8 = $jsonData['live_m3u8'];
+            $room->expiration = $jsonData['expiration'];//流到期时间
             $room->status = AnchorRoom::kStatusLiving;
             $room->save();
         } catch (\Exception $exception) {
-            dump($exception);
             return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
         }
         $data = ['url_key'=>$jsonData['push_key'], 'url'=>$jsonData['push_rtmp'] ];
@@ -413,11 +413,12 @@ class BsController extends Controller
      * @param $room_id
      * @param $level
      * @param $isHttp
+     * @param $refresh
      * @return mixed
      */
-    protected function getPushLive($room_id, $level, $isHttp) {
+    protected function getPushLive($room_id, $level, $isHttp, $refresh = false) {
         $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
-        $url = $host . '/api/v1/get_push_stream?uid=12345&level=1';
+        $url = $host . '/api/v1/get_push_stream?uid=12345&level=1' . ($refresh ? '&refresh=1' : '');
         $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 2, $isHttp);
         $json = json_decode($jsonStr, true);
         return $json;
