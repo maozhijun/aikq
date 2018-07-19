@@ -74,8 +74,18 @@ class AnchorController extends Controller
             $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
             $url = openssl_encrypt($url, "DES", $key, 0, $iv);
             $match = $room->getLivingTag();
-            $tag = $match['tag'];
-            return response()->json(array('code' => 0, 'show_score'=>$tag['show_score'],'status' => $room->status,'match'=>$match, 'title' => $room->title, 'live_url' => $url));
+            $tag = isset($match) ? $match['tag'] : null;
+
+            $showScore = 0; $h_color = null; $a_color = null;
+            if (isset($tag)) {
+                $showScore = $tag['show_score'];
+                $h_color = $tag['h_color'];
+                $a_color = $tag['a_color'];
+            }
+            return response()->json(array('code' => 0, 'show_score'=>$showScore,
+                'status' => $room->status,'match'=>$match,
+                'h_color'=>$h_color, 'a_color'=>$a_color,
+                'title' => $room->title, 'live_url' => $url));
         }
         else{
             return response()->json(array('code'=>-1,'live_url'=>''));
