@@ -55,8 +55,9 @@ class AnchorController extends Controller
 
     public function playerUrl(Request $request,$room_id){
         $room = AnchorRoom::find($room_id);
+        $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
         if (isset($room))
-            return response()->json(array('code'=>0,'status'=>$room->status,'title'=>$room->title,'live_url'=>$room->url));
+            return response()->json(array('code'=>0,'status'=>$room->status,'title'=>$room->title,'live_url'=>$url));
         else{
             return response()->json(array('code'=>-1,'live_url'=>''));
         }
@@ -68,9 +69,11 @@ class AnchorController extends Controller
         if (isset($room)) {
             $key = env('APP_DES_KEY');
             $iv = env('APP_DES_IV');
-            $url = $room->url;
+            $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
             $url = openssl_encrypt($url, "DES", $key, 0, $iv);
-            return response()->json(array('code' => 0, 'status' => $room->status, 'title' => $room->title, 'live_url' => $url));
+            $match = $room->getLivingTag();
+            $tag = $match['tag'];
+            return response()->json(array('code' => 0, 'show_score'=>$tag['show_score'],'status' => $room->status,'match'=>$match, 'title' => $room->title, 'live_url' => $url));
         }
         else{
             return response()->json(array('code'=>-1,'live_url'=>''));

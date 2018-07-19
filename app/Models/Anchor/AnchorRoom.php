@@ -8,6 +8,7 @@
 namespace App\Models\Anchor;
 
 
+use App\Models\LgMatch\BasketMatch;
 use App\Models\Match\Match;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,30 @@ class AnchorRoom extends Model{
     }
 
     /**
+     * 正在直播什么比赛tag
+     * @return Model|null|static
+     */
+    public function getLivingTag()
+    {
+//        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
+        $tags = AnchorRoomTag::where('room_id',$this->id)
+            ->where('match_time','>',date_create('-4 hours'))
+            ->orderby('match_time','asc')
+            ->get();
+        $match = null;
+        foreach ($tags as $tag){
+            $tmp = $tag->getMatch();
+            if($tmp['status'] >= 0){
+                $tmp['sport'] = $tag['sport'];
+                $tmp['tag'] = $tag;
+                $match = $tmp;
+                break;
+            }
+        }
+        return $match;
+    }
+
+    /**
      * 正在直播什么比赛
      * @return Model|null|static
      */
@@ -40,10 +65,31 @@ class AnchorRoom extends Model{
         foreach ($tags as $tag){
             $tmp = $tag->getMatch();
             if($tmp['status'] > 0){
+                $tmp['sport'] = $tag['sport'];
                 $match = $tmp;
                 break;
             }
         }
+        return $match;
+    }
+
+    /**
+     * 正在直播什么比赛(AKQ的表,一般不要求太实时)
+     * @return Model|null|static
+     */
+    public function getLivingMatchAKQ()
+    {
+        $tags = AnchorRoomTag::where('room_id',$this->id)
+            ->where('match_time','>',date_create('-4 hours'))
+            ->get();
+        $mids = array();
+        foreach ($tags as $tag){
+            $mids[] = $tag['match_id'];
+        }
+        $match = Match::whereIn('id',$mids)
+            ->where('status' , '>' , 0)
+            ->orderby('time','asc')
+            ->first();
         return $match;
     }
 
@@ -55,14 +101,23 @@ class AnchorRoom extends Model{
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
             ->get();
-        $mids = array();
+        $f_mids = array();
+        $b_mids = array();
         foreach ($tags as $tag){
-            $mids[] = $tag['match_id'];
+            if($tag['sport'] == 1)
+                $f_mids[] = $tag['match_id'];
+            else if($tag['sport'] == 2)
+                $b_mids[] = $tag['match_id'];
         }
-        $matches = Match::whereIn('id',$mids)
+        $f_matches = Match::whereIn('id',$f_mids)
             ->where('status' , '>=' , 0)
             ->orderby('time','asc')
             ->get();
+        $b_matches = BasketMatch::whereIn('id',$b_mids)
+            ->where('status' , '>=' , 0)
+            ->orderby('time','asc')
+            ->get();
+        $matches = array_merge($f_matches->toArray(),$b_matches->toArray());
         return $matches;
     }
 

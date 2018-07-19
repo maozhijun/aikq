@@ -67,7 +67,10 @@
                         ?>
                         <div class="item">
                             <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
-                                <div class="imgbox" style="background: url({{$livingRoom['cover']}}) no-repeat center; background-size: cover;"></div>
+                                <?php
+                                $cover = isset($livingRoom['live_cover'])?$livingRoom['live_cover']:$livingRoom['cover']
+                                ?>
+                                <div class="imgbox" style="background: url({{$cover}}) no-repeat center; background-size: cover;"></div>
                                 <div class="info">
                                     <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
