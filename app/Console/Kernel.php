@@ -63,6 +63,11 @@ class Kernel extends ConsoleKernel
         BasketballMatchCommand::class,//同步basket_matches数据到爱看球
         BasketballUpdateMatchCommand::class,//更新basket_matches数据到爱看球
         //同步数据相关 结束
+
+        //更新正在直播的主播列表
+        AnchorLivingCacheCommand::class,
+        //更新比分
+        SocketScoreCacheCommand::class,
     ];
 
     /**
@@ -108,8 +113,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 
-        //世界杯
-        $schedule->command('fifa_cache:run')->everyMinute();
+        //主播相关
+        $schedule->command('anchor_living_cache:run')->everyMinute();
     }
 
     /**
