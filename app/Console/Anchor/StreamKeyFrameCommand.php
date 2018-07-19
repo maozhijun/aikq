@@ -54,18 +54,24 @@ class StreamKeyFrameCommand extends Command
                 $stream = $room->live_m3u8;
             }
             if (empty($stream)) {
-                dump("not flv and m3u8");
-                return "";
+                $stream = $room->live_rtmp;
             }
-            $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
-            $this->spiderKeyFrame($stream, $outPath);
-            $room->live_cover = "/cover/room/" . $room->id . ".jpg";
-            $room->save();
+
+            if (!empty($stream)) {
+                $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
+                self::spiderRtmpKeyFrame($stream, $outPath);
+                $room->live_cover = "/cover/room/" . $room->id . ".jpg";
+                $room->save();
+            }
         }
     }
 
-    protected function spiderKeyFrame($stream, $outPath) {
+    public function spiderKeyFrame($stream, $outPath) {
         exec('ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath);
+    }
+
+    public static function spiderRtmpKeyFrame($stream, $outPath) {
+        exec("ffmpeg -i $stream -f image2 -ss 1 -y -vframes 1 -s 220*135 $outPath");
     }
 
 }
