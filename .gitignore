@@ -20,3 +20,7 @@ composer.lock
 /public/live
 /public/json
 publish.sh
+public/js/app.js
+public/js/echo.js
+laravel-echo-server.json
+package-lock.json
