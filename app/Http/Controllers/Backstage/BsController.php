@@ -279,7 +279,8 @@ class BsController extends Controller
         $result = [];
         if (isset($room)) {
             $query = AnchorRoomTag::query()->where('room_id', $room->id);
-            $tags = $query->orderByDesc('match_time')->get();
+            $query->where('match_time', '>=', date('Y-m-d H:i', strtotime('-4 hours')));
+            $tags = $query->orderBy('match_time')->get();
             $result['tags'] = $tags;
         }
         return view('backstage.match', $result);
