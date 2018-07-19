@@ -110,10 +110,10 @@
             var tempCover = "{{$room->cover or ''}}";
 
             var roomTitle = $("#room_title").val();
-            if ($.trim(roomTitle).length == 0) {
-                alert("房间标题不能为空");
-                return false;
-			}
+            // if ($.trim(roomTitle).length == 0) {
+             //    alert("房间标题不能为空");
+             //    return false;
+			// }
             form.room_title.value = roomTitle;
             return true;
         }

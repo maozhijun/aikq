@@ -148,9 +148,9 @@ class BsController extends Controller
      */
     public function saveInfo(Request $request) {
         $room_title = $request->input('room_title');//房间名称
-        if (empty($room_title)) {
-            return back()->with(['error'=>'房间标题不能为空']);
-        }
+//        if (empty($room_title)) {
+//            return back()->with(['error'=>'房间标题不能为空']);
+//        }
         //$anchor_icon; $room_cover;
         try {
             $anchor = $request->admin_user;
@@ -164,12 +164,22 @@ class BsController extends Controller
                 $room = new AnchorRoom();
                 $room->anchor_id = $anchor->id;
             }
-            $room->title = $room_title;
+            $isEdit = false;
+            if (empty($room_title)) {
+                $room_title = $anchor->name . "的直播间";
+            }
+            if ($room_title != $room->title) {
+                $room->title = $room_title;
+                $isEdit = true;
+            }
             if ($request->hasFile("room_cover")) {
                 $cover = $this->saveUploadedFile($request->file("room_cover"), 'cover');
                 $room->cover = $cover->getUrl();
+                $isEdit = true;
             }
-            $room->save();
+            if ($isEdit) {
+                $room->save();
+            }
         } catch (\Exception $exception) {
             return back()->with(['error'=>'保存失败']);
         }
