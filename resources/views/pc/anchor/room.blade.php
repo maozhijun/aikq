@@ -22,13 +22,24 @@
                 <?php
                 $matchText = '';
                 if (isset($match) && $match['status'] > 0){
-                    if (isset($match['league']))
-                        $matchText = '比赛：【'.$match['league'].'】'.$match['hname'].' VS '. $match['aname'];
-                    else
-                        $matchText = '比赛： '.$match['hname'].' VS '. $match['aname'];
+                    $matchText = "比赛：";
+                    if (isset($match['league'])) $matchText .= '【'.$match['league'].'】';
+                    if (isset($room_tag) && $room_tag['show_score']) {
+                        if (isset($room_tag['h_color'])) {
+                            $matchText .= $match['hname']
+                                .'<span id="home_color" class="color" style="background: '.$room_tag['h_color'].';"></span>'
+                                .' <strong id="match_score">'.$match['hscore'].' - '.$match['ascore'].'</strong> '
+                                .'<span id="away_color" class="color" style="background: '.$room_tag['a_color'].';"></span>'
+                                . $match['aname'];
+                        } else {
+                            $matchText .= $match['hname'].' <strong id="match_score">'.$match['hscore'].' - '.$match['ascore'].'</strong> '. $match['aname'];
+                        }
+                    } else {
+                        $matchText .= $match['hname'].' VS '. $match['aname'];
+                    }
                 }
                 ?>
-                <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$matchText}}</p>
+                <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!! $matchText !!}</p>
             </div>
             <iframe src="/anchor/room/player/{{$room->id}}.html" id="MyFrame"></iframe>
             <div id="Chat">
@@ -143,6 +154,15 @@
         socket.on('server_send_message', function (data) {
             console.log(data);
             $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
+        });
+        socket.on('server_match_change', function (data) {
+            console.log(data);
+            $('#match_score').html(data['hscore'] + " - " + data['ascore']);
+        });
+        socket.on('server_color_change', function (data) {
+            console.log(data);
+            $('#home_color')[0].style.background = data['h_color'];
+            $('#away_color')[0].style.background = data['a_color'];
         });
 
         function send() {

@@ -5,7 +5,7 @@
 @section("content")
 	<div id="Login">
 		<div class="password">
-		<form method="post" action="/backstage/password/edit" onsubmit="return formSubmit(this);">
+		<form method="post" action="/bs/password/edit" onsubmit="return formSubmit(this);">
 			<input type="hidden" name="_token" value="{{csrf_token()}}"/>
 			<p class="title">修改密码</p>
 			<div class="box">
@@ -41,6 +41,10 @@
             }
             if ($.trim(newP) == "") {
                 alert("请输入新密码");
+                return false;
+            }
+            if ($.trim(newP).length < 6) {
+                alert("密码不能少于6位字符");
                 return false;
             }
             if ($.trim(copyP) == "") {

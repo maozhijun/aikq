@@ -110,7 +110,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     protected function mapBackstageRoutes(){
-        Route::prefix('backstage')
+        Route::prefix('bs')
             ->middleware('web')
             ->namespace($this->namespace .'\Backstage')
             ->group(base_path('routes/backstage.php'));

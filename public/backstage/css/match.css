@@ -163,6 +163,121 @@ table td button:hover{
 	color: #fff;
 }
 
+table td .color{
+	width: 48%;
+	display: inline-block;
+}
+table td .color .choose{
+	width: 14px; height: 14px;
+	margin: 3px auto 9px; padding: 2px;
+	background: #f1f1f1;
+	box-shadow: 0px 1px 4px 0px rgba(14, 14, 14, 0.28);
+	position: relative;
+}
+table td .color .choose .in{
+	width: 12px; height: 12px;
+	border: 1px dashed #c7c7c7; border-radius: 2px;
+	cursor: pointer;
+}
+table td .color .choose .box{
+	height: 20px; width: 286px;
+	padding: 33px 0 15px; margin-left: -143px;
+	border: none;
+	background: #d0dbea;
+	font-size: 0; text-align: center;
+	position: absolute; top: -73px; left: 50%;
+	display: none;
+}
+table td .color .choose .box.show{
+	display: block;
+}
+table td .color .choose .box:before{
+	height: 0; width: 0;
+	margin-left: -4px;
+	border-top: 6px solid #d0dbea; border-left: 4px solid transparent; border-right: 4px solid transparent;
+	position: absolute; bottom: -6px; left: 50%;
+	content: '';
+}
+table td .color .choose .box span{
+	height: 15px; width: 15px;
+	padding: 2px;
+	border: 1px solid #f1f1f1;
+	background: #f1f1f1;
+	box-shadow: 0px 1px 4px 0px rgba(14, 14, 14, 0.28);
+	display: inline-block;
+	cursor: pointer;
+}
+table td .color .choose .box span + span{
+	margin-left: 14px;
+}
+table td .color .choose .box i{
+	height: 15px;
+	border-radius: 2px;
+	display: block;
+}
+table td .color .choose .box p{
+	font-size: 12px; line-height: 12px; text-align: center; color: #484266;
+	position: absolute; top: 10px; left: 0; right: 0;
+}
+table td .color > p{
+	height: 12px;
+	font-size: 12px; line-height: 12px; text-align: center; color: #545557;
+}
+
+table td p.sh_hi{
+	width: 60px; height: 22px;
+	margin: 0 auto 4px;
+	border-radius: 2px;
+	background: #e8e8e8;
+	font-size: 0;
+	overflow: hidden;
+}
+table td p.sh_hi button{
+	width: 50%; height: 22px;
+	border-radius: 2px; border: none;
+	background: #e8e8e8;
+	font-size: 12px; line-height: normal; text-align: center; color: #a7a7a7;
+}
+table td p.sh_hi button.on{
+	background: #4492fd;
+	color: #fff;
+}
+table td p.sh_hi + p{
+	font-size: 12px; line-height: 12px; text-align: center; color: #545557;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

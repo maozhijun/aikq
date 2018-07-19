@@ -25,7 +25,7 @@ class BackstageAuthVerify
             if (isset($isJson)) {
                 return response()->json(["code" => 444, "msg" => "请先登录"]);
             }
-            return redirect('/backstage/login?target_url=' . urlencode(request()->fullUrl()));
+            return redirect('/bs/login?target_url=' . urlencode(request()->fullUrl()));
         }
     }
 

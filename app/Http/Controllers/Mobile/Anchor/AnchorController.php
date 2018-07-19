@@ -29,13 +29,14 @@ class AnchorController extends Controller
     }
 
     public function room(Request $request,$room_id){
-        $tag = AnchorRoomTag::find($room_id);
-        if (isset($tag)) {
-            $match = $tag->getMatch();
-        }
-        else{
+        $room = AnchorRoom::find($room_id);
+        if (isset($room)) {
+            $match = $room->getLivingTag();
+            $tag = $match['tag'];
+        } else{
             $match = null;
+            $tag = null;
         }
-        return view('mobile.anchor.room',array('match'=>$match,'room'=>$tag->room,'room_id'=>$room_id));
+        return view('mobile.anchor.room',array('match'=>$match,'room'=>$room,'room_tag'=>$tag, 'room_id'=>$room_id));
     }
 }

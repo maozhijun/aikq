@@ -54,6 +54,12 @@ body:after{
 #Info p{
 	font-size: 12px; line-height: 12px; text-align: left; color: #b1c4de;
 }
+#Info p span.color{
+	height: 12px; width: 4px;
+	margin: -1px 4px 0;
+	vertical-align: middle;
+	display: inline-block;
+}
 
 #MyFrame{
 	width: 100%; height: 100%;

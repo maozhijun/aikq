@@ -47,7 +47,7 @@ class CheckStreamCommand extends Command
     {
         //获取正在直播的主播房间
         $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
+        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-2 minutes')));
         $rooms = $query->get();
         foreach ($rooms as $room) {
             $stream = $room->live_flv;

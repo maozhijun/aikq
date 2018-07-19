@@ -7,7 +7,7 @@
 		<div class="inner">
 			<div id="Tab">
 				<a class="on">直播信息</a>
-				<a href="/backstage/matches">赛事预约</a>
+				<a href="/bs/matches">赛事预约</a>
 			</div>
 			<div id="Link">
 				<button class="get" style="display: {{$iLive ? 'none' : 'block'}};">开始直播，获取推流地址</button>
@@ -56,7 +56,7 @@
 				</div>
 			</div>
 			<div class="comfirm">
-				<form action="/backstage/info/save" method="post" onsubmit="return checkSubmit(this);" enctype="multipart/form-data" >
+				<form action="/bs/info/save" method="post" onsubmit="return checkSubmit(this);" enctype="multipart/form-data" >
 					<input name="_token" value="{{csrf_token()}}" type="hidden">
 					<input name="room_title" value="" type="hidden" >
 					<input name="anchor_icon" type="file" style="display: none;">
@@ -110,10 +110,10 @@
             var tempCover = "{{$room->cover or ''}}";
 
             var roomTitle = $("#room_title").val();
-            if ($.trim(roomTitle).length == 0) {
-                alert("房间标题不能为空");
-                return false;
-			}
+            // if ($.trim(roomTitle).length == 0) {
+             //    alert("房间标题不能为空");
+             //    return false;
+			// }
             form.room_title.value = roomTitle;
             return true;
         }
@@ -138,7 +138,7 @@
 			    return;
 			}
 			$.ajax({
-				"url": "/backstage/info/room/end",
+				"url": "/bs/info/room/end",
 				"type": "post",
 				"dataType": "json",
 				"data": {},
@@ -172,7 +172,7 @@
 
 		function startLive($btn, refulsh) {
             $.ajax({
-                "url": "/backstage/info/room/start",
+                "url": "/bs/info/room/start",
                 "type": "post",
                 "dataType": "json",
                 "data": {"refresh": refulsh},
@@ -190,5 +190,11 @@
                 }
             });
         }
+
+        $("button.copy").click(function () {
+            $(this).prev()[0].select();
+            document.execCommand("Copy"); // 执行浏览器复制命令
+            alert("已复制好，可贴粘。");
+        });
 	</script>
 @endsection

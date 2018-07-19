@@ -51,7 +51,7 @@ class BsController extends Controller
         if ($pw != Anchor::shaPassword($salt, $password)) {
             return back()->with(["error" => "账户或密码错误", 'phone'=>$phone]);
         }
-        $target = empty($target) ? '/backstage/info' : $target;
+        $target = empty($target) ? '/bs/info' : $target;
         session([self::BS_LOGIN_SESSION => $anchor->id]);//登录信息保存在session
         if ($remember == 1) {
             //$c = cookie(self::BS_LOGIN_SESSION, $token, 60 * 24 * 7, '/', 'aikq.cc', false, true);
@@ -148,9 +148,9 @@ class BsController extends Controller
      */
     public function saveInfo(Request $request) {
         $room_title = $request->input('room_title');//房间名称
-        if (empty($room_title)) {
-            return back()->with(['error'=>'房间标题不能为空']);
-        }
+//        if (empty($room_title)) {
+//            return back()->with(['error'=>'房间标题不能为空']);
+//        }
         //$anchor_icon; $room_cover;
         try {
             $anchor = $request->admin_user;
@@ -164,12 +164,22 @@ class BsController extends Controller
                 $room = new AnchorRoom();
                 $room->anchor_id = $anchor->id;
             }
-            $room->title = $room_title;
+            $isEdit = false;
+            if (empty($room_title)) {
+                $room_title = $anchor->name . "的直播间";
+            }
+            if ($room_title != $room->title) {
+                $room->title = $room_title;
+                $isEdit = true;
+            }
             if ($request->hasFile("room_cover")) {
                 $cover = $this->saveUploadedFile($request->file("room_cover"), 'cover');
                 $room->cover = $cover->getUrl();
+                $isEdit = true;
             }
-            $room->save();
+            if ($isEdit) {
+                $room->save();
+            }
         } catch (\Exception $exception) {
             return back()->with(['error'=>'保存失败']);
         }
@@ -187,7 +197,7 @@ class BsController extends Controller
             return view('backstage.password', []);
         }
 
-        $target = $request->input("target", '/backstage/login');
+        $target = $request->input("target", '/bs/login');
         $old = $request->input("old", '');
         $new = $request->input("new");
         $copy = $request->input("copy", 0);
@@ -233,7 +243,7 @@ class BsController extends Controller
         $request->admin_user = null;
         session()->forget(self::BS_LOGIN_SESSION);
         setcookie(self::BS_LOGIN_SESSION, '', time() - 3600, '/', 'aikq.cc');
-        return response()->redirectTo('/backstage/login');
+        return response()->redirectTo('/bs/login');
     }
 
     /**
@@ -242,7 +252,6 @@ class BsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function matches(Request $request) {
-        //TODO
         $anchor = $request->admin_user;
         $room = $anchor->room;
         $result = [];
@@ -363,6 +372,94 @@ class BsController extends Controller
         }
 
         return response()->json(['code'=>200, 'matches'=>$matches]);
+    }
+
+    /**
+     * 设置主客队球衣颜色
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setTeamColor(Request $request) {
+        $id = $request->input('id');//预约ID
+        $color = $request->input('color');//颜色
+        $home = $request->input('home');//是否主队，1：主队，其他：客队
+
+        if (!is_numeric($id)) {
+            return response()->json(['code'=>401, 'message'=>'参数错误']);
+        }
+
+        $roomTag = AnchorRoomTag::query()->find($id);
+        if (!isset($roomTag)) {
+            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+        }
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room) || $roomTag->room_id != $room->id) {
+            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+        }
+
+        $color = empty($color) ? null : $color;
+
+        //判断主客颜色是否一样
+        if ($home == 1) {
+            $a_color = $roomTag->a_color;
+            $sameColor = !is_null($color) && $color == $a_color;
+        } else {
+            $h_color = $roomTag->h_color;
+            $sameColor = !is_null($color) && $color == $h_color;
+        }
+        if ($sameColor) {
+            return response()->json(['code'=>403, 'message'=>'主客球衣不能设置成同样的颜色']);
+        }
+
+        try {
+            if ($home == 1) {
+                $roomTag->h_color = $color;
+            } else {
+                $roomTag->a_color = $color;
+            }
+            $roomTag->save();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'message'=>'设置球衣颜色失败']);
+        }
+        return response()->json(['code'=>200, 'message'=>'设置球衣颜色成功']);
+    }
+
+    /**
+     * 设置预约是否隐藏显示对阵信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function setShowScore(Request $request) {
+        $id = $request->input('id');
+        $type = $request->input('type');
+
+        if (!is_numeric($id)) {
+            return response()->json(['code'=>401, 'message'=>'参数错误']);
+        }
+        if (!in_array($type, ['show', 'hide'])) {
+            return response()->json(['code'=>401, 'message'=>'类型参数错误']);
+        }
+
+        $roomTag = AnchorRoomTag::query()->find($id);
+        if (!isset($roomTag)) {
+            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+        }
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room) || $roomTag->room_id != $room->id) {
+            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+        }
+        $msg = $type == "show" ? "显示" : "隐藏";
+        $show_score = $type == "show" ? 1 : 0;
+        try {
+            $roomTag->show_score = $show_score;
+            $roomTag->save();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'message'=>$msg . "对阵失败"]);
+        }
+
+        return response()->json(['code'=>200, 'message'=>$msg . '对阵成功']);
     }
 
     /**

@@ -18,7 +18,7 @@
 	</div>
 	<div id="Login">
 		<div class="login">
-			<form action="/backstage/login" method="post" onsubmit="return formSubmit(this);">
+			<form action="/bs/login" method="post" onsubmit="return formSubmit(this);">
 				<input type="hidden" name="_token" value="{{csrf_token()}}"/>
 				<input type="hidden" name="target" value="{{request('target_url')}}"/>
 				<input type="number" name="phone" placeholder="输入您的账号" value="{{session("phone")}}">

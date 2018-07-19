@@ -176,8 +176,15 @@ body:after{
 	display: block;
 	overflow: hidden;
 }
+#Anchor .list .item a:before{
+	height: 80px;
+	background: #f3f3f3;
+	position: absolute; top: 0; left: 0; right: 0; z-index: 0;
+	content: '';
+}
 #Anchor .list .item a .imgbox{
 	height: 80px;
+	position: relative; z-index: 1;
 }
 #Anchor .list .item a p{
 	height: 30px;
@@ -223,10 +230,17 @@ body:after{
 	display: block;
 	overflow: hidden;
 }
+#Live .list .item a:before{
+	height: 135px;
+	border-radius: 4px 4px 0 0;
+	background: #f3f3f3;
+	position: absolute; top: 0; left: 0; right: 0; z-index: 0;
+	content: '';
+}
 #Live .list .item a .imgbox{
 	height: 135px;
 	margin-bottom: 8px;
-	border-radius: 4px 4px 0 0;
+	position: relative; z-index: 1;
 }
 #Live .list .item a .info{
 	height: 44px;
@@ -257,3 +271,23 @@ body:after{
 	display: block;
 	float: right;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -45,15 +45,18 @@ table.list tbody tr:hover td{
 	background: #ecf5ff;
 }
 table.list tbody tr.good_ft td{
-	background: #80a6db;
-	color: #fff;
+	background: #c1cfeb;
+	color: #031F58;
 }
 table.list tbody tr.good_bk td{
-	background: #d09798;
-	color: #fff;
+	background: #ebc5c1;
+	color: #6a0202;
 }
-table.list tbody tr.good_ft td a, table.list tbody tr.good_bk td a{
-	color: #fff !important;
+table.list tbody tr.good_ft td a{
+	color: #031F58 !important;
+}
+table.list tbody tr.good_bk td a{
+	color: #6a0202 !important;
 }
 table.list tbody tr.adbanner + tr td,
 table.list tbody tr.date + tr td{
@@ -108,19 +111,16 @@ table.list tbody td:nth-child(1) p{
 	font-size: 14px; line-height: 24px; text-align: center; color: #fff;
 }
 table.list tbody td:nth-child(1) p.football{
-	background: #80a6db;
+	background: #8aacda;
 }
 table.list tbody td:nth-child(1) p.basketball{
-	background: #d09798;
-}
-table.list tbody tr.good_ft td:nth-child(1) p.football, table.list tbody tr.good_bk td:nth-child(1) p.basketball{
-	background: #fff;
+	background: #d78b83;
 }
 table.list tbody tr.good_ft td:nth-child(1) p.football{
-	color: #80a6db;
+	background: #6a7999;
 }
 table.list tbody tr.good_bk td:nth-child(1) p.basketball{
-	color: #ae6f70;
+	background: #a3665d;
 }
 table.list tbody td:nth-child(4) img{
 	height: 40px;

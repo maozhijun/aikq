@@ -15,8 +15,8 @@
 <body>
 <div id="Navigation">
     <div class="inner">
-        <a href="/backstage/logout">退出登录</a>
-        <a href="/backstage/password/edit">修改密码</a>
+        <a href="/bs/logout">退出登录</a>
+        <a href="/bs/password/edit">修改密码</a>
     </div>
 </div>
     @yield("content")
