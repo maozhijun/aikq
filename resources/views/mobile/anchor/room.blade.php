@@ -37,6 +37,35 @@
     <p>主播正在客户端直播~~</p>
     <a href="/m/downloadPhone.html">点击下载app观看</a>
 </div>
+@if(isset($match) && isset($room_tag) && $room_tag['show_score'] == 1)
+    <?php
+        $matchTime = $match['current_time'];
+        if ($match['sport'] == 2) {
+            $matchTime = $match['live_time_str'];
+        }
+    ?>
+    <div id="Match">
+        <div class="team host">
+            <img src="{{$match['hicon']}}" onerror="this.src='/img/mobile/icon_teamlogo_n.png'">
+            <p>{{$match['hname']}}</p>
+        </div>
+        <div class="vs">
+            <div class="time">
+                <p class="color host"><span id="home_color" style="background: {{isset($room_tag['h_color']) ? $room_tag['h_color'] : "rgba(255,255,255,0)"}};"></span></p>
+                <p id="match_time" class="minute">{{$matchTime}}</p>
+                <p class="color away"><span id="away_color" style="background: {{isset($room_tag['a_color']) ? $room_tag['a_color'] : "rgba(255,255,255,0)"}};"></span></p>
+            </div>
+            <div class="score">
+                <p id="home_score" class="host">{{$match['hscore']}}</p>
+                <p id="away_score" class="away">{{$match['ascore']}}</p>
+            </div>
+        </div>
+        <div class="team away">
+            <img src="{{$match['aicon']}}" onerror="this.src='/img/mobile/icon_teamlogo_n.png'">
+            <p>{{$match['aname']}}</p>
+        </div>
+    </div>
+@endif
 <div id="Chat">
 
 </div>
@@ -121,6 +150,21 @@
     socket.on('server_send_message', function (data) {
         console.log(data);
         $('#Chat').append('<p class="ev"><span>'+data['nickname']+'：</span>'+data['message']+'</p>');
+    });
+    socket.on('server_match_change', function (data) {
+        console.log(data);
+        if ($('#Match')) {
+            $('#home_score').html(data['hscore']);
+            $('#away_score').html(data['ascore']);
+            $('#match_time').html(data['time']);
+        }
+    });
+    socket.on('server_color_change', function (data) {
+        console.log(data);
+        if ($('#Match')) {
+            $('#home_color')[0].style.background = data['h_color'];
+            $('#away_color')[0].style.background = data['a_color'];
+        }
     });
 </script>
 </html>

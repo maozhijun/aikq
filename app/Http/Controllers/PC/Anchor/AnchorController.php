@@ -33,17 +33,18 @@ class AnchorController extends Controller
     public function room(Request $request,$room_id)
     {
         $result = array();
-        $tag = AnchorRoomTag::find($room_id);
-        if (isset($tag)) {
-            $match = $tag->getMatch();
+        $room = AnchorRoom::find($room_id);
+        if (isset($room)) {
+            $match = $room->getLivingTag();
             $result['match'] = $match;
-        }
-        else{
+            $result['room_tag'] = $match['tag'];
+        } else{
             $result['match'] = null;
+            $result['room_tag'] = null;
         }
         $result['check'] = 'anchor';
         $result['room_id'] = $room_id;
-        $result['room'] = AnchorRoom::find($room_id);
+        $result['room'] = $room;
         return view('pc.anchor.room',$result);
     }
 
@@ -56,9 +57,10 @@ class AnchorController extends Controller
     public function playerUrl(Request $request,$room_id){
         $room = AnchorRoom::find($room_id);
         $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
-        if (isset($room))
-            return response()->json(array('code'=>0,'status'=>$room->status,'title'=>$room->title,'live_url'=>$url));
-        else{
+        if (isset($room)) {
+            $match = $room->getLivingTag();
+            return response()->json(array('code' => 0, 'match'=>$match, 'status' => $room->status, 'title' => $room->title, 'live_url' => $url));
+        } else{
             return response()->json(array('code'=>-1,'live_url'=>''));
         }
     }
