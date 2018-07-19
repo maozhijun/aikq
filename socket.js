@@ -163,6 +163,10 @@ function scheduleCronstyle(){
             postScore();
         });
     }
+    schedule.scheduleJob('5 * * * * *',function(){
+        // console.log('scheduleCronstyle:'+new Date());
+        postColor();
+    });
 }
 
 function postScore() {
@@ -183,6 +187,29 @@ function postScore() {
                 // console.log(score);
                 io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
             }
+        }
+    });
+}
+
+function postColor() {
+    //缓存里面拿数据
+    client.get('redis_refresh_color', function(err, object) {
+        if (null == err && object != null && object.length > 0) {
+            var datas = JSON.parse(object);
+            for (var i = 0 ; i < datas.length ; i++){
+                var data = datas[i];
+                var score = {
+                    'h_color':data['h_color'],
+                    'a_color':data['a_color']
+                }
+                // console.log(score);
+                io.to('mid:' + '99_'+data['room_id']).emit('server_color_change', score);
+            }
+
+            // var tmp = [];
+            client.set('redis_refresh_color',  '', function(err) {
+                // console.log(err)
+            });
         }
     });
 }
