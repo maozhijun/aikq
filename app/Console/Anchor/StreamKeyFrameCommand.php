@@ -46,7 +46,7 @@ class StreamKeyFrameCommand extends Command
     public function handle() {
         //获取正在直播的主播房间
         $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
+        //$query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
         $rooms = $query->get();
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
@@ -57,9 +57,9 @@ class StreamKeyFrameCommand extends Command
                 dump("not flv and m3u8");
                 return "";
             }
-            $outPath = storage_path('app/public/cover/' . $room->id . '/cover.jpg');
+            $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
             $this->spiderKeyFrame($stream, $outPath);
-            $room->live_cover = "/cover/" . $room->id . "/cover.jpg";
+            $room->live_cover = "/cover/room/" . $room->id . ".jpg";
             $room->save();
         }
     }
