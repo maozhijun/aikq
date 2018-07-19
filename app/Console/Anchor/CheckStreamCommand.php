@@ -11,6 +11,7 @@ namespace App\Console\Anchor;
 
 use App\Models\Anchor\AnchorRoom;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class CheckStreamCommand extends Command
 {
@@ -56,18 +57,20 @@ class CheckStreamCommand extends Command
                 $stream = $room->live_m3u8;
             }
             if (empty($stream)) {
-                return "";
-            }
-
-            $isLive = $this->streamCheck($stream);
-            if (!$isLive) {
-                $room->status = AnchorRoom::kStatusNormal;//设置不开播
-                $room->url = null;
-                $room->url_key = null;
-                $room->live_flv = null;
-                $room->live_rtmp = null;
-                $room->live_m3u8 = null;
-                $room->save();
+                $stream = $room->live_rtmp;
+                if (!empty($stream)) {
+                    $isLive = $this->rtmpStreamCheck($stream, $room->id);
+                } else {
+                    $isLive = false;
+                }
+                if (!$isLive) {
+                    $this->setUnLive($room);
+                }
+            } else {
+                $isLive = $this->streamCheck($stream);
+                if (!$isLive) {
+                    $this->setUnLive($room);
+                }
             }
         }
     }
@@ -81,15 +84,39 @@ class CheckStreamCommand extends Command
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); // connect timeout
         curl_setopt($ch, CURLOPT_TIMEOUT, 1); // curl timeout
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // curl timeout
-
+        $exc = curl_exec($ch);
+        dump($exc);
         $status = false;
-        if (TRUE === curl_exec($ch)) {
+        if (TRUE === $exc) {
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($httpCode == 200) {
                 $status = true;
             }
         }
         return $status;
+    }
+
+    protected function rtmpStreamCheck($stream, $room_id) {
+        $path = '/public/cover/room/' . $room_id . '_test.jpg';
+        $outPath = storage_path('app' . $path);
+        StreamKeyFrameCommand::spiderRtmpKeyFrame($stream, $outPath);//设置关键帧
+        try {
+            Storage::get($path);//查看临时文件
+            Storage::delete($path);//删除临时文件
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    protected function setUnLive(AnchorRoom $room) {
+        $room->status = AnchorRoom::kStatusNormal;//设置不开播
+        $room->url = null;
+        $room->url_key = null;
+        $room->live_flv = null;
+        $room->live_rtmp = null;
+        $room->live_m3u8 = null;
+        $room->save();
     }
 
 }
