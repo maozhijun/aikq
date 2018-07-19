@@ -11,6 +11,7 @@ use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Redis;
 
 class BsController extends Controller
 {
@@ -445,6 +446,19 @@ class BsController extends Controller
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'message'=>'设置球衣颜色失败']);
         }
+
+        $json = Redis::get('redis_refresh_color');
+        if (strlen($json) > 0)
+            $json = json_decode($json,true);
+        else
+            $json = array();
+        $json[] = array(
+            'room_id'=>$roomTag->room_id,
+            'h_color'=>$roomTag->h_color,
+            'a_color'=>$roomTag->a_color,
+        );
+        Redis::set('redis_refresh_color',json_encode($json));
+
         return response()->json(['code'=>200, 'message'=>'设置球衣颜色成功']);
     }
 
