@@ -242,7 +242,6 @@ class BsController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function matches(Request $request) {
-        //TODO
         $anchor = $request->admin_user;
         $room = $anchor->room;
         $result = [];
@@ -363,6 +362,94 @@ class BsController extends Controller
         }
 
         return response()->json(['code'=>200, 'matches'=>$matches]);
+    }
+
+    /**
+     * 设置主客队球衣颜色
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setTeamColor(Request $request) {
+        $id = $request->input('id');//预约ID
+        $color = $request->input('color');//颜色
+        $home = $request->input('home');//是否主队，1：主队，其他：客队
+
+        if (!is_numeric($id)) {
+            return response()->json(['code'=>401, 'message'=>'参数错误']);
+        }
+
+        $roomTag = AnchorRoomTag::query()->find($id);
+        if (!isset($roomTag)) {
+            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+        }
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room) || $roomTag->room_id != $room->id) {
+            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+        }
+
+        $color = empty($color) ? null : $color;
+
+        //判断主客颜色是否一样
+        if ($home == 1) {
+            $a_color = $roomTag->a_color;
+            $sameColor = !is_null($color) && $color == $a_color;
+        } else {
+            $h_color = $roomTag->h_color;
+            $sameColor = !is_null($color) && $color == $h_color;
+        }
+        if ($sameColor) {
+            return response()->json(['code'=>403, 'message'=>'主客球衣不能设置成同样的颜色']);
+        }
+
+        try {
+            if ($home == 1) {
+                $roomTag->h_color = $color;
+            } else {
+                $roomTag->a_color = $color;
+            }
+            $roomTag->save();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'message'=>'设置球衣颜色失败']);
+        }
+        return response()->json(['code'=>200, 'message'=>'设置球衣颜色成功']);
+    }
+
+    /**
+     * 设置预约是否隐藏显示对阵信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function setShowScore(Request $request) {
+        $id = $request->input('id');
+        $type = $request->input('type');
+
+        if (!is_numeric($id)) {
+            return response()->json(['code'=>401, 'message'=>'参数错误']);
+        }
+        if (!in_array($type, ['show', 'hide'])) {
+            return response()->json(['code'=>401, 'message'=>'类型参数错误']);
+        }
+
+        $roomTag = AnchorRoomTag::query()->find($id);
+        if (!isset($roomTag)) {
+            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+        }
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        if (!isset($room) || $roomTag->room_id != $room->id) {
+            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+        }
+        $msg = $type == "show" ? "显示" : "隐藏";
+        $show_score = $type == "show" ? 1 : 0;
+        try {
+            $roomTag->show_score = $show_score;
+            $roomTag->save();
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'message'=>$msg . "对阵失败"]);
+        }
+
+        return response()->json(['code'=>200, 'message'=>$msg . '对阵成功']);
     }
 
     /**
