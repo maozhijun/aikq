@@ -6,7 +6,7 @@
 	<div id="Content">
 		<div class="inner">
 			<div id="Tab">
-				<a href="/backstage/info">直播信息</a>
+				<a href="/bs/info">直播信息</a>
 				<a class="on">赛事预约</a>
 			</div>
 			<div class="box">
@@ -96,14 +96,14 @@
 											<div class="in" tid="{{$tag->id}}" home="1" @if(!empty($tag->h_color)) style="background: {{$tag->h_color}}; border: 1px solid {{$tag->h_color}};" @endif ></div>
 											<div class="box"><!--加个“show”类就能显示-->
 												<p>{{$match->hname}}球衣颜色</p>
-												<span><i style="background: #c5001a;"></i></span>
-												<span><i style="background: #e37b12;"></i></span>
-												<span><i style="background: #f6dc00;"></i></span>
-												<span><i style="background: #18b602;"></i></span>
-												<span><i style="background: #0600e1;"></i></span>
-												<span><i style="background: #AC00CB;"></i></span>
-												<span><i style="background: #262626;"></i></span>
-												<span><i style="background: #ffffff;"></i></span>
+												<span><i style="background: rgb(197,0,26);"></i></span>
+												<span><i style="background: rgb(227,123,18);"></i></span>
+												<span><i style="background: rgb(246,220,0);"></i></span>
+												<span><i style="background: rgb(24,182,2);"></i></span>
+												<span><i style="background: rgb(6,0,225);"></i></span>
+												<span><i style="background: rgb(183,0,215);"></i></span>
+												<span><i style="background: rgb(38,38,38);"></i></span>
+												<span><i style="background: rgb(255,255,255);"></i></span>
 											</div>
 										</div>
 										<p>主队球衣</p>
@@ -113,14 +113,14 @@
 											<div class="in" tid="{{$tag->id}}" home="2" @if(!empty($tag->h_color)) style="background: {{$tag->a_color}}; border: 1px solid {{$tag->a_color}};" @endif ></div>
 											<div class="box">
 												<p>{{$match->aname}}球衣颜色</p>
-												<span><i style="background: #c5001a;"></i></span>
-												<span><i style="background: #e37b12;"></i></span>
-												<span><i style="background: #f6dc00;"></i></span>
-												<span><i style="background: #18b602;"></i></span>
-												<span><i style="background: #0600e1;"></i></span>
-												<span><i style="background: #AC00CB;"></i></span>
-												<span><i style="background: #262626;"></i></span>
-												<span><i style="background: #ffffff;"></i></span>
+												<span><i style="background: rgb(197,0,26);"></i></span>
+												<span><i style="background: rgb(227,123,18);"></i></span>
+												<span><i style="background: rgb(246,220,0);"></i></span>
+												<span><i style="background: rgb(24,182,2);"></i></span>
+												<span><i style="background: rgb(6,0,225);"></i></span>
+												<span><i style="background: rgb(183,0,215);"></i></span>
+												<span><i style="background: rgb(38,38,38);"></i></span>
+												<span><i style="background: rgb(255,255,255);"></i></span>
 											</div>
 										</div>
 										<p>客队球衣</p>
@@ -159,8 +159,8 @@
     });
 
 	window.onload = function () { //需要添加的监控放在这里
-		$(".choose span").click(function () {
-            $(".choose span").removeClass("on");
+        $(".choose span[sport]").click(function () {
+            $(".choose span[sport]").removeClass("on");
             this.className = "on";
         });
 	}
@@ -177,7 +177,7 @@
 		    return;
 		}
 		$.ajax({
-			"url": "/backstage/matches/book",
+			"url": "/bs/matches/book",
 			"type": "post",
 			"data": {"mid": mid, "sport": sport},
 			"dataType": "json",
@@ -200,7 +200,7 @@
 		if (!window.searching) {
             window.searching = true;
             $.ajax({
-                "url": "/backstage/matches/find",
+                "url": "/bs/matches/find",
                 "type": "post",
                 "dataType": "json",
                 "data": {"sport": sport, "search": search},
@@ -276,7 +276,7 @@
 		    return;
 		}
 		$.ajax({
-			"url": "/backstage/matches/book/cancel",
+			"url": "/bs/matches/book/cancel",
 			"type": "post",
 			"dataType": "json",
 			"data": {"id": id},
@@ -310,10 +310,10 @@
 		var $in = $this.parent().prev();
 		var id = $in.attr("tid");
 		var home = $in.attr("home");
+		var color = $this.find('i').css('backgroundColor');
 
-		var color = $this.find('i')[0].style.background;
         $.ajax({
-            "url": "/backstage/matches/team/color",
+            "url": "/bs/matches/team/color",
             "dataType": "json",
             "data": {"id": id, "color": color, "home": home},
             "success": function (json) {
@@ -322,8 +322,9 @@
                     var style = $in[0].style;
                     style.background = color;
                     style.border = "1px solid " + color;
+				} else {
+                    alert(json.message);
 				}
-                alert(json.message);
             },
             "error": function () {
                 $(".color .box").removeClass("show");
@@ -347,14 +348,15 @@
         var msg = type == "show" ? "显示" : "隐藏";
 
 		$.ajax({
-			"url": "/backstage/matches/score/set",
+			"url": "/bs/matches/score/set",
 			"dataType": "json",
 			"data": {"id": id, "type": type},
 			"success": function (json) {
-				alert(json.message);
 				if (json.code == 200) {
                     $this.parent().find("button").removeClass("on");
                     $this.addClass("on");
+				} else {
+                    alert(json.message);
 				}
             },
 			"error": function () {

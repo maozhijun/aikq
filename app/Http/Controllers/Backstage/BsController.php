@@ -51,7 +51,7 @@ class BsController extends Controller
         if ($pw != Anchor::shaPassword($salt, $password)) {
             return back()->with(["error" => "账户或密码错误", 'phone'=>$phone]);
         }
-        $target = empty($target) ? '/backstage/info' : $target;
+        $target = empty($target) ? '/bs/info' : $target;
         session([self::BS_LOGIN_SESSION => $anchor->id]);//登录信息保存在session
         if ($remember == 1) {
             //$c = cookie(self::BS_LOGIN_SESSION, $token, 60 * 24 * 7, '/', 'aikq.cc', false, true);
@@ -187,7 +187,7 @@ class BsController extends Controller
             return view('backstage.password', []);
         }
 
-        $target = $request->input("target", '/backstage/login');
+        $target = $request->input("target", '/bs/login');
         $old = $request->input("old", '');
         $new = $request->input("new");
         $copy = $request->input("copy", 0);
@@ -233,7 +233,7 @@ class BsController extends Controller
         $request->admin_user = null;
         session()->forget(self::BS_LOGIN_SESSION);
         setcookie(self::BS_LOGIN_SESSION, '', time() - 3600, '/', 'aikq.cc');
-        return response()->redirectTo('/backstage/login');
+        return response()->redirectTo('/bs/login');
     }
 
     /**

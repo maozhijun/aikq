@@ -7,6 +7,7 @@
 |
 */
 Route::group([], function () {
+    Route::any("/", "BsController@login");
     Route::any("/login", "BsController@login");
     Route::any("/logout", "BsController@logout");
 
