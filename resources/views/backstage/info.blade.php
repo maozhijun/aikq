@@ -23,6 +23,7 @@
 						<button class="copy">复制</button>
 					</p>
 				</div>
+				<p class="warm red live" style="display: {{$iLive ? 'block' : 'none'}};" >OBS推流中断，请点击重置推流地址</p>
 			</div>
 			<div class="box">
 				<p class="title">主播信息</p>

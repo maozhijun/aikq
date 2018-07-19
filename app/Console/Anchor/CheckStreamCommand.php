@@ -49,6 +49,7 @@ class CheckStreamCommand extends Command
         $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
         $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-2 minutes')));
         $rooms = $query->get();
+
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
             if (empty($stream)) {
@@ -57,6 +58,7 @@ class CheckStreamCommand extends Command
             if (empty($stream)) {
                 return "";
             }
+
             $isLive = $this->streamCheck($stream);
             if (!$isLive) {
                 $room->status = AnchorRoom::kStatusNormal;//设置不开播

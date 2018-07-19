@@ -15,6 +15,22 @@ use Illuminate\Routing\Controller;
 class BsController extends Controller
 {
     const BS_LOGIN_SESSION = 'AKQ_BS_LOGIN_SESSION';
+    /**
+     * 足球
+        大平台：英超、西甲、中超、欧冠杯、亚冠
+        中平台：德甲、意甲、法甲、欧罗巴杯、澳洲甲、中甲
+        小平台：除了上述的其他
+
+
+        篮球
+        大平台：NBA
+        中平台：CBA
+        小平台：除了上述的其他
+     */
+    const FOOTBALL_BIG_LEAGUE = [31, 26, 46, 73, 139];
+    const FOOTBALL_MIDDLE_LEAGUE = [8, 29, 11, 77, 187, 47];
+    const BASKETBALL_BIG_LEAGUE = [1, 3];
+    const BASKETBALL_MIDDLE_LEAGUE = [4, 5];
 
     use UploadTrait;
 
@@ -93,10 +109,16 @@ class BsController extends Controller
             if ($refresh != 1 && $room->status == AnchorRoom::kStatusLiving) {
                 return response()->json(['code'=>302, 'message'=>'直播间正在直播，如果断流了，请使用重新推流。']);
             }
-            $json = $this->getPushLive($room->id, 1, false, $refresh == 1);
+
+            //获取推流地址 开始
+            $liveMatch = $room->getLivingMatch();
+            $liveLevel = $this->getLiveLevel($liveMatch['lid'], $liveMatch['sport']);
+            $json = $this->getPushLive($room->id, $liveLevel, false, $refresh == 1);
             if (is_null($json) || !isset($json['data']['push_rtmp']) || !isset($json['data']['push_key'])) {
                 return response()->json(['code'=>302, 'message'=>'获取推流地址失败']);
             }
+            //获取推流地址 结束
+
             $jsonData = $json['data'];
             $room->url = $jsonData['push_rtmp'];
             $room->url_key = $jsonData['push_key'];
@@ -520,4 +542,32 @@ class BsController extends Controller
         $json = json_decode($jsonStr, true);
         return $json;
     }
+
+    /**
+     * 获取推流地址level
+     * @param $lid
+     * @param $sport
+     * @return int
+     */
+    protected function getLiveLevel($lid, $sport) {
+        if ($sport == 1) {
+            if (in_array($lid, self::FOOTBALL_BIG_LEAGUE)) {
+                return 3;
+            } else if (in_array($lid, self::FOOTBALL_MIDDLE_LEAGUE)){
+                return 2;
+            } else {
+                return 1;
+            }
+        } else if ($sport == 2) {
+            if (in_array($lid, self::BASKETBALL_BIG_LEAGUE)) {
+                return 3;
+            } else if (in_array($lid, self::BASKETBALL_MIDDLE_LEAGUE)){
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+        return 1;
+    }
+
 }
