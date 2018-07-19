@@ -51,6 +51,7 @@ class AnchorController extends Controller
     public function player(Request $request,$room_id){
         $result = array();
         $result['cdn'] = env('CDN_URL');
+        $result['room_id'] = $room_id;
         return view('pc.anchor.player',$result);
     }
 

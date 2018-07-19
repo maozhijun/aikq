@@ -152,15 +152,15 @@
         });
 
         socket.on('server_send_message', function (data) {
+//            console.log(data);
             $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
-            popText(data['message'],data['nickname']);
         });
         socket.on('server_match_change', function (data) {
-            console.log(data);
+//            console.log(data);
             $('#match_score').html(data['hscore'] + " - " + data['ascore']);
         });
         socket.on('server_color_change', function (data) {
-            console.log(data);
+//            console.log(data);
             $('#home_color')[0].style.background = data['h_color'];
             $('#away_color')[0].style.background = data['a_color'];
         });
