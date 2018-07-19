@@ -39,9 +39,12 @@
 </div>
 @if(isset($match) && isset($room_tag) && $room_tag['show_score'] == 1)
     <?php
-        $matchTime = $match['current_time'];
+
         if ($match['sport'] == 2) {
             $matchTime = $match['live_time_str'];
+        }
+        else{
+            $matchTime = $match['current_time'];
         }
     ?>
     <div id="Match">

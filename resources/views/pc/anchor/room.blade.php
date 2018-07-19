@@ -154,6 +154,7 @@
         socket.on('server_send_message', function (data) {
 //            console.log(data);
             $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
+            $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
         });
         socket.on('server_match_change', function (data) {
 //            console.log(data);

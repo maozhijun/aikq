@@ -184,7 +184,7 @@ function postScore() {
                     'sport':data['sport'],
                     'time2':data['time2']
                 }
-                // console.log(score);
+                console.log(score);
                 io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
             }
         }

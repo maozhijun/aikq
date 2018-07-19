@@ -69,6 +69,8 @@ class Kernel extends ConsoleKernel
         //主播相关定时任务
         CheckStreamCommand::class,//检查主播流是否在直播，没直播的则修改为 结束直播状态
         StreamKeyFrameCommand::class,//获取正在直播的主播直播流的关键帧
+        SocketScoreCacheCommand::class,
+        AnchorLivingCacheCommand::class,
     ];
 
     /**

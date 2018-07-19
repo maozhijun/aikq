@@ -578,7 +578,7 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         borderColor: '0x000000', //边框颜色
         radius: 3, //圆角弧度
         alpha:0,//总体透明度
-        bgAlpha: 50, //背景透明度
+        bgAlpha: 0, //背景透明度
         xWidth: 20, //宽度修正
         xHeight: 5, //高度修正
         pic: ['img/WechatIMG60.jpeg','img/icon_close_btn_video.png','temp/temp3.png'], //附加图片地址数组，可以增加多个图片

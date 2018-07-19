@@ -25,7 +25,15 @@ class AnchorController extends Controller
         $result['hotAnchors'] = Anchor::getHotAnchor();
         $result['livingRooms'] = AnchorRoom::getLivingRooms();
         $hotMatches = AnchorRoomTag::getHotMatch();
-        $result['hotMatches'] = $hotMatches;
+        $tmp = array();
+        foreach ($hotMatches as $hotMatch) {
+            $match = $hotMatch->getMatch();
+            if ($match['status'] >= 0) {
+                $tmp[] = $hotMatch;
+//                dump($match);
+            }
+        }
+        $result['hotMatches'] = $tmp;
         $result['check'] = 'anchor';
         return view('pc.anchor.index',$result);
     }
