@@ -43,6 +43,10 @@
                 alert("请输入新密码");
                 return false;
             }
+            if ($.trim(newP).length < 6) {
+                alert("密码不能少于6位字符");
+                return false;
+            }
             if ($.trim(copyP) == "") {
                 alert("再次输入新密码");
                 return false;
