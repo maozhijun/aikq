@@ -442,10 +442,13 @@ class LiveController extends Controller
      */
     public function matchPlayerChannel(Request $request,$mid,$sport){
         $ch = curl_init();
-        if ($sport == 3)
+        if ($sport == 3) {
             $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
-        else
+        } else if ($sport == 2) {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$mid" . '.json';
+        } else {
             $url = env('LIAOGOU_URL')."aik/lives/detailJson/$mid" . '.json';
+        }
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
@@ -455,15 +458,18 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if ($code == 200 && isset($json) && isset($json['live']) && isset($json['live']['channels'])){
             $channels = $json['live']['channels'];
-        }
-        else{
+        } else{
             $channels = array();
         }
         $ch = curl_init();
-        if ($sport == 3)
+        if ($sport == 3) {
             $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/mobile/$mid" . '.json';
-        else
+        } else if ($sport == 2) {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$mid" . '.json';
+        } else {
             $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$mid" . '.json';
+        }
+
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT,8);
