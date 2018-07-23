@@ -55,7 +55,10 @@
         <ul>
             @foreach($livingRooms as $livingRoom)
                 <li><a href="/m/anchor/room/{{$livingRoom['id']}}.html">
-                        <div class="imgbox" style="background: url('{{$livingRoom['cover']}}'); background-size: cover;"><p>{{$livingRoom->anchor->name}}</p></div>
+                        <div class="imgbox">
+                            <img src="{{$livingRoom['cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                            <p>{{$livingRoom->anchor->name}}</p>
+                        </div>
                         <p class="name">{{$livingRoom['title']}}</p>
                     </a></li>
             @endforeach
