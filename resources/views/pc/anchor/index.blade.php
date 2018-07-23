@@ -52,7 +52,9 @@
                     @foreach($hotAnchors as $hotAnchor)
                         <div class="item">
                             <a href="/anchor/room/{{$hotAnchor->room->id}}.html" target="_blank">
-                                <div class="imgbox" style="background: url({{$hotAnchor['icon']}}) no-repeat center; background-size: cover;"></div>
+                                <div class="imgbox">
+                                    <img src="{{$hotAnchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
+                                </div>
                                 <p>{{$hotAnchor['name']}}</p>
                             </a>
                         </div>
@@ -72,7 +74,9 @@
                                 <?php
                                 $cover = isset($livingRoom['live_cover'])?$livingRoom['live_cover']:$livingRoom['cover']
                                 ?>
-                                <div class="imgbox" style="background: url({{$cover}}) no-repeat center; background-size: cover;"></div>
+                                <div class="imgbox">
+                                    <img src="{{$cover}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                                </div>
                                 <div class="info">
                                     <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
