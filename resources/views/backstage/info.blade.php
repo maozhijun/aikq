@@ -50,7 +50,7 @@
 				<div class="item">
 					<p class="name">主播间封面：</p>
 					<img src="{{ (!isset($room) || empty($room->cover)) ? '/backstage/img/image_picture_n.jpg' : $room->cover}}" class="cover">
-					<button id="room_file">上传</button>
+					<button id="room_file">上传</button><button id="room_clean">清除</button>
 					<div class="prompt">
 						<p>*图片大小不得大于<b>1M</b></p>
 					</div>
@@ -61,7 +61,8 @@
 					<input name="_token" value="{{csrf_token()}}" type="hidden">
 					<input name="room_title" value="" type="hidden" >
 					<input name="anchor_icon" type="file" style="display: none;">
-					<input name="room_cover" type="file" style="display: none;">
+					<input name="room_cover" onchange="readImg(this, 'cover');" type="file" style="display: none;">
+					<input name="clean" type="hidden" value="0">
 					<button type="submit">保存</button>
 				</form>
 			</div>
@@ -76,11 +77,20 @@
         $("#room_file").click(function () {
             $("input[name=room_cover]").trigger("click");
         });
+        $("#room_clean").click(function () {
+            $("img.cover").attr("src", "/backstage/img/image_picture_n.jpg");
+
+            var $roomCover = $("input[name=room_cover]");
+            var $parent = $roomCover.parent();
+            $roomCover.remove();
+            $parent.append("<input name=\"room_cover\" onchange=\"readImg(this, 'cover');\" type=\"file\" style=\"display: none;\">");
+            $("input[name=clean]").val(1);
+        });
 
         //在input file内容改变的时候触发事件
-        $('input[name=room_cover]').change(function(){
-            readImg(this, 'cover');
-        });
+        // $('input[name=room_cover]').change(function(){
+        //     readImg(this, 'cover');
+        // });
 
         $('input[name=anchor_icon]').change(function(){
             readImg(this, 'face');
@@ -98,10 +108,13 @@
             //读取文件成功后执行的方法函数
             reader.onload=function(e){
                 //读取成功后返回的一个参数e，整个的一个进度事件
-                console.log(e);
+                //console.log(e);
                 //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
                 //的base64编码格式的地址
                 $('.' + className).get(0).src = e.target.result;
+                if (className == 'cover') {
+                    $("input[name=clean]").val(0);
+				}
             }
         }
 
