@@ -28,7 +28,7 @@ class AnchorController extends Controller
         $tmp = array();
         foreach ($hotMatches as $hotMatch) {
             $match = $hotMatch->getMatch();
-            if ($match['status'] >= 0) {
+            if (isset($match)&& $match['status'] >= 0) {
                 $tmp[] = $hotMatch;
 //                dump($match);
             }
@@ -114,7 +114,9 @@ class AnchorController extends Controller
         $hotMatches = AnchorRoomTag::getHotMatch();
         $tmp = array();
         foreach ($hotMatches as $hotMatch) {
-            $tmp[] = $hotMatch->appModel();
+            $match = $hotMatch->appModel();
+            if (isset($match) && $match['match']['status'] >= 0)
+                $tmp[] = $match;
         }
         $result['hotMatches'] = $tmp;
         //正在直播

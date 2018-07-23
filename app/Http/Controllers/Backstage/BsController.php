@@ -506,7 +506,7 @@ class BsController extends Controller
      */
     protected function findFootballMatches($search) {
         //
-        $start = date('Y-m-d H:i');
+        $start = date('Y-m-d H:i', strtotime('-3 hours'));
         $end = date('Y-m-d H:i', strtotime('+7 days'));
         $query = Match::query();
         $query->where('status', '>=', 0);
@@ -527,7 +527,7 @@ class BsController extends Controller
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
     protected function findBasketballMatches($search) {
-        $start = date('Y-m-d H:i');
+        $start = date('Y-m-d H:i', strtotime('-3 hours'));
         $end = date('Y-m-d H:i', strtotime('+7 days'));
         $query = BasketMatch::query();
         $query->where('status', '>=', 0);
