@@ -171,6 +171,7 @@ class BsController extends Controller
      */
     public function saveInfo(Request $request) {
         $room_title = $request->input('room_title');//房间名称
+        $clean = $request->input('clean');//是否清除房间封面图
 //        if (empty($room_title)) {
 //            return back()->with(['error'=>'房间标题不能为空']);
 //        }
@@ -195,7 +196,10 @@ class BsController extends Controller
                 $room->title = $room_title;
                 $isEdit = true;
             }
-            if ($request->hasFile("room_cover")) {
+            if ($clean == 1) {
+                $room->cover = null;
+                $isEdit = true;
+            } else if ($request->hasFile("room_cover")) {
                 $cover = $this->saveUploadedFile($request->file("room_cover"), 'cover');
                 $room->cover = $cover->getUrl();
                 $isEdit = true;

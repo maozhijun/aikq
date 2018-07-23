@@ -1025,7 +1025,7 @@ class LiveController extends Controller
                 curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
                 $mobile_json = curl_exec ($ch);
                 curl_close ($ch);
-                $mobile_json = $pc_json;
+                //$mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
                 }
