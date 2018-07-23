@@ -89,8 +89,6 @@ class SocketScoreCacheCommand extends Command
                 }
             }
         }
-
-        dump($score);
         Redis::set('redis_refresh_match',json_encode($score));
     }
 

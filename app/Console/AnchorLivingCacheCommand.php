@@ -59,7 +59,6 @@ class AnchorLivingCacheCommand extends Command
                 );
             }
         }
-        dump($string);
         Redis::set('redis_living_room',json_encode($string));
     }
 }
