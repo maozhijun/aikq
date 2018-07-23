@@ -7,6 +7,8 @@ function setPage(){
 	$('#Hot button.right').click(function () {
 		scrollRight()
 	})
+
+	$('#Anchor .imgbox').height($('#Anchor .imgbox').width());
 }
 
 function setADClose () {
