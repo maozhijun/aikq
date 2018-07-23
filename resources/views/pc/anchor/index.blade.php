@@ -72,7 +72,7 @@
                         <div class="item">
                             <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
                                 <?php
-                                $cover = isset($livingRoom['live_cover'])?$livingRoom['live_cover']:$livingRoom['cover']
+                                $cover = isset($livingRoom['cover'])?$livingRoom['cover']:$livingRoom['live_cover']
                                 ?>
                                 <div class="imgbox">
                                     <img src="{{$cover}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
