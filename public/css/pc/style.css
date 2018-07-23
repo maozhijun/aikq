@@ -26,7 +26,7 @@ html{height: 100%;}
 body{
 	min-height: 100%;
 	padding: 90px 14% 134px;
-	background: url(/img/pc/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
+	background: url(../img/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 	position: relative;
@@ -92,6 +92,7 @@ body{
 #Navigation .inner{
 	height: 58px;
 	/*background: url(../img/image_slogan.png) no-repeat center; background-size: 120px;*/
+	font-size: 0;
 	position: initial;
 }
 #Navigation img.icon{
@@ -101,21 +102,21 @@ body{
 	position: relative; top: 8px;
 }
 #Navigation a.column{
-	height: 60px; width: 10%; min-width: 40px; max-width: 120px;
+	height: 60px; width: 9%; min-width: 40px; max-width: 120px;
 	margin-left: 60px;
 	font-size: 22px; line-height: 60px; text-align: center; color: #000;
 	position: relative;
 	display: inline-block;
 }
 #Navigation a.column + a.column{
-	margin-left: 40px;
+	margin-left: 2.2%;
 }
 #Navigation a.column:hover, #Navigation a.on{
 	background: #4492fd;
 	color: #fff;
 }
 #Navigation img.icon + a.column{
-	margin-left: 214px;
+	margin-left: 5% !important;
 }
 #Navigation .inner p.wx{
 	height: 58px;
@@ -193,6 +194,7 @@ body{
 	color: #bc1c25;
 }
 
+
 /*弹框*/
 .pop{
 	background: rgba(40,0,0,0.5);
@@ -249,7 +251,17 @@ body{
 
 
 
-
+@media screen and (max-width: 1300px){
+	#Navigation a.column{
+		width: 8.5%;
+		margin-left: 1.5% !important;
+		font-size: 17px;
+		vertical-align: top;
+	}
+	#Navigation .inner p.wx{
+		font-size: 14px;
+	}
+}
 
 
 

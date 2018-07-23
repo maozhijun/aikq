@@ -17,6 +17,7 @@ class HomeController extends Controller
                     'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                     'weixin'=>'kanqiu858',
                     'ios_version'=>'1.0.0',
+                    'android_version'=>'1.0.0',
                     'update_url'=>'https://shop.liaogou168.com'
                 ]
             ]

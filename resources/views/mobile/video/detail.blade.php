@@ -44,5 +44,11 @@
             setPage();
         }
     </script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        var ua = navigator.userAgent;
+        if (ua.indexOf('Liaogou168') > 0){
+            $('#Navigation').remove();
+            $('body').css('padding','0')
+        }
+    </script>
 @endsection

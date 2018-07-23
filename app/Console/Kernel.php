@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Anchor\CheckStreamCommand;
+use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Subject\CoverCommand;
 use App\Console\Subject\DetailCommand;
@@ -62,6 +64,12 @@ class Kernel extends ConsoleKernel
         BasketballMatchCommand::class,//同步basket_matches数据到爱看球
         BasketballUpdateMatchCommand::class,//更新basket_matches数据到爱看球
         //同步数据相关 结束
+
+        //主播相关定时任务
+        CheckStreamCommand::class,//检查主播流是否在直播，没直播的则修改为 结束直播状态
+        StreamKeyFrameCommand::class,//获取正在直播的主播直播流的关键帧
+        SocketScoreCacheCommand::class,
+        AnchorLivingCacheCommand::class,
     ];
 
     /**
@@ -111,6 +119,14 @@ class Kernel extends ConsoleKernel
         //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
+
+        //主播定时任务
+        $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
+        $schedule->command("anchor_key_frame:run")->everyFiveMinutes();//每5分钟获取直播的直播流的关键帧
+        //appsocket相关
+        $schedule->command("socket_score_cache:run")->everyMinute();//每分钟检查正在直播的比分变化
+        $schedule->command("anchor_living_cache:run")->everyFiveMinutes();//每分钟看看有多少主播在播
+
     }
 
     /**

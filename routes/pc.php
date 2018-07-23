@@ -149,3 +149,12 @@ Route::group([], function () {
     Route::get("/app/v101/config.json", "HomeController@appConfig");
     Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 });
+
+//主播
+Route::group(["namespace" => 'Anchor'], function () {
+    Route::get("/anchor/index.html", "AnchorController@index");//首页
+    Route::get("/anchor/room/{room_id}.html", "AnchorController@room");//房间
+    Route::get('/anchor/room/player/{room_id}.html',"AnchorController@player");//播放器 静态化
+
+    Route::get('/anchor/room/url/{room_id}.json',"AnchorController@playerUrl");//直播链接
+});

@@ -75,3 +75,9 @@ Route::group(["namespace" => 'Live'], function () {
 //    //channel通用
 //    Route::get("/match/live/url/channel/{id}.json", 'LiveController@getLiveUrl');
 });
+
+//主播
+Route::group(["namespace" => 'Anchor'], function () {
+    Route::get("/anchor/index.html", "AnchorController@index");//比赛比分数据
+    Route::get("/anchor/room/{room_id}.html", "AnchorController@room");//比赛比分数据
+});

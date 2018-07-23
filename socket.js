@@ -2,15 +2,17 @@ var app = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http, {'transports': ['websocket', 'polling']});
 var Redis = require('ioredis');
-var redis = new Redis();
+var php_redis = new Redis();
+var redis = require("redis"),
+    client = redis.createClient();
 
 var crypto = require('crypto');
 
-redis.subscribe('notification', function(err, count) {
+php_redis.subscribe('notification', function(err, count) {
     console.log('connect!');
 });
 
-redis.on('message', function(channel, notification) {
+php_redis.on('message', function(channel, notification) {
     // console.log(notification);
     notification = JSON.parse(notification);
     // 將訊息推播給使用者
@@ -18,6 +20,7 @@ redis.on('message', function(channel, notification) {
     // io.emit('bjtest', notification.data.message);
     console.log('api send done');
 });
+
 
 io.on('connect', function (socket) {
     console.log('a user connected');
@@ -92,6 +95,32 @@ io.on('connect', function (socket) {
             var current_time = Date.parse( new Date())/1000 + '';
             if (result == verification && Math.abs(current_time - time) < 10) {
                 socket.join('mid:' + mid);
+
+                if (info.nickname && info.nickname.length > 0){
+                    var nickname = info.nickname;
+                    var tmp = {
+                        'message': '进入了直播间',
+                        'nickname':nickname ,
+                        'type':99 ,
+                        'time':info.time
+                    }
+                    io.to('mid:' + mid).emit('server_send_message', tmp);
+                }
+
+                //直播人数
+                client.get(mid+'_userCount', function(err, object) {
+                    var count = 0;
+                    if (null == err) {
+                        count = parseInt(object);
+                        if (myIsNaN2(count)){
+                            count = 0;
+                        }
+                        // console.log('count ' + count);
+                    }
+                    client.set(mid+'_userCount', (count+1), function(err) {
+                        // console.log(err)
+                    });
+                });
             }
             else{
 
@@ -101,7 +130,92 @@ io.on('connect', function (socket) {
             console.log(e);
         }
     });
+
+    socket.on('disconnect', function (socket) {
+        client.get(mid+'_userCount', function (err, object) {
+            var count = 0;
+            if (null == err) {
+                count = parseInt(object);
+                if (myIsNaN2(count)){
+                    count = 0;
+                }
+            }
+            if (count <= 0){
+                count = 1;
+            }
+            client.set(mid+'_userCount', (count - 1), function (err) {
+
+            });
+        });
+    });
 });
+
+function myIsNaN2(value) {
+    return typeof value === 'number' && isNaN(value);
+}
+
+//定时任务
+var schedule = require('node-schedule');
+function scheduleCronstyle(){
+    for (var i = 0 ; i < 12 ; i++){
+        schedule.scheduleJob(i*5 + ' * * * * *',function(){
+            // console.log('scheduleCronstyle:'+new Date());
+            postScore();
+        });
+    }
+    schedule.scheduleJob('5 * * * * *',function(){
+        // console.log('scheduleCronstyle:'+new Date());
+        postColor();
+    });
+}
+
+function postScore() {
+    //缓存里面拿数据
+    client.get('redis_refresh_match', function(err, object) {
+        if (null == err && object != null) {
+            var datas = JSON.parse(object);
+            for (var i = 0 ; i < datas.length ; i++){
+                var data = datas[i];
+                var score = {
+                    'hscore':data['hscore'],
+                    'ascore':data['ascore'],
+                    'time':data['time'],
+                    'status':data['status'],
+                    'sport':data['sport'],
+                    'time2':data['time2']
+                }
+                console.log(score);
+                io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
+            }
+        }
+    });
+}
+
+function postColor() {
+    //缓存里面拿数据
+    client.get('redis_refresh_color', function(err, object) {
+        if (null == err && object != null && object.length > 0) {
+            var datas = JSON.parse(object);
+            for (var i = 0 ; i < datas.length ; i++){
+                var data = datas[i];
+                var score = {
+                    'h_color':data['h_color'],
+                    'a_color':data['a_color']
+                }
+                // console.log(score);
+                io.to('mid:' + '99_'+data['room_id']).emit('server_color_change', score);
+            }
+
+            // var tmp = [];
+            client.set('redis_refresh_color',  '', function(err) {
+                // console.log(err)
+            });
+        }
+    });
+}
+
+scheduleCronstyle();
+
 
 // 監聽 6001 port
 http.listen(6001, function() {

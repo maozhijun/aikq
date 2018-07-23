@@ -1,0 +1,293 @@
+﻿
+body{
+	padding-top: 60px;
+	background: #f7f7f7;
+}
+#Bottom{
+	background: #f7f7f7;
+}
+
+body:before, body:after{
+	height: 1080px;
+	position: fixed; top: 0; z-index: -1;
+	content: '';
+}
+body:before{
+	width: 124px;
+	background: url(/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	left: 0;
+}
+body:after{
+	width: 317px;
+	background: url(/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	right: 0;
+}
+
+
+#Hot{
+	margin-bottom: 20px;
+	background: #fff;
+	position: relative;
+}
+#Hot .title{
+	height: 30px;
+	padding-left: 26px;
+	font-size: 14px; line-height: 30px; text-align: left; color: #6c7e98;
+	position: relative;
+}
+#Hot .title:before{
+	width: 6px; height: 22px;
+	margin-top: -11px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 0;
+	content: '';
+}
+#Hot button.left, #Hot button.right{
+	width: 30px; height: 30px;
+	border-radius: 50%;
+	position: absolute; top: 95px;
+}
+#Hot button.left{
+	background: url(/img/pc/icon_left_light.png) no-repeat center; background-size: 30px;
+	left: -34px;
+}
+#Hot button.right{
+	background: url(/img/pc/icon_right_light.png) no-repeat center; background-size: 30px;
+	right: -34px;
+}
+#Hot button.left:hover{
+	background: url(/img/pc/icon_left_hover.png) no-repeat center; background-size: 30px;
+}
+#Hot button.right:hover{
+	background: url(/img/pc/icon_right_hover.png) no-repeat center; background-size: 30px;
+	right: -34px;
+}
+#Hot button.left:disabled{
+	background: url(/img/pc/icon_left_grey.png) no-repeat center; background-size: 30px;
+	left: -34px;
+}
+#Hot button.right:disabled{
+	background: url(/img/pc/icon_right_grey.png) no-repeat center; background-size: 30px;
+	right: -34px;
+}
+#Hot .list{
+	height: 170px;
+	padding: 10px 0; margin: 0 12px;
+	font-size: 0px;
+	overflow: hidden; white-space:nowrap;
+}
+#Hot .list .item{
+	height: 170px; width: 20%;
+	display: inline-block;
+}
+#Hot .list .item a{
+	height: 170px;
+	margin: 0 5px; padding: 0;
+	border-radius: 8px;
+	box-shadow: 0px 0px 6px 0px rgba(0, 10, 24, 0.2);
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Hot .list .item a p.time{
+	padding: 0 10px;
+	background: rgba(0,0,0,0.2);
+	font-size: 12px; line-height: 30px; text-align: left; color: #b1bed0;
+	position: absolute; top: 0; left: 0; right: 0;
+}
+#Hot .list .item a p.time span{
+	float: right;
+}
+#Hot .list .item a .team{
+	height: 80px;
+	padding-top: 50px;
+	background: url(/img/pc/image_bg_match_n.jpg) no-repeat center; background-size: cover;
+	font-size: 0px;
+}
+#Hot .list .item a .team .host, #Hot .list .item a .team .away{
+	width: 45%; height: 60px;
+	font-size: 12px; line-height: 12px; text-align: center; color: #fff;
+	display: inline-block;
+	overflow: hidden;
+}
+#Hot .list .item a .team .vs{
+	width: 10%; height: 60px;
+	position: relative;
+	display: inline-block;
+}
+#Hot .list .item a .team .vs span{
+	width: 100px;
+	margin-left: -50px;
+	font-size: 12px; line-height: 12px; text-align: center; color: #fff;
+	position: absolute; top: 15px; left: 50%;
+}
+#Hot .list .item a .team .vs span.live{
+	color: #ff9f65;
+}
+#Hot .list .item a .team img{
+	width: 40px; height: 40px;
+	margin: 0 auto 8px;
+	border-radius: 50%;
+	display: block;
+}
+
+#Hot .list .item a p.anchor{
+	height: 40px;
+	padding: 0 10px;
+	font-size: 12px; line-height: 40px; text-align: left; color: #6c7e98;
+	overflow: hidden;
+}
+#Hot .list .item a:hover p.anchor{
+	color: #4492fd;
+}
+
+#Anchor{
+	margin-bottom: 20px;
+	background: #fff;
+	position: relative;
+}
+#Anchor .title{
+	height: 30px;
+	padding-left: 26px;
+	font-size: 14px; line-height: 30px; text-align: left; color: #6c7e98;
+	position: relative;
+}
+#Anchor .title:before{
+	width: 6px; height: 22px;
+	margin-top: -11px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 0;
+	content: '';
+}
+#Anchor .list{
+	padding: 10px 0; margin: 0 12px;
+	font-size: 0px;
+	overflow: hidden; white-space: nowrap;
+}
+#Anchor .list .item{
+	width: 12.5%;
+	display: inline-block;
+}
+#Anchor .list .item a{
+	margin: 0 5px; padding: 0;
+	border-radius: 8px;
+	box-shadow: 0px 0px 6px 0px rgba(0, 10, 24, 0.2);
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Anchor .list .item a:before{
+	height: 80px;
+	background: #f3f3f3;
+	position: absolute; top: 0; left: 0; right: 0; z-index: 0;
+	content: '';
+}
+#Anchor .list .item a .imgbox{
+	height: 80px;
+	position: relative; z-index: 1;
+}
+#Anchor .list .item a p{
+	height: 30px;
+	font-size: 12px; line-height: 30px; text-align: center; color: #6c7e98;
+	overflow: hidden;
+}
+#Anchor .list .item a:hover p{
+	color: #4492fd;
+}
+
+#Live{
+	margin-bottom: 20px;
+	background: #fff;
+	position: relative;
+}
+#Live .title{
+	height: 30px;
+	padding-left: 26px;
+	font-size: 14px; line-height: 30px; text-align: left; color: #6c7e98;
+	position: relative;
+}
+#Live .title:before{
+	width: 6px; height: 22px;
+	margin-top: -11px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 0;
+	content: '';
+}
+#Live .list{
+	padding: 10px 0; margin: -23px 12px 0;
+	font-size: 0px;
+	overflow: hidden;
+}
+#Live .list .item{
+	width: 25%;
+	margin-top: 23px;
+	vertical-align: top;
+	display: inline-block;
+}
+#Live .list .item a{
+	margin: 0 5px; padding: 0;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Live .list .item a:before{
+	height: 135px;
+	border-radius: 4px 4px 0 0;
+	background: #f3f3f3;
+	position: absolute; top: 0; left: 0; right: 0; z-index: 0;
+	content: '';
+}
+#Live .list .item a .imgbox{
+	height: 135px;
+	margin-bottom: 8px;
+	position: relative; z-index: 1;
+}
+#Live .list .item a .info{
+	height: 44px;
+	padding: 6px 0 0 50px;
+	position: relative;
+}
+#Live .list .item a .info img{
+	height: 40px; width: 40px;
+	border-radius: 50%;
+	position: absolute; top: 2px; left: 1px;
+}
+#Live .list .item a .info p.room{
+	height: 14px;
+	margin-bottom: 11px;
+	font-size: 14px; line-height: 14px; text-align: left; color: #545557;
+	overflow: hidden;
+}
+#Live .list .item a .info p.name{
+	height: 12px;
+	font-size: 12px; line-height: 12px; text-align: left; color: #6c7e98;
+	overflow: hidden;
+}
+#Live .list .item a .info p.name span{
+	height: 12px;
+	padding-left: 27px; margin-left: 10px;
+	background: url(/img/pc/icon_number_n.png) no-repeat left center; background-size: auto 12px;
+	color: #95b6e3;
+	display: block;
+	float: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,104 @@
+﻿@charset "utf-8";
+/* CSS Document */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td ,button { margin: 0; padding: 0; border: 0; outline: 0; font-style: inherit; font-size: 100%; font-family: inherit; }
+:focus { outline: 0; }
+table { border-collapse: separate; border-spacing: 0; overflow: auto; table-layout: fixed;}
+caption, th, td { font-weight: normal;}
+a img, iframe { border: none; padding: 0px;}
+ol, ul { list-style: none; }
+input, textarea, select, button { font-size: 100%; box-shadow:none; margin: 0; padding: 0; line-height: normal;}
+input:focus, textarea:focus{ border-color: #4492fd !important;}
+select { margin: 0; appearance:none; -moz-appearance:none; -webkit-appearance:none;}
+select::-ms-expand { display: none; }
+div{max-height: 999999px;}
+ol { margin-left:2em; }
+em{ font-style:normal; }
+a{text-decoration:none; -webkit-tap-highlight-color: rgba(255,255,255,0);}
+a,a:link,a:visited,a:active{ color: inherit; cursor: pointer; -webkit-tap-highlight-color:rgba(0,0,0,0); color: #4492fd;}
+button{ text-align: center; border: 0px; cursor: pointer; -webkit-tap-highlight-color:rgba(0,0,0,0); background: none;}
+input:-webkit-autofill { background-color: none; } 
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{ -webkit-appearance: none !important; margin: 0; }
+input[type="number"]{-moz-appearance:textfield;}
+label{cursor: pointer;}
+
+/*body高度适配*/
+html{height: 100%;}
+body{
+	min-height: 100%;
+	color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
+	background: #f2f1f4;
+	box-sizing: border-box;
+	-webkit-text-size-adjust: none;
+	position: relative;
+}
+
+
+/*顶部*/
+#Navigation{
+	height: 60px;
+	padding: 0 14%;
+	background: #fff;
+	box-shadow: 0px 2px 6px 0px rgba(0, 49, 117, 0.5);
+	position: relative; z-index: 10;
+}
+#Navigation .inner{
+	height: 60px;
+	background: url(../img/image_logo.jpg) no-repeat center; background-size: 120px;
+	font-size: 0;
+	position: initial;
+}
+#Navigation .inner a{
+	margin: 20px 20px 0 10px;
+	font-size: 12px; line-height: 20px; text-align: right; color: #545557;
+	display: block;
+	float: right;
+}
+#Navigation .inner a:hover{
+	color: #4492fd;
+}
+
+
+
+/*内容*/
+#Content{
+	padding: 0 14%; margin: 20px 0 80px;
+}
+#Content .inner{
+	padding-left: 200px;
+	background: #fff;
+	position: relative;
+}
+
+#Tab{
+	width: 200px;
+	padding-top: 15%;
+	background: #fafbfd;
+	position: absolute; top: 0; bottom: 0; left: 0;
+}
+#Tab a{
+	height: 44px;
+	font-size: 14px; line-height: 44px; text-align: center; color: #8a8a8a;
+	position: relative;
+	display: block;
+}
+#Tab a.on{
+	padding-right: 6px;
+	border-left: 6px solid #4492fd; border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;
+	background: #fff;
+	color: #4492fd;
+}
+#Tab a:hover{
+	background: #fff;
+	color: #4492fd;
+}
+
+
+
+
+
+
+
+
+
+
+

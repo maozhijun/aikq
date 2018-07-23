@@ -1,0 +1,61 @@
+﻿
+
+#Login{
+	background: url(../img/bg_login.jpg) no-repeat center; background-size: cover;
+	position: absolute; top: 60px; bottom: 0; left: 0; right: 0;
+}
+
+
+.login{
+	height: 210px; width: 320px;
+	margin: -160px 0 0 -160px;
+	position: absolute; top: 50%; left: 50%;
+}
+
+#Login input{
+	height: 30px; width: 300px;
+	padding: 10px; margin: 0 0 20px 0; 
+	border-radius: 4px; border: none;
+	background: #fff;
+	font-size: 14px; line-height: 30px; text-align: center;
+	display: block;
+}
+#Login button{
+	height: 50px; width: 200px;
+	margin: 50px auto 0;
+	border-radius: 4px; border: 1px solid #fafafa;
+	background: rgba(255,255,255,0.2);
+	font-size: 16px; line-height: normal; text-align: center; color: #fff;
+	display: block;
+}
+#Login button:hover{
+	background: rgba(255,255,255,0.6);
+}
+
+
+
+.password{
+	height: 306px; width: 400px;
+	margin: -200px 0 0 -200px;
+	position: absolute; top: 50%; left: 50%;
+}
+.password .title{
+	margin-bottom: 40px; padding-left: 80px;
+	font-size: 16px; line-height: 16px; text-align: center; color: #fff; font-weight: bold;
+}
+.password .box{
+	padding-left: 80px;
+	position: relative;
+}
+#Login .password input{
+	padding: 5px 10px;
+}
+.password .box p{
+	width: 70px;
+	font-size: 14px; line-height: 40px; text-align: right; color: #fff;
+	position: absolute; top: 0; bottom: 0; left: 0;
+	overflow: hidden;
+}
+
+
+

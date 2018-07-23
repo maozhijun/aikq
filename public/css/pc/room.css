@@ -1,0 +1,154 @@
+﻿
+body{
+	padding-top: 60px;
+	background: #3e6294;
+}
+#Bottom{
+	background: #3e6294;
+	color: #acc4dc;
+}
+#Bottom a{
+	color: #acc4dc;	
+}
+
+body:before, body:after{
+	height: 1080px;
+	position: fixed; top: 0; z-index: -1;
+	content: '';
+}
+body:before{
+	width: 124px;
+	background: url(/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	left: 0;
+}
+body:after{
+	width: 317px;
+	background: url(/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	right: 0;
+}
+
+
+#Content .inner{
+	height: 510px;
+	padding: 72px 24% 10px 20px;
+	background: url(/img/pc/image_bg_room.jpg) no-repeat center; background-size: cover;
+	position: relative;
+}
+
+#Info{
+	height: 52px;
+	padding-left: 72px;
+	position: absolute; top: 10px; left: 20px;
+}
+#Info img{
+	width: 52px; height: 52px;
+	border-radius: 50%;
+	position: absolute; top: 0; left: 0;
+}
+#Info h1{
+	height: 22px;
+	padding-top: 7px; margin-bottom: 10px;
+	font-size: 18px; lighting-color: 18px; text-align: left; color: #fff; font-weight: bold;
+	overflow: hidden;
+}
+#Info p{
+	font-size: 12px; line-height: 12px; text-align: left; color: #b1c4de;
+}
+#Info p span.color{
+	height: 12px; width: 4px;
+	margin: -1px 4px 0;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#MyFrame{
+	width: 100%; height: 100%;
+	background: #000;
+}
+
+#Chat{
+	width: 24%;
+	padding: 20px 0 90px;
+	background: rgba(0,0,0,0.2);
+	position: absolute; top: 0; bottom: 0; right: 0;
+}
+#Chat ul{
+	height: 100%;
+	margin: 0 10px;
+	overflow-x: hidden; overflow-y: auto; 
+}
+#Chat ul::-webkit-scrollbar{
+	display: none;
+}
+#Chat ul li{
+	font-size: 12px; line-height: 16px; text-align: left; color: #fff;
+}
+#Chat ul li + li{
+	margin-top: 13px;
+}
+#Chat ul li span{
+	color: #9dc6ff;
+}
+
+#Chat .chatbox{
+	height: 70px;
+	padding-right: 50px;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0px 2px 6px 0px rgba(8, 41, 26, 0.3);
+	position: absolute; bottom: 10px; left: 7px; right: 7px;
+	overflow: hidden;
+}
+#Chat .chatbox button{
+	width: 50px;
+	background: #3688ff;
+	font-size: 14px; line-height: normal; text-align: center; color: #fff;
+	position: absolute; top: 0; bottom: 0; right: 0;
+}
+#Chat .chatbox button:disabled{
+	background: #bccce1;
+	color: #8fa1b8;
+}
+#Chat .chatbox .name{
+	height: 28px;
+	padding-left: 54px;
+	border-bottom: 1px solid #e4ecf6;
+	position: relative;
+}
+#Chat .chatbox .name:before{
+	height: 28px;
+	position: absolute; top: 0; left: 20px;
+	font-size: 12px; line-height: 28px; text-align: left; color: #545557;
+	content: '昵称：';
+}
+#Chat .chatbox .name input{
+	width: 100%; height: 28px;
+	padding: 0; margin: 0;
+	border: none;
+	font-size: 12px; line-height: 28px; text-align: left; color: #3688ff;
+}
+#Chat .chatbox .text{
+	padding: 0 20px;
+}
+#Chat .chatbox textarea{
+	height: 32px; width: 100%;
+	padding: 5px 0 4px; margin: 0;
+	border: none;
+	font-size: 12px; line-height: 16px; text-align: left; color: #545557;
+	resize: none;
+}
+#Chat .chatbox textarea::-webkit-scrollbar{
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+

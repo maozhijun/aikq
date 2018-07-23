@@ -143,6 +143,7 @@ class LiveController extends Controller
             } else{
                 Storage::disk("public")->put("/static/json/lives.json", $server_output);
                 Storage::disk("public")->put("/app/v101/lives.json", $server_output);
+                Storage::disk("public")->put("/app/v110/lives.json", $server_output);
             }
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -1008,6 +1009,7 @@ class LiveController extends Controller
                 }
                 $appData = json_encode($appData);
                 Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
+                Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
 //                $ch = curl_init();
@@ -1386,7 +1388,7 @@ class LiveController extends Controller
         $channels = array();
         if ($json['live'] && $json['live']['channels']) {
             foreach ($json['live']['channels'] as $channel) {
-                if (!stristr($channel['link'],'leqiuba.cc'))
+                if (isset($channel['link']) && !stristr($channel['link'],'leqiuba.cc'))
                 {
                     //乐球吧不要
                     $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
@@ -1397,6 +1399,7 @@ class LiveController extends Controller
         }
         $appData = json_encode($appData);
         Storage::disk("public")->put("/app/v101/lives/" . $sport . '/' . $mid . '.json', $appData);
+        Storage::disk("public")->put("/app/v110/lives/" . $sport . '/' . $mid . '.json', $appData);
     }
 
     public function appLiveDetail(Request $request,$sport,$mid){

@@ -112,7 +112,7 @@
 }
 #Video .outPlay{
 	width: 100%; height: 420px;
-	background: url(/img/customer2/bg_video.jpg) no-repeat center; background-size: cover;
+	background: url(/img/mobile/bg_video.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 #Video .outPlay:before{
@@ -350,7 +350,7 @@ div#Event dl dt.end{
 }
 div#Event dl dt:first-child{
 	padding-bottom: 72px;
-	background: url(/img/customer2/icon_video_end.png) no-repeat center bottom 24px; background-size: 30px;
+	background: url(../../img/customer2/icon_video_end.png) no-repeat center bottom 24px; background-size: 30px;
 	top: -92px;
 }
 div#Event dl dt:first-child:before{
@@ -363,7 +363,7 @@ div#Event dl dt:first-child:before{
 }
 div#Event dl dt:last-child{
 	padding-top: 72px;
-	background: url(/img/customer2/icon_video_begin.png) no-repeat center 24px; background-size: 30px;
+	background: url(../../img/customer2/icon_video_begin.png) no-repeat center 24px; background-size: 30px;
 	bottom: -92px;
 }
 div#Event dl dt:last-child:before{
@@ -447,7 +447,7 @@ div#Event dl dd.away ul li img{
 
 /*微信*/
 #WX{
-	background: url(/img/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(../img/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
 
