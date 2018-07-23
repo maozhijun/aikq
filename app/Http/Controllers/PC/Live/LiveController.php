@@ -1018,13 +1018,13 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
-//                $ch = curl_init();
-//                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
-//                curl_setopt($ch, CURLOPT_URL,$url);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
-//                $mobile_json = curl_exec ($ch);
-//                curl_close ($ch);
+                $ch = curl_init();
+                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
+                $mobile_json = curl_exec ($ch);
+                curl_close ($ch);
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
