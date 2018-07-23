@@ -107,7 +107,16 @@ function LoadCK (Link){ //m3u8
     var video=[''+Link+'->video/mp4'];
     CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
     if (isPhone()) {
-        $('video').attr('playsinline','true')
+        $('video').attr('playsinline','true');
+        $('video').attr('x-webkit-airplay','true');
+        $('video').attr('webkit-playsinline','true');
+        $('video').attr('x5-playsinline','true');
+
+        $('video').attr('muted','');
+        $('video').attr('autoplay','autoplay');
+        $('video').attr('x5-autoplay','autoplay');
+        $('video').attr('x-webkit-autoplay','autoplay');
+        $('video').attr('webkit-autoplay','autoplay');
     }
 }
 
@@ -240,16 +249,18 @@ function CloseLoading () {
 function loadHandler(){
     if(CKobject.getObjectById('ckplayer_a1').getType()){
         console.log('播放器已加载，调用的是HTML5播放模块');
-        // CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
+        CKobject.getObjectById('ckplayer_a1').addListener('play',playHandler);
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer',bufferHandler);
         CKobject.getObjectById('ckplayer_a1').addListener('error',errorHandler);
+        // CKobject.getObjectById('ckplayer_a1').addListener('paused',pausedHandler);
     }
     else{
         console.log('播放器已加载，调用的是Flash播放模块');
         CKobject.getObjectById('ckplayer_a1').addListener('play','playHandler');
         // CKobject.getObjectById('ckplayer_a1').addListener('buffer','bufferHandler');
         CKobject.getObjectById('ckplayer_a1').addListener('error','errorHandler');
-        //CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
+        // CKobject.getObjectById('ckplayer_a1').addListener('coordinateChange','coordinateHandler');
+        CKobject.getObjectById('ckplayer_a1').addListener('textBoxShow','textBoxShowHandler');
     }
 }
 
@@ -271,6 +282,7 @@ function playHandler (){
             checkActive();
         }, 15 * 60 * 1000);
     }
+    $('#WaitWarm').remove()
 }
 
 function bufferHandler (num) {
