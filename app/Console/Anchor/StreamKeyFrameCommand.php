@@ -60,7 +60,7 @@ class StreamKeyFrameCommand extends Command
             if (!empty($stream)) {
                 $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
                 self::spiderRtmpKeyFrame($stream, $outPath);
-                $room->live_cover = "/cover/room/" . $room->id . ".jpg";
+                $room->live_cover = "/cover/room/" . $room->id . ".jpg?rd=" . date('YmdH:i');
                 $room->save();
             }
         }
