@@ -176,16 +176,29 @@ function postScore() {
             var datas = JSON.parse(object);
             for (var i = 0 ; i < datas.length ; i++){
                 var data = datas[i];
-                var score = {
-                    'hscore':data['hscore'],
-                    'ascore':data['ascore'],
-                    'time':data['time'],
-                    'status':data['status'],
-                    'sport':data['sport'],
-                    'time2':data['time2']
+                if (data['sport'] == 1){
+                    var score = {
+                        'hscore':data['hscore'],
+                        'ascore':data['ascore'],
+                        'time':data['time'],
+                        'status':data['status'],
+                        'sport':data['sport'],
+                    }
+                    // console.log(score);
+                    io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
                 }
-                console.log(score);
-                io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
+                else if(data['sport'] == 2){
+                    var score = {
+                        'hscore':data['hscore'],
+                        'ascore':data['ascore'],
+                        'time':data['time'],
+                        'status':data['status'],
+                        'sport':data['sport'],
+                        'time2':data['time2']
+                    }
+                    // console.log(score);
+                    io.to('mid:' + '99_'+data['room_id']).emit('server_match_change', score);
+                }
             }
         }
     });

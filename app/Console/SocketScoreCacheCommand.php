@@ -73,7 +73,7 @@ class SocketScoreCacheCommand extends Command
                     $item['ascore'] = $match['ascore'];
                     $item['status'] = $match['status'];
                     $item['time'] = $match['time'];
-                    $item['time2'] = $match['time'];
+//                    $item['time2'] = $match['time'];
                     $score[] = $item;
                 }
             }

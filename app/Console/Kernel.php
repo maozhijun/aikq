@@ -126,7 +126,6 @@ class Kernel extends ConsoleKernel
         //appsocket相关
         $schedule->command("socket_score_cache:run")->everyMinute();//每分钟检查正在直播的比分变化
         $schedule->command("anchor_living_cache:run")->everyFiveMinutes();//每分钟看看有多少主播在播
-
     }
 
     /**

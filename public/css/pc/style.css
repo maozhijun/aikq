@@ -26,7 +26,7 @@ html{height: 100%;}
 body{
 	min-height: 100%;
 	padding: 90px 14% 134px;
-	background: url(../img/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
+	background: url(/img/pc/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 	position: relative;

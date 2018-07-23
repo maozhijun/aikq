@@ -53,7 +53,7 @@
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player.js?rd=201803030035"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player.js?rd=201807231742"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
@@ -172,7 +172,12 @@
     });
 
     socket.on('server_send_message', function (data) {
-        popText(data['message'],data['nickname']);
+        if (data['type'] && data['type'] == 99){
+
+        }
+        else {
+            popText(data['message'], data['nickname']);
+        }
     });
 </script>
 </html>

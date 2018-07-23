@@ -38,10 +38,6 @@
         </div>
     </div>
     @endif
-    <div class="nolist separated">
-        <img src="/img/pc/image_blank_noneanchor_n.png">
-        <p>还没有主播在直播喔~</p>
-    </div>
     <div class="default" id="Anchor">
         <div class="title">
             <p>热门主播</p>
@@ -63,6 +59,10 @@
                         <p class="name">{{$livingRoom['title']}}</p>
                     </a></li>
             @endforeach
+                <div class="nolist separated">
+                    <img src="/img/pc/image_blank_noneanchor_n.png">
+                    <p>还没有主播在直播喔~</p>
+                </div>
         </ul>
     </div>
 @endsection
@@ -74,14 +74,14 @@
                 <p>直播</p>
             </a>
         </dd>
-        <dd class="on">
-            <a>
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_s.png">
-                <p>主播</p>
-            </a>
-        </dd>
+        {{--<dd class="on">--}}
+            {{--<a>--}}
+                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_s.png">--}}
+                {{--<p>主播</p>--}}
+            {{--</a>--}}
+        {{--</dd>--}}
         <dd>
-            <a href="">
+            <a href="/m/live/subject/videos/all/1.html">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">
                 <p>录像</p>
             </a>
