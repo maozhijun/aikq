@@ -353,23 +353,23 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $id, $immediate = false) {
-//        $ch = curl_init();
-//        if ($immediate) {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id";
-//        } else {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,15);
-//        $server_output = curl_exec ($ch);
-//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
-        $akqCon = new AikanQController();
-        $jsonStr = $akqCon->detailJson($request, $id)->getData();
-        $jsonStr = json_encode($jsonStr);
-        $json = json_decode($jsonStr, true);
+        $ch = curl_init();
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,env('', 5));
+        $server_output = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+//        $akqCon = new AikanQController();
+//        $jsonStr = $akqCon->detailJson($request, $id)->getData();
+//        $jsonStr = json_encode($jsonStr);
+//        $json = json_decode($jsonStr, true);
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
@@ -987,16 +987,16 @@ class LiveController extends Controller
             $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
             //$json = $this->getLiveUrl($request, $id);
             //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
-//            $ch = curl_init();
-//            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
-//            curl_setopt($ch, CURLOPT_URL,$url);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
-//            $pc_json = curl_exec ($ch);
-//            curl_close ($ch);
-            $aiCon = new AikanQController();
-            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
-            $pc_json = json_encode($jsonStr);
+            $ch = curl_init();
+            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
+            $pc_json = curl_exec ($ch);
+            curl_close ($ch);
+//            $aiCon = new AikanQController();
+//            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
+//            $pc_json = json_encode($jsonStr);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
                 //每一个channel的player页面生成
