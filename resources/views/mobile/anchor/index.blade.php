@@ -14,6 +14,7 @@
     </div>
 @endsection
 @section('content')
+    @if(isset($hotMatches) && count($hotMatches) > 0)
     <div id="Hot">
         <div class="inner">
             @foreach($hotMatches as $hotMatch)
@@ -35,6 +36,11 @@
                 </a>
             @endforeach
         </div>
+    </div>
+    @endif
+    <div class="nolist separated">
+        <img src="/img/pc/image_blank_noneanchor_n.png">
+        <p>还没有主播在直播喔~</p>
     </div>
     <div class="default" id="Anchor">
         <div class="title">

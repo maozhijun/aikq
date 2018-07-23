@@ -17,7 +17,7 @@
 	font-size: 40px; line-height: 60px; text-align: center;
 }
 #Info .score p{
-	margin: 0 -66px;
+	margin: 0 -100px;
 	font-size: 60px; line-height: 60px;
 	position: relative;
 }
@@ -447,7 +447,7 @@ div#Event dl dd.away ul li img{
 
 /*微信*/
 #WX{
-	background: url(../img/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
 

@@ -13,6 +13,7 @@
 @section('content')
     <div id="Content">
         <div class="inner">
+            @if(isset($hotMatches) && count($hotMatches) > 0)
             <div id="Hot">
                 <p class="title">焦点赛事</p>
                 @if(count($hotMatches) > 5)
@@ -43,6 +44,7 @@
                             @endif
                     @endforeach
                 </div>
+                @endif
             </div>
             <div id="Anchor">
                 <p class="title">主播推荐</p>
