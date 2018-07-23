@@ -13,15 +13,8 @@
 @section('banner')
     <div id="Navigation">
         <div class="banner">
-            <p class="type">
-                {{--<button onclick="changeTab('football')" @if(!isset($type) || $type == 'football') class="on" @endif id="Football" name="type">足球</button>--}}
-                {{--<button onclick="changeTab('basketball')" @if(isset($type) && $type == 'basketball') class="on" @endif id="Basketball" name="type">篮球</button>--}}
-                {{--<button onclick="changeTab('other')" @if(isset($type) && $type == 'other') class="on" @endif id="Other" name="type">其他</button>--}}
-                <button onclick="changeTab('live')" @if(!isset($type) || $type == 'live') class="on" @endif id="Football" name="type">直播</button>
-                <button onclick="changeTab('video')" @if(isset($type) && $type == 'video') class="on" @endif id="Basketball" name="type">录像</button>
-                <button onclick="window.open('https://shop.liaogou168.com/article/recommends')" @if(isset($type) && $type == 'other') class="on" @endif id="Other" name="type">推荐</button>
-                {{--<button onclick="window.open('/downloadPhone.html')" id="download" name="type">下载</button>--}}
-            </p>
+            <!-- <p class="type"><button class="on" id="Football" name="type">足球</button><button id="Basketball" name="type">篮球</button><button id="Other" name="type">其他</button></p> -->
+            <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">
         </div>
     </div>
 @endsection
@@ -70,6 +63,34 @@
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
     <p id="PC"><a href="/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+@endsection
+@section('bottom')
+    <dl id="Bottom">
+        <dd class="on">
+            <a href="">
+                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_live_s.png">
+                <p>直播</p>
+            </a>
+        </dd>
+        {{--<dd class="">--}}
+            {{--<a href="/m/anchor/index.html">--}}
+                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">--}}
+                {{--<p>主播</p>--}}
+            {{--</a>--}}
+        {{--</dd>--}}
+        <dd>
+            <a href="/m/live/subject/videos/all/1.html">
+                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">
+                <p>录像</p>
+            </a>
+        </dd>
+        <dd>
+            <a href="https://shop.liaogou168.com">
+                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">
+                <p>推荐</p>
+            </a>
+        </dd>
+    </dl>
 @endsection
 @section('js')
     <script type="text/javascript">
