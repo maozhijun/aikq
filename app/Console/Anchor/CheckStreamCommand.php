@@ -48,7 +48,7 @@ class CheckStreamCommand extends Command
     {
         //获取正在直播的主播房间
         $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-2 minutes')));
+        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-4 minutes')));
         $rooms = $query->get();
 
         foreach ($rooms as $room) {
@@ -63,14 +63,16 @@ class CheckStreamCommand extends Command
                 } else {
                     $isLive = false;
                 }
-                if (!$isLive) {
-                    $this->setUnLive($room);
-                }
+
             } else {
-                $isLive = $this->streamCheck($stream);
-                if (!$isLive) {
-                    $this->setUnLive($room);
-                }
+                $isLive = $this->rtmpStreamCheck($stream, $room->id);
+//                $isLive = $this->streamCheck($stream);
+//                if (!$isLive) {
+//                    $this->setUnLive($room);
+//                }
+            }
+            if (!$isLive) {
+                $this->setUnLive($room);
             }
         }
     }
@@ -78,14 +80,19 @@ class CheckStreamCommand extends Command
     //验证流是否正常
     protected function streamCheck($stream)
     {
+        $isHttps = preg_match("/https:\/\//", $stream);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $stream);
         curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); // connect timeout
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1); // curl timeout
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // connect timeout
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // curl timeout
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // curl timeout
+        if ($isHttps) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);    // https请求 不验证证书和hosts
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        }
         $exc = curl_exec($ch);
-        dump($exc);
+
         $status = false;
         if (TRUE === $exc) {
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

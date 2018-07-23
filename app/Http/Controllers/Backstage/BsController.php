@@ -552,7 +552,7 @@ class BsController extends Controller
      */
     protected function getPushLive($room_id, $level, $isHttp, $refresh = false) {
         $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
-        $url = $host . '/api/v1/get_push_stream?uid=12345&level=1' . ($refresh ? '&refresh=1' : '');
+        $url = $host . '/api/v1/get_push_stream?uid=' . $room_id . '&level=' . $level . ($refresh ? '&refresh=1' : '');
         $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 2, $isHttp);
         $json = json_decode($jsonStr, true);
         return $json;
