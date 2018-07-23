@@ -1,6 +1,6 @@
 @extends('pc.layout.anchor_base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807231848">
     <style>
         body {
             padding-top: 60px;
