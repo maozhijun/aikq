@@ -17,12 +17,19 @@ a#Down{
 	display: block;
 }
 
-.ios{
-	margin-top: 40px;
+.ios, .copy{
+	margin-top: 60px;
 	font-size: 28px; line-height: 40px; text-align: center; color: #9e9e9e;
-	display: inline-block;
+	/*display: inline-block;*/
 }
-
+.copy{
+	margin-top: 30px;
+}
+#Copy{
+	height: 0; width: 0;
+	position: absolute; left: 0; right: 0;
+	overflow: hidden;
+}
 
 
 #Step{

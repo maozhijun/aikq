@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ZH-CN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,7 +21,7 @@
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     var isApp = u.indexOf('Liaogou168') > -1 || u.indexOf('AKQ') > -1;
     if (!isAndroid && !isiOS && !isApp){
-        window.location = '/download.html';
+//        window.location = '/download.html';
     }
 </script>
 <body style="padding: 0px;">
@@ -30,11 +30,9 @@
 </div>
 <div id="qsk_click" style="height: 50px; padding-top: -88px; background-color: white"><p style="height:50px;line-height:50px;font-size: 30px;padding-left: 10px">请点击原网页打开</p></div>
     <div class="down">
-        <a download="android1_0_1.apk" id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist">立即下载</a>
-        <p class="ios">苹果用户安装步骤>></p>
-        <!--<p class="copy" style="display: none">【复制下载地址】</p>-->
+        <a download="android1_0_1.apk" id="Down" href="http://www.aikq.cc/downloadPhone.html">长按复制链接</a>
+        <p class="ios">长按复制链接使用safari打开</p>
     </div>
-    <!--<div id="Copy">http://www.aikq.cc/downloadPhone.html</div>-->
     <div id="Step" step="1" style="display: none;">
         <div class="inner">
             <button class="close"></button>
@@ -119,8 +117,6 @@
         $('#Step button.close').click(function () {
             $('#Step').css('display','none');
         })
-
-
     }
 
     function LeftSW () {

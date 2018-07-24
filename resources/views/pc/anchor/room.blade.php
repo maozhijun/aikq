@@ -41,7 +41,11 @@
                 ?>
                 <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!! $matchText !!}</p>
             </div>
-            <iframe src="/anchor/room/player/{{$room->id}}.html" id="MyFrame"></iframe>
+            <?php
+            $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
+            $link = 'https://www.aikq.cc/anchor/room/player/'.$room->id.'.html';
+            ?>
+            <iframe src="{{$link}}" id="MyFrame"></iframe>
             <div id="Chat">
                 <ul>
 
@@ -77,6 +81,11 @@
     </script>
     <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
     <script type="text/javascript">
+        var nickname = getCookie('ws_nickname');
+        if (nickname && nickname.length > 0){
+            $('.name').remove();
+        }
+
         function encodeUTF8(s){
             var i,r=[],c,x;
             for(i=0;i<s.length;i++)
@@ -143,10 +152,12 @@
             var in_string = Array.prototype.map.call(result,function(e){
                 return (e<16?"0":"")+e.toString(16);
             }).join("");
+            var nickname = getCookie('ws_nickname');
             var req = {
                 'mid':mid,
                 'time':time,
                 'verification':in_string,
+                'nickname':nickname
             }
             socket.emit('user_mid', req);
         });
@@ -175,14 +186,44 @@
             var in_string = Array.prototype.map.call(result,function(e){
                 return (e<16?"0":"")+e.toString(16);
             }).join("");
-            var nickname = document.getElementById('nickname').value;;
             var req = {
                 'message':message,
                 'time':time,
                 'verification':in_string,
-                'nickname':nickname
             };
+            var nickname = getCookie('ws_nickname');
+            if (nickname && nickname.length > 0){
+
+            }
+            else{
+                nickname = document.getElementById('nickname').value;
+            }
+            if (nickname.length > 0){
+                setCookie('ws_nickname',nickname,7);
+                req = {
+                    'message':message,
+                    'time':time,
+                    'verification':in_string,
+                    'nickname':nickname
+                };
+            }
             socket.emit('user_send_message', req);
+        }
+
+        function setCookie(name, value, days) {
+            days = /^\d+$/.test(days) ? days : 30;
+            var exp = new Date();
+            exp.setTime(exp.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + encodeURIComponent(value) + ";path=/;expires=" + exp.toGMTString();
+        }
+
+        function getCookie(name) {
+            var arr , reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if(arr = document.cookie.match(reg)) {
+                return decodeURIComponent(arr[2]);
+            } else {
+                return null;
+            }
         }
     </script>
 @endsection

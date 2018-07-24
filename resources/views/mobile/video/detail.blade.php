@@ -46,7 +46,7 @@
     </script>
     <script type="text/javascript">
         var ua = navigator.userAgent;
-        if (ua.indexOf('Liaogou168') > 0){
+        if (ua.indexOf('Liaogou168') > 0 || ua.indexOf('AKQ') > 0){
             $('#Navigation').remove();
             $('body').css('padding','0')
         }

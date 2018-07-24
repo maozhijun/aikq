@@ -18,7 +18,7 @@ class HomeController extends Controller
                     'weixin'=>'kanqiu858',
                     'ios_version'=>'1.0.0',
                     'android_version'=>'1.0.0',
-                    'update_url'=>'https://shop.liaogou168.com'
+                    'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser'
                 ]
             ]
         );
