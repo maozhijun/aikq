@@ -5,7 +5,7 @@
     <title>爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=20180619">
+    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=20180724">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
