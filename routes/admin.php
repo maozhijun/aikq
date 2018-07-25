@@ -126,6 +126,7 @@ Route::group(['namespace'=>'Anchor', 'middleware' => 'admin_auth'], function () 
     Route::post('/anchor/create', 'AnchorController@create');//新建主播
 
     Route::get('/anchor/room/list', 'AnchorRoomController@rooms');//主播房间列表
+    Route::get('/anchor/room/living_list', 'AnchorRoomController@living_rooms');//主播房间列表
     Route::post('/anchor/room/update', 'AnchorRoomController@update');//修改主播信息
 
     Route::get('/anchor/room/book_list', 'AnchorRoomController@bookList');//预约比赛列表

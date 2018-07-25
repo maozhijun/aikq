@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class Anchor extends Model{
     protected $connection = 'akq';
     static public function getHotAnchor(){
-        $anchors = Anchor::where('hot',1)->get();
+        $anchors = Anchor::where('hot',1)
+            ->orderby('sort','desc')
+            ->get();
         return $anchors;
     }
 

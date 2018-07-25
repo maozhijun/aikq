@@ -18,7 +18,7 @@ Route::group(["namespace" => 'Anchor'], function () {
 
 Route::group([], function () {
 //app配置
-    Route::get("/config.json", "HomeController@appConfig");
+    Route::get("/config.json", "HomeController@appConfigV110");
     //比赛 录像
     Route::get("/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 

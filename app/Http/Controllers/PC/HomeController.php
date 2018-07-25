@@ -16,9 +16,27 @@ class HomeController extends Controller
                     'more'=>'https://shop.liaogou168.com',
                     'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                     'weixin'=>'kanqiu858',
-                    'ios_version'=>'1.0.0',
-                    'android_version'=>'1.0.0',
-                    'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser'
+                    'ios_version'=>'1.1.0',
+                    'android_version'=>'1.1.0',
+                    'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
+                    'anchor'=>1,
+                ]
+            ]
+        );
+    }
+
+    public function appConfigV110(Request $request){
+        return response()->json(
+            [
+                'code'=>0,
+                'data'=>[
+                    'more'=>'https://m.liaogou168.com/',
+                    'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
+                    'weixin'=>'kanqiu858',
+                    'ios_version'=>'1.1.0',
+                    'android_version'=>'1.1.0',
+                    'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
+                    'anchor'=>1,
                 ]
             ]
         );

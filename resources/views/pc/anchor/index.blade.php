@@ -1,6 +1,6 @@
 @extends('pc.layout.anchor_base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807231848">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251701">
     <style>
         body {
             padding-top: 60px;
@@ -52,7 +52,7 @@
                     @foreach($hotAnchors as $hotAnchor)
                         <div class="item">
                             <a href="/anchor/room/{{$hotAnchor->room->id}}.html" target="_blank">
-                                <div class="imgbox">
+                                <div class="imgbox" style="height: 102px;">
                                     <img src="{{$hotAnchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
                                 </div>
                                 <p>{{$hotAnchor['name']}}</p>
@@ -72,7 +72,7 @@
                         <div class="item">
                             <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
                                 <?php
-                                $cover = isset($livingRoom['cover'])?$livingRoom['cover']:$livingRoom['live_cover']
+                                $cover = isset($livingRoom['live_cover'])?$livingRoom['live_cover']:$livingRoom['cover']
                                 ?>
                                 <div class="imgbox">
                                     <img src="{{$cover}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
@@ -96,6 +96,7 @@
         window.onload = function () { //需要添加的监控放在这里
             setPage();
             setADClose();
+            $('#Live .imgbox img').width($('#Anchor .imgbox').width());
         }
 
         function scroll () {
