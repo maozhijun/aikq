@@ -54,22 +54,15 @@ class CheckStreamCommand extends Command
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
             if (empty($stream)) {
-                $stream = $room->live_m3u8;
+                $stream = $room->live_rtmp;
             }
             if (empty($stream)) {
-                $stream = $room->live_rtmp;
-                if (!empty($stream)) {
-                    $isLive = $this->rtmpStreamCheck($stream, $room->id);
-                } else {
-                    $isLive = false;
-                }
-
-            } else {
+                $stream = $room->live_m3u8;
+            }
+            if (!empty($stream)) {
                 $isLive = $this->rtmpStreamCheck($stream, $room->id);
-//                $isLive = $this->streamCheck($stream);
-//                if (!$isLive) {
-//                    $this->setUnLive($room);
-//                }
+            } else {
+                $isLive = false;
             }
             if (!$isLive) {
                 $this->setUnLive($room);
@@ -120,9 +113,9 @@ class CheckStreamCommand extends Command
         $room->status = AnchorRoom::kStatusNormal;//设置不开播
         $room->url = null;
         $room->url_key = null;
-        $room->live_flv = null;
-        $room->live_rtmp = null;
-        $room->live_m3u8 = null;
+        //$room->live_flv = null;
+        //$room->live_rtmp = null;
+        //$room->live_m3u8 = null;
         $room->save();
     }
 
