@@ -124,8 +124,8 @@ class Kernel extends ConsoleKernel
         $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
         $schedule->command("anchor_key_frame:run")->everyFiveMinutes();//每5分钟获取直播的直播流的关键帧
         //appsocket相关
-        $schedule->command("socket_score_cache:run")->cron('*/2 * * * *');//每2分钟检查正在直播的比分变化
-        $schedule->command("anchor_living_cache:run")->everyFiveMinutes();//每分钟看看有多少主播在播
+        $schedule->command("socket_score_cache:run")->everyFiveMinutes();//每2分钟检查正在直播的比分变化
+        $schedule->command("anchor_living_cache:run")->everyTenMinutes();//每分钟看看有多少主播在播
     }
 
     /**
