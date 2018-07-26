@@ -51,6 +51,7 @@ class AnchorController extends Controller
         $anchor->name = $request->input('name');
         $anchor->phone = $request->input('phone');
         $anchor->hot = $request->input('hot');
+        $anchor->sort = $request->input('sort');
 
         if ($request->hasFile("icon")) {
             $icon = $this->saveUploadedFile($request->file("icon"), 'cover');

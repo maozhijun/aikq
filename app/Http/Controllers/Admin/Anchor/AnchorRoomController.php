@@ -20,6 +20,22 @@ use Illuminate\Support\Facades\Redis;
 class AnchorRoomController extends Controller
 {
     use UploadTrait;
+
+    /**
+     * 主播房间列表正在直播
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function living_rooms(Request $request){
+        $query = AnchorRoom::query();
+        $query->where('status',AnchorRoom::kStatusLiving);
+        $query->orderByDesc('created_at');
+        $page = $query->paginate(15);
+
+        $result['page'] = $page;
+        return view('admin.anchor.anchor_room_living_list', $result);
+    }
+
     /**
      * 主播房间列表
      * @param Request $request

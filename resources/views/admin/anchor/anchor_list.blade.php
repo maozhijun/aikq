@@ -16,6 +16,7 @@
                     <th width="10%">头像</th>
                     <th>电话</th>
                     <th width="10%">热门</th>
+                    <th width="10%">排序</th>
                     <th width="15%">操作</th>
                 </tr>
                 </thead>
@@ -43,6 +44,9 @@
                                     <option value="1" {{ $anchor->hot == 1 ? 'selected' : '' }}>热门</option>
                                     <option value="0" {{ $anchor->hot == 0 ? 'selected' : '' }}>一般</option>
                                 </select>
+                            </td>
+                            <td>
+                                <input type="text" name="sort" class="form-control" placeholder="排序" value="{{ $anchor->sort }}" >
                             </td>
                             <td>
                                 <p>
