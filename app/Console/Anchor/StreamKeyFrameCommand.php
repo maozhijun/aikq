@@ -59,19 +59,19 @@ class StreamKeyFrameCommand extends Command
 
             if (!empty($stream)) {
                 $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
-                self::spiderRtmpKeyFrame($stream, $outPath);
+                self::spiderKeyFrame($stream, $outPath);
                 $room->live_cover = "/cover/room/" . $room->id . ".jpg?rd=" . date('YmdH:i');
                 $room->save();
             }
         }
     }
 
-    public function spiderKeyFrame($stream, $outPath) {
+    public static function spiderKeyFrame($stream, $outPath) {
         exec('ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath);
     }
 
     public static function spiderRtmpKeyFrame($stream, $outPath) {
-        exec("ffmpeg -i $stream -f image2 -ss 1 -y -vframes 1 -s 220*135 $outPath");
+        exec("ffmpeg -i \"$stream\" -f image2 -ss 1 -y -vframes 1 -s 220*135 $outPath");
     }
 
 }

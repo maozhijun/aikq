@@ -99,7 +99,7 @@ class CheckStreamCommand extends Command
     protected function rtmpStreamCheck($stream, $room_id) {
         $path = '/public/cover/room/' . $room_id . '_test.jpg';
         $outPath = storage_path('app' . $path);
-        StreamKeyFrameCommand::spiderRtmpKeyFrame($stream, $outPath);//设置关键帧
+        StreamKeyFrameCommand::spiderKeyFrame($stream, $outPath);//设置关键帧
         try {
             Storage::get($path);//查看临时文件
             Storage::delete($path);//删除临时文件
