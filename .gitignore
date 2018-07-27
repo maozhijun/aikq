@@ -22,5 +22,6 @@ composer.lock
 publish.sh
 public/js/app.js
 public/js/echo.js
+public/anchor
 laravel-echo-server.json
 package-lock.json

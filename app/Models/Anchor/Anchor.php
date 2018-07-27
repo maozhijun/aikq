@@ -11,11 +11,28 @@ namespace App\Models\Anchor;
 use Illuminate\Database\Eloquent\Model;
 
 class Anchor extends Model{
+
     protected $connection = 'akq';
+    const kStatusValid = 1, kStatusInvalid = 2;
+
     static public function getHotAnchor(){
         $anchors = Anchor::where('hot',1)
             ->orderby('sort','desc')
             ->get();
+        return $anchors;
+    }
+
+    /**
+     * 获取有效的主播列表
+     * @param null $count
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getValidAnchors($count = null) {
+        $query = Anchor::query()->where('status',self::kStatusValid);
+        if (is_numeric($count) && $count > 0) {
+            $query->take($count);
+        }
+        $anchors = $query->get();
         return $anchors;
     }
 

@@ -99,7 +99,7 @@ class CheckStreamCommand extends Command
     protected function rtmpStreamCheck($stream, $room_id) {
         $path = '/public/cover/room/' . $room_id . '_test.jpg';
         $outPath = storage_path('app' . $path);
-        StreamKeyFrameCommand::spiderKeyFrame($stream, $outPath);//设置关键帧
+        StreamKeyFrameCommand::spiderRtmpKeyFrame($stream, $outPath);//设置关键帧
         try {
             Storage::get($path);//查看临时文件
             Storage::delete($path);//删除临时文件
@@ -113,9 +113,9 @@ class CheckStreamCommand extends Command
         $room->status = AnchorRoom::kStatusNormal;//设置不开播
         $room->url = null;
         $room->url_key = null;
-        //$room->live_flv = null;
-        //$room->live_rtmp = null;
-        //$room->live_m3u8 = null;
+        $room->live_flv = null;
+        $room->live_rtmp = null;
+        $room->live_m3u8 = null;
         $room->save();
     }
 

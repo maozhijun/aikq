@@ -27,6 +27,18 @@ class AnchorRoom extends Model{
     }
 
     /**
+     * 有效的主播房间
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function validRooms() {
+        $query = AnchorRoom::query();
+        $query->join('anchors', 'anchors.id', '=', 'anchor_rooms.anchor_id');
+        $query->where('anchors.status', Anchor::kStatusValid);
+        $query->select("anchor_rooms.*");
+        return $query->get();
+    }
+
+    /**
      * 正在直播什么比赛tag
      * @return Model|null|static
      */
