@@ -68,7 +68,7 @@ class AnchorDetailCommand extends Command
             //播放器静态化
             $player = $con->player($request, $room_id);
             if (!empty($player)) {
-                Storage::disk('public')->put('static/anchor/room/player/' . $room_id . '.html', $html);
+                Storage::disk('public')->put('static/anchor/room/player/' . $room_id . '.html', $player);
             }
             unset($roomArray[$index]);
         }
