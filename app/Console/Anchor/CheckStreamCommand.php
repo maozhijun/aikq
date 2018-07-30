@@ -54,10 +54,10 @@ class CheckStreamCommand extends Command
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
             if (empty($stream)) {
-                $stream = $room->live_rtmp;
+                $stream = $room->live_m3u8;
             }
             if (empty($stream)) {
-                $stream = $room->live_m3u8;
+                $stream = $room->live_rtmp;
             }
             if (!empty($stream)) {
                 $isLive = $this->rtmpStreamCheck($stream, $room->id);
