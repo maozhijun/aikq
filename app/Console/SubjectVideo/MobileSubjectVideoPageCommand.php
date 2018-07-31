@@ -49,9 +49,7 @@ class MobileSubjectVideoPageCommand extends Command
         $start = time();
         $videoIntF = new SubjectVideoController();
         $leagues = $videoIntF->getLeagues();
-
         foreach ($leagues as $tid=>$league) {//暂时只静态化 all
-            //if ($tid != 'all') continue;
             if (isset($league['count']) && $league['count'] == 0) {
                 continue;
             }
