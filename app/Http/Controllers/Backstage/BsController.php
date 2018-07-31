@@ -17,21 +17,23 @@ class BsController extends Controller
 {
     const BS_LOGIN_SESSION = 'AKQ_BS_LOGIN_SESSION';
     /**
-     * 足球
-        大平台：英超、西甲、中超、欧冠杯、亚冠
-        中平台：德甲、意甲、法甲、欧罗巴杯、澳洲甲、中甲
-        小平台：除了上述的其他
+     *足球
 
+    大平台（3级）：英超、西甲、中超、德甲、欧冠杯、亚冠杯、意甲、法甲、吉尼斯杯、欧洲杯
+    中平台（2级）：日职联、澳洲甲、韩K联、美职联、巴西甲、墨西联、中甲、德乙、英冠、英甲、英乙、荷甲、苏超、葡超、俄超、瑞典超、挪超、瑞士超、丹麦超、欧罗巴杯、日职乙、友谊赛、南球杯、自由杯
+    小平台（1级）：除了上述的其他赛事
 
-        篮球
-        大平台：NBA
-        中平台：CBA
-        小平台：除了上述的其他
+    篮球
+
+    大平台（3级）：NBA、CBA
+    中平台（2级）：欧洲篮球冠军联赛
+    小平台（1级）：除了上述的其他赛事
+     *
      */
-    const FOOTBALL_BIG_LEAGUE = [31, 26, 46, 73, 139];
-    const FOOTBALL_MIDDLE_LEAGUE = [8, 29, 11, 77, 187, 47];
-    const BASKETBALL_BIG_LEAGUE = [1, 3];
-    const BASKETBALL_MIDDLE_LEAGUE = [4, 5];
+    const FOOTBALL_BIG_LEAGUE = [31, 26, 46,8, 73, 139,29,11,728,50];
+    const FOOTBALL_MIDDLE_LEAGUE = [21, 187,15,18,4,100,47,9,32,33,30,16,24,20,10,22,19,23,7,77,191,35,184,68];
+    const BASKETBALL_BIG_LEAGUE = [1, 4];
+    const BASKETBALL_MIDDLE_LEAGUE = [89];
 
     use UploadTrait;
 
