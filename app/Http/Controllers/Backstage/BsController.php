@@ -113,6 +113,22 @@ class BsController extends Controller
 
             //获取推流地址 开始
             $liveMatch = $room->getLivingMatch();
+            //有正在直播的预约才能开始
+            $canLiving = false;
+            if (isset($liveMatch)) {
+                if ($liveMatch['status'] > 0) {
+                    $canLiving = true;
+                } else {
+                    //30分钟内
+                    if ($liveMatch['status'] == 0 && $liveMatch['time'] - date_create()->getTimestamp() < 30 * 60) {
+                        $canLiving = true;
+                    }
+                }
+            }
+            if (!$canLiving) {
+                return response()->json(['code' => -1, 'message' => '只能在预约比赛正在进行或预约比赛30分钟前才能开播', 'data' => $canLiving]);
+            }
+
             $liveLevel = $this->getLiveLevel($liveMatch['lid'], $liveMatch['sport']);
             $json = $this->getPushLive($room->id, $liveLevel, false, $refresh == 1);
             if (is_null($json) || !isset($json['data']['push_rtmp']) || !isset($json['data']['push_key'])) {
