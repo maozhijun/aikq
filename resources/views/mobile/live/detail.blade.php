@@ -116,7 +116,6 @@
         @endif
             <iframe id="Frame"></iframe>
             <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
-            {{--<div class="publicAd"><a href="/downloadPhone.html"><img src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a></div>--}}
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg">
