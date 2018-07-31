@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    <a href="/downloadPhone.html"><img style="width: 100%" src="/img/mobile/image_ad_wap.jpg"></a>
+    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="/img/mobile/image_ad_wap.jpg"></a>
     <?php $week_array = array('周日','周一','周二','周三','周四','周五','周六'); ?>
     @foreach($matches as $time=>$match_array)
         <?php $week = date('w', strtotime($time)); ?>
@@ -38,7 +38,7 @@
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
-    <p id="PC"><a href="/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    <p id="PC"><a href="http://mp.dlfyb.com/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 
 @section('bottom')
