@@ -80,6 +80,9 @@
                                 <div class="info">
                                     <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
+                                    <?php
+                                    $count = 255*(1+$count) + random_int(1,99);
+                                    ?>
                                     <p class="name"><span>{{$count}}人</span>{{$livingRoom->anchor->name}}</p>
                                 </div>
                             </a>
