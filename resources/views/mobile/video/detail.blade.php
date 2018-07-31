@@ -1,6 +1,10 @@
+<?php
+    $keywords = "爱看球," . $match['lname'] ."录像," . $match['hname'] . "," . $match['aname'];
+    $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清全场回放";
+?>
 @extends('mobile.layout.base')
 @section('title')
-    <title>爱看球|{{$match['lname']}}录像|【{{$match['hname'] . ' VS ' . $match['aname']}}】</title>
+    <title>爱看球|{{$match['lname']}}录像|【{{date('Y-m-d H:i', $match['time']) . ' ' . $match['hname'] . ' VS ' . $match['aname']}}】</title>
 @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css">
