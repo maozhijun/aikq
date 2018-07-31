@@ -373,6 +373,7 @@ class LiveController extends Controller
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
         } else {
             return abort(404);
         }
@@ -402,6 +403,9 @@ class LiveController extends Controller
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+        } else {
+            return abort(404);
         }
         $this->_saveAppData($json,2,$id);
         return view('pc.live.video', $json);
@@ -430,6 +434,9 @@ class LiveController extends Controller
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+        } else {
+            return abort(404);
         }
         $this->_saveAppData($json,3,$id);
         return view('pc.live.video', $json);

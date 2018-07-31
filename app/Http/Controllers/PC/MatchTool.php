@@ -68,6 +68,17 @@ trait MatchTool
         return $url;
     }
 
+    public static function subjectPatch($id, $type) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $path = '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
+        return $path;
+    }
+
     /**
      * 集锦/录像 线路的路径
      * @param $id

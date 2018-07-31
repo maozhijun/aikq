@@ -28,6 +28,9 @@ class SubjectVideoController extends Controller
     public function videos(Request $request, $type, $page = 1) {
         $leagues = $this->getLeagues();
         $videos = $this->getSubjectVideos($type, $page);
+        if (!isset($videos['videos'])) {
+            return abort(404);
+        }
         return $this->videosHtml($type, $leagues, $videos);
     }
 
@@ -164,14 +167,14 @@ class SubjectVideoController extends Controller
         $data = $this->getSubjectVideos($type, $page, $isMobile);
         if ($isMobile) {
             $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-            if ($page == 1) {
+            //if ($page == 1) {
                 //第一页静态化页面
                 $m_html = $msCon->subjectVideosHtml($data);
                 if (!empty($m_html)) {
                     $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
                     Storage::disk("public")->put($patch, $m_html);
                 }
-            }
+            //}
 
             //静态化json
             if (isset($data['page']) && isset($data['videos'])) {
@@ -185,7 +188,7 @@ class SubjectVideoController extends Controller
             foreach ($videos as $video) {
                 $m_detail_html = $msCon->subjectVideoDetailHtml($video);
                 if (!empty($m_detail_html)) {
-                    $m_patch = MatchTool::subjectLink($video['id'], 'video');
+                    $m_patch = MatchTool::subjectPatch($video['id'], 'video');
                     $m_patch = '/static/m' . $m_patch;
                     Storage::disk("public")->put($m_patch, $m_detail_html);
                 }

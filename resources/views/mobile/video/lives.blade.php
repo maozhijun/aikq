@@ -1,18 +1,20 @@
+<?php
+    $keywords = "爱看球,爱看球录像,中超录像,英超录像,全场回放,高清录像";
+    $description = "爱看球录像，为球迷收录各大联赛的精彩录像、高清录像。";
+?>
 @extends('mobile.layout.base')
 @section("body_attr") onscroll="scrollBottom(loadVideos);" @endsection
 @section('title')
-    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
+    <title>爱看球-爱看球录像|NBA录像|英超录像|意甲录像|西甲录像|全场回放|高清录像</title>
 @endsection
-
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201804">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=2018050001">
     <style>
         #Navigation {
             background: #4492fd;
         }
     </style>
 @endsection
-
 @section('banner')
     <div id="Navigation">
         <div class="banner">

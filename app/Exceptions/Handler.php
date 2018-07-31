@@ -46,14 +46,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $userAgent = $request->userAgent();
+        $mobile = preg_match("/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i", $userAgent);
+
         if ($exception instanceof HttpException) {
             $code = $exception->getStatusCode();
-            if ($code == 404) return response(view('pc.404'), 404);
+            if ($code == 404) {
+                if ($mobile) {
+                    return response(view('mobile.404'), 301);
+                } else {
+                    return response(view('pc.404'), 301);
+                }
+            }
         }
 
         if ($exception instanceof NotFoundHttpException) {
-            $userAgent = $request->userAgent();
-            $mobile = preg_match("/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i", $userAgent);
             if ($mobile) {
                 return response(view('mobile.404'), 301);
             } else {

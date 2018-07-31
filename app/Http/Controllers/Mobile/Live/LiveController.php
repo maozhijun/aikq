@@ -217,14 +217,14 @@ class LiveController extends Controller
         $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
         curl_close ($ch);
         if ($http_code >= 400) {
-            return;
+            return abort(404);
         }
         $json = json_decode($server_output,true);
         if (is_null($json)) {
-            return;
+            return abort(404);
         }
         if (!isset($json['videos'])) {
-            return;
+            return abort(404);
         }
         return $this->subjectVideosHtml($json);
     }
