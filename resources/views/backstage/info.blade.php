@@ -191,6 +191,13 @@
                 "dataType": "json",
                 "data": {"refresh": refulsh},
                 "success": function (json) {
+                	if (json.code == 1){
+                		var book = confirm(json.message);
+						if (book){
+							window.location = '/bs/matches';
+						}
+                		return;
+					}
                     alert(json.message);
                     if (json.code == 200) {
                         if ($btn) $btn.hide();

@@ -126,7 +126,7 @@ class BsController extends Controller
                 }
             }
             if (!$canLiving) {
-                return response()->json(['code' => -1, 'message' => '只能在预约比赛正在进行或预约比赛30分钟前才能开播', 'data' => $canLiving]);
+                return response()->json(['code' => 1, 'message' => '只能在预约比赛正在进行或预约比赛30分钟前才能开播', 'data' => $canLiving]);
             }
 
             $liveLevel = $this->getLiveLevel($liveMatch['lid'], $liveMatch['sport']);
