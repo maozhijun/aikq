@@ -27,9 +27,12 @@
         $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
     ?>
     <meta charset="UTF-8">
+    @yield("meta")
     <title>{{$title}}</title>
+    @if(!isset($noMeta) || !$noMeta)
     <meta name="Keywords" content="{{$keywords}}">
     <meta name="Description" content="{{$description}}">
+    @endif
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">

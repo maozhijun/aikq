@@ -52,8 +52,15 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof NotFoundHttpException) {
-            return redirect('/');
+            $userAgent = $request->userAgent();
+            $mobile = preg_match("/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i", $userAgent);
+            if ($mobile) {
+                return response(view('mobile.404'), 301);
+            } else {
+                return response(view('pc.404'), 301);
+            }
         }
+
         return parent::render($request, $exception);
     }
 
