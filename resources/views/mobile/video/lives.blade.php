@@ -49,12 +49,12 @@
                 <p>直播</p>
             </a>
         </dd>
-        {{--<dd class="">--}}
-            {{--<a href="/m/anchor/index.html">--}}
-                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">--}}
-                {{--<p>主播</p>--}}
-            {{--</a>--}}
-        {{--</dd>--}}
+        <dd class="">
+            <a href="/m/anchor/index.html">
+                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">
+                <p>主播</p>
+            </a>
+        </dd>
         <dd class="on">
             <a href="">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_s.png">
