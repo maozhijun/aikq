@@ -42,12 +42,18 @@
 </div>
 <iframe width="100%" height="100%" id="MyFrame">
 </iframe>
+<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
+    <a href="http://mp.dlfyb.com/downloadPhone.html" target="_top"><img src="/img/mobile/image_ad_wap.jpg" width="100%"></a>
+</div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!--[if lte IE 8]>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript">
+    function closeAD(button) {
+        $(button).parent().remove();
+    }
     //获取是S还是非S
     function GetHttp () {
         if (location.href.indexOf('https://') != -1) {

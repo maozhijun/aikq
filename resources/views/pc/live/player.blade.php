@@ -80,16 +80,6 @@
         //判断
 
         if(isMobile){
-            // var ADDHtml = '<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;">' +
-            // 			  '<button style="width: 50px; height: 50px; background: url(img/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>' +
-            // 			  '<a href="downloadPhone.html" target="_top"><img src="img/image_ad_wap.jpg" width="100%"></a>' +
-            // 			  '</div>';
-            // $('#MyFrame').after(ADDHtml)
-
-            // $('.publicAd button').click(function () {
-            // 	$(this).parents('.publicAd').remove();
-            // })
-
             var Warm = '<div id="WaitWarm">视频加载需要时间，请耐心等待10秒！</div>';
             $('#MyFrame').after(Warm)
         }
