@@ -110,3 +110,30 @@ a#Down{
 	background: #4492fd;
 }
 
+#Share{
+	background: rgba(0,0,0,0.7);
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10;
+}
+#Share:before{
+	width: 136px; height: 136px;
+	background: url(/img/mobile/image_guide_n.png) no-repeat center; background-size: 136px;
+	position: absolute; top: 30px; right: 92px;
+	content: '';
+}
+#Share p{
+	height: 80px;
+	padding: 0 24px;
+	border: 2px dashed #fff; border-radius: 8px;
+	font-size: 32px; line-height: 80px; text-align: center; color: #fff;
+	position: absolute; top: 200px; right: 100px;
+}
+#Share p span{
+	padding: 0 8px;
+	font-size: 40px;
+}
+#Share button{
+	width: 224px; height: 120px;
+	margin-left: -112px;
+	background: url(/img/mobile/image_isee_n.png) no-repeat center; background-size: cover;
+	position: absolute; bottom: 14%; left: 50%;
+}

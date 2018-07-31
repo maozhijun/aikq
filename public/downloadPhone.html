@@ -5,7 +5,7 @@
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="/css/mobile/style_phone.css">
-    <link rel="stylesheet" type="text/css" href="/css/mobile/downloadPhone.css">
+    <link rel="stylesheet" type="text/css" href="/css/mobile/downloadPhone.css?201707311745">
     <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="img/ico.ico">
     <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     <style>
@@ -65,6 +65,10 @@
             </div>
         </div>
     </div>
+<div id="Share" style="display: none;">
+    <p>请使用<span>系统浏览器</span>打开</p>
+    <button onclick="$(this).parent().css('display','none')"></button>
+</div>
 </body>
 <script src="/js/jquery.js"></script>
 <script src="/js/jquery.mobile.js"></script>
@@ -79,8 +83,10 @@
     }
     if (isWeiXin()){
         $('a#Down').attr('href','');
-        if (isiOS)
-            $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
+        if (isiOS) {
+            document.getElementById('Share').style.display = '';
+            $('a#Down').attr('onclick', 'alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在Safari中打开，即可下载")');
+        }
         else{
             $('a#Down').attr('onclick','alert("请点击微信右上角按钮，然后在弹出的菜单中，点击在【浏览器中打开】，即可下载")');
         }
