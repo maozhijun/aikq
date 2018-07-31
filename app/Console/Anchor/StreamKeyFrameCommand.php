@@ -67,11 +67,11 @@ class StreamKeyFrameCommand extends Command
     }
 
     public static function spiderKeyFrame($stream, $outPath) {
-        exec('ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath);
+        exec('ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 -t 1 ' . $outPath);
     }
 
     public static function spiderRtmpKeyFrame($stream, $outPath) {
-        exec("ffmpeg -i \"$stream\" -f image2 -ss 1 -y -vframes 1 -s 220*135 $outPath");
+        exec("ffmpeg -i \"$stream\" -f image2 -ss 1 -y -vframes 1 -t 1 -s 220*135 $outPath");
     }
 
 }

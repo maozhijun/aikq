@@ -22,14 +22,17 @@
         }
     </script>
     <?php
-        $title = isset($title) ? $title : '爱看球-爱看球直播|世界杯直播|俄罗斯|沙特|爱看球JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线';
-        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,俄罗斯,沙特,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
+        $title = isset($title) ? $title : '爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|直播吧|免费直播';
+        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播吧,英超直播,西甲直播,足球直播,篮球直播,低调看直播,免费直播';
         $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
     ?>
     <meta charset="UTF-8">
+    @yield("meta")
     <title>{{$title}}</title>
+    @if(!isset($noMeta) || !$noMeta)
     <meta name="Keywords" content="{{$keywords}}">
     <meta name="Description" content="{{$description}}">
+    @endif
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
@@ -47,7 +50,6 @@
         <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
         <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/live/business.html" target="_blank">源调用</a>
-        {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
         <a class="column" href="/download.html" target="">下载</a>
         @yield('nav_inner')
     </div>

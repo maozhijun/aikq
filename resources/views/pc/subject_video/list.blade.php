@@ -18,7 +18,7 @@
                 <div class="labelbox">
                     @foreach($leagues as $lid=>$league)
                         @if(isset($league['count']) && isset($league['name']) && $league['count'] > 0)
-                            <a id="{{$lid}}" href="/live/subject/videos/{{$lid}}/1.html" class="{{$lid == $type ? 'on' : ''}}">{{$league['name']}}</a>
+                            <a style="margin-left: 3%;" id="{{$lid}}" href="/live/subject/videos/{{$lid}}/1.html" class="{{$lid == $type ? 'on' : ''}}">{{$league['name']}}</a>
                         @endif
                     @endforeach
                 </div>
