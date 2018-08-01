@@ -37,6 +37,9 @@ class AnchorController extends Controller
             $match = null;
             $tag = null;
         }
-        return view('mobile.anchor.room',array('match'=>$match,'room'=>$room,'room_tag'=>$tag, 'room_id'=>$room_id));
+        $result = array('match'=>$match,'room'=>$room,'room_tag'=>$tag, 'room_id'=>$room_id);
+        $result['anchor'] = $room->anchor;
+        $result['books'] = $room->getTagMatch();
+        return view('mobile.anchor.room',$result);
     }
 }

@@ -69,8 +69,19 @@
         </div>
     </div>
 @endif
-<div id="Chat">
-
+<div id="Anchor">
+    <div class="info">
+        <img src="{{$anchor->icon}}">
+        <p>{{$anchor->name}}</p>
+    </div>
+    @if(count($books) > 0)
+        <dl>
+            <dt>直播赛程</dt>
+            @foreach($books as $book)
+                <dd><span>{{date('m-d H:i', strtotime($book['time']))}}</span>{{$book['hname']}}  VS  {{$book['aname']}}</dd>
+            @endforeach
+        </dl>
+    @endif
 </div>
 </body>
 <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -150,10 +161,6 @@
         socket.emit('user_mid', req);
     });
 
-    socket.on('server_send_message', function (data) {
-        console.log(data);
-        $('#Chat').append('<p class="ev"><span>'+data['nickname']+'：</span>'+data['message']+'</p>');
-    });
     socket.on('server_match_change', function (data) {
         console.log(data);
         if ($('#Match')) {
