@@ -40,6 +40,10 @@
 						<p>*图片大小不得大于<b>1M</b></p>
 					</div>
 				</div>
+				<a target="_blank" href="/anchor/room/{{$room->id}}.html" class="myroom">
+					<img src="{{isset($roomImg)?('data:image/png;base64,'.$roomImg):''}}">
+					<p>我的直播间</p>
+				</a>
 			</div>
 			<div class="box">
 				<p class="title">主播间信息</p>

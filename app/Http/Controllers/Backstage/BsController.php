@@ -12,6 +12,7 @@ use App\Models\Match\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redis;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BsController extends Controller
 {
@@ -92,6 +93,18 @@ class BsController extends Controller
         $result['anchor'] = $anchor;
         $result['room'] = $room;
         $result['iLive'] = isset($room) && $room->status == AnchorRoom::kStatusLiving;
+        if ($anchor->icon && strlen($anchor->icon) > 0) {
+            $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')
+                ->errorCorrection('H')
+                ->merge($anchor->icon, .25, true)
+                ->generate(env('APP_URL') . '/anchor/room/' . $room->id . '.html');
+        }
+        else{
+            $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')
+                ->errorCorrection('H')
+                ->generate(env('APP_URL') . '/anchor/room/' . $room->id . '.html');
+        }
+        $result['roomImg'] = base64_encode($QR);
         return view('backstage.info', $result);
     }
 
