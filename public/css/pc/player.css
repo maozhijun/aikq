@@ -273,7 +273,7 @@ textarea#Copy{
 		transform: scale(0.5); -ms-transform: scale(0.5); -webkit-transform: scale(0.5); -moz-transform: scale(0.5); -o-transform: scale(0.5);
 		transform-origin: center top; -ms-transform-origin: center top; -webkit-transform-origin: center top; -moz-transform-origin: center top; -o-transform-origin: center top;
 	}
-	#PhoneAD .time{
+	#PhoneAD .time, .publicAd button{
 		transform: scale(0.5); -ms-transform: scale(0.5); -webkit-transform: scale(0.5); -moz-transform: scale(0.5); -o-transform: scale(0.5);
 		transform-origin: right top; -ms-transform-origin: right top; -webkit-transform-origin: right top; -moz-transform-origin: right top; -o-transform-origin: right top;
 	}
