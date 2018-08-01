@@ -47,6 +47,7 @@ class AnchorRoom extends Model{
 //        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
             ->orderby('match_time','asc')
             ->get();
         $match = null;
@@ -71,6 +72,7 @@ class AnchorRoom extends Model{
 //        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
             ->orderby('match_time','asc')
             ->get();
         $match = null;
@@ -93,6 +95,7 @@ class AnchorRoom extends Model{
     {
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
             ->get();
         $mids = array();
         foreach ($tags as $tag){
@@ -112,6 +115,7 @@ class AnchorRoom extends Model{
     public function getTagMatch(){
         $tags = AnchorRoomTag::where('room_id',$this->id)
             ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
             ->get();
         $f_mids = array();
         $b_mids = array();

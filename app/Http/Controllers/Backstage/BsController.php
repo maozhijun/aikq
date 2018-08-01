@@ -315,6 +315,7 @@ class BsController extends Controller
         $result = [];
         if (isset($room)) {
             $query = AnchorRoomTag::query()->where('room_id', $room->id);
+            $query->where('valid','=',AnchorRoomTag::KValid);
             $query->where('match_time', '>=', date('Y-m-d H:i', strtotime('-4 hours')));
             $tags = $query->orderBy('match_time')->get();
             $result['tags'] = $tags;
@@ -362,7 +363,11 @@ class BsController extends Controller
             //判断2小时内是不是有其他赛事预约。
             $start = date('Y-m-d H:i', strtotime($matchTime . ' -2 hours'));
             $end = date('Y-m-d H:i', strtotime($matchTime . ' +2 hours'));
-            $count = AnchorRoomTag::query()->where('room_id', $room->id)->whereBetween('match_time', [$start, $end])->count();
+            $count = AnchorRoomTag::query()
+                ->where('room_id', $room->id)
+                ->where('valid','=',AnchorRoomTag::KValid)
+                ->whereBetween('match_time', [$start, $end])
+                ->count();
             if ($count > 0) {
                 return response()->json(['code'=>403, 'message'=>'同一比赛时段，只能预约一场比赛，请重新预约。']);
             }
@@ -403,7 +408,8 @@ class BsController extends Controller
             return response()->json(['code'=>401, 'message'=>'没有权限']);
         }
         try {
-            $tag->delete();
+            $tag->valid = AnchorRoomTag::KInValid;
+            $tag->save();
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'message'=>'取消预约失败']);
         }

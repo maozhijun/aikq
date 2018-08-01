@@ -85,6 +85,7 @@ class AnchorRoomController extends Controller
     public function bookList(Request $request){
         $tags = AnchorRoomTag::query()
             ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
             ->paginate(15);
 
         $result['page'] = $tags;
