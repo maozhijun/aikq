@@ -374,6 +374,7 @@ class LiveController extends Controller
             $match = $json['match'];
             $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
             return abort(404);
         }
@@ -404,6 +405,7 @@ class LiveController extends Controller
             $match = $json['match'];
             $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
             return abort(404);
         }
@@ -433,8 +435,9 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : ''));
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "，JRS低调看直播就来爱看球直播。";
         } else {
             return abort(404);
         }
