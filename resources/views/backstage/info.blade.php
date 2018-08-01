@@ -1,6 +1,6 @@
 @extends("backstage.layout.nav")
 @section("css")
-	<link rel="stylesheet" type="text/css" href="/backstage/css/info.css">
+	<link rel="stylesheet" type="text/css" href="/backstage/css/info.css?201708011210">
 @endsection
 @section("content")
 	<div id="Content">
