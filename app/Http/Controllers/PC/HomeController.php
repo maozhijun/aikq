@@ -31,11 +31,13 @@ class HomeController extends Controller
                 'code'=>0,
                 'data'=>[
                     'more'=>'https://m.liaogou168.com/',
+                    'host'=>'https://www.aikq.cc',
                     'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                     'weixin'=>'kanqiu858',
                     'ios_version'=>'1.1.0',
                     'android_version'=>'1.1.0',
                     'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
+                    'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
                     'anchor'=>1,
                 ]
             ]

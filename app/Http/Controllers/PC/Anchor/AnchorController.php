@@ -131,4 +131,25 @@ class AnchorController extends Controller
             'data'=>$result
         ));
     }
+
+    public function livingRoom(Request $request){
+        //正在直播
+        $livingRooms = AnchorRoom::getLivingRooms();
+        $tmp = array();
+        foreach ($livingRooms as $livingRoom) {
+            $model = $livingRoom->appModel(true);
+            if ($livingRoom['status'] == AnchorRoom::kStatusLiving){
+                $model['statusStr'] = '直播中';
+            }
+            else{
+                $model['statusStr'] = '';
+            }
+            $model['url'] = '';
+            $tmp[] = $model;
+        }
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$tmp
+        ));
+    }
 }

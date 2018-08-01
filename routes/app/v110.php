@@ -24,4 +24,7 @@ Route::group([], function () {
 
     //主播
     Route::get('/anchor/room/url/{room_id}.json','Anchor\AnchorController@playerUrlApp');
+
+    //直播中
+    Route::get('/anchor/living.json','Anchor\AnchorController@livingRoom');
 });
