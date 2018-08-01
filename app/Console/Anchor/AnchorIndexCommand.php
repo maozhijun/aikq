@@ -10,6 +10,7 @@ namespace App\Console\Anchor;
 
 
 use App\Http\Controllers\PC\Anchor\AnchorController;
+use App\Http\Controllers\PC\HomeController;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -50,6 +51,14 @@ class AnchorIndexCommand extends Command
         $html = $con->index(new Request());
         if (!empty($html)) {
             Storage::disk('public')->put('static/anchor/index.html', $html);
+        }
+
+        //app正在直播主播列表
+        $controller = new HomeController();
+        $data = $controller->appConfivV110p();
+        $data = json_encode($data);
+        if ($data && strlen($data) > 0){
+            Storage::disk('public')->put('app/v110/config.json', $data);
         }
     }
 
