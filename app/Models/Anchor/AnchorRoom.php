@@ -87,6 +87,26 @@ class AnchorRoom extends Model{
         return $match;
     }
 
+    public function getCurrentMatch()
+    {
+//        return $this->hasOne('App\Models\Anchor\Anchor', 'id', 'anchor_id');
+        $tags = AnchorRoomTag::where('room_id',$this->id)
+            ->where('match_time','>',date_create('-4 hours'))
+            ->where('valid','=',AnchorRoomTag::KValid)
+            ->orderby('match_time','asc')
+            ->get();
+        $match = null;
+        foreach ($tags as $tag){
+            $tmp = $tag->getMatch();
+            if($tmp['status'] >= 0){
+                $tmp['sport'] = $tag['sport'];
+                $match = $tmp;
+                break;
+            }
+        }
+        return $match;
+    }
+
     /**
      * 正在直播什么比赛(AKQ的表,一般不要求太实时)
      * @return Model|null|static
