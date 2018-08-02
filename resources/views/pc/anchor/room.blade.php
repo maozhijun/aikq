@@ -58,7 +58,7 @@
                     @endif
                     <p class="name"><input id="nickname" type="text" name="name" placeholder="请输入昵称"></p>
                     <div class="text">
-                        <textarea id="text"></textarea>
+                        <textarea id="text" onkeydown="keySend(event);"></textarea>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,9 @@
     <script type="text/javascript">
         var nickname = getCookie('ws_nickname');
         if (nickname && nickname.length > 0){
-            $('.name').remove();
+//            $('.name').remove();
+            $('#nickname').attr('value',nickname);
+            $('#nickname').attr('disabled','disabled')
         }
 
         function encodeUTF8(s){
@@ -208,6 +210,17 @@
                 };
             }
             socket.emit('user_send_message', req);
+        }
+
+        function keySend(event) {
+            if (event.keyCode == 13) {
+                send();
+                setTimeout('clear()',10);
+            }
+        }
+
+        function clear() {
+            document.getElementById('text').value = '';
         }
 
         function setCookie(name, value, days) {
