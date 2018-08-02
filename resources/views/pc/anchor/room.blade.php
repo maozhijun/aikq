@@ -215,12 +215,10 @@
         function keySend(event) {
             if (event.keyCode == 13) {
                 send();
-                setTimeout('clear()',10);
+                setTimeout(function () {
+                    document.getElementById('text').value = ''
+                },10);
             }
-        }
-
-        function clear() {
-            document.getElementById('text').value = '';
         }
 
         function setCookie(name, value, days) {
