@@ -53,9 +53,14 @@ class AnchorController extends Controller
             $result['match'] = null;
             $result['room_tag'] = null;
         }
+        $anchor = $room->anchor;
         $result['check'] = 'anchor';
         $result['room_id'] = $room_id;
         $result['room'] = $room;
+        $result['anchor'] = $anchor;
+        $result['title'] = $room->title.'_爱看球';
+        $result['keywords'] = "爱看球主播,".$anchor->name.',体育直播,资深主播';
+        $result['description'] = "爱看球主播频道，资深主播".$anchor->name."正在为你解说体育直播。";
         return view('pc.anchor.room',$result);
     }
 
