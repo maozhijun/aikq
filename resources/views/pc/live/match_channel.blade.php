@@ -40,6 +40,7 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
+        <button><a href="/m/index.html" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
     @endif
 </div>
 <iframe width="100%" height="100%" id="MyFrame">
