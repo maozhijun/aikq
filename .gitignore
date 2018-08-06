@@ -23,5 +23,6 @@ publish.sh
 public/js/app.js
 public/js/echo.js
 public/anchor
+public/news
 laravel-echo-server.json
 package-lock.json

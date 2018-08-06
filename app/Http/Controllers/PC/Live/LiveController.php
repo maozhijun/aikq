@@ -242,7 +242,7 @@ class LiveController extends Controller
             //return abort(404);
         }
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
-        $json['title'] = "爱看球-视频调用";
+        $json['title'] = "视频调用_爱看球";
         $json['check'] = 'business';
         return view('pc.business', $json);
     }
@@ -372,7 +372,7 @@ class LiveController extends Controller
 //        $json = json_decode($jsonStr, true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
@@ -403,7 +403,7 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] =  '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'];
+            $json['title'] =  date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
@@ -435,7 +435,7 @@ class LiveController extends Controller
         $json = json_decode($server_output,true);
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = '爱看球-' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : ''));
+            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "_爱看球";
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "，JRS低调看直播就来爱看球直播。";
         } else {

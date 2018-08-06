@@ -150,6 +150,17 @@ Route::group([], function () {
     Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 });
 
+/**
+ * 文章
+ */
+Route::group(["namespace" => 'Article'], function () {
+    //Route::get("/news.html", "ArticleController@news");//文章终端页
+    //Route::get("/news/index{page}.html", "ArticleController@news");//文章终端页
+    //Route::get("/news/{t_name}/{date}/{id}.html", "ArticleController@detail");//文章终端
+
+    //Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
+});
+
 //主播
 Route::group(["namespace" => 'Anchor'], function () {
     Route::get("/anchor/index.html", "AnchorController@index");//首页

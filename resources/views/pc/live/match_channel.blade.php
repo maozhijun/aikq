@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>爱看球</title>
+    <title>直播终端_免费高清直播_爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=201808011742">

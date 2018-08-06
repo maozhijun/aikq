@@ -178,6 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
+        /**
+         * UEditor
+         */
+        Overtrue\LaravelUEditor\UEditorServiceProvider::class,
     ],
 
     /*

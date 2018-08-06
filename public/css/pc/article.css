@@ -1,0 +1,134 @@
+﻿
+body{
+	padding-top: 60px;
+}
+
+#Content{
+	margin-bottom: 60px;
+}
+#Content .inner:after{
+	display: block;
+	clear: both;
+	content: '';
+}
+
+
+#Right{
+	width: 33%;
+	background: #fff;
+	float: right;
+}
+#Right dt{
+	height: 38px;
+	padding-left: 34px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 16px; line-height: 38px; color: #393939;
+	position: relative;
+}
+#Right dt:before{
+	width: 4px; height: 20px;
+	margin-top: -10px;
+	background: #4492fd;
+	position: absolute; left: 20px; top: 50%;
+	content: '';
+}
+#Right dd{
+	margin-left: 20px; padding: 10px 20px 6px 0;
+}
+#Right dd + dd{
+	border-top: 1px solid #e6e6e6;
+}
+#Right dd .info{
+	height: 22px;
+	font-size: 12px; line-height: 22px; color: #7b7b7b;
+	overflow: hidden;
+}
+#Right dd.live .info:before{
+	width: 58px; height: 22px;
+	border-radius: 2px 2px 12px 2px;
+	background: #c94e55;
+	text-align: center; color: #fff;
+	display: block;
+	content: '直播中';
+	float: right;
+}
+#Right dd .match{
+	height: 40px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #393939;
+	overflow: hidden;
+}
+#Right dd .line{
+	height: 22px;
+	font-size: 0; text-align: center;
+}
+#Right dd .line a{
+	height: 22px;
+	padding: 0 10px;
+	border-radius: 11px;
+	font-size: 12px; line-height: 22px; text-align: center; color: #3c72bc;
+	display: inline-block;
+}
+#Right dd .line a:hover{
+	background: #7ba8e6;
+	color: #fff;
+}
+#Right dd .line a + a{
+	margin-left: 10px;
+}
+
+#Left{
+	margin-right: 33%; padding-right: 12px;
+}
+#Left .con{
+	padding: 24px 0 0 20px;
+	background: #fff;
+}
+#Left .con h1{
+	margin-bottom: 24px; padding-left: 2px;
+	font-size: 20px; line-height: 32px; color: #333;
+}
+#Left .con .info{
+	padding: 0 30px 16px 2px;
+	border-bottom: 1px solid #e2e2e7;
+	font-size: 12px; line-height: 12px; color: #999;
+}
+#Left .con .info span{
+	float: right;
+}
+#Left .con .detail{
+	padding: 20px 36px 50px 5px;
+}
+#Left .con .detail p{
+	padding-bottom: 10px;
+	font-size: 14px; line-height: 24px; color: #010000;
+}
+#Left .con .detail img{
+	max-width: 100%;
+	display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

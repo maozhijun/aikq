@@ -132,3 +132,18 @@ Route::group(['namespace'=>'Anchor', 'middleware' => 'admin_auth'], function () 
     Route::get('/anchor/room/book_list', 'AnchorRoomController@bookList');//预约比赛列表
     Route::post('/anchor/tag/update', 'AnchorRoomController@bookUpdate');//修改预约比赛
 });
+
+/**
+ * 文章相关
+ */
+Route::group(['namespace'=>'Article', 'middleware' => 'admin_auth'], function () {
+    Route::get('/article/list', 'ArticleController@articles');//文章列表
+    Route::any("/article/new", "ArticleController@edit");//新建文章
+    Route::post("/article/save", "ArticleController@save");//保存文章
+    Route::any("/article/delete", "ArticleController@delete");//删除文章
+
+    Route::any("/article/show", "ArticleController@show");//显示文章
+    Route::any("/article/hide", "ArticleController@hide");//隐藏文章
+    Route::any("/article/publish", "ArticleController@publish");//发布文章
+
+});

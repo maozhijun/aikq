@@ -7,6 +7,8 @@ use App\Console\Anchor\AnchorIndexCommand;
 use App\Console\Anchor\AnchorJsonCommand;
 use App\Console\Anchor\CheckStreamCommand;
 use App\Console\Anchor\StreamKeyFrameCommand;
+use App\Console\Article\ArticleLiveCellCommands;
+use App\Console\Article\ArticlePageCommands;
 use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Subject\CoverCommand;
 use App\Console\Subject\DetailCommand;
@@ -76,6 +78,9 @@ class Kernel extends ConsoleKernel
         AnchorIndexCommand::class,//主播首页定时任务
         AnchorDetailCommand::class,//主播终端定时任务
         AnchorJsonCommand::class,//主播播放json定时任务
+
+        ArticlePageCommands::class,//文章分页定时任务
+        ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
     ];
 
     /**
@@ -137,6 +142,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
         $schedule->command("anchor_key_frame:run")->everyFiveMinutes();//每5分钟获取直播的直播流的关键帧
+
+
+        //文章静态化定时任务
+        $schedule->command("article_lives:run")->everyMinute();
+        $schedule->command("article_page:run")->everyFiveMinutes();
     }
 
     /**

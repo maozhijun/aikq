@@ -64,7 +64,7 @@ class SubjectVideoController extends Controller
         } else {
             if (isset($leagues[$type])) {
                 $typeCn = $leagues[$type]['name'];
-                $result['title'] = '爱看球-' . $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放';
+                $result['title'] =  $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放_爱看球';
                 $result['keywords'] = '爱看球,' . $typeCn . ',' . $typeCn . '高清录像,' . $typeCn . ',全场回放';
             }
         }
