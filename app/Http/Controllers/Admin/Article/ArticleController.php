@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UploadTrait;
 use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
+use App\Models\Article\PcArticleType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -49,11 +50,11 @@ class ArticleController extends Controller
 
         $articles->appends($request->all());
 
-        //$types = TopicTypes::allTypes();
+        $types = PcArticleType::allTypes();
         $t_names = [];
-//        foreach ($types as $type) {
-//            $t_names[$type->id] = $type->name;
-//        }
+        foreach ($types as $type) {
+            $t_names[$type->id] = $type->name;
+        }
 
         $result['articles'] = $articles;
         $result['t_names'] = $t_names;
@@ -72,17 +73,9 @@ class ArticleController extends Controller
             $article = PcArticle::query()->find($id);
             $result['article'] = $article;
         }
-//        $authors = Author::query()
-//            ->orderBy('article_count', 'desc')
-//            ->get();
-//
-//        $columns = Column::query()
-//            ->orderBy('show', 'desc')
-//            ->orderBy('sort')
-//            ->get();
-        //$types = TopicTypes::query()->get();
-        $result['columns'] = [];//$columns;
-        $result['types'] = [];//$types;
+
+        $types = PcArticleType::allTypes();
+        $result['types'] = $types;
         $result['authors'] = [];//$authors;
         return view('admin.article.edit', $result);
     }

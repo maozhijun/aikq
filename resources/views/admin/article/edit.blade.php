@@ -63,7 +63,6 @@
                         @foreach($types as $type)
                             <option @if(isset($article) && $article->type == $type->id) selected @endif value="{{$type->id}}">{{$type->name}}</option>
                         @endforeach
-                        <option @if(isset($article) && $article->type == 99) selected @endif value="99">网站公告</option>
                     </select>
                 </div>
                 <div class="form-check">

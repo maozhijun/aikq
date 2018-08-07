@@ -11,7 +11,13 @@ namespace App\Models\Article;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PcArticleTypes extends Model
+class PcArticleType extends Model
 {
     const kStatusShow = 1, kStatusHide = 2;
+
+
+    public static function allTypes() {
+        return self::query()->where('status', self::kStatusShow)->orderByRaw('ifNull(od, 999)')->get();
+    }
+
 }

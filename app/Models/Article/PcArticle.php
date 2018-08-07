@@ -28,7 +28,7 @@ class PcArticle extends Model
     }
 
     public function type_obj() {
-        return $this->hasOne(PcArticleTypes::class, 'id', 'type');
+        return $this->hasOne(PcArticleType::class, 'id', 'type');
     }
 
     public function getContent() {
@@ -48,7 +48,7 @@ class PcArticle extends Model
     }
 
     public function getUrl() {
-        $type = PcArticleTypes::query()->find($this->type);
+        $type = PcArticleType::query()->find($this->type);
         if(isset($type)){
             $name_en = $type->name_en;
         } else{
