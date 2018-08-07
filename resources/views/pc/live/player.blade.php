@@ -82,7 +82,7 @@
         //判断
 
         if(isMobile){
-            var Warm = '<div id="WaitWarm">视频加载需要时间，请耐心等待10秒！</div>';
+            var Warm = '<div id="WaitWarm">视频加载需要时间，如超过10秒无画面请刷新</div>';
             $('#MyFrame').after(Warm)
         }
     }
