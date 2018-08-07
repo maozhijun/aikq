@@ -591,7 +591,7 @@ class BsController extends Controller
      * @param $refresh
      * @return mixed
      */
-    protected function getPushLive($room_id, $level, $isHttp, $refresh = false) {
+    protected function getPushLive($room_id, $level, $isHttp, $refresh = true) {
         $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
         $url = $host . '/api/v1/get_push_stream?uid=' . $room_id . '&level=' . $level . ($refresh ? '&refresh=1' : '');
         $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 2, $isHttp);

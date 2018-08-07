@@ -45,6 +45,7 @@
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/index.html">主播</a>
         <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
+        <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/index.html">资讯</a>
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
         <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/live/business.html" target="_blank">源调用</a>
         {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
@@ -56,9 +57,10 @@
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
     {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
-    <p class="business"><a target="_blank" href="/live/business.html">视频调用</a></p>
+    {{--<p class="business"><a target="_blank" href="/live/business.html">视频调用</a></p>--}}
     <p>Copyright 2014-2015 ©aikq.cc, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
+    <p>业务联系QQ：2080989735（商务合作）</p>
 </div>
 @yield('bottom')
 </body>

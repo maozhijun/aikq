@@ -68,7 +68,7 @@ class SubjectController extends Controller
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
-        $result['title'] = '爱看球-' . $subjectName . '直播|' . $subjectName . '决赛直播|' . $subjectName . '录像';
+        $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
         return view('pc.subject.detail', $result);
     }
 
@@ -94,7 +94,7 @@ class SubjectController extends Controller
         $aname = $video['aname'];
 
         $match_title = $hname . "VS" . $aname;
-        $result['title'] = '爱看球-' . $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像";
+        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }
@@ -113,7 +113,7 @@ class SubjectController extends Controller
         $aname = $video['aname'];
 
         $match_title = $hname . "VS" . $aname;
-        $result['title'] = '爱看球-' . $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像";
+        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }

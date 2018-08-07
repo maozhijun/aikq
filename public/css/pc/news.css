@@ -1,0 +1,153 @@
+﻿
+body{
+	padding-top: 60px;
+}
+
+#Content{
+	margin-bottom: 60px;
+}
+#Content .inner:after{
+	display: block;
+	clear: both;
+	content: '';
+}
+
+
+#Right{
+	width: 33%;
+	background: #fff;
+	float: right;
+}
+#Right dt{
+	height: 38px;
+	padding-left: 34px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 16px; line-height: 38px; color: #393939;
+	position: relative;
+}
+#Right dt:before{
+	width: 4px; height: 20px;
+	margin-top: -10px;
+	background: #4492fd;
+	position: absolute; left: 20px; top: 50%;
+	content: '';
+}
+#Right dd{
+	margin-left: 20px; padding: 10px 20px 6px 0;
+}
+#Right dd + dd{
+	border-top: 1px solid #e6e6e6;
+}
+#Right dd .info{
+	height: 22px;
+	font-size: 12px; line-height: 22px; color: #7b7b7b;
+	overflow: hidden;
+}
+#Right dd.live .info:before{
+	width: 58px; height: 22px;
+	border-radius: 2px 2px 12px 2px;
+	background: #c94e55;
+	text-align: center; color: #fff;
+	display: block;
+	content: '直播中';
+	float: right;
+}
+#Right dd .match{
+	height: 40px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #393939;
+	overflow: hidden;
+}
+#Right dd .line{
+	height: 22px;
+	font-size: 0; text-align: center;
+}
+#Right dd .line a{
+	height: 22px;
+	padding: 0 10px;
+	border-radius: 11px;
+	font-size: 12px; line-height: 22px; text-align: center; color: #3c72bc;
+	display: inline-block;
+}
+#Right dd .line a:hover{
+	background: #7ba8e6;
+	color: #fff;
+}
+#Right dd .line a + a{
+	margin-left: 10px;
+}
+
+#Left{
+	margin-right: 33%; padding-right: 12px;
+}
+#Left .article{
+	padding-left: 30px;
+	background: #fff;
+}
+#Left .article .con{
+	padding: 20px 50px 10px 0;
+}
+#Left .article .con + .con{
+	border-top: 1px solid #e2e2e7;
+}
+#Left .article .con a.title{
+	font-size: 16px; line-height: 16px; color: #393939;
+}
+#Left .article .con a.title:hover{
+	color: #4492fd;
+}
+#Left .article .con a.introduction{
+	margin: 20px 0 12px;
+	font-size: 13px; line-height: 13px; color: #7b7b7b;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	display: block;
+}
+#Left .article .con p.tag{
+	font-size: 0;
+}
+#Left .article .con p.tag span{
+	padding: 0 10px; margin-right: 10px;
+	border: 1px solid #9fa2bb; border-radius: 10px;
+	font-size: 12px; line-height: 18px; text-align: center; color: #9fa2bb;
+	display: inline-block;
+}
+
+#Page{
+	height: 24px;
+	padding: 20px 0;
+	border-top: 1px solid #e6e6e6;
+	background: #fff;
+	font-size: 0; text-align: center;
+}
+#Page a{
+	height: 22px; width: 22px;
+	border: 1px solid #8a8a8a; border-radius: 2px;
+	font-size: 12px; line-height: 22px; text-align: center; color: #8a8a8a;
+	vertical-align: top;
+	display: inline-block;
+}
+#Page a + a{
+	margin-left: 10px;
+}
+#Page a:hover{
+	border-color: #4492fd;
+	color: #4492fd;
+}
+#Page a.on{
+	border-color: #4492fd;
+	background: #4492fd;
+	color: #fff !important;
+}
+#Page a.up, #Page a.down{
+	width: 52px;
+}
+#Page a.up[disabled], #Page a.down[disabled]{
+	opacity: 0.5;
+}
+#Page a.up[disabled]:hover, #Page a.down[disabled]:hover{
+	border-color: #8a8a8a;
+	color: #8a8a8a;
+}
+
+
+
+
