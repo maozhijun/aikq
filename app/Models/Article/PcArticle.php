@@ -70,4 +70,11 @@ class PcArticle extends Model
         return $query;
     }
 
+    public function getCover() {
+        $cover = $this->cover;
+        $local = env('APP_URL');
+        $cover = str_replace($local, env('CDN_URL'), $cover);
+        return $cover;
+    }
+
 }

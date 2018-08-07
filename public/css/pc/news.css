@@ -85,9 +85,16 @@ body{
 }
 #Left .article .con{
 	padding: 20px 50px 10px 0;
+	position: relative;
 }
 #Left .article .con + .con{
 	border-top: 1px solid #e2e2e7;
+}
+#Left .article .con a.img{
+	width: 160px; height: 80px;
+	margin-right: 20px;
+	/*position: absolute; top: 20px; bottom: 10px; left: 0;*/
+	float: left;
 }
 #Left .article .con a.title{
 	font-size: 16px; line-height: 16px; color: #393939;
@@ -96,9 +103,10 @@ body{
 	color: #4492fd;
 }
 #Left .article .con a.introduction{
-	margin: 20px 0 12px;
-	font-size: 13px; line-height: 13px; color: #7b7b7b;
-	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	height: 44px;
+	margin: 20px 0 0;
+	font-size: 13px; line-height: 22px; color: #7b7b7b;
+	overflow: hidden;/* text-overflow: ellipsis; white-space: nowrap;*/
 	display: block;
 }
 #Left .article .con p.tag{
