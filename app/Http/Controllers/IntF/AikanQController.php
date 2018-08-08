@@ -342,10 +342,11 @@ class AikanQController extends Controller
      * 篮球直播终端接口
      * @param Request $request
      * @param $id
+     * @param $mobile
      * @return mixed
      */
-    public function basketDetailJson(Request $request,$id){
-        $mobile = $request->input('isMobile',0);
+    public function basketDetailJson(Request $request, $id, $mobile = false){
+        $mobile = $request->input('isMobile',0) || $mobile;
         $match = BasketMatch::query()->select('basket_matches.*',"basket_matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -395,10 +396,11 @@ class AikanQController extends Controller
      * 自建赛事直播终端接口
      * @param Request $request
      * @param $id
+     * @param $mobile
      * @return mixed
      */
-    public function otherDetailJson(Request $request, $id){
-        $mobile = $request->input('isMobile',0);
+    public function otherDetailJson(Request $request, $id, $mobile = false){
+        $mobile = $request->input('isMobile',0) == 1 || $mobile;
         $match = OtherMatch::query()->selectRaw("*, other_matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -441,7 +443,7 @@ class AikanQController extends Controller
      * @return mixed
      */
     public function detailJson(Request $request, $id, $mobile = false){
-        //$mobile = $request->input('isMobile',0);
+        $mobile = $request->input('isMobile',0) || $mobile;
         $match = Match::query()->select('matches.*',"matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -484,6 +486,17 @@ class AikanQController extends Controller
         return response()->json($result);
     }
 
+    public function mobileDetailJson(Request $request, $id) {
+        return $this->detailJson($request, $id, true);
+    }
+
+    public function mobileBasketDetailJson(Request $request, $id) {
+        return $this->basketDetailJson($request, $id, true);
+    }
+
+    public function mobileOtherDetailJson(Request $request, $id) {
+        return $this->otherDetailJson($request, $id, true);
+    }
     /////////////////////////////   终端接口结束   /////////////////////////////
 
     /**
@@ -1114,20 +1127,19 @@ class AikanQController extends Controller
 //                    else
 //                        return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
 //                } else {
-//                    if (self::isMobile($request)||$request->input('isMobile',0)) {
-//                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
-//                        if (isset($playurl))
-//                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
-//                        else
-//                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
-//                    }
-//                    else{
-//                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
-//                        if (isset($playurl))
-//                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
-//                        else
-//                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
-//                    }
+                    if (self::isMobile($request)||$request->input('isMobile',0)) {
+                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
+                        if (isset($playurl))
+                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                        else
+                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+                    } else{
+                        $playurl = $this->ttzbLiveRTMPUrl($channel->content);
+                        if (isset($playurl))
+                            return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
+                        else
+                            return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
+                    }
 //                }
                 break;
             case MatchLiveChannel::kTypeWCJ:
@@ -1181,6 +1193,38 @@ class AikanQController extends Controller
             default:
                 return response()->json(array('code'=>0,'type'=>$channel->type,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$channel->content,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
         }
+    }
+
+
+    /**
+     * 获取天天直播 rtmp url
+     * @param $key
+     * @return mixed|null|string
+     */
+    private function ttzbLiveRTMPUrl($key){
+        $key = explode('-',$key);
+        if (count($key) > 2)
+            $url = 'http://www.04stream.tv/player.html?ch='.$key[1].'&p=dn&v='.$key[2];
+        else
+            return null;
+        return $url;
+    }
+
+    public static function isMobile(Request $request) {
+        $userAgent = $request->header('user_agent', '');
+        if ($userAgent) {
+            $userAgent = $request->header('user_agent', '');
+            if (preg_match("/(iPad).*OS\s([\d_]+)/", $userAgent)) {
+                return true;
+            }
+            else if (preg_match("/(iPhone\sOS)\s([\d_]+)/", $userAgent)){
+                return true;
+            }
+            else if (preg_match("/(Android)\s+([\d.]+)/", $userAgent)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

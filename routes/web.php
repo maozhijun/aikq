@@ -49,6 +49,10 @@ Route::group([], function () {
     Route::get("/aik/lives/detailJson/{id}.json", "AikanQController@detailJson");//直播终端
     Route::get("/aik/lives/basketDetailJson/{id}.json", "AikanQController@basketDetailJson");//篮球直播终端
     Route::get("/aik/lives/otherDetailJson/{id}.json", "AikanQController@otherDetailJson");//自建赛事直播终端
+
+    Route::get("/aik/lives/detailJson/mobile/{id}.json", "AikanQController@mobileDetailJson");//直播终端
+    Route::get("/aik/lives/basketDetailJson/mobile/{id}.json", "AikanQController@mobileBasketDetailJson");//篮球直播终端
+    Route::get("/aik/lives/otherDetailJson/mobile/{id}.json", "AikanQController@mobileOtherDetailJson");//自建赛事直播终端
     //=================================================================================================================================//
 
 
