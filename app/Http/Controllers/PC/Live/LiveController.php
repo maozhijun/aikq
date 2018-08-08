@@ -124,21 +124,21 @@ class LiveController extends Controller
      */
     protected function liveJson($bet = '') {
         try {
-            $ch = curl_init();
-            $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-            $server_output = curl_exec ($ch);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close ($ch);
-            if ($code >= 400 || empty($server_output)) {
-                return;
-            }
+//            $ch = curl_init();
+//            $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
+//            curl_setopt($ch, CURLOPT_URL,$url);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+//            $server_output = curl_exec ($ch);
+//            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//            curl_close ($ch);
+//            if ($code >= 400 || empty($server_output)) {
+//                return;
+//            }
 //            $time = time();
-//            $aiCon = new AikanQController();
-//            $jsonObj = $aiCon->livesJson(new Request())->getData();
-//            $server_output = json_encode($jsonObj);
+            $aiCon = new AikanQController();
+            $jsonObj = $aiCon->livesJson(new Request())->getData();
+            $server_output = json_encode($jsonObj);
 //            dump(time() - $time);
             if ($bet == self::BET_MATCH) {
                 Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);

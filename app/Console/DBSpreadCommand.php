@@ -59,6 +59,7 @@ class DBSpreadCommand extends Command
         }
         $server_output = str_replace('料狗','爱看球',$server_output);
         $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
+        $server_output = str_replace('http://www.aikq.cc/', 'http://www.aikq.cc/#/', $server_output);
 //        $dqCon = new DongQiuZhiBoController();
 //        $server_output = $dqCon->matchList(new Request());
         if (!empty($server_output))

@@ -100,14 +100,14 @@ class SubjectVideoController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideos($type, $page, $isMobile = false) {
-        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . '?page=' . $page;
-        if ($isMobile) {
-            $url .= "&isMobile=1";
-        }
-        $server_output = SubjectController::execUrl($url);
-//        $svCon = new \App\Http\Controllers\IntF\SubjectVideoController();
-//        $server_output = $svCon->subjectVideos(new Request(), $type, $page)->getData();
-//        $server_output = json_encode($server_output);
+//        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . '?page=' . $page;
+//        if ($isMobile) {
+//            $url .= "&isMobile=1";
+//        }
+//        $server_output = SubjectController::execUrl($url);
+        $svCon = new \App\Http\Controllers\IntF\SubjectVideoController();
+        $server_output = $svCon->subjectVideos(new Request(), $type, $page)->getData();
+        $server_output = json_encode($server_output);
         $videos = json_decode($server_output, true);
         $videos = isset($videos) ? $videos : [];
         return $videos;
@@ -120,9 +120,16 @@ class SubjectVideoController extends Controller
      * @return array|mixed
      */
     public function getVideoPageMsg($id, $isMobile = false) {
-        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
-        $server_output = SubjectController::execUrl($url);
-        $page = json_decode($server_output, true);
+//        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
+//        $server_output = SubjectController::execUrl($url);
+//        $page = json_decode($server_output, true);
+
+        $con = new \App\Http\Controllers\IntF\SubjectVideoController();
+        $data = $con->subjectVideosPage(new Request(), $id, $isMobile);
+        $str = $data->getData();
+        $page = json_encode($str);
+        $page = json_decode($page, true);
+
         $page = isset($page) ? $page : [];
         return $page;
     }

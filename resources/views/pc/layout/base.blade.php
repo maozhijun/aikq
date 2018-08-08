@@ -2,6 +2,12 @@
 <html>
 <head>
     <script type="text/javascript">
+        var curUrl = location.href;
+        var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
+        if (reg.test(curUrl)) {
+            location.href = reg.exec(curUrl)[1];
+        }
+
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;
             url = url.split('/');
