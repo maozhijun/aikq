@@ -9,7 +9,7 @@
 namespace App\Models\Match;
 
 
-use App\Models\LgMatch\BasketTeam;
+use App\Models\Match\BasketTeam;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -33,12 +33,12 @@ class BasketMatch extends Model
 
     public function home()
     {
-        return $this->hasOne('App\Models\LgMatch\BasketTeam', 'id', 'hid');
+        return $this->hasOne('App\Models\Match\BasketTeam', 'id', 'hid');
     }
 
     public function away()
     {
-        return $this->hasOne('App\Models\LgMatch\BasketTeam', 'id', 'aid');
+        return $this->hasOne('App\Models\Match\BasketTeam', 'id', 'aid');
     }
 
     //判断比赛是否在中场休息前(包括未开始)

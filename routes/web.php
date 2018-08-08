@@ -41,9 +41,16 @@ Route::group([], function () {
     Route::get("/aik/basketballLivesJson", "AikanQController@basketballLivesJson");//篮球直播列表
     Route::get("/aik/otherLivesJson", "AikanQController@otherLivesJson");//自建赛事 直播列表
 
+    //=================================================================================================================================//
     Route::get("/aik/lives/detailJson/{id}", "AikanQController@detailJson");//直播终端
     Route::get("/aik/lives/basketDetailJson/{id}", "AikanQController@basketDetailJson");//篮球直播终端
     Route::get("/aik/lives/otherDetailJson/{id}", "AikanQController@otherDetailJson");//自建赛事直播终端
+
+    Route::get("/aik/lives/detailJson/{id}.json", "AikanQController@detailJson");//直播终端
+    Route::get("/aik/lives/basketDetailJson/{id}.json", "AikanQController@basketDetailJson");//篮球直播终端
+    Route::get("/aik/lives/otherDetailJson/{id}.json", "AikanQController@otherDetailJson");//自建赛事直播终端
+    //=================================================================================================================================//
+
 
     Route::get("/aik/lives/liveMatchesJson", "AikanQController@getLiveMatchesJson");//正在直播比赛
 

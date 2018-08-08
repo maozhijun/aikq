@@ -72,24 +72,40 @@ class AikanQController extends Controller
         $isMobile = isset($isMobile) ? $isMobile : $request->input('isMobile',0);
         $bet = $request->input('bet', 0);//0：非竞彩，1：竞彩
         $match_array = [];
+
+        $startTime = time();
         $query = $this->getLiveMatches(MatchLive::kSportFootball, $bet);
         $footballMatches = $query->get();
+        //dump("获取足球实体时间：" . (time() - $startTime));
+
         $fArray = [];
+
+        $startTime = time();
         foreach ($footballMatches as $match){
             $fArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportFootball);
         }
+        //dump("足球实体转化时间：" . (time() - $startTime));
 
         //篮球
+        $startTime = time();
         $query = $this->getLiveMatches(MatchLive::kSportBasketball, $bet);
         $basketballMatches = $query->get();
+        //dump("获取篮球实体时间：" . (time() - $startTime));
+
         $bArray = [];
+        $startTime = time();
         foreach ($basketballMatches as $match){
             $bArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportBasketball);
         }
+        //dump("篮球实体转化时间：" . (time() - $startTime));
 
         //自建赛事
+        $startTime = time();
         $query = $this->getLiveMatches(MatchLive::kSportSelfMatch);
         $otherMatches = $query->get();
+        //dump("获取自建实体时间：" . (time() - $startTime));
+
+        $startTime = time();
         foreach ($otherMatches as $match){
             $now = time();
             $time = strtotime($match->time);
@@ -111,6 +127,7 @@ class AikanQController extends Controller
             $match['channels'] = $array;
         }
         $otherMatches = $otherMatches->toArray();
+        //dump("自建实体转化时间：" . (time() - $startTime));
 
         $matches = array_merge($fArray, $bArray);
         $matches = array_merge($matches, $otherMatches);

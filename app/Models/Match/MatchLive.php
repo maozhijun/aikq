@@ -204,8 +204,8 @@ class MatchLive extends Model
         });
         $query->where('live_id', $this->id);
         $query->where('show', MatchLiveChannel::kShow);
-        $query->selectRaw('*, ifnull(od, 99)');
-        $query->orderBy('od');
+        $query->selectRaw('*, ifNull(od, 99) as nod');
+        $query->orderBy('nod');
         $channels = $query->limit(6)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
         for ($index = 0 ; $index < count($channels) ; $index++) {

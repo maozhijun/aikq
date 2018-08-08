@@ -2,7 +2,7 @@
 
 namespace App\Models\Match;
 
-use App\Models\LgMatch\Team;
+use App\Models\Match\Team;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -61,12 +61,12 @@ class Match extends Model
 
     public function home()
     {
-        return $this->hasOne(Team::class, 'id', 'hid');
+        return $this->hasOne(\App\Models\Match\Team::class, 'id', 'hid');
     }
 
     public function away()
     {
-        return $this->hasOne(Team::class, 'id', 'aid');
+        return $this->hasOne(\App\Models\Match\Team::class, 'id', 'aid');
     }
 
 //    public function lineup() {
