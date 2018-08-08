@@ -6,14 +6,14 @@
  * Time: 12:52
  */
 
-namespace App\Models\Match;
+namespace App\Models\LgMatch;
 
 
 use Illuminate\Database\Eloquent\Model;
 
 class MatchLive extends Model
 {
-//    protected $connection = 'match';
+    protected $connection = 'match';
     const kSportFootball = 1, kSportBasketball = 2, kSportSelfMatch = 3;//1：足球，2：篮球，3：自建赛事
 
     const kShow = 1, kHide = 2;
@@ -394,28 +394,6 @@ class MatchLive extends Model
             ->whereIn('match_live_channels.platform', [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC]);
         $isPri = $query->count() > 0;
         return $isPri;
-    }
-
-    public static function copyLgMatchLive(\App\Models\LgMatch\MatchLive $live) {
-        $live_id = $live->id;
-        $newLive = self::query()->find($live_id);
-        if (!isset($newLive)) {
-            $newLive = new MatchLive();
-            $newLive->id = $live_id;
-        }
-        $newLive->match_id = $live->match_id;
-        $newLive->sport = $live->sport;
-        $newLive->league_id = $live->league_id;
-        $newLive->ad_id = $live->ad_id;
-        $newLive->impt = $live->impt;
-        $newLive->created_at = $live->created_at;
-        $newLive->updated_at = $live->updated_at;
-        try {
-            $newLive->save();
-        } catch (\Exception $exception) {
-            return false;
-        }
-        return true;
     }
 
 }

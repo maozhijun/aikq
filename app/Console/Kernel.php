@@ -23,6 +23,7 @@ use App\Console\Sync\BasketballMatchCommand;
 use App\Console\Sync\BasketballUpdateMatchCommand;
 use App\Console\Sync\FootballMatchCommand;
 use App\Console\Sync\FootballMatchUpdateCommand;
+use App\Console\Sync\LiveSyncCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -68,6 +69,7 @@ class Kernel extends ConsoleKernel
 
         BasketballMatchCommand::class,//同步basket_matches数据到爱看球
         BasketballUpdateMatchCommand::class,//更新basket_matches数据到爱看球
+        LiveSyncCommand::class,//同步更新 直播相关的数据
         //同步数据相关 结束
 
         //主播相关定时任务
@@ -94,6 +96,7 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
+        $schedule->command('sync_live_matches:run')->everyMinute();
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存

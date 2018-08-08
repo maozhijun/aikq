@@ -6,14 +6,14 @@
  * Time: 17:23
  */
 
-namespace App\Models\Match;
+namespace App\Models\LgMatch;
 
 
 use Illuminate\Database\Eloquent\Model;
 
 class MatchLiveChannel extends Model
 {
-//    protected $connection = 'match';
+    protected $connection = 'match';
 
     const kTypeSS365 = 1, kTypeTTZB = 2, kTypeBallBar = 3, kTypeWCJ = 4, kTypeDDK = 5, kTypeKBS = 6,kTypeCCTVAPP = 7, kTypeLZ = 8, kTypeCode = 9, kTypeQQ = 10, kTypeOther = 99;//直播类型，1、ss365，2、天天直播，3、波吧，4、无插件，5、低调看，6、看比赛,7、cctv5app, 8、龙珠直播, 9、高清, 10、腾讯体育。
     const kPlayerAuto = 1, kPlayerIFrame = 11, kPlayerCk = 12, kPlayerM3u8 = 13, kPlayerFlv = 14, kPlayerRTMP = 15, kPlayerExLink = 16, kPlayerClappr = 17, kPlayerMp4 = 18, kPlayerJSJ = 19, kPlayerQQSport = 100;//播放方式，1、自动播放，11、iFrame嵌入。12、ck播放器播放，13、M3U8，14、FLV，15、RTMP，16、跳转外链,17、Clappr播放器, 18、Mp4，100腾讯体育用
@@ -198,39 +198,4 @@ class MatchLiveChannel extends Model
         }
         return $link;
     }
-
-
-    public static function copyLgMatchLiveChannel(\App\Models\LgMatch\MatchLiveChannel $channel) {
-        $ch_id = $channel->id;
-        $newCh = self::query()->find($ch_id);
-        if (!isset($newCh)) {
-            $newCh = new MatchLiveChannel();
-            $newCh->id = $ch_id;
-        }
-
-        $newCh->live_id = $channel->live_id;
-        $newCh->name = $channel->name;
-        $newCh->type = $channel->type;
-        $newCh->od = $channel->od;
-        $newCh->platform = $channel->platform;
-        $newCh->show = $channel->show;
-        $newCh->auto = $channel->auto;
-        $newCh->isPrivate = $channel->isPrivate;
-        $newCh->content = $channel->content;
-        $newCh->h_content = $channel->h_content;
-        $newCh->player = $channel->player;
-        $newCh->use = $channel->use;
-        $newCh->impt = $channel->impt;
-        $newCh->ad = $channel->ad;
-        $newCh->created_at = $channel->created_at;
-        $newCh->updated_at = $channel->updated_at;
-
-        try {
-            $newCh->save();
-        } catch (\Exception $exception) {
-            return false;
-        }
-        return true;
-    }
-
 }
