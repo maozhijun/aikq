@@ -309,22 +309,22 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function footballdetail(Request $request, $id, $immediate = false) {
-//        $ch = curl_init();
-//        if ($immediate) {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id?isMobile=1";
-//        } else{
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$id" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-//        $server_output = curl_exec ($ch);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
-        $akqCon = new AikanQController();
-        $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
-        $jsonStr = json_encode($jsonStr);
-        $json = json_decode($jsonStr, true);
+        $ch = curl_init();
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id?isMobile=1";
+        } else{
+            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$id" . '.json';
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+//        $akqCon = new AikanQController();
+//        $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
+//        $jsonStr = json_encode($jsonStr);
+//        $json = json_decode($jsonStr, true);
         $json['detail_url'] = '/m/live/football/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }
