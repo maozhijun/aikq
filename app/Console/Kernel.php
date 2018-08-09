@@ -52,15 +52,16 @@ class Kernel extends ConsoleKernel
         DetailCommand::class,//subject 专题终端静态化           DB
         LeaguesJsonCommand::class,//subject 专题列表json静态化  DB
 
-        VideoPageCommand::class,//热门录像分页列表静态化
+        VideoPageCommand::class,//热门录像分页列表静态化        DB
         VideoCoverCommand::class,//热门录像封面图同步
-        SubjectVideoDetailCommand::class,//专题录像终端静态化
 
         CoverCommand::class,//专题封面同步
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表
         PlayerCommand::class,//录像player静态化
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
+
+
         FIFACommand::class,//世界杯
 
         //同步数据相关 开始

@@ -11,6 +11,7 @@ namespace App\Console\Subject;
 
 use App\Http\Controllers\PC\Live\SubjectController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 class DetailCommand extends Command
 {

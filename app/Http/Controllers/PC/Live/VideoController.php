@@ -10,12 +10,16 @@ namespace App\Http\Controllers\PC\Live;
 
 
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Match\HotVideo;
+use App\Models\Match\HotVideoType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+
+    const page_size = 30;
     //=====================================页面内容 开始=====================================//
 
     /**
@@ -83,15 +87,36 @@ class VideoController extends Controller
 
     /**
      * 获取录像列表
-     * @param $type
-     * @param $page
+     * @param $tid
+     * @param $pageNo
      * @return array|mixed
      */
-    public function getVideos($type, $page) {
-        $url = env('LIAOGOU_URL')."aik/videos/page/" . $type . '?page=' . $page;
-        $server_output = SubjectController::execUrl($url);
-        $videos = json_decode($server_output, true);
-        $videos = isset($videos) ? $videos : [];
+    public function getVideos($tid, $pageNo) {
+//        $url = env('LIAOGOU_URL')."aik/videos/page/" . $type . '?page=' . $page;
+//        $server_output = SubjectController::execUrl($url);
+//        $videos = json_decode($server_output, true);
+//        $videos = isset($videos) ? $videos : [];
+//        $isMobile = $request->input('isMobile') == 1;
+        $pageSize = self::page_size;
+        if ($tid != 'all') {
+            $type = HotVideoType::query()->find($tid);
+            if (!isset($type)) {
+                return response()->json([]);
+            }
+        }
+        $query = HotVideo::query();
+        if (isset($type)) {
+            $query->where('type_id', $tid);
+        }
+        $query->orderByDesc('updated_at');
+        $page = $query->paginate($pageSize, ['*'], '', $pageNo);
+        $videos = $page->items();
+
+        $array = [];
+        $array['page'] = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
+        foreach ($videos as $video) {
+            $array['videos'][] = self::hotVideo2Array($video);
+        }
         return $videos;
     }
 
@@ -115,11 +140,24 @@ class VideoController extends Controller
      * @return array|mixed
      */
     public function getVideoPageMsg($id, $isMobile = false) {
-        $url = env('LIAOGOU_URL')."aik/videos/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
-        $server_output = SubjectController::execUrl($url);
-        $page = json_decode($server_output, true);
-        $page = isset($page) ? $page : [];
-        return $page;
+//        $url = env('LIAOGOU_URL')."aik/videos/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
+//        $server_output = SubjectController::execUrl($url);
+//        $page = json_decode($server_output, true);
+//        $page = isset($page) ? $page : [];
+        $pageSize = self::page_size;
+        if ($id != 'all') {
+            $type = HotVideoType::query()->find($id);
+            if (!isset($type)) {
+                return response()->json([]);
+            }
+        }
+        $query = HotVideo::query();
+        if (isset($type)) {
+            $query->where('type_id', $id);
+        }
+        $page = $query->paginate($pageSize);
+        $array = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
+        return $array;
     }
     //=====================================数据接口 结束=====================================//
 
@@ -132,11 +170,17 @@ class VideoController extends Controller
      * @param Request $request
      */
     public function staticVideoTypesJson(Request $request) {
-        $url = env('LIAOGOU_URL')."aik/videos/types";
-        $server_output = SubjectController::execUrl($url);
-        $types = json_decode($server_output, true);
-        $types = isset($types) ? $types : [];
-        $typesStr = json_encode($types);
+        $types = HotVideoType::allTypes();
+        $array = ['all'=>'全部'];
+        foreach ($types as $type) {
+            $array[$type->id] = $type->name;
+        }
+
+//        $url = env('LIAOGOU_URL')."aik/videos/types";
+//        $server_output = SubjectController::execUrl($url);
+//        $types = json_decode($server_output, true);
+//        $types = isset($types) ? $types : [];
+        $typesStr = json_encode($array);
         Storage::disk("public")->put('/live/videos/types.json', $typesStr);
     }
 
@@ -223,4 +267,20 @@ class VideoController extends Controller
         }
     }
     //=====================================静态化 结束=====================================//
+
+
+    /**
+     * 热门录像转化为数组
+     * @param $video
+     * @return array
+     */
+    public static function hotVideo2Array($video) {
+        $array = ['id'=>$video->id, 'hname'=>$video->title, 'aname'=>'', 'lname'=>'录像', 'cover'=>$video->image];
+        $array['platform'] = $video->platform;
+        $array['player'] = $video->player;
+        $array['playurl'] = $video->link;
+        $array['code'] = 0;
+        return $array;
+    }
+
 }

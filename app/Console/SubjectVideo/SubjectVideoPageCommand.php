@@ -12,6 +12,7 @@ use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Http\Controllers\PC\Live\VideoController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class SubjectVideoPageCommand extends Command
@@ -47,8 +48,10 @@ class SubjectVideoPageCommand extends Command
      */
     public function handle()
     {
+        $startTime = time();
         $start = time();
         $this->staticTypes();
+        //dump("静态化types = " . (time() - $start) );
         $videoIntF = new SubjectVideoController();
         $leagues = $videoIntF->getLeagues();
 
@@ -56,8 +59,10 @@ class SubjectVideoPageCommand extends Command
             if (isset($league['count']) && $league['count'] == 0) {
                 continue;
             }
-
+            $start = time();
             $page = $videoIntF->getVideoPageMsg($tid);//获取分页信息
+            //dump("获取分页信息 = " . (time() - $start) );
+
             if (!isset($page['lastPage'])) {
                 continue;
             }
@@ -70,15 +75,19 @@ class SubjectVideoPageCommand extends Command
             $forPage = min($lastPage, $curPage + 1);
             //echo 'curPage = ' . $curPage . ' lastPage = ' . $lastPage . ' forPage = ' . $forPage . "\n";
             if ($curPage != 1) {
+                $start = time();
                 $this->staticPage($tid, 1);//每次更新第一页
+                //dump("每次更新第一页 = " . (time() - $start) );
             }
             for (;$curPage <= $forPage; $curPage++) {
+                $start = time();
                 $this->staticPage($tid, $curPage);
+                //dump("每次更新第" . $curPage . "页 = " . (time() - $start) );
             }
             usleep(200);//等待200毫秒
             $this->setCurPage($tid, $curPage);//每次最多静态化 3 页
         }
-        echo "专题录像分页静态化执行消耗时间：" . (time() - $start) . " 秒。\n";
+        echo "专题录像分页静态化执行消耗时间：" . (time() - $startTime) . " 秒。\n";
     }
 
     /**
@@ -87,16 +96,20 @@ class SubjectVideoPageCommand extends Command
      * @param $page
      */
     protected function staticPage($type, $page) {
-        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page);
-        SubjectController::execUrl($url);
+        $sub = new SubjectVideoController();
+        $sub->staticSubjectVideosHtml(new Request(), $type, $page);
+//        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page);
+//        SubjectController::execUrl($url);
     }
 
     /**
      * 静态化类型json
      */
     protected function staticTypes() {
-        $url = asset('/static/subject-videos/leagues');
-        SubjectController::execUrl($url);
+//        $url = asset('/static/subject-videos/leagues');
+//        SubjectController::execUrl($url);
+        $sub = new SubjectVideoController();
+        $sub->staticVideoLeaguesJson(new Request());
     }
 
     /**

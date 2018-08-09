@@ -144,15 +144,16 @@ class SubjectVideoController extends Controller
      * @param Request $request
      */
     public function staticVideoLeaguesJson(Request $request) {
-        $url = env('LIAOGOU_URL')."aik/subjects/league/video/leagues";
-        $server_output = SubjectController::execUrl($url);
-        $types = json_decode($server_output, true);
-        $types = isset($types) ? $types : [];
-        $typesStr = json_encode($types);
-//        $aiCon = new \App\Http\Controllers\IntF\SubjectVideoController();
-//        $data = $aiCon->subjectVideoTypes(new Request())->getData();
-//        $typesStr = json_encode($data);
-//        $types = json_decode($typesStr);
+//        $url = env('LIAOGOU_URL')."aik/subjects/league/video/leagues";
+//        $server_output = SubjectController::execUrl($url);
+//        $types = json_decode($server_output, true);
+//        $types = isset($types) ? $types : [];
+//        $typesStr = json_encode($types);
+
+        $aiCon = new \App\Http\Controllers\IntF\SubjectVideoController();
+        $data = $aiCon->subjectVideoTypes(new Request())->getData();
+        $typesStr = json_encode($data);
+        $types = json_decode($typesStr, true);
         Storage::disk("public")->put('/live/subject/videos/leagues.json', $typesStr);
         $data = array();
         foreach ($types as $key=>$item){
@@ -168,9 +169,10 @@ class SubjectVideoController extends Controller
      * @param Request $request
      * @param $type
      * @param $page
+     * @param $mobile
      */
-    public function staticSubjectVideosHtml(Request $request, $type, $page) {
-        $isMobile = $request->input('isMobile', 0);
+    public function staticSubjectVideosHtml(Request $request, $type, $page, $mobile = false) {
+        $isMobile = $request->input('isMobile', 0) || $mobile;
         $data = $this->getSubjectVideos($type, $page, $isMobile);
         if ($isMobile) {
             $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();

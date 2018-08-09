@@ -11,6 +11,7 @@ namespace App\Console\HotVideo;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\Live\VideoController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class VideoPageCommand extends Command
@@ -66,7 +67,7 @@ class VideoPageCommand extends Command
             for (;$curPage <= $forPage; $curPage++) {
                 $this->staticPage($tid, $curPage);
             }
-            usleep(200);//等待200毫秒
+            usleep(30);//等待200毫秒
             $this->setCurPage($tid, $curPage);//每次最多静态化 3 页
         }
         echo "热门录像分页静态化执行消耗时间：" . (time() - $start) . " 秒。\n";
@@ -78,8 +79,10 @@ class VideoPageCommand extends Command
      * @param $page
      */
     protected function staticPage($type, $page) {
-        $url = asset('/static/videos/page/' . $type . '/' . $page);
-        SubjectController::execUrl($url);
+//        $url = asset('/static/videos/page/' . $type . '/' . $page);
+//        SubjectController::execUrl($url);
+        $videoCon = new VideoController();
+        $videoCon->staticVideosHtml(new Request(), $type, $page);
     }
 
     /**
