@@ -59,6 +59,7 @@ Route::group([], function () {
     Route::get("/aik/lives/liveMatchesJson", "AikanQController@getLiveMatchesJson");//正在直播比赛
 
     Route::get("/match/live/url/channel/{id}", "AikanQController@getLiveUrl");//正在直播比赛
+    Route::get("/match/live/url/match/{id}", 'AikanQController@getLiveUrlMatch');//根据live matchid获取直播url
 
     //===========================专题相关===========================//
     Route::get("/aik/subjects", "AikanQController@subjects");//专题列表

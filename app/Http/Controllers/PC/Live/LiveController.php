@@ -385,6 +385,25 @@ class LiveController extends Controller
     }
 
     /**
+     * 页面html内容
+     * @param $json
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function detailHtml($json, $id) {
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
+        } else {
+            return abort(404);
+        }
+        $this->_saveAppData($json,1, $id);
+        return view('pc.live.video', $json);
+    }
+
+    /**
      * 篮球直播终端
      * @param Request $request
      * @param $id
@@ -403,6 +422,19 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] =  date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
+        } else {
+            return abort(404);
+        }
+        $this->_saveAppData($json,2,$id);
+        return view('pc.live.video', $json);
+    }
+
+    public function basketDetailHtml($json, $id) {
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] =  date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
@@ -435,6 +467,19 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        if (isset($json['match'])) {
+            $match = $json['match'];
+            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "_爱看球";
+            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
+            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "，JRS低调看直播就来爱看球直播。";
+        } else {
+            return abort(404);
+        }
+        $this->_saveAppData($json,3,$id);
+        return view('pc.live.video', $json);
+    }
+
+    public function otherDetailHtml($json, $id) {
         if (isset($json['match'])) {
             $match = $json['match'];
             $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "_爱看球";
@@ -496,6 +541,62 @@ class LiveController extends Controller
             $mchannels = array();
         }
         return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+    }
+
+    /**
+     * 播放器channel
+     * @param Request $request
+     * @param $mid
+     * @param  $sport
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function dbMatchPlayerChannel(Request $request, $mid, $sport) {
+//        $ch = curl_init();
+//        if ($sport == 3) {
+//            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
+//        } else if ($sport == 2) {
+//            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$mid" . '.json';
+//        } else {
+//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$mid" . '.json';
+//        }
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+//        $server_output = curl_exec ($ch);
+//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//        curl_close ($ch);
+//        $json = json_decode($server_output,true);
+        $json = AikanQController::matchDetailArray($mid, $sport, false);
+        if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+            $channels = $json['live']['channels'];
+        } else{
+            $channels = array();
+        }
+
+//        $ch = curl_init();
+//        if ($sport == 3) {
+//            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/mobile/$mid" . '.json';
+//        } else if ($sport == 2) {
+//            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$mid" . '.json';
+//        } else {
+//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$mid" . '.json';
+//        }
+//
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_TIMEOUT,8);
+//        $server_output = curl_exec ($ch);
+//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//        curl_close ($ch);
+//        $json = json_decode($server_output,true);
+        $json = AikanQController::matchDetailArray($mid, $sport, true);
+        if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+            $mChannels = $json['live']['channels'];
+        }
+        else{
+            $mChannels = array();
+        }
+        return view('pc.live.match_channel',array('mchannels'=>$mChannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
     }
 
     /**
@@ -584,6 +685,12 @@ class LiveController extends Controller
         return $server_output;
     }
 
+    public function getLiveUrlMatchFromDb(Request $request, $mid, $sport, $isMobile) {
+        $aikCon = new AikanQController();
+        $data = $aikCon->getLiveUrlMatch($request, $mid, $isMobile, $sport)->getData();
+        return json_encode($data);
+    }
+
     public function getLiveUrlMatchM(Request $request,$mid,$sport){
         $ch = curl_init();
         $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile=1&sport='.$sport;
@@ -620,7 +727,7 @@ class LiveController extends Controller
         $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         if ($server_output == false) {

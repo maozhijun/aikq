@@ -1227,4 +1227,123 @@ class AikanQController extends Controller
         return false;
     }
 
+    /**
+     * 根据match id获取url
+     * @param Request $request
+     * @param $mid
+     * @param $isMobile
+     * @param $sport
+     * @return mixed
+     */
+    public function getLiveUrlMatch(Request $request, $mid, $isMobile = false, $sport = 1){
+        $use = $request->input('use',MatchLiveChannel::kUseLg310);
+        $sport = $request->input('sport', $sport);
+        $live = MatchLive::query()->where('match_id', $mid)
+            ->where('sport',$sport)
+            ->first();
+
+        if (is_null($live)){
+            $match = $this->getMatch($sport, $mid);
+            return response()->json(array('code'=>-1,'message'=>'no channel','match'=>$match));
+        } else{
+            if ($isMobile || self::isMobile($request) || $request->input('isMobile',0)) {
+                switch ($use){
+                    case MatchLiveChannel::kUseLg310:
+                        $channels = $live->mChannels();
+                        break;
+                    case MatchLiveChannel::kUseAiKQ:
+                        $channels = $live->mAiKqChannels();
+                        break;
+                    default:
+                        $channels = array();
+                        break;
+                }
+                if (count($channels) == 0){
+                    $match = $this->getMatch($sport, $mid);
+                    return response()->json(array('code'=>-1,'message'=>'no channel','match'=>$match));
+                }
+                $channelId = $channels[0]['id'];
+            }
+            else{
+                switch ($use){
+                    case MatchLiveChannel::kUseLg310:
+                        $channels = $live->kChannels();
+                        break;
+                    case MatchLiveChannel::kUseAiKQ:
+                        $channels = $live->kAiKqChannels();
+                        break;
+                    default:
+                        $channels = array();
+                        break;
+                }
+                if (count($channels) == 0){
+                    $match = $this->getMatch($sport, $mid);
+                    return response()->json(array('code'=>-1,'message'=>'no channel','match'=>$match));
+                }
+                $channelId = $channels[0]['id'];
+            }
+        }
+        return $this->getLiveUrl($request, $channelId);
+//        return \Illuminate\Support\Facades\Response::json(array('code'=>0,'cid'=>$channelId,'type'=>$channels[0]['type'],'player'=>$channels[0]['player'],'link'=>$channels[0]['link']));
+    }
+
+    /**
+     * 获取返回的比赛。
+     * @param $sport
+     * @param $mid
+     * @return array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
+    protected function getMatch($sport, $mid) {
+        if ($sport == MatchLive::kSportFootball) {
+            $match = Match::query()->find($mid);
+        } else {
+            $match = BasketMatch::query()->find($mid);
+        }
+        if (!isset($match)) return null;
+        $show_live = false;
+        if (!$show_live) {//比赛中
+            $show_live = $match->status > 0;
+        }
+        if (!$show_live) {
+            $matchTime = strtotime($match->time);
+            if ($match->status == 0) {//未开始
+                $show_live = (($matchTime - time()) / 60) <= 60;//赛前五分钟
+            } else if ($match->status == -1) {//已结束
+                if (isset($match->timehalf))
+                    $time = strtotime($match->timehalf);
+                else
+                    $time = strtotime($match->time);
+                if (isset($match->timehalf)) {
+                    $show_live = ((time() - $time) / 60) <= (45 + 60);//赛后十分钟
+                }
+                else {
+                    $show_live = ((time() - $time) / 60) <= (120 + 60);//赛后十分钟
+                }
+            }
+        }
+        $tmp = array('status'=>$match->status,'show_live'=>$show_live);
+        $match = $tmp;
+        return $match;
+    }
+
+
+    public static function matchDetailArray($id, $sport, $isMobile) {
+        $request = new Request();
+        $akqCon = new AikanQController();
+        if ($sport == 1) {
+            $jsonStr = $akqCon->detailJson($request, $id, $isMobile)->getData();
+            $jsonStr = json_encode($jsonStr);
+            $json = json_decode($jsonStr, true);
+        } else if ($sport == 2) {
+            $jsonStr = $akqCon->basketDetailJson($request, $id, $isMobile)->getData();
+            $jsonStr = json_encode($jsonStr);
+            $json = json_decode($jsonStr, true);
+        } else {
+            $jsonStr = $akqCon->otherDetailJson($request, $id, $isMobile)->getData();
+            $jsonStr = json_encode($jsonStr);
+            $json = json_decode($jsonStr, true);
+        }
+        return $json;
+    }
+
 }
