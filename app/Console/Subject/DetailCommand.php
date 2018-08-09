@@ -45,9 +45,12 @@ class DetailCommand extends Command
     public function handle()
     {
         $leagues = SubjectController::getSubjects();
+        $con = new SubjectController();
+        $request = new Request();
         foreach ($leagues as $id=>$name) {
-            $url = asset('/static/subject/detail/'. $id);
-            SubjectController::execUrl($url, 15);
+            $con->staticSubjectHtml($request, $id);
+            //$url = asset('/static/subject/detail/'. $id);
+            //SubjectController::execUrl($url, 15);
         }
     }
 

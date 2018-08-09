@@ -11,6 +11,7 @@ namespace App\Console\Subject;
 
 use App\Http\Controllers\PC\Live\SubjectController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 class LeaguesJsonCommand extends Command
 {
@@ -44,8 +45,10 @@ class LeaguesJsonCommand extends Command
      */
     public function handle()
     {
-        $url = asset('/static/subject/leagues');
-        SubjectController::execUrl($url, 10);
+        $con = new SubjectController();
+        $con->staticSubjectLeagues(new Request());
+        //$url = asset('/static/subject/leagues');
+        //SubjectController::execUrl($url, 10);
     }
 
 }

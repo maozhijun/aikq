@@ -18,7 +18,7 @@
         @foreach($channels as $index=>$channel)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-            if (stristr($channel['link'],'leqiuba.cc'))
+            if (!empty($channel['link']) && stristr($channel['link'],'leqiuba.cc'))
                 $link = '';
             ?>
             @if(strlen($link) > 0)
@@ -33,7 +33,7 @@
         @foreach($mchannels as $index=>$channel)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-            if (stristr($channel['link'],'leqiuba.cc'))
+            if (!empty($channel['link']) && stristr($channel['link'], 'leqiuba.cc'))
                 $link = '';
             ?>
             @if(strlen($link) > 0)
