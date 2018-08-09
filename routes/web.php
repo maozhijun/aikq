@@ -92,3 +92,11 @@ Route::group([], function () {
     Route::get("/db/spread/matchList.html", "DongQiuZhiBoController@matchList");
     Route::get("/spread/api/matchList.json", "DongQiuZhiBoController@matchListJson");
 });
+
+
+Route::group(['middleware' => ['web']], function () {//, 'wx_auth', 'wx_base'        //$user = session('wechat.oauth_user'); // 拿到授权用户资料
+    Route::get('/act/transfer.html', function () {
+        return view('transfer.index');
+    });
+});
+Route::get('/act/transfer/rank.html', "TransferController@rank");

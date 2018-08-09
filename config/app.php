@@ -183,6 +183,10 @@ return [
          * UEditor
          */
         Overtrue\LaravelUEditor\UEditorServiceProvider::class,
+        /*
+         * 微信SDK
+         */
+        Overtrue\LaravelWechat\ServiceProvider::class,
     ],
 
     /*
@@ -233,6 +237,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Wechat' => Overtrue\LaravelWechat\Facade::class,
     ],
 
 ];
