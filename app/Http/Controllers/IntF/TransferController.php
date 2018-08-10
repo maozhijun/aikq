@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Redis;
 
 class TransferController extends Controller
 {
-    const RANK_CACHE_KEY = "TransferController_Rank";
+    const RANK_CACHE_KEY = "TransferController_Rank_";
 
     public function __construct() {
         //$this->middleware('wx_base')->only('saveTransfer');

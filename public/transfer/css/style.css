@@ -37,7 +37,7 @@ html{
 body{
 	min-height: 100%;
 	padding: 30px 0 120px;
-	background: url(../img/image_common_bg_n.jpg) no-repeat center; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/image_common_bg_n.jpg) no-repeat center; background-size: cover;
 	text-align: center;
 	box-sizing: border-box;
 }
@@ -65,13 +65,13 @@ button{
 	display: block;
 }
 button#Apply{
-	background: url(../img/button_apply_n.png) no-repeat center; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/button_apply_n.png) no-repeat center; background-size: cover;
 }
 button#Again{
-	background: url(../img/button_again_n.png) no-repeat center; background-size: cover;	
+	background: url(http://static.cdn.dlfyb.com/transfer/img/button_again_n.png) no-repeat center; background-size: cover;
 }
 button#Wanna{
-	background: url(../img/button_wanna_n.png) no-repeat center; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/button_wanna_n.png) no-repeat center; background-size: cover;
 }
 
 a.rank{
@@ -82,7 +82,7 @@ a.rank{
 a.rank:before, a.rank:after{
 	width: 40px; height: 64px;
 	padding: 0 20px;
-	background: url(../img/icon_crown_n.png) no-repeat center; background-size: 40px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/icon_crown_n.png) no-repeat center; background-size: 40px;
 	vertical-align: top;
 	display: inline-block;
 	content: '';
@@ -161,7 +161,7 @@ a.rank:before, a.rank:after{
 /*结果*/
 .welcome{
 	height: 48px;
-	background: url(../img/image_logo_n.png) no-repeat center; background-size: 150px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/image_logo_n.png) no-repeat center; background-size: 150px;
 	/*opacity: 0.4;
 	font-size: 56px; line-height: 60px; text-align: center; color: #F8C16D;*/
 	position: fixed; top: 30px; left: 0; right: 0;
@@ -191,7 +191,7 @@ a.rank:before, a.rank:after{
 #Result .inner{
 	margin-bottom: 70px;
 	border-radius: 4px;
-	background: url(../img/123.png) no-repeat right top #fff; background-size: 140px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/123.png) no-repeat right top #fff; background-size: 140px;
 	/*background: #fff;*/
 	position: relative; z-index: 1;
 }
@@ -230,7 +230,7 @@ a.rank:before, a.rank:after{
 #Result .inner .content{
 	padding: 100px 30px 140px 30px;
 	border-radius: 0 0 4px 4px;
-	/*background: url(../img/123.png) no-repeat right bottom #982525; background-size: 120px;*/
+	/*background: url(http://static.cdn.dlfyb.com/transfer/img/123.png) no-repeat right bottom #982525; background-size: 120px;*/
 	background: #982525;
 	position: relative;
 }
@@ -255,7 +255,7 @@ a.rank:before, a.rank:after{
 	width: 250px; height: 88px;
 	margin-left: -125px;
 	padding: 0 30px 0 70px;
-	background: url(../img/icon_pen_n.png) no-repeat 26px center #fff; background-size: 34px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/icon_pen_n.png) no-repeat 26px center #fff; background-size: 34px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.50);
 	border-radius: 44px;
 	font-size: 30px; line-height: 88px; color: #982525;
@@ -283,7 +283,7 @@ a.rank:before, a.rank:after{
 }
 #Money .inner button{
 	width: 50px; height: 50px;
-	background: url(../img/icon_delete_n.png) no-repeat center; background-size: 50px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/icon_delete_n.png) no-repeat center; background-size: 50px;
 	position: absolute; top: 30px; right: 30px;
 }
 #Money .inner img{

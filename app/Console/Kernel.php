@@ -57,9 +57,9 @@ class Kernel extends ConsoleKernel
 
         CoverCommand::class,//专题封面同步
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
-        SubjectVideoPageCommand::class,//专题录像 静态化分页列表
-        PlayerCommand::class,//录像player静态化
-        MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
+        SubjectVideoPageCommand::class,//专题录像 静态化分页列表          DB
+        PlayerCommand::class,//录像player静态化                           NO不需要修改
+        MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化    DB
 
 
         FIFACommand::class,//世界杯

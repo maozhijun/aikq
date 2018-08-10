@@ -82,7 +82,7 @@ class AikanQController extends Controller
 
         $startTime = time();
         foreach ($footballMatches as $match){
-            $fArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportFootball);
+            $fArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportFootball);
         }
         //dump("足球实体转化时间：" . (time() - $startTime));
 
@@ -95,7 +95,7 @@ class AikanQController extends Controller
         $bArray = [];
         $startTime = time();
         foreach ($basketballMatches as $match){
-            $bArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportBasketball);
+            $bArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportBasketball);
         }
         //dump("篮球实体转化时间：" . (time() - $startTime));
 
@@ -244,7 +244,7 @@ class AikanQController extends Controller
         $query = $this->getLiveMatches(MatchLive::kSportBasketball);
         $matches = $query->get();
         foreach ($matches as $match) {
-            $bArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportBasketball);
+            $bArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportBasketball);
         }
 
         foreach ($bArray as $match) {
@@ -275,7 +275,7 @@ class AikanQController extends Controller
         $fArray = [];
 
         foreach ($matches as $match) {
-            $fArray[] = KanQiuMaController::match2Array($match, $isMobile, MatchLive::kSportFootball);
+            $fArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportFootball);
         }
 
         foreach ($fArray as $match) {
@@ -1115,18 +1115,6 @@ class AikanQController extends Controller
                 return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeBallBar,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
                 break;
             case MatchLiveChannel::kTypeTTZB:
-//                if ($breakTTZB == 'break') {//破解TTZB
-//                    if (self::isMobile($request)||$request->input('isMobile',0)) {
-//                        $js = $this->ttzbLiveUrl($channel->content);
-//                    }
-//                    else{
-//                        $js = $this->breakTTZBLiveRTMPUrl($channel->content);
-//                    }
-//                    if (isset($js))
-//                        return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'js'=>$js,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
-//                    else
-//                        return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
-//                } else {
                     if (self::isMobile($request)||$request->input('isMobile',0)) {
                         $playurl = $this->ttzbLiveRTMPUrl($channel->content);
                         if (isset($playurl))
@@ -1140,7 +1128,6 @@ class AikanQController extends Controller
                         else
                             return response()->json(array('code'=>-1,'type'=>MatchLiveChannel::kTypeTTZB,'message'=>'error','match'=>$match, 'platform'=>$channel->platform ));
                     }
-//                }
                 break;
             case MatchLiveChannel::kTypeWCJ:
 //                $url = $this->wcjLiveUrl($channel->content,self::isMobile($request)||$request->input('isMobile',0));
@@ -1344,6 +1331,39 @@ class AikanQController extends Controller
             $json = json_decode($jsonStr, true);
         }
         return $json;
+    }
+
+
+    /**
+     * 赛事转为数组
+     * @param $match
+     * @param $isMobile
+     * @param $sport
+     * @return array
+     */
+    public function match2Array($match, $isMobile, $sport) {
+        $obj = ['hname'=>$match->hname, 'aname'=>$match->aname, 'sport'=>$sport ];
+        $obj['league_name'] = $match->getLeagueName();
+        $obj['isMatching'] = ($match->status > 0 && $match->status <= 4);
+        $obj['host_icon'] = $match->getTeamIcon(true);
+        $obj['away_icon'] = $match->getTeamIcon(false);
+        $obj['mid'] = $match['mid'];
+        $obj['ascore'] = $match->ascore;
+        $obj['hscore'] = $match->hscore;
+        $obj['betting_num'] = $match->betting_num;
+        $obj['time'] = $match->time;
+        $obj['status'] = $match->status;
+
+        //是否有专家推荐
+        if ($isMobile){
+            $live = MatchLive::query()->find($match['live_id']);
+            $array = $this->getMobileChannels($live);
+        }
+        else{
+            $array = MatchLive::query()->find($match['live_id'])->kAiKqChannels();
+        }
+        $obj['channels'] = $array;
+        return $obj;
     }
 
 }

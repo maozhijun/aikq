@@ -1,12 +1,12 @@
 ﻿
 body{
 	padding-top: 232px;
-	background: url(../img/image_bg_rank_n.jpg) no-repeat center top; background-size: 100%;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/image_bg_rank_n.jpg) no-repeat center top; background-size: 100%;
 }
 body:before{
 	width: 504px; height: 152px;
 	margin-left: -252px;
-	background: url(../img/image_rank_n.png) no-repeat center; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/image_rank_n.png) no-repeat center; background-size: cover;
 	position: absolute; top: 42px; left: 50%;
 	content: '';
 }

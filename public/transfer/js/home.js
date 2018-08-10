@@ -84,29 +84,11 @@ function Transfer () {
     $('#Result p.cost').html(Info[1]);
 
     var Con = getRrophecy();
-    $('#Result .content p').html(prophecyArr[Con]);
-
-    var money = Info[1];
-    money = money.replace("欧元", "");
-    money = money.replace("万", "");
-    var data = {"name": Name, "club": Info[0], "money": money};
-    $.ajax({
-        "url": "/api/transfer/save",
-        "type": "post",
-        "dataType": "json",
-        "data": data,
-        "success": function (json) {
-            //alert(json.code + json.mes + json.rank);
-        },
-        "error": function () {
-            //alert("保存失败");
-        }
-    });
+    $('#Result .content p').html(prophecyArr[Con].replace('XX',Info[0]));
 
     //微信自定义分享
     var url = location.protocol + '//' + location.hostname + location.pathname + '?name=' + tounicode(Name) + '&club=' + tounicode(Info[0]) + '&money=' + tounicode(Info[1]) + '&content=' + Con;
-    //customShare(Name + "以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", "国际足坛夏季转会风云榜", url, '', '');
-    customShare(Name + "以" + Info[1] + "转会到" + Info[0] + "!", "国际足坛夏季转会风云榜", url, '', '');
+    customShare(Name + "以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", "国际足坛夏季转会风云榜", url, '', '');
 
     //交互效果
     function showResult () {
@@ -150,7 +132,7 @@ function Reset (time) {
         $('.title, input, #Apply, .rank:first').removeClass('opacity').val('')
     }, time)
 
-    customShare('转会啦！英雄终归何处！', '国际足坛夏季转会风云榜', location.protocol + '//' + location.hostname + location.pathname, '', '');
+    customShare('英雄莫问出处，总得有个去处。转会窗口，容许我跳！个！槽！', '国际足坛夏季转会风云榜', location.protocol + '//' + location.hostname + location.pathname, '', '');
 }
 
 //转会数据处理
@@ -172,13 +154,13 @@ var prophecyArr=[ //文案
     "距离入选国家队只差一步了。",
     "你的进球数绝对能赶超张稀哲。",
     "炮上了名模，队友还不明白：为什么医疗室门前总是挂着一把伞。",
-    "呃…被转手卖掉…(好尴尬= =)",
+    "呃⋯被转手卖掉⋯(好尴尬= =)",
     "诱惑苏亚雷斯咬人然后被罚下。",
     "多家中超俱乐部表示对你垂涎欲滴。",
     "今年的世界足球先生竞争因为你将变得更加激烈。",
-    "博格巴表示在你面前他永远是第二。",
+    "内马尔表示在你面前他永远是第二。",
     "弗格森感叹当年没签下你是一生最大的遗憾。",
-    "因为接受不了你转会，布拉特毅然辞职了。",
+    "因为接受不了你转会，穆里尼奥毅然辞职了。",
     "中东的土豪俱乐部正在调动大批资金准备重购你。",
     "5000名球迷将会去机场迎接你的到来。",
     "英超10+俱乐部主教练同时在响你经纪人门德斯的手机。",
@@ -187,14 +169,61 @@ var prophecyArr=[ //文案
     "你的肥猪流发型已经成为球队的新风尚。",
     "你永远无法铲倒一个在散步的人。",
     "狂热的女球迷被警卫拉走的时候上前解围并满足粉丝要求，暖男形象深入人心。",
-    "从未见过如此厚颜无耻之人。不要再抢对方守门员的门球了！"
+    "从未见过如此厚颜无耻之人。不要再抢对方守门员的门球了！",
+    "随着一声猪叫，球迷们欢天喜地下树了！",
+    "转会照片肚腩突出？WTF！你们可以说我胖，但我的身材从未走样。我就是我，是人间不一样的烟火",
+    "听说乾贵士加盟贝蒂斯后唱了《哆啦A梦》，我可以想象你会唱个什么“一起喵喵喵喵喵”~",
+    "俱乐部官员给你一个球让你solo，你二话不说一脚蒙在柱子上，向世界杯时的巴舒亚伊致敬",
+    "去XX是我毕生的梦想，这次我发誓不会再改了！",
+    "你有姆巴佩的速度？别浪费了，跟我回去送餐吧！",
+    "你有C罗的弹跳？别浪费了，跟我回去送餐吧！",
+    "你有浩克的强壮？别浪费了，跟我回去搬砖吧！",
+    "你有梅西的技术？别浪费了，跟我回去绣个蒂花之秀吧！",
+    "你有内马尔的抖机灵？别浪费了，跟我回去培训老太太如何碰瓷不被看穿吧！",
+    "这队里个个都是淫才，说话又吼听，我敲稀饭这里的！",
+    "我就是饿死，也绝不会加盟这个烂队！（←真香警告）",
+    "对唔住，有钱真系可以为所欲为的！",
+    "但愿你家的传真机没有在关键时刻坏掉！",
+    "再给你三秒钟，擦干口水就该醒醒搬砖了！",
+    "你可能会做出成千上万个关键扑救，但是人们记住的却是那些洞穿你十指关的进球",
+    "擅长拌蒜式带球的盘带鬼才，解围式射门流派创始人！",
+    "你就是球队的刹车垫，高速反击终结者，球队需要你！",
+    "翘臀神锋，造点狂魔，吃饼达人，不会射门的射手王！",
+    "擅长一个人逆转战局，唤醒即将睡着的球迷之人！",
+    "未来打脸球迷型球员，球迷讨论群的流量担当！",
+    "上场自带10打12效果，射门直击摄影师！",
+    "有着解围型前锋属性，球队的未来战士！",
+    "球队中场唯一的持球人，未来足坛的中场巨星！",
+    "球技不要求世界级，发型倒是可以搞个世界级！",
+    "我觉得你可以出一本书《如何打好每一台飞机》！",
+    "未来你将是快乐足球忠实拥护者！",
+    "小伙子有前途，从不缺质疑的男人！",
+    "世界波专业户，球队前场独逼双骄之一！",
+    "常规赛划水，淘汰赛超神的男人！",
+    "远射大神，隐藏的任意球大师！",
+    "防守型前锋，适合待着饮水机旁的男人！",
+    "未来足坛20年B2B领袖，极具王者之风！",
+    "古代中锋与现代中锋相结合，出道即巅峰！",
+    "前叉世界级，有保利尼奥的风范！",
+    "脑子以下是世界级，所有门将的福音！",
+    "天选之子，闭着眼都能进球！",
+    "一上场，10分钟发动5次进攻的大师！",
+    "未来你将是最为踢球的模特！",
+    "球技和颜值兼可得，未来球队的颜值担当！",
+    "一上场，自带进攻终结属性！",
+    "拥有极高后卫天赋，擅长人球分过，伟大的天才！",
+    "广场舞大妈男神，微博热度仅次于C罗！",
+    "颜值与能力并存的人，对，你就是那个人！",
+    "一个集颜值和优雅于一身的好球员、好丈夫！",
+    "你的演技，和内马尔有得一拼！",
+    "未来蒙牛的代言人，有着梅西的待遇！"
 ];
 var mesArr=[ //球队分级
     {
         p:20,
         pRange:[],
         star:5,
-        salary:[40000000,100000000],
+        salary:[50000000,200000000],
         team:[
             "皇马",
             "巴萨",
@@ -203,16 +232,18 @@ var mesArr=[ //球队分级
             "阿森纳",
             "曼城",
             "尤文图斯",
-            "拜仁"
+            "拜仁慕尼黑",
+            "利物浦",
+            "巴黎圣日耳曼"
         ]
     },
     {
         p:20,
         pRange:[],
         star:4,
-        salary:[10000000,40000000],
+        salary:[10000000,80000000],
         team:[
-            "巴黎圣日耳曼",
+            "马赛",
             "里昂",
             "马德里竞技",
             "瓦伦西亚",
@@ -223,7 +254,8 @@ var mesArr=[ //球队分级
             "罗马",
             "沃尔夫斯堡",
             "多特蒙德",
-            "波尔图"
+            "波尔图",
+            "广州恒大淘宝"
         ]
     },
     {
@@ -232,8 +264,10 @@ var mesArr=[ //球队分级
         star:3,
         salary:[5000000,15000000],
         team:[
-            "广州恒大",
+            "天津权健",
             "北京国安",
+            "上海申花",
+            "山东鲁能",
             "凯尔特人",
             "阿贾克斯",
             "PSV埃因霍温",
@@ -255,13 +289,13 @@ var mesArr=[ //球队分级
         star:2,
         salary:[1000000,7000000],
         team:[
-            "山东鲁能",
+            "江苏苏宁",
             "广州富力",
             "浦和红钻",
             "柏太阳神",
             "广岛三箭",
             "鸟栖沙岩",
-            "大宫松鼠",
+            "神户胜利船",
             "首尔FC",
             "全北现代",
             "釜山偶像",
@@ -272,8 +306,8 @@ var mesArr=[ //球队分级
             "西悉尼流浪者",
             "洛杉矶银河",
             "纽维尔老男孩（阿根廷）",
-            "拉普拉塔体操击剑俱乐部（阿根廷）",
-            "咸史泰斯（瑞典）",
+            "拉普拉塔体操击剑（阿根廷）",
+            "马尔默（瑞典）",
             "英特杜古（芬兰）",
             "利尼史特朗（挪威）",
             "洛斯查兰特（丹麦）",
@@ -310,7 +344,8 @@ var mesArr=[ //球队分级
             "牛津联（英乙）",
             "切尔滕汉姆（英乙）",
             "联曼（英南北）",
-            "麦德黑队（英南北）"
+            "麦德黑队（英南北）",
+            "天朝某某街道办"
         ]
     }
 ];
@@ -344,6 +379,22 @@ function getMes(range){
     var salary=Math.floor(Math.random()*(_mesObj.salary[1]-_mesObj.salary[0]))+_mesObj.salary[0];
     console.log("salary is "+salary);
     if(salary>10000){
+        $.ajax({
+            url: 'http://mp.dlfyb.com/api/transfer/save',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                money: parseInt(salary/10000),
+                club: team,
+                name: $('#Result p.name').html()
+            },
+            success: function () {
+                //保存成功
+            },
+            error: function () {
+                //保存失败
+            }
+        })
         salary=salary+"";
         salary=salary.slice(0,-4)+"万欧元";
     }else{
@@ -362,20 +413,19 @@ function formShare (name,club,money,con) {
     var Name = tohanzi(name);
     var Club = tohanzi(club);
     var Money = tohanzi(money);
-
     $('#Result p.name').html(Name);
     $('#Result p.club').html(Club);
     $('#Result p.cost').html(Money);
-
     $('#Result .content p').html(prophecyArr[con]);
 
     if ($('#Result .content p').height() >= 190) {
         $('#Result .inner').css('margin-bottom','54px');
         $('#Result a.rank').css('margin-top','40px');
     }
+
     //初始化微信自定义分享
-    var url = location.protocol + '//' + location.hostname + location.pathname + '?name=' + tounicode(Name) + '&club=' + tounicode(Club) + '&money=' + tounicode(Money) + '&content=' + tounicode(con);
-    customShare(Name + "以" + Money + "转会到" + Club + "!", '国际足坛夏季转会风云榜', url, '', '');
+    // var url = location.protocol + '//' + location.hostname + location.pathname + '?name=' + name + '&club=' + club + '&money=' + money + '&content=' + con;
+    customShare($('#Result p.name').html() + "以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", '国际足坛夏季转会风云榜', '', '', '');
 }
 
 
@@ -389,7 +439,6 @@ function tounicode(data){
 }
 
 function tohanzi(data){
-    data = decodeURIComponent(data);
     data = data.split(",");
     var str ='';
     for(var i=0;i<data.length;i++){

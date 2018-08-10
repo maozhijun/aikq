@@ -1159,6 +1159,72 @@ class LiveController extends Controller
     }
 
     /**
+     * 静态化直播线路的json
+     * @param Request $request
+     * @param $id
+     * @param $has_mobile
+     * @param $sport
+     */
+    public function staticDBLiveUrl(Request $request, $id, $has_mobile = false, $sport = null) {
+        try {
+            $player = $this->player($request);
+            $sport = !isset($sport) ? $request->input('sport',1) : $sport;
+            $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
+
+            //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
+//            $ch = curl_init();
+//            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
+//            curl_setopt($ch, CURLOPT_URL,$url);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
+//            $pc_json = curl_exec ($ch);
+//            curl_close ($ch);
+            $aiCon = new AikanQController();
+            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
+            $pc_json = json_encode($jsonStr);
+            if (!empty($pc_json)) {
+                Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
+                //每一个channel的player页面生成
+                $json = json_decode($pc_json,true);
+                if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
+                    Storage::disk("public")->put("/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
+                }
+
+                //保存app
+                $key = env('APP_DES_KEY');
+                $iv=env('APP_DES_IV');
+                $appData = $json;
+
+                if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                    $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                }
+                $appData = json_encode($appData);
+                Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
+                Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
+            }
+            if ($has_mobile) {
+//                $ch = curl_init();
+//                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
+//                curl_setopt($ch, CURLOPT_URL,$url);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
+//                $mobile_json = curl_exec ($ch);
+//                curl_close ($ch);
+                $mobile_json = $pc_json;
+                if (!empty($mobile_json)) {
+                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
+                }
+            } else {
+                if (!empty($pc_json)) {
+                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $pc_json);
+                }
+            }
+        } catch (\Exception $e) {
+            dump($e);
+        }
+    }
+
+    /**
      * 刷新缓存
      * @param Request $request
      */
