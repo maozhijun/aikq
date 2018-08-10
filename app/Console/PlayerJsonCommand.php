@@ -10,8 +10,10 @@ namespace App\Console;
 
 
 use App\Http\Controllers\PC\Live\LiveController;
+use App\Models\Match\MatchLiveChannel;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlayerJsonCommand extends Command
 {
@@ -45,13 +47,48 @@ class PlayerJsonCommand extends Command
      */
     public function handle()
     {
-        $con = new LiveController();
-        $con->staticPlayerJson(new Request());
-//        $ch = curl_init();
-//        $url = asset('/live/cache/player/json');
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_exec ($ch);
-//        curl_close ($ch);
+//        $con = new LiveController();
+//        $con->staticPlayerJson(new Request());
+        $this->staticPlayerJson(new Request());
     }
+
+
+    /**
+     * 静态化播放页面异步请求
+     * @param Request $request
+     */
+    public function staticPlayerJson(Request $request) {
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
+
+        if (!isset($json['matches'])) return;
+        $matches = $json['matches'];
+        $con = new LiveController();
+        foreach ($matches as $time=>$match_array) {
+            foreach ($match_array as $match) {
+                if (!isset($match) || !isset($match['time'])) {
+                    continue;
+                }
+                $m_time = strtotime($match['time']);
+                $status = $match['status'];
+                $now = time();
+
+                $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
+                $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
+                if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
+                    if (isset($match['channels'])) {
+                        $channels = $match['channels'];
+                        foreach ($channels as $channel) {
+                            $ch_id = $channel['id'];
+                            if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
+                                $con->staticDBLiveUrl($request, $ch_id, true);
+                                usleep(100);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

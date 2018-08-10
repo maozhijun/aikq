@@ -33,6 +33,13 @@ class TransferController extends Controller
 //        if (empty($openid)) {
 //            return response()->json(['code'=>401, 'mes'=>'请使用微信授权后再提交']);
 //        }
+        $ip = $this->ip();
+        $cache = Redis::get($ip);
+        if (!empty($cache)) {
+            return response()->json(['code'=>401, 'mes'=>'您输入太快了，请稍后再试']);
+        }
+        Redis::setEx($ip, 5, 1);
+
         $name = $request->input('name');
         $club = $request->input('club');
         $money = $request->input('money');
@@ -57,14 +64,18 @@ class TransferController extends Controller
 //        $uid = $wxUser->id;
 
         //$tran = ApiTransfer::query()->find($uid);
+        $rank = 999;
         $tran = ApiTransfer::query()->where('name', $name)->first();
         if (!isset($tran)) {
             $tran = new ApiTransfer();
+        } else {
+            if ($tran->money >= $money) {
+                return response()->json(['code'=>200, 'mes'=>'success', 'rank'=>$rank]);
+            }
         }
         $tran->name = $name;
         $tran->club = $club;
         $tran->money = $money;
-        $rank = 999;
         try {
             $tran->save();
             $uid = $tran->id;
@@ -127,6 +138,21 @@ class TransferController extends Controller
 
         Redis::set($key, json_encode($cacheArray));
         return $cacheArray;
+    }
+
+    public function ip() {
+        //strcasecmp 比较两个字符，不区分大小写。返回0，>0，<0。
+        if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+            $ip = getenv('HTTP_CLIENT_IP');
+        } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+            $ip = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+            $ip = getenv('REMOTE_ADDR');
+        } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown')) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        $res =  preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
+        return $res;
     }
 
 }

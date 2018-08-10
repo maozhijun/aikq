@@ -61,7 +61,7 @@
                 ?>
                 <input style="width: 250px" id="a_{{$match['mid']}}"
                        {{--value="{{$preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid']}}"--}}
-                       value="{{$preUrl.'/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html'}}"
+                       value="{{$preUrl.'/#/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html'}}"
                 ><a onclick="copy({{$match['mid']}})">复制</a>
             </td>
         </tr>
