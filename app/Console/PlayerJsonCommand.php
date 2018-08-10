@@ -77,12 +77,10 @@ class PlayerJsonCommand extends Command
                 $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
                 if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
-                        //echo $match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
                             $ch_id = $channel['id'];
                             if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
-//                                NoStartPlayerJsonCommand::flushPlayerJson($ch_id, true);
                                 $con->staticDBLiveUrl($request, $ch_id, true);
                                 usleep(100);
                             }

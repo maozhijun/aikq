@@ -88,7 +88,6 @@ class NoStartPlayerJsonCommand extends Command
                             if (!in_array($ch_id, $ch_array)) {
                                 if ($index > self::Once_total) break;
                                 $ch_array[] = $ch_id;
-//                                $this->flushPlayerJson($ch_id, true);
                                 $con->staticDBLiveUrl(new Request(), $ch_id, true);
                                 $index++;
                             }
