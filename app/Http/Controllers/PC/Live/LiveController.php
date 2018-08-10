@@ -495,9 +495,14 @@ class LiveController extends Controller
     /**
      * 播放器channel
      * @param Request $request
+     * @param $mid
+     * @param $sport
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function matchPlayerChannel(Request $request,$mid,$sport){
+    public function matchPlayerChannel(Request $request, $mid = '',$sport = ''){
+        $mid = $request->input('mid', $mid);
+        $sport = $request->input('sport', $sport);
+
         $ch = curl_init();
         if ($sport == 3) {
             $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
