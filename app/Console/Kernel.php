@@ -23,6 +23,7 @@ use App\Console\Sync\BasketballMatchCommand;
 use App\Console\Sync\BasketballUpdateMatchCommand;
 use App\Console\Sync\FootballMatchCommand;
 use App\Console\Sync\FootballMatchUpdateCommand;
+use App\Console\Sync\LiveSyncCommand;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -36,30 +37,31 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        IndexCommand::class,//直播 列表静态化
-        LiveDetailCommand::class,//PC终端、移动终端html缓存。
+        IndexCommand::class,//直播 列表静态化                  DB
+        LiveDetailCommand::class,//PC终端、移动终端html缓存。  DB
 
         PlayerJsonCommand::class,//静态化赛前1小时和正在比赛的 线路
         NoStartPlayerJsonCommand::class,//静态化 赛前1小时前未开始的 线路
 
         DeleteExpireFileCommand::class,//删除过期文件
 
-        LivesJsonCommand::class,//列表json静态化
-        DBSpreadCommand::class,
+        LivesJsonCommand::class,//列表json静态化               DB
+        DBSpreadCommand::class,//懂球、柠檬分享页
         TTzbPlayerJsonCommand::class,//天天直播 （开始前1小时 - 开始后 3小时的比赛） 线路静态化
 
-        DetailCommand::class,//subject 专题终端静态化
-        LeaguesJsonCommand::class,//subject 专题列表json静态化
+        DetailCommand::class,//subject 专题终端静态化           DB
+        LeaguesJsonCommand::class,//subject 专题列表json静态化  DB
 
-        VideoPageCommand::class,//热门录像分页列表静态化
+        VideoPageCommand::class,//热门录像分页列表静态化        DB
         VideoCoverCommand::class,//热门录像封面图同步
-        SubjectVideoDetailCommand::class,//专题录像终端静态化
 
         CoverCommand::class,//专题封面同步
         SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
-        SubjectVideoPageCommand::class,//专题录像 静态化分页列表
-        PlayerCommand::class,//录像player静态化
-        MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化
+        SubjectVideoPageCommand::class,//专题录像 静态化分页列表          DB
+        PlayerCommand::class,//录像player静态化                           NO不需要修改
+        MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化    DB
+
+
         FIFACommand::class,//世界杯
 
         //同步数据相关 开始
@@ -68,6 +70,7 @@ class Kernel extends ConsoleKernel
 
         BasketballMatchCommand::class,//同步basket_matches数据到爱看球
         BasketballUpdateMatchCommand::class,//更新basket_matches数据到爱看球
+        LiveSyncCommand::class,//同步更新 直播相关的数据
         //同步数据相关 结束
 
         //主播相关定时任务
@@ -94,6 +97,7 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
+        $schedule->command('sync_live_matches:run')->everyMinute();
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存

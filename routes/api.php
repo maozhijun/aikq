@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['namespace'=>'IntF'], function (){
+    Route::post("/transfer/save", "TransferController@saveTransfer");//保存转会信息
+    //Route::get("/transfer/rank", "TransferController@rank");//转会金额排行榜
+});
+
+Route::group(['namespace'=>'Api', 'middleware'=>'web'], function () {
+    Route::get("/base/auth", "WxAuthController@wxAuthToOther");
+    Route::get("/wechat/jsSign", "WxAuthController@jsSign");
+});

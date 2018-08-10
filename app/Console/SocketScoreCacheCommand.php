@@ -64,6 +64,7 @@ class SocketScoreCacheCommand extends Command
 
         $json = Redis::get('redis_living_room');
         $json = json_decode($json,true);
+        $json = isset($json) ? $json : [];
         $score = array();
         foreach ($json as $item){
             if ($item['sport'] == 1){

@@ -46,10 +46,11 @@ class SubjectVideoController extends Controller
      * 获取专题录像分页信息
      * @param Request $request
      * @param $slid
+     * @param $mobile
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectVideosPage(Request $request, $slid) {
-        $isMobile = $request->input('isMobile') == 1;
+    public function subjectVideosPage(Request $request, $slid, $mobile = false) {
+        $isMobile = $request->input('isMobile') == 1 || $mobile;
         $pageSize = $request->input('pageSize', self::page_size);
         if ($slid != 'all') {
             if ($slid == SubjectVideo::kOther) {

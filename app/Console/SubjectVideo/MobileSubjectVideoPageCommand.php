@@ -11,6 +11,7 @@ namespace App\Console\SubjectVideo;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\Live\SubjectVideoController;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class MobileSubjectVideoPageCommand extends Command
@@ -79,8 +80,10 @@ class MobileSubjectVideoPageCommand extends Command
      * @param $page
      */
     protected function staticPage($type, $page) {
-        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page) . '?isMobile=1';
-        SubjectController::execUrl($url);
+        $sub = new SubjectVideoController();
+        $sub->staticSubjectVideosHtml(new Request(), $type, $page, true);
+//        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page) . '?isMobile=1';
+//        SubjectController::execUrl($url);
     }
 
     /**

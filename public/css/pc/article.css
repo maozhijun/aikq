@@ -99,11 +99,12 @@ body{
 	padding: 20px 36px 50px 5px;
 }
 #Left .con .detail p{
-	padding-bottom: 10px;
+	/*padding-bottom: 30px;*/
 	font-size: 14px; line-height: 24px; color: #010000;
 }
 #Left .con .detail img{
 	max-width: 100%;
+	margin: 0 auto;
 	display: block;
 }
 

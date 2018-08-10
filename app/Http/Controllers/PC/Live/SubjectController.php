@@ -195,15 +195,15 @@ class SubjectController extends Controller
      * @return array|mixed|void
      */
     public function getSubjectDetail($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $id;
-        $server_output = $this->execUrl($url);
-        $subjects = json_decode($server_output, true);
-        $subjects = isset($subjects) ? $subjects : [];
+//        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $id;
+//        $server_output = $this->execUrl($url);
+//        $subjects = json_decode($server_output, true);
+//        $subjects = isset($subjects) ? $subjects : [];
 
-//        $aiCon = new AikanQController();
-//        $data = $aiCon->subjectDetail(new Request(), $id)->getData();
-//        $data = json_encode($data);
-//        $subjects = json_decode($data, true);
+        $aiCon = new AikanQController();
+        $data = $aiCon->subjectDetail(new Request(), $id)->getData();
+        $data = json_encode($data);
+        $subjects = json_decode($data, true);
         return $subjects;
     }
 
@@ -265,12 +265,12 @@ class SubjectController extends Controller
      * @param Request $request
      */
     public function staticSubjectLeagues(Request $request) {
-        $url = env('LIAOGOU_URL')."aik/subjects";
-        $server_output = self::execUrl($url);
+//        $url = env('LIAOGOU_URL')."aik/subjects";
+//        $server_output = self::execUrl($url);
 
-//        $aiCon = new AikanQController();
-//        $data = $aiCon->subjects(new Request())->getData();
-//        $server_output = json_encode($data);
+        $aiCon = new AikanQController();
+        $data = $aiCon->subjects(new Request())->getData();
+        $server_output = json_encode($data);
         if (!empty($server_output)) {
             Storage::disk("public")->put("/static/json/subject/leagues.json", $server_output);
         }

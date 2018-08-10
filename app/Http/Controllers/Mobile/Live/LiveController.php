@@ -102,22 +102,22 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function lives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/livesJson?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, env('DEV_TIME_OUT', 10));
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
-//        $aiCon = new AikanQController();
-//        $data = $aiCon->livesJson($request, true)->getData();
-//        $data = json_encode($data);
-//        $json = json_decode($data, true);
+//        $ch = curl_init();
+//        $url = env('LIAOGOU_URL')."aik/livesJson?isMobile=1";
+//        curl_setopt($ch, CURLOPT_URL,$url);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_TIMEOUT, env('DEV_TIME_OUT', 10));
+//        $server_output = curl_exec ($ch);
+//        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+//        curl_close ($ch);
+//        if ($http_code >= 400) {
+//            return;
+//        }
+//        $json = json_decode($server_output,true);
+        $aiCon = new AikanQController();
+        $data = $aiCon->livesJson($request, true)->getData();
+        $data = json_encode($data);
+        $json = json_decode($data, true);
         if (is_null($json)) {
             return;
         }
@@ -329,6 +329,11 @@ class LiveController extends Controller
         return view('mobile.live.detail', $json);
     }
 
+    public function footballDetailHtml($json, $id) {
+        $json['detail_url'] = '/m/live/football/' . $id . '.html';
+        return view('mobile.live.detail', $json);
+    }
+
     /**
      * 直播终端
      * @param Request $request
@@ -353,6 +358,11 @@ class LiveController extends Controller
         return view('mobile.live.detail', $json);
     }
 
+    public function basketballDetailHtml($json, $id) {
+        $json['detail_url'] = '/m/live/basketball/' . $id . '.html';
+        return view('mobile.live.detail', $json);
+    }
+
     /**
      * 自建赛事直播终端
      * @param Request $request
@@ -368,6 +378,11 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+        $json['detail_url'] = '/m/live/other/' . $id . '.html';
+        return view('mobile.live.detail', $json);
+    }
+
+    public function otherDetailHtml($json, $id) {
         $json['detail_url'] = '/m/live/other/' . $id . '.html';
         return view('mobile.live.detail', $json);
     }
@@ -765,6 +780,23 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
             } else if ($sport == 3) {
                 $html = $this->otherDetail($request, $mid);
+                Storage::disk("public")->put("/static/m/live/other/" . $mid . ".html", $html);
+            }
+        }
+    }
+
+    public function liveDetailStaticObj($json, $sport, $mid) {
+        if ($sport == 1) {
+            $html = $this->footballDetailHtml($json, $mid);
+            if (!empty($html))
+                Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
+        } else if ($sport == 2) {
+            $html = $this->basketballDetailHtml($json, $mid);
+            if (!empty($html))
+                Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
+        } else if ($sport == 3) {
+            $html = $this->otherDetailHtml($json, $mid);
+            if (!empty($html)) {
                 Storage::disk("public")->put("/static/m/live/other/" . $mid . ".html", $html);
             }
         }

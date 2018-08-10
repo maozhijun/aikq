@@ -9,7 +9,7 @@
                 <option value="{{$id}}" @if((!isset($channel) && $id == 99) || (isset($channel) && $channel->type == $id) ) selected @endif >{{$type}}</option>
             @endforeach
         </select>
-        <input style="width: 180px;" name="name" value="{{$channel->name or '高清直播'}}" placeholder="名称">
+        <input style="width: 140px;" name="name" value="{{$channel->name or '高清直播'}}" placeholder="名称">
         <input style="width: 320px;" name="content" value="{{$channel->content or ''}}" placeholder="内容">
         <select name="player" onchange="changePlatform(this);" style="display: none">
             <option value="1">自动选择</option>
@@ -25,7 +25,7 @@
             <option value="1">显示</option>
             <option value="2" @if(isset($channel) && $channel->show == 2) selected @endif >不显示</option>
         </select>
-        <select name="platform" style="display: none;">
+        <select name="platform">
             <option value="1">全部</option>
             <option value="2" @if(isset($channel) && $channel->platform == 2) selected @endif >电脑</option>
             <option value="3" @if(isset($channel) && $channel->platform == 3) selected @endif >手机</option>

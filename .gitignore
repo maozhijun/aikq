@@ -24,5 +24,6 @@ public/js/app.js
 public/js/echo.js
 public/anchor
 public/news
+public/uploads
 laravel-echo-server.json
 package-lock.json

@@ -146,4 +146,6 @@ Route::group(['namespace'=>'Article', 'middleware' => 'admin_auth'], function ()
     Route::any("/article/hide", "ArticleController@hide");//隐藏文章
     Route::any("/article/publish", "ArticleController@publish");//发布文章
 
+    Route::any("/article/types", "ArticleTypeController@types");//文章分类列表
+    Route::any("/article/types/save", "ArticleTypeController@saveType");//文章分类保存
 });

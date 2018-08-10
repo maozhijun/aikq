@@ -64,23 +64,37 @@ class KanQiuMaController extends Controller
         $isMobile = $request->input('isMobile',0);
         $bet = $request->input('bet', 0);//0：非竞彩，1：竞彩
         //足球
+        $startTime = time();
         $footballMatches = $this->getMatchQuery(MatchLive::kSportFootball)->get();
+        //dump("查询足球时间：" . (time() - $startTime) );
+
         $footballArray = [];
+        $startTime = time();
         foreach ($footballMatches as $match){
             $footballArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportFootball);
         }
+        //dump("查询足球转化时间：" . (time() - $startTime) );
         //$footballMatches = $footballMatches->toArray();
 
         //篮球
+        $startTime = time();
         $basketballMatches = $this->getMatchQuery(MatchLive::kSportBasketball)->get();
+        //dump("查询篮球时间：" . (time() - $startTime) );
+
         $basketballArray = [];
+        $startTime = time();
         foreach ($basketballMatches as $match){
             $basketballArray[] = $this->match2Array($match, $isMobile, MatchLive::kSportBasketball);
         }
+        //dump("查询篮球转化时间：" . (time() - $startTime) );
         //$basketballMatches = $basketballMatches->toArray();
 
         //自建赛事
+        $startTime = time();
         $otherMatches = $this->getMatchQuery(MatchLive::kSportSelfMatch)->get();
+        //dump("查询自建赛时间：" . (time() - $startTime) );
+
+        $startTime = time();
         foreach ($otherMatches as $match){
             $match['sport'] = MatchLive::kSportSelfMatch;
             $match['league_name'] = $match->getLeagueName();
@@ -95,6 +109,7 @@ class KanQiuMaController extends Controller
             }
             $match['channels'] = $array;
         }
+        //dump("查询自建赛转化时间：" . (time() - $startTime) );
         $otherMatches = $otherMatches->toArray();
 
         $matches = array_merge($footballArray, $basketballArray);
@@ -187,6 +202,7 @@ class KanQiuMaController extends Controller
         $obj['isMatching'] = ($match->status > 0 && $match->status <= 4);
         $obj['host_icon'] = $match->getTeamIcon(true);
         $obj['away_icon'] = $match->getTeamIcon(false);
+
         if ($isMobile){
             $array = MatchLive::query()->find($match['live_id'])->mChannels();
         } else{

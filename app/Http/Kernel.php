@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminAuthVerify;
 use App\Http\Middleware\BackstageAuthVerify;
+use App\Http\Middleware\WxBaseVerify;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -60,5 +61,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin_auth' => AdminAuthVerify::class,
         'backstage_auth' => BackstageAuthVerify::class,
+        'wx_auth'=> \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+        'wx_base'=> WxBaseVerify::class,
     ];
 }

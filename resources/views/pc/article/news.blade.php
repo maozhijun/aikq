@@ -1,6 +1,6 @@
 @extends("pc.layout.anchor_base")
 @section("css")
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?rd=2000000001">
 @endsection
 @section("content")
 	<div id="Content">
@@ -12,9 +12,10 @@
 				<div class="article">
 					@foreach($articles as $article)
 					<div class="con">
+						@if(!empty($article->cover))<a href="{{$article->getUrl()}}" class="img" style="background: url({{$article->getCover()}}) no-repeat center; background-size: cover;"></a>@endif
 						<a href="{{$article->getUrl()}}" target="_blank" class="title">{{$article->title}}</a>
 						<a href="{{$article->getUrl()}}" target="_blank" class="introduction">{{$article->digest}}</a>
-						<p class="tag"><span>{{$article->author}}</span><span>{{substr($article->publish_at, 0, 11)}}</span></p>
+						{{--<p class="tag"><span>{{$article->author}}</span><span>{{substr($article->publish_at, 0, 11)}}</span></p>--}}
 					</div>
 					@endforeach
 				</div>

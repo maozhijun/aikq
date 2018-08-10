@@ -83,4 +83,38 @@ class OtherMatch extends Model
         return $project;
     }
 
+
+    public static function copyLgOtherMatch(\App\Models\LgMatch\OtherMatch $other) {
+        $other_id = $other->id;
+        $newOther = self::query()->find($other_id);
+        if (!isset($newOther)) {
+            $newOther = new OtherMatch();
+            $newOther->id = $other_id;
+        }
+        $newOther->lid = $other->lid;
+        $newOther->type = $other->type;
+        $newOther->lname = $other->lname;
+        $newOther->hname = $other->hname;
+        $newOther->aname = $other->aname;
+        $newOther->hicon = $other->hicon;
+        $newOther->aicon = $other->aicon;
+        $newOther->hscore = $other->hscore;
+        $newOther->ascore = $other->ascore;
+        $newOther->time = $other->time;
+        $newOther->end_time = $other->end_time;
+        $newOther->status = $other->status;
+        $newOther->ad_id = $other->ad_id;
+        $newOther->up_id = $other->up_id;
+        $newOther->project = $other->project;
+        $newOther->sport = $other->sport;
+        $newOther->created_at = $other->created_at;
+        $newOther->updated_at = $other->updated_at;
+        try {
+            $newOther->save();
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
+    }
+
 }

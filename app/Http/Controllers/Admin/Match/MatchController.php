@@ -295,13 +295,13 @@ class MatchController extends Controller
             $h_content = '';
         }
         //根据线路填写内容 自动选择播放平台。
-        if (preg_match("/^rtmp:\/\//", $content) || preg_match("/.flv/", $content)) {
-            $platform = MatchLiveChannel::kPlatformPC;
-        } else if (preg_match("/.m3u8/", $content)) {
-            $platform = MatchLiveChannel::kPlatformAll;
-        } else if (strlen($content) < 6) {//预留线路，显示为全部
-            $platform = MatchLiveChannel::kPlatformAll;
-        }
+//        if (preg_match("/^rtmp:\/\//", $content) || preg_match("/.flv/", $content)) {
+//            $platform = MatchLiveChannel::kPlatformPC;
+//        } else if (preg_match("/.m3u8/", $content)) {
+//            $platform = MatchLiveChannel::kPlatformAll;
+//        } else if (strlen($content) < 6) {//预留线路，显示为全部
+//            $platform = MatchLiveChannel::kPlatformAll;
+//        }
 
         $channel->type = $type;
         $channel->platform = $platform;

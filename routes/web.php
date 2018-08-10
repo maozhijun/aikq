@@ -41,13 +41,25 @@ Route::group([], function () {
     Route::get("/aik/basketballLivesJson", "AikanQController@basketballLivesJson");//篮球直播列表
     Route::get("/aik/otherLivesJson", "AikanQController@otherLivesJson");//自建赛事 直播列表
 
+    //=================================================================================================================================//
     Route::get("/aik/lives/detailJson/{id}", "AikanQController@detailJson");//直播终端
     Route::get("/aik/lives/basketDetailJson/{id}", "AikanQController@basketDetailJson");//篮球直播终端
     Route::get("/aik/lives/otherDetailJson/{id}", "AikanQController@otherDetailJson");//自建赛事直播终端
 
+    Route::get("/aik/lives/detailJson/{id}.json", "AikanQController@detailJson");//直播终端
+    Route::get("/aik/lives/basketDetailJson/{id}.json", "AikanQController@basketDetailJson");//篮球直播终端
+    Route::get("/aik/lives/otherDetailJson/{id}.json", "AikanQController@otherDetailJson");//自建赛事直播终端
+
+    Route::get("/aik/lives/detailJson/mobile/{id}.json", "AikanQController@mobileDetailJson");//直播终端
+    Route::get("/aik/lives/basketDetailJson/mobile/{id}.json", "AikanQController@mobileBasketDetailJson");//篮球直播终端
+    Route::get("/aik/lives/otherDetailJson/mobile/{id}.json", "AikanQController@mobileOtherDetailJson");//自建赛事直播终端
+    //=================================================================================================================================//
+
+
     Route::get("/aik/lives/liveMatchesJson", "AikanQController@getLiveMatchesJson");//正在直播比赛
 
     Route::get("/match/live/url/channel/{id}", "AikanQController@getLiveUrl");//正在直播比赛
+    Route::get("/match/live/url/match/{id}", 'AikanQController@getLiveUrlMatch');//根据live matchid获取直播url
 
     //===========================专题相关===========================//
     Route::get("/aik/subjects", "AikanQController@subjects");//专题列表
@@ -80,3 +92,11 @@ Route::group([], function () {
     Route::get("/db/spread/matchList.html", "DongQiuZhiBoController@matchList");
     Route::get("/spread/api/matchList.json", "DongQiuZhiBoController@matchListJson");
 });
+
+
+Route::group(['middleware' => ['web']], function () {//, 'wx_auth', 'wx_base'        //$user = session('wechat.oauth_user'); // 拿到授权用户资料
+    Route::get('/act/transfer.html', function () {
+        return view('transfer.index');
+    });
+});
+Route::get('/act/transfer/rank.html', "TransferController@rank");

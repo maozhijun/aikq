@@ -198,4 +198,39 @@ class MatchLiveChannel extends Model
         }
         return $link;
     }
+
+
+    public static function copyLgMatchLiveChannel(\App\Models\LgMatch\MatchLiveChannel $channel) {
+        $ch_id = $channel->id;
+        $newCh = self::query()->find($ch_id);
+        if (!isset($newCh)) {
+            $newCh = new MatchLiveChannel();
+            $newCh->id = $ch_id;
+        }
+
+        $newCh->live_id = $channel->live_id;
+        $newCh->name = $channel->name;
+        $newCh->type = $channel->type;
+        $newCh->od = $channel->od;
+        $newCh->platform = $channel->platform;
+        $newCh->show = $channel->show;
+        $newCh->auto = $channel->auto;
+        $newCh->isPrivate = $channel->isPrivate;
+        $newCh->content = $channel->content;
+        $newCh->h_content = $channel->h_content;
+        $newCh->player = $channel->player;
+        $newCh->use = $channel->use;
+        $newCh->impt = $channel->impt;
+        $newCh->ad = $channel->ad;
+        $newCh->created_at = $channel->created_at;
+        $newCh->updated_at = $channel->updated_at;
+
+        try {
+            $newCh->save();
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
+    }
+
 }

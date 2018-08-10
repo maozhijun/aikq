@@ -204,8 +204,8 @@ class MatchLive extends Model
         });
         $query->where('live_id', $this->id);
         $query->where('show', MatchLiveChannel::kShow);
-        $query->selectRaw('*, ifnull(od, 99)');
-        $query->orderBy('od');
+        $query->selectRaw('*, ifNull(od, 99) as nod');
+        $query->orderBy('nod');
         $channels = $query->limit(6)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
         for ($index = 0 ; $index < count($channels) ; $index++) {
@@ -394,6 +394,28 @@ class MatchLive extends Model
             ->whereIn('match_live_channels.platform', [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC]);
         $isPri = $query->count() > 0;
         return $isPri;
+    }
+
+    public static function copyLgMatchLive(\App\Models\LgMatch\MatchLive $live) {
+        $live_id = $live->id;
+        $newLive = self::query()->find($live_id);
+        if (!isset($newLive)) {
+            $newLive = new MatchLive();
+            $newLive->id = $live_id;
+        }
+        $newLive->match_id = $live->match_id;
+        $newLive->sport = $live->sport;
+        $newLive->league_id = $live->league_id;
+        $newLive->ad_id = $live->ad_id;
+        $newLive->impt = $live->impt;
+        $newLive->created_at = $live->created_at;
+        $newLive->updated_at = $live->updated_at;
+        try {
+            $newLive->save();
+        } catch (\Exception $exception) {
+            return false;
+        }
+        return true;
     }
 
 }
