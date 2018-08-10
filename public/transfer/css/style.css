@@ -191,7 +191,7 @@ a.rank:before, a.rank:after{
 #Result .inner{
 	margin-bottom: 70px;
 	border-radius: 4px;
-	background: url(http://static.cdn.dlfyb.com/transfer/img/123.png) no-repeat right top #fff; background-size: 140px;
+	background: url(http://static.cdn.dlfyb.com/transfer/img/index.jpg) no-repeat right top #fff; background-size: 140px;
 	/*background: #fff;*/
 	position: relative; z-index: 1;
 }

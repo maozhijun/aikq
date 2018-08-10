@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/transfer/css/style.css?time=201808100002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/transfer/css/style.css?time=201808100003">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/transfer/css/rank.css?time=201808100002">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     {{--<link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">--}}
