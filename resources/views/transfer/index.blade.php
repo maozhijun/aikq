@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/transfer/css/style.css?time=201808100003">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/transfer/css/style.css?time=201808100004">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     {{--<link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">--}}
     <script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/jquery.js"></script>
@@ -50,14 +50,14 @@
         <div class="inner hid">
             <button></button>
             <img src="{{env('CDN_URL')}}/transfer/img/wx_code.jpg">
-            <p><span>扫码添加 kanqiu818 微信</span>领取您的签字费</p>
+            <p><span>扫码添加 kanqiu818 微信</span>领取您的签字费<br/>（随机1~888元，每日13点到17点发放）</p>
         </div>
     </div>
 
     <!--广告-->
     <a href="http://mp.dlfyb.com/downloadPhone.html" class="banner"><img src="{{env('CDN_URL')}}/transfer/img/image_banner_n.jpg"></a>
 </body>
-<script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/common.js?time=20000002"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/common.js?time=20000003"></script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/home.js?time=2000000124"></script>
 <script type="text/javascript">
     window.onload = function () {

@@ -292,7 +292,7 @@ a.rank:before, a.rank:after{
 	display: block;
 }
 #Money .inner p{
-	padding-bottom: 46px; margin: 0 -100px;
+	padding-bottom: 46px; margin: 0 -140px;
 	font-size: 32px; line-height: 52px; text-align: center; color: #2F5D82;
 }
 #Money .inner p span{

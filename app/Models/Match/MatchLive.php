@@ -16,6 +16,7 @@ class MatchLive extends Model
 //    protected $connection = 'match';
     const kSportFootball = 1, kSportBasketball = 2, kSportSelfMatch = 3;//1：足球，2：篮球，3：自建赛事
 
+    const kIsPrivate = 2;
     const kShow = 1, kHide = 2;
     const kPlatformAll = 1, kPlatformPc = 2, kPlatformPhone = 3;
     const FootballPrivateArray = [8, 11, 26, 29, 31, 46, 73, 77, 139];//德甲，法甲，西甲，意甲，英超，中超，欧冠，欧罗巴，亚冠。

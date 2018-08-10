@@ -88,7 +88,7 @@ function Transfer () {
 
     //微信自定义分享
     var url = location.protocol + '//' + location.hostname + location.pathname + '?name=' + tounicode(Name) + '&club=' + tounicode(Info[0]) + '&money=' + tounicode(Info[1]) + '&content=' + Con;
-    customShare(Name + "以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", "国际足坛夏季转会风云榜", url, '', '');
+    customShare('【' + Name + "】以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", "国际足坛夏季转会风云榜", url, '', '');
 
     //交互效果
     function showResult () {
@@ -425,7 +425,7 @@ function formShare (name,club,money,con) {
 
     //初始化微信自定义分享
     // var url = location.protocol + '//' + location.hostname + location.pathname + '?name=' + name + '&club=' + club + '&money=' + money + '&content=' + con;
-    customShare($('#Result p.name').html() + "以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", '国际足坛夏季转会风云榜', '', '', '');
+    customShare('【' + $('#Result p.name').html() + "】以" + $('#Result p.cost').html() + "转会到" + $('#Result p.club').html() + "!", '国际足坛夏季转会风云榜', '', '', '');
 }
 
 

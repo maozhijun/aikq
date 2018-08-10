@@ -71,13 +71,13 @@ class CheckStreamCommand extends Command
     }
 
     //验证流是否正常
-    protected function streamCheck($stream)
+    public static function streamCheck($stream, $timeout = 2)
     {
         $isHttps = preg_match("/https:\/\//", $stream);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $stream);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10); // connect timeout
+        //curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); // connect timeout
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // curl timeout
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // curl timeout
         if ($isHttps) {

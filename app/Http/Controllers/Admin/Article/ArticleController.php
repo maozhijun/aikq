@@ -156,9 +156,13 @@ class ArticleController extends Controller
         $article->title = $title;
         $article->digest = $digest;
         $article->resource = $resource;
-        if (!empty($cover) && !str_contains($cover, env('APP_URL'))) {
-            $upload = $this->saveUrlFile($cover, 'cover');
-            $cover = $upload->getUrl();
+        if (!empty($cover)) {
+            if (starts_with($cover, '/')) {
+                $cover = asset($cover);
+            } else if ( !str_contains($cover, env('APP_URL')) ) {
+                $upload = $this->saveUrlFile($cover, 'cover');
+                $cover = $upload->getUrl();
+            }
         }
         $article->cover = $cover;
         $article->type = $type;

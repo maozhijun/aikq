@@ -10,6 +10,7 @@ use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlePageCommands;
 use App\Console\HotVideo\VideoCoverCommand;
+use App\Console\LiveCheck\LiveCollectCommands;
 use App\Console\Subject\CoverCommand;
 use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
@@ -84,6 +85,8 @@ class Kernel extends ConsoleKernel
 
         ArticlePageCommands::class,//文章分页定时任务
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
+
+        LiveCollectCommands::class,//收集直播信息，用于分析
     ];
 
     /**
