@@ -40,8 +40,8 @@ class Kernel extends ConsoleKernel
         IndexCommand::class,//直播 列表静态化                  DB
         LiveDetailCommand::class,//PC终端、移动终端html缓存。  DB
 
-        PlayerJsonCommand::class,//静态化赛前1小时和正在比赛的 线路
-        NoStartPlayerJsonCommand::class,//静态化 赛前1小时前未开始的 线路
+        PlayerJsonCommand::class,//静态化赛前1小时和正在比赛的 线路         DB
+        NoStartPlayerJsonCommand::class,//静态化 赛前1小时前未开始的 线路   DB
 
         DeleteExpireFileCommand::class,//删除过期文件
 
