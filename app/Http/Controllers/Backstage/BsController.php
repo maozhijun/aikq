@@ -159,6 +159,7 @@ class BsController extends Controller
             $room->live_m3u8 = $jsonData['live_m3u8'];
             $room->expiration = $jsonData['expiration'];//流到期时间
             $room->status = AnchorRoom::kStatusLiving;
+            $room->start_at = date_create();
             $room->save();
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
