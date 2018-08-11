@@ -48,9 +48,8 @@ class CheckStreamCommand extends Command
     public function handle()
     {
         //获取正在直播的主播房间
-//        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-//        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-4 minutes')));
-        $query = AnchorRoom::query()->where("id", 27);
+        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
+        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-4 minutes')));
         $rooms = $query->get();
 
         foreach ($rooms as $room) {
@@ -121,6 +120,7 @@ class CheckStreamCommand extends Command
             Redis::del($key);
         }
         if ($count < 3) {
+//            echo $key.": count=".$count;
             Redis::setex($key, 60 * 4, $count);
             return;
         }
@@ -132,6 +132,8 @@ class CheckStreamCommand extends Command
         $room->live_rtmp = null;
         $room->live_m3u8 = null;
         $room->save();
+
+//        echo $key.": unlive";
     }
 
 }
