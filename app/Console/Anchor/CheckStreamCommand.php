@@ -49,6 +49,7 @@ class CheckStreamCommand extends Command
     {
         //获取正在直播的主播房间
         $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
+        $query->whereNotNull('start_at');
         $query->where('start_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
         $rooms = $query->get();
 
@@ -133,6 +134,7 @@ class CheckStreamCommand extends Command
         $room->live_flv = null;
         $room->live_rtmp = null;
         $room->live_m3u8 = null;
+        $room->start_at = null;
         $room->save();
 
         echo $key.": unlive"."</br>";
