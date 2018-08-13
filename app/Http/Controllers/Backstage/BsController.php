@@ -161,6 +161,8 @@ class BsController extends Controller
             $room->status = AnchorRoom::kStatusLiving;
             $room->start_at = date_create();
             $room->save();
+            //清空弹幕
+            Redis::del('99_'.$room->id.'_history');
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
         }

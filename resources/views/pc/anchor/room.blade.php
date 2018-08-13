@@ -179,6 +179,15 @@
             $('#away_color')[0].style.background = data['a_color'];
         });
 
+        socket.on('server_history_message', function (messages) {
+//            console.log(messages);
+            for (var i = 0 ; i < messages.length ; i++){
+                var data = messages[i];
+                $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
+                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
+            }
+        });
+
         function send() {
             var message = document.getElementById('text').value;
             var time = Date.parse( new Date())/1000 + '';

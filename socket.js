@@ -69,6 +69,25 @@ io.on('connect', function (socket) {
                     'time':info.time
                 }
                 io.to('mid:' + mid).emit('server_send_message', tmp);
+                //保存历史记录
+                client.get(mid+'_history', function(err, object) {
+                    if (null == err) {
+                        if (null == object){
+                            object = new Array();
+                        }
+                        else{
+                            object = JSON.parse(object.toString());
+                        }
+                    }
+                    // console.log('bj1 '+JSON.stringify(object));
+                    // console.log('bj2 '+JSON.stringify(tmp));
+                    object.push(tmp);
+                    // console.log('bj3 '+JSON.stringify(object));
+                    client.set(mid+'_history', JSON.stringify(object), function(err) {
+                        // console.log(err);
+                    });
+                    client.expire(mid+'_history', 60*60*5);
+                });
             }
             else {
                 console.log('in error');
@@ -120,6 +139,21 @@ io.on('connect', function (socket) {
                     client.set(mid+'_userCount', (count+1), function(err) {
                         // console.log(err)
                     });
+                });
+
+                //历史记录
+                client.get(mid+'_history', function(err, object) {
+                    if (null == err) {
+                        // console.log('send 1 '+JSON.stringify(object));
+                        if (null == object){
+                            return;
+                        }
+                        object = JSON.parse(object.toString());
+                        if (object.length == 0){
+                            return;
+                        }
+                        io.to('mid:'+mid).emit('server_history_message',object);
+                    }
                 });
             }
             else{
