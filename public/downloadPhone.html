@@ -30,7 +30,7 @@
 </div>
 <div id="qsk_click" style="height: 50px; padding-top: -88px; background-color: white"><p style="height:50px;line-height:50px;font-size: 30px;padding-left: 10px">请点击原网页打开</p></div>
     <div class="down">
-        <a download="android.apk" id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist" onclick="this.innerHTML='正在安装'">立即下载</a>
+        <a download="android.apk" id="Down" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist" onclick="this.innerHTML='下载中'">立即下载</a>
         <p class="ios">苹果用户安装步骤>></p>
         <!--<p class="copy" style="display: none">【复制下载地址】</p>-->
     </div>
@@ -119,7 +119,7 @@
             RightSW()
         });
 
-        $('p.ios').click(function () {
+        $('p.ios, a#Down').click(function () {
             $('#Step').css('display','');
         })
         $('#Step button.close').click(function () {
