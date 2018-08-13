@@ -59,7 +59,7 @@
 }
 
 #Link div.link{
-	width: 70%;
+	width: 75%;
 	position: relative;
 	overflow: hidden;
 }
@@ -78,7 +78,7 @@
 	position: absolute; top: 0; left: -60px;
 }
 #Link div.link p.url:before{
-	content: 'url：';
+	content: 'URL：';
 }
 #Link div.link p.name:before{
 	content: '流名称：';

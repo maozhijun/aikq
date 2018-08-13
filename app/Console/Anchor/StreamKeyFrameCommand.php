@@ -43,16 +43,18 @@ class StreamKeyFrameCommand extends Command
      *
      * @return mixed
      */
-    public function handle() {
+    public function handle()
+    {
         //获取正在直播的主播房间
-        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-        //$query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
+        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusValid);
+//        $query->where('created_stream_at', '>', date('Y-m-d H:i', strtotime('-48 hours')));//推流地址48小时以内的比赛
+        $query->orderBy('check_at', 'desc');
         $rooms = $query->get();
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
-            if (empty($stream)) {
-                $stream = $room->live_m3u8;
-            }
+//            if (empty($stream)) {
+//                $stream = $room->live_m3u8;
+//            }
             if (empty($stream)) {
                 $stream = $room->live_rtmp;
             }
@@ -60,18 +62,33 @@ class StreamKeyFrameCommand extends Command
             if (!empty($stream)) {
                 $outPath = storage_path('app/public/cover/room/' . $room->id . '.jpg');
                 self::spiderRtmpKeyFrame($stream, $outPath);
-                $room->live_cover = "/cover/room/" . $room->id . ".jpg?rd=" . date('YmdH:i');
+                $room->live_cover = "/cover/room/" . $room->id . ".jpg?rd=" . date('YmdHi');
+                $m = @filemtime($outPath);
+                if ($m + 180 > time()) {//三分钟内刷新过cover
+                    if ($room->live_status != AnchorRoom::kLiveStatusLiving) {//开播
+                        $room->live_status = AnchorRoom::kLiveStatusLiving;
+                        $room->start_at = date_create();
+                    }
+                } else {
+                    if ($room->live_status != AnchorRoom::kLiveStatusOffline) {//关播
+                        $room->live_status = AnchorRoom::kLiveStatusOffline;
+                        $room->close_at = date_create();
+                    }
+                }
+                $room->check_at = date_create();
                 $room->save();
             }
         }
     }
 
-    public static function spiderKeyFrame($stream, $outPath) {
-        exec('ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 -t 1 ' . $outPath);
+    public static function spiderKeyFrame($stream, $outPath)
+    {
+        shell_exec('/usr/bin/ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath . ' &');
     }
 
-    public static function spiderRtmpKeyFrame($stream, $outPath) {
-        exec("ffmpeg -i \"$stream\" -f image2 -ss 1 -y -vframes 1 -t 1 -s 220*135 $outPath");
+    public static function spiderRtmpKeyFrame($stream, $outPath)
+    {
+        shell_exec("/usr/bin/ffmpeg -i \"$stream\" -f image2 -y -vframes 1 -s 220*135 $outPath &");
     }
 
 }

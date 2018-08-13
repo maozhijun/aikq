@@ -28,7 +28,7 @@ class AnchorRoomController extends Controller
      */
     public function living_rooms(Request $request){
         $query = AnchorRoom::query();
-        $query->where('status',AnchorRoom::kStatusLiving);
+        $query->where('live_status',AnchorRoom::kLiveStatusLiving);
         $query->orderByDesc('created_at');
         $page = $query->paginate(15);
 

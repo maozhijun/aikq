@@ -33,9 +33,8 @@
                             </td>
                             <td>
                                 <select name="status" class="form-control" required>
-                                    <option value="1" {{ $room->status == \App\Models\Anchor\AnchorRoom::kStatusLiving ? 'selected' : '' }}>直播中</option>
-                                    <option value="2" {{ $room->status == \App\Models\Anchor\AnchorRoom::kStatusClose ? 'selected' : '' }}>关播</option>
-                                    <option value="0" {{ $room->status == \App\Models\Anchor\AnchorRoom::kStatusNormal ? 'selected' : '' }}>其他</option>
+                                    <option value="1" {{ $room->status == \App\Models\Anchor\AnchorRoom::kLiveStatusLiving ? 'selected' : '' }}>直播中</option>
+                                    <option value="0" {{ $room->status == \App\Models\Anchor\AnchorRoom::kLiveStatusOffline ? 'selected' : '' }}>关播</option>
                                 </select>
                             </td>
                             <td>
