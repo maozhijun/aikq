@@ -86,7 +86,7 @@ io.on('connect', function (socket) {
                     client.set(mid+'_history', JSON.stringify(object), function(err) {
                         // console.log(err);
                     });
-                    client.expire(mid+'_history', 60*60*5);
+                    client.expire(mid+'_history', 60*60*3);
                 });
             }
             else {
@@ -103,6 +103,7 @@ io.on('connect', function (socket) {
     socket.on('user_mid', function (info) {
         try {
             mid = info.mid;
+            var isPc = info.isPc;
             //验证
             var md5 = crypto.createHash('md5');
 
@@ -141,20 +142,23 @@ io.on('connect', function (socket) {
                     });
                 });
 
-                //历史记录
-                client.get(mid+'_history', function(err, object) {
-                    if (null == err) {
-                        // console.log('send 1 '+JSON.stringify(object));
-                        if (null == object){
-                            return;
+                if (isPc == 1) {
+                    //发送之前的 历史记录
+                    client.get(mid + '_history', function (err, object) {
+                        if (null == err) {
+                            // console.log('send 1 '+JSON.stringify(object));
+                            if (null == object) {
+                                return;
+                            }
+                            object = JSON.parse(object.toString());
+                            // console.log(JSON.stringify(object));
+                            if (object.length == 0) {
+                                return;
+                            }
+                            io.to('mid:' + mid).emit('server_history_message', object);
                         }
-                        object = JSON.parse(object.toString());
-                        if (object.length == 0){
-                            return;
-                        }
-                        io.to('mid:'+mid).emit('server_history_message',object);
-                    }
-                });
+                    });
+                }
             }
             else{
 

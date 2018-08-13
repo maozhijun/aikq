@@ -157,6 +157,7 @@
             var nickname = getCookie('ws_nickname');
             var req = {
                 'mid':mid,
+                'isPc':1,
                 'time':time,
                 'verification':in_string,
                 'nickname':nickname
@@ -179,7 +180,12 @@
             $('#away_color')[0].style.background = data['a_color'];
         });
 
+        var hasHistory = false;
         socket.on('server_history_message', function (messages) {
+            if (hasHistory){
+                return;
+            }
+            hasHistory = true;
 //            console.log(messages);
             for (var i = 0 ; i < messages.length ; i++){
                 var data = messages[i];
