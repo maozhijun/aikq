@@ -24,15 +24,15 @@ class AnchorController extends Controller
         $result = array();
         $result['hotAnchors'] = Anchor::getHotAnchor();
         $result['livingRooms'] = AnchorRoom::getLivingRooms();
-        $hotMatches = AnchorRoomTag::getHotMatch();
+//        $hotMatches = AnchorRoomTag::getHotMatch();
         $tmp = array();
-        foreach ($hotMatches as $hotMatch) {
-            $match = $hotMatch->getMatch();
-            if (isset($match)&& $match['status'] >= 0) {
-                $tmp[] = $hotMatch;
-//                dump($match);
-            }
-        }
+//        foreach ($hotMatches as $hotMatch) {
+//            $match = $hotMatch->getMatch();
+//            if (isset($match)&& $match['status'] >= 0) {
+//                $tmp[] = $hotMatch;
+////                dump($match);
+//            }
+//        }
         $result['title'] = "主播频道_美女主播解说足球直播_爱看球";
         $result['keywords'] = "爱看球,足球直播,美女主播,足球解说";
         $result['description'] = "爱看球主播频道，资深主播为你解说各种体育赛事，包含NBA、英超、西甲、中超、法甲、欧冠等各类热门足球直播，还有美女主播陪你看哦。";
@@ -159,5 +159,31 @@ class AnchorController extends Controller
             'code'=>0,
             'data'=>$tmp
         ));
+    }
+
+    /**
+     * 静态化
+     * @param Request $request
+     * @param $room_id
+     */
+    public function staticRoom(Request $request, $room_id){
+        //静态文件
+        $json = $this->playerUrl($request, $room_id)->getData();
+        $json = json_encode($json);
+        if (!empty($json)) {
+            Storage::disk('public')->put('static/anchor/room/url/' . $room_id . '.json', $json);
+        }
+
+        //直播终端页面
+        $html = $this->room(new Request(), $room_id);
+        if (!empty($html)) {
+            Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);
+        }
+
+        //播放器静态化
+        $player = $this->player(new Request(), $room_id);
+        if (!empty($player)) {
+            Storage::disk('public')->put('static/anchor/room/player/' . $room_id . '.html', $player);
+        }
     }
 }
