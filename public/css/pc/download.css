@@ -1,44 +1,188 @@
 ﻿
 
 body{
-	height: 100%;
-	padding: 60px 0 134px;
-	background: url(/img/pc/image_download_bg.jpg) no-repeat right -40% center #fff; background-size: auto 100%;
+	padding: 60px 0 0;
+	background: #fff;
 }
 
 #Content{
-	height: 100%; max-width: none;
-	margin: 0 auto; padding: 2.5% 14%;
-	box-sizing: border-box;
+	max-width: none;
+	margin: 0 auto;
 }
 
-#Content img.phone{
-	height: 100%;
-	margin-right: 5%;
-	float: left;
-}
-
-#Content .code{
-	height: 100%;
-}
-#Content .code img.icon{
-	height: 13%;
-	margin-bottom: 7.3%;
+#Content img.bg{
+	width: 100%;
+	margin: 0 auto;
 	display: block;
 }
-#Content .code .code{
-	height: 30%;
-	padding: 1%;
-	border-radius: 20px;
-	background: #fff;
-	box-shadow: 0px 7px 21px 0px rgba(68, 146, 253, 0.18);
+
+.aboxF{
 	position: relative;
+}
+.abox{
+	width: 12%;
+	margin-left: 1.2%;
+	position: absolute; top: 38%; left: 50%;
+}
+.abox .link{
+	width: 100%;
+	padding-left: 22%; margin-bottom: 16%;
+	border-radius: 30px;
+	background: rgba(255,255,255,0.2);
+	cursor: pointer;
+}
+.abox .link p{
+	font-size: 22px; line-height: 60px; text-align: center; color: #fff;
+}
+.abox .link.ios:before, .abox .link.android:before{
+	width: 34px; height: 60px;
+	position: absolute;
+	content: '';
+}
+.abox .link.ios:before{
+	background: url(/img/pc/icon_ios_n2.png) no-repeat center; background-size: 34px;
+}
+.abox .link.android:before{
+	background: url(/img/pc/icon_android_n2.png) no-repeat center; background-size: 34px;
+}
+
+#Teach{
+	width: 50%;
+	margin: -40px auto -4px;
+	position: relative; z-index: 1;
+}
+#Teach .title{
+	margin-bottom: 16px;
+	position: relative;
+}
+#Teach .title:after{
+	height: 2px;
+	margin-top: 1px;
+	background: #c4d3ed;
+	position: absolute; top: 50%; right: 0; left: 0; z-index: 0;
+	content: '';
+}
+#Teach .title p{
+	min-width: 216px;
+	padding-right: 74px;
+	background: #fff;
+	font-size: 20px; line-height: 34px; text-align: left; color: #2b2d31; font-weight: bold;
+	position: relative; z-index: 1;
 	display: inline-block;
 }
-#Content .code .code img{
-	height: 100%;
+#Teach .title p:after{
+	height: 2px; width: 40px;
+	margin-top: 1px;
+	background: #e4ebf8;
+	position: absolute; top: 50%; right: 20px; z-index: 0;
+	content: '';
 }
-#Content .code .code p{
-	font-size: 16px; line-height: 16px; text-align: center; color: #1b1b1b;
-	position: absolute; bottom: -40px; left: 0; right: 0;
+#Teach .title p span.b{
+	font-size: 34px; color: #5780d5;
+}
+#Teach .title p span.s{
+	font-size: 34px; color: #a4b0c8;
+}
+#Teach .con{
+	min-height: 60px;
+	padding-bottom: 30px;
+	font-size: 16px; line-height: 24px; text-align: left; color: #939aa9;
+}
+#Teach .con.ios, #Teach .con.android{
+	padding-left: 230px;
+}
+#Teach .con.ios{
+	background: url(/img/pc/icon_ios_blue.png) no-repeat 40px 4px; background-size: 60px;
+}
+#Teach .con.android{
+	background: url(/img/pc/icon_android_blue.png) no-repeat 40px 4px; background-size: 60px;
+}
+
+.aboxF .warm{
+	width: 30%;
+	margin-left: -6%;
+	font-size: 14px; line-height: 24px; text-align: center; color: #fff;
+	position: absolute; bottom: 27%; left: 50%;
+}
+
+#Cover{
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 100;
+}
+#Cover .inner{
+	height: 100%; max-width: none;
+	background: rgba(0,0,0,0.8);
+}
+#Cover .inner .title{
+	padding: 7% 0 2%;
+	font-size: 34px; line-height: 34px; text-align: center; color: #6facff;
+}
+#Cover .inner img{
+	width: 16%;
+	margin: 0 auto;
+	display: block;
+}
+#Cover .inner .con{
+	width: 440px;
+	padding-top: 3%; margin: 0 auto;
+}
+#Cover .inner .con p{
+	font-size: 16px; line-height: 26px; text-align: left; color: #fff;
+}
+#Cover .inner .con span{
+	padding-bottom: 18px;
+	font-size: 18px; line-height: 26px; text-align: center; color: #fff;
+	display: block;
+}
+
+@media \0screen\,screen\9 {/* 只支持IE6、7、8 */
+	.link{
+		background-color: #fff;
+		filter: Alpha(opacity=20);
+		position: static; /* IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值 */
+		*zoom: 1; /* 激活IE6、7的haslayout属性，让它读懂Alpha */
+	}
+  	.link p{
+    	position: relative;/* 设置子元素为相对定位，可让子元素不继承Alpha值 */
+  	}
+
+  	#Cover .inner{
+  		background-color: #000;
+    	filter: Alpha(opacity=80);
+    	position: static; /* IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值 */
+    	*zoom: 1; /* 激活IE6、7的haslayout属性，让它读懂Alpha */
+  	}
+  	.link p{
+    	position: relative;/* 设置子元素为相对定位，可让子元素不继承Alpha值 */
+  	}
+}
+
+@media screen and (max-width: 1300px){
+	.abox .link{
+		border-radius: 30px;
+		background: rgba(255,255,255,0.2);
+	}
+	.abox .link p{
+		font-size: 1.5em; line-height: 2.6em; text-align: center; color: #fff;
+	}
+	.abox .link.ios:before, .abox .link.android:before{
+		height: 3.7em;
+	}
+	.abox .link.ios:before{
+		background: url(/img/pc/icon_ios_n2.png) no-repeat center; background-size: 24px;
+	}
+	.abox .link.android:before{
+		background: url(/img/pc/icon_android_n2.png) no-repeat center; background-size: 24px;
+	}
+
+	.aboxF .warm{
+		font-size: 12px; line-height: 24px; text-align: center; color: #fff;
+	}
+
+	#Teach .con{
+		font-size: 14px;
+	}
+
+	#Cover .inner .title{
+		font-size: 28px; line-height: 28px;
+	}
 }
