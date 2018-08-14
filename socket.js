@@ -69,6 +69,25 @@ io.on('connect', function (socket) {
                     'time':info.time
                 }
                 io.to('mid:' + mid).emit('server_send_message', tmp);
+                //保存历史记录
+                client.get(mid+'_history', function(err, object) {
+                    if (null == err) {
+                        if (null == object){
+                            object = new Array();
+                        }
+                        else{
+                            object = JSON.parse(object.toString());
+                        }
+                    }
+                    // console.log('bj1 '+JSON.stringify(object));
+                    // console.log('bj2 '+JSON.stringify(tmp));
+                    object.push(tmp);
+                    // console.log('bj3 '+JSON.stringify(object));
+                    client.set(mid+'_history', JSON.stringify(object), function(err) {
+                        // console.log(err);
+                    });
+                    client.expire(mid+'_history', 60*60*3);
+                });
             }
             else {
                 console.log('in error');
@@ -84,6 +103,7 @@ io.on('connect', function (socket) {
     socket.on('user_mid', function (info) {
         try {
             mid = info.mid;
+            var isPc = info.isPc;
             //验证
             var md5 = crypto.createHash('md5');
 
@@ -121,6 +141,24 @@ io.on('connect', function (socket) {
                         // console.log(err)
                     });
                 });
+
+                if (isPc == 1) {
+                    //发送之前的 历史记录
+                    client.get(mid + '_history', function (err, object) {
+                        if (null == err) {
+                            // console.log('send 1 '+JSON.stringify(object));
+                            if (null == object) {
+                                return;
+                            }
+                            object = JSON.parse(object.toString());
+                            // console.log(JSON.stringify(object));
+                            if (object.length == 0) {
+                                return;
+                            }
+                            io.to('mid:' + mid).emit('server_history_message', object);
+                        }
+                    });
+                }
             }
             else{
 
@@ -157,16 +195,16 @@ function myIsNaN2(value) {
 //定时任务
 var schedule = require('node-schedule');
 function scheduleCronstyle(){
-    for (var i = 0 ; i < 12 ; i++){
-        schedule.scheduleJob(i*5 + ' * * * * *',function(){
-            // console.log('scheduleCronstyle:'+new Date());
-            postScore();
-        });
-    }
-    schedule.scheduleJob('5 * * * * *',function(){
-        // console.log('scheduleCronstyle:'+new Date());
-        postColor();
-    });
+    // for (var i = 0 ; i < 12 ; i++){
+    //     schedule.scheduleJob(i*5 + ' * * * * *',function(){
+    //         // console.log('scheduleCronstyle:'+new Date());
+    //         postScore();
+    //     });
+    // }
+    // schedule.scheduleJob('5 * * * * *',function(){
+    //     // console.log('scheduleCronstyle:'+new Date());
+    //     postColor();
+    // });
 }
 
 function postScore() {

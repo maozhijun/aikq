@@ -11,6 +11,7 @@ namespace App\Console\Anchor;
 
 use App\Models\Anchor\AnchorRoom;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class CheckStreamCommand extends Command
@@ -47,9 +48,12 @@ class CheckStreamCommand extends Command
     public function handle()
     {
         //获取正在直播的主播房间
-        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
-        $query->where('updated_at', '<=', date('Y-m-d H:i', strtotime('-4 minutes')));
+        $query = AnchorRoom::query()->where('live_status', AnchorRoom::kLiveStatusLiving);
+        $query->whereNotNull('start_at');
+        $query->where('start_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
         $rooms = $query->get();
+
+        echo "roomCount = ".count($rooms)."</br>";
 
         foreach ($rooms as $room) {
             $stream = $room->live_flv;
@@ -64,9 +68,7 @@ class CheckStreamCommand extends Command
             } else {
                 $isLive = false;
             }
-            if (!$isLive) {
-                $this->setUnLive($room);
-            }
+            $this->setUnLive($room, $isLive);
         }
     }
 
@@ -109,14 +111,33 @@ class CheckStreamCommand extends Command
         }
     }
 
-    protected function setUnLive(AnchorRoom $room) {
+    protected function setUnLive(AnchorRoom $room, $isLive) {
+        $key = "stream_un_live_".$room->id;
+        $count = Redis::get($key);
+        if ($count == null) {
+            $count = 0;
+        }
+        if (!$isLive) {
+            $count++;
+        } else {
+            Redis::del($key);
+        }
+        if ($count < 3) {
+            echo $key.": count=".$count."</br>";
+            Redis::setex($key, 60 * 4, $count);
+            return;
+        }
+
         $room->status = AnchorRoom::kStatusNormal;//设置不开播
         $room->url = null;
         $room->url_key = null;
         $room->live_flv = null;
         $room->live_rtmp = null;
         $room->live_m3u8 = null;
+        $room->start_at = null;
         $room->save();
+
+        echo $key.": unlive"."</br>";
     }
 
 }

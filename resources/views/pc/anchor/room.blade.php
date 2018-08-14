@@ -51,7 +51,7 @@
 
                 </ul>
                 <div class="chatbox">
-                    @if($room['status'] == \App\Models\Anchor\AnchorRoom::kStatusLiving)
+                    @if($room['live_status'] == \App\Models\Anchor\AnchorRoom::kLiveStatusLiving)
                         <button class="send" onclick="send()">发送</button>
                     @else
                         <button class="send" onclick="send()" disabled>发送</button>
@@ -157,6 +157,7 @@
             var nickname = getCookie('ws_nickname');
             var req = {
                 'mid':mid,
+                'isPc':1,
                 'time':time,
                 'verification':in_string,
                 'nickname':nickname
@@ -177,6 +178,20 @@
 //            console.log(data);
             $('#home_color')[0].style.background = data['h_color'];
             $('#away_color')[0].style.background = data['a_color'];
+        });
+
+        var hasHistory = false;
+        socket.on('server_history_message', function (messages) {
+            if (hasHistory){
+                return;
+            }
+            hasHistory = true;
+//            console.log(messages);
+            for (var i = 0 ; i < messages.length ; i++){
+                var data = messages[i];
+                $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
+                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
+            }
         });
 
         function send() {

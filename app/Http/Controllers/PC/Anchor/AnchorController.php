@@ -146,7 +146,7 @@ class AnchorController extends Controller
         $tmp = array();
         foreach ($livingRooms as $livingRoom) {
             $model = $livingRoom->appModel(true);
-            if ($livingRoom['status'] == AnchorRoom::kStatusLiving){
+            if ($livingRoom['status'] == AnchorRoom::kLiveStatusLiving){
                 $model['statusStr'] = '直播中';
             }
             else{
