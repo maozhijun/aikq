@@ -28,9 +28,9 @@ class AnchorRoomController extends Controller
      */
     public function living_rooms(Request $request){
         $query = AnchorRoom::query();
-        $query->where('live_status',AnchorRoom::kLiveStatusLiving);
-        $query->orderByDesc('created_at');
-        $page = $query->paginate(15);
+//        $query->where('live_status',AnchorRoom::kLiveStatusLiving);
+        $query->orderByDesc('start_at');
+        $page = $query->paginate(20);
 
         $result['page'] = $page;
         return view('admin.anchor.anchor_room_living_list', $result);
@@ -43,8 +43,9 @@ class AnchorRoomController extends Controller
      */
     public function rooms(Request $request){
         $query = AnchorRoom::query();
-        $query->orderByDesc('created_at');
-        $page = $query->paginate(15);
+        $query->orderByDesc('live_status');
+        $query->orderByDesc('start_at');
+        $page = $query->paginate(20);
 
         $result['page'] = $page;
         return view('admin.anchor.anchor_room_list', $result);
@@ -69,6 +70,7 @@ class AnchorRoomController extends Controller
             $anchor->cover = $icon->getUrl();
         }
         $anchor->status = $request->input('status');
+        $anchor->live_status = $request->input('live_status');
         if ($anchor->save()){
             return back()->with('success', '保存成功');
         }
