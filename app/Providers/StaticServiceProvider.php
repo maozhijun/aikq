@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\Controllers\PC\Anchor\AnchorController;
 use App\Models\Anchor\AnchorRoom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,8 +21,7 @@ class StaticServiceProvider extends ServiceProvider
         //
         AnchorRoom::saved(function ($room){
             //终端静态化
-            $con = new AnchorController();
-            $con->staticRoom(new Request(),$room->id);
+            $this->pushStaticUrl('/api/static/anchor/room/'.$room->id);
         });
     }
 
@@ -33,5 +33,18 @@ class StaticServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    private function pushStaticUrl($url) {
+        $cache = Redis::get('akq_service_static_url');
+        $roomArray = json_decode($cache, true);
+        if (is_null($roomArray) || count($roomArray) == 0) {
+            $roomArray = array();
+        }
+        if (in_array($url,$roomArray)){
+            return;
+        }
+        $roomArray[] = $url;
+        Redis::set('akq_service_static_url',json_encode($roomArray));
     }
 }

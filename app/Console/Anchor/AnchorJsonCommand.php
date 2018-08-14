@@ -49,6 +49,21 @@ class AnchorJsonCommand extends Command
      * @return mixed
      */
     public function handle() {
+        //做队列
+        $cache = Redis::get('akq_service_static_url');
+        $urls = json_decode($cache, true);
+        for ($i = 0 ; $i < min(10,count($urls)) ; $i++){
+            $url = asset($urls[$i]);
+            echo $url;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 8);//8秒超时
+            curl_exec ($ch);
+            curl_close ($ch);
+        }
+        return;
+
         $roomArray = AnchorDetailCommand::getCacheValidRooms(self::ROOMS_CACHE_KEY);
         $con = new AnchorController();
         $request = new Request();

@@ -3,7 +3,7 @@
     <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/anchorPhone.css?rd=201804">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/anchorPhone.css?rd=201808141800">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -56,7 +56,7 @@
             @foreach($livingRooms as $livingRoom)
                 <li><a href="/m/anchor/room/{{$livingRoom['id']}}.html">
                         <div class="imgbox">
-                            <img src="{{$livingRoom['cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                            <img src="{{$livingRoom['live_cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
                             <p>{{$livingRoom->anchor->name}}</p>
                         </div>
                         <p class="name">{{$livingRoom['title']}}</p>

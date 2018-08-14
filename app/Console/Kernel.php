@@ -143,7 +143,7 @@ class Kernel extends ConsoleKernel
         //主播定时任务
         $schedule->command("anchor_index_cache:run")->everyMinute();//每分钟静态化主播主页
 //        $schedule->command("anchor_detail_cache:run")->everyTenMinutes();//每10分钟静态化主播终端页
-//        $schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化主播播放链接
+        $schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化队列里面的内容
 
 //        $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
         $schedule->command("anchor_key_frame:run")->everyMinute();//每分钟获取直播的直播流的关键帧并且检测流是否存在
