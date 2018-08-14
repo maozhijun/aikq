@@ -77,7 +77,6 @@ class Kernel extends ConsoleKernel
         //主播相关定时任务
         CheckStreamCommand::class,//检查主播流是否在直播，没直播的则修改为 结束直播状态
         StreamKeyFrameCommand::class,//获取正在直播的主播直播流的关键帧
-        SocketScoreCacheCommand::class,
         AnchorLivingCacheCommand::class,
         AnchorIndexCommand::class,//主播首页定时任务
         AnchorDetailCommand::class,//主播终端定时任务
@@ -139,7 +138,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 
         //appsocket相关
-        $schedule->command("socket_score_cache:run")->everyFiveMinutes();//每2分钟检查正在直播的比分变化
         $schedule->command("anchor_living_cache:run")->everyTenMinutes();//每分钟看看有多少主播在播
 
         //主播定时任务

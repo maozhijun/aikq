@@ -195,16 +195,16 @@ function myIsNaN2(value) {
 //定时任务
 var schedule = require('node-schedule');
 function scheduleCronstyle(){
-    for (var i = 0 ; i < 12 ; i++){
-        schedule.scheduleJob(i*5 + ' * * * * *',function(){
-            // console.log('scheduleCronstyle:'+new Date());
-            postScore();
-        });
-    }
-    schedule.scheduleJob('5 * * * * *',function(){
-        // console.log('scheduleCronstyle:'+new Date());
-        postColor();
-    });
+    // for (var i = 0 ; i < 12 ; i++){
+    //     schedule.scheduleJob(i*5 + ' * * * * *',function(){
+    //         // console.log('scheduleCronstyle:'+new Date());
+    //         postScore();
+    //     });
+    // }
+    // schedule.scheduleJob('5 * * * * *',function(){
+    //     // console.log('scheduleCronstyle:'+new Date());
+    //     postColor();
+    // });
 }
 
 function postScore() {
