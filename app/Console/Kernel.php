@@ -154,6 +154,9 @@ class Kernel extends ConsoleKernel
         //文章静态化定时任务
         $schedule->command("article_lives:run")->everyMinute();
         $schedule->command("article_page:run")->everyFiveMinutes();
+
+        /////////////////////////
+        $schedule->command("living_collect:run")->cron('*/2 * * * *');//每五分钟记录一次直播线路记录
     }
 
     /**

@@ -28,7 +28,7 @@
     <!--广告-->
     <a href="http://mp.dlfyb.com/downloadPhone.html" class="banner"><img src="{{env('CDN_URL')}}/transfer/img/image_banner_n.jpg"></a>
 </body>
-<script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/common.js?time=20000003"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/common.js?time=20000006"></script>
 <script type="text/javascript">
     window.onload = function () {
         customShare('英雄莫问出处，总得有个去处。转会窗口，容许我跳！个！槽！', '国际足坛夏季转会风云榜', 'http://mp.dlfyb.com/act/transfer.html', '', '');

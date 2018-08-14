@@ -94,7 +94,7 @@ class LiveCollectCommands extends Command
             $log->live_status = LiveChannelLog::kLiveStatusInvalid;//
             $this->sendWxTip("手机端直播未填写推流地址", $match);
         } else {
-            $flg = CheckStreamCommand::streamCheck($content, 5);
+            $flg = CheckStreamCommand::streamCheck($content, 1);
             $log->live_status = $flg ? LiveChannelLog::kLiveStatusValid : LiveChannelLog::kLiveStatusInvalid;
             if (!$flg) {
                 $this->sendWxTip("手机端直播推流中断啦", $match);
@@ -125,7 +125,7 @@ class LiveCollectCommands extends Command
             $keyword1 = $match['hname']." VS ".$match['aname'];
             $keyword2 = "线路名称《" . $match['ch_name'] ."》";
             WeixinTampleMessage::liveTip($this->getWxApp(),"oxCF5w6OQj5mvpu4hKWqCeoKFqCk", $first, $keyword1, $keyword2);
-            Redis::setEx($key, 15 * 60, '1234');
+            Redis::setEx($key, 5 * 60, '1234');
         }
     }
 

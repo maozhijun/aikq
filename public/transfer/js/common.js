@@ -27,18 +27,19 @@ function customShare(desc, title, url, img, code) {
     wx_share_params.desc = desc == '' ? '英雄莫问出处，总得有个去处。转会窗口，容许我跳！个！槽！' : desc;
     wx_share_params.title = title == '' ? "国际足坛夏季转会风云榜" : title;
     wx_share_params.url = shareUrl;
-    wx_share_params.img = img == '' ? 'http://www.aikq.cc/img/mobile/image_tit_n.jpg' : img;
+    wx_share_params.img = img == '' ? 'http://mp.dlfyb.com/img/mobile/image_tit_n.jpg' : img;
 
     if (window.wx !== undefined) {
         setShareParam();
     } else {
-        $.getScript("//res.wx.qq.com/open/js/jweixin-1.0.0.js",
+        //$.getScript("//res.wx.qq.com/open/js/jweixin-1.0.0.js",
+        $.getScript("http://res.wx.qq.com/open/js/jweixin-1.2.0.js",
         function () {
             var apis = 'onMenuShareTimeline,onMenuShareAppMessage,onMenuShareQQ,onMenuShareWeibo';
             var url = encodeURIComponent(location.href.split('#')[0]);
             var debug = false;
             // var signUrl = '//mp.liaogou168.com/member/wechat/api/jsSign?apis=' + apis + '&url=' + url + '&debug=' + debug;
-            var signUrl = 'http://mp.dlfyb.com/api/wechat/jsSign?apis=?apis=' + apis + '&url=' + url + '&debug=' + debug;
+            var signUrl = 'http://mp.dlfyb.com/api/wechat/jsSign?apis=' + apis + '&url=' + url + '&debug=' + debug;
             $.ajax({
                 url: signUrl,
                 dataType: 'jsonp',
