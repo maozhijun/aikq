@@ -120,6 +120,7 @@
             },0);
         })
         $('a#iOS').click(function () {
+            this.innerHTML = '下载中';
             $("body,html").animate({
                 scrollTop: $('.sort:first').offset().top //让body的scrollTop等于pos的top，就实现了滚动
             },0);
