@@ -169,3 +169,8 @@ Route::group(["namespace" => 'Anchor'], function () {
 
     Route::get('/anchor/room/url/{room_id}.json',"AnchorController@playerUrl");//直播链接
 });
+
+//主播静态化
+Route::group(["namespace" => 'Anchor'], function () {
+    Route::get("/api/static/anchor/room/{room}", "AnchorController@staticRoom");
+});
