@@ -48,7 +48,7 @@ class CheckStreamCommand extends Command
     public function handle()
     {
         //获取正在直播的主播房间
-        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusLiving);
+        $query = AnchorRoom::query()->where('live_status', AnchorRoom::kLiveStatusLiving);
         $query->whereNotNull('start_at');
         $query->where('start_at', '<=', date('Y-m-d H:i', strtotime('-5 minutes')));
         $rooms = $query->get();

@@ -19,20 +19,20 @@ class BsController extends Controller
     const BS_LOGIN_SESSION = 'AKQ_BS_LOGIN_SESSION';
     /**
      *足球
-
-    大平台（3级）：英超、西甲、中超、德甲、欧冠杯、亚冠杯、意甲、法甲、吉尼斯杯、欧洲杯
-    中平台（2级）：日职联、澳洲甲、韩K联、美职联、巴西甲、墨西联、中甲、德乙、英冠、英甲、英乙、荷甲、苏超、葡超、俄超、瑞典超、挪超、瑞士超、丹麦超、欧罗巴杯、日职乙、友谊赛、南球杯、自由杯
-    小平台（1级）：除了上述的其他赛事
-
-    篮球
-
-    大平台（3级）：NBA、CBA
-    中平台（2级）：欧洲篮球冠军联赛
-    小平台（1级）：除了上述的其他赛事
+     *
+     * 大平台（3级）：英超、西甲、中超、德甲、欧冠杯、亚冠杯、意甲、法甲、吉尼斯杯、欧洲杯
+     * 中平台（2级）：日职联、澳洲甲、韩K联、美职联、巴西甲、墨西联、中甲、德乙、英冠、英甲、英乙、荷甲、苏超、葡超、俄超、瑞典超、挪超、瑞士超、丹麦超、欧罗巴杯、日职乙、友谊赛、南球杯、自由杯
+     * 小平台（1级）：除了上述的其他赛事
+     *
+     * 篮球
+     *
+     * 大平台（3级）：NBA、CBA
+     * 中平台（2级）：欧洲篮球冠军联赛
+     * 小平台（1级）：除了上述的其他赛事
      *
      */
-    const FOOTBALL_BIG_LEAGUE = [31, 26, 46,8, 73, 139,29,11,728,50];
-    const FOOTBALL_MIDDLE_LEAGUE = [21, 187,15,18,4,100,47,9,32,33,30,16,24,20,10,22,19,23,7,77,191,35,184,68];
+    const FOOTBALL_BIG_LEAGUE = [31, 26, 46, 8, 73, 139, 29, 11, 728, 50];
+    const FOOTBALL_MIDDLE_LEAGUE = [21, 187, 15, 18, 4, 100, 47, 9, 32, 33, 30, 16, 24, 20, 10, 22, 19, 23, 7, 77, 191, 35, 184, 68];
     const BASKETBALL_BIG_LEAGUE = [1, 4];
     const BASKETBALL_MIDDLE_LEAGUE = [89];
 
@@ -62,14 +62,14 @@ class BsController extends Controller
 
         $anchor = Anchor::query()->where("phone", $phone)->first();
         if (!isset($anchor)) {
-            return back()->with(["error" => "账户或密码错误", 'phone'=>$phone]);
+            return back()->with(["error" => "账户或密码错误", 'phone' => $phone]);
         }
 
         $salt = $anchor->salt;
         $pw = $anchor->passport;
         //判断是否登录
         if ($pw != Anchor::shaPassword($salt, $password)) {
-            return back()->with(["error" => "账户或密码错误", 'phone'=>$phone]);
+            return back()->with(["error" => "账户或密码错误", 'phone' => $phone]);
         }
         $target = empty($target) ? '/bs/info' : $target;
         session([self::BS_LOGIN_SESSION => $anchor->id]);//登录信息保存在session
@@ -79,7 +79,7 @@ class BsController extends Controller
         } else {
             return response()->redirectTo($target);
         }
-        return back()->with(["error" => "账户或密码错误"]);
+//        return back()->with(["error" => "账户或密码错误"]);
     }
 
     /**
@@ -87,19 +87,19 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function info(Request $request) {
+    public function info(Request $request)
+    {
         $anchor = $request->admin_user;
         $room = $anchor->room;
         $result['anchor'] = $anchor;
         $result['room'] = $room;
-        $result['iLive'] = isset($room) && $room->status == AnchorRoom::kStatusLiving;
+        $result['iLive'] = isset($room) && $room->live_status == AnchorRoom::kLiveStatusLiving;
         if ($anchor->icon && strlen($anchor->icon) > 0) {
             $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')
                 ->errorCorrection('H')
                 ->merge($anchor->icon, .25, true)
                 ->generate(env('APP_URL') . '/anchor/room/' . $room->id . '.html');
-        }
-        else{
+        } else {
             $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')
                 ->errorCorrection('H')
                 ->generate(env('APP_URL') . '/anchor/room/' . $room->id . '.html');
@@ -113,41 +113,45 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function startLive(Request $request) {
+    public function startLive(Request $request)
+    {
         $anchor = $request->admin_user;
         $room = $anchor->room;
-        $refresh = $request->input("refresh");
+        $refresh = $request->input("refresh", 1);
         if (!isset($room)) {
             $room = new AnchorRoom();
             $room->anchor_id = $anchor->id;
         }
         try {
-            if ($refresh != 1 && $room->status == AnchorRoom::kStatusLiving) {
-                return response()->json(['code'=>302, 'message'=>'直播间正在直播，如果断流了，请使用重新推流。']);
+            if ($room->status == AnchorRoom::kStatusInvalid) {
+                return response()->json(['code' => 403, 'message' => '您已经被关小黑屋了哦！']);
             }
+//            if ($refresh != 1 && $room->status == AnchorRoom::kStatusLiving) {
+//                return response()->json(['code' => 302, 'message' => '直播间正在直播，如果断流了，请使用重新推流。']);
+//            }
 
             //获取推流地址 开始
-            $liveMatch = $room->getCurrentMatch();
+//            $liveMatch = $room->getCurrentMatch();
             //有正在直播的预约才能开始
-            $canLiving = false;
-            if (isset($liveMatch)) {
-                if ($liveMatch['status'] > 0) {
-                    $canLiving = true;
-                } else {
-                    //30分钟内
-                    if ($liveMatch['status'] == 0 && $liveMatch['time'] - date_create()->getTimestamp() < 60 * 60) {
-                        $canLiving = true;
-                    }
-                }
-            }
-            if (!$canLiving) {
-                return response()->json(['code' => 1, 'message' => '只能在预约比赛正在进行或预约比赛60分钟内才能开播', 'data' => $canLiving]);
-            }
-
-            $liveLevel = $this->getLiveLevel($liveMatch['lid'], $liveMatch['sport']);
+//            $canLiving = false;
+//            if (isset($liveMatch)) {
+//                if ($liveMatch['status'] > 0) {
+//                    $canLiving = true;
+//                } else {
+//                    //30分钟内
+//                    if ($liveMatch['status'] == 0 && $liveMatch['time'] - date_create()->getTimestamp() < 60 * 60) {
+//                        $canLiving = true;
+//                    }
+//                }
+//            }
+//            if (!$canLiving) {
+//                return response()->json(['code' => 1, 'message' => '只能在预约比赛正在进行或预约比赛60分钟内才能开播', 'data' => $canLiving]);
+//            }
+            $liveLevel = 3;//全部最高级
+//            $liveLevel = $this->getLiveLevel($liveMatch['lid'], $liveMatch['sport']);
             $json = $this->getPushLive($room->id, $liveLevel, false, $refresh == 1);
             if (is_null($json) || !isset($json['data']['push_rtmp']) || !isset($json['data']['push_key'])) {
-                return response()->json(['code'=>302, 'message'=>'获取推流地址失败']);
+                return response()->json(['code' => 302, 'message' => '获取推流地址失败']);
             }
             //获取推流地址 结束
 
@@ -158,16 +162,16 @@ class BsController extends Controller
             $room->live_rtmp = $jsonData['live_rtmp'];
             $room->live_m3u8 = $jsonData['live_m3u8'];
             $room->expiration = $jsonData['expiration'];//流到期时间
-            $room->status = AnchorRoom::kStatusLiving;
-            $room->start_at = date_create();
+//            $room->live_status = AnchorRoom::kLiveStatusLiving;
+            $room->created_stream_at = date_create();
             $room->save();
             //清空弹幕
-            Redis::del('99_'.$room->id.'_history');
+//            Redis::del('99_' . $room->id . '_history');
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'message'=>'获取推流地址失败']);
+            return response()->json(['code' => 500, 'message' => '获取推流地址失败']);
         }
-        $data = ['url_key'=>$jsonData['push_key'], 'url'=>$jsonData['push_rtmp'] ];
-        return response()->json(['code'=>200, 'message'=>'获取推流地址成功', 'data'=>$data]);
+        $data = ['url_key' => $jsonData['push_key'], 'url' => $jsonData['push_rtmp']];
+        return response()->json(['code' => 200, 'message' => '获取推流地址成功', 'data' => $data]);
     }
 
     /**
@@ -175,7 +179,8 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function endLive(Request $request) {
+    public function endLive(Request $request)
+    {
         $anchor = $request->admin_user;
         $room = $anchor->room;
         if (!isset($room)) {
@@ -183,19 +188,19 @@ class BsController extends Controller
             $room->anchor_id = $anchor->id;
         }
         try {
-            if ($room->status == AnchorRoom::kStatusLiving) {
+            if ($room->live_status == AnchorRoom::kLiveStatusLiving) {
                 $room->url = null;
                 $room->url_key = null;
                 $room->live_flv = null;
                 $room->live_rtmp = null;
                 $room->live_m3u8 = null;
-                $room->status = AnchorRoom::kStatusNormal;
+                $room->live_status = AnchorRoom::kLiveStatusOffline;
                 $room->save();
             }
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'message'=>'停止直播失败']);
+            return response()->json(['code' => 500, 'message' => '停止直播失败']);
         }
-        return response()->json(['code'=>200, 'message'=>'停止直播成功']);
+        return response()->json(['code' => 200, 'message' => '停止直播成功']);
     }
 
     /**
@@ -203,7 +208,8 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function saveInfo(Request $request) {
+    public function saveInfo(Request $request)
+    {
         $room_title = $request->input('room_title');//房间名称
         $clean = $request->input('clean');//是否清除房间封面图
 //        if (empty($room_title)) {
@@ -242,9 +248,9 @@ class BsController extends Controller
                 $room->save();
             }
         } catch (\Exception $exception) {
-            return back()->with(['error'=>'保存失败']);
+            return back()->with(['error' => '保存失败']);
         }
-        return back()->with(['success'=>'保存成功']);
+        return back()->with(['success' => '保存成功']);
     }
 
     /**
@@ -252,7 +258,8 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function passwordEdit(Request $request) {
+    public function passwordEdit(Request $request)
+    {
         $method = $request->getMethod();
         if (strtolower($method) == "get") {//跳转到登录页面
             return view('backstage.password', []);
@@ -300,7 +307,8 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->admin_user = null;
         session()->forget(self::BS_LOGIN_SESSION);
         setcookie(self::BS_LOGIN_SESSION, '', time() - 3600, '/', 'aikq.cc');
@@ -312,13 +320,14 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function matches(Request $request) {
+    public function matches(Request $request)
+    {
         $anchor = $request->admin_user;
         $room = $anchor->room;
         $result = [];
         if (isset($room)) {
             $query = AnchorRoomTag::query()->where('room_id', $room->id);
-            $query->where('valid','=',AnchorRoomTag::KValid);
+            $query->where('valid', '=', AnchorRoomTag::KValid);
             $query->where('match_time', '>=', date('Y-m-d H:i', strtotime('-4 hours')));
             $tags = $query->orderBy('match_time')->get();
             $result['tags'] = $tags;
@@ -332,15 +341,16 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function bookMatch(Request $request) {
+    public function bookMatch(Request $request)
+    {
         $mid = $request->input('mid');//主播预约的比赛ID
         $sport = $request->input('sport');//比赛类型
 
         if (!is_numeric($mid)) {
-            return response()->json(['code'=>401, 'message'=>'请选择比赛']);
+            return response()->json(['code' => 401, 'message' => '请选择比赛']);
         }
         if (!in_array($sport, [1, 2])) {
-            return response()->json(['code'=>401, 'message'=>'比赛类型错误']);
+            return response()->json(['code' => 401, 'message' => '比赛类型错误']);
         }
         if ($sport == 1) {
             $match = Match::query()->find($mid);
@@ -348,7 +358,7 @@ class BsController extends Controller
             $match = BasketMatch::query()->find($mid);
         }
         if (!isset($match)) {
-            return response()->json(['code'=>'403', 'message'=>'比赛不存在']);
+            return response()->json(['code' => '403', 'message' => '比赛不存在']);
         }
         try {
             $matchTime = $match->time;
@@ -368,11 +378,11 @@ class BsController extends Controller
             $end = date('Y-m-d H:i', strtotime($matchTime . ' +2 hours'));
             $count = AnchorRoomTag::query()
                 ->where('room_id', $room->id)
-                ->where('valid','=',AnchorRoomTag::KValid)
+                ->where('valid', '=', AnchorRoomTag::KValid)
                 ->whereBetween('match_time', [$start, $end])
                 ->count();
             if ($count > 0) {
-                return response()->json(['code'=>403, 'message'=>'同一比赛时段，只能预约一场比赛，请重新预约。']);
+                return response()->json(['code' => 403, 'message' => '同一比赛时段，只能预约一场比赛，请重新预约。']);
             }
             $art = new AnchorRoomTag();
             $art->room_id = $room->id;
@@ -382,9 +392,9 @@ class BsController extends Controller
             $art->save();
         } catch (\Exception $exception) {
             dump($exception);
-            return response()->json(['code'=>500, 'message'=>'预约比赛失败']);
+            return response()->json(['code' => 500, 'message' => '预约比赛失败']);
         }
-        return response()->json(['code'=>200, 'message'=>'预约比赛成功']);
+        return response()->json(['code' => 200, 'message' => '预约比赛成功']);
     }
 
     /**
@@ -392,31 +402,32 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cancelBookMatch(Request $request) {
+    public function cancelBookMatch(Request $request)
+    {
         $id = $request->input('id');
         if (!is_numeric($id)) {
-            return response()->json(['code'=>401, 'message'=>'参错错误']);
+            return response()->json(['code' => 401, 'message' => '参错错误']);
         }
 
         $anchor = $request->admin_user;
         $room = $anchor->room;
         if (!isset($room)) {
-            return response()->json(['code'=>401, 'message'=>'您还没有预约比赛']);
+            return response()->json(['code' => 401, 'message' => '您还没有预约比赛']);
         }
         $tag = AnchorRoomTag::query()->find($id);
         if (!isset($tag)) {
-            return response()->json(['code'=>401, 'message'=>'您没有预约本场比赛']);
+            return response()->json(['code' => 401, 'message' => '您没有预约本场比赛']);
         }
         if ($tag->room_id != $room->id) {
-            return response()->json(['code'=>401, 'message'=>'没有权限']);
+            return response()->json(['code' => 401, 'message' => '没有权限']);
         }
         try {
             $tag->valid = AnchorRoomTag::KInValid;
             $tag->save();
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'message'=>'取消预约失败']);
+            return response()->json(['code' => 500, 'message' => '取消预约失败']);
         }
-        return response()->json(['code'=>200, 'message'=>'取消预约成功']);
+        return response()->json(['code' => 200, 'message' => '取消预约成功']);
     }
 
     /**
@@ -424,14 +435,15 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function findMatches(Request $request) {
+    public function findMatches(Request $request)
+    {
         $sport = $request->input('sport');
         $search = $request->input('search');
         if (!in_array($sport, [1, 2])) {
-            return response()->json(['code'=>401, 'message'=>'比赛类型错误。']);
+            return response()->json(['code' => 401, 'message' => '比赛类型错误。']);
         }
         if (empty($search)) {
-            return response()->json(['code'=>401, 'message'=>'请输入球队名称或者联赛名称。']);
+            return response()->json(['code' => 401, 'message' => '请输入球队名称或者联赛名称。']);
         }
         if ($sport == 1) {
             $matches = $this->findFootballMatches($search);
@@ -439,7 +451,7 @@ class BsController extends Controller
             $matches = $this->findBasketballMatches($search);
         }
 
-        return response()->json(['code'=>200, 'matches'=>$matches]);
+        return response()->json(['code' => 200, 'matches' => $matches]);
     }
 
     /**
@@ -447,23 +459,24 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function setTeamColor(Request $request) {
+    public function setTeamColor(Request $request)
+    {
         $id = $request->input('id');//预约ID
         $color = $request->input('color');//颜色
         $home = $request->input('home');//是否主队，1：主队，其他：客队
 
         if (!is_numeric($id)) {
-            return response()->json(['code'=>401, 'message'=>'参数错误']);
+            return response()->json(['code' => 401, 'message' => '参数错误']);
         }
 
         $roomTag = AnchorRoomTag::query()->find($id);
         if (!isset($roomTag)) {
-            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+            return response()->json(['code' => 403, 'message' => '预约不存在']);
         }
         $anchor = $request->admin_user;
         $room = $anchor->room;
         if (!isset($room) || $roomTag->room_id != $room->id) {
-            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+            return response()->json(['code' => 403, 'message' => '没有权限操作']);
         }
 
         $color = empty($color) ? null : $color;
@@ -477,7 +490,7 @@ class BsController extends Controller
             $sameColor = !is_null($color) && $color == $h_color;
         }
         if ($sameColor) {
-            return response()->json(['code'=>403, 'message'=>'主客球衣不能设置成同样的颜色']);
+            return response()->json(['code' => 403, 'message' => '主客球衣不能设置成同样的颜色']);
         }
 
         try {
@@ -488,22 +501,22 @@ class BsController extends Controller
             }
             $roomTag->save();
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'message'=>'设置球衣颜色失败']);
+            return response()->json(['code' => 500, 'message' => '设置球衣颜色失败']);
         }
 
         $json = Redis::get('redis_refresh_color');
         if (strlen($json) > 0)
-            $json = json_decode($json,true);
+            $json = json_decode($json, true);
         else
             $json = array();
         $json[] = array(
-            'room_id'=>$roomTag->room_id,
-            'h_color'=>$roomTag->h_color,
-            'a_color'=>$roomTag->a_color,
+            'room_id' => $roomTag->room_id,
+            'h_color' => $roomTag->h_color,
+            'a_color' => $roomTag->a_color,
         );
-        Redis::set('redis_refresh_color',json_encode($json));
+        Redis::set('redis_refresh_color', json_encode($json));
 
-        return response()->json(['code'=>200, 'message'=>'设置球衣颜色成功']);
+        return response()->json(['code' => 200, 'message' => '设置球衣颜色成功']);
     }
 
     /**
@@ -511,25 +524,26 @@ class BsController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|mixed
      */
-    public function setShowScore(Request $request) {
+    public function setShowScore(Request $request)
+    {
         $id = $request->input('id');
         $type = $request->input('type');
 
         if (!is_numeric($id)) {
-            return response()->json(['code'=>401, 'message'=>'参数错误']);
+            return response()->json(['code' => 401, 'message' => '参数错误']);
         }
         if (!in_array($type, ['show', 'hide'])) {
-            return response()->json(['code'=>401, 'message'=>'类型参数错误']);
+            return response()->json(['code' => 401, 'message' => '类型参数错误']);
         }
 
         $roomTag = AnchorRoomTag::query()->find($id);
         if (!isset($roomTag)) {
-            return response()->json(['code'=>403, 'message'=>'预约不存在']);
+            return response()->json(['code' => 403, 'message' => '预约不存在']);
         }
         $anchor = $request->admin_user;
         $room = $anchor->room;
         if (!isset($room) || $roomTag->room_id != $room->id) {
-            return response()->json(['code'=>403, 'message'=>'没有权限操作']);
+            return response()->json(['code' => 403, 'message' => '没有权限操作']);
         }
         $msg = $type == "show" ? "显示" : "隐藏";
         $show_score = $type == "show" ? 1 : 0;
@@ -537,10 +551,10 @@ class BsController extends Controller
             $roomTag->show_score = $show_score;
             $roomTag->save();
         } catch (\Exception $exception) {
-            return response()->json(['code'=>500, 'message'=>$msg . "对阵失败"]);
+            return response()->json(['code' => 500, 'message' => $msg . "对阵失败"]);
         }
 
-        return response()->json(['code'=>200, 'message'=>$msg . '对阵成功']);
+        return response()->json(['code' => 200, 'message' => $msg . '对阵成功']);
     }
 
     /**
@@ -548,7 +562,8 @@ class BsController extends Controller
      * @param $search
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
-    protected function findFootballMatches($search) {
+    protected function findFootballMatches($search)
+    {
         //
         $start = date('Y-m-d H:i', strtotime('-3 hours'));
         $end = date('Y-m-d H:i', strtotime('+7 days'));
@@ -570,7 +585,8 @@ class BsController extends Controller
      * @param $search
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
-    protected function findBasketballMatches($search) {
+    protected function findBasketballMatches($search)
+    {
         $start = date('Y-m-d H:i', strtotime('-3 hours'));
         $end = date('Y-m-d H:i', strtotime('+7 days'));
         $query = BasketMatch::query();
@@ -594,7 +610,8 @@ class BsController extends Controller
      * @param $refresh
      * @return mixed
      */
-    protected function getPushLive($room_id, $level, $isHttp, $refresh = true) {
+    protected function getPushLive($room_id, $level, $isHttp, $refresh = true)
+    {
         $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
         $url = $host . '/api/v1/get_push_stream?uid=' . $room_id . '&level=' . $level . ($refresh ? '&refresh=1' : '');
         $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 2, $isHttp);
@@ -608,11 +625,12 @@ class BsController extends Controller
      * @param $sport
      * @return int
      */
-    protected function getLiveLevel($lid, $sport) {
+    protected function getLiveLevel($lid, $sport)
+    {
         if ($sport == 1) {
             if (in_array($lid, self::FOOTBALL_BIG_LEAGUE)) {
                 return 3;
-            } else if (in_array($lid, self::FOOTBALL_MIDDLE_LEAGUE)){
+            } else if (in_array($lid, self::FOOTBALL_MIDDLE_LEAGUE)) {
                 return 2;
             } else {
                 return 1;
@@ -620,7 +638,7 @@ class BsController extends Controller
         } else if ($sport == 2) {
             if (in_array($lid, self::BASKETBALL_BIG_LEAGUE)) {
                 return 3;
-            } else if (in_array($lid, self::BASKETBALL_MIDDLE_LEAGUE)){
+            } else if (in_array($lid, self::BASKETBALL_MIDDLE_LEAGUE)) {
                 return 2;
             } else {
                 return 1;

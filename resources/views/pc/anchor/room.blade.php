@@ -51,7 +51,7 @@
 
                 </ul>
                 <div class="chatbox">
-                    @if($room['status'] == \App\Models\Anchor\AnchorRoom::kStatusLiving)
+                    @if($room['live_status'] == \App\Models\Anchor\AnchorRoom::kLiveStatusLiving)
                         <button class="send" onclick="send()">发送</button>
                     @else
                         <button class="send" onclick="send()" disabled>发送</button>
