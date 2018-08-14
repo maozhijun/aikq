@@ -154,7 +154,7 @@ class Kernel extends ConsoleKernel
         $schedule->command("article_page:run")->everyFiveMinutes();
 
         /////////////////////////
-        $schedule->command("living_collect:run")->cron('*/2 * * * *');//每五分钟记录一次直播线路记录
+        //$schedule->command("living_collect:run")->cron('*/2 * * * *');//每五分钟记录一次直播线路记录
     }
 
     /**

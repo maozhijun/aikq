@@ -65,6 +65,11 @@ class LiveCollectCommands extends Command
     }
 
 
+    /**
+     * 保存日志
+     * @param $match
+     * @param $sport
+     */
     protected function saveLiveLog($match, $sport) {
         //以线路id作为参考
         //id,ch_id,match_id,sport,match_status,hname,aname,match_time,ch_name,show,platform,is_private,content,live_status,created_at,updated_at
@@ -93,6 +98,7 @@ class LiveCollectCommands extends Command
         if (strlen($content) < 20) {
             $log->live_status = LiveChannelLog::kLiveStatusInvalid;//
             $this->sendWxTip("手机端直播未填写推流地址", $match);
+            $flg = false;//是否播放成功
         } else {
             $flg = CheckStreamCommand::streamCheck($content, 1);
             $log->live_status = $flg ? LiveChannelLog::kLiveStatusValid : LiveChannelLog::kLiveStatusInvalid;
@@ -100,8 +106,25 @@ class LiveCollectCommands extends Command
                 $this->sendWxTip("手机端直播推流中断啦", $match);
             }
         }
+
+        $ch_id = $match->ch_id;
+        $key = "check_" . $ch_id;
+        $offTimes = Redis::get($key);
+        if (!empty($offTimes)) {
+            $offTimes = intval($offTimes) + 1;
+        } else {
+            $offTimes = 1;
+        }
+        if ($flg) {
+            Redis::del($key);
+        } else {
+            Redis::setEx($key, 60 * 60 *5, $offTimes);
+        }
+
         try {
-            $log->save();
+            if ($offTimes >= 3) {
+                $log->save();//连续三次断流的话，则记录日志。
+            }
         } catch (\Exception $exception) {
             dump($exception);
         }
@@ -125,7 +148,7 @@ class LiveCollectCommands extends Command
             $keyword1 = $match['hname']." VS ".$match['aname'];
             $keyword2 = "线路名称《" . $match['ch_name'] ."》";
             WeixinTampleMessage::liveTip($this->getWxApp(),"oxCF5w6OQj5mvpu4hKWqCeoKFqCk", $first, $keyword1, $keyword2);
-            Redis::setEx($key, 5 * 60, '1234');
+            Redis::setEx($key, 5 * 60, '1');
         }
     }
 
