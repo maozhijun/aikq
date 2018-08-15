@@ -83,12 +83,12 @@
                 <p>主播</p>
             </a>
         </dd>
-        <dd>
-            <a href="/m/live/subject/videos/all/1.html">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">
-                <p>录像</p>
-            </a>
-        </dd>
+        {{--<dd>--}}
+            {{--<a href="/m/live/subject/videos/all/1.html">--}}
+                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">--}}
+                {{--<p>录像</p>--}}
+            {{--</a>--}}
+        {{--</dd>--}}
         <dd>
             <a href="https://shop.liaogou168.com">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">

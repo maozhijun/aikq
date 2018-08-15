@@ -5,6 +5,15 @@
         var curUrl = location.href;
         var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
         if (reg.test(curUrl)) {
+
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?2966b2031ac2b01631362b1474d7f853";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+
             location.href = reg.exec(curUrl)[1];
         }
 
@@ -53,7 +62,7 @@
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/index.html">主播</a>
-        <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>
+        {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
         <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/index.html">资讯</a>
         <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
         <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/live/business.html" target="_blank">源调用</a>
