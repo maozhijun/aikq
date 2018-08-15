@@ -20,4 +20,15 @@ class PcArticleType extends Model
         return self::query()->where('status', self::kStatusShow)->orderByRaw('ifNull(od, 999)')->get();
     }
 
+    public static function getTypeByTypeEn($type_en) {
+        return self::query()->where('name_en', $type_en)->first();
+    }
+
+    public function appModel() {
+        return [
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'name_en'=>$this->name_en,
+        ];
+    }
 }

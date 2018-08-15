@@ -77,4 +77,24 @@ class PcArticle extends Model
         return $cover;
     }
 
+    public function appModel($isWithDetail = false) {
+        $modelItem = [
+            'id'=>$this->id,
+            'title'=>$this->title,
+            'author_name'=>$this->author,
+            'cover'=>$this->getCover(),
+            'digest'=>$this->digest,
+            'labels'=>$this->labels,
+            'elite'=>$this->elite,
+            'read_count'=>$this->read_count,
+            'resource'=>$this->resource,
+            'publish_at'=>$this->publish_at,
+        ];
+        if ($isWithDetail) {
+            $modelItem['content'] = $this->getContent();
+            $modelItem['type'] = $this->type_obj->appModel();
+            $modelItem['author'] = $this->author_obj->appModel();
+        }
+        return $modelItem;
+    }
 }
