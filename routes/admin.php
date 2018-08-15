@@ -67,6 +67,11 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
     //Route::any('/cache-manager', 'CacheManagerController@index');//缓存刷新
     Route::get('/other/matches', 'OtherMatchController@matches');//自建赛事列表
     Route::post('/other/matches/save', 'OtherMatchController@saveOther');//自建赛事保存
+
+    //线路值班
+    Route::get("/live/duties", "LiveManagerController@index");//值班列表
+    Route::post("/live/duties/save", "LiveManagerController@saveDuty");//保存值班
+    Route::post("/live/duties/del", "LiveManagerController@delDuty");//删除值班
 });
 
 
