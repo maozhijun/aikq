@@ -81,3 +81,11 @@ Route::group(["namespace" => 'Anchor'], function () {
     Route::get("/anchor/index.html", "AnchorController@index");//比赛比分数据
     Route::get("/anchor/room/{room_id}.html", "AnchorController@room");//比赛比分数据
 });
+
+/**
+ * 文章列表、终端
+ */
+Route::group(["namespace" => 'Article'], function () {
+    Route::get("/news/index.html", "ArticleController@articles");//文章列表
+    #Route::get("/news/{type}/{date}/{id}.html", "ArticleController@detail");//比赛比分数据
+});

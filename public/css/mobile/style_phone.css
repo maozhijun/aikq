@@ -56,28 +56,9 @@ input[type="number"]{-moz-appearance:textfield;}
 	position: absolute; top: 20px; left: 24px;
 	content: '';
 }
-.default > div.title > a{
-	padding-right: 50px;
-	margin-right: -30px;
-	background: url(../../img/customer2/icon_right.png) no-repeat right center; background-size: 60px;
-	float: right;
-	font-size: 28px; text-align: right; color: #999; font-weight: normal;
-}
 .default > div.title > span{
 	float: right;
 	font-size: 24px; text-align: right; color: #999; font-weight: normal;
-}
-.default > div.title > button.close{
-	height: 80px;
-	padding-right: 32px; margin-right: -8px;
-	background: url(../../img/customer2/bg_show_rotate.png) no-repeat right center; background-size: 22px;
-	float: right;
-	font-size: 24px; text-align: right; color: #e1223a; font-weight: normal;
-	display: block;
-	float: right;
-}
-.default[close] > div.title > button.close{
-	background: url(../../img/customer2/bg_show.png) no-repeat right center; background-size: 22px;
 }
 .default > div.title > button.close:before{
 	content: '收起';
@@ -116,7 +97,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 #Navigation .banner{
 	height: 88px;
-	background: url(../img/image_bg_focus_n.jpg) no-repeat left top #4492fd; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/image_bg_focus_n.jpg) no-repeat left top #4492fd; background-size: cover;
 	font-size: 36px; line-height: 88px; text-align: center; color: #fff; font-weight: bold;
 }
 #Navigation .banner img{
@@ -132,7 +113,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 a.home{
 	width: 88px; height: 88px;
-	background: url(/img/pc/icon_home_white.png) no-repeat center; background-size: 54px;
+	background: url(http://static.cdn.dlfyb.com/img/pc/icon_home_white.png) no-repeat center; background-size: 54px;
 	position: fixed; top: 0; left: 4px; z-index: 52;
 	display: block;
 }
@@ -241,16 +222,6 @@ div.typeChoose p{
 	color: #bc1c25;
 	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
 }
-div.typeChoose p:after{
-	width: 24px; height: 24px;
-	margin: -12px 0 0 10px;
-	background: url(../../img/customer2/icon_date_down.png) no-repeat center; background-size: 64px;
-	position: absolute; top: 50%;
-	content: '';
-}
-div.typeChoose p.on:after{
-	background: url(../../img/customer2/bg_show_rotate.png) no-repeat center; background-size: 20px;
-}
 #typeList{
 	background: rgba(0,0,0,0.6);
 	position: fixed; bottom: 0; left: 0; right: 0; z-index: 51;
@@ -280,10 +251,6 @@ div.typeChoose p.on:after{
 }
 #typeList label ~ label{
 	border-top: 1px solid #e6e6e6;
-}
-#typeList input[type=radio]:checked + label{
-	background: url(../../img/customer2/icon_search_seleted.png) no-repeat 96% center; background-size: 30px;
-	color: #bc1c25;
 }
 
 /*无内容状态*/
@@ -369,12 +336,6 @@ div#Banner p{
 	max-height: 80px;
 	font-size: 28px; line-height: 40px;
 	overflow: hidden;
-}
-div#Banner p.liaogou{
-	max-height: 30px;
-	padding-top: 46px;
-	background: url(../../img/customer2/icon_nav_middle.png) no-repeat -6px -20px; background-size: 90px;
-	font-size: 28px; line-height: 30px;
 }
 div#Banner a{
 	width: 120px; height: 54px;
@@ -526,12 +487,6 @@ div#payCode .default .title:before{
     width: 6px; height: 26px;
     top: 27px;
 }
-div#payCode div.title > button{
-	width: 40px; height: 40px;
-	margin-top: 20px;
-	background: url(../../img/customer2/icon_close_btn.png) no-repeat center; background-size: 30px;
-	float: right;
-}
 div#payCode img{
 	width: 70%;
 	margin: 30px auto;
@@ -606,15 +561,6 @@ div#Alert[status=loading] > div.loading, div#Alert[status=success] > div.success
 	opacity: 1; filter:Alpha(opacity=100);
 	-ms-transform: scale(1); -webkit-transform: scale(1); -o-transform: scale(1); -moz-transform: scale(1); transform: scale(1);
 }
-div#Alert > div.loading:before{
-	background: url(../../img/customer2/icon_loading_ring.png) no-repeat center; background-size: 64px;
-	-moz-animation: loading 0.5s linear infinite; -webkit-animation: loading 0.5s linear infinite; -o-animation: loading 0.5s linear infinite; animation: loading 0.5s linear infinite;
-}
-div#Alert > div.success:before{
-	background: url(../../img/customer2/icon_loading_draw.png) no-repeat center; background-size: 64px;
-	-ms-transform: rotate(-45deg); -webkit-transform: rotate(-45deg); -o-transform: rotate(-45deg); -moz-transform: rotate(-45deg); transform: rotate(-45deg);
-	-moz-transition: all 0.3s; -webkit-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s;
-}
 div#Alert[status=success] > div.success:before{
 	-ms-transform: rotate(0deg); -webkit-transform: rotate(0deg); -o-transform: rotate(0deg); -moz-transform: rotate(0deg); transform: rotate(0deg);
 }
@@ -676,12 +622,6 @@ div#recTalent .title:before{
     width: 6px; height: 26px;
     top: 27px;
 }
-div#recTalent button.del{
-	width: 80px; height: 80px;
-	margin-top: -40px;
-	background: url(../../img/customer2/icon_close_btn.png) no-repeat center; background-size: 30px;
-	position: absolute; top: 50%; right: 0;
-}
 div#recTalent div.matchEv{
 	padding: 30px 30px 0 0; margin-left: 30px;
 }
@@ -698,14 +638,6 @@ div#recTalent input[type=checkbox]{
 	width: 0; height: 0;
 	visibility: hidden; opacity: 0;
 	position: absolute; top: 0; left: 0;
-}
-div#recTalent label{
-	width: 40px; height: 40px;
-	margin-top: -35px;
-	border-radius: 50%;
-	background: url(../../img/customer2/icon_pay_choosed_red.png) no-repeat center; background-size: 40px;
-	position: absolute; top: 50%; right: 30px;
-	opacity: 0.2;
 }
 div#recTalent input:checked + label{
 	opacity: 1;
@@ -739,13 +671,6 @@ div.publicAd{
 div.publicAd img{
 	width: 100%;
 	display: block;
-}
-div.publicAd p{
-    height: 98px;
-    padding: 0 60px; margin-left: 30px;
-    background: url(../../img/customer2/icon_right.png) no-repeat right center; background-size: 66px;
-    font-size: 32px; line-height: 98px;
-    position: relative;
 }
 div.publicAd p > img{
 	width: 60px; height: 60px;
