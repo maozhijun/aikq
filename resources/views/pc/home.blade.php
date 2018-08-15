@@ -46,7 +46,18 @@
                     <th>项目</th>
                     <th>赛事</th>
                     <th>时间</th>
-                    <th colspan="5">对阵</th>
+                    <th colspan="5">
+                        对阵
+                        <div class="choose">
+                            <p>全部</p>
+                            <ul style="display: none;">
+                                <li value="all" class="on">全部</li>
+                                <li value="lottery">竞彩</li>
+                                <li value="first">一级</li>
+                                <li value="imp">重要</li>
+                            </ul>
+                        </div>
+                    </th>
                     <th>直播频道</th>
                     <th>状态</th>
                 </tr>

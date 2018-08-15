@@ -24,8 +24,19 @@
             $impt_style = 'class=good_bk';
         }
     }
+    //等级类型
+    if (isset($match['genre'])){
+        //是否是一级赛事
+        $isFirst = ($match['genre'] >> 1 & 1) == 1;
+        //是否是竞彩
+        $isLottery = isset($match['betting_num']);
+    }
+    else{
+        $isFirst = 0;
+        $isLottery = 0;
+    }
 ?>
-<tr {!! $impt_style !!}>
+<tr match="1" lottery="{{$isLottery}}" first="{{$isFirst}}" imp="{{$impt}}" {!! $impt_style !!}>
     <td>
         @if($match['sport'] == 2) <p class="basketball">篮球</p> @elseif($match['sport'] == 1) <p class="football">足球</p>
         @else <p class="football">{{isset($match['project']) ? $match['project'] : ''}}</p> @endif
