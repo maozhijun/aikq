@@ -77,12 +77,12 @@
                 <p>直播</p>
             </a>
         </dd>
-        {{--<dd class="on">--}}
-            {{--<a>--}}
-                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_s.png">--}}
-                {{--<p>主播</p>--}}
-            {{--</a>--}}
-        {{--</dd>--}}
+        <dd class="on">
+            <a>
+                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_s.png">
+                <p>主播</p>
+            </a>
+        </dd>
         <dd>
             <a href="/m/live/subject/videos/all/1.html">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">
