@@ -25,16 +25,23 @@
         }
     }
     //等级类型
-    if (isset($match['genre'])){
-        //是否是一级赛事
-        $isFirst = ($match['genre'] >> 1 & 1) == 1;
-        //是否是竞彩
-        $isLottery = isset($match['betting_num']);
+    if ($match['sport'] == 1){
+        if (isset($match['genre'])){
+            //是否是一级赛事
+            $isFirst = ($match['genre'] >> 1 & 1) == 1;
+        }
+        else{
+            $isFirst = 0;
+        }
+    }
+    else if($match['sport'] == 2){
+        $isFirst = $match['league_name'] == 'NBA' || $match['league_name'] == 'CBA';
     }
     else{
         $isFirst = 0;
-        $isLottery = 0;
     }
+    //是否是竞彩
+    $isLottery = isset($match['betting_num']);
 ?>
 <tr match="1" lottery="{{$isLottery}}" first="{{$isFirst}}" imp="{{$impt}}" {!! $impt_style !!}>
     <td>

@@ -176,6 +176,7 @@ class AikanQController extends Controller
                 $query->whereNotNull('matches.betting_num');
             }
             $query->select("matches.*");
+            $query->addSelect("matches.genre as genre");
             $query->addSelect("matches.id as mid");
             $query->addSelect("match_lives.id as live_id");
             $query->orderby('time','asc');
@@ -1353,6 +1354,7 @@ class AikanQController extends Controller
         $obj['betting_num'] = $match->betting_num;
         $obj['time'] = $match->time;
         $obj['status'] = $match->status;
+        $obj['genre'] = isset($match['genre'])?$match['genre']:0;
 
         //是否有专家推荐
         if ($isMobile){
