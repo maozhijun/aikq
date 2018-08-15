@@ -11,6 +11,7 @@ namespace App\Http\Controllers\PC\Article;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article\PcArticle;
+use App\Models\Article\PcArticleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +19,7 @@ class ArticleController extends Controller
 {
 
     const PageSize = 10;
+    const APP_PAGE_SIZE = 20;
 
     /**
      *
@@ -140,4 +142,85 @@ class ArticleController extends Controller
         $this->generateHtml($detail);
     }
 
+    //=================================================================//
+    //==========================app相关=================================//
+
+    /**
+     * 文章列表
+     */
+    public function appNewsList(Request $request, $type_en, $page = 1) {
+        if (!is_numeric($page) || $page < 1) {
+            return response()->json(array(
+                'code'=>404,
+                'msg'=>"页码错误"
+            ));
+        }
+
+        $typeId = -1;
+        $typeObj = PcArticleType::getTypeByTypeEn($type_en);
+        if ($type_en != null) {
+            $typeId = $typeObj->id;
+        }
+
+        $query = PcArticle::getPublishQuery();
+        if ($typeId > 0) {
+            $query->where('type', $typeId);
+        }
+        $articles = $query->paginate(self::APP_PAGE_SIZE, ['*'], '', $page);
+
+        $results = array();
+        foreach ($articles as $article) {
+            $results[] = $article->appModel();
+        }
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$results
+        ));
+    }
+
+    /**
+     * 类型
+     */
+    public function appNewsTypes(Request $request) {
+        $results = array();
+
+        $allType = new PcArticleType();
+        $allType->id = -1;
+        $allType->name = "全部";
+        $results[] = $allType;
+
+        $types = PcArticleType::allTypes();
+        foreach ($types as $type) {
+            $results[] = $type->appModel();
+        }
+
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$results
+        ));
+    }
+
+    /**
+     * 资讯终端
+     */
+    public function appNewsDetail(Request $request, $t_name, $id) {
+        $detail = PcArticle::query()->find($id);
+        if (!isset($detail)) {
+            return response()->json(array(
+                'code'=>404,
+                'msg'=>"未能找到该文章"
+            ));
+        }
+        $type_obj = $detail->type_obj;
+        if ($type_obj->name_en != $t_name) {
+            return response()->json(array(
+                'code'=>404,
+                'msg'=>"文章类型匹配失败"
+            ));
+        }
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$detail->appModel(true)
+        ));
+    }
 }
