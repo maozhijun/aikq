@@ -11,7 +11,7 @@
             <div id="Left">
                 <div class="con">
                     <h1>{{$article->title}}</h1>
-                    <p class="info">{!! !empty($article->resource) ? "来源：料狗&nbsp;&nbsp;&nbsp;" : "" !!}
+                    <p class="info">{!! !empty($article->resource) ? "来源：" . $article->resource . "&nbsp;&nbsp;&nbsp;" : "" !!}
                         作者：{{$article->author}}&nbsp;&nbsp;&nbsp;&nbsp;{{$article->type_obj->name}}<span>发表于：{{substr($article->publish_at, 0, 16)}}</span></p>
                     <div class="detail">{!! $article->getContent() !!}</div>
                 </div>

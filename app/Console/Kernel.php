@@ -85,7 +85,6 @@ class Kernel extends ConsoleKernel
         ArticlePageCommands::class,//文章分页定时任务
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
 
-        LiveCollectCommands::class,//收集直播信息，用于分析
     ];
 
     /**
@@ -123,10 +122,10 @@ class Kernel extends ConsoleKernel
         //$schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
         //专题静态化
-        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面
-        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json
-        $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端
-        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html
+        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
+        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
+        $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
+        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
 
         //热门录像静态化
         //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
@@ -134,8 +133,8 @@ class Kernel extends ConsoleKernel
 
         //专题录像静态化
         //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
-        $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
-        $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
+        $schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表  待优化
+        $schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表         待优化
 
         //appsocket相关
         $schedule->command("anchor_living_cache:run")->everyTenMinutes();//每分钟看看有多少主播在播
@@ -152,9 +151,6 @@ class Kernel extends ConsoleKernel
         //文章静态化定时任务
         $schedule->command("article_lives:run")->everyMinute();
         $schedule->command("article_page:run")->everyFiveMinutes();
-
-        /////////////////////////
-        //$schedule->command("living_collect:run")->cron('*/2 * * * *');//每五分钟记录一次直播线路记录
     }
 
     /**
