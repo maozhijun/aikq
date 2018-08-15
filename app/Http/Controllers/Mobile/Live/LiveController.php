@@ -37,7 +37,7 @@ class LiveController extends Controller
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
-                //Storage::disk("public")->put("/static/m/lives.html",$html);
+                Storage::disk("public")->put("/static/m/lives.html",$html);
                 Storage::disk("public")->put("/static/m/index.html",$html);
                 Storage::disk("public")->put("/static/m/football.html",$html);
                 Storage::disk("public")->put("/static/m/basketball.html",$html);
