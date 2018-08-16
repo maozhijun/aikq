@@ -163,7 +163,7 @@ class ArticleController extends Controller
 
         $typeId = -1;
         $typeObj = PcArticleType::getTypeByTypeEn($type_en);
-        if ($type_en != null) {
+        if ($typeObj != null) {
             $typeId = $typeObj->id;
         }
 
