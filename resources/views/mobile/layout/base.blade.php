@@ -36,7 +36,7 @@
 @yield('bottom')
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/public.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/public.js?time=201808000001"></script>
 @yield('js')
 <script>
     var _hmt = _hmt || [];

@@ -70,33 +70,8 @@
     </div>
 @endsection
 @section('bottom')
-    <dl id="Bottom">
-        <dd>
-            <a href="/m/lives.html">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_live_n.png">
-                <p>直播</p>
-            </a>
-        </dd>
-        <dd class="on">
-            <a>
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_s.png">
-                <p>主播</p>
-            </a>
-        </dd>
-        {{--<dd>--}}
-            {{--<a href="/m/live/subject/videos/all/1.html">--}}
-                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">--}}
-                {{--<p>录像</p>--}}
-            {{--</a>--}}
-        {{--</dd>--}}
-        <dd>
-            <a href="https://shop.liaogou168.com">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">
-                <p>推荐</p>
-            </a>
-        </dd>
-    </dl>
-    @endsection
+    @component("mobile.layout.bottom_cell", ['cur'=>'anchor']) @endcomponent
+@endsection
 @section('js')
     <script type="text/javascript">
 
