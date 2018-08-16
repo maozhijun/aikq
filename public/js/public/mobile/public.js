@@ -103,7 +103,7 @@ function ComfirmAlert (content,Event,Title,canText,comText) { //content为提示
 }
 
 //翻页到页底
-function ScrollBottom (Even) {
+function scrollBottom (endFunc) {
     var ClientHeight,BodyHeight,ScrollTop;
     if(document.compatMode == "CSS1Compat"){
         ClientHeight = document.documentElement.clientHeight;
@@ -113,9 +113,9 @@ function ScrollBottom (Even) {
 
     BodyHeight = document.body.offsetHeight;
 
-    ScrollTop = document.body.scrollTop;
+    ScrollTop = getPageScroll()[1];
 
     if (BodyHeight - ScrollTop - ClientHeight < 20) {
-        Even();
+        endFunc();
     }
 }

@@ -26,10 +26,7 @@ class ArticleController extends Controller
     public function articles(Request $request) {
         $query = PcArticle::getPublishQuery();
         $articles = $query->paginate(self::PageSize, ['*'], '', 1);
-        $result['page'] = $articles;
-        $result['keywords'] = '体育,资讯';
-        $result['description'] = '最新最全的体育资讯';
-        return view('mobile.articles.news', $result);
+        return $this->articlesHtml($articles);
     }
 
 
@@ -41,12 +38,19 @@ class ArticleController extends Controller
         if ($article->status != PcArticle::kStatusPublish) {
             return abort(404);
         }
-        $result['article'] = $article;
-        $result['title'] = $article->title . "_爱看球";
-        $result['keywords'] = str_replace('，', ',', $article->labels);
-        $result['description'] = $article->digest;
 
-        return view("mobile.articles.detail", $result);
+        return $this->detailHtml($article);
+    }
+
+    public function articlesHtml($articles) {
+        $result['page'] = $articles;
+        $result['keywords'] = '体育,资讯';
+        $result['description'] = '最新最全的体育资讯';
+        return view('mobile.articles.news', $result);
+    }
+
+    public function articlesCell($articles) {
+        return view('mobile.articles.news_cell', ['page'=>$articles]);
     }
 
     /**

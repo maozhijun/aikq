@@ -65,32 +65,7 @@
     <p id="PC"><a href="http://mp.dlfyb.com/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 @section('bottom')
-    <dl id="Bottom">
-        <dd class="on">
-            <a href="">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_live_s.png">
-                <p>直播</p>
-            </a>
-        </dd>
-        <dd class="">
-            <a href="/m/anchor/index.html">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">
-                <p>主播</p>
-            </a>
-        </dd>
-        {{--<dd>--}}
-            {{--<a href="/m/live/subject/videos/all/1.html">--}}
-                {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_vedio_n.png">--}}
-                {{--<p>录像</p>--}}
-            {{--</a>--}}
-        {{--</dd>--}}
-        <dd>
-            <a href="https://shop.liaogou168.com">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">
-                <p>推荐</p>
-            </a>
-        </dd>
-    </dl>
+    @component("mobile.layout.bottom_cell", ["cur"=>'live']) @endcomponent
 @endsection
 @section('js')
     <script type="text/javascript">

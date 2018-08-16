@@ -1,4 +1,5 @@
 @extends('mobile.layout.base')
+@section("body_attr") onscroll="scrollBottom(loadNews);" @endsection
 @section('title')
     <title>体育资讯_爱看球</title>
 @endsection
@@ -26,35 +27,13 @@
     </div>
 @endsection
 @section('bottom')
-    <dl id="Bottom">
-        <dd>
-            <a>
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_live_n.png">
-                <p>直播</p>
-            </a>
-        </dd>
-        <dd>
-            <a href="anchorPhone.html">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">
-                <p>主播</p>
-            </a>
-        </dd>
-        <dd class="on">
-            <a>
-                <img src="{{env('CDN_URL')}}/img/mobile/icon_news_s.png">
-                <p>资讯</p>
-            </a>
-        </dd>
-        <dd>
-            <a href="https://shop.liaogou168.com">
-                <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">
-                <p>推荐</p>
-            </a>
-        </dd>
-    </dl>
+    @component("mobile.layout.bottom_cell", ['cur'=>'news']) @endcomponent
 @endsection
 @section("js")
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/news.js"></script>
 <script type="text/javascript">
+    window.curPage = '{{$page['curPage']}}';
+    window.loadPage = false;
     window.onload = function () {
 
     }
