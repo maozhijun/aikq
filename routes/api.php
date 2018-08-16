@@ -26,3 +26,7 @@ Route::group(['namespace'=>'Api', 'middleware'=>'web'], function () {
     Route::get("/base/auth", "WxAuthController@wxAuthToOther");
     Route::get("/wechat/jsSign", "WxAuthController@jsSign");
 });
+
+Route::group(['namespace'=>'IntF'], function () {
+    Route::any("/spider/ttzb/{action}", "SpiderTTZBController@index");//天天直播抓取
+});

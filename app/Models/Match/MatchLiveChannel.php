@@ -10,6 +10,7 @@ namespace App\Models\Match;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class MatchLiveChannel extends Model
 {
@@ -27,6 +28,8 @@ class MatchLiveChannel extends Model
     const kTypeArrayCn = [self::kTypeSS365=>'ss365', self::kTypeTTZB=>'天天直播', self::kTypeBallBar=>'ballbar', self::kTypeCode=>'高清验证', self::kTypeOther=>'其他'];//self::kTypeWCJ=>'无插件', self::kTypeDDK=>'低调看', self::kTypeKBS=>'看比赛',, self::kTypeCCTVAPP=>'CCTV', self::kTypeLZ=>'龙珠',self::kTypeQQ=>'腾讯体育'
     const kPlayerArray = [self::kPlayerAuto, self::kPlayerIFrame, self::kPlayerCk, self::kPlayerM3u8, self::kPlayerFlv, self::kPlayerRTMP, self::kPlayerExLink,self::kPlayerClappr, self::kPlayerJSJ];
     const kPlayerArrayCn = [self::kPlayerAuto=>'自动选择', self::kPlayerIFrame=>'iFrame', self::kPlayerCk=>'ckplayer', self::kPlayerM3u8=>'m3u8', self::kPlayerFlv=>'flv', self::kPlayerRTMP=>'rtmp', self::kPlayerExLink=>'外链',self::kPlayerClappr=>'clappr', self::kPlayerMp4=>'Mp4', self::kPlayerJSJ=>'JSJ'];
+    const kNotPrivate = 1, kPrivate = 2;
+    const kUseAikq = 2, kUseHeitu = 3, kUse310 = 4;//1：全部，2：爱看球，3：黑土，4：310.
 
     public function matchLive() {
         return $this->hasOne(MatchLive::class, 'id', 'live_id');
@@ -231,6 +234,64 @@ class MatchLiveChannel extends Model
             return false;
         }
         return true;
+    }
+
+
+    /**
+     * @param $matchId     比赛ID
+     * @param $sport       竞技类型
+     * @param $channelType 线路类型
+     * @param $content     线路内容
+     * @param $od          线路排序
+     * @param $platform    线路平台
+     * @param $player      线路播放
+     * @param $name        线路名称
+     * @param $show
+     * @param $isPrivate = 1   是否有版权，1：无版权，2：有版权。配合 $use 使用，一般有版权的 $use 用爱看球。
+     * @param $use = 1        网站专用，1：通用，2：爱看球，3：黑土，4：lg310。其他：待添加
+     * @return mixed       返回保存是否成功，成功返回 null，失败返回 $exception
+     */
+    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1) {
+        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use) {
+            $live = MatchLive::query()->where('match_id', $matchId)->where('sport', $sport)->first();
+            if (isset($live)) {
+                $live_id = $live->id;
+                $channel = self::query()->where('live_id', $live_id)->where('type', $channelType)->where('content', $content)->first();
+                if (!isset($channel)) {
+                    $channel = new MatchLiveChannel();
+                    $channel->live_id = $live_id;
+                    $channel->type = $channelType;
+                    $channel->name = $name;
+                    $channel->content = $content;
+                    $channel->platform = $platform;
+                    $channel->player = $player;
+                    $channel->od = $od;
+                    $channel->auto = self::kAutoSpider;
+                    $channel->show = $show;
+                    $channel->isPrivate = $isPrivate;
+                    $channel->use = $use;
+                    $channel->save();
+                }
+            } else {
+                $live = new MatchLive();
+                $live->match_id = $matchId;
+                $live->sport = $sport;
+                $live->save();
+
+                $channel = new MatchLiveChannel();
+                $channel->live_id = $live->id;
+                $channel->type = $channelType;
+                $channel->name = $name;
+                $channel->content = $content;
+                $channel->platform = $platform;
+                $channel->player = $player;
+                $channel->od = $od;
+                $channel->auto = self::kAutoSpider;
+                $channel->show = $show;
+                $channel->save();
+            }
+        });
+        return $exception;
     }
 
 }
