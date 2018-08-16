@@ -153,12 +153,10 @@ class ArticleController extends Controller
     /**
      * 文章列表
      */
-    public function appNewsList(Request $request, $type_en, $page = 1) {
-        if (!is_numeric($page) || $page < 1) {
-            return response()->json(array(
-                'code'=>404,
-                'msg'=>"页码错误"
-            ));
+    public function appNewsList(Request $request, $type_en) {
+        $page = $request->input('page',1);
+        if ($page<=0){
+            $page =1;
         }
 
         $typeId = -1;

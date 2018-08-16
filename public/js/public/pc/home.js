@@ -28,7 +28,7 @@ function setPage(){
 		TopArr = TopArr.concat($('#Show tbody th:eq(' + i + ')').parent().offset().top - 100);
 	}
 
-	$('table.list .choose p').attr('onclick','chooseP()')
+	// $('table.list .choose p').attr('onclick','chooseP()')
 	$('table.list .choose li').attr('onclick','chooseLi(this)')
 
 	if (canSaveIE()) {
@@ -108,7 +108,7 @@ function chooseLi (obj) {
 
 		$('table.list .choose').html(Par.html())
 	}
-	$('table.list .choose ul').css('display', 'none');
+	// $('table.list .choose ul').css('display', 'none');
 
 	var trs = $('tr[match=1]');
 	var type = obj.getAttribute('value');

@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=201808151553">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=201808161234">
 @endsection
 @section('content')
     <div id="Content">
@@ -21,7 +21,17 @@
                     <th>项目</th>
                     <th>赛事</th>
                     <th>时间</th>
-                    <th colspan="5">对阵</th>
+                    <th colspan="5">对阵
+                        <div class="choose">
+                            <p>全部</p>
+                            <ul>
+                                <li value="all" class="on">全部</li>
+                                <li value="lottery">竞彩</li>
+                                <li value="first">一级</li>
+                                <li value="imp">重要</li>
+                            </ul>
+                        </div>
+                    </th>
                     <th>直播频道</th>
                     <th>状态</th>
                 </tr>
@@ -50,7 +60,7 @@
                         对阵
                         <div class="choose">
                             <p>全部</p>
-                            <ul style="display: none;">
+                            <ul>
                                 <li value="all" class="on">全部</li>
                                 <li value="lottery">竞彩</li>
                                 <li value="first">一级</li>
@@ -101,7 +111,7 @@
     {{--</div>--}}
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201808151555"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201808161234"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setADClose();

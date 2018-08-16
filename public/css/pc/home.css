@@ -32,36 +32,32 @@ table.list thead th:nth-child(6){
 }
 
 table.list thead th .choose{
-	width: 80px; height: 24px;
-	margin: -13px 0 0 30px;
-	border: 1px solid #aaa; border-radius: 13px;
-	background: url(/img/pc/icon_down.png) no-repeat 53px center #fff; background-size: 12px;
-	vertical-align: middle;
-	position: absolute; top: 50%; left: 50%;
-	cursor: pointer;
+	height: 30px;
+	margin: -4px 0 0 10px;
+	border: 1px solid #0068b7;
+	background: #fff;
+	display: inline-block; vertical-align: middle;
 }
 table.list thead th .choose p{
 	padding-right: 20px;
 	font-size: 12px; line-height: 24px; text-align: center; color: #595959;
+	display: none;
 }
 table.list thead th .choose ul{
-	padding: 10px 20px;
-	border: 1px solid #aaa;
-	background: #fff;
-	position: absolute; top: 26px; left: -20px; right: -20px;
-	z-index: 1;
+	width: 160px; height: 30px;
+	font-size: 0;
 }
 table.list thead th .choose ul li{
-	height: 26px;
-	border-radius: 4px;
-	font-size: 12px; line-height: 26px; text-align: center; color: #595959;
+	height: 30px; width: 40px;
+	font-size: 12px; line-height: 30px; text-align: center; color: #595959;
+	display: inline-block; vertical-align: top;
 	cursor: pointer;
 }
-table.list thead th .choose ul li + li{
-	margin-top: 4px;
+table.list thead th .choose ul li:hover{
+	background: #c8daf3;
 }
 table.list thead th .choose ul li.on{
-	background: #004d9a;
+	background: #4492fd;
 	color: #fff;
 }
 

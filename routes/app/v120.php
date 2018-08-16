@@ -29,7 +29,7 @@ Route::group([], function () {
     Route::get('/anchor/living.json','Anchor\AnchorController@livingRoom');
 
     //文章相关
-    Route::get('/news/list/{type_en}/{page}','Article\ArticleController@appNewsList'); //文章列表
+    Route::get('/news/list/{type_en}','Article\ArticleController@appNewsList'); //文章列表
     Route::get('/news/types','Article\ArticleController@appNewsTypes');//文章类型
     Route::get('/news/detail/{type_en}/{id}','Article\ArticleController@appNewsDetail');//文章终端
 });
