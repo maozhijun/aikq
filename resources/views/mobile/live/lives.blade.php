@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('title')
-    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
+    <title>爱看球-JRS直播|NBA直播|英超直播|西甲直播|低调看|直播吧</title>
 @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201804">

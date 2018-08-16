@@ -121,8 +121,13 @@ class ArticleController extends Controller
         $article->disks = $disks;
         $article->path = $path;
         $article->save();
+
         $html = $this->detailHtml($article);
         Storage::disk("public")->put($path, $html);
+
+        $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
+        $wapHtml = $mobileCon->detailHtml($article);
+        Storage::disk("public")->put('/static/m'.$path, $wapHtml);
     }
 
 

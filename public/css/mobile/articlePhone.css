@@ -1,0 +1,99 @@
+﻿body{
+	background: #f7f6f6;
+}
+
+#BG{
+	height: 640px;
+	position: fixed; top: 88px; left: 0; right: 0; z-index: -1;
+}
+#BG:before{
+	background: rgba(0,0,0,0.5);
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+
+h1{
+	margin: 100px 24px 88px;
+	font-size: 44px; line-height: 66px; text-align: left; color: #fff;
+}
+
+#Introduction{
+	margin: 0 24px;
+	background: url(/img/mobile/image_trank_n.png) no-repeat center top; background-size: 100% auto;
+	position: relative;
+}
+#Introduction:before{
+	height: 0;
+	border-width: 32px 320px 32px 320px; border-style: solid; border-color: transparent transparent #f7f6f6 #f7f6f6; 
+	position: absolute; top: 216px; left: -24px; z-index: 0;
+	content: '';
+}
+#Introduction:after{
+	background: #f7f6f6;
+	position: absolute; top: 280px; bottom: 0; left: -24px; right: -24px; z-index: 0;
+	content: '';
+}
+#Introduction .modify{
+	height: 124px;
+	padding-top: 92px;
+	position: relative; z-index: 2;
+	overflow: hidden;
+}
+#Introduction .modify:before{
+	width: 200%; height: 200%;
+	background: #fff;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+	transform: rotate(8.5deg); -ms-transform: rotate(8.5deg); -webkit-transform: rotate(8.5deg); -o-transform: rotate(8.5deg); -moz-transform: rotate(8.5deg);
+	transform-origin: left top; -ms-transform-origin: left top; -webkit-transform-origin: left top; -o-transform-origin: left top; -moz-transform-origin: left top;
+	display: block;
+	content: '';
+}
+#Introduction .modify:after{
+	width: 60px; height: 60px;
+	background: url(/img/mobile/icon_l_n.png) no-repeat center; background-size: 60px;
+	position: absolute; top: 64px; left: 20px; z-index: 3;
+	content: '';
+}
+#Introduction p{
+	padding: 24px 40px 88px;
+	background: url(/img/mobile/icon_s_n.png) no-repeat right 28px bottom 28px #fff; background-size: 40px;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+	font-size: 30px; line-height: 44px; text-align: left; color: #494949;
+	position: relative; z-index: 1;
+}
+#Introduction p:after{
+	height: 2px; width: 254px;
+	background: #b0b0b0;
+	position: absolute; bottom: 44px; right: 98px;
+	content: '';
+}
+
+#Content{
+	padding: 90px 24px 18px;
+	background: #f7f6f6;
+}
+#Content p{
+	/*margin-bottom: 30px;*/
+	font-size: 32px; line-height: 48px; text-align: left; color: #6a6464;
+}
+#Content img{
+	max-width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+	
+
+
+/*box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);*/
+
+@media screen and (min-width: 1000px){
+	#Introduction .modify:before{
+		transform: rotate(6deg); -ms-transform: rotate(6deg); -webkit-transform: rotate(6deg); -o-transform: rotate(6deg); -moz-transform: rotate(6deg);
+	}
+	#BG:after{
+		height: 0;
+		border-width: 32px 800px 32px 800px; border-style: solid; border-color: transparent transparent #f7f6f6 #f7f6f6; 
+		position: absolute; bottom: 0; left: 0;
+		content: '';
+	}
+}

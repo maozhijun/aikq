@@ -52,6 +52,20 @@ class PlayerJsonCommand extends Command
         $this->staticPlayerJson(new Request());
     }
 
+//    public function staticPlayerJsonNew() {
+//        $oneMinuteAgo = date('Y-m-d H:i', strtotime('-1 minutes'));
+//        $query = MatchLiveChannel::query()->where('updated_at', '>=', $oneMinuteAgo);
+//        $channels = $query->get();
+//        $con = new LiveController();
+//        $request = new Request();
+//        foreach ($channels as $channel) {
+//            $ch_id = $channel->id;
+//            $ch_type = $channel->type;
+//            if ($ch_type != MatchLiveChannel::kTypeTTZB) {
+//                $con->staticDBLiveUrl($request, $ch_id, true);
+//            }
+//        }
+//    }
 
     /**
      * 静态化播放页面异步请求

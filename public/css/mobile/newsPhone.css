@@ -1,0 +1,42 @@
+﻿body{
+	padding-bottom: 116px;
+}
+
+#Content{
+	background: #fff;
+}
+#Content a.li{
+	height: 132px;
+	padding: 20px 24px ;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Content a.li + a.li:before{
+	height: 1px;
+	background: #e0e3ea;
+	position: absolute; top: 0; left: 24px; right: 0;
+	content: '';
+}
+
+#Content a.li .imgbox{
+	height: 132px; width: 240px;
+	margin-left: 40px;
+	float: right;
+}
+#Content a.li h6{
+	height: 84px;
+	margin-bottom: 18px;
+	font-size: 30px; line-height: 42px; text-align: left; color: #494949;
+	display: block;
+	overflow: hidden;
+}
+#Content a.li p.info{
+	height: 30px;
+	font-size: 22px; line-height: 30px; text-align: left; color: #a7a1a1;
+	overflow: hidden;
+}
+
+
+
+
