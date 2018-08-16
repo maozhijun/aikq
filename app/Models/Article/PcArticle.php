@@ -78,6 +78,9 @@ class PcArticle extends Model
     }
 
     public function appModel($isWithDetail = false) {
+        $type_obj = $this->type_obj;
+        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'detail';
+        $publish_date = date('Ymd', strtotime($this->publish_at));
         $modelItem = [
             'id'=>$this->id,
             'title'=>$this->title,
@@ -89,6 +92,7 @@ class PcArticle extends Model
             'read_count'=>$this->read_count,
             'resource'=>$this->resource,
             'publish_at'=>$this->publish_at,
+            'url'=>'/m/news/'.$type_name_en.'/'.$publish_date.'/'.$this->id.'.html',
         ];
         if ($isWithDetail) {
             $modelItem['content'] = $this->getContent();
