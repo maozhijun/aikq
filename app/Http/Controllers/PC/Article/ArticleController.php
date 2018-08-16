@@ -179,6 +179,8 @@ class ArticleController extends Controller
         }
         return response()->json(array(
             'code'=>0,
+            'pageNo'=>$page,
+            'pageSize'=>$articles->lastPage(),
             'data'=>$results
         ));
     }
