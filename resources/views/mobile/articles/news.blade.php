@@ -30,9 +30,10 @@
     @component("mobile.layout.bottom_cell", ['cur'=>'news']) @endcomponent
 @endsection
 @section("js")
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/news.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/news.js?time=2018081600003"></script>
 <script type="text/javascript">
-    window.curPage = '{{$page['curPage']}}';
+    window.curPage = 1;
+    window.lastPage = parseInt('{{$page->lastPage()}}');
     window.loadPage = false;
     window.onload = function () {
 
