@@ -8,15 +8,15 @@ var redis = require("redis"),
 
 var crypto = require('crypto');
 
-php_redis.subscribe('notification', function(err, count) {
-    console.log('connect!');
+php_redis.subscribe('akq_chat_notification', function(err, count) {
+    console.log('akq_chat_notification connect!');
 });
 
 php_redis.on('message', function(channel, notification) {
-    // console.log(notification);
+    // console.log('mid:'+notification);
     notification = JSON.parse(notification);
     // 將訊息推播給使用者
-    io.emit('notification', notification.data.message);
+    userPostChat(notification.data,notification.data.mid);
     // io.emit('bjtest', notification.data.message);
     console.log('api send done');
 });
@@ -30,73 +30,17 @@ io.on('connect', function (socket) {
     //绑定监听事件
     //接收用户发的消息
     socket.on('user_send_message', function (info) {
+        //之后用post,不是直接socket过去,所以这里不用通用变量了,做个兼容
         try {
-            var message = info.message;
-// console.log(message);
-            if (message == null || message.length <= 0){
-                return;
+            var socket_mid = mid;
+            if (info.mid && parseInt(info.mid) > 0) {
+                socket_mid = parseInt(info.mid);
             }
-
-            //匹配不应该发的内容
-            var phoneReg = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
-            var tmp = phoneReg.exec(message);
-            if (tmp && tmp.length > 0){
-                return;
-            }
-
-            //验证
-            var md5 = crypto.createHash('md5');
-
-            var time = info.time;
-            var verification = info.verification;
-            var key = message + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
-            var result = md5.update(key).digest('hex');
-            // console.log('message ' + message);
-            // console.log('time ' + time);
-            // console.log('verification ' + verification);
-            // console.log('key ' + key);
-            // console.log('result ' + result);
-            var current_time = Date.parse( new Date())/1000 + '';
-            if (result == verification && Math.abs(current_time - time) < 10) {
-                io.to('mid:' + mid).emit('notification', info.message);
-                var nickname = '匿名';
-                if (info.nickname && info.nickname.length > 0){
-                    nickname = info.nickname;
-                }
-                var tmp = {
-                    'message':info.message,
-                    'nickname':nickname,
-                    'time':info.time
-                }
-                io.to('mid:' + mid).emit('server_send_message', tmp);
-                //保存历史记录
-                client.get(mid+'_history', function(err, object) {
-                    if (null == err) {
-                        if (null == object){
-                            object = new Array();
-                        }
-                        else{
-                            object = JSON.parse(object.toString());
-                        }
-                    }
-                    // console.log('bj1 '+JSON.stringify(object));
-                    // console.log('bj2 '+JSON.stringify(tmp));
-                    object.push(tmp);
-                    // console.log('bj3 '+JSON.stringify(object));
-                    client.set(mid+'_history', JSON.stringify(object), function(err) {
-                        // console.log(err);
-                    });
-                    client.expire(mid+'_history', 60*60*3);
-                });
-            }
-            else {
-                console.log('in error');
-            }
+            userPostChat(info,socket_mid);
         }
         catch (e){
             console.log(e);
         }
-        // io.to('mid:'+'1234').emit('notification', info.message+'2');
     });
 
     //接收用户说自己在哪个房间
@@ -155,7 +99,7 @@ io.on('connect', function (socket) {
                             if (object.length == 0) {
                                 return;
                             }
-                            io.to('mid:' + mid).emit('server_history_message', object);
+                            // io.to('mid:' + mid).emit('server_history_message', object);
                         }
                     });
                 }
@@ -187,6 +131,76 @@ io.on('connect', function (socket) {
         });
     });
 });
+
+function userPostChat(info,socket_mid) {
+    try {
+        var message = info.message;
+// console.log(message);
+        if (message == null || message.length <= 0){
+            return;
+        }
+
+        //匹配不应该发的内容
+        var phoneReg = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
+        var tmp = phoneReg.exec(message);
+        if (tmp && tmp.length > 0){
+            return;
+        }
+        if (message.indexOf('足彩') >= 0){
+            return;
+        }
+
+        //验证
+        var md5 = crypto.createHash('md5');
+
+        var time = info.time;
+        var verification = info.verification;
+        var key = message + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
+        var result = md5.update(key).digest('hex');
+        //
+
+
+        var current_time = Date.parse( new Date())/1000 + '';
+        if (result == verification && Math.abs(current_time - time) < 10) {
+            io.to('mid:' + socket_mid).emit('notification', info.message);
+            var nickname = '匿名';
+            if (info.nickname && info.nickname.length > 0){
+                nickname = info.nickname;
+            }
+            var tmp = {
+                'message':info.message,
+                'nickname':nickname,
+                'time':info.time
+            }
+            io.to('mid:' + socket_mid).emit('server_send_message', tmp);
+            //保存历史记录
+            client.get(socket_mid+'_history', function(err, object) {
+                if (null == err) {
+                    if (null == object){
+                        object = new Array();
+                    }
+                    else{
+                        object = JSON.parse(object.toString());
+                    }
+                }
+                // console.log('bj1 '+JSON.stringify(object));
+                // console.log('bj2 '+JSON.stringify(tmp));
+                object.push(tmp);
+                // console.log('bj3 '+JSON.stringify(object));
+                client.set(socket_mid+'_history', JSON.stringify(object), function(err) {
+                    // console.log(err);
+                });
+                client.expire(socket_mid+'_history', 60*60*3);
+            });
+        }
+        else {
+            console.log('in error');
+        }
+    }
+    catch (e){
+        console.log(e);
+    }
+}
 
 function myIsNaN2(value) {
     return typeof value === 'number' && isNaN(value);

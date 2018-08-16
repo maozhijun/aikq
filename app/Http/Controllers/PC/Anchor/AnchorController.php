@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\PC\Anchor;
 
+use App\Events\ChatPushNotification;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Anchor\AnchorRoomTag;
@@ -159,6 +160,23 @@ class AnchorController extends Controller
             'code'=>0,
             'data'=>$tmp
         ));
+    }
+
+    /**
+     * 发送弹幕
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendMessage(Request $request){
+        $data = [
+            'message'=>$request->input('message'),
+            'nickname'=>$request->input('nickname'),
+            'time'=>$request->input('time'),
+            'verification'=>$request->input('verification'),
+            'mid'=>$request->input('mid'),
+        ];
+        broadcast(new ChatPushNotification($data));
+        return response()->json(['result' => 'ok'], 200);
     }
 
     /**
