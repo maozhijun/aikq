@@ -29,6 +29,12 @@
     window.onload = function () {
 
     }
+    var ua = navigator.userAgent;
+    if (ua.indexOf('AKQ') >= 0){
+        $('#Navigation').remove();
+        $('body')[0].style.padding = '0px';
+        $('#BG')[0].style.top = '0px';
+    }
 </script>
 @endsection
 

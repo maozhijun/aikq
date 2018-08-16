@@ -63,6 +63,9 @@ class PcArticle extends Model
         return $path;
     }
 
+    public function getWebUrl() {
+        return env('APP_URL').'/m'.$this->getUrl();
+    }
 
     public static function getPublishQuery() {
         $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
@@ -88,7 +91,8 @@ class PcArticle extends Model
             'elite'=>$this->elite,
             'read_count'=>$this->read_count,
             'resource'=>$this->resource,
-            'publish_at'=>$this->publish_at,
+            'publish_at'=>strtotime($this->publish_at),
+            'url'=>$this->getWebUrl(),
         ];
         if ($isWithDetail) {
             $modelItem['content'] = $this->getContent();
