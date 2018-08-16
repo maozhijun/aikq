@@ -64,7 +64,7 @@ class PcArticle extends Model
     }
 
     public function getWebUrl() {
-        return env('APP_URL').$this->getUrl();
+        return env('APP_URL').'/m'.$this->getUrl();
     }
 
     public static function getPublishQuery() {

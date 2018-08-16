@@ -87,5 +87,5 @@ Route::group(["namespace" => 'Anchor'], function () {
  */
 Route::group(["namespace" => 'Article'], function () {
     Route::get("/news/index.html", "ArticleController@articles");//文章列表
-    #Route::get("/news/{type}/{date}/{id}.html", "ArticleController@detail");//比赛比分数据
+    Route::get("/news/{type}/{date}/{id}.html", "ArticleController@detail");//比赛比分数据
 });
