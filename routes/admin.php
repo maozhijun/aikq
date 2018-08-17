@@ -72,6 +72,8 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
     Route::get("/live/duties", "LiveManagerController@index");//值班列表
     Route::post("/live/duties/save", "LiveManagerController@saveDuty");//保存值班
     Route::post("/live/duties/del", "LiveManagerController@delDuty");//删除值班
+
+    Route::get('/live/channel/logs', 'ChannelLogController@logs');//直播线路操作日志
 });
 
 
@@ -153,6 +155,15 @@ Route::group(['namespace'=>'Article', 'middleware' => 'admin_auth'], function ()
 
     Route::any("/article/types", "ArticleTypeController@types");//文章分类列表
     Route::any("/article/types/save", "ArticleTypeController@saveType");//文章分类保存
+});
+
+/**
+ * 直播管理员打卡操作
+ */
+Route::group(['namespace'=>'Sign', 'middleware' => 'admin_auth'], function () {
+    Route::get('/live/signs', 'LiveAccountSignController@signs');//管理员打卡列表
+    Route::get('/live/signs/page', 'LiveAccountSignController@signPage');//打卡页面
+    Route::post('/live/signs/save', 'LiveAccountSignController@saveSign');//直播管理员打卡操作
 });
 
 Route::group(['middleware' => 'admin_auth'], function () {
