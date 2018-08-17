@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\PC\Anchor;
 
+use App\Events\ChatPushNotification;
+use App\Http\Controllers\Admin\TrieStoreFilter;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Anchor\AnchorRoomTag;
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AnchorController extends Controller
 {
+    use TrieStoreFilter;
     public function index(Request $request){
         $result = array();
         $result['hotAnchors'] = Anchor::getHotAnchor();
@@ -159,6 +162,32 @@ class AnchorController extends Controller
             'code'=>0,
             'data'=>$tmp
         ));
+    }
+
+    /**
+     * 发送弹幕
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendMessage(Request $request){
+        $filters = $this->findFilterKeys($request->input('message'));
+        if (count($filters) > 0) {
+            return response()->json(['code' => '1','msg'=>'内容包含敏感字'], 200);
+        }
+        $filters = $this->findFilterKeys($request->input('nickname'));
+        if (count($filters) > 0) {
+            return response()->json(['code' => '1','msg'=>'昵称包含敏感字'], 200);
+        }
+
+        $data = [
+            'message'=>$request->input('message'),
+            'nickname'=>$request->input('nickname'),
+            'time'=>$request->input('time'),
+            'verification'=>$request->input('verification'),
+            'mid'=>$request->input('mid'),
+        ];
+        broadcast(new ChatPushNotification($data));
+        return response()->json(['code' => '0','msg'=>'成功'], 200);
     }
 
     /**

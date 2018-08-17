@@ -165,3 +165,10 @@ Route::group(['namespace'=>'Sign', 'middleware' => 'admin_auth'], function () {
     Route::get('/live/signs/page', 'LiveAccountSignController@signPage');//打卡页面
     Route::post('/live/signs/save', 'LiveAccountSignController@saveSign');//直播管理员打卡操作
 });
+
+Route::group(['middleware' => 'admin_auth'], function () {
+    //敏感关键字管理
+    Route::get('/filter/', 'TrieStoreController@filters');//列表
+    Route::get('/filter/add', 'TrieStoreController@add');//新增
+    Route::get('/filter/del', 'TrieStoreController@del');//删除
+});

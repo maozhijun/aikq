@@ -32,4 +32,5 @@ Route::group([], function () {
     Route::get('/news/list/{type_en}','Article\ArticleController@appNewsList'); //文章列表
     Route::get('/news/types','Article\ArticleController@appNewsTypes');//文章类型
     Route::get('/news/detail/{type_en}/{id}','Article\ArticleController@appNewsDetail');//文章终端
+    Route::any('/anchor/chat/post','Anchor\AnchorController@sendMessage');//发弹幕
 });
