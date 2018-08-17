@@ -302,6 +302,8 @@ class MatchController extends Controller
 //        } else if (strlen($content) < 6) {//预留线路，显示为全部
 //            $platform = MatchLiveChannel::kPlatformAll;
 //        }
+        $admin = $request->_account;
+        $admin_id = $admin->id;
 
         $channel->type = $type;
         $channel->platform = $platform;
@@ -316,6 +318,7 @@ class MatchController extends Controller
         $channel->use = $use;
         $channel->impt = $impt;
         $channel->ad = $ad;
+        $channel->admin_id = $admin_id;//当前登录的管理员ID
 
         $exception = DB::transaction(function() use ($channel, $match_id, $sport) {
             if (!isset($channel->id)) {

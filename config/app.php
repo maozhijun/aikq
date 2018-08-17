@@ -188,6 +188,11 @@ return [
          * 微信SDK
          */
         Overtrue\LaravelWechat\ServiceProvider::class,
+
+        /**
+         * 静态化、日志
+         */
+        \App\Providers\StaticServiceProvider::class,
     ],
 
     /*
