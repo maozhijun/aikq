@@ -19,7 +19,7 @@
             <div style="margin-left: 35px;">
                 <form class="navbar-form navbar-left" action="/admin/live/channel/logs" style="padding: 0px;">
                     <div class="input-group input-group-sm">
-                        <span class="input-group-addon">值班人员</span>
+                        <span class="input-group-addon">操作人</span>
                         <input class="form-control input-sm" style="width: 80px;" name="admin" value="{{request('admin')}}">
                     </div>
                     <div class="input-group input-group-sm">

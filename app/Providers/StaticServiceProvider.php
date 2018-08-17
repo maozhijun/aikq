@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Admin\Match\MatchController;
 use App\Http\Controllers\PC\Anchor\AnchorController;
 use App\Models\Admin\Test;
 use App\Models\Anchor\AnchorRoom;
+use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
 use Illuminate\Http\Request;
@@ -39,14 +41,21 @@ class StaticServiceProvider extends ServiceProvider
         });
 
         MatchLiveChannel::saved(function ($channel) {
+            $old = Redis::get(MatchLiveChannel::SAVE_KEY_PREFIX.$channel->id);
+            $oldArray = json_decode($old, true);
+            $oldArray = !isset($oldArray) ? [] :$oldArray;
+
             if ($channel->auto == MatchLiveChannel::kAutoHand) {//只有手动录入的才记录日志
-                $test = new Test();
-                $old = Redis::get(MatchLiveChannel::SAVE_KEY_PREFIX.$channel->id);
-                $oldArray = json_decode($old, true);
-                $oldArray = !isset($oldArray) ? [] :$oldArray;
                 MatchLiveChannelLog::saveLog($oldArray, $channel);
-                $test->save();
             }
+
+            $ch_id = $channel->id;
+            $live_id = $channel->live_id;
+            $matchLive = MatchLive::query()->find($live_id);
+            $sport = $matchLive->sport;
+            $match_id = $matchLive->match_id;
+            MatchController::flush310Live($match_id, $sport, $ch_id);
+            MatchController::flushAikqLive($match_id, $sport, $ch_id);
         });
         //线路日志记录 结束
 

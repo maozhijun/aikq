@@ -41,7 +41,7 @@
             <option value="1" @if(isset($channel) && $channel->isPrivate == 1) selected @endif >无版权</option>
         </select>
         <button class="btn btn-success btn-xs" type="button" onclick="saveChannel(this, '{{$channel->id or ''}}', '{{$sport or 1}}');">保存</button>
-        <button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>
+        {{--<button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>--}}
     </p>
     <p @if(!isset($channel) || $channel->type != \App\Models\Match\MatchLiveChannel::kTypeCode) style="display: none;" @endif ><input style="width: 80%" name="h_content" value="{{$channel->h_content or ''}}" placeholder="高清链接" /></p>
     <p style="display: none;"><input style="width: 80%" name="h_content" value="" placeholder="高清链接" /></p>
