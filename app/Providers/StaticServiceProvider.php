@@ -54,8 +54,22 @@ class StaticServiceProvider extends ServiceProvider
             $matchLive = MatchLive::query()->find($live_id);
             $sport = $matchLive->sport;
             $match_id = $matchLive->match_id;
-            MatchController::flush310Live($match_id, $sport, $ch_id);
-            MatchController::flushAikqLive($match_id, $sport, $ch_id);
+            if (count($oldArray) == 0) {//新建的线路
+                $show = $channel->show;
+                if ($show == MatchLiveChannel::kShow) {
+                    $private = $channel->isPrivate;
+                    if ($private == MatchLiveChannel::kPrivate) {
+                        //有版权
+                        MatchController::flushAikqLive($match_id, $sport, $ch_id);//刷新终端、线路json
+                    } else {
+                        //无版权
+                        MatchController::flush310Live($match_id, $sport, $ch_id);//刷新终端、线路json
+                    }
+                }
+            } else {//修改的线路
+                MatchController::flush310Live($match_id, $sport, $ch_id);//刷新终端、线路json
+                MatchController::flushAikqLive($match_id, $sport, $ch_id);//刷新终端、线路json
+            }
         });
         //线路日志记录 结束
 
