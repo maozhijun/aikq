@@ -154,3 +154,10 @@ Route::group(['namespace'=>'Article', 'middleware' => 'admin_auth'], function ()
     Route::any("/article/types", "ArticleTypeController@types");//文章分类列表
     Route::any("/article/types/save", "ArticleTypeController@saveType");//文章分类保存
 });
+
+Route::group(['middleware' => 'admin_auth'], function () {
+    //敏感关键字管理
+    Route::get('/filter/', 'TrieStoreController@filters');//列表
+    Route::get('/filter/add', 'TrieStoreController@add');//新增
+    Route::get('/filter/del', 'TrieStoreController@del');//删除
+});

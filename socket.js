@@ -99,7 +99,7 @@ io.on('connect', function (socket) {
                             if (object.length == 0) {
                                 return;
                             }
-                            // io.to('mid:' + mid).emit('server_history_message', object);
+                            io.to('mid:' + mid).emit('server_history_message', object);
                         }
                     });
                 }
