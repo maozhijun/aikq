@@ -146,6 +146,7 @@
 //        var socket = io.connect('http://localhost:6001');
         var socket = io.connect('https://ws.aikq.cc');
         socket.on('connect', function (data) {
+            console.log('connect');
             var mid = '{{'99_'.$room_id}}';
             var time = Date.parse( new Date())/1000 + '';
             var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
@@ -221,10 +222,19 @@
                     'message':message,
                     'time':time,
                     'verification':in_string,
-                    'nickname':nickname
+                    'nickname':nickname,
+                    'mid':'{{'99_'.$room_id}}',
                 };
             }
-            socket.emit('user_send_message', req);
+            $.ajax({
+                type: 'POST',
+                url: '/app/v120/anchor/chat/post',
+                data: req,
+                success: function (data) {
+                    console.log(data);
+                },
+            });
+//            socket.emit('user_send_message', req);
         }
 
         function keySend(event) {

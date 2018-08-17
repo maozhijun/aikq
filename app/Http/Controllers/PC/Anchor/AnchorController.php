@@ -170,11 +170,14 @@ class AnchorController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function sendMessage(Request $request){
-        $filters = $this->findFilterKeys($request->input('message'));
-        if (count($filters) > 0) {
-            return response()->json(['code' => '1','msg'=>'内容包含敏感字'], 200);
+        if (strlen($request->input('message','')) == 0 || strlen($request->input('nickname','')) == 0){
+            return response()->json(['code' => '-1','msg'=>'昵称和内容不能为空'], 200);
         }
-        $filters = $this->findFilterKeys($request->input('nickname'));
+        $filters = $this->findFilterKeys($request->input('message',''));
+        if (count($filters) > 0) {
+            return response()->json(['code' => '-1','msg'=>'内容包含敏感字'], 200);
+        }
+        $filters = $this->findFilterKeys($request->input('nickname',''));
         if (count($filters) > 0) {
             return response()->json(['code' => '1','msg'=>'昵称包含敏感字'], 200);
         }
