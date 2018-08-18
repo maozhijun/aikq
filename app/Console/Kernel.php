@@ -98,7 +98,7 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
-        $schedule->command('sync_live_matches:run')->everyMinute();
+        //$schedule->command('sync_live_matches:run')->everyMinute();
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
