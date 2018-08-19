@@ -46,7 +46,7 @@ class StreamKeyFrameCommand extends Command
     public function handle()
     {
         //获取正在直播的主播房间
-        $query = AnchorRoom::query()->where('live_status', AnchorRoom::kStatusValid);
+        $query = AnchorRoom::query()->where('status', AnchorRoom::kStatusValid);
 //        $query->where('created_stream_at', '>', date('Y-m-d H:i', strtotime('-48 hours')));//推流地址48小时以内的比赛
         $query->orderBy('check_at', 'desc');
         $rooms = $query->get();
@@ -83,12 +83,12 @@ class StreamKeyFrameCommand extends Command
 
     public static function spiderKeyFrame($stream, $outPath)
     {
-        shell_exec('/usr/bin/ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath . ' &');
+        shell_exec('nohup /usr/bin/ffmpeg -i "' . $stream . '" -y -vframes 1 -f image2 ' . $outPath . ' >> /tmp/ffmpeg.log  &');
     }
 
     public static function spiderRtmpKeyFrame($stream, $outPath)
     {
-        shell_exec("/usr/bin/ffmpeg -i \"$stream\" -f image2 -y -vframes 1 -s 220*135 $outPath &");
+        shell_exec("nohup /usr/bin/ffmpeg -i \"$stream\" -f image2 -y -vframes 1 -s 220*135 $outPath >> /tmp/ffmpeg.log &");
     }
 
 }
