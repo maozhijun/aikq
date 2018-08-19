@@ -1111,16 +1111,16 @@ class LiveController extends Controller
             $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
             //$json = $this->getLiveUrl($request, $id);
             //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
-            $ch = curl_init();
-            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
-            $pc_json = curl_exec ($ch);
-            curl_close ($ch);
-//            $aiCon = new AikanQController();
-//            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
-//            $pc_json = json_encode($jsonStr);
+//            $ch = curl_init();
+//            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
+//            curl_setopt($ch, CURLOPT_URL,$url);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
+//            $pc_json = curl_exec ($ch);
+//            curl_close ($ch);
+            $aiCon = new AikanQController();
+            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
+            $pc_json = json_encode($jsonStr);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
                 //每一个channel的player页面生成
@@ -1143,13 +1143,13 @@ class LiveController extends Controller
             }
             if ($has_mobile) {
                 $ch = curl_init();
-                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
-                curl_setopt($ch, CURLOPT_URL,$url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
-                $mobile_json = curl_exec ($ch);
-                curl_close ($ch);
-                //$mobile_json = $pc_json;
+//                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
+//                curl_setopt($ch, CURLOPT_URL,$url);
+//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
+//                $mobile_json = curl_exec ($ch);
+//                curl_close ($ch);
+                $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
                 }

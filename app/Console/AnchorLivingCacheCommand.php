@@ -14,6 +14,7 @@ use App\Models\Anchor\AnchorRoom;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class AnchorLivingCacheCommand extends Command
 {
@@ -48,17 +49,30 @@ class AnchorLivingCacheCommand extends Command
     public function handle()
     {
         $rooms = AnchorRoom::getLivingRooms();
-        $string = '';
+//        $string = '';
+        $tmp = array();
         foreach ($rooms as $room){
-            $match = $room->getLivingMatch();
-            if (isset($match)) {
-                $string[] = array(
-                    'room_id' => $room->id,
-                    'sport' => $match['sport'],
-                    'match_id' => $match['mid'],
-                );
+//            $match = $room->getLivingMatch();
+//            if (isset($match)) {
+//                $string[] = array(
+//                    'room_id' => $room->id,
+//                    'sport' => $match['sport'],
+//                    'match_id' => $match['mid'],
+//                );
+//            }
+
+            $model = $room->appModel(true);
+            if ($room['status'] == AnchorRoom::kLiveStatusLiving){
+                $model['statusStr'] = '直播中';
             }
+            else{
+                $model['statusStr'] = '';
+            }
+            $model['url'] = '';
+            $tmp[] = $model;
         }
-        Redis::set('redis_living_room',json_encode($string));
+        $living_json = json_encode(['code'=>0, 'data'=>$tmp]);
+        Storage::disk('public')->put('app/v110/anchor/living.json', $living_json);
+//        Redis::set('redis_living_room',json_encode($string));
     }
 }
