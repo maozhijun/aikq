@@ -87,7 +87,7 @@ class PlayerJsonCommand extends Command
                 $status = $match['status'];
                 $now = time();
 
-                $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
+                $flg_1 = $m_time >= $now && $now + 30 * 60 >= $m_time;//开赛前1小时
                 $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
                 if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
                     if (isset($match['channels'])) {
