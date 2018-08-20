@@ -167,7 +167,7 @@
         });
 
         socket.on('server_send_message', function (data) {
-//            console.log(data);
+            console.log(data);
             $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
             $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
         });
@@ -234,6 +234,7 @@
                     console.log(data);
                 },
             });
+            document.getElementById('text').value = '';
 //            socket.emit('user_send_message', req);
         }
 

@@ -24,7 +24,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300007"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=201808182005"></script>
 <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript">
     function isMobileWithJS() {

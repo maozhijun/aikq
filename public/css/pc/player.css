@@ -12,6 +12,11 @@ body .inner{
 	width: 100%; height: 100%;
 }
 
+iframe{
+	padding: 0; margin: 0;
+	border: none;
+}
+
 .line{
 	height: 24px;
 	padding: 10px 0;
@@ -36,13 +41,18 @@ body .inner{
 	background: #1267dc;
 }
 
-.line + #MyFrame{
+.line + #Framebox{
 	top: 44px;
 }
 
+#Framebox{
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+}
 
 #MyFrame{
 	width: 100%; height: 100%;
+	border: 0;
+	position: absolute; top: 0; left: 0; bottom: 0; right: 0;
 	overflow: hidden;
 }
 #MyFrame p.noframe,
@@ -68,13 +78,6 @@ body .inner{
 #MyFrame p.loading{
 	position: absolute; left: 0; right: 0; top: 0; z-index: 0;
 }
-#MyFrame{
-	/*width: 100%; height: 100%;*/
-	position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-	overflow: hidden;
-	border: 0;
-}
-
 
 p#ShareWarm{
 	height: 36px;
@@ -256,8 +259,8 @@ textarea#Copy{
 }
 
 #WaitWarm{
-	height: 44px; width: 400px;
-	padding: 0 16px; margin-left: -200px;
+	height: 44px; width: 460px;
+	padding: 0 16px; margin-left: -230px;
 	background: rgba(0,0,0,0.6);
 	font-size: 22px; line-height: 44px; text-align: center; color: #fff;
 	position: fixed; top: 0; left: 50%;
@@ -273,11 +276,26 @@ textarea#Copy{
 		transform: scale(0.5); -ms-transform: scale(0.5); -webkit-transform: scale(0.5); -moz-transform: scale(0.5); -o-transform: scale(0.5);
 		transform-origin: center top; -ms-transform-origin: center top; -webkit-transform-origin: center top; -moz-transform-origin: center top; -o-transform-origin: center top;
 	}
-	#PhoneAD .time, .publicAd button{
+	#PhoneAD .time{
 		transform: scale(0.5); -ms-transform: scale(0.5); -webkit-transform: scale(0.5); -moz-transform: scale(0.5); -o-transform: scale(0.5);
+		transform-origin: right top; -ms-transform-origin: right top; -webkit-transform-origin: right top; -moz-transform-origin: right top; -o-transform-origin: right top;
+	}
+	.publicAd button{
+		transform: scale(0.4); -ms-transform: scale(0.4); -webkit-transform: scale(0.4); -moz-transform: scale(0.4); -o-transform: scale(0.4);
 		transform-origin: right top; -ms-transform-origin: right top; -webkit-transform-origin: right top; -moz-transform-origin: right top; -o-transform-origin: right top;
 	}
 	.inner {
 		min-width: auto;
+	}
+	.line{
+		height: 20px;
+		padding: 5px 0;
+	}
+	.line button{
+		height: 20px;
+		font-size: 12px;
+	}
+	.line + #Framebox{
+		top: 30px;
 	}
 }

@@ -23,7 +23,7 @@ php_redis.on('message', function(channel, notification) {
 
 
 io.on('connect', function (socket) {
-    console.log('a user connected');
+    // console.log('a user connected');
 
     var mid = '';
 
@@ -57,7 +57,7 @@ io.on('connect', function (socket) {
             var key = message + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
             var result = md5.update(key).digest('hex');
             var current_time = Date.parse( new Date())/1000 + '';
-            if (result == verification && Math.abs(current_time - time) < 10) {
+            if (result == verification && Math.abs(current_time - time) < 60) {
                 socket.join('mid:' + mid);
 
                 if (info.nickname && info.nickname.length > 0){
@@ -86,7 +86,7 @@ io.on('connect', function (socket) {
                     });
                 });
 
-                if (isPc == 1) {
+                if (isPc == 1 || 1) {
                     //发送之前的 历史记录
                     client.get(mid + '_history', function (err, object) {
                         if (null == err) {
@@ -133,6 +133,7 @@ io.on('connect', function (socket) {
 });
 
 function userPostChat(info,socket_mid) {
+    console.log('socket start')
     try {
         var message = info.message;
 // console.log(message);
@@ -161,8 +162,11 @@ function userPostChat(info,socket_mid) {
 
 
         var current_time = Date.parse( new Date())/1000 + '';
-        if (result == verification && Math.abs(current_time - time) < 10) {
-            io.to('mid:' + socket_mid).emit('notification', info.message);
+        // console.log(result);
+        // console.log(verification);
+        // console.log(current_time);
+        // console.log(time);
+        if (result == verification && Math.abs(current_time - time) < 60) {
             var nickname = '匿名';
             if (info.nickname && info.nickname.length > 0){
                 nickname = info.nickname;
@@ -173,6 +177,7 @@ function userPostChat(info,socket_mid) {
                 'time':info.time
             }
             io.to('mid:' + socket_mid).emit('server_send_message', tmp);
+            console.log('socket send ' + socket_mid);
             //保存历史记录
             client.get(socket_mid+'_history', function(err, object) {
                 if (null == err) {
