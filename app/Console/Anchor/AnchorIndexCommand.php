@@ -60,6 +60,13 @@ class AnchorIndexCommand extends Command
         if ($data && strlen($data) > 0){
             Storage::disk('public')->put('app/v110/config.json', $data);
         }
+
+        //app正在直播主播列表
+        $data = $controller->appConfivV120p();
+        $data = json_encode($data);
+        if ($data && strlen($data) > 0){
+            Storage::disk('public')->put('app/v120/config.json', $data);
+        }
     }
 
 }

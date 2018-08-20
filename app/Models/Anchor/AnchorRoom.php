@@ -168,7 +168,11 @@ class AnchorRoom extends Model
         $tmp = array();
         $tmp['id'] = $this->id;
         $tmp['title'] = $this->title;
-        $tmp['cover'] = isset($this->live_cover) ? (env('APP_URL') . $this->live_cover) : $this->cover;
+        $cover = isset($this->live_cover) ? (env('APP_URL') . $this->live_cover) : $this->cover;
+        if(!strstr($cover,'http')){
+            $cover = 'http://'.$cover;
+        }
+        $tmp['cover'] = $cover;
         //主播
         $anchor = $this->anchor;
         $tmp['anchor']['name'] = $anchor->name;

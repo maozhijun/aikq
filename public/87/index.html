@@ -22,15 +22,23 @@
 </body>
 <script type="text/javascript">
     window.onload = function () {
-  		var ua = window.navigator.userAgent.toLowerCase();
-  		if(ua.match(/MicroMessenger/i) == 'micromessenger'){
-        $('a.down').attr('href',"javascript:void(0)").click(function(){
-          $('#Pop').css('display','').click(function(){
-            $(this).css('display','none');
-          });
-        })
-  		}
+      var ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        $('#Pop').css('display','')
+      }
+      if (ua.indexOf("safari") > -1) {
+        location.href = 'https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1070898878';
+      }
     }
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?2966b2031ac2b01631362b1474d7f853";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
 </html>
 

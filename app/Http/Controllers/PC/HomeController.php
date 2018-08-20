@@ -30,6 +30,11 @@ class HomeController extends Controller
         return response()->json($array);
     }
 
+    public function appConfigV120(Request $request){
+        $array = $this->appConfivV120p();
+        return response()->json($array);
+    }
+
     public function appConfivV110p(){
         return array(
             'code'=>0,
@@ -43,6 +48,25 @@ class HomeController extends Controller
                 'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
                 'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
                 'anchor'=>1,
+                'showMore'=>'0',
+            ]
+        );
+    }
+
+    public function appConfivV120p(){
+        return array(
+            'code'=>0,
+            'data'=>[
+                'more'=>'https://m.liaogou168.com/',
+                'host'=>'http://mp.dlfyb.com',
+                'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
+                'weixin'=>'kanqiu858',
+                'ios_version'=>'1.1.1',
+                'android_version'=>'1.1.1',
+                'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
+                'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
+                'anchor'=>1,
+                'showMore'=>'0',
             ]
         );
     }
