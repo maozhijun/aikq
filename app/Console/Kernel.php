@@ -98,15 +98,15 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
-        $schedule->command('sync_live_matches:run')->everyMinute();
+        //$schedule->command('sync_live_matches:run')->everyMinute();
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
         $schedule->command('index_cache:run')->everyMinute();//每分钟刷新主页缓存
-        $schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存
+        //$schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存  在保存的时候静态化
 
-        $schedule->command('player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次正在直播的比赛的线路内容
-        $schedule->command('ns_player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次未开始比赛的线路内容 一小时内执静态化所有的json
+        //$schedule->command('player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次正在直播的比赛的线路内容 在保存的时候静态化
+        //$schedule->command('ns_player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次未开始比赛的线路内容 一小时内执静态化所有的json 在保存的时候静态化
 
         $schedule->command('delete_cache:run')->dailyAt('07:00');//每天删除一次文件
 
@@ -137,7 +137,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 
         //appsocket相关
-        $schedule->command("anchor_living_cache:run")->everyTenMinutes();//每分钟看看有多少主播在播
+        $schedule->command("anchor_living_cache:run")->everyMinute();//每分钟看看有多少主播在播
 
         //主播定时任务
         $schedule->command("anchor_index_cache:run")->everyMinute();//每分钟静态化主播主页

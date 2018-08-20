@@ -101,4 +101,61 @@ class MatchLiveChannelLog extends Model
         return $admin->name;
     }
 
+    public function getStatusCn() {
+        if ($this->status == self::kStatusNew) {
+            return "新增线路";
+        }
+        return "修改线路";
+    }
+
+    public function getOldShow() {
+        $show = $this->old_show;
+        if ($show == MatchLiveChannel::kShow) {
+            return "显示";
+        }
+        return "隐藏";
+    }
+
+    public function getNewShow() {
+        $show = $this->new_show;
+        if ($show == MatchLiveChannel::kShow) {
+            return "显示";
+        }
+        return "隐藏";
+    }
+
+    public function getOldPrivate() {
+        if ($this->old_isPrivate == MatchLiveChannel::kPrivate) {
+            return "有版权";
+        }
+        return "无版权";
+    }
+
+    public function getNewPrivate() {
+        if ($this->new_isPrivate == MatchLiveChannel::kPrivate) {
+            return "有版权";
+        }
+        return "无版权";
+    }
+
+    public function getOldPlatform() {
+        $platform = $this->old_platform;
+        if ($platform == MatchLiveChannel::kPlatformAll) {
+            return "全部";
+        } else if ($platform == MatchLiveChannel::kPlatformPC) {
+            return "电脑";
+        }
+        return "手机";
+    }
+
+    public function getNewPlatform() {
+        $platform = $this->new_platform;
+        if ($platform == MatchLiveChannel::kPlatformAll) {
+            return "全部";
+        } else if ($platform == MatchLiveChannel::kPlatformPC) {
+            return "电脑";
+        }
+        return "手机";
+    }
+
 }

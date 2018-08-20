@@ -11,6 +11,7 @@ use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -168,6 +169,7 @@ class BsController extends Controller
             //清空弹幕
 //            Redis::del('99_' . $room->id . '_history');
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json(['code' => 500, 'message' => '获取推流地址失败']);
         }
         $data = ['url_key' => $jsonData['push_key'], 'url' => $jsonData['push_rtmp']];

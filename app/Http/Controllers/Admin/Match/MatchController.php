@@ -338,8 +338,8 @@ class MatchController extends Controller
             Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存线路失败']);
         }
-        $this->flush310Live($match_id, $sport, $channel->id);
-        $this->flushAikqLive($match_id, $sport, $channel->id);
+        //$this->flush310Live($match_id, $sport, $channel->id);
+        //$this->flushAikqLive($match_id, $sport, $channel->id);
         //$this->flushHeiTuLive($match_id, $sport, $channel->id);
         return response()->json(['code'=>200, 'msg'=>'保存线路成功']);
     }
@@ -404,7 +404,7 @@ class MatchController extends Controller
         return response()->json(['code'=>200, 'msg'=>'设置成功。']);
     }
 
-    protected function flush310Live($match_id, $sport, $ch_id) {
+    public static function flush310Live($match_id, $sport, $ch_id) {
         $url = '/live/cache/flush?mid=' . $match_id . '&sport=' . $sport . '&ch_id=' . $ch_id . '&time=' . time();
         $url = env('LG310_URL', 'https://www.lg310.com') . $url;
 
@@ -431,7 +431,7 @@ class MatchController extends Controller
     }
 
 
-    protected function flushAikqLive($match_id, $sport, $ch_id) {
+    public static function flushAikqLive($match_id, $sport, $ch_id) {
         $url = '/live/cache/match/detail_id/' . $match_id . '/' . $sport . '?ch_id=' . $ch_id;
         $url = asset($url);
         $ch = curl_init();
