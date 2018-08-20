@@ -66,7 +66,7 @@ class HomeController extends Controller
                 'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
                 'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
                 'anchor'=>1,
-                'showMore'=>'0',
+                'showMore'=>'1',
             ]
         );
     }
