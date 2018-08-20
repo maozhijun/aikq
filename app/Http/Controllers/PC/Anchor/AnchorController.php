@@ -86,33 +86,59 @@ class AnchorController extends Controller
     }
 
     /*** app 接口 ****/
-    public function playerUrlApp(Request $request,$room_id){
+    /**
+     * 在 AnchorLivingCacheCommand.php 中存在静态化定时任务。
+     * @param Request $request
+     * @param $room_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function playerUrlApp(Request $request, $room_id){
         $room = AnchorRoom::find($room_id);
+        $result = $this->playerUrlAppArray($room);
+        return response()->json($result);
+    }
+
+    /**
+     * 获取主播房间链接内容
+     * @param $room
+     * @return array
+     */
+    public function playerUrlAppArray($room) {
         if (isset($room)) {
             $key = env('APP_DES_KEY');
             $iv = env('APP_DES_IV');
             $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
             $url = openssl_encrypt($url, "DES", $key, 0, $iv);
-            $match = $room->getLivingTag();
-            $tag = isset($match) ? $match['tag'] : null;
-
-            $showScore = 0; $h_color = null; $a_color = null;
-            if (isset($tag)) {
-                $showScore = $tag['show_score'];
-                $h_color = $tag['h_color'];
-                $a_color = $tag['a_color'];
-            }
-            return response()->json(array('code' => 0, 'show_score'=>$showScore,
-                'status' => $room->status,'match'=>$match,
+            $match = null;$showScore = 0; $h_color = null; $a_color = null;
+            return array('code' => 0, 'show_score'=>$showScore,
+                'status' => $room->live_status,'match'=>$match,
                 'h_color'=>$h_color, 'a_color'=>$a_color,
-                'title' => $room->title, 'live_url' => $url));
-        }
-        else{
-            return response()->json(array('code'=>-1,'live_url'=>''));
+                'title' => $room->title, 'live_url' => $url);
+        } else{
+            return array('code'=>-1,'live_url'=>'');
         }
     }
 
+    /**
+     * 在 AnchorLivingCacheCommand.php 中存在静态化定时任务。
+     * 首页接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function appV110(Request $request){
+        $livingRooms = AnchorRoom::getLivingRooms();
+        return response()->json(array(
+            'code'=>0,
+            'data'=>$this->appV110Array($livingRooms)
+        ));
+    }
+
+    /**
+     * 获取首页内容
+     * @param $livingRooms
+     * @return array
+     */
+    public function appV110Array($livingRooms) {
         $result = array();
         //热门主播
         $result['hotAnchors'] = Anchor::getHotAnchor();
@@ -131,38 +157,46 @@ class AnchorController extends Controller
         }
         $result['hotMatches'] = $tmp;
         //正在直播
-        $result['livingRooms'] = AnchorRoom::getLivingRooms();
+        $result['livingRooms'] = $livingRooms;
         $tmp = array();
         foreach ($result['livingRooms'] as $livingRoom) {
             $tmp[] = $livingRoom->appModel(true);
         }
         $result['livingRooms'] = $tmp;
-        return response()->json(array(
-            'code'=>0,
-            'data'=>$result
-        ));
+        return $result;
     }
 
+    /**
+     * 在 AnchorLivingCacheCommand.php 中存在静态化定时任务。
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function livingRoom(Request $request){
         //正在直播
         $livingRooms = AnchorRoom::getLivingRooms();
         $tmp = array();
         foreach ($livingRooms as $livingRoom) {
-            $model = $livingRoom->appModel(true);
-            if ($livingRoom['status'] == AnchorRoom::kLiveStatusLiving){
-                $model['statusStr'] = '直播中';
-            }
-            else{
-                $model['statusStr'] = '';
-            }
-            $model['url'] = '';
-            $tmp[] = $model;
+            $this->livingRoomData($livingRoom,$tmp);
         }
         return response()->json(array(
             'code'=>0,
             'data'=>$tmp
         ));
     }
+
+    public function livingRoomData($livingRoom, array &$result) {
+        $model = $livingRoom->appModel(true);
+        if ($livingRoom['status'] == AnchorRoom::kLiveStatusLiving){
+            $model['statusStr'] = '直播中';
+        }
+        else{
+            $model['statusStr'] = '';
+        }
+        $model['url'] = '';
+        $result[] = $model;
+    }
+
+
 
     /**
      * 发送弹幕
