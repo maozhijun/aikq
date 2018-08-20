@@ -74,6 +74,7 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
     Route::post("/live/duties/del", "LiveManagerController@delDuty");//删除值班
 
     Route::get('/live/channel/logs', 'ChannelLogController@logs');//直播线路操作日志
+    Route::get('/live/off/logs', 'ChannelOffController@logs');//直播线路中断记录
 });
 
 

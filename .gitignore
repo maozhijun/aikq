@@ -25,6 +25,7 @@ public/js/echo.js
 public/anchor
 public/news
 public/uploads
+public/app
 laravel-echo-server.json
 package-lock.json
 libdatrie-0.2.4
