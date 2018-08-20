@@ -49,6 +49,7 @@
                     <th>比赛</th>
                     <th>状态</th>
                     <th>线路</th>
+                    <th>值班人员</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,9 +62,14 @@
                         <td>{{substr($log->match_time, 0, 16)}}</td>
                         <td>{{$log->hname}} VS {{$log->aname}}</td>
                         <td>
-                            <label class="label label-{{$log->live_status == 1 ? 'success' : 'danger'}}">{{$log->getStatusCn()}}</label>
+                            @if($log->live_status == 1)
+                                <label class="label label-success">{{$log->getStatusCn()}}</label>
+                            @else
+                                <label class="label label-danger">{{$log->getStatusCn()}}({{$log->times}}分钟)</label>
+                            @endif
                         </td>
                         <td>{{$log->getPlatformCn()}}线路《{{$log->ch_name}}》</td>
+                        <td>{{$log->signs}}</td>
                     </tr>
                 @endforeach
                 </tbody>
