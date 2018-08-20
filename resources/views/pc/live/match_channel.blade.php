@@ -5,7 +5,7 @@
     <title>直播终端_免费高清直播_爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=201808011742">
+    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=201808201153">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
@@ -43,8 +43,10 @@
         <button><a href="/m/index.html" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
     @endif
 </div>
+<div id="Framebox">
 <iframe width="100%" height="100%" id="MyFrame">
 </iframe>
+</div>
 <div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
     <a onclick="log()" href="http://mp.dlfyb.com/downloadPhone.html" target="_top"><img id="download_img" src="/img/pc/image_ad_pc.jpg" width="100%"></a>
 </div>
