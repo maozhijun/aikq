@@ -137,8 +137,9 @@ class Kernel extends ConsoleKernel
         //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 
         //appsocket相关
-        $schedule->command("anchor_living_cache:run")->everyMinute();//每分钟看看有多少主播在播
-
+        //静态化app主播接口  /app/v120/anchor/index.json , /app/v120/anchor/room/url/26.json , /app/v120/anchor/living.json
+        $schedule->command("anchor_living_cache:run")->everyMinute();
+        
         //主播定时任务
         $schedule->command("anchor_index_cache:run")->everyMinute();//每分钟静态化主播主页
 //        $schedule->command("anchor_detail_cache:run")->everyTenMinutes();//每10分钟静态化主播终端页
