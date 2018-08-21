@@ -39,7 +39,7 @@ class HomeController extends Controller
         return array(
             'code'=>0,
             'data'=>[
-                'more'=>'https://m.liaogou168.com/',
+                'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://mp.dlfyb.com',
                 'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                 'weixin'=>'kanqiu858',
@@ -57,7 +57,7 @@ class HomeController extends Controller
         return array(
             'code'=>0,
             'data'=>[
-                'more'=>'https://m.liaogou168.com/',
+                'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://mp.dlfyb.com',
                 'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                 'weixin'=>'kanqiu858',
@@ -66,7 +66,7 @@ class HomeController extends Controller
                 'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
                 'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
                 'anchor'=>1,
-                'showMore'=>'1',
+                'showMore'=>'0',
             ]
         );
     }
