@@ -111,7 +111,7 @@
     {{--</div>--}}
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201808161234"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201808201830"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setADClose();

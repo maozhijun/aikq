@@ -112,6 +112,7 @@ function chooseLi (obj) {
 
 	var trs = $('tr[match=1]');
 	var type = obj.getAttribute('value');
+	_hmt.push(['_trackEvent', 'chooseType', type]);
 	for (var i = 0 ; i < trs.length ; i++){
 		var tr = trs[i];
 		if (type == 'all'){

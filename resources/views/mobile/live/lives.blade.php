@@ -19,7 +19,7 @@
     </div>
 @endsection
 @section('content')
-    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="/img/mobile/image_ad_wap.jpg"></a>
+    <a href="http://mp.dlfyb.com"><img style="width: 100%" src="/img/mobile/image_ad_wap2.jpg"></a>
     @foreach($matches as $time=>$match_array)
         <?php
         $week = date('w', strtotime($time));
@@ -62,7 +62,7 @@
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
-    <p id="PC"><a href="http://mp.dlfyb.com/downloadPhone.html">下载爱看球APP，流畅度快3倍<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    <p id="PC"><a href="http://mp.dlfyb.com">更多比赛请到爱看球直播<br/>www.aikq.cc</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 @section('bottom')
     @component("mobile.layout.bottom_cell", ["cur"=>'live']) @endcomponent

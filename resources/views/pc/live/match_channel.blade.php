@@ -48,7 +48,7 @@
 </iframe>
 </div>
 <div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
-    <a onclick="log()" href="http://mp.dlfyb.com/downloadPhone.html" target="_top"><img id="download_img" src="/img/pc/image_ad_pc.jpg" width="100%"></a>
+    <a onclick="log()" href="http://mp.dlfyb.com" target="_top"><img id="download_img" src="/img/pc/image_ad_wap2.jpg" width="100%"></a>
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -85,7 +85,7 @@
     }
 
     if (isMobileWithJS()){
-        $('#download_img').attr('src','/img/mobile/image_ad_wap.jpg');
+        $('#download_img').attr('src','/img/mobile/image_ad_wap2.jpg');
     }
 
     //统计
