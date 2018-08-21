@@ -90,7 +90,7 @@
 
     //统计
     function log() {
-        _hmt.push(['_trackEvent', 'gotoDownload', parent.location.protocol + '//' + parent.location.hostname]);
+        _hmt.push(['_trackEvent', 'gotoIndex', parent.location.protocol + '//' + parent.location.hostname]);
         top.location.href = 'http://mp.dlfyb.com';
     }
 
@@ -186,6 +186,7 @@
         hm.src = "https://hm.baidu.com/hm.js?2966b2031ac2b01631362b1474d7f853";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
+        _hmt.push(['_trackEvent', 'from', parent.location.protocol + '//' + parent.location.hostname]);
     })();
 </script>
 </html>
