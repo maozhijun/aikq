@@ -76,6 +76,7 @@
                                         {{$log->new_name}} &nbsp;&nbsp;&nbsp;{{$log->getNewShow()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPlatform()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPrivate()}}
+                                        &nbsp;&nbsp;&nbsp;{{$log->getNewPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->new_od or '-'}}
                                     </label>
                                     <p>
@@ -89,6 +90,7 @@
                                         {{$log->old_name}} &nbsp;&nbsp;&nbsp;{{$log->getOldShow()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getOldPlatform()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getOldPrivate()}}
+                                        &nbsp;&nbsp;&nbsp;{{$log->getOldPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->old_od or '-'}}
                                     </label>
                                     <p>
@@ -102,6 +104,7 @@
                                         {{$log->new_name}} &nbsp;&nbsp;&nbsp;{{$log->getNewShow()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPlatform()}}
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPrivate()}}
+                                        &nbsp;&nbsp;&nbsp;{{$log->getNewPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->new_od or '-'}}
                                     </label>
                                     <p>
