@@ -661,8 +661,10 @@ function CheckPlayerType (Link,CK) {
         LoadPPTV(Link)
     }else if (Link.indexOf('staticlive.douyucdn.cn') != -1 || Link.indexOf('upstatic.qiecdn.com') != -1 || Link.indexOf('liveshare.huya.com') != -1) {
         LoadTV(Link)
-    }else if (CK == 0) {
+    }else if (Link.indexOf('http://') != -1) {
         LoadIframe(Link);
+    }else if (CK == 0) {
+        LoadCK(Link);
     }else{
         document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
     }
