@@ -58,7 +58,7 @@
 <body>
 <div id="Navigation">
     <div class="inner">
-        <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
+        <a href="{{asset('/')}}"><img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/index.html">主播</a>

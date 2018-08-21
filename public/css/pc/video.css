@@ -4,8 +4,8 @@
 	padding: 20px 20px 0;
 	background: #e1edff;
 }
-#Info p.name{
-	font-size: 18px; line-height: 28px; text-align: center;
+#Info p.name, #Info h1.name{
+	font-size: 18px; line-height: 28px; text-align: center; font-weight: normal;
 }
 #Info p.line{
 	height: 32px;

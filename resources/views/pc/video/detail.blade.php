@@ -3,7 +3,7 @@
     <div id="Content">
         <div class="inner">
             <div id="Info">
-                <p class="name"></p>
+                <h1 class="name"></h1>
                 <p class="line">
                     {{--<button id="{{$channel['id']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['title']}}</button>--}}
                 </p>
@@ -50,7 +50,7 @@
                     "dataType": "json",
                     "success": function (json) {
                         if (json && json.code == 0) {
-                            $("#Info p.name").html(json.lname + "：" + json.hname);
+                            $("#Info h1.name").html(json.lname + "：" + json.hname);
                             var host = window.location.host;
                             if (json.player == 11 || json.playurl.indexOf('player.pptv.com') != -1) {
                                 host = 'http://' + host;
@@ -71,5 +71,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?t=123">
 @endsection
