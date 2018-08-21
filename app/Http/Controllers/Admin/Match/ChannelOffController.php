@@ -42,7 +42,7 @@ class ChannelOffController extends Controller
             $query->where('created_at', '<=', $end);
         }
         $query->orderByDesc('created_at');
-        $page = $query->paginate(20);
+        $page = $query->paginate(30);
         $page->appends($request->all());
         $result['page'] = $page;
         return view('admin.log.off.list', $result);
