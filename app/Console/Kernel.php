@@ -10,6 +10,7 @@ use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlePageCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
+use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
 //use App\Console\Subject\CoverCommand;
 use App\Console\Subject\DetailCommand;
@@ -85,6 +86,7 @@ class Kernel extends ConsoleKernel
         ArticlePageCommands::class,//文章分页定时任务
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
 
+        SpiderTTZBCommand::class,//抓取天天直播的源
     ];
 
     /**
@@ -152,6 +154,8 @@ class Kernel extends ConsoleKernel
         //文章静态化定时任务
         $schedule->command("article_lives:run")->everyMinute();
         $schedule->command("article_page:run")->everyFiveMinutes();
+
+        $schedule->command('spider_ttzb:run')->hourlyAt(10);
     }
 
     /**

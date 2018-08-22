@@ -412,7 +412,7 @@ class MatchController extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,1);
+        curl_setopt($ch, CURLOPT_TIMEOUT,2);
         $server_output = curl_exec ($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

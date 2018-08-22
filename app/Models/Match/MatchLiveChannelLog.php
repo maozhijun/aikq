@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 class MatchLiveChannelLog extends Model
 {
     const kStatusNew = 1, kStatusEdit = 2;
+    const kPlayerAuto = 1, kPlayerIFrame = 11, kPlayerCkPlayer = 12, kPlayerM3U8 = 13, kPlayerFlv = 14, kPlayerRtmp = 15;
 
     /**
      * 保存日志记录
@@ -56,6 +57,7 @@ class MatchLiveChannelLog extends Model
             $log->old_platform = $old['platform'];
             $log->old_isPrivate = $old['isPrivate'];
             $log->old_od = $old['od'];
+            $log->old_player = $old['player'];
             $log->old_admin_id = $old['admin_id'];
         }
         $log->new_name = $new['name'];
@@ -64,6 +66,7 @@ class MatchLiveChannelLog extends Model
         $log->new_platform = $new['platform'];
         $log->new_isPrivate = $new['isPrivate'];
         $log->new_od = $new['od'];
+        $log->new_player = $new['player'];
         $log->new_admin_id = $new['admin_id'];
 
 
@@ -156,6 +159,36 @@ class MatchLiveChannelLog extends Model
             return "电脑";
         }
         return "手机";
+    }
+
+    /**
+     * @return string
+     */
+    public function getOldPlayerCn() {
+        $player = $this->old_player;
+        return $this->getPlayerCn($player);
+    }
+
+    public function getNewPlayerCn() {
+        $player = $this->new_player;
+        return $this->getPlayerCn($player);
+    }
+
+    protected function getPlayerCn($player) {
+        if ($player == self::kPlayerAuto) {
+            return "自动选择";
+        } else if ($player == self::kPlayerIFrame) {
+            return "IFrame";
+        } else if ($player == self::kPlayerCkPlayer) {
+            return "ckPlayer";
+        } else if ($player == self::kPlayerM3U8) {
+            return "m3u8";
+        } else if ($player == self::kPlayerFlv) {
+            return "FLV";
+        } else if ($player == self::kPlayerRtmp) {
+            return "rtmp";
+        }
+        return "其他";
     }
 
 }
