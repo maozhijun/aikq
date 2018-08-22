@@ -16,8 +16,8 @@ class HomeController extends Controller
                     'more'=>'https://shop.liaogou168.com',
                     'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                     'weixin'=>'kanqiu858',
-                    'ios_version'=>'1.1.0',
-                    'android_version'=>'1.1.0',
+                    'ios_version'=>'1.2.0',
+                    'android_version'=>'1.2.0',
                     'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
                     'anchor'=>1,
                 ]
@@ -43,10 +43,10 @@ class HomeController extends Controller
                 'host'=>'http://mp.dlfyb.com',
                 'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                 'weixin'=>'kanqiu858',
-                'ios_version'=>'1.1.1',
-                'android_version'=>'1.1.1',
-                'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
-                'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
+                'ios_version'=>'1.2.0',
+                'android_version'=>'1.2.0',
+                'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
+                'android_upgrade_url'=>'http://mp.dlfyb.com/downloadPhone.html',
                 'anchor'=>1,
                 'showMore'=>'0',
             ]
@@ -61,12 +61,12 @@ class HomeController extends Controller
                 'host'=>'http://mp.dlfyb.com',
                 'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
                 'weixin'=>'kanqiu858',
-                'ios_version'=>'1.1.1',
-                'android_version'=>'1.1.1',
-                'update_url'=>'https://www.aikq.cc/downloadPhone.html#browser',
-                'android_upgrade_url'=>'https://www.aikq.cc/downloadPhone.html',
+                'ios_version'=>'1.2.0',
+                'android_version'=>'1.2.0',
+                'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
+                'android_upgrade_url'=>'http://mp.dlfyb.com/downloadPhone.html',
                 'anchor'=>1,
-                'showMore'=>'0',
+                'showMore'=>'1',
             ]
         );
     }

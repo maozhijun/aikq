@@ -90,7 +90,7 @@
 
     //统计
     function log() {
-        _hmt.push(['_trackEvent', 'gotoIndex', parent.location.protocol + '//' + parent.location.hostname]);
+        _hmt.push(['_trackEvent', 'gotoIndex', '0822']);
         top.location.href = 'http://mp.dlfyb.com';
         return;
     }
