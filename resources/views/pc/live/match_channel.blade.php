@@ -48,7 +48,7 @@
 </iframe>
 </div>
 <div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
-    <a target="_top" onclick="log()" href="javascript:void(0)"><img id="download_img" src="/img/pc/image_ad_wap2.jpg" width="100%"></a>
+    <a target="_top" href="javascript:log(0)"><img id="download_img" src="/img/pc/image_ad_wap2.jpg" width="100%"></a>
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -92,6 +92,7 @@
     function log() {
         _hmt.push(['_trackEvent', 'gotoIndex', parent.location.protocol + '//' + parent.location.hostname]);
         top.location.href = 'http://mp.dlfyb.com';
+        return;
     }
 
     //获取地址
@@ -186,7 +187,7 @@
         hm.src = "https://hm.baidu.com/hm.js?2966b2031ac2b01631362b1474d7f853";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-        _hmt.push(['_trackEvent', 'from', parent.location.protocol + '//' + parent.location.hostname]);
+        _hmt.push(['_trackEvent', 'from', '0822']);
     })();
 </script>
 </html>
