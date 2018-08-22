@@ -11,10 +11,12 @@ namespace App\Http\Controllers\PC\Live;
 use App\Console\LiveDetailCommand;
 use App\Console\NoStartPlayerJsonCommand;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Models\Article\PcArticle;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -30,10 +32,10 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticIndex(Request $request){
-        $this->basketballLivesStatic($request);
-        $this->footballLivesStatic($request);
+        //$this->basketballLivesStatic($request);
+        //$this->footballLivesStatic($request);
         $this->livesStatic($request);
-        $this->betLivesStatic($request);
+        //$this->betLivesStatic($request);
         $this->businessStatic($request);
     }
 
@@ -226,9 +228,13 @@ class LiveController extends Controller
         if (is_null($json)){
             //return abort(404);
         }
-        //$json['subjects'] = SubjectController::getSubjects();
+
+        $articles = PcArticle::indexArticles();
+
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['check'] = 'all';
+        $json['arts'] = $articles;
+//        dump($articles);
         return view('pc.home', $json);
     }
 

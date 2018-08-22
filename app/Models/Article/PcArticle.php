@@ -11,6 +11,8 @@ namespace App\Models\Article;
 
 use App\Models\Admin\Account;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class PcArticle extends Model
 {
@@ -101,4 +103,28 @@ class PcArticle extends Model
         }
         return $modelItem;
     }
+
+    public static function indexArticles() {
+        $key = "indexArticles_cache";
+        $articleCache = Redis::get($key);
+        if (empty($articleCache)) {
+            $query = self::getPublishQuery();
+            $articles = $query->take(20)->orderByDesc('created_at')->get();
+            $array = [];
+            //文章内容2小时刷新一次
+            foreach ($articles as $article) {
+                $array[] = ['title'=>$article->title, 'url'=>$article->getUrl()];
+            }
+            shuffle($array);
+            $result = [];
+            foreach ($array as $index=>$ar) {
+                if ($index > 12) break;
+                $result[] = $ar;
+            }
+            $articleCache = json_encode($result);
+            Redis::setEx($key, 1 * 60 * 60, $articleCache);
+        }
+        return json_decode($articleCache, true);
+    }
+
 }

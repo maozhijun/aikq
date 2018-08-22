@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=201808161234">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=201808161235">
 @endsection
 @section('content')
     <div id="Content">
@@ -95,6 +95,14 @@
                 @endforeach
                 </tbody>
             </table>
+            <div id="News">
+
+                <div class="title">相关文章</div>
+                @foreach($arts as $index=>$art)
+                <a href="{{$art['url']}}">{{$art['title']}}</a>
+                @endforeach
+                <p class="clear"></p>
+            </div>
         </div>
     </div>
     {{--<div class="adflag left">--}}

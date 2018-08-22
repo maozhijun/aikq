@@ -66,7 +66,7 @@ class DongQiuZhiBoController extends Controller
                 }
                 $preUrl = 'http://www.aikq.cc';
                 //$url = $preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid'];
-                $url = $preUrl . '/#/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html';
+                $url = $preUrl . '/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html';
                 $tmp['url'] = $url;
                 $json[] = $tmp;
             }
