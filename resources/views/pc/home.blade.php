@@ -99,7 +99,7 @@
 
                 <div class="title">相关文章</div>
                 @foreach($arts as $index=>$art)
-                <a href="{{$art['url']}}">{{$art['title']}}</a>
+                <a target="_blank" href="{{$art['url']}}">{{$art['title']}}</a>
                 @endforeach
                 <p class="clear"></p>
             </div>
