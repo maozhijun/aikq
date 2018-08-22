@@ -79,7 +79,7 @@
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->new_od or '-'}}
                                     </label>
-                                    <p>
+                                    <p style="margin-top: 5px;">
                                         <label class="label label-danger">线路内容：{{$log->new_content}}</label>
                                     </p>
                                 </div>
@@ -93,7 +93,7 @@
                                         &nbsp;&nbsp;&nbsp;{{$log->getOldPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->old_od or '-'}}
                                     </label>
-                                    <p>
+                                    <p style="margin-top: 5px;">
                                         <label class="label label-danger">线路内容：{{$log->old_content}}</label>
                                     </p>
                                 </div>
@@ -107,7 +107,7 @@
                                         &nbsp;&nbsp;&nbsp;{{$log->getNewPlayerCn()}}
                                         &nbsp;&nbsp;&nbsp;排序：{{$log->new_od or '-'}}
                                     </label>
-                                    <p>
+                                    <p style="margin-top: 5px;">
                                         <label class="label label-danger">线路内容：{{$log->new_content}}</label>
                                     </p>
                                 </div>
