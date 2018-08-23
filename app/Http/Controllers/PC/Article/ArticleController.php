@@ -44,7 +44,7 @@ class ArticleController extends Controller
     public function newsHtml($articles) {
         $result['articles'] = $articles;
 
-        $result['title'] = '体育资讯_爱看球';
+        $result['title'] = '体育新闻资讯-爱看球直播';
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
         $result['check'] = "news";

@@ -39,6 +39,7 @@
 </head>
 <body>
 <div id="Navigation">
+    @yield('h1')
     <div class="inner">
         <a href="{{asset('/')}}"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}

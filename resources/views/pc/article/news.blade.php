@@ -2,6 +2,9 @@
 @section("css")
 	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?rd=2000000001">
 @endsection
+@section('h1')
+	<h1>体育新闻资讯</h1>
+@endsection
 @section("content")
 	<div id="Content">
 		<div class="inner">

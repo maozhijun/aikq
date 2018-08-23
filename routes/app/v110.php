@@ -28,3 +28,10 @@ Route::group([], function () {
     //直播中
     Route::get('/anchor/living.json','Anchor\AnchorController@livingRoom');
 });
+
+/**
+ * 火车头爬文章
+ */
+Route::group(["namespace" => 'Article'], function () {
+    Route::post("/hct/save", "ArticleHCTController@saveHCT");//
+});

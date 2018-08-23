@@ -36,7 +36,7 @@ class AnchorController extends Controller
 ////                dump($match);
 //            }
 //        }
-        $result['title'] = "主播频道_美女主播解说足球直播_爱看球";
+        $result['title'] = "美女主播球赛讲解_主播频道-爱看球直播";
         $result['keywords'] = "爱看球,足球直播,美女主播,足球解说";
         $result['description'] = "爱看球主播频道，资深主播为你解说各种体育赛事，包含NBA、英超、西甲、中超、法甲、欧冠等各类热门足球直播，还有美女主播陪你看哦。";
         $result['hotMatches'] = $tmp;

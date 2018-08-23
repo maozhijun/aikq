@@ -10,6 +10,9 @@
         }
     </style>
 @endsection
+@section('h1')
+    <h1>美女主播球赛讲解</h1>
+@endsection
 @section('content')
     <div id="Content">
         <div class="inner">
