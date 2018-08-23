@@ -1,6 +1,7 @@
 @extends('pc.layout.base')
 @section('content')
     <div id="Content">
+        <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}@endif</span></div>
         <div class="inner">
             <div id="Info">
                 <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</h1>@endif
@@ -47,6 +48,15 @@
             <div class="share" id="Share" style="display:none;">
                 复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
             </div>
+            @if(isset($articles) && count($articles) > 0)
+            <div id="News">
+                <div class="title">相关文章</div>
+                @foreach($articles as $article)
+                <a target="_blank" href="{{$article['url']}}">{{$article['title']}}</a>
+                @endforeach
+                <p class="clear"></p>
+            </div>
+            @endif
         </div>
         <div class="adbanner inner"><img src="{{env('CDN_URL')}}/img/pc/banner_pc_858@1x.jpg"><img class="show" src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg"></div>
         <div class="adbanner inner"><a href="/download.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/image_ad_pc.jpg"></a></div>
@@ -71,5 +81,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018020001">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018020002">
 @endsection

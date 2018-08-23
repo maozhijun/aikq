@@ -364,6 +364,7 @@ class LiveController extends Controller
     public function detail(Request $request, $id, $immediate = false) {
         $akqCon = new AikanQController();
         $json = $akqCon->detailJsonData($id, false);
+        $json['articles'] = PcArticle::randArticles(12);
         return $this->detailHtml($json, $id);
     }
 
@@ -397,6 +398,7 @@ class LiveController extends Controller
     public function basketDetail(Request $request, $id, $immediate = false) {
         $con = new AikanQController();
         $json = $con->basketDetailJsonData($id, false);
+        $json['articles'] = PcArticle::randArticles(12);
         return $this->basketDetailHtml($json, $id);
     }
 
@@ -424,6 +426,7 @@ class LiveController extends Controller
     public function otherDetail(Request $request, $id, $immediate = false) {
         $con = new AikanQController();
         $json = $con->otherDetailJsonData($id, false);
+        $json['articles'] = PcArticle::randArticles(12);
         return $this->otherDetailHtml($json, $id);
     }
 

@@ -9,6 +9,7 @@
 namespace App\Models\Article;
 
 
+use App\Console\Article\ArticlesCacheCommand;
 use App\Models\Admin\Account;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -109,7 +110,7 @@ class PcArticle extends Model
         $articleCache = Redis::get($key);
         if (empty($articleCache)) {
             $query = self::getPublishQuery();
-            $articles = $query->take(20)->orderByDesc('created_at')->get();
+            $articles = $query->take(30)->get();
             $array = [];
             //文章内容2小时刷新一次
             foreach ($articles as $article) {
@@ -125,6 +126,22 @@ class PcArticle extends Model
             Redis::setEx($key, 1 * 60 * 60, $articleCache);
         }
         return json_decode($articleCache, true);
+    }
+
+    public static function randArticles($size) {
+        $articleCache = Redis::get(ArticlesCacheCommand::ARTICLE_CACHE_KEY);
+        if (empty($articleCache)) {
+            return [];
+        } else {
+            $array = json_decode($articleCache, true);
+        }
+        shuffle($array);
+        $result = [];
+        foreach ($array as $index=>$ar) {
+            if ($index >= $size) break;
+            $result[] = $ar;
+        }
+        return $result;
     }
 
 }

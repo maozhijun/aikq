@@ -56,7 +56,7 @@
 .iframe .ADWarm_RU{
 	width: 240px; height: 34px;
 	padding-top: 146px;
-	/*background: url(../img/image_prompt.png) no-repeat center top; background-size: 100% auto;*/
+	background: url(http://static.cdn.dlfyb.com/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
 	position: absolute; right: -40px; bottom: -100px; z-index: 100;
 }
 .iframe .ADWarm_RU p{
@@ -132,6 +132,9 @@
 	font-size: 14px; line-height: 32px; text-align: left; color: #393939;
 	overflow: hidden;
 	float: left;
+}
+#News a:hover{
+	color: #4492fd;
 }
 #News a:before{
 	width: 20px;
