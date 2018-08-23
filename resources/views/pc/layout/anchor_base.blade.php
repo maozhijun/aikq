@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=201807231845">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=201808231845">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
