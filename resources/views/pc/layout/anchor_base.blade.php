@@ -1,6 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//CN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+    <?php
+    $title = isset($title) ? $title : '爱看球-爱看球直播|世界杯直播|俄罗斯|沙特|爱看球JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线';
+    $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,俄罗斯,沙特,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
+    $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
+    ?>
+    <meta charset="UTF-8">
+    <title>{{$title}}</title>
+    <meta name="Keywords" content="{{$keywords}}">
+    <meta name="Description" content="{{$description}}">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="baidu-site-verification" content="nEdUlBWvbw">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=201807231845">
+    @yield('css')
+    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;
@@ -21,21 +36,6 @@
             window.location = str;
         }
     </script>
-    <?php
-    $title = isset($title) ? $title : '爱看球-爱看球直播|世界杯直播|俄罗斯|沙特|爱看球JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线';
-    $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,俄罗斯,沙特,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
-    $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
-    ?>
-    <meta charset="UTF-8">
-    <title>{{$title}}</title>
-    <meta name="Keywords" content="{{$keywords}}">
-    <meta name="Description" content="{{$description}}">
-    <meta http-equiv="X-UA-Compatible" content="edge" />
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=201807231845">
-    @yield('css')
-    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
 <body>
 <div id="Navigation">

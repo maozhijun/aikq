@@ -159,6 +159,7 @@ Route::group(["namespace" => 'Article'], function () {
     //Route::get("/news/{t_name}/{date}/{id}.html", "ArticleController@detail");//文章终端
 
     //Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
+    Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");
 });
 
 //主播
