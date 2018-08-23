@@ -1,4 +1,7 @@
 @extends('pc.layout.base')
+@section("meta")
+	<meta name="robots"content="nofollow">
+@endsection
 @section('css')
 	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203030006">
 	<style type="text/css">
