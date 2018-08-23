@@ -1,6 +1,6 @@
 @extends("pc.layout.anchor_base")
 @section("css")
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?rd=2000000001">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?rd=2000000003">
 @endsection
 @section('h1')
 	<h1>体育新闻资讯</h1>
@@ -8,6 +8,7 @@
 @section("content")
 	<div id="Content">
 		<div class="inner">
+			<div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">资讯</span></div>
 			<dl id="Right">
 				<dt>直播赛程</dt>
 			</dl>
