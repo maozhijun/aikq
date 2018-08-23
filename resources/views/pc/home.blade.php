@@ -96,7 +96,7 @@
                 </tbody>
             </table>
             <div id="News">
-                <div class="title">相关文章</div>
+                <div class="title">最新文章</div>
                 @foreach($arts as $index=>$art)
                 <a target="_blank" href="{{$art['url']}}">{{$art['title']}}</a>
                 @endforeach

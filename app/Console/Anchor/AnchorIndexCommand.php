@@ -53,6 +53,12 @@ class AnchorIndexCommand extends Command
             Storage::disk('public')->put('static/anchor/index.html', $html);
         }
 
+        $wapCon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
+        $wapHtml = $wapCon->index(new Request());
+        if (!empty($wapHtml)) {
+            Storage::disk('public')->put('static/m/anchor/index.html', $wapHtml);
+        }
+
         //app正在直播主播列表
         $controller = new HomeController();
         $data = $controller->appConfivV110p();

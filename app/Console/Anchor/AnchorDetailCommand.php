@@ -50,9 +50,9 @@ class AnchorDetailCommand extends Command
      */
     public function handle() {
         $roomArray = $this->getCacheValidRooms(self::ROOMS_CACHE_KEY);
-        //Route::get("/anchor/room/{room_id}.html", "AnchorController@room");//房间
-        //Route::get('/anchor/room/player/{room_id}.html',"AnchorController@player");//播放器 静态化
         $con = new AnchorController();
+        $mCon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
+
         $request = new Request();
         foreach ($roomArray as $index=>$room) {
             if ($index >= 50) {
@@ -63,6 +63,11 @@ class AnchorDetailCommand extends Command
             $html = $con->room($request, $room_id);
             if (!empty($html)) {
                 Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);
+            }
+
+            $mHtml = $mCon->room($request, $room_id);
+            if (!empty($mHtml)) {
+                Storage::disk('public')->put('static/m/anchor/room/' . $room_id . '.html', $mHtml);
             }
 
             //播放器静态化
@@ -88,7 +93,7 @@ class AnchorDetailCommand extends Command
             foreach ($rooms as $room) {
                 $roomArray[] = ['id'=>$room->id];
             }
-            Redis::setEx($key, 60 * 60, json_encode($roomArray));
+            Redis::setEx($key, 1 * 60, json_encode($roomArray));
         }
         return $roomArray;
     }

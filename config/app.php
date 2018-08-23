@@ -174,7 +174,7 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\StaticServiceProvider::class,
+        App\Providers\StaticServiceProvider::class,//静态化、日志
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
@@ -188,11 +188,6 @@ return [
          * 微信SDK
          */
         Overtrue\LaravelWechat\ServiceProvider::class,
-
-        /**
-         * 静态化、日志
-         */
-        \App\Providers\StaticServiceProvider::class,
     ],
 
     /*
