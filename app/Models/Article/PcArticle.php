@@ -105,7 +105,7 @@ class PcArticle extends Model
     }
 
     public static function indexArticles() {
-        $key = "indexArticles_cache";
+        $key = "indexArticles_Cache";
         $articleCache = Redis::get($key);
         if (empty($articleCache)) {
             $query = self::getPublishQuery();
@@ -118,7 +118,7 @@ class PcArticle extends Model
             shuffle($array);
             $result = [];
             foreach ($array as $index=>$ar) {
-                if ($index > 12) break;
+                if ($index >= 12) break;
                 $result[] = $ar;
             }
             $articleCache = json_encode($result);
