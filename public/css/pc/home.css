@@ -1,9 +1,4 @@
-﻿#Navigation h1{
-	width: 0; height: 0;
-	position: absolute; top: 0; left: 0;
-	overflow: hidden;
-}
-
+﻿
 .right_part{
 	width: 320px;
 	float: right;
@@ -17,6 +12,9 @@ table.list{
 	margin: 20px 0;
 	table-layout: fixed;
 	position: relative; z-index: 2;
+}
+#Crumb ~ table.list{
+	margin-top: 0;
 }
 table.list thead th{
 	height: 50px;
@@ -239,8 +237,11 @@ table.list button.copy{
 #News a{
 	width: 33.3%; height: 32px;
 	font-size: 14px; line-height: 32px; text-align: left; color: #393939;
-	float: left;
 	overflow: hidden;
+	float: left;
+}
+#News a:hover{
+	color: #4492fd;
 }
 #News a:before{
 	width: 20px;
