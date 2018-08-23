@@ -96,7 +96,7 @@ body{
 }
 #Navigation .inner{
 	height: 58px;
-	/*background: url(http://static.cdn.dlfyb.com/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
+	/*background: url(../img/image_slogan.png) no-repeat center; background-size: 120px;*/
 	font-size: 0;
 	position: initial;
 }
@@ -167,6 +167,18 @@ body{
 	margin-left: 12px;
 }
 
+/*面包屑*/
+#Crumb{
+	height: 40px;
+	margin-top: -20px;
+	font-size: 12px; line-height: 40px; color: #d4d4d4;
+}
+#Crumb a{
+	color: #d4d4d4;	
+}
+#Crumb a:hover, #Crumb .on{
+	color: #fff;
+}
 
 /*内容*/
 #Content{
@@ -212,6 +224,9 @@ body{
 }
 * + .adbanner{
 	margin-top: 10px;
+}
+#Crumb + .adbanner{
+	margin-top: 0;
 }
 .adflag{
 	max-width: 208px; width: 11%;

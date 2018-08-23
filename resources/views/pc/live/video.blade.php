@@ -54,7 +54,7 @@
     <div class="clear"></div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js?time=2018020001"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setADClose();
@@ -71,5 +71,5 @@
     </script>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018020001">
 @endsection

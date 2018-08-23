@@ -36,7 +36,7 @@
 
 .iframe{
 	height: 500px;
-	background: url(/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
+	background: url(http://static.cdn.dlfyb.com/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 .iframe p.noframe,
@@ -56,7 +56,7 @@
 .iframe .ADWarm_RU{
 	width: 240px; height: 34px;
 	padding-top: 146px;
-	background: url(/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
+	/*background: url(../img/image_prompt.png) no-repeat center top; background-size: 100% auto;*/
 	position: absolute; right: -40px; bottom: -100px; z-index: 100;
 }
 .iframe .ADWarm_RU p{
@@ -81,13 +81,13 @@
 }
 #Share:before{
 	width: 130px; height: 50px;
-	background: url(/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
+	background: url(http://static.cdn.dlfyb.com/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
 	position: absolute; top: 0; left: 0;
 	content: '';
 }
 #Share:after{
 	width: 130px; height: 50px;
-	background: url(/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
+	background: url(http://static.cdn.dlfyb.com/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
 	position: absolute; top: 0; right: 0;
 	content: '';
 }
@@ -109,7 +109,42 @@
 	position: absolute;
 }
 
+#News{
+	padding-bottom: 10px; margin-top: 10px;
+	background: #fff;
+}
+#News .title{
+	height: 38px;
+	padding-left: 34px; margin-bottom: 10px;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 16px; line-height: 38px; color: #393939;
+	position: relative;
+}
+#News .title:before{
+	width: 4px; height: 20px;
+	margin-top: -10px;
+	background: #4492fd;
+	position: absolute; left: 20px; top: 50%;
+	content: '';
+}
+#News a{
+	width: 33.3%; height: 32px;
+	font-size: 14px; line-height: 32px; text-align: left; color: #393939;
+	overflow: hidden;
+	float: left;
+}
+#News a:before{
+	width: 20px;
+	display: inline-block;
+	content: '';
+}
 
+@media screen and (max-width: 1280px){ 
+	#News a{
+		height: 26px;
+		font-size: 12px; line-height: 26px;
+	}
+}
 
 
 
