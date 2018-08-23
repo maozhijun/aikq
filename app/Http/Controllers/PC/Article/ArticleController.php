@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller
 {
 
-    const PageSize = 10;
+    const PageSize = 15;
     const APP_PAGE_SIZE = 20;
 
     /**
