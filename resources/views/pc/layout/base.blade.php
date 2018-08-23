@@ -1,6 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+    <?php
+        $title = isset($title) ? $title : '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
+        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
+        $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
+    ?>
+    <meta charset="UTF-8">
+    @yield("meta")
+    <title>{{$title}}</title>
+    @if(!isset($noMeta) || !$noMeta)
+    <meta name="Keywords" content="{{$keywords}}">
+    <meta name="Description" content="{{$description}}">
+    @endif
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="baidu-site-verification" content="nEdUlBWvbw">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=2018000001">
+    @yield('css')
+    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
         var curUrl = location.href;
         var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
@@ -36,27 +54,9 @@
             }
         }
     </script>
-    <?php
-        $title = isset($title) ? $title : '爱看球-高清免费的JRS直播-NBA直播低调看';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
-        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
-        $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
-    ?>
-    <meta charset="UTF-8">
-    @yield("meta")
-    <title>{{$title}}</title>
-    @if(!isset($noMeta) || !$noMeta)
-    <meta name="Keywords" content="{{$keywords}}">
-    <meta name="Description" content="{{$description}}">
-    @endif
-    <meta http-equiv="X-UA-Compatible" content="edge" />
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=2018000001">
-    @yield('css')
-    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
 <body>
-<div id="Navigation">
+<div id="Navigation">@if(isset($isIndex) && $isIndex)<h1>JRS低调看爱看球直播</h1>@endif
     <div class="inner">
         <a href="{{asset('/')}}"><img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}

@@ -77,8 +77,14 @@ class ArticleController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function detailHtml(PcArticle $detail) {
+        $type = $detail->type_obj;
+        if (!isset($type)) {
+            $typeName = '其他资讯';
+        } else {
+            $typeName = $type->name;
+        }
         $result['article'] = $detail;
-        $result['title'] = $detail->title . "_爱看球";
+        $result['title'] = $detail->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $detail->labels);
         $result['description'] = $detail->digest;
 

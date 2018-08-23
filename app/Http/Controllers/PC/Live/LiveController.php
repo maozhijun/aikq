@@ -234,6 +234,7 @@ class LiveController extends Controller
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['check'] = 'all';
         $json['arts'] = $articles;
+        $json['isIndex'] = true;
 //        dump($articles);
         return view('pc.home', $json);
     }
@@ -361,33 +362,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $id, $immediate = false) {
-//        $ch = curl_init();
-//        if ($immediate) {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id";
-//        } else {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,env('', 5));
-//        $server_output = curl_exec ($ch);
-//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $akqCon = new AikanQController();
-        $jsonStr = $akqCon->detailJson($request, $id)->getData();
-        $jsonStr = json_encode($jsonStr);
-        $json = json_decode($jsonStr, true);
-        if (isset($json['match'])) {
-            $match = $json['match'];
-            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
-            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
-        } else {
-            return abort(404);
-        }
-        $this->_saveAppData($json,1,$id);
-        return view('pc.live.video', $json);
+        $json = $akqCon->detailJsonData($id, false);
+        return $this->detailHtml($json, $id);
     }
 
     /**
@@ -399,8 +376,8 @@ class LiveController extends Controller
     public function detailHtml($json, $id) {
         if (isset($json['match'])) {
             $match = $json['match'];
-            //date('m月d H:i', strtotime($match['time'])) . ' ' .
-            $json['title'] = $match['lname'] . '直播_' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
+            $time = date('m月d H:i', strtotime($match['time']));
+            $json['title'] = $match['lname'] . 'JRS直播 ' . $match['hname'] . ' VS ' . $match['aname'] . ' ' . $time . '-爱看球直播';
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
@@ -414,39 +391,20 @@ class LiveController extends Controller
      * 篮球直播终端
      * @param Request $request
      * @param $id
+     * @param bool $immediate 是否即时数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function basketDetail(Request $request, $id, $immediate = false) {
-        $ch = curl_init();
-        if ($immediate) {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id";
-        } else {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id" . '.json';
-        }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        if (isset($json['match'])) {
-            $match = $json['match'];
-            //date('m月d H:i', strtotime($match['time'])) . ' ' .
-            $json['title'] =  $match['lname'] . '直播_' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
-            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
-        } else {
-            return abort(404);
-        }
-        $this->_saveAppData($json,2,$id);
-        return view('pc.live.video', $json);
+        $con = new AikanQController();
+        $json = $con->basketDetailJsonData($id, false);
+        return $this->basketDetailHtml($json, $id);
     }
 
     public function basketDetailHtml($json, $id) {
         if (isset($json['match'])) {
             $match = $json['match'];
-            //date('m月d H:i', strtotime($match['time'])) . ' ' .
-            $json['title'] =  $match['lname'] . '直播_' . $match['hname'] . ' VS ' . $match['aname'] . '_爱看球';
+            $time = date('m月d H:i', strtotime($match['time']));
+            $json['title'] =  $match['lname'] . 'JRS直播 ' . $match['hname'] . ' VS ' . $match['aname'] . ' ' . $time . '-爱看球直播';
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         } else {
@@ -464,35 +422,22 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function otherDetail(Request $request, $id, $immediate = false) {
-        $ch = curl_init();
-        if ($immediate) {
-            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id";
-        } else {
-            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id" . '.json';
-        }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        if (isset($json['match'])) {
-            $match = $json['match'];
-            //date('m月d H:i', strtotime($match['time'])) . ' ' .
-            $json['title'] = $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "_爱看球";
-            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "，JRS低调看直播就来爱看球直播。";
-        } else {
-            return abort(404);
-        }
-        $this->_saveAppData($json,3,$id);
-        return view('pc.live.video', $json);
+        $con = new AikanQController();
+        $json = $con->otherDetailJsonData($id, false);
+        return $this->otherDetailHtml($json, $id);
     }
 
+    /**
+     * 自建终端html
+     * @param $json
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function otherDetailHtml($json, $id) {
         if (isset($json['match'])) {
             $match = $json['match'];
-            $json['title'] = date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "_爱看球";
+            $time = date('m月d H:i', strtotime($match['time']));
+            $json['title'] = $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . ' ' . $time . "-爱看球直播";
             $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
             $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . (!empty($match['aname'] ? (' VS ' . $match['aname']) : '')) . "，JRS低调看直播就来爱看球直播。";
         } else {

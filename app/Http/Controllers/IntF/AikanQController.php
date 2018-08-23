@@ -348,6 +348,17 @@ class AikanQController extends Controller
      */
     public function basketDetailJson(Request $request, $id, $mobile = false){
         $mobile = $request->input('isMobile',0) || $mobile;
+        $result = $this->basketDetailJsonData($id, $mobile);
+        return response()->json($result);
+    }
+
+    /**
+     * 篮球直播终端数据
+     * @param $id
+     * @param bool $mobile
+     * @return mixed
+     */
+    public function basketDetailJsonData($id, $mobile = false){
         $match = BasketMatch::query()->select('basket_matches.*',"basket_matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -390,7 +401,7 @@ class AikanQController extends Controller
         $result['away_icon'] = $match->getTeamIcon(false);
         $result['show_live'] = $show_live;
         $result['data'] = array();
-        return Response::json($result);
+        return $result;
     }
 
     /**
@@ -402,6 +413,17 @@ class AikanQController extends Controller
      */
     public function otherDetailJson(Request $request, $id, $mobile = false){
         $mobile = $request->input('isMobile',0) == 1 || $mobile;
+        $result = $this->otherDetailJsonData($id, $mobile);
+        return response()->json($result);
+    }
+
+    /**
+     * 其他直播终端数据
+     * @param $id
+     * @param bool $mobile
+     * @return mixed
+     */
+    public function otherDetailJsonData($id, $mobile = false){
         $match = OtherMatch::query()->selectRaw("*, other_matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -433,7 +455,7 @@ class AikanQController extends Controller
         $result['away_icon'] = '';
         $result['show_live'] = $show_live;
         $result['data'] = array();
-        return Response::json($result);
+        return $result;
     }
 
     /**
@@ -445,6 +467,17 @@ class AikanQController extends Controller
      */
     public function detailJson(Request $request, $id, $mobile = false){
         $mobile = $request->input('isMobile',0) || $mobile;
+        $result = $this->detailJsonData($id, $mobile);
+        return response()->json($result);
+    }
+
+    /**
+     * 足球终端页数据接口
+     * @param $id
+     * @param $mobile
+     * @return mixed
+     */
+    public function detailJsonData($id, $mobile) {
         $match = Match::query()->select('matches.*',"matches.id as mid")->find($id);
         if (!isset($match)) {
             return Response::json(array('code'=>-1));
@@ -484,7 +517,7 @@ class AikanQController extends Controller
         $result['live'] = $live;
         $result['show_live'] = $show_live;
 
-        return response()->json($result);
+        return $result;
     }
 
     public function mobileDetailJson(Request $request, $id) {
