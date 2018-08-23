@@ -87,6 +87,7 @@ class Kernel extends ConsoleKernel
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
 
         SpiderTTZBCommand::class,//抓取天天直播的源
+        NotFoundCommand::class,//404页面
     ];
 
     /**
