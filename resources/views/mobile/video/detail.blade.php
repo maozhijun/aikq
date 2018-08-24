@@ -11,7 +11,7 @@
 @endsection
 @section('banner')
     <div id="Navigation">
-        <div class="banner"><a class="home" href="/m/live/subject/videos/all/1.html"></a>爱看球</div>
+        <div class="banner"><a class="home" href="/live/subject/videos/all/1.html"></a>爱看球</div>
     </div>
 @endsection
 @section('content')

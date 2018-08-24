@@ -70,27 +70,6 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        function changeTab(tab) {
-            switch (tab){
-                case 'all':
-                    window.location.replace('/m');
-                    break;
-                case 'football':
-                    window.location.replace('/m/football.html');
-                    break;
-                case 'basketball':
-                    window.location.replace('/m/basketball.html');
-                    break;
-                case 'other':
-                    window.location.replace('/m/other.html');
-                    break;
-                case 'live':
-                    window.location.replace('/m/index.html');
-                    break;
-                case 'video':
-                    window.location.replace('/m/live/subject/videos/all/1.html');
-                    break;
-            }
-        }
+
     </script>
 @endsection

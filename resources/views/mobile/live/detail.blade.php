@@ -25,7 +25,7 @@
 //        } else {
 //            $href = "/m/football.html";
 //        }
-        $href = '/m/index.html'
+        $href = '/'
     ?>
     <div id="Navigation">
         @if(isset($h1))

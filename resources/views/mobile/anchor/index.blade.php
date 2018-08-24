@@ -24,7 +24,7 @@
                 <?php
                 $match = $hotMatch->getMatch();
                 ?>
-                <a href="/m/anchor/room/{{$hotMatch['room_id']}}.html" class="item {{$match['status'] > 0 ? 'live':''}}">
+                <a href="/anchor/room/{{$hotMatch['room_id']}}.html" class="item {{$match['status'] > 0 ? 'live':''}}">
                     <div class="match">
                         <p class="team">
                             <img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">
@@ -47,7 +47,7 @@
         </div>
         <ul>
             @foreach($hotAnchors as $hotAnchor)
-                <li><a href="/m/anchor/room/{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon']}}"  onerror="this.src='/img/pc/image_default_head.png'"><p>{{$hotAnchor['name']}}</p></a></li>
+                <li><a href="/anchor/room/{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon']}}"  onerror="this.src='/img/pc/image_default_head.png'"><p>{{$hotAnchor['name']}}</p></a></li>
             @endforeach
         </ul>
     </div>
@@ -57,7 +57,7 @@
         </div>
         <ul>
             @foreach($livingRooms as $livingRoom)
-                <li><a href="/m/anchor/room/{{$livingRoom['id']}}.html">
+                <li><a href="/anchor/room{{$livingRoom['id']}}.html">
                         <div class="imgbox">
                             <img src="{{$livingRoom['live_cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
                             <p>{{$livingRoom->anchor->name}}</p>

@@ -7,7 +7,7 @@
         $liveClass = 'class="on"';
     } else {
         $liveIco = $cdn . "/img/mobile/commom_icon_live_n.png";
-        $liveUrl = 'href=/m/lives.html';
+        $liveUrl = 'href=/';
         $liveClass = '';
     }
 
@@ -17,7 +17,7 @@
         $anchorClass = 'class="on"';
     } else {
         $anchorIco = $cdn . "/img/mobile/commom_icon_anchor_n.png";
-        $anchorUrl = 'href=/m/anchor/index.html';
+        $anchorUrl = 'href=/anchor';
         $anchorClass = '';
     }
 
@@ -27,7 +27,7 @@
         $newsClass = 'class="on"';
     } else {
         $newsIco = $cdn . "/img/mobile/icon_news_n.png";
-        $newsUrl = 'href=/m/news/index.html';
+        $newsUrl = 'href=/news';
         $newsClass = '';
     }
 ?>

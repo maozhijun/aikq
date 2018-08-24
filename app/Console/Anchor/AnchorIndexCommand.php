@@ -56,7 +56,7 @@ class AnchorIndexCommand extends Command
         $wapCon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
         $wapHtml = $wapCon->index(new Request());
         if (!empty($wapHtml)) {
-            Storage::disk('public')->put('static/m/anchor/index.html', $wapHtml);
+            Storage::disk('public')->put('m/anchor/index.html', $wapHtml);
         }
 
         //app正在直播主播列表
