@@ -6,7 +6,7 @@ function loadNews() {
     var isLoading = window.loadPage;
     if (!isLoading && window.curPage <= window.lastPage) {
         window.loadPage = true;
-        var url = "/m/news/page" + window.curPage + ".html";
+        var url = "/news/page" + window.curPage + ".html";
         $.ajax({
             "url": url,
             "dataType": "html",

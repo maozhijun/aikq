@@ -59,12 +59,12 @@ class ArticlePageCommands extends Command
         $con = new ArticleController();
         $html = $con->newsHtml($articles);
         if (!empty($html)) {
-            Storage::disk("public")->put("news/index.html", $html);
+            Storage::disk("public")->put("/www/news/index.html", $html);
         }
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapIndex = $wapCon->articlesHtml($articles);
         if (!empty($wapIndex)) {
-            Storage::disk("public")->put("static/m/news/index.html", $wapIndex);
+            Storage::disk("public")->put("/m/news/index.html", $wapIndex);
         }
 
         $lastPage = $articles->lastPage();
@@ -90,12 +90,12 @@ class ArticlePageCommands extends Command
         $con = new ArticleController();
         $html = $con->newsHtml($articles);
         if (!empty($html)) {
-            Storage::disk("public")->put("news/index" . $page . ".html", $html);
+            Storage::disk("public")->put("/www/news/index" . $page . ".html", $html);
         }
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapPageHtml = $wapCon->articlesCell($articles);
         if (!empty($wapPageHtml)) {
-            Storage::disk("public")->put("static/m/news/page" . $page . ".html", $wapPageHtml);
+            Storage::disk("public")->put("/m/news/page" . $page . ".html", $wapPageHtml);
         }
     }
 

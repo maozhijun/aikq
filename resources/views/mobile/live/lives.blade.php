@@ -1,26 +1,16 @@
 @extends('mobile.layout.base')
-@section('title')
-    <title>爱看球-JRS直播|NBA直播|英超直播|西甲直播|低调看|直播吧</title>
-@endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201804">
-    <style>
-        #Navigation {
-            background: #4492fd;
-        }
-    </style>
+    <style>#Navigation { background: #4492fd;}</style>
 @endsection
 @section('banner')
     <div id="Navigation">
         <h1>JRS低调看爱看球直播</h1>
-        <div class="banner">
-            <!-- <p class="type"><button class="on" id="Football" name="type">足球</button><button id="Basketball" name="type">篮球</button><button id="Other" name="type">其他</button></p> -->
-            <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">
-        </div>
+        <div class="banner"><img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png"></div>
     </div>
 @endsection
 @section('content')
-    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="/img/mobile/image_ad_wap.jpg"></a>
+    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
     @foreach($matches as $time=>$match_array)
         <?php
         $week = date('w', strtotime($time));
@@ -67,9 +57,4 @@
 @endsection
 @section('bottom')
     @component("mobile.layout.bottom_cell", ["cur"=>'live']) @endcomponent
-@endsection
-@section('js')
-    <script type="text/javascript">
-
-    </script>
 @endsection

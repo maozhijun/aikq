@@ -123,9 +123,9 @@ class ArticleController extends Controller
         $disks = 'news';
         $type_name_en = isset($type_obj) ? $type_obj->name_en : 'detail';
         $publish_date = date('Ymd', strtotime($article->publish_at));
-        $path = '/' . $disks . '/' . $type_name_en . '/' . $publish_date . '/' . $article->id . '.html';
+        $path = $disks . '/' . $type_name_en . '/' . $publish_date . '/' . $article->id . '.html';
         $article->disks = $disks;
-        $article->path = $path;
+        $article->path = '/www/' . $path;
         $article->save();
 
         $html = $this->detailHtml($article);
@@ -133,7 +133,7 @@ class ArticleController extends Controller
 
         $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapHtml = $mobileCon->detailHtml($article);
-        Storage::disk("public")->put('/static/m'.$path, $wapHtml);
+        Storage::disk("public")->put('/m/'.$path, $wapHtml);
     }
 
 

@@ -17,7 +17,7 @@
         $anchorClass = 'class="on"';
     } else {
         $anchorIco = $cdn . "/img/mobile/commom_icon_anchor_n.png";
-        $anchorUrl = 'href=/anchor';
+        $anchorUrl = 'href=/anchor/';
         $anchorClass = '';
     }
 
@@ -27,7 +27,7 @@
         $newsClass = 'class="on"';
     } else {
         $newsIco = $cdn . "/img/mobile/icon_news_n.png";
-        $newsUrl = 'href=/news';
+        $newsUrl = 'href=/news/';
         $newsClass = '';
     }
 ?>
