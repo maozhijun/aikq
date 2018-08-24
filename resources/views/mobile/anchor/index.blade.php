@@ -1,12 +1,15 @@
 @extends('mobile.layout.base')
 @section('title')
-    <title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>
+    <title>美女主播球赛讲解_主播频道-爱看球直播</title>
 @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/anchorPhone.css?rd=201808141800">
 @endsection
 @section('banner')
     <div id="Navigation">
+        @if(isset($h1))
+            <h1>{{$h1}}</h1>
+        @endif
         <div class="banner">
             <!-- <p class="type"><button class="on" id="Football" name="type">足球</button><button id="Basketball" name="type">篮球</button><button id="Other" name="type">其他</button></p> -->
             <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">

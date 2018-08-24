@@ -19,13 +19,18 @@
             }
         }
     </script>
-    @yield('title')
-    <meta name="Keywords" content="{{isset($keywords) ? $keywords : "爱看球,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧"}}">
-    <meta name="Description" content="{{isset($description) ? $description : '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多'}}">
+    <?php
+    $title = isset($title) ? $title : '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
+    $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
+    $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
+    ?>
+    <title>{{$title}}</title>
+    <meta name="Keywords" content="{{$keywords}}">
+    <meta name="Description" content="{{$description}}">
     <meta charset="utf-8"/>
     <meta content="telephone=no,email=no" name="format-detection"/>
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?rd=201802000002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201808241135">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <link href="/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">

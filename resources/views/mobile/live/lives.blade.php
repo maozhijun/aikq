@@ -12,6 +12,7 @@
 @endsection
 @section('banner')
     <div id="Navigation">
+        <h1>JRS低调看爱看球直播</h1>
         <div class="banner">
             <!-- <p class="type"><button class="on" id="Football" name="type">足球</button><button id="Basketball" name="type">篮球</button><button id="Other" name="type">其他</button></p> -->
             <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">

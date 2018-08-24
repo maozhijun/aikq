@@ -44,8 +44,10 @@ class ArticleController extends Controller
 
     public function articlesHtml($articles) {
         $result['page'] = $articles;
+        $result['title'] = '体育新闻资讯-爱看球直播';
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
+        $result['h1'] = '体育新闻资讯';
         return view('mobile.articles.news', $result);
     }
 
@@ -59,8 +61,15 @@ class ArticleController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detailHtml(PcArticle $article) {
+        $type = $article->type_obj;
+        if (!isset($type)) {
+            $typeName = '其他资讯';
+        } else {
+            $typeName = $type->name;
+        }
         $result['article'] = $article;
-        $result['title'] = $article->title . "_爱看球";
+        $result['h1'] = $article->title;
+        $result['title'] = $article->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $article->labels);
         $result['description'] = $article->digest;
 

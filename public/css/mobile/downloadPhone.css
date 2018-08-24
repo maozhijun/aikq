@@ -4,6 +4,12 @@ body{
 	background: #fff;
 }
 
+h1{
+	width: 0; height: 0;
+	position: absolute; top: 0; left: 0;
+	overflow: hidden;
+}
+
 img.bg{
 	width: 100%;
 	position: relative; z-index: -1;

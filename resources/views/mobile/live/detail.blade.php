@@ -28,6 +28,9 @@
         $href = '/m/index.html'
     ?>
     <div id="Navigation">
+        @if(isset($h1))
+            <h1>{{$h1}}</h1>
+        @endif
         <div class="banner"><a class="home" href="{{$href}}"></a>爱看球</div>
     </div>
 @endsection

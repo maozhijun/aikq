@@ -25,6 +25,8 @@ class AnchorController extends Controller
         $result['livingRooms'] = AnchorRoom::getLivingRooms();
         $hotMatches = AnchorRoomTag::getHotMatch();
         $result['hotMatches'] = $hotMatches;
+        $result['title'] = '美女主播球赛讲解_主播频道-爱看球直播';
+        $result['h1'] = '美女主播球赛讲解';
         return view('mobile.anchor.index',$result);
     }
 
@@ -40,6 +42,8 @@ class AnchorController extends Controller
         $result = array('match'=>$match,'room'=>$room,'room_tag'=>$tag, 'room_id'=>$room_id);
         $result['anchor'] = $room->anchor;
         $result['books'] = $room->getTagMatch();
+        $result['title'] = '美女主播球赛讲解_主播频道-爱看球直播';
+        $result['h1'] = '美女主播球赛讲解';
         return view('mobile.anchor.room',$result);
     }
 }
