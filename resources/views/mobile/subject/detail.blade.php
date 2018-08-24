@@ -6,7 +6,7 @@
 @section('banner')
     <div id="Navigation">
         <div class="banner">
-            <h1>中超</h1>
+            <h1>{{$subject['name']}}</h1>
         </div>
     </div>
     <div class="tab">
