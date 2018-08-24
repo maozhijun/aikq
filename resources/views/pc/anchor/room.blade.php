@@ -11,10 +11,8 @@
     </style>
 @endsection
 @section('content')
-    <?php
-    $anchor = $room->anchor;
-    ?>
     <div id="Content">
+        <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/anchor/">主播</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">{{$anchor->name}}</span></div>
         <div class="inner">
             <div id="Info">
                 <img src="{{$anchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
