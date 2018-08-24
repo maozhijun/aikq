@@ -67,7 +67,7 @@ class AnchorDetailCommand extends Command
 
             $mHtml = $mCon->room($request, $room_id);
             if (!empty($mHtml)) {
-                Storage::disk('public')->put('static/m/anchor/room/' . $room_id . '.html', $mHtml);
+                Storage::disk('public')->put('m/anchor/room/' . $room_id . '.html', $mHtml);
             }
 
             //播放器静态化

@@ -1,4 +1,4 @@
-<?php $title = "404错误页"; $noMeta = true; ?>
+<?php $title = "404错误页"; $noMeta = true; $noSubmitBD = true; ?>
 @extends('pc.layout.base')
 @section('css')
     <style type="text/css">

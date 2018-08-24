@@ -48,8 +48,8 @@ class IndexCommand extends Command
      */
     public function handle()
     {
-        $home = new LiveController();
-        $home->staticIndex(new Request());
+//        $home = new LiveController();
+//        $home->staticIndex(new Request());
 
         $home = new \App\Http\Controllers\Mobile\Live\LiveController();
         $home->staticIndex(new Request());

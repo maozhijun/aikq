@@ -97,24 +97,26 @@
             </table>
             <div id="News">
                 <div class="title">最新文章</div>
-                @foreach($arts as $index=>$art)
-                <a target="_blank" href="{{$art['url']}}">{{$art['title']}}</a>
-                @endforeach
+                @if(isset($arts))
+                    @foreach($arts as $index=>$art)
+                        <a target="_blank" href="{{$art['url']}}">{{$art['title']}}</a>
+                    @endforeach
+                @endif
                 <p class="clear"></p>
             </div>
         </div>
     </div>
     {{--<div class="adflag left">--}}
-        {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-        {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-        {{--<br>--}}
-        {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
+    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
+    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
+    {{--<br>--}}
+    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
     {{--</div>--}}
     {{--<div class="adflag right">--}}
-        {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-        {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-        {{--<br>--}}
-        {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
+    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
+    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
+    {{--<br>--}}
+    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
     {{--</div>--}}
 @endsection
 @section('js')

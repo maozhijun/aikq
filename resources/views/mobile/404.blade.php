@@ -22,10 +22,6 @@
     </div>
 </div>
 <p>找不到您想要的页面哦</p>
-@if(isset($static))
-    <a href="/">返回首页</a>
-    @else
-    <a href="/m/index.html">返回首页</a>
-@endif
+<a href="/">返回首页</a>
 </body>
 </html>
