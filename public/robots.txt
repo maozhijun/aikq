@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /bs/
+Disallow: /admin/
+Disallow: /live/spPlayer/

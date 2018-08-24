@@ -398,6 +398,9 @@ class LiveController extends Controller
     public function basketDetail(Request $request, $id, $immediate = false) {
         $con = new AikanQController();
         $json = $con->basketDetailJsonData($id, false);
+        if (!isset($json)) {
+            return abort(404);
+        }
         $json['articles'] = PcArticle::randArticles(12);
         return $this->basketDetailHtml($json, $id);
     }

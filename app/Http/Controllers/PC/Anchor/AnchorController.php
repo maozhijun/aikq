@@ -61,7 +61,7 @@ class AnchorController extends Controller
         $result['room_id'] = $room_id;
         $result['room'] = $room;
         $result['anchor'] = $anchor;
-        $result['title'] = $room->title.'_爱看球';
+        $result['title'] = '资深主播'.$anchor->name.'_爱看球直播';
         $result['keywords'] = "爱看球主播,".$anchor->name.',体育直播,资深主播';
         $result['description'] = "爱看球主播频道，资深主播".$anchor->name."正在为你解说体育直播。";
         return view('pc.anchor.room',$result);
@@ -243,7 +243,8 @@ class AnchorController extends Controller
         //直播终端页面
         $html = $this->room(new Request(), $room_id);
         if (!empty($html)) {
-            Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);
+            Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);//暂时保留旧链接
+            Storage::disk('public')->put('static/anchor/room' . $room_id . '.html', $html);
         }
 
         //播放器静态化

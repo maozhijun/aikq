@@ -361,7 +361,7 @@ class AikanQController extends Controller
     public function basketDetailJsonData($id, $mobile = false){
         $match = BasketMatch::query()->select('basket_matches.*',"basket_matches.id as mid")->find($id);
         if (!isset($match)) {
-            return Response::json(array('code'=>-1));
+            return null;
         }
         $live = MatchLive::query()->where('match_id', $id)->where('sport', MatchLive::kSportBasketball)->first();
         //赛前五分钟、比赛中、比赛结束后10分钟 显示视频
@@ -414,6 +414,9 @@ class AikanQController extends Controller
     public function otherDetailJson(Request $request, $id, $mobile = false){
         $mobile = $request->input('isMobile',0) == 1 || $mobile;
         $result = $this->otherDetailJsonData($id, $mobile);
+        if (!isset($result)) {
+            return abort(404);
+        }
         return response()->json($result);
     }
 
@@ -426,7 +429,7 @@ class AikanQController extends Controller
     public function otherDetailJsonData($id, $mobile = false){
         $match = OtherMatch::query()->selectRaw("*, other_matches.id as mid")->find($id);
         if (!isset($match)) {
-            return Response::json(array('code'=>-1));
+            return null;
         }
         $live = MatchLive::query()->where('match_id', $id)->where('sport', MatchLive::kSportSelfMatch)->first();
         //赛前五分钟、比赛中、比赛结束后10分钟 显示视频
@@ -468,6 +471,9 @@ class AikanQController extends Controller
     public function detailJson(Request $request, $id, $mobile = false){
         $mobile = $request->input('isMobile',0) || $mobile;
         $result = $this->detailJsonData($id, $mobile);
+        if (!isset($result)) {
+            return abort(404);
+        }
         return response()->json($result);
     }
 
@@ -480,7 +486,7 @@ class AikanQController extends Controller
     public function detailJsonData($id, $mobile) {
         $match = Match::query()->select('matches.*',"matches.id as mid")->find($id);
         if (!isset($match)) {
-            return Response::json(array('code'=>-1));
+            return null;
         }
         $live = MatchLive::query()->where('match_id', $id)->where('sport', MatchLive::kSportFootball)->first();
         //赛前五分钟、比赛中、比赛结束后10分钟 显示视频

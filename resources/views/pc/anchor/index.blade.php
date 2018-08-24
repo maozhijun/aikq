@@ -1,6 +1,6 @@
 @extends('pc.layout.anchor_base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251701">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251702">
     <style>
         body {
             padding-top: 60px;
@@ -15,6 +15,7 @@
 @endsection
 @section('content')
     <div id="Content">
+        <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">主播</span></div>
         <div class="inner">
             @if(isset($hotMatches) && count($hotMatches) > 0)
             <div id="Hot">
@@ -25,12 +26,10 @@
                 @endif
                 <div class="list">
                     @foreach($hotMatches as $hotMatch)
-                        <?php
-                        $match = $hotMatch->getMatch();
-                        ?>
+                    <?php $match = $hotMatch->getMatch(); ?>
                     @if(isset($match))
                         <div class="item">
-                            <a href="/anchor/room/{{$hotMatch['room_id']}}.html" target="_blank">
+                            <a href="/anchor/room{{$hotMatch['room_id']}}.html" target="_blank">
                                 <p class="time">{{$match['league'] or ''}}<span>{{date('m.d H:i',$match['time'])}}</span></p>
                                 <div class="team">
                                     <p class="host"><img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">{{$match['hname']}}</p>
@@ -54,7 +53,7 @@
                 <div class="list">
                     @foreach($hotAnchors as $hotAnchor)
                         <div class="item">
-                            <a href="/anchor/room/{{$hotAnchor->room->id}}.html" target="_blank">
+                            <a href="/anchor/room{{$hotAnchor->room->id}}.html" target="_blank">
                                 <div class="imgbox" style="height: 102px;">
                                     <img src="{{$hotAnchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
                                 </div>
@@ -73,7 +72,7 @@
                             $count = \Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount')>0?\Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount'):0;
                         ?>
                         <div class="item">
-                            <a href="/anchor/room/{{$livingRoom['id']}}.html" target="_blank">
+                            <a href="/anchor/room{{$livingRoom['id']}}.html" target="_blank">
                                 <?php
                                 $cover = isset($livingRoom['live_cover'])?$livingRoom['live_cover']:$livingRoom['cover']
                                 ?>
