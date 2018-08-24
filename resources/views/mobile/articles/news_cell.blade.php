@@ -1,5 +1,5 @@
 @foreach($page as $article)
-    <a href="/m{{$article->getUrl()}}" class="li">
+    <a href="{{$article->getUrl()}}" class="li">
         @if(!empty($article->cover))
             <div class="imgbox" style="background: url({{$article->getCover()}}) no-repeat center; background-size: cover;"></div>
         @endif

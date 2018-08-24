@@ -23,10 +23,7 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function staticIndex(Request $request){
-        //$this->basketballLivesStatic($request);
-        //$this->footballLivesStatic($request);
         $this->livesStatic($request);//静态化首页
-        //$this->otherLivesStatic($request);
     }
 
     /**
@@ -102,18 +99,6 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function lives(Request $request) {
-//        $ch = curl_init();
-//        $url = env('LIAOGOU_URL')."aik/livesJson?isMobile=1";
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT, env('DEV_TIME_OUT', 10));
-//        $server_output = curl_exec ($ch);
-//        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        if ($http_code >= 400) {
-//            return;
-//        }
-//        $json = json_decode($server_output,true);
         $aiCon = new AikanQController();
         $data = $aiCon->livesJson($request, true)->getData();
         $data = json_encode($data);

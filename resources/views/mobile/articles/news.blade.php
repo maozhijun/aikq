@@ -16,7 +16,7 @@
 @section('content')
     <div id="Content">
         @foreach($page as $article)
-            <a href="/m{{$article->getUrl()}}" class="li">
+            <a href="{{$article->getUrl()}}" class="li">
                 @if(!empty($article->cover))
                     <div class="imgbox" style="background: url({{$article->getCover()}}) no-repeat center; background-size: cover;"></div>
                 @endif
@@ -30,7 +30,7 @@
     @component("mobile.layout.bottom_cell", ['cur'=>'news']) @endcomponent
 @endsection
 @section("js")
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/news.js?time=2018081600003"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/news.js?time=2018081600004"></script>
     <script type="text/javascript">
         window.curPage = 1;
         window.lastPage = parseInt('{{$page->lastPage()}}');
