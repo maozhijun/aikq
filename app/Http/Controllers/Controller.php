@@ -8,6 +8,24 @@ use Illuminate\Support\Facades\Redis;
 
 class Controller extends BaseController
 {
+    const SUBJECT_NAME_IDS = [
+        "zhongchao"=>1002,
+        "yingchao"=>1000,
+        "xijia"=>1003,
+        "yijia"=>1004,
+        "fajia"=>1005,
+        "dejia"=>1006,
+//        "j1"=>1002,
+//        "k1"=>1002,
+//        "aojia"=>1002,
+        "nba"=>1009,
+        "cba"=>1010,
+        "worldcup"=>1008,
+        "uefacl"=>1001,
+        "uefael"=>1011,
+        "afccl"=>1007,
+    ];
+
     protected $html_var = [];
 
     function __construct()

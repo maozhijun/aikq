@@ -1,0 +1,224 @@
+﻿body{
+	padding-top: 168px;
+}
+
+div.tab{
+	padding: 0 15px;
+	background: #fff;
+	position: fixed; top: 88px; left: 0; right: 0;
+}
+.tab p{
+	height: 80px;
+	font-size: 32px; line-height: 80px; text-align: center; color: #4f4f4f;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+.tab p.on{
+	color: #4492fd;
+}
+.tab p.on:after{
+	height: 6px; width: 48px;
+	margin-left: -24px;
+	border-radius: 3px;
+	background: #4492fd;
+	position: absolute; bottom: 6px; left: 50%;
+	content: '';
+}
+
+#Live{
+
+}
+#Live .day{
+	height: 44px;
+	background: #f2f2f2;
+	font-size: 24px; line-height: 44px;	text-align: center; color: #666;
+	position: sticky; position: -webkit-sticky; top: 168px; z-index: 2;
+}
+#Live a{
+	height: 120px;
+	padding-right: 72px;
+	background: url(../img/icon_right.png) no-repeat right center #fff; background-size: 60px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+#Live a + a{
+	border-top: 1px solid #dcdcdc;
+}
+#Live a p{
+	height: 120px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+#Live a p.time{
+	width: 120px;
+	padding-top: 60px;
+	background: url(../img/icon_time_n.png) no-repeat center 20px; background-size: 32px;
+	font-size: 28px; line-height: 40px; text-align: center; color: #6a6464;
+}
+#Live a p.match{
+	padding-left: 32px;
+	font-size: 32px; line-height: 120px; text-align: left; color: #4f4f4f; font-weight: 600;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Live a p.match span{
+	padding: 0 12px;
+	color: #9e9e9e; font-weight: normal;
+}
+#Live a.live:after{
+	width: 100px; height: 40px;
+	border-radius: 6px;
+	background: #cf4c4c;
+	font-size: 	22px; line-height: 40px; text-align: center; color: #fff;
+	display: block;
+	content: '直播中';
+}
+
+#News{
+	background: #fff;
+}
+#News a.li{
+	height: 132px;
+	padding: 20px 24px ;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#News a.li + a.li:before{
+	height: 1px;
+	background: #e0e3ea;
+	position: absolute; top: 0; left: 24px; right: 0;
+	content: '';
+}
+
+#News a.li .imgbox{
+	height: 132px; width: 240px;
+	margin-left: 40px;
+	float: right;
+}
+#News a.li h6{
+	height: 84px;
+	margin-bottom: 18px;
+	font-size: 30px; line-height: 42px; text-align: left; color: #494949;
+	display: block;
+	overflow: hidden;
+}
+#News a.li p.info{
+	height: 30px;
+	font-size: 22px; line-height: 30px; text-align: left; color: #a7a1a1;
+	overflow: hidden;
+}
+
+#Recording{
+	padding: 0 12px 20px;
+	background: #fff;
+	font-size: 0;
+}
+#Recording .day{
+	height: 44px;
+	margin: 0 -12px 20px;
+	background: #f2f2f2;
+	font-size: 24px; line-height: 44px;	text-align: center; color: #666;
+	position: sticky; position: -webkit-sticky; top: 168px; z-index: 2;
+}
+#Recording .item{
+	width: 50%;
+	margin-bottom: 20px; padding: 0 12px;
+	box-sizing: border-box;
+	display: inline-block;
+}
+#Recording .item a{
+	height: 80px;
+	padding-top: 200px;
+	border-radius: 8px;
+	box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.1);
+	font-size: 28px; line-height: 80px; text-align: center; color: #4f4f4f;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Recording .item a span{
+	height: 200px;
+	position: absolute; top: 0; left: -100px; right: -100px;
+	overflow: hidden;
+}
+#Recording .item a span img{
+	min-height: 200px; min-width: 70%;
+	margin: 0 auto;
+	display: block;
+}
+
+#Rank{
+	padding-top: 60px;
+	background: #fff;
+}
+#Rank .title{
+	height: 60px;
+	border-bottom: 1px solid #e0e3ea;
+	background: #fff;
+	position: fixed; top: 168px; left: 0; right: 0; z-index: 10;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Rank .title p{
+	font-size: 26px; line-height: 60px; text-align: center; color: #7e7e7e;
+}
+#Rank p.rank{
+	width: 90px;
+}
+#Rank p.team{
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Rank p.wdl{
+	width: 160px;
+}
+#Rank p.gl{
+	width: 140px;
+}
+#Rank p.score{
+	width: 120px;
+}
+#Rank .list{
+	height: 100px;
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Rank .list + .list:before{
+	height: 1px;
+	background: #e0e3ea;
+	position: absolute; top: 0; left: 24px; right: 0;
+	content: '';
+}
+#Rank .list p.rank{
+	font-size: 36px; line-height: 100px; text-align: center; color: #4f4f4f;
+}
+#Rank .list:nth-child(1) p.rank, #Rank .list:nth-child(2) p.rank, #Rank .list:nth-child(3) p.rank, #Rank .list:nth-child(4) p.rank{
+	font-size: 48px; color: #4492fd;
+}
+#Rank .list p.team{
+	font-size: 30px; line-height: 42px; text-align: left; color: #494949; font-weight: 600;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+#Rank .list p.wdl, #Rank .list p.gl, #Rank .list p.score{
+	font-size: 28px; line-height: 100px; text-align: center; color: #494949;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

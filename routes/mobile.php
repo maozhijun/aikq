@@ -89,3 +89,12 @@ Route::group(["namespace" => 'Article'], function () {
     //Route::get("/news/index.html", "ArticleController@articles");//文章列表
     //Route::get("/news/{type}/{date}/{id}.html", "ArticleController@detail");//比赛比分数据
 });
+
+/**
+ * 赛事专题
+ */
+Route::group(["namespace" => 'Subject'], function () {
+    foreach (\App\Http\Controllers\Controller::SUBJECT_NAME_IDS as $name=>$id) {
+        Route::get("/$name/", "SubjectController@detail");//专题页
+    }
+});
