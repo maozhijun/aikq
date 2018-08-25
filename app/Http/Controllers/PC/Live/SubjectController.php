@@ -182,8 +182,6 @@ class SubjectController extends Controller
         } catch (\Exception $exception) {
             $server_output = "";
         }
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
         $subjects = json_decode($server_output, true);
         $subjects = isset($subjects) ? $subjects : [];
         return $subjects;
