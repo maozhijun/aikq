@@ -17,7 +17,7 @@ class Team extends Model
     }
 
     public static function getIcon($icon) {
-        return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/icon_team_default.png');
+        return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/pc/icon_teamDefault.png');
     }
 
     public static function getLgIcon($lgIcon) {
@@ -28,7 +28,7 @@ class Team extends Model
     public static function getIconById($tid) {
         $team = self::query()->find($tid);
         $icon = isset($team) ? $team->icon : "";
-        return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/icon_team_default.png');
+        return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/pc/icon_teamDefault.png');
     }
 
     /**
