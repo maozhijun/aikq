@@ -100,3 +100,9 @@ Route::group(['middleware' => ['web']], function () {//, 'wx_auth', 'wx_base'   
     });
 });
 Route::get('/act/transfer/rank.html', "TransferController@rank");
+
+//直播数量调用接口
+Route::group([], function () {
+    Route::get("/aik/lives_count/mid/{sport}/{mid}", "MatchLiveCountController@matchLiveCountById");
+    Route::get("/aik/lives_count/date/{sport}", "MatchLiveCountController@matchLiveCountByDate");
+});
