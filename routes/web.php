@@ -102,4 +102,5 @@ Route::group(['middleware' => ['web']], function () {//, 'wx_auth', 'wx_base'   
 Route::get('/act/transfer/rank.html', "TransferController@rank");
 
 
-Route::get('/shop/match/lives', "ShopController@shopLives");//shop接口
+//Route::get('/shop/match/lives', "ShopController@shopLives");//shop接口
+Route::get('/json/shop/lives.json', "ShopController@shopLives");//shop接口
