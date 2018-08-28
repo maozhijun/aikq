@@ -85,15 +85,15 @@ class Controller extends BaseController
     }
 
     public static function getLiveUrl($lid,$sport,$id){
-        $lid = ''.$lid;
+        $lid = $lid;
         $str = 'other';
         if ($sport == 1){
-            if (in_array($lid,Match::path_league_football_arrays)){
+            if (array_key_exists($lid,Match::path_league_football_arrays)){
                 $str = Match::path_league_football_arrays[$lid];
             }
         }
         elseif($sport == 2){
-            if (in_array($lid,Match::path_league_basketball_arrays)){
+            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
                 $str = Match::path_league_basketball_arrays[$lid];
             }
         }
