@@ -384,7 +384,9 @@ class LiveController extends Controller
         } else {
             return abort(404);
         }
+        $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
+        $json['live']['channels'] = $channels;
         return view('pc.live.video', $json);
     }
 

@@ -47,13 +47,13 @@
 @section('bottom')
     <dl id="Bottom">
         <dd>
-            <a href="/m/lives.html">
+            <a href="/">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_live_n.png">
                 <p>直播</p>
             </a>
         </dd>
         <dd class="">
-            <a href="/m/anchor/index.html">
+            <a href="/anchor">
                 <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_anchor_n.png">
                 <p>主播</p>
             </a>
@@ -80,22 +80,22 @@
         function changeTab(tab) {
             switch (tab){
                 case 'all':
-                    window.location.replace('/m');
+                    window.location.replace('/');
                     break;
                 case 'football':
-                    window.location.replace('/m/football.html');
+                    window.location.replace('/football.html');
                     break;
                 case 'basketball':
-                    window.location.replace('/m/basketball.html');
+                    window.location.replace('/basketball.html');
                     break;
                 case 'other':
-                    window.location.replace('/m/other.html');
+                    window.location.replace('/other.html');
                     break;
                 case 'live':
-                    window.location.replace('/m/index.html');
+                    window.location.replace('/');
                     break;
                 case 'video':
-                    window.location.replace('/m/live/subject/videos/all/1.html');
+                    window.location.replace('/live/subject/videos/all/1.html');
                     break;
             }
         }

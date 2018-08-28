@@ -29,7 +29,7 @@
                 }
                 ?>
                 @if($match['sport'] == 3)
-                    <a href="/m/live/other/{{$match['mid']}}.html">
+                    <a href="/live/other/{{$match['mid']}}.html">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
                             <p class="other" {!! $impt_style !!} >{{$match['hname']}}</p>
@@ -41,7 +41,7 @@
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
-                    <a href="{{'/m/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'}}">
+                    <a href="{{'/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         <p class="team host" {!! $impt_style !!}>{{$match['hname']}}</p>
                         <p class="vs" {!! $impt_style !!} >VS</p>

@@ -9,12 +9,14 @@
 namespace App\Console;
 
 
+use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\Live\LiveController;
 use App\Http\Controllers\PC\RecommendsController;
 use App\Http\Controllers\PC\TaskController;
 use App\Http\Controllers\PC\TopicController;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LivesJsonCommand extends Command
 {
@@ -50,5 +52,12 @@ class LivesJsonCommand extends Command
     {
         $home = new LiveController();
         $home->allLiveJsonStatic(new Request());
+
+
+        //wap json 静态化
+        $aiCon = new AikanQController();
+        $jsonObj = $aiCon->livesJson(new Request(), true)->getData();
+        $server_output = json_encode($jsonObj);
+        Storage::disk("public")->put("/m/json/lives.json", $server_output);
     }
 }

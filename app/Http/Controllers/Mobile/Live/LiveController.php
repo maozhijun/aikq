@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Mobile\Live;
 
 use App\Http\Controllers\IntF\AikanQController;
+use App\Models\LgMatch\Match;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -306,12 +307,61 @@ class LiveController extends Controller
         $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
         $jsonStr = json_encode($jsonStr);
         $json = json_decode($jsonStr, true);
-        $json['detail_url'] = '/m/live/football/' . $id . '.html';
+        $colum = 'other';
+        $sport = 1;
+        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
         return view('mobile.live.detail', $json);
     }
 
+    /**
+     * 直播终端 新m站静态化的时候修改,中间增加时间返回,这里这样做比较好
+     * @param Request $request
+     * @param $id
+     * @param bool $immediate 是否即时获取数据
+     * @return array
+     */
+    public function footballdetailv2(Request $request, $id, $immediate = false) {
+        $akqCon = new AikanQController();
+        $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
+        $jsonStr = json_encode($jsonStr);
+        $json = json_decode($jsonStr, true);
+        $colum = 'other';
+        $sport = 1;
+        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2).'/'.substr($id,2,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        return array('html'=>view('mobile.live.detail', $json),'path'=>'/'.$colum.'/live/'.$sport.'/'.$date.'/'. $id . '.html');
+    }
+
     public function footballDetailHtml($json, $id) {
-        $json['detail_url'] = '/m/live/football/' . $id . '.html';
+        $colum = 'other';
+        $sport = 1;
+        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
         return view('mobile.live.detail', $json);
     }
 
@@ -335,12 +385,69 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
-        $json['detail_url'] = '/m/live/basketball/' . $id . '.html';
+        $colum = 'other';
+        $sport = 2;
+        if (in_array($json['match']['lid'],Match::path_league_basketball_arrays)){
+            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
         return view('mobile.live.detail', $json);
     }
 
+    /**
+     * 直播终端
+     * @param Request $request
+     * @param $id
+     * @param bool $immediate 是否即时获取数据
+     * @return array
+     */
+    public function basketballDetailv2(Request $request, $id, $immediate = false) {
+        $ch = curl_init();
+        if ($immediate) {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id?isMobile=1";
+        } else {
+            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$id" . '.json';
+        }
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        $colum = 'other';
+        $sport = 2;
+        if (in_array($json['match']['lid'],Match::path_league_basketball_arrays)){
+            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2).'/'.substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        return array('html'=>view('mobile.live.detail', $json),'path'=>'/'.$colum.'/live/'.$sport.'/'.$date.'/'. $id . '.html');
+    }
+
     public function basketballDetailHtml($json, $id) {
-        $json['detail_url'] = '/m/live/basketball/' . $id . '.html';
+        $colum = 'other';
+        $sport = 2;
+        if (in_array($json['match']['lid'],Match::path_league_basketball_arrays)){
+            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
         return view('mobile.live.detail', $json);
     }
 
@@ -359,12 +466,42 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
-        $json['detail_url'] = '/m/live/other/' . $id . '.html';
+        $colum = 'other';
+        $sport = 3;
+        $date = substr($id,0,2);
+        $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         return view('mobile.live.detail', $json);
     }
 
+    /**
+     * 自建赛事直播终端
+     * @param Request $request
+     * @param $id
+     * @return array
+     */
+    public function otherDetailv2(Request $request, $id) {
+        $ch = curl_init();
+        $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id?isMobile=1";
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,6);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $json = json_decode($server_output,true);
+        $colum = 'other';
+        $sport = 3;
+        $date = substr($id,0,2).'/'.substr($id,2,2);
+        $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        return array(
+            'html'=>view('mobile.live.detail', $json),
+            'path'=>'/'.$colum.'/live/'.$sport.'/'.$date.'/'. $id . '.html');
+    }
+
     public function otherDetailHtml($json, $id) {
-        $json['detail_url'] = '/m/live/other/' . $id . '.html';
+        $colum = 'other';
+        $sport = 3;
+        $date = substr($id,0,2);
+        $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         return view('mobile.live.detail', $json);
     }
 
@@ -727,7 +864,14 @@ class LiveController extends Controller
             foreach ($matches as $time=>$match_array) {
                 foreach ($match_array as $match) {
                     $html = $this->footballdetail($request, $match['mid']);
-                    Storage::disk("public")->put("/static/m/live/football/" . $match['mid'] . ".html", $html);
+                    $colum = 'other';
+                    $sport = 1;
+                    if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
+                        $colum = Match::path_league_football_arrays[$json['match']['lid']];
+                    }
+                    $date = substr($match['mid'],0,2).'/'.substr($match['mid'],2,2);
+                    $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $match['mid'] . '.html';
+                    Storage::disk("public")->put($path, $html);
                 }
             }
         }
@@ -739,7 +883,14 @@ class LiveController extends Controller
             foreach ($matches as $time=>$match_array) {
                 foreach ($match_array as $match) {
                     $html = $this->basketballDetail($request, $match['mid']);
-                    Storage::disk("public")->put("/static/m/live/basketball/" . $match['mid'] . ".html", $html);
+                    $colum = 'other';
+                    $sport = 2;
+                    if (in_array($json['match']['lid'],Match::path_league_basketball_arrays)){
+                        $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+                    }
+                    $date = substr($match['mid'],0,2).'/'.substr($match['mid'],2,2);
+                    $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $match['mid'] . '.html';
+                    Storage::disk("public")->put($path, $html);
                 }
             }
         }
@@ -754,14 +905,20 @@ class LiveController extends Controller
     public function liveDetailStatic(Request $request, $mid, $sport) {
         if (is_numeric($mid) && is_numeric($sport) && in_array($sport, [1, 2, 3])) {
             if ($sport == 1) {
-                $html = $this->footballdetail($request, $mid, true);
-                Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
+                $result = $this->footballdetailv2($request, $mid, true);
+                $html = $result['html'];
+                $path = $result['path'];
+                Storage::disk("public")->put("/m" . $path, $html);
             } else if ($sport == 2) {
-                $html = $this->basketballDetail($request, $mid, true);
-                Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
+                $result = $this->basketballDetailv2($request, $mid, true);
+                $html = $result['html'];
+                $path = $result['path'];
+                Storage::disk("public")->put("/m" . $path, $html);
             } else if ($sport == 3) {
-                $html = $this->otherDetail($request, $mid);
-                Storage::disk("public")->put("/static/m/live/other/" . $mid . ".html", $html);
+                $result = $this->otherDetailv2($request, $mid);
+                $html = $result['html'];
+                $path = $result['path'];
+                Storage::disk("public")->put("/m" . $path, $html);
             }
         }
     }
@@ -769,16 +926,33 @@ class LiveController extends Controller
     public function liveDetailStaticObj($json, $sport, $mid) {
         if ($sport == 1) {
             $html = $this->footballDetailHtml($json, $mid);
-            if (!empty($html))
-                Storage::disk("public")->put("/static/m/live/football/" . $mid . ".html", $html);
+            if (!empty($html)) {
+                $colum = 'other';
+                if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
+                    $colum = Match::path_league_football_arrays[$json['match']['lid']];
+                }
+                $date = substr($json['match']['mid'],0,2).'/'.substr($json['match']['mid'],2,2);
+                $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $json['match']['mid'] . '.html';
+                Storage::disk("public")->put($path, $html);
+            }
         } else if ($sport == 2) {
             $html = $this->basketballDetailHtml($json, $mid);
-            if (!empty($html))
-                Storage::disk("public")->put("/static/m/live/basketball/" . $mid . ".html", $html);
+            if (!empty($html)) {
+                $colum = 'other';
+                if (in_array($json['match']['lid'],Match::path_league_basketball_arrays)){
+                    $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+                }
+                $date = substr($json['match']['mid'],0,2).'/'.substr($json['match']['mid'],2,2);
+                $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $json['match']['mid'] . '.html';
+                Storage::disk("public")->put($path, $html);
+            }
         } else if ($sport == 3) {
             $html = $this->otherDetailHtml($json, $mid);
             if (!empty($html)) {
-                Storage::disk("public")->put("/static/m/live/other/" . $mid . ".html", $html);
+                $colum = 'other';
+                $date = substr($json['match']['mid'],0,2).'/'.substr($json['match']['mid'],2,2);
+                $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $json['match']['id'] . '.html';
+                Storage::disk("public")->put($path, $html);
             }
         }
     }
@@ -799,7 +973,7 @@ class LiveController extends Controller
             foreach ($matches as $time=>$match_array) {
                 foreach ($match_array as $match) {
                     $mid = $match['mid'];
-                    $date = date('Ymd', strtotime($match['time']));
+                    $date = substr($match['mid'],0,2);
                     $json = $this->roll($request, $date, $mid, true);
                     if (isset($json)) {
                         Storage::disk("public")->put("/static/m/lives/roll/" . $date . "/" . $match['mid'] . ".html", json_encode($json));
@@ -820,7 +994,7 @@ class LiveController extends Controller
             foreach ($matches as $time=>$match_array) {
                 foreach ($match_array as $match) {
                     $mid = $match['mid'];
-                    $date = date('Ymd', strtotime($match['time']));
+                    $date = substr($match['mid'],0,2);
                     $html = $this->match_data($request, $date, $mid, true);
                     Storage::disk("public")->put("/static/m/data/" . $date . "/" . $match['mid'] . ".html", $html);
                 }
@@ -852,7 +1026,7 @@ class LiveController extends Controller
             foreach ($matches as $time=>$match_array) {
                 foreach ($match_array as $match) {
                     $mid = $match['mid'];
-                    $date = date('Ymd', strtotime($match['time']));
+                    $date = substr($mid,0,2);
                     $html = $this->matchTip($request, $date, $mid, true);
                     Storage::disk("public")->put("/static/m/lives/tip/" . $date . "/" . $match['mid'] . ".html", json_encode($html));
                 }

@@ -11,6 +11,7 @@ use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlePageCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
+use App\Console\Shop\ShopLiveCommand;
 use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
 //use App\Console\Subject\CoverCommand;
@@ -90,6 +91,8 @@ class Kernel extends ConsoleKernel
 
         SpiderTTZBCommand::class,//抓取天天直播的源
         NotFoundCommand::class,//404页面
+
+        ShopLiveCommand::class,//shop 安卓app直播页面
     ];
 
     /**
@@ -160,6 +163,9 @@ class Kernel extends ConsoleKernel
         $schedule->command("article_cache:run")->everyTenMinutes();
 
         $schedule->command('spider_ttzb:run')->hourlyAt(10);
+
+        //shop接口
+        $schedule->command('shop_living_json:run')->everyMinute();
     }
 
     /**

@@ -182,8 +182,6 @@ class SubjectController extends Controller
         } catch (\Exception $exception) {
             $server_output = "";
         }
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
         $subjects = json_decode($server_output, true);
         $subjects = isset($subjects) ? $subjects : [];
         return $subjects;
@@ -293,11 +291,12 @@ class SubjectController extends Controller
      * 静态化专题终端页
      * @param Request $request
      * @param $slid
+     * @param $name_en 专题的英文名称
      */
-    public function staticSubjectHtml(Request $request, $slid) {
+    public function staticSubjectHtml(Request $request, $slid, $name_en) {
         $html = $this->detail($request, $slid);
         if (!empty($html)) {
-            Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
+            Storage::disk("public")->put("/www/".$name_en."/index.html", $html);
         }
     }
 
