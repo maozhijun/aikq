@@ -1,16 +1,36 @@
 @extends('mobile.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201804">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201808281657">
     <style>#Navigation { background: #4492fd;}</style>
 @endsection
 @section('banner')
     <div id="Navigation">
         <h1>JRS低调看爱看球直播</h1>
-        <div class="banner"><img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png"></div>
+        <div class="banner">
+            <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">
+            <div class="league"></div>
+        </div>
     </div>
 @endsection
 @section('content')
-    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
+    <div class="publicAd">
+        <a href="http://mp.dlfyb.com/downloadPhone.html">
+            <img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg">
+        </a>
+    </div>
+    <?php
+        $subjects = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS;
+    ?>
+    @if(isset($subjects) && count($subjects) > 0)
+        <div id="League" class="hidden">
+            <div class="in">
+                <div class="title">专题分类</div>
+                @foreach($subjects as $name=>$data)
+                    <p class="item"><a href="/{{$name}}">{{$data['name']}}</a></p>
+                @endforeach
+            </div>
+        </div>
+    @endif
     @foreach($matches as $time=>$match_array)
         <?php
         $week = date('w', strtotime($time));
@@ -29,7 +49,10 @@
                 }
                 ?>
                 @if($match['sport'] == 3)
-                    <a href="/live/other/{{$match['mid']}}.html">
+                    <?php
+                        $url = \App\Http\Controllers\Controller::getLiveUrl($match['lid'],3,$match['mid']);
+                        ?>
+                    <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
                             <p class="other" {!! $impt_style !!} >{{$match['hname']}}</p>
@@ -41,7 +64,10 @@
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
-                    <a href="{{'/live/'.($match['sport'] == 1 ? 'football':'basketball').'/' . $match['mid'].'.html'}}">
+                    <?php
+                        $url = \App\Http\Controllers\Controller::getLiveUrl($match['lid'],$match['sport'],$match['mid']);
+                        ?>
+                    <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         <p class="team host" {!! $impt_style !!}>{{$match['hname']}}</p>
                         <p class="vs" {!! $impt_style !!} >VS</p>
@@ -57,4 +83,13 @@
 @endsection
 @section('bottom')
     @component("mobile.layout.bottom_cell", ["cur"=>'live']) @endcomponent
+@endsection
+@section('js')
+    <script type="text/javascript">
+        window.onload = function () {
+            $('#Navigation .league').click(function(){
+                $('#League').attr('class',function(){return $(this).hasClass('hidden') ? '' : 'hidden'});
+            })
+        }
+    </script>
 @endsection
