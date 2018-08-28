@@ -14,8 +14,8 @@ class HomeController extends Controller
                 'code'=>0,
                 'data'=>[
                     'more'=>'https://shop.liaogou168.com',
-                    'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
-                    'weixin'=>'kanqiu858',
+                    'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
+                    'weixin'=>'kanqiu868',
                     'ios_version'=>'1.2.0',
                     'android_version'=>'1.2.0',
                     'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
@@ -41,8 +41,8 @@ class HomeController extends Controller
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://mp.dlfyb.com',
-                'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
-                'weixin'=>'kanqiu858',
+                'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
+                'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
                 'android_version'=>'1.2.0',
                 'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
@@ -59,8 +59,8 @@ class HomeController extends Controller
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://mp.dlfyb.com',
-                'icon'=>'http://www.aikq.cc/m/dd_image/cd/GWS2AyyNLzVDstUJ.jpeg',
-                'weixin'=>'kanqiu858',
+                'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
+                'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
                 'android_version'=>'1.2.0',
                 'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',

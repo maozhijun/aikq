@@ -34,10 +34,10 @@
             @endforeach
         </div>
         <iframe id="Frame" src=""></iframe>
-        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
+        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></div>
     </div>
     <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg">
+        <img src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg">
         <p>扫二维码进入群</p>
     </div>
 @endsection

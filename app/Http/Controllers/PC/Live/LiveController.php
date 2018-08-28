@@ -1440,7 +1440,7 @@ class LiveController extends Controller
         $d_file = empty($d_file) ? $default_img : str_replace('public/static', '', $d_file);
         $z_file = empty($z_file) ? $default_img : str_replace('public/static', '', $z_file);
         $w_file = empty($w_file) ? $default_img : str_replace('public/static', '', $w_file);
-        $cd_file = empty($cd_file) ? '/img/pc/code.jpg' : str_replace('public/static', '', $cd_file);
+        $cd_file = empty($cd_file) ? '/img/pc/image_qr_868.jpg' : str_replace('public/static', '', $cd_file);
 
         $r_code = Redis::get(self::LIVE_HD_CODE_KEY);
         $json = ['l'=>$l_file, 'd'=>$d_file, 'z'=>$z_file, 'w'=>$w_file, 'code'=>$r_code, 'cd'=>$cd_file];

@@ -2,7 +2,7 @@ var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
-var cd = '/img/pc/code.jpg', cd_name = 'fs188fs', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
+var cd = '/img/pc/image_qr_868.jpg', cd_name = 'image_qr_868', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
 var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
@@ -482,7 +482,7 @@ function PlayVideoSubject (cid, type){
                 //CloseLoading();
                 var show_live = true;
                 if (isPhone && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu868</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
