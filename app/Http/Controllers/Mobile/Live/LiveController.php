@@ -309,8 +309,8 @@ class LiveController extends Controller
         $json = json_decode($jsonStr, true);
         $colum = 'other';
         $sport = 1;
-        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
-            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        if (in_array(''.$json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[''.$json['match']['lid']];
         }
         $date = substr($id,0,2);
         if ($colum == 'other'){
@@ -336,8 +336,8 @@ class LiveController extends Controller
         $json = json_decode($jsonStr, true);
         $colum = 'other';
         $sport = 1;
-        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
-            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        if (in_array(''.$json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[''.$json['match']['lid']];
         }
         $date = substr($id,0,2).'/'.substr($id,2,2);
         if ($colum == 'other'){
@@ -352,8 +352,8 @@ class LiveController extends Controller
     public function footballDetailHtml($json, $id) {
         $colum = 'other';
         $sport = 1;
-        if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
-            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        if (in_array(''.$json['match']['lid'],Match::path_league_football_arrays)){
+            $colum = Match::path_league_football_arrays[''.$json['match']['lid']];
         }
         $date = substr($id,0,2);
         if ($colum == 'other'){
@@ -866,8 +866,8 @@ class LiveController extends Controller
                     $html = $this->footballdetail($request, $match['mid']);
                     $colum = 'other';
                     $sport = 1;
-                    if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
-                        $colum = Match::path_league_football_arrays[$json['match']['lid']];
+                    if (in_array(''.$json['match']['lid'],Match::path_league_football_arrays)){
+                        $colum = Match::path_league_football_arrays[''.$json['match']['lid']];
                     }
                     $date = substr($match['mid'],0,2).'/'.substr($match['mid'],2,2);
                     $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $match['mid'] . '.html';
@@ -928,8 +928,8 @@ class LiveController extends Controller
             $html = $this->footballDetailHtml($json, $mid);
             if (!empty($html)) {
                 $colum = 'other';
-                if (in_array($json['match']['lid'],Match::path_league_football_arrays)){
-                    $colum = Match::path_league_football_arrays[$json['match']['lid']];
+                if (in_array(''.$json['match']['lid'],Match::path_league_football_arrays)){
+                    $colum = Match::path_league_football_arrays[''.$json['match']['lid']];
                 }
                 $date = substr($json['match']['mid'],0,2).'/'.substr($json['match']['mid'],2,2);
                 $path = '/m/'.$colum.'/live/'.$sport.'/'.$date.'/'. $json['match']['mid'] . '.html';

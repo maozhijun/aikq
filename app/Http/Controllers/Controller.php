@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LgMatch\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Redis;
@@ -82,4 +83,19 @@ class Controller extends BaseController
         return $server_out;
     }
 
+    public static function getLiveUrl($lid,$sport,$id){
+        $lid = ''.$lid;
+        $str = 'other';
+        if ($sport == 1){
+            if (in_array($lid,Match::path_league_football_arrays)){
+                $str = Match::path_league_football_arrays[$lid];
+            }
+        }
+        elseif($sport == 2){
+            if (in_array($lid,Match::path_league_basketball_arrays)){
+                $str = Match::path_league_basketball_arrays[$lid];
+            }
+        }
+        return '/'.$str.'/'.'live'.$sport.$id.'.html';
+    }
 }
