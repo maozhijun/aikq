@@ -19,18 +19,14 @@
         </a>
     </div>
     <?php
-    if (!isset($subjects))
-        $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $subjects = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS;
     ?>
     @if(isset($subjects) && count($subjects) > 0)
         <div id="League" class="hidden">
             <div class="in">
                 <div class="title">专题分类</div>
-                @foreach($subjects as $id=>$s_name)
-                    <?php
-                    $str = array_search($id,\App\Http\Controllers\Controller::SUBJECT_NAME_IDS);
-                    ?>
-                    <p class="item"><a href="/{{$str}}">{{$s_name}}</a></p>
+                @foreach($subjects as $name=>$data)
+                    <p class="item"><a href="/{{$name}}">{{$data['name']}}</a></p>
                 @endforeach
             </div>
         </div>
