@@ -1,0 +1,218 @@
+﻿
+body{
+	padding-top: 0;
+	background: #fff;
+}
+h1{
+	width: 0; height: 0;
+	position: absolute; top: 0; left: 0;
+	overflow: hidden;
+}
+
+mip-img.bg{
+	width: 100%;
+	position: relative; z-index: -1;
+	display: block;
+}
+mip-img.bg img{
+	position: relative !important;
+}
+
+.downbox{
+	position: absolute; top: 160px; left: 0; right: 0;
+}
+.down{
+	width: 160px; height: 55px;
+	margin: 0 auto 22px; padding-left: 32px;
+	border-radius: 28px;
+	font-size: 18px; line-height: 55px; text-align: center; color: #fff !important;
+	box-sizing: border-box;
+	display: block;
+	/*position: fixed; bottom: 19.2%; left: 0; right: 0;*/
+}
+
+a#Android{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/icon_android_n.png) no-repeat 30px center rgba(255,255,255,0.3); background-size: 24px;
+}
+a#iOS{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/icon_ios_n.png) no-repeat 30px center rgba(255,255,255,0.3); background-size: 24px;
+}
+
+p.warm{
+	padding-top: 10px;
+	font-size: 14px; line-height: 20px; text-align: center; color: #2b548a;
+}
+
+/*.ios, .copy{
+	margin-top: 60px;
+	font-size: 28px; line-height: 40px; text-align: center; color: #9e9e9e;
+	display: inline-block;
+}
+.copy{
+	margin-top: 30px;
+}
+#Copy{
+	height: 0; width: 0;
+	position: absolute; left: 0; right: 0;
+	overflow: hidden;
+}*/
+
+#Teach{
+	margin-top: -5px; padding: 0 15px 50px;
+}
+#Teach .title{
+	height: 36px;
+	margin-top: 30px;
+	font-size: 20px; line-height: 36px; color: #443f3f; font-weight: bold;
+	position: relative;
+}
+#Teach .title:after{
+	height: 1px; width: 130px;
+	background: #c4d3ed;
+	position: absolute; top: 20px; right: 0; z-index: 0;
+	content: '';
+}
+#Teach .title p{
+	height: 36px; min-width: 62%;
+	padding-right: 56px;
+	background: #fff;
+	position: relative; z-index: 1;
+	box-sizing: border-box;
+	display: inline-block;
+}
+#Teach .title p:after{
+	width: 25px; height: 1px;
+	background: #e4ebf8;
+	position: absolute; top: 20px; right: 10px;
+	content: '';
+}
+#Teach .title span.b{
+	font-size: 32px; color: #5780d5;
+}
+#Teach .title span.s{
+	font-size: 32px; color: #95a5c5;
+}
+#Teach .content{
+	padding-top: 10px;
+	font-size: 16px; line-height: 24px; color: #959595;
+}
+#Teach .content.sort{
+	padding-left: 45px;
+	color: #6a6464;
+}
+
+
+
+#Step{
+	background: rgba(0,0,0,0.7);
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 10;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+#Step .inner{
+	margin: 0 12px; padding: 10px 10px 0;
+	background: #fff;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Step .inner:before{
+	font-size: 16px; line-height: 30px; text-align: center; color: #fff;
+	position: absolute; top: -30px; left: 30px; right: 30px;
+	content: '请根据以下步骤进行操作';
+}
+#Step .inner button.close{
+	width: 30px; height: 30px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/icon_delete.png) no-repeat center; background-size: 30px;
+	position: absolute; top: -30px; right: 0;
+}
+#Step .inner .imgbox{
+	position: relative;
+	overflow: hidden;
+}
+#Step .inner .imgbox img{
+	width: 100%;
+	position: absolute; top: 0; left: 0;
+	display: block;
+	transform: translateX(100%); -ms-transform: translateX(100%);	-webkit-transform: translateX(100%); -o-transform: translateX(100%); -moz-transform: translateX(100%);
+	transition: transform 0.5s; -moz-transition: transform 0.5s; -webkit-transition: transform 0.5s; -o-transition: transform 0.5s;
+}
+#Step .inner .imgbox img.bg{
+	opacity: 0;
+	position: relative; z-index: -1;
+}
+#Step .inner .imgbox .text{
+	padding: 3px 10px;
+	background: rgba(0,0,0,0.3);
+	position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+}
+#Step .inner .imgbox .text p{
+	font-size: 14px; line-height: 20px; text-align: center; color: #fff;
+	display: none;
+}
+
+#Step .inner .step{
+	height: 8px;
+	padding: 16px 0;
+	text-align: center;
+}
+#Step .inner .step p{
+	width: 8px; height: 8px;
+	border-radius: 50%;
+	background: #d2d2d2;
+	display: inline-block;
+}
+#Step .inner .step p + p{
+	margin-left: 10px;
+}
+
+#Step .inner .imgbox img.on{
+	transform: translateX(0); -ms-transform: translateX(0);	-webkit-transform: translateX(0); -o-transform: translateX(0); -moz-transform: translateX(0);
+}
+
+#Step .inner .imgbox img.before{
+	transform: translateX(-100%); -ms-transform: translateX(-100%);	-webkit-transform: translateX(-100%); -o-transform: translateX(-100%); -moz-transform: translateX(-100%);
+}
+
+#Step .inner .imgbox .text p.on{
+	display: block;
+}
+
+#Step .inner .step p.on{
+	background: #4492fd;
+}
+
+#Share{
+	background: rgba(0,0,0,0.7);
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10;
+}
+#Share:before{
+	width: 68px; height: 68px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/image_guide_n.png) no-repeat center; background-size: 68px;
+	position: absolute; top: 15px; right: 46px;
+	content: '';
+}
+#Share p{
+	height: 40px;
+	padding: 0 12px;
+	border: 1px dashed #fff; border-radius: 4px;
+	font-size: 16px; line-height: 40px; text-align: center; color: #fff;
+	position: absolute; top: 100px; right: 50px;
+}
+#Share p span{
+	padding: 0 4px;
+	font-size: 20px;
+}
+#Share button{
+	width: 112px; height: 60px;
+	margin-left: -56px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/image_isee_n.png) no-repeat center; background-size: cover;
+	position: absolute; bottom: 14%; left: 50%;
+}
+
+@media screen and (min-width: 1000px){
+	.downbox{
+		position: absolute; top: 200px; left: 0; right: 0;
+	}
+}
+
+

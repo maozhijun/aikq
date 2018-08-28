@@ -39,6 +39,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapMipRoutes();
+
         $this->mapAdminRoutes();
 
         $this->mapIntFRoutes();
@@ -72,6 +74,20 @@ class RouteServiceProvider extends ServiceProvider
             ->prefix('db')
             ->namespace($this->namespace . '\DB')
             ->group(base_path('routes/web.php'));
+    }
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMipRoutes()
+    {
+        Route::middleware('web')
+            ->prefix('mip')
+            ->namespace($this->namespace . '\Mip')
+            ->group(base_path('routes/mip.php'));
     }
 
     /**

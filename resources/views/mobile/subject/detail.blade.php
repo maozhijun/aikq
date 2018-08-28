@@ -53,23 +53,48 @@
         @endif
     </div>
     <div id="Rank" style="display: none;">
-        <div class="title">
-            <p class="rank">排名</p>
-            <p class="team">球队</p>
-            <p class="wdl">胜/平/负</p>
-            <p class="gl">得/失</p>
-            <p class="score">积分</p>
-        </div>
         @if(isset($ranks) && count($ranks) > 0)
-            @foreach($ranks as $rank)
-                <div class="list">
-                    <p class="rank">{{$rank['rank']}}</p>
-                    <p class="team">{{$rank['name']}}</p>
-                    <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
-                    <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
-                    <p class="score">{{$rank['score']}}</p>
+            <div class="in">
+                @if(array_key_exists(0, $ranks))
+                    <div class="title">
+                        <p class="rank">排名</p>
+                        <p class="team">球队</p>
+                        <p class="wdl">胜/平/负</p>
+                        <p class="gl">得/失</p>
+                        <p class="score">积分</p>
+                    </div>
+                    @foreach($ranks as $key=>$rank)
+                        <div class="list">
+                            <p class="rank">{{$key+1}}</p>
+                            <p class="team">{{$rank['name']}}</p>
+                            <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
+                            <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
+                            <p class="score">{{$rank['score']}}</p>
+                        </div>
+                    @endforeach
+            </div>
+        @else
+            @foreach($ranks as $group=>$groupRanks)
+                <div class="in">
+                    <div class="title">
+                        <p class="rank">{{$group}}组</p>
+                        <p class="team">球队</p>
+                        <p class="wdl">胜/平/负</p>
+                        <p class="gl">得/失</p>
+                        <p class="score">积分</p>
+                    </div>
+                    @foreach($groupRanks as $key=>$rank)
+                        <div class="list">
+                            <p class="rank">{{$key+1}}</p>
+                            <p class="team">{{$rank['name']}}</p>
+                            <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
+                            <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
+                            <p class="score">{{$rank['score']}}</p>
+                        </div>
+                    @endforeach
                 </div>
             @endforeach
+        @endif
         @endif
     </div>
 @stop
