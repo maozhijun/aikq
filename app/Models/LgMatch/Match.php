@@ -16,6 +16,27 @@ class Match extends Model
     const k_genre_jingcai = 8;//竞彩
     const k_genre_beijing = 16;//北京单场
 
+    const path_league_football_arrays = [
+        '46'=>'zhongchao',
+        '31'=>'yingchao',
+        '26'=>'xijia',
+        '29'=>'yijia',
+        '11'=>'fajia',
+        '8'=>'dejia',
+        '21'=>'j1',
+        '15'=>'k1',
+        '187'=>'aojia',
+        '57'=>'worldcup',
+        '73'=>'uefacl',
+        '77'=>'uefael',
+        '139'=>'afccl',
+    ];
+
+    const path_league_basketball_arrays = [
+        '1'=>'nba',
+        '4'=>'cba',
+    ];
+
     public $timestamps = false;
 
     protected $hidden = ['id'];
