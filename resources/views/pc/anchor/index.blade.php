@@ -1,4 +1,4 @@
-@extends('pc.layout.anchor_base')
+@extends('pc.layout.anchor_base')<?php $submitBD = true;//主动提交 ?>
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251702">
     <style>

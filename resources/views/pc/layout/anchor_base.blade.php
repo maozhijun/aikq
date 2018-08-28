@@ -80,6 +80,7 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+@if(isset($submitBD))
 <script>
     (function(){
         var bp = document.createElement('script');
@@ -94,4 +95,5 @@
         s.parentNode.insertBefore(bp, s);
     })();
 </script>
+@endif
 </html>

@@ -102,7 +102,7 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-@if(!isset($noSubmitBD))
+@if(isset($submitBD))
 <script>
     (function(){
         var bp = document.createElement('script');
