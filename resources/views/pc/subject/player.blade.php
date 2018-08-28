@@ -49,7 +49,7 @@
     window.jsj = 'http://206dy.com/vip.php?url=';//'http://jx.618g.com/?url=';//'http://api.nobij.top/vip/?url=';//'http://api.daliuba.com/?url=';//'http://www.jsjhealth.cn/video/?url=';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201803030001"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201808281556"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
