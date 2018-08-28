@@ -52,7 +52,7 @@ class FootballController extends Controller
         if (isset($max)) {
             $lastUpdate = $max->updated_at;
         }
-        $lgMatches = Match::query()->where('updated_at', '>', $lastUpdate)->get();
+        $lgMatches = Match::query()->where('updated_at', '>=', $lastUpdate)->get();
 
         foreach ($lgMatches as $lgMatch) {
             $id = $lgMatch->id;
