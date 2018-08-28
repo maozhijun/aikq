@@ -5,7 +5,7 @@
 div.tab{
 	padding: 0 15px;
 	background: #fff;
-	position: fixed; top: 88px; left: 0; right: 0;
+	position: fixed; top: 88px; left: 0; right: 0; z-index: 11;
 }
 .tab p{
 	height: 80px;
@@ -147,15 +147,16 @@ div.tab{
 	display: block;
 }
 
-#Rank{
-	padding-top: 60px;
+#Rank .in{
+	/*padding-top: 60px;*/
 	background: #fff;
+	position: relative;
 }
 #Rank .title{
 	height: 60px;
 	border-bottom: 1px solid #e0e3ea;
 	background: #fff;
-	position: fixed; top: 168px; left: 0; right: 0; z-index: 10;
+	position: sticky; position: -webkit-sticky; top: 168px; left: 0; right: 0; z-index: 10;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 }
 #Rank .title p{

@@ -70,6 +70,10 @@ class PcArticle extends Model
         return env('APP_URL').'/m'.$this->getUrl();
     }
 
+    public function getMipUrl() {
+        return env('APP_URL').'/mip'.$this->getUrl();
+    }
+
     public static function getPublishQuery() {
         $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
         $query->orderByDesc('publish_at');

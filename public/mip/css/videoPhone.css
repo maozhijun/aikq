@@ -1,0 +1,496 @@
+﻿img.logo{
+	position: absolute;
+	display: none;
+}
+
+#Info{
+	height: 110px;
+	padding-top: 5px; margin-bottom: 0;
+	border: none;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	-webkit-justify-content: center; -moz-justify-content: center; -ms-justify-content: center; -o-justify-content: center; justify-content: center;
+}
+#Info .score{
+	width: 100px;
+	margin-top: -30px;
+	font-size: 20px; line-height: 30px; text-align: center;
+}
+#Info .score p{
+	margin: 0 -50px;
+	font-size: 30px; line-height: 30px;
+	position: relative;
+}
+#Info .score p:before{
+	width: 30px;
+	margin-left: -15px;
+	position: absolute; top: 0; left: 50%;
+	content: '-';
+}
+#Info .score p span{
+	width: 47%;
+	display: inline-block;
+}
+#Info .score p span.host{
+	text-align: right;
+}
+#Info .score p span.away{
+	text-align: left;
+}
+#Info .score p span.host:after,
+#Info .score p span.away:before{
+	height: 30px; width: 15px;
+	display: inline-block;
+	content: '';
+}
+#Info .score button{
+	height: 16px;
+	margin-top: 18px; padding: 0 5px;
+	background: #fff;
+	font-size: 12px; color: #999;
+}
+#Info p.other{
+	padding-bottom: 5px;
+	font-size: 20px; line-height: 30px; text-align: center;
+}
+
+#Info .team{
+	height: 100px;
+	padding-top: 10px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Info .team .img{
+	width: 40px; height: 40px;
+	margin: 0 auto; padding: 5px;
+	border-radius: 50%; border: 2px solid #4492fd;
+	display: block;
+}
+#Info .team mip-img{
+	width: 38px; height: 38px;
+	margin: 0 auto;
+	display: block;
+}
+#Info .team p{
+	max-height: 32px;
+	padding: 10px 15px 0;
+	font-size: 14px; line-height: 16px; text-align: center;
+	overflow: hidden;
+}
+
+#Video{
+	border: none;
+	overflow: hidden;
+}
+#Video .line{
+	height: 30px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	overflow: hidden;
+}
+#Video .line button{
+	height: 30px;
+	background: #2e70c9;
+	font-size: 12px; color: #7598ea;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Video .line button.on{
+	background: #4492fd;
+	color: #fff;
+}
+#Video .line button:first-child:before,
+#Video .line button.on:before,
+#Video .line button.on + button:before{
+	display: none;
+}
+#Video .line button:disabled{
+	color: #999;
+}
+#Video iframe{
+	width: 100%; height: 210px;
+	background: #333;
+	display: block;
+}
+#Video .outPlay{
+	width: 100%; height: 210px;
+	/*background: url(../../img/customer2/bg_video.jpg) no-repeat center; background-size: cover;*/
+	position: relative;
+}
+#Video .outPlay:before{
+	background: rgba(0,0,0,0.5);
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+	content: '';
+}
+#Video .outPlay img{
+	height: 33px;
+	padding-top: 155px; margin: 0 auto;
+	position: relative; z-index: 1;
+	display: block;
+}
+#Video .outPlay p.reciprocal{
+	padding-top: 4px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #bdbdbd;
+	position: relative; z-index: 1;
+}
+#Video .outPlay p.reciprocal span{
+	font-size: 18px; line-height: 18px; text-align: center; color: #fff;
+	display: block;
+}
+#Video .outPlay p.end{
+	padding-top: 4px;
+	font-size: 14px; line-height: 24px; text-align: center; color: #bdbdbd;
+	position: relative; z-index: 1;
+}
+
+.tabbox{
+	height: 40px;
+	box-shadow: 0 2px 2px 0 rgba(127, 2, 2, 0.17);
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+.tabbox button{
+	height: 40px;
+	background: #fff;
+	font-size: 14px; text-align: center;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+.tabbox button.on{
+	color: #e1223a;
+}
+.tabbox button.on:before{
+	width: 44px; height: 2px;
+	margin-left: -55px;
+	background: #e1223a;
+	position: absolute; bottom: 0; left: 50%;
+	content: '';
+}
+
+#Content{
+	margin-top: 15px;
+}
+#Content > mip-img{
+	width: 150px; height: 150px;
+	margin: 0 auto;
+	box-shadow: 0 3px 5px 0 rgba(38, 32, 125, 0.5);
+	display: block;
+}
+#Content > p{
+	padding-top: 15px;
+	font-size: 14px; line-height: 20px; text-align: center; color: #6a6464;
+}
+
+ul#Odd{
+
+}
+ul#Odd li{
+	padding: 12px 0 0 20px;
+}
+ul#Odd li + li{
+	border-top: 1px solid #e6e6e6;
+}
+ul#Odd li p.name{
+	height: 30px;
+	font-size: 14px; line-height: 30px; color: #e1223a;
+	position: relative;
+}
+ul#Odd li p.name:before{
+	width: 2px; height: 12px;
+	margin-top: -6px;
+	background: #e1223a;
+	position: absolute; top: 50%; left: -7px;
+	content: '';
+}
+ul#Odd li table{
+	width: 100%;
+}
+ul#Odd li table td{
+	height: 34px;
+	border-top: 1px solid #e6e6e6;
+	font-size: 14px; line-height: 20px; text-align: center;
+}
+ul#Odd li table tr:first-child td{
+	border-top: none;
+}
+ul#Odd li table td:nth-child(1){
+	text-align: left; color: #666;
+}
+ul#Odd li table td p{
+	height: 20px;
+	padding: 0 10px;
+	border-radius: 4px;
+	display: inline-block;
+}
+ul#Odd li table td p.up{
+	background: #e1223a;
+	color: #fff;
+}
+ul#Odd li table td p.down{
+	background: #1cbc5d;
+	color: #fff;
+}
+
+dl#Prompt{
+	margin: 14px 0 14px 30px; padding: 0 30px 0 12px;
+	border-left: 1px solid #d8d8d8;
+	position: relative;
+}
+dl#Prompt dt{
+	font-size: 12px; line-height: 12px; color: #999;
+}
+dl#Prompt dt:last-child{
+	padding-top: 30px;
+}
+dl#Prompt dt:before{
+	width: 10px; height: 10px;
+	border-radius: 50%;
+	background: #d8d8d8;
+	position: absolute; left: -5px;
+	content: '';
+}
+dl#Prompt dt:first-child:before{
+	top: 0;
+}
+dl#Prompt dt:last-child:before{
+	bottom: 0;
+}
+dl#Prompt dd{
+	padding-top: 30px;
+}
+dl#Prompt dd:before{
+	width: 7px; height: 7px;
+	border-radius: 50%; border: 1px solid #d8d8d8;
+	background: #fff;
+	position: absolute; left: -5px;
+	content: '';
+}
+dl#Prompt dd p.minute{
+	font-size: 12px; line-height: 12px; color: #666;
+}
+dl#Prompt dd p.text{
+	margin-top: 4px; padding: 14px;
+	background: #f3f3f3;
+	font-size: 12px; line-height: 20px; color: #333;
+}
+
+dl#Statistics{
+	padding: 20px 30px 25px;
+}
+dl#Statistics dt{
+	height: 50px;
+	padding-bottom: 30px;
+	font-size: 16px; line-height: 50px; text-align: center; font-weight: bold;
+	position: relative;
+}
+dl#Statistics dt img{
+	width: 50px; height: 50px;
+	position: absolute; top: 0;
+}
+dl#Statistics dt img.host{
+	left: 0;
+}
+dl#Statistics dt img.away{
+	right: 0;
+}
+dl#Statistics dd{
+	height: 20px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -moz-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;
+}
+dl#Statistics dd + dd{
+	margin-top: 8px;
+}
+dl#Statistics dd p.name{
+	width: 78px; height: 20px;
+	font-size: 12px; line-height: 20px; text-align: center; color: #999;
+}
+dl#Statistics dd p.number{
+	width: 50px; height: 20px;
+	font-size: 14px; line-height: 20px; text-align: center;
+}
+dl#Statistics dd p.line{
+	height: 4px;
+	border-radius: 2px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+	overflow: hidden;
+}
+dl#Statistics dd p.line span{
+	height: 4px;
+	border-radius: 2px;
+	display: block;
+}
+dl#Statistics dd p.host span{
+	background: #e1223a;
+	float: right;
+}
+dl#Statistics dd p.away span{
+	background: #ff6602;
+	float: left;
+}
+
+div#Event{
+	padding: 14px 0 75px;
+}
+div#Event dl{
+	margin-top: 32px;
+	position: relative;
+}
+div#Event dl:before{
+	width: 2px;
+	margin-left: -1px;
+	background: #d8d8d8;
+	position: absolute; top: 0; bottom: 0; left: 50%;
+	content: '';
+}
+div#Event dl dt{
+	height: 12px;
+	font-size: 12px; line-height: 12px; text-align: center;
+	position: absolute; left: 0; right: 0;
+}
+div#Event dl dt.end{
+	color: #bdbdbd;
+}
+div#Event dl dt:first-child{
+	padding-bottom: 36px;
+	/*background: url(../../img/customer2/icon_video_end.png) no-repeat center bottom 24px; background-size: 30px;*/
+	top: -46px;
+}
+div#Event dl dt:first-child:before{
+	width: 10px; height: 10px;
+	margin-left: -5px;
+	border-radius: 50%;
+	background: #d8d8d8;
+	position: absolute; top: 40px; left: 50%;
+	content: '';
+}
+div#Event dl dt:last-child{
+	padding-top: 36px;
+	/*background: url(../../img/customer2/icon_video_begin.png) no-repeat center 24px; background-size: 30px;*/
+	bottom: -46px;
+}
+div#Event dl dt:last-child:before{
+	width: 10px; height: 10px;
+	margin-left: -5px;
+	border-radius: 50%;
+	background: #d8d8d8;
+	position: absolute; bottom: 40px; left: 50%;
+	content: '';
+}
+div#Event dl dd{
+	min-height: 30px;
+	padding-bottom: 20px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	position: relative;
+}
+div#Event dl dt + dd{
+	padding-top: 20px;
+}
+div#Event dl dd.host{
+	padding-right: 50%;
+}
+div#Event dl dd.away{
+	padding-left: 50%;
+}
+div#Event dl dd p.minute{
+	width: 28px; height: 28px;
+	border: 1px solid #d8d8d8; border-radius: 50%;
+	background: #ededed;
+	font-size: 12px; line-height: 28px; text-align: center; color: #666;
+	position: absolute; top: 0; z-index: 1;
+}
+div#Event dl dt + dd p.minute{
+	top: 20px;
+}
+div#Event dl dd p.minute span{
+	position: absolute;
+}
+div#Event dl dd.host p.minute{
+	margin-right: -15px;
+	right: 50%;
+}
+div#Event dl dd.away p.minute{
+	margin-left: -15px;
+	left: 50%;
+}
+div#Event dl dd ul{
+	margin: -10px 0;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+div#Event dl dd.host ul{
+	padding-left: 5px;
+	text-align: right;
+}
+div#Event dl dd.aways ul{
+	padding-right: 5px;
+	text-align: left;
+}
+div#Event dl dd ul li{
+	font-size: 14px; line-height: 20px;
+	position: relative;
+}
+div#Event dl dd.host ul li{
+	padding-right: 46px;
+}
+div#Event dl dd.away ul li{
+	padding-left: 46px;
+}
+div#Event dl dd ul li img{
+	width: 15px; height: 15px;
+	position: absolute; top: 3px;
+}
+div#Event dl dd.host ul li img{
+	right: 23px;
+}
+div#Event dl dd.away ul li img{
+	left: 23px;
+}
+
+
+/*微信*/
+#WX{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 320px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
+
+/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

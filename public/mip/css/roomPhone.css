@@ -1,0 +1,253 @@
+﻿body{
+	padding: 254px 0 0;
+}
+
+
+#Video{
+	height: 200px;
+	padding-top: 60px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	font-size: 14px; line-height: 20px; text-align: center; color: #fff;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 1;
+	box-sizing: border-box;
+}
+#Video a{
+	width: 160px; height: 44px;
+	margin: 14px auto 0;
+	background: rgba(68,146,253,0.8);
+	font-size: 16px; line-height: 44px; text-align: center; color: #fff;
+	display: block;
+}
+
+#Match{
+	height: 60px;
+	padding: 0 6px;
+	background: #fff;
+	position: fixed; top: 254px; left: 0; right: 0; z-index: 1;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+#Match .vs{
+	width: 110px;
+}
+#Match .vs .time{
+	height: 20px;
+	margin-bottom: 5px;
+	border-radius: 2px;
+	background: #ededed;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Match .vs .time .minute{
+	width: 30px; height: 20px;
+	border-radius: 2px;
+	background: #a9c0e0;
+	font-size: 12px; line-height: 20px; text-align: center; color: #fff;
+}
+#Match .vs .time .color{
+	height: 20px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/icon_cloth_n.png) no-repeat; background-size: 18px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match .vs .time .color.host{
+	padding-left: 5px;
+	background-position: right 1px center;
+}
+#Match .vs .time .color.away{
+	padding-right: 5px;
+	background-position: 1px center;	
+}
+#Match .vs .time .color span{
+	width: 4px; height: 13px;
+	margin-top: 4px;
+}
+#Match .vs .time .color.host span{
+	float: left;
+}
+#Match .vs .time .color.away span{
+	float: right;
+}
+#Match .vs .score{
+	height: 24px;
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Match .vs .score:after{
+	height: 2px; width: 12px;
+	margin: 0 0 0 -6px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+#Match .vs .score .host{
+	padding-right: 15px;
+	font-size: 20px; line-height: 24px; text-align: right; color: #4492fd; font-weight: bold;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match .vs .score .away{
+	padding-left: 15px;
+	font-size: 20px; line-height: 24px; text-align: left; color: #4492fd; font-weight: bold;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match .team{
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match .team.host{
+	padding-left: 40px;
+	text-align: left;
+}
+#Match .team.away{
+	padding-right: 40px;
+	text-align: right;
+}
+#Match .team img{
+	width: 34px; height: 34px;
+	margin-top: -17px;
+	border-radius: 50%; border: 1px solid #4492fd;
+	position: absolute; top: 50%;
+}
+#Match .team.host img{
+	left: 0;
+}
+#Match .team.away img{
+	right: 0;
+}
+#Match .team p{
+	max-height: 42px;
+	font-size: 15px; line-height: 21px;
+	overflow: hidden;
+}
+
+#Chat{
+	padding: 10px 12px;
+}
+#Match + #Chat{
+	margin-top: 60px;
+}
+#Chat .ev{
+	font-size: 14px; line-height: 20px; text-align: left; color: #443f3f;
+}
+#Chat .ev + .ev{
+	margin-top: 10px;
+}
+#Chat .ev span{
+	color: #9e9e9e;
+}
+
+#Input{
+	height: 32px;
+	padding: 6px 75px 6px 20px;
+	background: #fff;
+	position: fixed; bottom: 0; left: 0; right: 0;
+}
+#Input input{
+	height: 30px; width: 100%;
+	border-radius: 2px; border: 1px solid #cfcfcf;
+	background: #f2f2f2;
+	font-size: 14px; line-height: 30px; text-align: center; color: #443f3f;
+}
+#Input button{
+	height: 32px; width: 75px;
+	margin-top: -16px;
+	background: none;
+	font-size: 16px; line-height: normal; text-align: center; color: #4492fd; font-weight: bold;
+	position: absolute; right: 0; top: 50%;
+}
+
+#Anchor{
+	margin: 33px 44px 0;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+	position: relative; z-index: 0;
+	/*position: fixed; top: 694px; bottom: 0; left: 45px; right: 45px;
+	overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;*/
+}
+#Match + #Anchor{
+	margin-top: 94px;
+}
+#Anchor .info{
+	padding: 30px 60px 15px 70px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/image_music_n.png) no-repeat right 10px bottom; background-size: 32px;
+	position: relative;
+}
+#Anchor .info:before{
+	font-size: 14px; line-height: 14px; text-align: left; color: #9e9e9e;
+	position: absolute; top: 15px; left: 85px;
+	content: '主播：';
+}
+#Anchor .info mip-img{
+	width: 50px; height: 50px;
+	border-radius: 5px;
+	position: absolute; top: 15px; left: 20px;
+}
+#Anchor .info img{
+	width: 50px; height: 50px;
+}
+#Anchor .info p{
+	height: 34px;
+	margin-left: -20px; padding-left: 20px;
+	border-radius: 5px;
+	background: #f0f4f8;
+	font-size: 16px; line-height: 34px; text-align: center; color: #443f3f; font-weight: bold;
+	overflow: hidden;
+}
+#Anchor dl{
+	border-top: 1px solid #e6e4e4;
+}
+#Anchor dl dt{
+	height: 40px;
+	padding-left: 40px;
+	font-size: 14px; line-height: 40px; text-align: left; color: #7799c9;
+	position: relative;
+}
+#Anchor dl dt:before{
+	width: 7px; height: 14px;
+	background: #2e66b4;
+	position: absolute; top: 10px; left: 20px;
+	content: '';
+}
+#Anchor dl dt:after{
+	width: 7px; height: 10px;
+	background: #4492fd;
+	opacity: 0.7;
+	position: absolute; bottom: 10px; left: 20px;
+	content: '';
+}
+#Anchor dl dd{
+	height: 40px;
+	padding-left: 20px;
+	font-size: 14px; line-height: 40px; text-align: left; color: #443f3f;
+	position: relative;
+	overflow: hidden;
+}
+#Anchor dl dd + dd:before{
+	height: 1px;
+	background: #e6e4e4;
+	position: absolute; top: 0; left: 20px; right: 0;
+	content: '';
+}
+#Anchor dl dd span{
+	width: 94px;
+	padding-right: 15px;
+	font-size: 12px; text-align: right; color: #7799c9;
+	display: inline-block;
+	float: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

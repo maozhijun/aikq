@@ -6,7 +6,7 @@
  * Time: 15:02
  */
 
-namespace App\Http\Controllers\Mobile\Subject;
+namespace App\Http\Controllers\Mip\Subject;
 
 
 use App\Http\Controllers\Controller;
@@ -29,7 +29,7 @@ class SubjectController extends Controller
      */
     public function detail(Request $request) {
         $path = $request->path();
-        $name = str_replace("m/", "", $path);
+        $name = str_replace("mip/", "", $path);
         if (!array_key_exists($name, self::SUBJECT_NAME_IDS)) {
             return abort(404);
         }
@@ -75,7 +75,7 @@ class SubjectController extends Controller
         $result['slid'] = $s_lid;
         $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
 //        dump($result);
-        return view('mobile.subject.detail', $result);
+        return view('mip.subject.detail', $result);
     }
 
     /**

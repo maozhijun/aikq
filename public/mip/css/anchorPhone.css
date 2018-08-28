@@ -1,0 +1,122 @@
+﻿body{
+	padding-bottom: 50px;
+}
+
+#Anchor{
+
+}
+#Anchor .title{
+	border-bottom: none;
+}
+#Anchor ul{
+	height: 100px;
+	padding: 5px 0 15px 12px; margin-top: -4px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch;
+}
+#Anchor ul li{
+	height: 100px; min-width: 90px;
+	padding-right: 10px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Anchor ul li:last-child{
+	padding-right: 12px;
+}
+#Anchor ul li a{
+	height: 90px;
+	padding-top: 10px;
+	background: #fff;
+	box-shadow: 0 1px 4px 0 rgba(68, 146, 253, 0.4);
+	display: block;
+}
+#Anchor ul li a mip-img{
+	width: 40px; height: 40px;
+	margin: 0 auto 20px;
+	border-radius: 50%; border: 1px solid #4492fd;
+	overflow: hidden;
+	display: block;
+}
+#Anchor ul li a p{
+	height: 20px;
+	font-size: 14px; line-height: 20px; text-align: center; color: #443f3f;
+	overflow: hidden;
+}
+
+
+#Live{
+
+}
+#Live .title{
+	border-bottom: none;
+}
+#Live ul{
+	padding: 0 10px;
+	font-size: 0px;
+}
+#Live ul li{
+	width: 50%;
+	padding-bottom: 20px;
+	box-sizing: border-box;
+	display: inline-block;
+}
+#Live ul li:nth-child(even){
+	padding-left: 5px;
+}
+#Live ul li:nth-child(odd){
+	padding-right: 5px;	
+}
+#Live ul li .imgbox{
+	height: 110px;
+	/*background: #d8d8d8;*/
+	position: relative;
+	overflow: hidden;
+}
+#Live ul li .imgbox mip-img{
+	min-height: 100%; min-width: 100%; max-width: 120%;
+	margin: 0 auto;
+	display: block;
+}
+#Live ul li .imgbox:before{
+	background: rgba(0,0,0,0.2);
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 0;
+	content: '';
+}
+#Live ul li .imgbox p{
+	font-size: 12px; line-height: 15px; text-align: left; color: #fff;
+	position: absolute; bottom: 5px; left: 10px; right: 10px; z-index: 1;
+	overflow: hidden;
+}
+#Live ul li p.name{
+	height: 20px;
+	padding-top: 8px;
+	font-size: 14px; line-height: 20px; text-align: center; color: #4f4f4f;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

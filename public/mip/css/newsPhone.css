@@ -1,0 +1,45 @@
+﻿body{
+	padding-bottom: 58px;
+}
+
+#Content{
+	background: #fff;
+}
+#Content a.li{
+	height: 66px;
+	padding: 10px 12px;
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#Content a.li + a.li:before{
+	height: 1px;
+	background: #e0e3ea;
+	position: absolute; top: 0; left: 12px; right: 0;
+	content: '';
+}
+
+#Content a.li mip-img{
+	height: 66px; width: 120px;
+	margin-left: 20px;
+	float: right;
+}
+#Content a.li h6{
+	height: 42px;
+	margin-bottom: 10px;
+	font-size: 14px; line-height: 20px; text-align: left; color: #494949;
+	display: block;
+	overflow: hidden;
+}
+#Content a.li p.info{
+	height: 14px;
+	font-size: 10px; line-height: 14px; text-align: left; color: #a7a1a1;
+	overflow: hidden;
+}
+
+
+
+mip-infinitescroll .bg{
+	height: 40px;
+	font-size: 12px; line-height: 40px; text-align: center; color: #a7a1a1;
+}
