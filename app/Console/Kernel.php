@@ -61,7 +61,7 @@ class Kernel extends ConsoleKernel
 
         //CoverCommand::class,//专题封面同步
         //SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
-        SubjectVideoPageCommand::class,//专题录像 静态化分页列表                         DB
+        SubjectVideoPageCommand::class,//专题录像 静态化分页列表、专题终端页             DB
         PlayerCommand::class,//录像player静态化                                          不需要修改
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化    DB
 
