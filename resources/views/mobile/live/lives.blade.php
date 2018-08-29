@@ -47,11 +47,9 @@
                 if ($impt == 2) {
                     $impt_style = 'style="color:#bc1c25;"';
                 }
+                $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'],$match['mid']);
                 ?>
                 @if($match['sport'] == 3)
-                    <?php
-                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'],3,$match['mid']);
-                        ?>
                     <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
@@ -64,9 +62,6 @@
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
-                    <?php
-                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'],$match['sport'],$match['mid']);
-                        ?>
                     <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         <p class="team host" {!! $impt_style !!}>{{$match['hname']}}</p>

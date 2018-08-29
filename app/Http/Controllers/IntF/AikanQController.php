@@ -72,8 +72,18 @@ class AikanQController extends Controller
     public function livesJson(Request $request, $isMobile = null) {
         $isMobile = isset($isMobile) ? $isMobile : $request->input('isMobile',0);
         $bet = $request->input('bet', 0);//0：非竞彩，1：竞彩
-        $match_array = [];
+        $result = $this->livesJsonData($bet, $isMobile);
+        return response()->json($result);
+    }
 
+    /**
+     * 直播数据
+     * @param $bet
+     * @param bool $isMobile
+     * @return array
+     */
+    public function livesJsonData($bet, $isMobile = false) {
+        $match_array = [];
         $startTime = time();
         $query = $this->getLiveMatches(MatchLive::kSportFootball, $bet);
         $footballMatches = $query->get();
@@ -147,7 +157,7 @@ class AikanQController extends Controller
             }
         }
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
 
