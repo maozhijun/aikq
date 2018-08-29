@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\IntF;
 
 
+use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Stage;
@@ -773,7 +774,7 @@ class AikanQController extends Controller
      * @param SubjectLeague $sl
      * @return array|null
      */
-    public function subjectDetailData($isMobile, SubjectLeague $sl) {
+    public function subjectDetailData($isMobile, $sl) {
         $result = [];
         if (!isset($sl)) {
             return null;
@@ -782,10 +783,14 @@ class AikanQController extends Controller
         $slid = $sl->id;
 
         //专题资讯 开始
-        $articles = SubjectArticle::getArticles($slid);
+        $articles = PcArticle::articlesByType($sl->name_en);
         $article_array = [];
         foreach ($articles as $article) {
-            $article_array[] = ['title'=>$article->title, 'link'=>$article->link];
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url];
         }
         $result['articles'] = $article_array;
         //专题资讯 结束

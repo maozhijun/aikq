@@ -154,4 +154,14 @@ class PcArticle extends Model
         return $result;
     }
 
+    public static function articlesByType($name_en){
+        $type = PcArticleType::getTypeByTypeEn($name_en);
+        if(isset($type)){
+            $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+            $query->where('type',$type->id);
+            $query->orderByDesc('publish_at');
+            return $query->take(20)->get();
+        }
+        return array();
+    }
 }
