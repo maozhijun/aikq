@@ -19,21 +19,8 @@
     <script type="text/javascript">
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;
-            url = url.split('/');
-            var str = '';
-            for (var i = 0 ; i < url.length ; i++){
-                str = str + url[i] + '/';
-                if (i == 2){
-                    str += 'm/';
-                }
-            }
-            if (url.length == 4){
-                str = str.substr(0,str.length - 2);
-            }
-            else{
-                str = str.substr(0,str.length - 1);
-            }
-            window.location = str;
+            url = url.replace('{{env('WWW_URL')}}','{{env('M_URL')}}');
+            window.location = url;
         }
     </script>
 </head>
