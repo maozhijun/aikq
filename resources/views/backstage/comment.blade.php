@@ -18,6 +18,8 @@
                         </div>
                     </div>
                     <ul id="Get">
+                        <div class="in">
+                            </div>
                         <!-- <li>
                             <p class="name">避刃兔<button disabled>已引用</button><span>18-10-10&nbsp;&nbsp;18:00</span></p>
                             <p class="con">「我的女儿...🤩好胖呵呵，...平凡是她的运气🤩」分享！一直和我一起成長的家族朋友</p>
@@ -32,6 +34,7 @@
                         <div class="textarea"><textarea placeholder="请输入内容" id="TextCon"></textarea></div>
                     </div>
                     <ul id="My">
+                        <div class="in"></div>
                         <!-- <li>
                             <p class="name">避刃兔<span>18-10-10&nbsp;&nbsp;18:00</span></p>
                             <p class="con">「我的女儿...🤩好胖呵呵，...平凡是她的运气🤩」分享！一直和我一起成長的家族朋友</p>
@@ -45,6 +48,7 @@
 @section("js")
     <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
     <script type="text/javascript">
+        var myScroll = true, getScroll = true;
         window.onload = function () { //需要添加的监控放在这里
             GetSocket();
             GetMy();
@@ -55,6 +59,23 @@
                 }
                 Send();
                 $('#TextCon').val = '';
+            });
+            $('#Get').scroll(function() {
+                // console.log($(this).scrollTop() + ',' + $(this).height() + ',' + $(this).find('.in').height())
+                if ($(this).scrollTop() + $(this).height() < $(this).find('.in').height()) {
+                    getScroll = false;
+                }else{
+                    getScroll = true;
+                }
+            });
+
+            $('#My').scroll(function() {
+                // console.log($(this).scrollTop() + ',' + $(this).height() + ',' + $(this).find('.in').height())
+                if ($(this).scrollTop() + $(this).height() < $(this).find('.in').height()) {
+                    myScroll = false;
+                }else{
+                    myScroll = true;
+                }
             });
         }
         function getTimeType (time) {
@@ -84,9 +105,11 @@
                     // console.log(Data);
                     if (Data.length >= 12 && Data[6].indexOf('span') < 0 && Data[6].indexOf('img') < 0) {
                         var Li = '<li><p class="name">' + Data[3] + '<button onclick="Use(this)">引用</button><span>' + getTimeType(Data[1]*1000) + '</span></p><p class="con">' + Data[6] + '</p></li>';
-                        $('#Get').append(Li);
+                        $('#Get .in').append(Li);
 
-                        $('#Get').scrollTop($('#Get')[0].scrollHeight);
+                        if (getScroll) {
+                            $('#Get').scrollTop($('#Get')[0].scrollHeight);
+                        }
                     }
                 };
             })
@@ -116,8 +139,10 @@
             socket.on('server_send_message', function (data) {
                 console.log(data);
                 var Li = '<li><p class="name">' + data['nickname'] + '<span>' + getTimeType(data['time']*1000) + '</span></p><p class="con">' + data['message'] + '</p></li>';
-                $('#My').append(Li);
-                $('#My').scrollTop($('#My')[0].scrollHeight);
+                $('#My .in').append(Li);
+                if (myScroll) {
+                    $('#My').scrollTop($('#My')[0].scrollHeight);
+                }
             });
         }
 
