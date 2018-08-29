@@ -919,8 +919,10 @@ class LiveController extends Controller
             $path = CommonTool::getLiveDetailStaticPath($mid, $sport);
             $pcPath = "/www" . $path;
             $mPath = "/m" . $path;
+            $mipPath = "/mip" . $path;
 
             $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+            $mipCon = new \App\Http\Controllers\Mip\Live\LiveController();
             if ($sport == 1) {
                 $html = $this->footballDetail($request, $mid, true);
                 if (!empty($html)) {
@@ -930,6 +932,10 @@ class LiveController extends Controller
                 $mHtml = $mCon->footballDetail($request, $mid, true);
                 if (!empty($mHtml)) {
                     Storage::disk("public")->put($mPath, $mHtml);
+                }
+                $mipHtml = $mipCon->footballDetail($request, $mid, true);
+                if (!empty($mipHtml)) {
+                    Storage::disk("public")->put($mipPath, $mipHtml);
                 }
             } else if($sport == 2){
                 $html = $this->basketDetail($request, $mid, true);
@@ -941,6 +947,10 @@ class LiveController extends Controller
                 if (!empty($mHtml)) {
                     Storage::disk("public")->put($mPath, $mHtml);
                 }
+                $mipHtml = $mipCon->basketballDetail($request, $mid, true);
+                if (!empty($mipHtml)) {
+                    Storage::disk("public")->put($mipPath, $mipHtml);
+                }
             } else if ($sport == 3) {
                 $html = $this->otherDetail($request, $mid, true);
                 if (!empty($html)) {
@@ -950,6 +960,10 @@ class LiveController extends Controller
                 $mHtml = $mCon->otherDetail($request, $mid);
                 if (!empty($mHtml)) {
                     Storage::disk("public")->put($mPath, $mHtml);
+                }
+                $mipHtml = $mipCon->otherDetail($request, $mid);
+                if (!empty($mipHtml)) {
+                    Storage::disk("public")->put($mipPath, $mipHtml);
                 }
             }
             //每一个比赛的player页面生成
