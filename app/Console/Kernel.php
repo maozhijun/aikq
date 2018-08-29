@@ -10,6 +10,7 @@ use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
+use App\Console\HtmlStaticCommand\Article\ArticleDetailCommand;
 use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
@@ -89,11 +90,13 @@ class Kernel extends ConsoleKernel
         ArticlePageCommand::class,//文章分页定时任务
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
         ArticlesCacheCommand::class,//文章最新列表
+        ArticleDetailCommand::class,//所有文章终端静态化
 
         SpiderTTZBCommand::class,//抓取天天直播的源
         NotFoundCommand::class,//404页面
 
         ShopLiveCommand::class,//shop 安卓app直播页面
+
     ];
 
     /**
