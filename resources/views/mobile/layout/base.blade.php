@@ -20,18 +20,8 @@
     <script type="text/javascript">
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;
-            url = url.split('/');
-            var str = '';
-            if (url[3] == 'm'){
-                for (var i = 0 ; i < url.length ; i++){
-                    if (i == 3){
-                        continue;
-                    }
-                    str = str + url[i] + '/';
-                }
-                str = str.substr(0,str.length - 1);
-                window.location = str;
-            }
+            url = url.replace('{{env('M_URL')}}','{{env('WWW_URL')}}');
+            window.location = url;
         }
     </script>
 </head>
