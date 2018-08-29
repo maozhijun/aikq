@@ -61,13 +61,25 @@ class SubjectLeague extends Model
      *
      * @return mixed
      */
-    public function contentHtml() {
+    public function contentHtml()
+    {
         $content = $this->content;
         if (!empty($content)) {
             $content = str_replace(' ', '&nbsp;', $content);
             $content = str_replace("\n", '<br/>', $content);
         }
         return $content;
+    }
+
+    /**
+     * 根据英文名称获取专题
+     * @param $name_en
+     * @return Model|null|static
+     */
+    public static function getSubjectLeagueByEn($name_en) {
+        $query = self::query();
+        $query->where('name_en', '=', $name_en);
+        return $query->first();
     }
 
 }

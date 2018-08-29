@@ -154,12 +154,12 @@ Route::group([], function () {
  * 文章
  */
 Route::group(["namespace" => 'Article'], function () {
-    //Route::get("/news.html", "ArticleController@news");//文章终端页
-    //Route::get("/news/index{page}.html", "ArticleController@news");//文章终端页
-    //Route::get("/news/{t_name}/{date}/{id}.html", "ArticleController@detail");//文章终端
+    Route::get("/news", "ArticleController@news");//文章终端页
+    Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
+    Route::get("/news/index{page}.html", "ArticleController@news");//文章终端页
+    Route::get("/news/{param}.html", "ArticleController@detail");//文章终端
 
-    //Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
-    Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");
+    Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
 });
 
 //主播

@@ -91,24 +91,6 @@
                 </table>
                 @if(isset($videos) && count($videos) > 0)
                     @component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent
-                    {{--<dl id="Video" style="display: none;">--}}
-                    {{--@foreach($videos as $day=>$vs)--}}
-                        {{--<dt>{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</dt>--}}
-                        {{--@foreach($vs as $v)--}}
-                        {{--<dd>--}}
-                            {{--<p class="match">--}}
-                                {{--<span class="time">{{date('H:i', $v['time'])}}</span>--}}
-                                {{--<span class="host">{{$v['hname']}}</span>--}}
-                                {{--<span class="score">{{$v['hscore']}} - {{$v['ascore']}}</span>--}}
-                                {{--<span class="away">{{$v['aname']}}</span>--}}
-                            {{--</p>--}}
-                            {{--@foreach($v['channels'] as $c_index=>$channel)--}}
-                                {{--<a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($v['id'], 'video')}}?btn={{$c_index}}"><img src="{{$channel['cover']}}">{{$channel['title']}}</a>--}}
-                            {{--@endforeach--}}
-                        {{--</dd>--}}
-                        {{--@endforeach--}}
-                    {{--@endforeach--}}
-                    {{--</dl>--}}
                 @endif
                 @if(isset($specimens) && count($specimens) > 0)
                 <dl id="Collect" style="display: none;">
@@ -116,7 +98,7 @@
                         <dt>{{date('Y年m月d日', $s_day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $s_day)]}}</dt>
                         <dd>
                             @foreach($se_array as $se)
-                                <a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($se['id'], 'specimen')}}"><img src="{{$se['cover']}}"><p><span>{{$se['title']}}</span></p></a>
+                                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $se['id'], 'specimen')}}"><img src="{{$se['cover']}}"><p><span>{{$se['title']}}</span></p></a>
                             @endforeach
                         </dd>
                     @endforeach

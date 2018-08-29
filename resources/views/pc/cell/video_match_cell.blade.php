@@ -16,7 +16,7 @@
         <td>{{$match['aname']}}</td>
     @endif
     <td>
-        <?php $channels = $match['channels']; $url = \App\Http\Controllers\PC\MatchTool::subjectLink($match['id'], 'video'); ?>
+        <?php $channels = $match['channels']; $url = \App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($match['s_lid'], $match['id'], 'video'); ?>
         <a target="_blank" href="{{$url}}">观看录像</a>
     </td>
 </tr>

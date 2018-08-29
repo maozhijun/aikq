@@ -72,7 +72,7 @@ class SubjectVideoPageCommand extends Command
                 $curPage = 1;
                 $this->setCurPage($tid, $curPage);
             }
-            $forPage = min($lastPage, $curPage + 1);
+            $forPage = min($lastPage, $curPage + 5);
             //echo 'curPage = ' . $curPage . ' lastPage = ' . $lastPage . ' forPage = ' . $forPage . "\n";
             if ($curPage != 1) {
                 $start = time();
@@ -98,16 +98,12 @@ class SubjectVideoPageCommand extends Command
     protected function staticPage($type, $page) {
         $sub = new SubjectVideoController();
         $sub->staticSubjectVideosHtml(new Request(), $type, $page);
-//        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page);
-//        SubjectController::execUrl($url);
     }
 
     /**
      * 静态化类型json
      */
     protected function staticTypes() {
-//        $url = asset('/static/subject-videos/leagues');
-//        SubjectController::execUrl($url);
         $sub = new SubjectVideoController();
         $sub->staticVideoLeaguesJson(new Request());
     }

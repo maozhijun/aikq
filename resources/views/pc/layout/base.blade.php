@@ -73,14 +73,13 @@
 <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
 @if(isset($subjects) && count($subjects) > 0)
 <div id="Link">
-    @foreach($subjects as $id=>$s_name) <a href="/live/subject/{{$id}}.html">{{$s_name}}</a> @endforeach
+    @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}">{{$su_obj['name']}}</a> @endforeach
 </div>
 @endif
 @yield('content')
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
 <div id="Bottom">
     {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
-    {{--<p class="business"><a target="_blank" href="/live/business.html">视频调用</a></p>--}}
     <p><a target="_blank" href="http://www.aikq.cc">爱看球</a><a target="_blank" href="http://www.aikq.cc">JRS直播</a><a target="_blank" href="http://www.aikq.cc">低调看直播</a></p>
     <p>Copyright 2014-2015 ©aikq.cc, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
@@ -102,7 +101,7 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-@if(!isset($noSubmitBD))
+@if(isset($submitBD))
 <script>
     (function(){
         var bp = document.createElement('script');

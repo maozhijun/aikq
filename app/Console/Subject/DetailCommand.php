@@ -9,9 +9,12 @@
 namespace App\Console\Subject;
 
 
+use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\Live\SubjectController;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DetailCommand extends Command
 {
@@ -45,13 +48,24 @@ class DetailCommand extends Command
      */
     public function handle()
     {
-        $leagues = SubjectController::getSubjects();
-        $con = new SubjectController();
-        $request = new Request();
-        foreach ($leagues as $id=>$name) {
-            $con->staticSubjectHtml($request, $id);
-            //$url = asset('/static/subject/detail/'. $id);
-            //SubjectController::execUrl($url, 15);
+        $leagues = SubjectLeague::getAllLeagues();
+        $aiCon = new AikanQController();
+        foreach ($leagues as $league) {
+            $this->staticSubjectHtml($aiCon, $league);
+        }
+    }
+
+
+    public function staticSubjectHtml(AikanQController $aiCon, SubjectLeague $sl) {
+        $result = $aiCon->subjectDetailData(false, $sl);
+        if (!isset($result) || !isset($result['subject'])) {
+            return;
+        }
+        $html = SubjectController::subjectDetailHtml($result, $sl->id);
+        if (!empty($html)) {
+            $name_en = $sl->name_en;
+            Storage::disk("public")->put("/www/$name_en/index.html", $html);
+            Storage::disk("public")->put("/live/subject/" . $sl->id . ".html", $html);//兼容旧地址
         }
     }
 

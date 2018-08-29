@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers\PC;
 
+use App\Http\Controllers\PC\Live\SubjectVideoController;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Support\Facades\Storage;
 
 class CommonTool
@@ -130,6 +132,105 @@ class CommonTool
                 return "异常";
         }
         return '';
+    }
+
+    /**
+     * 录像分页链接
+     * @param $type
+     * @param $page
+     * @return string
+     */
+    public static function getVideoPageUrl($type, $page) {
+        $name_en = self::getSubjectLeagueNameEn($type);
+        $name_en = empty($name_en) ? "" : "/$name_en";
+        return $name_en."/videos/".($page > 1 ?  ('index'.$page.'.html') : '');
+    }
+
+    /**
+     * 获取PC录像终端链接
+     * @param $lid
+     * @param $id
+     * @param $type  video/specimen
+     * @return string
+     */
+    public static function getVideosDetailUrlByPc($lid, $id, $type) {
+        $name_en = self::getSubjectLeagueNameEn($lid);
+        $name_en = empty($name_en) ? "/videos" : "/$name_en";
+        return $name_en."/$type"."$id.html";
+    }
+
+    /**
+     * 录像终端静态化路径
+     * @param $lid
+     * @param $id
+     * @return string
+     */
+    public static function getSubjectVideoDetailPath($lid, $id) {
+        $name_en = self::getSubjectLeagueNameEn($lid);
+        $name_en = empty($name_en) ? "/videos" : "/$name_en";
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $path = $name_en.'/video/' . $first . '/' . $second . '/' . $id . '.html';
+        return $path;
+    }
+
+    /**
+     * 集锦终端静态化路径
+     * @param $lid
+     * @param $id
+     * @return string
+     */
+    public static function getSubjectSpecimenDetailPath($lid, $id) {
+        $name_en = self::getSubjectLeagueNameEn($lid);
+        $name_en = empty($name_en) ? "/specimens" : "/$name_en";
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $path = $name_en.'/specimen/' . $first . '/' . $second . '/' . $id . '.html';
+        return $path;
+    }
+
+    /**
+     * 获取文章终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getArticleDetailPath($name_en, $id) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/news/".$first."/".$second."/".$id.".html";
+        } else {
+            $path = "/news/".$name_en."/".$first."/".$second."/".$id.".html";
+        }
+        return $path;
+    }
+
+    protected static function getSubjectLeagueNameEn($lid) {
+        $name_en = "";
+        if ($lid != 'all' && $lid != 999) {
+            $videoIntF = new SubjectVideoController();
+            $leagues = $videoIntF->getLeagues();
+            if (isset($leagues[$lid])) {
+                $name_en = $leagues[$lid]['name_en'];
+            }
+        } else if ($lid == 999) {
+            $name_en = "other";
+        }
+        return $name_en;
     }
 
 }

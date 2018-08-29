@@ -3,12 +3,19 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Admin\Match\MatchController;
+use App\Http\Controllers\Mobile\Live\LiveController;
 use App\Http\Controllers\PC\Anchor\AnchorController;
+use App\Http\Controllers\PC\CommonTool;
+use App\Http\Controllers\PC\Live\SubjectController;
+use App\Http\Controllers\PC\MatchTool;
 use App\Models\Admin\Test;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
+use App\Models\Subject\SubjectSpecimen;
+use App\Models\Subject\SubjectVideo;
+use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -73,6 +80,17 @@ class StaticServiceProvider extends ServiceProvider
         });
         //线路日志记录 结束
 
+        //录像终端静态化
+        SubjectVideoChannels::saved(function($videoChannel) {
+            $subCon = new SubjectController();
+            $subCon->staticSubjectVideoNew($videoChannel);
+        });
+
+        //集锦终端静态化
+        SubjectSpecimen::saved(function ($specimen) {
+            $subCon = new SubjectController();
+            $subCon->staticSubjectSpecimenNew($specimen, false);//静态化pc终端
+        });
     }
 
     /**

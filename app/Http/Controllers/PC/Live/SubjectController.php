@@ -10,9 +10,15 @@ namespace App\Http\Controllers\PC\Live;
 
 
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Match\MatchLive;
+use App\Models\Subject\SubjectLeague;
+use App\Models\Subject\SubjectVideo;
+use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -26,15 +32,26 @@ class SubjectController extends Controller
     /**
      *
      * @param Request $request
-     * @param $s_lid
+     * @param $name_en
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function detail(Request $request, $s_lid) {
-        $result = $this->getSubjectDetail($s_lid);
+    public function detail(Request $request, $name_en) {
+        $aiCon = new AikanQController();
+        $subjectLeague = SubjectLeague::getSubjectLeagueByEn($name_en);
+        $result = $aiCon->subjectDetailData(false, $subjectLeague);
         if (!isset($result) || !isset($result['subject'])) {
             return abort(404);
         }
+        return self::subjectDetailHtml($result, $subjectLeague->id);
+    }
 
+    /**
+     * 终端静态化
+     * @param $result
+     * @param $slid
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public static function subjectDetailHtml($result, $slid) {
         //处理专题内容
         $subject = $result['subject'];
         $content = $subject['content'];
@@ -67,8 +84,8 @@ class SubjectController extends Controller
         }
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
-        $result['slid'] = $s_lid;
-        $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
+        $result['slid'] = $slid;
+        $result['title'] = $subjectName . '直播_' . $subjectName . '录像-爱看球直播';
         return view('pc.subject.detail', $result);
     }
 
@@ -84,19 +101,9 @@ class SubjectController extends Controller
         //录像 播放页面
         $video = $this->getSubjectVideo($vid);
         if (isset($video['error'])) {
-            return "";
+            return abort(404);
         }
-        $result['match'] = $video;
-        $result['type'] = 'video';
-
-        $lname = $video['lname'];
-        $hname = $video['hname'];
-        $aname = $video['aname'];
-
-        $match_title = $hname . "VS" . $aname;
-        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
-        $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
-        return view('pc.subject.video', $result);
+        return $this->subjectVideoHtml($video);
     }
 
     /**
@@ -104,7 +111,7 @@ class SubjectController extends Controller
      * @param $video
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function subjectVideoHtml($video) {
+    public function subjectVideoHtml($video) {
         $result['match'] = $video;
         $result['type'] = 'video';
 
@@ -113,7 +120,7 @@ class SubjectController extends Controller
         $aname = $video['aname'];
 
         $match_title = $hname . "VS" . $aname;
-        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
+        $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球直播";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         return view('pc.subject.video', $result);
     }
@@ -134,6 +141,69 @@ class SubjectController extends Controller
         $result['match'] = $specimen;
         $result['type'] = 'specimen';
         return view('pc.subject.video', $result);
+    }
+
+    /**
+     * 集锦
+     * @param $specimen
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function subjectSpecimenHtml($specimen) {
+        $result['match'] = $specimen;
+        $result['type'] = 'specimen';
+        return view('pc.subject.video', $result);
+    }
+
+    /**
+     * @param $specimen
+     * @param $isMobile
+     */
+    public function staticSubjectSpecimenNew($specimen, $isMobile = false) {
+        $platform = $specimen->platform;
+        if ($isMobile && ($platform != MatchLive::kPlatformAll || $platform != MatchLive::kPlatformPhone) ) {
+            Log::error("集锦不存在");
+            return;
+        }
+        $result['hname'] = $specimen->title;
+        $result['aname'] = '';
+        $result['channels'][] = ['id'=>$specimen->id, 'title'=>'集锦', 'player'=>$specimen->player, 'platform'=>$platform];
+        $sl = SubjectLeague::query()->find($specimen->s_lid);
+        if (isset($sl)) {
+            $result['lname'] = $sl->name;
+        }
+        $html = $this->subjectSpecimenHtml($result);
+        if (!empty($html)) {
+            $path = CommonTool::getSubjectSpecimenDetailPath($specimen->s_lid, $specimen->id);
+            Log::info("staticSubjectSpecimen：" . $path);
+            Storage::disk('public')->put('/www'.$path, $html);
+        }
+    }
+
+    /**
+     * 静态化专题录像
+     * @param SubjectVideoChannels $videoChannel
+     */
+    public function staticSubjectVideoNew(SubjectVideoChannels $videoChannel) {
+        $video = $videoChannel->video;
+        $pcVideo = SubjectVideo::video2Array($video, false);
+        //静态化录像终端 PC
+        $pcCon = new SubjectController();
+        $pc_detail_html = $pcCon->subjectVideoHtml($pcVideo);
+        if (!empty($pc_detail_html)) {
+            $pc_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+            $pc_detail_patch = '/www' . $pc_detail_patch;
+            Storage::disk("public")->put($pc_detail_patch, $pc_detail_html);
+        }
+
+        //静态化录像终端 WAP
+        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+        $mVideo = SubjectVideo::video2Array($video, true);
+        $m_detail_html = $mCon->subjectVideoDetailHtml($mVideo);
+        if (!empty($m_detail_html)) {
+            $m_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+            $m_detail_patch = '/m' . $m_detail_patch;
+            Storage::disk("public")->put($m_detail_patch, $m_detail_html);
+        }
     }
 
     /**
@@ -193,11 +263,6 @@ class SubjectController extends Controller
      * @return array|mixed|void
      */
     public function getSubjectDetail($id) {
-//        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $id;
-//        $server_output = $this->execUrl($url);
-//        $subjects = json_decode($server_output, true);
-//        $subjects = isset($subjects) ? $subjects : [];
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjectDetail(new Request(), $id)->getData();
         $data = json_encode($data);
@@ -263,9 +328,6 @@ class SubjectController extends Controller
      * @param Request $request
      */
     public function staticSubjectLeagues(Request $request) {
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjects(new Request())->getData();
         $server_output = json_encode($data);
@@ -291,12 +353,11 @@ class SubjectController extends Controller
      * 静态化专题终端页
      * @param Request $request
      * @param $slid
-     * @param $name_en 专题的英文名称
      */
-    public function staticSubjectHtml(Request $request, $slid, $name_en) {
+    public function staticSubjectHtml(Request $request, $slid) {
         $html = $this->detail($request, $slid);
         if (!empty($html)) {
-            Storage::disk("public")->put("/www/".$name_en."/index.html", $html);
+            Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
         }
     }
 

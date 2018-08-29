@@ -39,7 +39,7 @@
             <td>{{$match['hscore'] . ' - ' . $match['ascore']}}</td>
             <td>{{$match['aname']}}</td>
             <td>
-                <a target="_blank" href="{{\App\Http\Controllers\PC\MatchTool::subjectLink($match['id'], 'video')}}">观看录像</a>
+                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $match['id'], 'video')}}">观看录像</a>
             </td>
         </tr>
         @endforeach

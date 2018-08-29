@@ -695,14 +695,23 @@ class AikanQController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function subjects(Request $request) {
+        $subjects = $this->subjectsData();
+        return response()->json($subjects);
+    }
+
+    /**
+     * 专题列表接口
+     * @return array
+     */
+    public function subjectsData() {
         $query = SubjectLeague::query();
         $query->orderByRaw('ifNull(od, 999)');
         $sls = $query->get();
         $subjects = [];
         foreach ($sls as $sl) {
-            $subjects[$sl->id] = $sl->name;
+            $subjects[$sl->id] = ['name'=>$sl->name, 'name_en'=>$sl->name_en];
         }
-        return response()->json($subjects);
+        return $subjects;
     }
 
     /**
@@ -750,12 +759,27 @@ class AikanQController extends Controller
      */
     public function subjectDetail(Request $request, $slid) {
         $isMobile = $request->input('isMobile') == 1;
-        $result = [];
         $sl = SubjectLeague::query()->find($slid);
         if (!isset($sl)) {
             return \response()->json(['error'=>'专题不存在']);
         }
+        $result = $this->subjectDetailData($isMobile, $sl);
+        return response()->json($result);
+    }
+
+    /**
+     *
+     * @param $isMobile
+     * @param SubjectLeague $sl
+     * @return array|null
+     */
+    public function subjectDetailData($isMobile, SubjectLeague $sl) {
+        $result = [];
+        if (!isset($sl)) {
+            return null;
+        }
         $sport = $sl->sport;
+        $slid = $sl->id;
 
         //专题资讯 开始
         $articles = SubjectArticle::getArticles($slid);
@@ -805,7 +829,7 @@ class AikanQController extends Controller
         //专题集锦 结束
 
         $result['subject'] = ['name'=>$sl->name, 'icon'=>$sl->icon, 'content'=>$sl->content, 'sport'=>$sl->sport, 'type'=>$sl->type, 'lid'=>$sl->lid];
-        return \response()->json($result);
+        return $result;
     }
 
     /**
@@ -852,6 +876,28 @@ class AikanQController extends Controller
             $result['lname'] = $sl->name;
         }
         return response()->json($result);
+    }
+
+    /**
+     * 获取集锦数据
+     * @param $id
+     * @param bool $isMobile
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function subjectSpecimenData($id, $isMobile = false) {
+        $specimen = SubjectSpecimen::query()->find($id);
+        $platform = $specimen->platform;
+        if ($isMobile && ($platform != MatchLive::kPlatformAll || $platform != MatchLive::kPlatformPhone) ) {
+            return null;
+        }
+        $result['hname'] = $specimen->title;
+        $result['aname'] = '';
+        $result['channels'][] = ['id'=>$specimen->id, 'title'=>'集锦', 'player'=>$specimen->player, 'platform'=>$platform];
+        $sl = SubjectLeague::query()->find($specimen->s_lid);
+        if (isset($sl)) {
+            $result['lname'] = $sl->name;
+        }
+        return $result;
     }
 
     /**

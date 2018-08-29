@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -59,12 +61,12 @@ class SubjectVideoController extends Controller
         $result['week_array'] = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
         $result['subjects'] = [];
         if ($type == 'all') {
-            $result['title'] = '爱看球录像_收集最全的NBA录像、英超录像、西甲录像、中超录像供你看_爱看球';
+            $result['title'] = '爱看球录像_收集最全的NBA录像、英超录像、西甲录像、中超录像供你看_爱看球直播';
             $result['keywords'] = '爱看球,NBA录像,英超录像,西甲录像,中超录像,德甲录像,意甲录像,法甲录像';
         } else {
             if (isset($leagues[$type])) {
                 $typeCn = $leagues[$type]['name'];
-                $result['title'] =  $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放_爱看球';
+                $result['title'] =  $typeCn . '录像_' . $typeCn . '高清录像_' . $typeCn . '全场回放_爱看球直播';
                 $result['keywords'] = '爱看球,' . $typeCn . ',' . $typeCn . '高清录像,' . $typeCn . ',全场回放';
             }
         }
@@ -120,10 +122,6 @@ class SubjectVideoController extends Controller
      * @return array|mixed
      */
     public function getVideoPageMsg($id, $isMobile = false) {
-//        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
-//        $server_output = SubjectController::execUrl($url);
-//        $page = json_decode($server_output, true);
-
         $con = new \App\Http\Controllers\IntF\SubjectVideoController();
         $data = $con->subjectVideosPage(new Request(), $id, $isMobile);
         $str = $data->getData();
@@ -144,12 +142,6 @@ class SubjectVideoController extends Controller
      * @param Request $request
      */
     public function staticVideoLeaguesJson(Request $request) {
-//        $url = env('LIAOGOU_URL')."aik/subjects/league/video/leagues";
-//        $server_output = SubjectController::execUrl($url);
-//        $types = json_decode($server_output, true);
-//        $types = isset($types) ? $types : [];
-//        $typesStr = json_encode($types);
-
         $aiCon = new \App\Http\Controllers\IntF\SubjectVideoController();
         $data = $aiCon->subjectVideoTypes(new Request())->getData();
         $typesStr = json_encode($data);
@@ -174,16 +166,25 @@ class SubjectVideoController extends Controller
     public function staticSubjectVideosHtml(Request $request, $type, $page, $mobile = false) {
         $isMobile = $request->input('isMobile', 0) || $mobile;
         $data = $this->getSubjectVideos($type, $page, $isMobile);
+        $sub_name_en = "";
+        if ($type != "all") {
+            if($type == 999) {
+                $sub_name_en = "/other";
+            } else {
+                $subjectLeague = SubjectLeague::query()->find($type);
+                if (isset($subjectLeague)) {
+                    $sub_name_en = "/" . $subjectLeague->name_en;
+                }
+            }
+        }
+        dump($type . ' ' . $sub_name_en);
         if ($isMobile) {
             $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-            //if ($page == 1) {
-                //第一页静态化页面
-                $m_html = $msCon->subjectVideosHtml($data);
-                if (!empty($m_html)) {
-                    $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
-                    Storage::disk("public")->put($patch, $m_html);
-                }
-            //}
+            $m_html = $msCon->subjectVideosHtml($data);
+            if (!empty($m_html)) {
+                $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
+                Storage::disk("public")->put($patch, $m_html);
+            }
 
             //静态化json
             if (isset($data['page']) && isset($data['videos'])) {
@@ -193,19 +194,26 @@ class SubjectVideoController extends Controller
             }
 
             //静态化终端html
-            $videos = isset($data['videos']) ? $data['videos'] : [];
-            foreach ($videos as $video) {
-                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
-                if (!empty($m_detail_html)) {
-                    $m_patch = MatchTool::subjectPatch($video['id'], 'video');
-                    $m_patch = '/static/m' . $m_patch;
-                    Storage::disk("public")->put($m_patch, $m_detail_html);
-                }
-            }
+//            $videos = isset($data['videos']) ? $data['videos'] : [];
+//            foreach ($videos as $video) {
+//                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
+//                if (!empty($m_detail_html)) {
+//                    $m_patch = MatchTool::subjectPatch($video['id'], 'video');
+//                    $m_patch = '/static/m' . $m_patch;
+//                    Storage::disk("public")->put($m_patch, $m_detail_html);
+//                }
+//            }
         } else {
             $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
+            if ($page == 1) {
+                $newPatch = '/www'.$sub_name_en.'/videos/index.html';
+            } else {
+                $newPatch = '/www'.$sub_name_en.'/videos/index'.$page.'.html';
+            }
+            dump('newPatch：' . $newPatch);
             if (!isset($data['videos']) || !isset($data['page'])) {
                 Storage::delete('public' . $patch);
+                Storage::delete('public' . $newPatch);
                 return;
             }
             $leagues = $this->getLeagues();
@@ -215,7 +223,21 @@ class SubjectVideoController extends Controller
             if (!empty($html)) {
                 //echo $type . ' patch : ' . $patch . "\n";
                 Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表
+                Storage::disk("public")->put($newPatch, $html);//静态化热门录像分页列表
             }
+
+            //静态化终端html
+//            $videos = isset($data['videos']) ? $data['videos'] : [];
+//            $con = new SubjectController();
+//            foreach ($videos as $video) {
+//                $pc_detail_html = $con->subjectVideoHtml($video);
+//                if (!empty($pc_detail_html)) {
+//                    $pc_detail_patch = CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video');
+//                    $pc_detail_patch = '/www' . $pc_detail_patch;
+//                    dump($pc_detail_patch);
+//                    Storage::disk("public")->put($pc_detail_patch, $pc_detail_html);
+//                }
+//            }
         }
     }
     //=====================================静态化 结束=====================================//

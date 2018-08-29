@@ -55,13 +55,13 @@ class PcArticle extends Model
         if(isset($type)){
             $name_en = $type->name_en;
         } else{
-            $name_en = 'detail';
+            $name_en = 'other';
         }
         $path = '';
         $mid = $this->id;
         if ($mid > 0) {
-            $first = date('Ymd', strtotime($this->publish_at));
-            $path = '/news/'.$name_en.'/' . $first . '/'  . $mid . '.html';
+            //$first = date('Ymd', strtotime($this->publish_at));
+            $path = '/news/'.$name_en. $mid . '.html';
         }
         return $path;
     }

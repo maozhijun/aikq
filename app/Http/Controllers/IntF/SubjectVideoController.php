@@ -36,9 +36,9 @@ class SubjectVideoController extends Controller
         $array = ['all'=>['name'=>'全部', 'count'=>SubjectVideoChannels::channelsCount('all') ]];
         foreach ($leagues as $league) {
             $slid = $league->id;
-            $array[$slid] = ['name'=>$league->name, 'count'=>SubjectVideoChannels::channelsCount($slid)];
+            $array[$slid] = ['name'=>$league->name, 'name_en'=>$league->name_en, 'count'=>SubjectVideoChannels::channelsCount($slid)];
         }
-        $array[SubjectVideo::kOther] = ['name'=>'其他', 'count'=>SubjectVideoChannels::channelsCount(SubjectVideo::kOther) ];
+        $array[SubjectVideo::kOther] = ['name'=>'其他', 'name_en'=>'other',  'count'=>SubjectVideoChannels::channelsCount(SubjectVideo::kOther) ];
         return response()->json($array);
     }
 

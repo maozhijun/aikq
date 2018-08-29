@@ -56,16 +56,16 @@ trait MatchTool
      * @return string
      */
     public static function subjectLink($id, $type) {
-        $len = strlen($id);
-        if ($len < 4) {
-            return "";
-        }
-        $first = substr($id, 0, 2);
-        $second = substr($id, 2, 3);
-        $url = '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
-        $url = asset($url);
-        $url = str_replace('https', 'http', $url);
-        return $url;
+//        $len = strlen($id);
+//        if ($len < 4) {
+//            return "";
+//        }
+//        $first = substr($id, 0, 2);
+//        $second = substr($id, 2, 3);
+//        $url = '/live/subject/' . $type . '/' . $first . '/' . $second . '/' . $id . '.html';
+//        $url = asset($url);
+//        $url = str_replace('https', 'http', $url);
+        return $type."/".$id.".html";
     }
 
     public static function subjectPatch($id, $type) {

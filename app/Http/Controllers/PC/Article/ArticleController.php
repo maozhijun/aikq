@@ -10,8 +10,10 @@ namespace App\Http\Controllers\PC\Article;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleType;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,12 +56,16 @@ class ArticleController extends Controller
     /**
      * 文章终端
      * @param Request $request
-     * @param $t_name
-     * @param $date
-     * @param $id
+     * @param $param
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
-    public function detail(Request $request, $t_name, $date, $id) {
+    public function detail(Request $request, $param) {
+        preg_match("/([a-zA-Z]+)(\d+)/", $param, $matches);
+        if (count($matches) != 3) {
+            return abort(404);
+        }
+        $t_name = $matches[1];
+        $id = $matches[2];
         $detail = PcArticle::query()->find($id);
         if (!isset($detail)) {
             return abort(404);
@@ -121,19 +127,20 @@ class ArticleController extends Controller
     public function generateHtml(PcArticle $article) {
         $type_obj = $article->type_obj;
         $disks = 'news';
-        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'detail';
-        $publish_date = date('Ymd', strtotime($article->publish_at));
-        $path = $disks . '/' . $type_name_en . '/' . $publish_date . '/' . $article->id . '.html';
+        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
+
+        $path = CommonTool::getArticleDetailPath($type_name_en, $article->id);
+
         $article->disks = $disks;
-        $article->path = '/www/' . $path;
+        $article->path = '/www' . $path;
         $article->save();
 
         $html = $this->detailHtml($article);
-        Storage::disk("public")->put($path, $html);
+        Storage::disk("public")->put('/www'.$path, $html);
 
         $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapHtml = $mobileCon->detailHtml($article);
-        Storage::disk("public")->put('/m/'.$path, $wapHtml);
+        Storage::disk("public")->put('/m'.$path, $wapHtml);
     }
 
 
