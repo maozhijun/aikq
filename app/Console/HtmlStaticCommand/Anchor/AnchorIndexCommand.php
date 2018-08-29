@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Console\HtmlStaticCommand;
+namespace App\Console\HtmlStaticCommand\Anchor;
 
+use App\Console\HtmlStaticCommand\BaseCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

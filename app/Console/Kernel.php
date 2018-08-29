@@ -2,15 +2,15 @@
 
 namespace App\Console;
 
-use App\Console\Anchor\AnchorDetailCommand;
 use App\Console\Anchor\AnchorJsonCommand;
 use App\Console\Anchor\CheckStreamCommand;
 use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
-use App\Console\Article\ArticlePageCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
-use App\Console\HtmlStaticCommand\AnchorIndexCommand;
+use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
+use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
+use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Spider\SpiderTTZBCommand;
@@ -86,7 +86,7 @@ class Kernel extends ConsoleKernel
         AnchorDetailCommand::class,//主播终端定时任务
         AnchorJsonCommand::class,//主播播放json定时任务
 
-        ArticlePageCommands::class,//文章分页定时任务
+        ArticlePageCommand::class,//文章分页定时任务
         ArticleLiveCellCommands::class,//文章直播单元静态化定时任务
         ArticlesCacheCommand::class,//文章最新列表
 
@@ -152,7 +152,7 @@ class Kernel extends ConsoleKernel
         
         //主播定时任务
         $schedule->command("anchor_index_cache:run all")->everyMinute();//每分钟静态化主播主页
-//        $schedule->command("anchor_detail_cache:run")->everyTenMinutes();//每10分钟静态化主播终端页
+//        $schedule->command("anchor_detail_cache:run all")->everyTenMinutes();//每10分钟静态化主播终端页
         $schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化队列里面的内容
 
 //        $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
@@ -161,7 +161,7 @@ class Kernel extends ConsoleKernel
 
         //文章静态化定时任务
         $schedule->command("article_lives:run")->everyMinute();
-        $schedule->command("article_page:run")->everyFiveMinutes();
+        $schedule->command("article_page:run all")->everyFiveMinutes();
         $schedule->command("article_cache:run")->everyTenMinutes();
 
         $schedule->command('spider_ttzb:run')->hourlyAt(10);

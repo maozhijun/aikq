@@ -50,11 +50,22 @@ abstract class BaseCommand extends Command
                 $this->onMipHandler($request);
                 break;
         }
+        $this->onCommonHandler($request);
     }
 
-    protected abstract function onPcHandler(Request $request);
+    protected function onPcHandler(Request $request) {
 
-    protected abstract function onMobileHandler(Request $request);
+    }
 
-    protected abstract function onMipHandler(Request $request);
+    protected function onMobileHandler(Request $request) {
+
+    }
+
+    protected function onMipHandler(Request $request){
+
+    }
+
+    protected function onCommonHandler(Request $request) {
+
+    }
 }

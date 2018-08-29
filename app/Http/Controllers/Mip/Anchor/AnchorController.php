@@ -58,4 +58,14 @@ class AnchorController extends Controller
         $html = $this->index($request);
         $this->onHtmlStatic($html, UrlCommonTool::MIP_STATIC_PATH . "/anchor/index.html");
     }
+
+    /**
+     * 静态化直播房间页
+     * @param Request $request
+     */
+    public function roomStatic(Request $request){
+        $room_id = $request->input('room_id');
+        $html = $this->room($request, $room_id);
+        $this->onHtmlStatic($html, UrlCommonTool::MIP_STATIC_PATH.'/anchor/room/' . $room_id . '.html');
+    }
 }

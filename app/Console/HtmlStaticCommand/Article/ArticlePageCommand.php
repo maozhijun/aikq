@@ -1,53 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 11247
- * Date: 2018/8/6
- * Time: 16:52
- */
 
-namespace App\Console\Article;
+namespace App\Console\HtmlStaticCommand\Article;
 
-
+use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Http\Controllers\PC\Article\ArticleController;
 use App\Models\Article\PcArticle;
-use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
-class ArticlePageCommands extends Command
+class ArticlePageCommand extends BaseCommand
 {
-
     const ARTICLE_PAGE_KEY = "ARTICLE_PAGE_KEY";
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'article_page:run';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = '文章分页列表静态化';
-
-    /**
-     * Create a new command instance.
-     * HotMatchCommand constructor.
-     */
-    public function __construct()
+    protected function command_name()
     {
-        parent::__construct();
+        return "article_page";
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    protected function description()
+    {
+        return "文章分页列表静态化";
+    }
+
+    protected function onCommonHandler(Request $request)
+    {
         //静态化 资讯分页列表
         //获取分页信息
         $page = 1;
@@ -61,10 +38,19 @@ class ArticlePageCommands extends Command
         if (!empty($html)) {
             Storage::disk("public")->put("/www/news/index.html", $html);
         }
+
+        //mobile只静态化首页
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapIndex = $wapCon->articlesHtml($articles);
         if (!empty($wapIndex)) {
-            Storage::disk("public")->put("/m/news/index.html", $wapIndex);
+            Storage::disk("public")->put(\App\Http\Controllers\Mobile\UrlCommonTool::MOBILE_STATIC_PATH."/news/index.html", $wapIndex);
+        }
+
+        //mip只静态化首页
+        $mipCon = new \App\Http\Controllers\Mip\Article\ArticleController();
+        $mipIndex = $mipCon->articlesHtml($articles);
+        if (!empty($mipIndex)) {
+            Storage::disk("public")->put(\App\Http\Controllers\Mip\UrlCommonTool::MIP_STATIC_PATH."/news/index.html", $wapIndex);
         }
 
         $lastPage = $articles->lastPage();
@@ -115,5 +101,4 @@ class ArticlePageCommands extends Command
     public function setCachePage($key, $page) {
         Redis::set($key, $page);
     }
-
 }

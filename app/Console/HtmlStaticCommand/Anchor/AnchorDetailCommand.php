@@ -1,74 +1,51 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 11247
- * Date: 2018/7/27
- * Time: 11:10
- */
 
-namespace App\Console\Anchor;
+namespace App\Console\HtmlStaticCommand\Anchor;
 
-
-use App\Http\Controllers\PC\Anchor\AnchorController;
+use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Models\Anchor\AnchorRoom;
-use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
-class AnchorDetailCommand extends Command
+class AnchorDetailCommand extends BaseCommand
 {
-
     const ROOMS_CACHE_KEY = "ROOMS_CACHE_KEY";
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'anchor_detail_cache:run';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = '主播终端/播放器静态化';
-
-    /**
-     * Create a new command instance.
-     * HotMatchCommand constructor.
-     */
-    public function __construct()
+    protected function command_name()
     {
-        parent::__construct();
+        return "anchor_detail_cache";
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle() {
+    protected function description()
+    {
+        return "主播终端/播放器静态化";
+    }
+
+    protected function onCommonHandler(Request $request)
+    {
         $roomArray = $this->getCacheValidRooms(self::ROOMS_CACHE_KEY);
-        $con = new AnchorController();
+        $con = new \App\Http\Controllers\PC\Anchor\AnchorController();
         $mCon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
+        $mipCon = new \App\Http\Controllers\Mip\Anchor\AnchorController();
 
         $request = new Request();
         foreach ($roomArray as $index=>$room) {
             if ($index >= 50) {
                 break;
             }
+
             //终端静态化
             $room_id = $room['id'];
+            $request->merge(['room_id'=>$room_id]);
+
             $html = $con->room($request, $room_id);
             if (!empty($html)) {
                 Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);
             }
 
-            $mHtml = $mCon->room($request, $room_id);
-            if (!empty($mHtml)) {
-                Storage::disk('public')->put('m/anchor/room/' . $room_id . '.html', $mHtml);
-            }
+            $mCon->roomStatic($request);
+            $mipCon->roomStatic($request);
 
             //播放器静态化
             $player = $con->player($request, $room_id);
@@ -97,5 +74,4 @@ class AnchorDetailCommand extends Command
         }
         return $roomArray;
     }
-
 }
