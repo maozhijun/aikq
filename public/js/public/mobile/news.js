@@ -1,12 +1,11 @@
 function loadNews() {
     if (!window.curPage)  window.curPage = 1;
     if (!window.loadPage) window.loadPage = false;
-
     window.curPage++;
     var isLoading = window.loadPage;
     if (!isLoading && window.curPage <= window.lastPage) {
         window.loadPage = true;
-        var url = "/news/page" + window.curPage + ".html";
+        var url = location.pathname + "/page" + window.curPage + ".html";
         $.ajax({
             "url": url,
             "dataType": "html",

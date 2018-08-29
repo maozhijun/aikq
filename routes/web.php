@@ -66,8 +66,8 @@ Route::group([], function () {
     Route::get("/aik/subjects/covers", 'AikanQController@subjectLeaguesImages');//专题icon列表
     Route::get("/aik/subjects/detail/{slid}", "AikanQController@subjectDetail");//专题终端
     Route::get("/aik/subjects/carousel/{slid}", "AikanQController@subjectCarousel");//专题终端焦点图,暂时只有世界杯用
-    Route::get("/aik/subjects/video/{vid}", "AikanQController@subjectVideo");//专题录像播放终端
-    Route::get("/aik/subjects/specimen/{sid}", "AikanQController@subjectSpecimen");//专题录像播放终端
+    //Route::get("/aik/subjects/video/{vid}", "AikanQController@subjectVideo");//专题录像播放终端
+    //Route::get("/aik/subjects/specimen/{sid}", "AikanQController@subjectSpecimen");//专题录像播放终端
 
     Route::get("/aik/subjects/video/channel/{cid}", "AikanQController@subjectVideoChannelJson");//专题录像播放终端
     Route::get("/aik/subjects/specimen/channel/{cid}", "AikanQController@subjectSpecimenChannelJson");//专题录像播放终端
