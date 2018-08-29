@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Mip;
 
 class UrlCommonTool
 {
+    const MIP_STATIC_PATH = "/mip";
     const MIP_PREFIX = "/mip";
 
     /*********************直播相关*************************/

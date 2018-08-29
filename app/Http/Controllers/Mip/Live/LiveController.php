@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Mip\Live;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class LiveController extends Controller
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
-                Storage::disk("public")->put("/m/index.html",$html);
+                Storage::disk("public")->put(UrlCommonTool::MIP_STATIC_PATH."/index.html",$html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();

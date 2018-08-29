@@ -110,7 +110,8 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
-        $schedule->command('index_cache:run')->everyMinute();//每分钟刷新主页缓存
+        $schedule->command('index_cache:run mobile')->everyMinute();//每分钟刷新主页缓存
+        $schedule->command('index_cache:run mip')->everyMinute();//每分钟刷新主页缓存
         //$schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存  在保存的时候静态化
 
         $schedule->command('player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次正在直播的比赛的线路内容 在保存的时候静态化
