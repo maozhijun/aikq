@@ -59,49 +59,98 @@
             {{--@endif--}}
         {{--</div>--}}
         <div id="Rank" class="inner">
-        @if(isset($ranks) && count($ranks) > 0)
-            <div class="in">
-            @if(array_key_exists(0, $ranks))
-                <div class="title">
-                    <p class="rank">排名</p>
-                    <p class="team">球队</p>
-                    <p class="wdl">胜/平/负</p>
-                    <p class="gl">得/失</p>
-                    <p class="score">积分</p>
+            @if(isset($ranks) && count($ranks) > 0)
+                <div class="in">
+                    @if(array_key_exists(0, $ranks))
+                        <?php
+                        $rank = $ranks[0];
+                        ?>
+                        <div class="title">
+                            <p class="rank">排名</p>
+                            <p class="team">球队</p>
+                            @if(array_key_exists('draw',$rank))
+                                <p class="wdl">胜/平/负</p>
+                            @else
+                                <p class="wdl">胜/负</p>
+                            @endif
+                            @if(array_key_exists('draw',$rank))
+                                <p class="gl">得/失</p>
+                            @endif
+                            @if(array_key_exists('draw',$rank))
+                                <p class="score">积分</p>
+                            @else
+                                <p class="score">胜率</p>
+                            @endif
+                        </div>
+                        @foreach($ranks as $key=>$rank)
+                            <div class="list">
+                                <p class="rank">{{$key+1}}</p>
+                                <p class="team">{{$rank['name']}}</p>
+                                @if(array_key_exists('draw',$rank))
+                                    <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
+                                @else
+                                    <p class="wdl">{{$rank['win']}}/{{$rank['lose']}}</p>
+                                @endif
+                                @if(array_key_exists('draw',$rank))
+                                    <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
+                                @endif
+                                @if(array_key_exists('draw',$rank))
+                                    <p class="score">{{$rank['score']}}</p>
+                                @else
+                                    <p class="score">{{$rank['win_p']}}</p>
+                                @endif
+                            </div>
+                        @endforeach
                 </div>
-                @foreach($ranks as $key=>$rank)
-                    <div class="list">
-                        <p class="rank">{{$key+1}}</p>
-                        <p class="team">{{$rank['name']}}</p>
-                        <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
-                        <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
-                        <p class="score">{{$rank['score']}}</p>
-                    </div>
-                @endforeach
-            </div>
             @else
                 @foreach($ranks as $group=>$groupRanks)
-                <div class="in">
-                    <div class="title">
-                        <p class="rank">{{$group}}组</p>
-                        <p class="team">球队</p>
-                        <p class="wdl">胜/平/负</p>
-                        <p class="gl">得/失</p>
-                        <p class="score">积分</p>
-                    </div>
-                    @foreach($groupRanks as $key=>$rank)
-                        <div class="list">
-                            <p class="rank">{{$key+1}}</p>
-                            <p class="team">{{$rank['name']}}</p>
-                            <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
-                            <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
-                            <p class="score">{{$rank['score']}}</p>
+                    <div class="in">
+                        <div class="title">
+                            @if($group == 'west')
+                                <p class="rank">西岸</p>
+                            @elseif($group == 'east')
+                                <p class="rank">东岸</p>
+                            @else
+                                <p class="rank">{{$group}}组</p>
+                            @endif
+                            <p class="team">球队</p>
+                            @if(isset($rank['draw']))
+                                <p class="wdl">胜/平/负</p>
+                            @else
+                                <p class="wdl">胜/负</p>
+                            @endif
+                            @if(isset($rank['draw']))
+                                <p class="gl">得/失</p>
+                            @endif
+                            @if(isset($rank['draw']))
+                                <p class="score">积分</p>
+                            @else
+                                <p class="score">胜率</p>
+                            @endif
                         </div>
-                    @endforeach
-                </div>
+                        @foreach($groupRanks as $key=>$rank)
+                            <div class="list">
+                                <p class="rank">{{$key+1}}</p>
+                                <p class="team">{{$rank['name']}}</p>
+                                @if(isset($rank['draw']))
+                                    <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
+                                @else
+                                    <p class="wdl">{{$rank['win']}}/{{$rank['lose']}}</p>
+                                @endif
+                                @if(isset($rank['draw']))
+                                    <p class="gl">{{$rank['score']}}/{{$rank['lose']}}</p>
+                                @endif
+                                @if(isset($rank['draw']))
+                                    <p class="score">{{$rank['score']}}</p>
+                                @else
+                                    <p class="score">{{$rank['win_p']}}%</p>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 @endforeach
             @endif
-        @endif
+            @endif
         </div>
     </mip-vd-tabs>
 @stop
