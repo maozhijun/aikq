@@ -285,19 +285,7 @@ class LiveController extends Controller
      * @param bool $immediate 是否即时获取数据
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function footballdetail(Request $request, $id, $immediate = false) {
-//        $ch = curl_init();
-//        if ($immediate) {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id?isMobile=1";
-//        } else{
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$id" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-//        $server_output = curl_exec ($ch);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
+    public function footballDetail(Request $request, $id, $immediate = false) {
         $akqCon = new AikanQController();
         $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
         $jsonStr = json_encode($jsonStr);
@@ -315,33 +303,6 @@ class LiveController extends Controller
             $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         }
         return view('mobile.live.detail', $json);
-    }
-
-    /**
-     * 直播终端 新m站静态化的时候修改,中间增加时间返回,这里这样做比较好
-     * @param Request $request
-     * @param $id
-     * @param bool $immediate 是否即时获取数据
-     * @return array
-     */
-    public function footballdetailv2(Request $request, $id, $immediate = false) {
-        $akqCon = new AikanQController();
-        $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
-        $jsonStr = json_encode($jsonStr);
-        $json = json_decode($jsonStr, true);
-        $colum = 'other';
-        $sport = 1;
-        if (array_key_exists($json['match']['lid'],Match::path_league_football_arrays)){
-            $colum = Match::path_league_football_arrays[$json['match']['lid']];
-        }
-        $date = substr($id,0,2).'/'.substr($id,2,2);
-        if ($colum == 'other'){
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
-        else{
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
-        return array('html'=>view('mobile.live.detail', $json),'path'=>'/'.$colum.'/live/'.$sport.'/'.$date.'/'. $id . '.html');
     }
 
     public function footballDetailHtml($json, $id) {
@@ -393,41 +354,6 @@ class LiveController extends Controller
             $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         }
         return view('mobile.live.detail', $json);
-    }
-
-    /**
-     * 直播终端
-     * @param Request $request
-     * @param $id
-     * @param bool $immediate 是否即时获取数据
-     * @return array
-     */
-    public function basketballDetailv2(Request $request, $id, $immediate = false) {
-        $ch = curl_init();
-        if ($immediate) {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id?isMobile=1";
-        } else {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$id" . '.json';
-        }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        $colum = 'other';
-        $sport = 2;
-        if (array_key_exists($json['match']['lid'],Match::path_league_basketball_arrays)){
-            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
-        }
-        $date = substr($id,0,2).'/'.substr($id,0,2);
-        if ($colum == 'other'){
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
-        else{
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
-        return array('html'=>view('mobile.live.detail', $json),'path'=>'/'.$colum.'/live/'.$sport.'/'.$date.'/'. $id . '.html');
     }
 
     public function basketballDetailHtml($json, $id) {

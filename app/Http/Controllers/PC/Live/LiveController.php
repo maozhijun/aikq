@@ -916,28 +916,44 @@ class LiveController extends Controller
     public function staticLiveDetailById(Request $request, $mid, $sport, $ch_id = '') {
         $ch_id = empty($ch_id) ? $request->input('ch_id') : $ch_id;
         try {
-            $path = "/www" . CommonTool::getLiveDetailStaticPath($mid, $sport);
+            $path = CommonTool::getLiveDetailStaticPath($mid, $sport);
+            $pcPath = "/www" . $path;
+            $mPath = "/m" . $path;
+
+            $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             if ($sport == 1) {
                 $html = $this->footballDetail($request, $mid, true);
                 if (!empty($html)) {
-                    Storage::disk("public")->put($path, $html);
+                    Storage::disk("public")->put($pcPath, $html);
                 }
-                $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
+
+                $mHtml = $mCon->footballDetail($request, $mid, true);
+                if (!empty($mHtml)) {
+                    Storage::disk("public")->put($mPath, $mHtml);
+                }
             } else if($sport == 2){
                 $html = $this->basketDetail($request, $mid, true);
                 if (!empty($html)) {
-                    Storage::disk("public")->put($path, $html);
+                    Storage::disk("public")->put($pcPath, $html);
                 }
 
-                $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
+                $mHtml = $mCon->basketballDetail($request, $mid, true);
+                if (!empty($mHtml)) {
+                    Storage::disk("public")->put($mPath, $mHtml);
+                }
             } else if ($sport == 3) {
                 $html = $this->otherDetail($request, $mid, true);
                 if (!empty($html)) {
-                    Storage::disk("public")->put($path, $html);
+                    Storage::disk("public")->put($pcPath, $html);
                 }
-                //每一个比赛的player页面生成
-                $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
+
+                $mHtml = $mCon->otherDetail($request, $mid);
+                if (!empty($mHtml)) {
+                    Storage::disk("public")->put($mPath, $mHtml);
+                }
             }
+            //每一个比赛的player页面生成
+            $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
             if (is_numeric($ch_id)) {
                 $this->staticLiveUrl($request, $ch_id, true);
             }
