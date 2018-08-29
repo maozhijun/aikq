@@ -13,6 +13,7 @@ use App\Console\NoStartPlayerJsonCommand;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
@@ -365,6 +366,18 @@ class LiveController extends Controller
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
         $json['live']['channels'] = $channels;
+        if ($match['sport'] == 1){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
@@ -396,6 +409,18 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,2,$id);
+        if ($match['sport'] == 1){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
@@ -430,6 +455,18 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,3,$id);
+        if ($match['sport'] == 1){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
