@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Mobile\Subject;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\LgMatch\Match;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,11 +26,14 @@ class SubjectController extends Controller
     /**
      *
      * @param Request $request
+     * @param $name 名字
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function detail(Request $request) {
-        $path = $request->path();
-        $name = str_replace("m/", "", $path);
+    public function detail(Request $request,$name = null) {
+        if (is_null($name)) {
+            $path = $request->path();
+            $name = str_replace("m/", "", $path);
+        }
         if (!array_key_exists($name, self::SUBJECT_NAME_IDS)) {
             return abort(404);
         }
@@ -73,8 +77,8 @@ class SubjectController extends Controller
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
+        $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
         $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
-//        dump($result);
         return view('mobile.subject.detail', $result);
     }
 
@@ -298,12 +302,12 @@ class SubjectController extends Controller
     /**
      * 静态化专题终端页
      * @param Request $request
-     * @param $slid
+     * @param $str
      */
-    public function staticSubjectHtml(Request $request, $slid) {
-        $html = $this->detail($request, $slid);
+    public function staticSubjectHtml(Request $request, $str) {
+        $html = $this->detail($request, $str);
         if (!empty($html)) {
-            Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
+            Storage::disk("public")->put("/m/".$str."/index.html", $html);
         }
     }
 

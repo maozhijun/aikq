@@ -86,6 +86,17 @@ class ArticleController extends Controller
         } else {
             $typeName = $type->name;
         }
+        $content = $article->getContent();
+        $content = preg_replace("/ border=\"(.*?)\"/", "", $content);
+        $content = preg_replace("/ vspace=\"(.*?)\"/", "", $content);
+        $content = preg_replace("/ height=\"(.*?)\"/", " layout=\"container\"", $content);
+        $content = preg_replace("/ width=\"(.*?)\"/", "", $content);
+        $content = preg_replace("/ class=\"(.*?)\"/", "", $content);
+        $content = preg_replace("/ style=\"(.*?)\"/", "", $content);
+        $content = str_replace("<img", "<mip-img", $content);
+
+        $article->content = $content;
+
         $result['article'] = $article;
         $result['h1'] = $article->title;
         $result['title'] = $article->title . "_" . $typeName . "-爱看球直播";

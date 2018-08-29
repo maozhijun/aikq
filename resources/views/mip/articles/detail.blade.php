@@ -21,7 +21,7 @@
         <p>{{$article->digest}}</p>
     </div>
     <div id="Content">
-        {!! $article->getContent() !!}
+        {!! $article->content !!}
     </div>
 @endsection
 
