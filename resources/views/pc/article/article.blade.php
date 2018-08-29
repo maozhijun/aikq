@@ -1,4 +1,4 @@
-@extends("pc.layout.anchor_base")
+@extends("pc.layout.base")
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/article.css?rd=20180000002">
 @endsection

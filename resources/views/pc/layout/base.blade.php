@@ -2,20 +2,26 @@
 <html>
 <head>
     <?php
-        $title = isset($title) ? $title : '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
-        $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
-        $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
+    $title = isset($title) ? $title : '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
+    $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
+    $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
     ?>
     <meta charset="UTF-8">
     @yield("meta")
     <title>{{$title}}</title>
     @if(!isset($noMeta) || !$noMeta)
-    <meta name="Keywords" content="{{$keywords}}">
-    <meta name="Description" content="{{$description}}">
+        <meta name="Keywords" content="{{$keywords}}">
+        <meta name="Description" content="{{$description}}">
     @endif
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
+        <?php
+        $ma_url = request()->url();
+        $ma_url = str_replace(env('WWW_URL'),env('M_URL'),$ma_url);
+        ?>
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{$ma_url}}">
+    <meta http-equiv="mobile-agent" content="format=html5; url={{$ma_url}}">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=2018000003">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
@@ -59,9 +65,9 @@
 </div>
 <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
 @if(isset($subjects) && count($subjects) > 0)
-<div id="Link">
-    @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}">{{$su_obj['name']}}</a> @endforeach
-</div>
+    <div id="Link">
+        @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}">{{$su_obj['name']}}</a> @endforeach
+    </div>
 @endif
 @yield('content')
 <?php //$links = \App\Http\Controllers\PC\Live\LiveController::links(); ?>
