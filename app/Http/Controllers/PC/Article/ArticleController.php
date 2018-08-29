@@ -161,6 +161,10 @@ class ArticleController extends Controller
         $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapHtml = $mobileCon->detailHtml($article);
         Storage::disk("public")->put('/m'.$path, $wapHtml);
+
+        $mipCon = new \App\Http\Controllers\Mip\Article\ArticleController();
+        $mipHtml = $mipCon->detailHtml($article);
+        Storage::disk("public")->put('/mip'.$path, $mipHtml);
     }
 
 
