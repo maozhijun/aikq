@@ -22,7 +22,10 @@
         @foreach($lives as $day=>$matches)
             <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
             @foreach($matches as $match)
-                <a href="videoPhone.html" @if($match['status']>0)class="live" @endif>
+                <?php
+                $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
+                ?>
+                <a href="{{$url}}" @if($match['status']>0)class="live" @endif>
                     <p class="time">{{date('H:i', $match['time'])}}</p>
                     <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                 </a>

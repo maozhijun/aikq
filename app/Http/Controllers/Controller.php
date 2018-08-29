@@ -10,21 +10,21 @@ use Illuminate\Support\Facades\Redis;
 class Controller extends BaseController
 {
     const SUBJECT_NAME_IDS = [
-        "zhongchao"=>['id'=>1002, 'name'=>'中超'],
-        "yingchao"=>['id'=>1000, 'name'=>'英超'],
-        "xijia"=>['id'=>1003, 'name'=>'西甲'],
-        "yijia"=>['id'=>1004, 'name'=>'意甲'],
-        "fajia"=>['id'=>1005, 'name'=>'法甲'],
-        "dejia"=>['id'=>1006, 'name'=>'德甲'],
+        "zhongchao"=>['id'=>1002, 'name'=>'中超','lid'=>46],
+        "yingchao"=>['id'=>1000, 'name'=>'英超','lid'=>31],
+        "xijia"=>['id'=>1003, 'name'=>'西甲','lid'=>26],
+        "yijia"=>['id'=>1004, 'name'=>'意甲','lid'=>29],
+        "fajia"=>['id'=>1005, 'name'=>'法甲','lid'=>11],
+        "dejia"=>['id'=>1006, 'name'=>'德甲','lid'=>8],
 //        "j1"=>['id'=>1002, 'name'=>'J联赛'],
 //        "k1"=>['id'=>1002, 'name'=>'K联赛'],
 //        "aojia"=>['id'=>1002, 'name'=>'澳甲'],
-        "nba"=>['id'=>1009, 'name'=>'NBA'],
-        "cba"=>['id'=>1010, 'name'=>'CBA'],
-        "worldcup"=>['id'=>1008, 'name'=>'世界杯'],
-        "uefacl"=>['id'=>1001, 'name'=>'欧冠杯'],
-        "uefael"=>['id'=>1011, 'name'=>'欧罗巴杯'],
-        "afccl"=>['id'=>1007, 'name'=>'亚冠杯'],
+        "nba"=>['id'=>1009, 'name'=>'NBA','lid'=>1],
+        "cba"=>['id'=>1010, 'name'=>'CBA','lid'=>4],
+        "worldcup"=>['id'=>1008, 'name'=>'世界杯','lid'=>57],
+        "uefacl"=>['id'=>1001, 'name'=>'欧冠杯','lid'=>73],
+        "uefael"=>['id'=>1011, 'name'=>'欧罗巴杯','lid'=>77],
+        "afccl"=>['id'=>1007, 'name'=>'亚冠杯','lid'=>139],
     ];
 
     protected $html_var = [];
@@ -82,21 +82,5 @@ class Controller extends BaseController
         $server_out = curl_exec ($ch);
         curl_close ($ch);
         return $server_out;
-    }
-
-    public static function getLiveUrl($lid,$sport,$id){
-        $lid = $lid;
-        $str = 'other';
-        if ($sport == 1){
-            if (array_key_exists($lid,Match::path_league_football_arrays)){
-                $str = Match::path_league_football_arrays[$lid];
-            }
-        }
-        elseif($sport == 2){
-            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
-                $str = Match::path_league_basketball_arrays[$lid];
-            }
-        }
-        return '/'.$str.'/'.'live'.$sport.$id.'.html';
     }
 }

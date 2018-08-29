@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Mobile\Subject;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\LgMatch\Match;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -76,6 +77,7 @@ class SubjectController extends Controller
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
+        $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
         $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
         return view('mobile.subject.detail', $result);
     }

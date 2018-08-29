@@ -50,7 +50,7 @@
                 ?>
                 @if($match['sport'] == 3)
                     <?php
-                        $url = \App\Http\Controllers\Controller::getLiveUrl($match['lid'],3,$match['mid']);
+                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'],3,$match['mid']);
                         ?>
                     <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
@@ -65,7 +65,7 @@
                     </a>
                 @else
                     <?php
-                        $url = \App\Http\Controllers\Controller::getLiveUrl($match['lid'],$match['sport'],$match['mid']);
+                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'],$match['sport'],$match['mid']);
                         ?>
                     <a href="{{$url}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
