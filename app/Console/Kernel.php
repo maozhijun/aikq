@@ -12,11 +12,11 @@ use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
 use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
+use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
 //use App\Console\Subject\CoverCommand;
-use App\Console\Subject\DetailCommand;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
 //use App\Console\HotVideo\VideoPageCommand;
@@ -134,7 +134,7 @@ class Kernel extends ConsoleKernel
         //专题静态化
         //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
         $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
-        $schedule->command('subject_detail_cache:run')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
+        $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
 
         //热门录像静态化

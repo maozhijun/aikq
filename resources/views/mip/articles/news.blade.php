@@ -21,7 +21,7 @@
 @section('content')
     <mip-infinitescroll id="Content" template="myTemplate" data-src="{{\App\Http\Controllers\Mip\UrlCommonTool::newsForPageUrl("all")}}">
         @foreach($page as $article)
-            <a href="{{$article->getMipUrl()}}" class="li">
+            <a href="{{$article->getUrl()}}" class="li">
                 @if(!empty($article->cover))
                     <mip-img height="66" layout="fixed-height" src="{{$article->getCover()}}"></mip-img>
                 @endif
