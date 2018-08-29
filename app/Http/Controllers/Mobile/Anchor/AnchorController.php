@@ -8,14 +8,12 @@
 
 namespace App\Http\Controllers\Mobile\Anchor;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Mobile\UrlCommonTool;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Anchor\AnchorRoomTag;
-use App\Models\Match\Odd;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class AnchorController extends Controller
 {
@@ -45,5 +43,16 @@ class AnchorController extends Controller
         $result['title'] = '美女主播球赛讲解_主播频道-爱看球直播';
         $result['h1'] = '美女主播球赛讲解';
         return view('mobile.anchor.room',$result);
+    }
+
+    /////////////////////////////////////  静态化列表 开始   /////////////////////////////////////
+
+    /**
+     * 静态化 wap 首页
+     * @param Request $request
+     */
+    public function indexStatic(Request $request){
+        $html = $this->index($request);
+        $this->onHtmlStatic($html, UrlCommonTool::MOBILE_STATIC_PATH."/anchor/index.html");
     }
 }

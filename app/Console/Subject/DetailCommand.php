@@ -67,6 +67,11 @@ class DetailCommand extends Command
             Storage::disk("public")->put("/www/$name_en/index.html", $html);
             Storage::disk("public")->put("/live/subject/" . $sl->id . ".html", $html);//兼容旧地址
         }
+
+        //手机
+        $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
+        echo $sl->name_en;
+        $con->staticSubjectHtml(new Request(),$sl->name_en);
     }
 
 }

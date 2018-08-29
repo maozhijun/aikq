@@ -8,11 +8,14 @@
  */
 namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Models\LgMatch\Match;
+use App\Models\Subject\SubjectLeague;
 
 class UrlCommonTool
 {
-    const MIP_PREFIX = "/mip";
+    const MOBILE_STATIC_PATH = "/m";
+    const MOBILE_PREFIX = "/m";
 
     /*********************直播相关*************************/
 
@@ -38,7 +41,7 @@ class UrlCommonTool
     /*********************录像相关*************************/
 
     public static function homeVideosUrl($type = "all", $page = 1) {
-        return self::MIP_PREFIX."/live/subject/videos/$type/$page.html";
+        return self::MOBILE_PREFIX."/live/subject/videos/$type/$page.html";
     }
 
     public static function matchVideoUrl($vid) {
@@ -51,28 +54,64 @@ class UrlCommonTool
     /*********************主播相关*************************/
 
     public static function homeAnchorUrl() {
-        return self::MIP_PREFIX."/anchor/index.html";
+        return self::MOBILE_PREFIX."/anchor/index.html";
     }
 
     public static function anchorRoomUrl($roomId) {
-        return self::MIP_PREFIX."/anchor/room/$roomId.html";
+        return self::MOBILE_PREFIX."/anchor/room/$roomId.html";
     }
 
 
     /*********************文章相关*************************/
 
     public static function homeNewsUrl() {
-        return self::MIP_PREFIX."/news/";
+        return self::MOBILE_PREFIX."/news/";
     }
 
     public static function newsForPageUrl($type) {
-        return self::MIP_PREFIX."/news/$type";
+        return self::MOBILE_PREFIX."/news/$type";
+    }
+
+    /**
+     * 获取文章终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getArticleDetailPath($name_en, $id) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/news/".$first."/".$second."/".$id.".html";
+        } else {
+            $path = "/news/".$name_en."/".$first."/".$second."/".$id.".html";
+        }
+        return $path;
+    }
+
+    protected static function getSubjectLeagueNameEn($lid) {
+        $name_en = "";
+        if ($lid != 'all' && $lid != 999) {
+            $videoIntF = new SubjectVideoController();
+            $leagues = $videoIntF->getLeagues();
+            if (isset($leagues[$lid])) {
+                $name_en = $leagues[$lid]['name_en'];
+            }
+        } else if ($lid == 999) {
+            $name_en = "other";
+        }
+        return $name_en;
     }
 
     /*********************专题相关*************************/
 
     public static function subjectUrl($name) {
-        return self::MIP_PREFIX."/$name/";
+        return self::MOBILE_PREFIX."/$name/";
     }
 
 

@@ -6,6 +6,7 @@ use App\Models\LgMatch\Match;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class Controller extends BaseController
 {
@@ -98,5 +99,15 @@ class Controller extends BaseController
         $server_out = curl_exec ($ch);
         curl_close ($ch);
         return $server_out;
+    }
+
+    protected function onHtmlStatic($html, $path) {
+        try {
+            if (!empty($html)) {
+                Storage::disk("public")->put($path, $html);
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
     }
 }

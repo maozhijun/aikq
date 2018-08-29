@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Console\Anchor\AnchorDetailCommand;
-use App\Console\Anchor\AnchorIndexCommand;
 use App\Console\Anchor\AnchorJsonCommand;
 use App\Console\Anchor\CheckStreamCommand;
 use App\Console\Anchor\StreamKeyFrameCommand;
@@ -11,6 +10,8 @@ use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlePageCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
+use App\Console\HtmlStaticCommand\AnchorIndexCommand;
+use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
@@ -110,8 +111,8 @@ class Kernel extends ConsoleKernel
         //足球、篮球比赛 数据同步 结束
 
         $schedule->command('live_json_cache:run')->everyMinute();//每分钟刷新一次赛事缓存
-        $schedule->command('index_cache:run mobile')->everyMinute();//每分钟刷新主页缓存
-        $schedule->command('index_cache:run mip')->everyMinute();//每分钟刷新主页缓存
+        $schedule->command('index_cache:run all')->everyMinute();//每分钟刷新主页缓存
+
         //$schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存  在保存的时候静态化
 
         $schedule->command('player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次正在直播的比赛的线路内容 在保存的时候静态化
@@ -150,7 +151,7 @@ class Kernel extends ConsoleKernel
         $schedule->command("anchor_living_cache:run")->everyMinute();
         
         //主播定时任务
-        $schedule->command("anchor_index_cache:run")->everyMinute();//每分钟静态化主播主页
+        $schedule->command("anchor_index_cache:run all")->everyMinute();//每分钟静态化主播主页
 //        $schedule->command("anchor_detail_cache:run")->everyTenMinutes();//每10分钟静态化主播终端页
         $schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化队列里面的内容
 
