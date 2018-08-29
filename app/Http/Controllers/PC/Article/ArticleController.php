@@ -151,7 +151,8 @@ class ArticleController extends Controller
         $path = CommonTool::getArticleDetailPath($type_name_en, $article->id);
 
         $article->disks = $disks;
-        $article->path = '/www' . $path;
+        $article->path = $path;
+        $article->url = CommonTool::getArticleDetailUrl($type_name_en, $article->id);
         $article->save();
 
         $html = $this->detailHtml($article);
