@@ -366,13 +366,13 @@ class LiveController extends Controller
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
         $json['live']['channels'] = $channels;
-        if ($match['sport'] == 1){
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
             $zhuangti = Match::path_league_football_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
-        else if($match['sport'] == 2){
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
             $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
@@ -409,13 +409,13 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,2,$id);
-        if ($match['sport'] == 1){
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
             $zhuangti = Match::path_league_football_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
-        else if($match['sport'] == 2){
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
             $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
@@ -455,13 +455,13 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,3,$id);
-        if ($match['sport'] == 1){
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
             $zhuangti = Match::path_league_football_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
-        else if($match['sport'] == 2){
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
             $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
             $data['name_en'] = $zhuangti;
