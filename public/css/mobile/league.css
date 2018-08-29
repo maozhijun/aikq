@@ -37,7 +37,7 @@ div.tab{
 #Live a{
 	height: 120px;
 	padding-right: 72px;
-	background: url(../img/icon_right.png) no-repeat right center #fff; background-size: 60px;
+	background: url(/img/mobile/icon_right.png) no-repeat right center #fff; background-size: 60px;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
 }
@@ -52,7 +52,7 @@ div.tab{
 #Live a p.time{
 	width: 120px;
 	padding-top: 60px;
-	background: url(../img/icon_time_n.png) no-repeat center 20px; background-size: 32px;
+	background: url(/img/mobile/icon_time_n.png) no-repeat center 20px; background-size: 32px;
 	font-size: 28px; line-height: 40px; text-align: center; color: #6a6464;
 }
 #Live a p.match{
