@@ -58,7 +58,7 @@ class LiveController extends Controller
     public function businessStatic(Request $request) {
         $businessHtml = $this->business($request);
         try {
-            Storage::disk("public")->put("/live/business.html", $businessHtml);
+            Storage::disk("public")->put("/www/business.html", $businessHtml);
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
