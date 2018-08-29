@@ -41,7 +41,7 @@ class AnchorDetailCommand extends BaseCommand
 
             $html = $con->room($request, $room_id);
             if (!empty($html)) {
-                Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);
+                Storage::disk('public')->put('www/anchor/room' . $room_id . '.html', $html);
             }
 
             $mCon->roomStatic($request);
@@ -50,7 +50,7 @@ class AnchorDetailCommand extends BaseCommand
             //播放器静态化
             $player = $con->player($request, $room_id);
             if (!empty($player)) {
-                Storage::disk('public')->put('static/anchor/room/player/' . $room_id . '.html', $player);
+                Storage::disk('public')->put('www/anchor/room/player/' . $room_id . '.html', $player);
             }
             unset($roomArray[$index]);
         }
