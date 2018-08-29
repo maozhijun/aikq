@@ -24,6 +24,8 @@ class DetailCommand extends BaseCommand
 
     protected function onCommonHandler(Request $request)
     {
+        $subCon = new SubjectController();
+        $subCon->staticSubjectLeagues(new Request());
         $leagues = SubjectLeague::getAllLeagues();
         $aiCon = new AikanQController();
         foreach ($leagues as $league) {
