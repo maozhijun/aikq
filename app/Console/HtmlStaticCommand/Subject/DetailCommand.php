@@ -47,5 +47,10 @@ class DetailCommand extends BaseCommand
         $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
         echo $sl->name_en;
         $con->staticSubjectHtml($request,$sl->name_en);
+
+        //mip
+        $mipCon = new \App\Http\Controllers\Mip\Subject\SubjectController();
+        echo $sl->name_en;
+        $mipCon->staticSubjectHtml($request,$sl->name_en);
     }
 }

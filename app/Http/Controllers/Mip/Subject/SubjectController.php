@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Mip\Subject;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -301,10 +302,10 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $slid
      */
-    public function staticSubjectHtml(Request $request, $slid) {
-        $html = $this->detail($request, $slid);
+    public function staticSubjectHtml(Request $request, $str) {
+        $html = $this->detail($request, $str);
         if (!empty($html)) {
-            Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
+            Storage::disk("public")->put(UrlCommonTool::MIP_STATIC_PATH."/".$str."/index.html", $html);
         }
     }
 
