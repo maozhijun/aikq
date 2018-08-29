@@ -32,14 +32,8 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function livesStatic(Request $request){
-        $html = $this->lives(new Request());
-        try {
-            if (!empty($html)) {
-                Storage::disk("public")->put(UrlCommonTool::MIP_STATIC_PATH."/index.html",$html);
-            }
-        } catch (\Exception $exception) {
-            echo $exception->getMessage();
-        }
+        $html = $this->lives($request);
+        $this->onHtmlStatic($html, UrlCommonTool::MIP_STATIC_PATH."/index.html");
     }
 
     /////////////////////////////////////  静态化列表 结束   /////////////////////////////////////

@@ -8,11 +8,12 @@
 
 namespace App\Http\Controllers\Mobile\Live;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\Mobile\UrlCommonTool;
 use App\Models\LgMatch\Match;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,14 +33,8 @@ class LiveController extends Controller
      * @param Request $request
      */
     public function livesStatic(Request $request){
-        $html = $this->lives(new Request());
-        try {
-            if (!empty($html)) {
-                Storage::disk("public")->put("/m/index.html",$html);
-            }
-        } catch (\Exception $exception) {
-            echo $exception->getMessage();
-        }
+        $html = $this->lives($request);
+        $this->onHtmlStatic($html, UrlCommonTool::MOBILE_STATIC_PATH."/index.html");
     }
 
     /**

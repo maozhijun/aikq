@@ -12,7 +12,8 @@ use App\Models\LgMatch\Match;
 
 class UrlCommonTool
 {
-    const MIP_PREFIX = "/mip";
+    const MOBILE_STATIC_PATH = "/m";
+    const MOBILE_PREFIX = "/m";
 
     /*********************直播相关*************************/
 
@@ -38,7 +39,7 @@ class UrlCommonTool
     /*********************录像相关*************************/
 
     public static function homeVideosUrl($type = "all", $page = 1) {
-        return self::MIP_PREFIX."/live/subject/videos/$type/$page.html";
+        return self::MOBILE_PREFIX."/live/subject/videos/$type/$page.html";
     }
 
     public static function matchVideoUrl($vid) {
@@ -51,28 +52,28 @@ class UrlCommonTool
     /*********************主播相关*************************/
 
     public static function homeAnchorUrl() {
-        return self::MIP_PREFIX."/anchor/index.html";
+        return self::MOBILE_PREFIX."/anchor/index.html";
     }
 
     public static function anchorRoomUrl($roomId) {
-        return self::MIP_PREFIX."/anchor/room/$roomId.html";
+        return self::MOBILE_PREFIX."/anchor/room/$roomId.html";
     }
 
 
     /*********************文章相关*************************/
 
     public static function homeNewsUrl() {
-        return self::MIP_PREFIX."/news/";
+        return self::MOBILE_PREFIX."/news/";
     }
 
     public static function newsForPageUrl($type) {
-        return self::MIP_PREFIX."/news/$type";
+        return self::MOBILE_PREFIX."/news/$type";
     }
 
     /*********************专题相关*************************/
 
     public static function subjectUrl($name) {
-        return self::MIP_PREFIX."/$name/";
+        return self::MOBILE_PREFIX."/$name/";
     }
 
 
