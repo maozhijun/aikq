@@ -60,6 +60,7 @@
                         <th colspan="7">{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</th>
                     </tr>
                         @foreach($matches as $match)
+                        <?php $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $subject['lid'], $match['mid']) ?>
                         <tr>
                             <td>
                                 @if($hasRound)
@@ -76,7 +77,7 @@
                             <td>{{$match['aname']}}</td>
                             <td>
                                 @foreach($match['channels'] as $c_index=>$channel)
-                                    <a target="_blank" href="/live/{{$match['sport'] == 1 ? 'football' : 'basketball'}}/{{$match['mid']}}.html?btn={{$c_index}}">{{$channel['name']}}</a>
+                                    <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
                                 @endforeach
                                 @if($match['sport'] == 1)
                                     <a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html#Article">专家推荐</a>

@@ -48,13 +48,13 @@ class IndexCommand extends Command
      */
     public function handle()
     {
-//        $home = new LiveController();
-//        $home->staticIndex(new Request());
         $request = new Request();
 
         $type = $this->argument('type');
         switch ($type) {
             case "pc":
+                $home = new LiveController();
+                $home->staticIndex(new Request());
                 break;
             case "mobile":
                 $home = new \App\Http\Controllers\Mobile\Live\LiveController();

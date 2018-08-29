@@ -8,7 +8,13 @@
 
 namespace App\Http\Controllers\PC;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\Live\SubjectVideoController;
+use App\Models\Match\BasketMatch;
+use App\Models\Match\Match;
+use App\Models\Match\MatchLive;
+use App\Models\Match\OtherMatch;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Support\Facades\Storage;
 
@@ -219,11 +225,26 @@ class CommonTool
         return $path;
     }
 
+    /**
+     * 获取文章终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getArticleDetailUrl($name_en, $id) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/news".$id.".html";
+        } else {
+            $path = "/news/".$name_en.$id.".html";
+        }
+        return $path;
+    }
+
     protected static function getSubjectLeagueNameEn($lid) {
         $name_en = "";
         if ($lid != 'all' && $lid != 999) {
-            $videoIntF = new SubjectVideoController();
-            $leagues = $videoIntF->getLeagues();
+            $leagues = SubjectController::getSubjects();
             if (isset($leagues[$lid])) {
                 $name_en = $leagues[$lid]['name_en'];
             }
@@ -231,6 +252,53 @@ class CommonTool
             $name_en = "other";
         }
         return $name_en;
+    }
+
+    public static function getLiveDetailStaticPath($mid, $sport) {
+        $len = strlen($mid);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($mid, 0, 2);
+        $second = substr($mid, 2, 3);
+
+        if ($sport == MatchLive::kSportFootball) {
+            $match = Match::query()->find($mid);
+        } else if ($sport == MatchLive::kSportBasketball) {
+            $match = BasketMatch::query()->find($mid);
+        } else if ($sport == MatchLive::kSportSelfMatch) {
+            $match = OtherMatch::query()->find($mid);
+        }
+        if (!isset($match)) {
+            return "";
+        }
+        $lid = $match->lid;
+        $mls = Controller::MATCH_LEAGUE_IDS;
+        if (isset($mls[$sport.'-'.$lid])) {
+            $name_en = $mls[$sport.'-'.$lid]['name_en'];
+            $path = "/".$name_en."/live/".$sport."/".$first."/".$second."/".$mid.".html";
+        } else {
+            $path = "/other/live/".$sport."/".$first."/".$second."/".$mid.".html";
+        }
+        return $path;
+    }
+
+    /**
+     * 获取直播终端url
+     * @param $sport
+     * @param $lid
+     * @param $mid
+     * @return string
+     */
+    public static function getLiveDetailUrl($sport, $lid, $mid) {
+        $mls = Controller::MATCH_LEAGUE_IDS;
+        if (isset($mls[$sport.'-'.$lid])) {
+            $name_en = $mls[$sport.'-'.$lid]['name_en'];
+            $url = "/".$name_en."/live".$sport.$mid.".html";
+        } else {
+            $url = "/live".$sport.$mid.".html";
+        }
+        return $url;
     }
 
 }

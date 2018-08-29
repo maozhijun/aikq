@@ -53,23 +53,7 @@ class PcArticle extends Model
     }
 
     public function getUrl() {
-        $type = PcArticleType::query()->find($this->type);
-        if(isset($type)){
-            $name_en = $type->name_en;
-        } else{
-            $name_en = 'other';
-        }
-        $path = '';
-        $mid = $this->id;
-        if ($mid > 0) {
-            $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
-            if (isset($sl)) {
-                $path = '/'.$name_en.'/news'. $mid . '.html';
-            } else {
-                $path = '/news/'.$name_en. $mid . '.html';
-            }
-        }
-        return $path;
+        return $this->url;
     }
 
     public function getWebUrl() {

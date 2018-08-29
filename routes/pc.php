@@ -16,9 +16,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::any("/", "LiveController@lives");
     Route::get('/index.html',"LiveController@lives");//首页
 
-    Route::get('/live/football/{mid}.html',"LiveController@detail");//足球直播页
-    Route::get('/live/basketball/{mid}.html',"LiveController@basketDetail");//篮球直播页
-    Route::get('/live/other/{mid}.html',"LiveController@otherDetail");//自建赛事直播页
+    //直播终端改为在最路由最底部
 
     Route::get('/live/player.html',"LiveController@player");//播放器
     Route::get('/live/player/player-{cid}-{type}.html',"LiveController@player");//播放器 静态化
@@ -112,11 +110,14 @@ Route::group([], function () {
  * 文章
  */
 Route::group(["namespace" => 'Article'], function () {
-    Route::get("/news", "ArticleController@news");//文章终端页
+    Route::get("/news", "ArticleController@news");//文章列表
+    Route::get("/news/index.html", "ArticleController@news");//文章列表
+    Route::get("/news/index{page}.html", "ArticleController@news");//文章列表 分页
+
     Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
-    Route::get("/news/index{page}.html", "ArticleController@news");//文章终端页
+
     Route::get("/news/{param}.html", "ArticleController@detail");//文章终端
-    Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端
+    Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端 和上面的文章终端一样，适配不同的URL
 
     Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
 });
@@ -133,6 +134,14 @@ Route::group(["namespace" => 'Anchor'], function () {
 //主播静态化
 Route::group(["namespace" => 'Anchor'], function () {
     Route::get("/api/static/anchor/room/{room}", "AnchorController@staticRoom");
+});
+
+/**
+ * 直播终端
+ */
+Route::group(["namespace" => 'Live'], function () {
+    Route::get('/live{param}.html',"LiveController@detail");//足球直播页、篮球直播页、自建赛事直播页
+    Route::get('/{name_en}/live{param}.html',"LiveController@detailBySL");//足球直播页、篮球直播页、自建赛事直播页
 });
 
 Route::group(["namespace" => 'Live'], function () {
