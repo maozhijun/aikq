@@ -78,6 +78,25 @@ class ArticleController extends Controller
     }
 
     /**
+     * 文章终端
+     * @param Request $request
+     * @param $name_en
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function detailByName(Request $request, $name_en, $id) {
+        $detail = PcArticle::query()->find($id);
+        if (!isset($detail)) {
+            return abort(404);
+        }
+        $type_obj = $detail->type_obj;
+        if ($type_obj->name_en != $name_en) {
+            return abort(404);
+        }
+        return $this->detailHtml($detail);
+    }
+
+    /**
      * 文章终端html
      * @param PcArticle $detail
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

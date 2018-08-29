@@ -116,6 +116,7 @@ Route::group(["namespace" => 'Article'], function () {
     Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
     Route::get("/news/index{page}.html", "ArticleController@news");//文章终端页
     Route::get("/news/{param}.html", "ArticleController@detail");//文章终端
+    Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端
 
     Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
 });

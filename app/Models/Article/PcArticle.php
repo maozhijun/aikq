@@ -10,7 +10,9 @@ namespace App\Models\Article;
 
 
 use App\Console\Article\ArticlesCacheCommand;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Admin\Account;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -60,8 +62,12 @@ class PcArticle extends Model
         $path = '';
         $mid = $this->id;
         if ($mid > 0) {
-            //$first = date('Ymd', strtotime($this->publish_at));
-            $path = '/news/'.$name_en. $mid . '.html';
+            $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+            if (isset($sl)) {
+                $path = '/'.$name_en.'/news'. $mid . '.html';
+            } else {
+                $path = '/news/'.$name_en. $mid . '.html';
+            }
         }
         return $path;
     }
