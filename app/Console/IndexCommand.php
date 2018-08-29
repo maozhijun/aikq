@@ -23,7 +23,7 @@ class IndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'index_cache:run';
+    protected $signature = 'index_cache:run {type}';
 
     /**
      * The console command description.
@@ -50,8 +50,20 @@ class IndexCommand extends Command
     {
 //        $home = new LiveController();
 //        $home->staticIndex(new Request());
+        $request = new Request();
 
-        $home = new \App\Http\Controllers\Mobile\Live\LiveController();
-        $home->staticIndex(new Request());
+        $type = $this->argument('type');
+        switch ($type) {
+            case "pc":
+                break;
+            case "mobile":
+                $home = new \App\Http\Controllers\Mobile\Live\LiveController();
+                $home->staticIndex($request);
+                break;
+            case "mip":
+                $home = new \App\Http\Controllers\Mip\Live\LiveController();
+                $home->staticIndex($request);
+                break;
+        }
     }
 }
