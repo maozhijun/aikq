@@ -48,6 +48,9 @@ class DetailCommand extends Command
      */
     public function handle()
     {
+        $subCon = new SubjectController();
+        $subCon->staticSubjectLeagues(new Request());
+
         $leagues = SubjectLeague::getAllLeagues();
         $aiCon = new AikanQController();
         foreach ($leagues as $league) {
