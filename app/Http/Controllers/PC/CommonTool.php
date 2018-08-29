@@ -256,11 +256,14 @@ class CommonTool
 
     public static function getLiveDetailStaticPath($mid, $sport) {
         $len = strlen($mid);
+        $tempMid = $mid;
         if ($len < 4) {
-            return "";
+            for ($index = $len; $index < 4; $index++) {
+                $tempMid = "0".$tempMid;
+            }
         }
-        $first = substr($mid, 0, 2);
-        $second = substr($mid, 2, 3);
+        $first = substr($tempMid, 0, 2);
+        $second = substr($tempMid, 2, 2);
 
         if ($sport == MatchLive::kSportFootball) {
             $match = Match::query()->find($mid);
@@ -276,9 +279,9 @@ class CommonTool
         $mls = Controller::MATCH_LEAGUE_IDS;
         if (isset($mls[$sport.'-'.$lid])) {
             $name_en = $mls[$sport.'-'.$lid]['name_en'];
-            $path = "/".$name_en."/live/".$sport."/".$first."/".$second."/".$mid.".html";
+            $path = "/".$name_en."/live/".$sport."/".$first."/".$second."/".$tempMid.".html";
         } else {
-            $path = "/other/live/".$sport."/".$first."/".$second."/".$mid.".html";
+            $path = "/other/live/".$sport."/".$first."/".$second."/".$tempMid.".html";
         }
         return $path;
     }
@@ -291,12 +294,20 @@ class CommonTool
      * @return string
      */
     public static function getLiveDetailUrl($sport, $lid, $mid) {
+        $len = strlen($mid);
+        $tempMid = $mid;
+        if ($len < 4) {
+            for ($index = $len; $index < 4; $index++) {
+                $tempMid = "0".$tempMid;
+            }
+        }
+
         $mls = Controller::MATCH_LEAGUE_IDS;
         if (isset($mls[$sport.'-'.$lid])) {
             $name_en = $mls[$sport.'-'.$lid]['name_en'];
-            $url = "/".$name_en."/live".$sport.$mid.".html";
+            $url = "/".$name_en."/live".$sport.$tempMid.".html";
         } else {
-            $url = "/live".$sport.$mid.".html";
+            $url = "/live".$sport.$tempMid.".html";
         }
         return $url;
     }

@@ -911,17 +911,17 @@ class LiveController extends Controller
      * @param Request $request
      * @param $mid
      * @param $sport
+     * @param $ch_id
      */
-    public function staticLiveDetailById(Request $request, $mid, $sport) {
-        $ch_id = $request->input('ch_id');
+    public function staticLiveDetailById(Request $request, $mid, $sport, $ch_id = '') {
+        $ch_id = empty($ch_id) ? $request->input('ch_id') : $ch_id;
         try {
             $path = "/www" . CommonTool::getLiveDetailStaticPath($mid, $sport);
             if ($sport == 1) {
-                $html = $this->detail($request, $mid, true);
+                $html = $this->footballDetail($request, $mid, true);
                 if (!empty($html)) {
                     Storage::disk("public")->put($path, $html);
                 }
-
                 $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
             } else if($sport == 2){
                 $html = $this->basketDetail($request, $mid, true);
