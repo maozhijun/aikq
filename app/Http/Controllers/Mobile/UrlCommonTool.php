@@ -8,7 +8,9 @@
  */
 namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Models\LgMatch\Match;
+use App\Models\Subject\SubjectLeague;
 
 class UrlCommonTool
 {
@@ -68,6 +70,42 @@ class UrlCommonTool
 
     public static function newsForPageUrl($type) {
         return self::MOBILE_PREFIX."/news/$type";
+    }
+
+    /**
+     * 获取文章终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getArticleDetailPath($name_en, $id) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/news/".$first."/".$second."/".$id.".html";
+        } else {
+            $path = "/news/".$name_en."/".$first."/".$second."/".$id.".html";
+        }
+        return $path;
+    }
+
+    protected static function getSubjectLeagueNameEn($lid) {
+        $name_en = "";
+        if ($lid != 'all' && $lid != 999) {
+            $videoIntF = new SubjectVideoController();
+            $leagues = $videoIntF->getLeagues();
+            if (isset($leagues[$lid])) {
+                $name_en = $leagues[$lid]['name_en'];
+            }
+        } else if ($lid == 999) {
+            $name_en = "other";
+        }
+        return $name_en;
     }
 
     /*********************专题相关*************************/

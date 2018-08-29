@@ -86,8 +86,12 @@ Route::group(["namespace" => 'Anchor'], function () {
  * 文章列表、终端
  */
 Route::group(["namespace" => 'Article'], function () {
-    //Route::get("/news/index.html", "ArticleController@articles");//文章列表
-    //Route::get("/news/{type}/{date}/{id}.html", "ArticleController@detail");//比赛比分数据
+    Route::get("/news/index.html", "ArticleController@articles");//文章列表
+    Route::get("/news/", "ArticleController@articles");//文章列表
+    Route::get("/news/page{page}.html", "ArticleController@articlesPage");//文章列表分页
+
+    Route::get("/news/{param}.html", "ArticleController@detail");//文章终端页
+    Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端页 与上面的一样，只是匹配路径不一样
 });
 
 /**

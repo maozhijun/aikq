@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Mobile\Article;
 
 
 use App\Models\Article\PcArticle;
+use App\Models\Article\PcArticleType;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -29,19 +30,66 @@ class ArticleController extends Controller
         return $this->articlesHtml($articles);
     }
 
+    /**
+     * m站分页
+     * @param Request $request
+     * @param $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function articlesPage(Request $request, $page) {
+        $query = PcArticle::getPublishQuery();
+        $articles = $query->paginate(self::PageSize, ['*'], '', $page);
+        return $this->articlesCell($articles);
+    }
 
-    public function detail(Request $request, $type, $date, $id) {
+    /**
+     * 移动终端
+     * @param Request $request
+     * @param $param
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function detail(Request $request, $param) {
+        preg_match("/([a-zA-Z]+)(\d+)/", $param, $matches);
+        if (count($matches) != 3) {
+            return abort(404);
+        }
+        $t_name = $matches[1];
+        $id = $matches[2];
+        $type = PcArticleType::getTypeByTypeEn($t_name);
         $article = PcArticle::query()->find($id);
-        if (!isset($article)) {
+        if (!isset($article) || !isset($type) || ($type->id != $article->type) ) {
             return abort(404);
         }
         if ($article->status != PcArticle::kStatusPublish) {
             return abort(404);
         }
-
         return $this->detailHtml($article);
     }
 
+    /**
+     * 移动终端 匹配另外的url规则
+     * @param Request $request
+     * @param $name_en
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
+    public function detailByName(Request $request, $name_en, $id) {
+        $type = PcArticleType::getTypeByTypeEn($name_en);
+        $article = PcArticle::query()->find($id);
+        if (!isset($article) || !isset($type) || ($type->id != $article->type) ) {
+            return abort(404);
+        }
+        if ($article->status != PcArticle::kStatusPublish) {
+            return abort(404);
+        }
+        return $this->detailHtml($article);
+    }
+
+    /**
+     * 列表html
+     * @param $articles
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function articlesHtml($articles) {
         $result['page'] = $articles;
         $result['title'] = '体育新闻资讯-爱看球直播';

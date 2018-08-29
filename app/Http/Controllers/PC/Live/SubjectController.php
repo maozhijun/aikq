@@ -92,15 +92,15 @@ class SubjectController extends Controller
     /**
      * 录像播放终端
      * @param Request $request
-     * @param $first
-     * @param $second
+     * @param $name_en
      * @param $vid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideo(Request $request,$first, $second, $vid) {
+    public function subjectVideo(Request $request, $name_en, $vid) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         //录像 播放页面
         $video = $this->getSubjectVideo($vid);
-        if (isset($video['error'])) {
+        if (!isset($sl) || isset($video['error']) || ($sl->id != $video['s_lid']) ) {
             return abort(404);
         }
         return $this->subjectVideoHtml($video);
@@ -128,23 +128,21 @@ class SubjectController extends Controller
     /**
      *
      * @param Request $request
-     * @param $first
-     * @param $second
+     * @param $name_en
      * @param $sid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectSpecimen(Request $request, $first, $second, $sid) {
+    public function subjectSpecimen(Request $request, $name_en, $sid) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         $specimen = $this->getSubjectSpecimen($sid);
-        if (isset($specimen['error'])) {
-            return "";
+        if (!isset($sl) || !isset($specimen)) {
+            return abort(404);
         }
-        $result['match'] = $specimen;
-        $result['type'] = 'specimen';
-        return view('pc.subject.video', $result);
+        return $this->subjectSpecimenHtml($specimen);
     }
 
     /**
-     * 集锦
+     * 集锦HTML
      * @param $specimen
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -276,10 +274,8 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideo($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id;
-        $server_output = $this->execUrl($url);
-        $video = json_decode($server_output, true);
-        $video = isset($video) ? $video : [];
+        $intF = new AikanQController();
+        $video = $intF->subjectVideo($id, false);
         return $video;
     }
 
@@ -289,10 +285,8 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectSpecimen($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/specimen/" . $id;
-        $server_output = $this->execUrl($url);
-        $specimen = json_decode($server_output, true);
-        $specimen = isset($specimen) ? $specimen : [];
+        $intF = new AikanQController();
+        $specimen = $intF->subjectSpecimen($id, false);
         return $specimen;
     }
 

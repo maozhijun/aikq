@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\IntF;
 
 
+use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Stage;
@@ -773,7 +774,7 @@ class AikanQController extends Controller
      * @param SubjectLeague $sl
      * @return array|null
      */
-    public function subjectDetailData($isMobile, SubjectLeague $sl) {
+    public function subjectDetailData($isMobile, $sl) {
         $result = [];
         if (!isset($sl)) {
             return null;
@@ -782,10 +783,14 @@ class AikanQController extends Controller
         $slid = $sl->id;
 
         //专题资讯 开始
-        $articles = SubjectArticle::getArticles($slid);
+        $articles = PcArticle::articlesByType($sl->name_en);
         $article_array = [];
         foreach ($articles as $article) {
-            $article_array[] = ['title'=>$article->title, 'link'=>$article->link];
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url];
         }
         $result['articles'] = $article_array;
         //专题资讯 结束
@@ -833,40 +838,38 @@ class AikanQController extends Controller
     }
 
     /**
-     * 录像终端
-     * @param Request $request
+     * 录像终端数据
      * @param $vid
-     * @return \Illuminate\Http\JsonResponse
+     * @param bool $isMobile
+     * @return array
      */
-    public function subjectVideo(Request $request, $vid) {
-        $isMobile = $request->input('isMobile') == 1;
+    public function subjectVideo($vid, $isMobile = false) {
         $video = SubjectVideo::query()->find($vid);
         if (!isset($video)) {
-            return response()->json(['error'=>'录像不存在']);
+            return null;
         }
         $array = SubjectVideo::video2Array($video, $isMobile);
         if (count($array['channels']) == 0) {
-            return response()->json(['error'=>'录像线路不存在']);
+            return null;
         }
-        return response()->json($array);
+        return $array;
     }
 
     /**
      * 集锦终端
-     * @param Request $request
      * @param $sid
-     * @return \Illuminate\Http\JsonResponse
+     * @param $isMobile
+     * @return array
      */
-    public function subjectSpecimen(Request $request, $sid) {
+    public function subjectSpecimen($sid, $isMobile = false) {
         $result = [];
-        $isMobile = $request->input('isMobile') == 1;
         $specimen = SubjectSpecimen::query()->find($sid);
         if (!isset($specimen)) {
-            return response()->json(['error'=>'集锦不存在']);
+            return null;
         }
         $platform = $specimen->platform;
         if ($isMobile && ($platform != MatchLive::kPlatformAll || $platform != MatchLive::kPlatformPhone) ) {
-            return response()->json(['error'=>'集锦不存在']);
+            return null;
         }
         $result['hname'] = $specimen->title;
         $result['aname'] = '';
@@ -875,7 +878,7 @@ class AikanQController extends Controller
         if (isset($sl)) {
             $result['lname'] = $sl->name;
         }
-        return response()->json($result);
+        return $result;
     }
 
     /**

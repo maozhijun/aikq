@@ -62,13 +62,13 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace . '\PC')
-             ->group(base_path('routes/pc.php'));
-
-        Route::middleware('web')
             ->prefix('m')
             ->namespace($this->namespace . '\Mobile')
             ->group(base_path('routes/mobile.php'));
+
+        Route::middleware('web')
+             ->namespace($this->namespace . '\PC')
+             ->group(base_path('routes/pc.php'));
 
         Route::middleware('web')
             ->prefix('db')
