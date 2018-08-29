@@ -18,14 +18,14 @@
 @endsection
 @section('banner')
     <?php
-//        if ($match['sport'] == 2) {
-//            $href = "/m/basketball.html";
-//        } else if ($match['sport'] == 3) {
-//            $href = "/m/other.html";
-//        } else {
-//            $href = "/m/football.html";
-//        }
-        $href = '/'
+    //        if ($match['sport'] == 2) {
+    //            $href = "/m/basketball.html";
+    //        } else if ($match['sport'] == 3) {
+    //            $href = "/m/other.html";
+    //        } else {
+    //            $href = "/m/football.html";
+    //        }
+    $href = '/'
     ?>
     <div id="Navigation">
         @if(isset($h1))
@@ -36,7 +36,6 @@
 @endsection
 @section('content')
     <div id="qsk_click"><img src="{{env('CDN_URL')}}/img/mobile/qsk_click_n.png" ></div>
-    <script type="text/javascript">//document.getElementById("qsk_click").style.display = 'none';</script>
     <div class="default" id="Info">
         @if($match['sport'] == 3)
             @if(isset($match['type']) && $match['type'] == 1)
@@ -60,8 +59,8 @@
             <div class="score">
                 {{--@if($show_live || $match['status'] == -1)--}}
                 {{--<p style="display: {{$show_live ? 'none' : 'block'}};">--}}
-                    {{--<span class="host">{{$match['hscore']}}</span>--}}
-                    {{--<span class="away">{{$match['ascore']}}</span>--}}
+                {{--<span class="host">{{$match['hscore']}}</span>--}}
+                {{--<span class="away">{{$match['ascore']}}</span>--}}
                 {{--</p>--}}
                 {{--<button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>--}}
                 {{--@else <b>VS</b>--}}
@@ -86,24 +85,7 @@
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
-//                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-//                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                        else if($channel['type'] == 99){
-//                            if ($channel['player'] == 11){
-//                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                            }
-//                            else{
-//                                if (stristr($channel['link'],'player.pptv.com')){
-//                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                                }
-//                                else{
-//                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                                }
-//                            }
-//                        } else {
-//                            $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                        }
-                        $preUrl = env('WWW_URL','http://www.aikq.cc');
+                    $preUrl = env('http://'.'WWW_URL','http://www.aikq.cc');
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
@@ -111,14 +93,10 @@
                 @if($match['sport'] < 3 && count($channels) < 3)
                     <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>
                 @endif
-                <?php //$ch_cn = ['线路一', '线路二', '线路三']; ?>
-                {{--@for($index = count($channels); $index < 3; $index++)--}}
-                    {{--<button disabled>{{$ch_cn[$index]}}</button>--}}
-                {{--@endfor--}}
             </div>
         @endif
-            <iframe id="Frame"></iframe>
-            <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
+        <iframe id="Frame"></iframe>
+        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_858@3x.jpg"></div>
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg">
@@ -149,7 +127,7 @@
         //----------------------------------------------------------------------//
         //刷新比赛信息
         function refresh() {
-            @if(isset($match['mid']))
+                    @if(isset($match['mid']))
             var preTime = 0;
             $.ajax({
                 "url": "/m/lives/data/refresh.json?time=" + (new Date()).getTime(),
@@ -178,9 +156,9 @@
             @endif
         }
         //----------------------------------------------------------//
-            @if($match['status'] > 0 && $match['status'] < 4)
+        @if($match['status'] > 0 && $match['status'] < 4)
             setInterval(refresh, 5000);//获取比赛统计数据
-            @endif
+        @endif
         @endif
     </script>
 @endsection
