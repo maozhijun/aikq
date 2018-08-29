@@ -18,7 +18,7 @@ class UrlCommonTool
     /*********************直播相关*************************/
 
     public static function homeLivesUrl() {
-        return self::MIP_PREFIX."/lives.html";
+        return self::MIP_PREFIX."/";
     }
 
     public static function matchLiveUrl($lid, $sport, $id) {
@@ -53,7 +53,7 @@ class UrlCommonTool
     /*********************主播相关*************************/
 
     public static function homeAnchorUrl() {
-        return self::MIP_PREFIX."/anchor/index.html";
+        return self::MIP_PREFIX."/anchor/";
     }
 
     public static function anchorRoomUrl($roomId) {
