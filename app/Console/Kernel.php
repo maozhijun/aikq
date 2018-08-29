@@ -10,7 +10,7 @@ use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlePageCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
-use App\Console\HtmlStaticCommand\AnchorIndexCommand;
+use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Spider\SpiderTTZBCommand;

@@ -2,6 +2,7 @@
 
 namespace App\Console\HtmlStaticCommand;
 
+use App\Http\Controllers\PC\Live\LiveController;
 use Illuminate\Http\Request;
 
 class IndexCommand extends BaseCommand
@@ -19,7 +20,8 @@ class IndexCommand extends BaseCommand
 
     protected function onPcHandler(Request $request)
     {
-
+        $home = new LiveController();
+        $home->staticIndex($request);
     }
 
     protected function onMobileHandler(Request $request)
