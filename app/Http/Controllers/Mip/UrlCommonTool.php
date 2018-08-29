@@ -8,10 +8,12 @@
  */
 namespace App\Http\Controllers\Mip;
 
+use App\Models\LgMatch\Match;
+
 class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
-    const MIP_PREFIX = "/mip";
+    const MIP_PREFIX = "";
 
     /*********************直播相关*************************/
 
@@ -19,20 +21,19 @@ class UrlCommonTool
         return self::MIP_PREFIX."/lives.html";
     }
 
-    public static function matchLiveUrl($sport, $mid) {
-        switch ($sport) {
-            case 3:
-                $url = self::MIP_PREFIX."/live/other/$mid.html";
-                break;
-            case 2:
-                $url = self::MIP_PREFIX."/live/basketball/$mid.html";
-                break;
-            case 1:
-            default:
-                $url = self::MIP_PREFIX."/live/football/$mid.html";
-                break;
+    public static function matchLiveUrl($lid, $sport, $id) {
+        $str = 'other';
+        if ($sport == 1){
+            if (array_key_exists($lid,Match::path_league_football_arrays)){
+                $str = Match::path_league_football_arrays[$lid];
+            }
         }
-        return $url;
+        elseif($sport == 2){
+            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
+                $str = Match::path_league_basketball_arrays[$lid];
+            }
+        }
+        return self::MIP_PREFIX.'/'.$str.'/'.'live'.$sport.$id.'.html';
     }
 
 

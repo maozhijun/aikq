@@ -42,7 +42,7 @@
 //                }
                 ?>
                 @if($match['sport'] == 3)
-                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['sport'], $match['mid'])}}">
+                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid'])}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         @if(isset($match['type']) && $match['type'] == 1)
                             <p class="other" {!! $impt_style !!} >{{$match['hname']}}</p>
@@ -54,7 +54,7 @@
                         @if($match['isMatching']) <p class="live">直播中</p> @endif
                     </a>
                 @else
-                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['sport'], $match['mid'])}}">
+                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid'])}}">
                         <p class="time" {!! $impt_style !!}>{{$match['league_name']}}&nbsp;&nbsp;{{date('H:i', strtotime($match['time']))}}</p>
                         <p class="team host" {!! $impt_style !!}>{{$match['hname']}}</p>
                         <p class="vs" {!! $impt_style !!} >VS</p>

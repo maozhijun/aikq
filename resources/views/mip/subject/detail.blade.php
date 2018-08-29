@@ -21,14 +21,14 @@
         <section>
             <li>直播</li>
             <li>资讯</li>
-            <li>录像</li>
+            {{--<li>录像</li>--}}
             <li>积分榜</li>
         </section>
         <div id="Live"  class="inner">
             @foreach($lives as $day=>$matches)
                 <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
                 @foreach($matches as $match)
-                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['sport'],$match['mid'])}}" @if($match['status']>0)class="live" @endif>
+                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid'])}}" @if($match['status']>0)class="live" @endif>
                         <p class="time">{{date('H:i', $match['time'])}}</p>
                         <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                     </a>
@@ -47,17 +47,17 @@
             @else
             @endif
         </div>
-        <div id="Recording" class="inner">
-            @if(isset($videos) && count($videos) > 0)
-                @foreach($videos as $day=>$matches)
-                    <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
-                    @foreach($matches as $match)
-                        <div class="item"><a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">{{$match['hname']}} vs {{$match['aname']}}<span><mip-img src="http://img5.imgtn.bdimg.com/it/u=236407236,1342164149&fm=26&gp=0.jpg"></mip-img></span></a></div>
-                    @endforeach
-                @endforeach
-            @else
-            @endif
-        </div>
+        {{--<div id="Recording" class="inner">--}}
+            {{--@if(isset($videos) && count($videos) > 0)--}}
+                {{--@foreach($videos as $day=>$matches)--}}
+                    {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
+                    {{--@foreach($matches as $match)--}}
+                        {{--<div class="item"><a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">{{$match['hname']}} vs {{$match['aname']}}<span><mip-img src="http://img5.imgtn.bdimg.com/it/u=236407236,1342164149&fm=26&gp=0.jpg"></mip-img></span></a></div>--}}
+                    {{--@endforeach--}}
+                {{--@endforeach--}}
+            {{--@else--}}
+            {{--@endif--}}
+        {{--</div>--}}
         <div id="Rank" class="inner">
         @if(isset($ranks) && count($ranks) > 0)
             <div class="in">
