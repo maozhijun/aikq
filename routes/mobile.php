@@ -52,7 +52,7 @@ Route::group(["namespace" => 'Live'], function () {
     //Route::get("/basketball.html", "LiveController@basketballLives");//直播列表
     //Route::get("/other.html", "LiveController@otherLives");//自建赛事 直播列表
 
-    Route::get("/live/football/{id}.html", "LiveController@footballdetail");//直播终端
+    Route::get("/live/football/{id}.html", "LiveController@footballDetail");//直播终端
     Route::get("/live/basketball/{id}.html", "LiveController@basketballDetail");//直播终端
     Route::get("/live/other/{id}.html", "LiveController@otherDetail");//直播终端
 
