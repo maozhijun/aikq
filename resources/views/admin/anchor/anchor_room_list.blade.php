@@ -71,6 +71,8 @@
                                     <button type="submit" class="btn btn-sm btn-info">
                                         <span class="glyphicon glyphicon-ok"></span>保存
                                     </button>
+                                    <br>
+                                    <a target="_blank" href="/admin/anchor/comment/{{$room->id}}">插弹幕</a>
                                 </p>
                             </td>
                         </tr>
