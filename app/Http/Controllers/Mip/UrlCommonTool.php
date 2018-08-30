@@ -13,7 +13,8 @@ use App\Models\LgMatch\Match;
 class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
-    const MIP_PREFIX = "/";
+//    const MIP_PREFIX = env("MIP_URL", "http://yingchaozhibo.cc");
+    const MIP_PREFIX = "http://yingchaozhibo.cc";
 
     /*********************直播相关*************************/
 
