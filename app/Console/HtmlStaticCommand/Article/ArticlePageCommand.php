@@ -50,7 +50,7 @@ class ArticlePageCommand extends BaseCommand
         $mipCon = new \App\Http\Controllers\Mip\Article\ArticleController();
         $mipIndex = $mipCon->articlesHtml($articles);
         if (!empty($mipIndex)) {
-            Storage::disk("public")->put(\App\Http\Controllers\Mip\UrlCommonTool::MIP_STATIC_PATH."/news/index.html", $wapIndex);
+            Storage::disk("public")->put(\App\Http\Controllers\Mip\UrlCommonTool::MIP_STATIC_PATH."/news/index.html", $mipIndex);
         }
 
         $lastPage = $articles->lastPage();
