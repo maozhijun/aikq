@@ -177,7 +177,9 @@
 
         }
         else {
-            popText(data['message'], data['nickname']);
+            if (top && top.window.parentComment && top.window.parentComment()) {
+                popText(data['message'], data['nickname']);
+            }
         }
     });
 </script>
