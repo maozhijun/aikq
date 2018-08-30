@@ -75,9 +75,7 @@ class UrlCommonTool
     }
 
     public static function newsDetailUrl(PcArticle $article, $prefix = self::MIP_PREFIX) {
-        $type_obj = $article->type_obj;
-        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
-        return $prefix.CommonTool::getArticleDetailPath($type_name_en, $article->id);
+        return $prefix.$article->getUrl();
     }
 
     /*********************专题相关*************************/
