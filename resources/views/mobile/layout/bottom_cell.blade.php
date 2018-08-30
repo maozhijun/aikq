@@ -4,7 +4,7 @@
     if ($cur == "live") {
         $liveIco = $cdn . "/img/mobile/commom_icon_live_s.png";
         $liveUrl = '';
-        $liveClass = 'class="on"';
+        $liveClass = 'on';
     } else {
         $liveIco = $cdn . "/img/mobile/commom_icon_live_n.png";
         $liveUrl = 'href=/';
@@ -14,7 +14,7 @@
     if ($cur == "anchor") {
         $anchorIco = $cdn . "/img/mobile/commom_icon_anchor_s.png";
         $anchorUrl = '';
-        $anchorClass = 'class="on"';
+        $anchorClass = 'on';
     } else {
         $anchorIco = $cdn . "/img/mobile/commom_icon_anchor_n.png";
         $anchorUrl = 'href=/anchor/';
@@ -24,7 +24,7 @@
     if ($cur == "news") {
         $newsIco = $cdn . "/img/mobile/icon_news_s.png";
         $newsUrl = '';
-        $newsClass = 'class="on"';
+        $newsClass = 'on';
     } else {
         $newsIco = $cdn . "/img/mobile/icon_news_n.png";
         $newsUrl = 'href=/news/';
@@ -32,19 +32,19 @@
     }
 ?>
 <dl id="Bottom">
-    <dd {{$liveClass}}>
+    <dd class="{{$liveClass}}">
         <a {{$liveUrl}}>
             <img src="{{$liveIco}}">
             <p>直播</p>
         </a>
     </dd>
-    <dd {{$anchorClass}}>
+    <dd class="{{$anchorClass}}">
         <a {{$anchorUrl}}>
             <img src="{{$anchorIco}}">
             <p>主播</p>
         </a>
     </dd>
-    <dd {{$newsClass}}>
+    <dd class="{{$newsClass}}">
         <a {{$newsUrl}}>
             <img src="{{$newsIco}}">
             <p>资讯</p>
