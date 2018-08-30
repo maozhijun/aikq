@@ -64,8 +64,8 @@ class SubjectController extends Controller
         $icon = $subject['icon'];
         $icon = str_replace('https://www.liaogou168.com', '', $icon);
         $icon = str_replace('http://www.liaogou168.com', '', $icon);
-        if (!starts_with('http', $icon)) {
-            $icon = env('CDN_URL') . '/live/subject' . $icon;
+        if (!preg_match("/^https?:\/\//", $icon)) {
+            $icon = env('CDN_URL') . $icon;
         }
         $subject['icon'] = $icon;
         $result['subject'] = $subject;
@@ -85,7 +85,6 @@ class SubjectController extends Controller
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $slid;
-        $result['title'] = $subjectName . '直播_' . $subjectName . '录像-爱看球直播';
         return view('pc.subject.detail', $result);
     }
 
