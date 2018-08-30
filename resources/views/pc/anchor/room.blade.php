@@ -1,14 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/room.css">
-    <style>
-        body {
-            padding-top: 60px;
-        }
-        #TableHead {
-            top: 60px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/room.css?t">
 @endsection
 @section('content')
     <div id="Content">
