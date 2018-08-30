@@ -85,7 +85,6 @@ class SubjectController extends Controller
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
         $result['slid'] = $slid;
-        $result['title'] = $subjectName . '直播_' . $subjectName . '录像-爱看球直播';
         return view('pc.subject.detail', $result);
     }
 
