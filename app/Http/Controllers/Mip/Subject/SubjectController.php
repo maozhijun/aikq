@@ -77,7 +77,7 @@ class SubjectController extends Controller
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
         $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
-        $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
+        $result['canonical'] = UrlCommonTool::subjectUrl($name, env('M_URL'));
 //        dump($result);
         return view('mip.subject.detail', $result);
     }
@@ -106,6 +106,7 @@ class SubjectController extends Controller
         $match_title = $hname . "VS" . $aname;
         $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
+//        $result['canonical'] = UrlCommonTool::matchVideoUrl($vid, env('M_URL'));
         return view('pc.subject.video', $result);
     }
 
@@ -125,6 +126,7 @@ class SubjectController extends Controller
         $match_title = $hname . "VS" . $aname;
         $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
+//        $result['canonical'] = UrlCommonTool::matchVideoUrl($video['mid'], env('M_URL'));
         return view('pc.subject.video', $result);
     }
 

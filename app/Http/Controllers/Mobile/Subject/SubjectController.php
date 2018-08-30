@@ -78,7 +78,6 @@ class SubjectController extends Controller
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
         $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
-        $result['title'] = $subjectName . '直播_' . $subjectName . '决赛直播_' . $subjectName . '录像_爱看球';
         return view('mobile.subject.detail', $result);
     }
 

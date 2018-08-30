@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Mip\Article;
 
 
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\Article\PcArticle;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -48,6 +49,7 @@ class ArticleController extends Controller
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
         $result['h1'] = '体育新闻资讯';
+        $result['canonical'] = UrlCommonTool::homeNewsUrl(env('M_URL'));
 //        return view('mip.articles.news', $result);
         return view('mip.articles.news', $result);
     }
@@ -102,6 +104,8 @@ class ArticleController extends Controller
         $result['title'] = $article->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $article->labels);
         $result['description'] = $article->digest;
+
+        $result['canonical'] = UrlCommonTool::newsDetailUrl($article, env('M_URL'));
 
         return view("mip.articles.detail", $result);
     }

@@ -8,6 +8,8 @@
  */
 namespace App\Http\Controllers\Mip;
 
+use App\Http\Controllers\PC\CommonTool;
+use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Match;
 
 class UrlCommonTool
@@ -18,11 +20,11 @@ class UrlCommonTool
 
     /*********************直播相关*************************/
 
-    public static function homeLivesUrl() {
-        return self::MIP_PREFIX."/";
+    public static function homeLivesUrl($prefix = self::MIP_PREFIX) {
+        return $prefix."/";
     }
 
-    public static function matchLiveUrl($lid, $sport, $id) {
+    public static function matchLiveUrl($lid, $sport, $id, $prefix = self::MIP_PREFIX) {
         $str = 'other';
         if ($sport == 1){
             if (array_key_exists($lid,Match::path_league_football_arrays)){
@@ -34,48 +36,54 @@ class UrlCommonTool
                 $str = Match::path_league_basketball_arrays[$lid];
             }
         }
-        return self::MIP_PREFIX.'/'.$str.'/'.'live'.$sport.$id.'.html';
+        return $prefix.'/'.$str.'/'.'live'.$sport.$id.'.html';
     }
 
 
     /*********************录像相关*************************/
 
-    public static function homeVideosUrl($type = "all", $page = 1) {
-        return self::MIP_PREFIX."/live/subject/videos/$type/$page.html";
+    public static function homeVideosUrl($type = "all", $page = 1, $prefix = self::MIP_PREFIX) {
+        return $prefix."/live/subject/videos/$type/$page.html";
     }
 
-    public static function matchVideoUrl($vid) {
+    public static function matchVideoUrl($vid, $prefix = self::MIP_PREFIX) {
         $first = substr($vid, 0, 2);
         $second = substr($vid, 2, 2);
-        return "/live/subject/video/$first/$second/$vid.html";
+        return $prefix."/live/subject/video/$first/$second/$vid.html";
     }
 
 
     /*********************主播相关*************************/
 
-    public static function homeAnchorUrl() {
-        return self::MIP_PREFIX."/anchor/";
+    public static function homeAnchorUrl($prefix = self::MIP_PREFIX) {
+        return $prefix."/anchor/";
     }
 
-    public static function anchorRoomUrl($roomId) {
-        return self::MIP_PREFIX."/anchor/room/$roomId.html";
+    public static function anchorRoomUrl($roomId, $prefix = self::MIP_PREFIX) {
+        return $prefix."/anchor/room/$roomId.html";
     }
 
 
     /*********************文章相关*************************/
 
-    public static function homeNewsUrl() {
-        return self::MIP_PREFIX."/news/";
+    public static function homeNewsUrl($prefix = self::MIP_PREFIX) {
+        return $prefix."/news/";
     }
 
-    public static function newsForPageUrl($type) {
-        return self::MIP_PREFIX."/news/$type";
+    public static function newsForPageUrl($type, $prefix = self::MIP_PREFIX) {
+        return $prefix."/news/$type";
+    }
+
+    public static function newsDetailUrl(PcArticle $article, $prefix = self::MIP_PREFIX) {
+        $type_obj = $article->type_obj;
+        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
+        return $prefix.CommonTool::getArticleDetailPath($type_name_en, $article->id);
     }
 
     /*********************专题相关*************************/
 
-    public static function subjectUrl($name) {
-        return self::MIP_PREFIX."/$name/";
+    public static function subjectUrl($name, $prefix = self::MIP_PREFIX) {
+        return $prefix."/$name/";
     }
 
 
