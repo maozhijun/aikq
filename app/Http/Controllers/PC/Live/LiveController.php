@@ -13,6 +13,7 @@ use App\Console\NoStartPlayerJsonCommand;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
@@ -138,6 +139,15 @@ class LiveController extends Controller
             Log::error($exception);
         }
     }
+
+    /**
+     * PC直播赛事的json
+     * @param Request $request
+     */
+    public function allLiveJsonStatic(Request $request) {
+        $this->liveJson();//首页赛事缓存
+    }
+
     //===============================================================================//
 
     /**
@@ -365,6 +375,18 @@ class LiveController extends Controller
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
         $json['live']['channels'] = $channels;
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
@@ -396,6 +418,18 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,2,$id);
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
@@ -430,6 +464,18 @@ class LiveController extends Controller
             return abort(404);
         }
         $this->_saveAppData($json,3,$id);
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
         return view('pc.live.video', $json);
     }
 
@@ -497,21 +543,6 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function dbMatchPlayerChannel(Request $request, $mid, $sport) {
-//        $ch = curl_init();
-//        if ($sport == 3) {
-//            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
-//        } else if ($sport == 2) {
-//            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$mid" . '.json';
-//        } else {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$mid" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-//        $server_output = curl_exec ($ch);
-//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $json = AikanQController::matchDetailArray($mid, $sport, false);
         if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
             $channels = $json['live']['channels'];
@@ -519,22 +550,6 @@ class LiveController extends Controller
             $channels = array();
         }
 
-//        $ch = curl_init();
-//        if ($sport == 3) {
-//            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/mobile/$mid" . '.json';
-//        } else if ($sport == 2) {
-//            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$mid" . '.json';
-//        } else {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$mid" . '.json';
-//        }
-//
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-//        $server_output = curl_exec ($ch);
-//        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $json = AikanQController::matchDetailArray($mid, $sport, true);
         if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
             $mChannels = $json['live']['channels'];
@@ -682,229 +697,6 @@ class LiveController extends Controller
         return $server_output;
     }
 
-    /**
-     * 正在直播列表
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getLiveMatches(Request $request) {
-        $mid = $request->input('mid');//当前页面直播中的id 格式应该是 id1-id2...-idn
-        $ch = curl_init();
-        $sport = $request->input('sport',0);
-        $url = env('LIAOGOU_URL')."aik/lives/liveMatchesJson?sport=".$sport."&mid=".$mid;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-//        dump($json);
-        $json['showRadio'] = $request->input('showRadio',1);
-        return view('pc.live.living_list', $json);
-    }
-
-    /**
-     * 多视频页面
-     * @param Request $request
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function multiLive(Request $request, $param) {
-        if (!preg_match('/^\d+(-\d+){0,3}$/', $param)) {
-//            return abort(404);
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."lives/multiLiveJson/".$param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-//        dump($json);
-        return view("pc.live.multiScreen",$json);
-    }
-
-    /**
-     * 多视频页面Div
-     * @param Request $request
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function multiLiveDiv(Request $request, $param) {
-        if (!preg_match('/^\d+(-\d+){0,3}$/', $param)) {
-//            return abort(404);
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/f".$param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        return view("pc.live.multiScreenItem",$json);
-    }
-    /**
-     * 多视频页面Div
-     * @param Request $request
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function multiBasketLiveDiv(Request $request, $param) {
-        if (!preg_match('/^\d+(-\d+){0,3}$/', $param)) {
-//            return abort(404);
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."lives/multiLiveDivJson/b".$param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-//        dump($json);
-//        dump($url);
-        return view("pc.live.multiScreenItem",$json);
-    }
-
-    /**
-     * 多视频页面
-     * @param Request $request
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function multiBasketLive(Request $request, $param) {
-        if (!preg_match('/^\d+(-\d+){0,3}$/', $param)) {
-            return abort(404);
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/lives/multiBasketLiveJson/".$param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-//        dump($json);
-//        dump($url);
-        return view("pc.live.multiScreen",$json);
-    }
-
-    /**
-     * 足球赛事对应推荐
-     * @param Request $request
-     * @param $mid
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getArticleOfFMid(Request $request,$mid){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."lives/football/recommend/$mid";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        return view('pc.live.detail_recommend', $json);
-    }
-
-    /**
-     * 篮球赛事对应推荐
-     * @param Request $request
-     * @param $mid
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function getArticleOfBMid(Request $request,$mid){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."lives/basketball/recommend/$mid";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        return view('pc.live.detail_recommend', $json);
-    }
-
-    /**
-     * 清除底部推荐缓存
-     * @param Request $request
-     * @param $mid
-     */
-    public function deleteStaticHtml(Request $request,$mid){
-        $sport = $request->input('sport',1);
-        try {
-            Storage::disk("public")->delete("/player/recommends/live/".($sport == 1 ? 'football':'basketball')."/recommend/$mid.html");
-        } catch (\Exception $exception) {
-            echo $exception->getMessage();
-        }
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function staticHtml(Request $request){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . 0;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        $json = $json['matches'];
-        foreach ($json as $index=>$datas){
-            foreach ($datas as $match){
-                $mid = $match['mid'];
-                if ($match['sport'] == 1)
-                    $html = $this->getArticleOfFMid(new Request(),$mid);
-                else
-                    $html = $this->getArticleOfBMid(new Request(),$mid);
-                try {
-                    Storage::disk("public")->put("/live/".($match['sport'] == 1 ? 'football':'basketball')."/recommend/$mid.html", $html);
-                    //Storage::disk("public")->put("/player/recommends/live/".($match['sport'] == 1 ? 'football':'basketball')."/recommend/$mid.html", $html);
-                } catch (\Exception $exception) {
-                    echo $exception->getMessage();
-                }
-            }
-        }
-    }
-
-    /**
-     * 静态化直播终端页
-     * @param Request $request
-     */
-    public function staticLiveDetail(Request $request) {
-        $cache = Storage::get('/public/static/json/lives.json');
-        $json = json_decode($cache, true);
-        if (is_null($json) || !isset($json['matches'])) {
-            echo '获取数据失败';
-            return;
-        }
-        $json = $json['matches'];
-        foreach ($json as $index=>$datas){
-            foreach ($datas as $match){
-                $mid = $match['mid'];
-                $time = isset($match['time']) ? $match['time'] : 0;
-                $now = time();
-                if ($time == 0 ) {//只静态化赛前4小时内 的比赛终端。
-                    continue;
-                }
-                $start_time = strtotime($time);//比赛时间
-                $flg_1 = $start_time >= $now && $now + 5 * 60 * 60 >= $start_time;//开赛前1小时
-                $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
-                if ( $flg_1 || $flg_2 ) {
-                    //$match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
-                    try {
-                        LiveDetailCommand::flushLiveDetailHtml($mid, $match['sport']);
-                    } catch (\Exception $exception) {
-                        dump($exception);
-                    }
-                }
-            }
-        }
-    }
 
     /**
      * 更新视频终端。

@@ -72,8 +72,18 @@ class AikanQController extends Controller
     public function livesJson(Request $request, $isMobile = null) {
         $isMobile = isset($isMobile) ? $isMobile : $request->input('isMobile',0);
         $bet = $request->input('bet', 0);//0：非竞彩，1：竞彩
-        $match_array = [];
+        $result = $this->livesJsonData($bet, $isMobile);
+        return response()->json($result);
+    }
 
+    /**
+     * 直播数据
+     * @param $bet
+     * @param bool $isMobile
+     * @return array
+     */
+    public function livesJsonData($bet, $isMobile = false) {
+        $match_array = [];
         $startTime = time();
         $query = $this->getLiveMatches(MatchLive::kSportFootball, $bet);
         $footballMatches = $query->get();
@@ -147,7 +157,7 @@ class AikanQController extends Controller
             }
         }
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
 
@@ -524,11 +534,11 @@ class AikanQController extends Controller
         $result['live'] = $live;
         $result['show_live'] = $show_live;
 
-        $time = date('m月d H:i', strtotime($match['time']));
-        $result['title'] = $match['lname'] . 'JRS直播 ' . $match['hname'] . ' VS ' . $match['aname'] . ' ' . $time . '-爱看球直播';
+        $time = date('m月d日 H:i', strtotime($match['time']));
+        $result['title'] = $match['lname'] . ' JRS直播 ' . $match['hname'] .' VS '. $match['aname'] . ' ' . $time . '-爱看球直播';
         $result['h1'] = $match['hname'] . 'VS' . $match['aname'];
         $result['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-        $result['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
+        $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
 
         return $result;
     }
@@ -834,6 +844,8 @@ class AikanQController extends Controller
         //专题集锦 结束
 
         $result['subject'] = ['name'=>$sl->name, 'icon'=>$sl->icon, 'content'=>$sl->content, 'sport'=>$sl->sport, 'type'=>$sl->type, 'lid'=>$sl->lid];
+        $result['title'] = '【'.$sl->name.'直播】'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        $result['h1'] = $sl->name.'直播';
         return $result;
     }
 

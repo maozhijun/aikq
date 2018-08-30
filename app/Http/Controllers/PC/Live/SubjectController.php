@@ -133,6 +133,7 @@ class SubjectController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function subjectSpecimen(Request $request, $name_en, $sid) {
+
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         $specimen = $this->getSubjectSpecimen($sid);
         if (!isset($sl) || !isset($specimen)) {
@@ -246,7 +247,7 @@ class SubjectController extends Controller
     public static function getSubjects() {
         //先从文件获取内容
         try {
-            $server_output = Storage::get('public/static/json/subject/leagues.json');
+            $server_output = Storage::get('public/json/subject/leagues.json');
         } catch (\Exception $exception) {
             $server_output = "";
         }
@@ -323,10 +324,10 @@ class SubjectController extends Controller
      */
     public function staticSubjectLeagues(Request $request) {
         $aiCon = new AikanQController();
-        $data = $aiCon->subjects(new Request())->getData();
+        $data = $aiCon->subjectsData();
         $server_output = json_encode($data);
         if (!empty($server_output)) {
-            Storage::disk("public")->put("/static/json/subject/leagues.json", $server_output);
+            Storage::disk("public")->put("json/subject/leagues.json", $server_output);
         }
     }
 

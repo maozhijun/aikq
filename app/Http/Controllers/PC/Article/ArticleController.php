@@ -112,6 +112,11 @@ class ArticleController extends Controller
         $result['title'] = $detail->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $detail->labels);
         $result['description'] = $detail->digest;
+        $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$type->name_en];
+        if (isset($data)) {
+            $data['name_en'] = $type->name_en;
+            $result['zhuanti'] = $data;
+        }
 
         return view('pc.article.article', $result);
     }

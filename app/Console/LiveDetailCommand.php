@@ -87,15 +87,46 @@ class LiveDetailCommand extends Command
                             $url = 'http://leisuzhibo.cc/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
                             dump($url);
                             self::flushLiveDetailHtml($url);
-//                            $liveCon->staticLiveDetailById($request, $mid, $sport, $channel['id']);
+                            $liveCon->staticLiveDetailById($request, $mid, $sport, $channel['id']);
                         }
-                        $liveCon->staticLiveDetailById($request, $mid, $sport);
+//                        $liveCon->staticLiveDetailById($request, $mid, $sport);
                     } catch (\Exception $exception) {
                         dump($exception);
                     }
                 }
             }
         }
+
+//        $intF = new AikanQController();
+//        $mJson = $intF->livesJsonData('', true);
+//        $json = $mJson['matches'];
+//        foreach ($json as $index=>$datas){
+//            foreach ($datas as $match){
+//                $sport = $match['sport'];
+//                $mid = $match['mid'];
+//                $time = isset($match['time']) ? $match['time'] : 0;
+//                $now = time();
+//                if ($time == 0 ) {//只静态化赛前4小时内 的比赛终端。
+//                    continue;
+//                }
+//                $start_time = strtotime($time);//比赛时间
+//                $flg_1 = true;//$start_time >= $now && $now + 45 * 60 >= $start_time;//开赛前1小时
+//                $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
+//                if ( $flg_1 || $flg_2 ) {
+//                    try {
+//                        $channels = $match['channels'];
+//                        foreach ($channels as $channel) {
+//                            $url = 'http://leisuzhibo.cc/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
+//                            dump($url);
+//                            self::flushLiveDetailHtml($url);
+//                        }
+//                        $liveCon->staticLiveDetailById($request, $mid, $sport);
+//                    } catch (\Exception $exception) {
+//                        dump($exception);
+//                    }
+//                }
+//            }
+//        }
     }
 
     public static function flushLiveDetailHtml($url) {
