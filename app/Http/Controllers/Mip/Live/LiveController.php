@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Mip\Live;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\Mip\UrlCommonTool;
+use App\Models\LgMatch\Match;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -170,30 +171,30 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function footballdetail(Request $request, $id, $immediate = false) {
-//        $ch = curl_init();
-//        if ($immediate) {
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$id?isMobile=1";
-//        } else{
-//            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$id" . '.json';
-//        }
-//        curl_setopt($ch, CURLOPT_URL,$url);
-//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-//        $server_output = curl_exec ($ch);
-//        curl_close ($ch);
-//        $json = json_decode($server_output,true);
         $akqCon = new AikanQController();
         $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
         $jsonStr = json_encode($jsonStr);
         $json = json_decode($jsonStr, true);
 
-        $lid = isset($json['lid']) ? $json['lid'] : 0;
-        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 1, $id, env('M_URL'));
-
-        return view('mip.live.detail', $json);
+        return $this->footballDetailHtml($json, $id);
     }
 
     public function footballDetailHtml($json, $id) {
+        $colum = 'other';
+        $sport = 1;
+        $lid = 0;
+        if (array_key_exists($json['match']['lid'],Match::path_league_football_arrays)){
+            $lid = $json['match']['lid'];
+            $colum = Match::path_league_football_arrays[$lid];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, env('M_URL'));
         return view('mip.live.detail', $json);
     }
 
@@ -205,26 +206,28 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function basketballDetail(Request $request, $id, $immediate = false) {
-        $ch = curl_init();
-        if ($immediate) {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$id?isMobile=1";
-        } else {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$id" . '.json';
-        }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-
-        $lid = isset($json['lid']) ? $json['lid'] : 0;
-        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 2, $id, env('M_URL'));
-
-        return view('mip.live.detail', $json);
+        $intF = new AikanQController();
+        $json = $intF->basketDetailJsonData($id, true);
+        return $this->basketballDetailHtml($json, $id);
     }
 
     public function basketballDetailHtml($json, $id) {
+        $colum = 'other';
+        $sport = 2;
+        $lid = 0;
+        if (array_key_exists($json['match']['lid'],Match::path_league_basketball_arrays)){
+            $lid = $json['match']['lid'];
+            $colum = Match::path_league_basketball_arrays[$lid];
+        }
+        $date = substr($id,0,2);
+        if ($colum == 'other'){
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+        else{
+            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        }
+
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, env('M_URL'));
         return view('mip.live.detail', $json);
     }
 
@@ -235,22 +238,18 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function otherDetail(Request $request, $id) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$id?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,6);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
+        $intF = new AikanQController();
+        $json = $intF->otherDetailJsonData($id, true);
 
-        $lid = isset($json['lid']) ? $json['lid'] : 0;
-        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 3, $id, env('M_URL'));
-
-        return view('mip.live.detail', $json);
+        return $this->otherDetailHtml($json, $id);
     }
 
     public function otherDetailHtml($json, $id) {
+        $colum = 'other';
+        $sport = 3;
+        $date = substr($id,0,2);
+        $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
+        $json['canonical'] = UrlCommonTool::matchLiveUrl(0, $sport, $id, env('M_URL'));
         return view('mip.live.detail', $json);
     }
 }
