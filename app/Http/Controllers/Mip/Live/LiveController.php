@@ -53,6 +53,7 @@ class LiveController extends Controller
             return;
         }
         $json['type'] = 'live';
+        $json['canonical'] = UrlCommonTool::homeLivesUrl(env('M_URL'));
 
         $json = array_merge($this->html_var, $json);
 
@@ -95,7 +96,7 @@ class LiveController extends Controller
      */
     public function subjectVideosHtml($data) {
         $json = $this->subjectVideoData2Json($data);
-
+        $json['canonical'] = UrlCommonTool::homeVideosUrl(env('M_URL'));
         return view('mip.video.lives', $json);
     }
 
@@ -154,6 +155,7 @@ class LiveController extends Controller
      */
     public function subjectVideoDetailHtml($data) {
         $json['match'] = $data;
+        $json['canonical'] = UrlCommonTool::matchVideoUrl($data['mid'], env('M_URL'));
         return view('mip.video.detail', $json);
     }
 
@@ -184,6 +186,10 @@ class LiveController extends Controller
         $jsonStr = $akqCon->detailJson($request, $id, true)->getData();
         $jsonStr = json_encode($jsonStr);
         $json = json_decode($jsonStr, true);
+
+        $lid = isset($json['lid']) ? $json['lid'] : 0;
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 1, $id, env('M_URL'));
+
         return view('mip.live.detail', $json);
     }
 
@@ -211,6 +217,10 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+
+        $lid = isset($json['lid']) ? $json['lid'] : 0;
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 2, $id, env('M_URL'));
+
         return view('mip.live.detail', $json);
     }
 
@@ -233,6 +243,10 @@ class LiveController extends Controller
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $json = json_decode($server_output,true);
+
+        $lid = isset($json['lid']) ? $json['lid'] : 0;
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, 3, $id, env('M_URL'));
+
         return view('mip.live.detail', $json);
     }
 
