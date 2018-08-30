@@ -16,6 +16,9 @@
 
     $firstChannel = isset($channels[0]) ? $channels[0] : [];
     $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
+if(isset($firstChannel['akq_url']) && strlen($firstChannel['akq_url']) > 0){
+    $url = $firstChannel['akq_url'];
+}
     $impt_style = '';
     if ($impt == 2) {
         if ($sport == 1) {

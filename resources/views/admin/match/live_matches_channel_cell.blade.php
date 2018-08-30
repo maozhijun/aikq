@@ -40,6 +40,7 @@
             <option value="2">有版权</option>
             <option value="1" @if(isset($channel) && $channel->isPrivate == 1) selected @endif >无版权</option>
         </select>
+        <input style="width: 280px;" name="akq_url" value="{{$channel->akq_url or ''}}" placeholder="跳转链接">
         <button class="btn btn-success btn-xs" type="button" onclick="saveChannel(this, '{{$channel->id or ''}}', '{{$sport or 1}}');">保存</button>
         {{--<button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>--}}
     </p>

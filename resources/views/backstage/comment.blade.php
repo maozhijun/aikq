@@ -107,6 +107,8 @@
                         var Li = '<li><p class="name">' + Data[3] + '<button onclick="Use(this)">引用</button><span>' + getTimeType(Data[1]*1000) + '</span></p><p class="con">' + Data[6] + '</p></li>';
                         $('#Get .in').append(Li);
 
+                        Send(Data[6],Data[3]);
+
                         if (getScroll) {
                             $('#Get').scrollTop($('#Get')[0].scrollHeight);
                         }

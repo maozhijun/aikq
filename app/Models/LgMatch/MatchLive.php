@@ -359,6 +359,7 @@ class MatchLive extends Model
             $tmp['type'] = $channel->type;
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
+            $tmp['akq_url'] = $this->akq_url;
             $array[] = $tmp;
         }
         return $array;
