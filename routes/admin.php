@@ -75,6 +75,11 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
 
     Route::get('/live/channel/logs', 'ChannelLogController@logs');//直播线路操作日志
     Route::get('/live/off/logs', 'ChannelOffController@logs');//直播线路中断记录
+
+    //播放器广告配置
+    Route::get('/live/player/images', 'PlayerController@adImages');//播放器广告
+    Route::post('/live/player/images/save', 'PlayerController@saveAdImage');//保存播放器广告
+
 });
 
 

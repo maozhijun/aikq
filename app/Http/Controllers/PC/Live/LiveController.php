@@ -139,6 +139,15 @@ class LiveController extends Controller
             Log::error($exception);
         }
     }
+
+    /**
+     * PC直播赛事的json
+     * @param Request $request
+     */
+    public function allLiveJsonStatic(Request $request) {
+        $this->liveJson();//首页赛事缓存
+    }
+
     //===============================================================================//
 
     /**

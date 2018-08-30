@@ -416,5 +416,19 @@ class LiveController extends Controller
         return response()->json($json);
     }
 
+    /**
+     * 比赛状态数据
+     * @param Request $request
+     */
+    public function matchLiveStatic(Request $request) {
+        try {
+            $json = $this->match_live($request, true);
+            Storage::disk("public")->put("/static/m/lives/data/refresh.json", $json);
+            Storage::disk("public")->put("m/lives/data/refresh.json", $json);
+        } catch (\Exception $e) {
+            Log::error($e);
+        }
+    }
+
 
 }
