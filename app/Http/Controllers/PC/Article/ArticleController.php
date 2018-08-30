@@ -108,16 +108,19 @@ class ArticleController extends Controller
         } else {
             $typeName = $type->name;
         }
+
         $result['article'] = $detail;
         $result['title'] = $detail->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $detail->labels);
         $result['description'] = $detail->digest;
-        $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$type->name_en];
+        $data = isset(Controller::SUBJECT_NAME_IDS[$type->name_en]) ? Controller::SUBJECT_NAME_IDS[$type->name_en] : null;
         if (isset($data)) {
             $data['name_en'] = $type->name_en;
             $result['zhuanti'] = $data;
         }
-
+        //相关文章
+        $res = PcArticle::relationsArticle($detail->id, $detail->type, 10);
+        $result['res'] = $res;
         return view('pc.article.article', $result);
     }
 
