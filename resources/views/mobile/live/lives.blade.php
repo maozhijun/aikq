@@ -25,7 +25,7 @@
             <div class="in">
                 <div class="title">专题分类</div>
                 @foreach($subjects as $name=>$data)
-                    <p class="item"><a href="/{{$name}}">{{$data['name']}}</a></p>
+                    <p class="item"><a href="/{{$name}}/">{{$data['name']}}</a></p>
                 @endforeach
             </div>
         </div>

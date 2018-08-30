@@ -66,7 +66,7 @@
 <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects(); ?>
 @if(isset($subjects) && count($subjects) > 0)
     <div id="Link">
-        @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}">{{$su_obj['name']}}</a> @endforeach
+        @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}/">{{$su_obj['name']}}</a> @endforeach
     </div>
 @endif
 @yield('content')

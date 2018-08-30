@@ -363,15 +363,10 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function detailHtml($json, $id) {
-        if (isset($json['match'])) {
-            $match = $json['match'];
-            $time = date('m月d H:i', strtotime($match['time']));
-            $json['title'] = $match['lname'] . 'JRS直播 ' . $match['hname'] . ' VS ' . $match['aname'] . ' ' . $time . '-爱看球直播';
-            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
-        } else {
+        if (!isset($json['match'])) {
             return abort(404);
         }
+        $match = $json['match'];
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
         $json['live']['channels'] = $channels;
@@ -408,15 +403,11 @@ class LiveController extends Controller
     }
 
     public function basketDetailHtml($json, $id) {
-        if (isset($json['match'])) {
-            $match = $json['match'];
-            $time = date('m月d H:i', strtotime($match['time']));
-            $json['title'] =  $match['lname'] . 'JRS直播 ' . $match['hname'] . ' VS ' . $match['aname'] . ' ' . $time . '-爱看球直播';
-            $json['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
-            $json['description'] = '爱看球正在为直播 ' . date('m月d H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
-        } else {
+        if (!isset($json['match'])) {
             return abort(404);
         }
+        $match = $json['match'];
+
         $this->_saveAppData($json,2,$id);
         if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
             $zhuangti = Match::path_league_football_arrays[$match['lid']];
