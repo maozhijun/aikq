@@ -148,4 +148,14 @@ class PcArticle extends Model
         }
         return array();
     }
+
+    public static function relationsArticle($curAid, $type, $count = 10) {
+        $query = self::query();
+        $query->where('status', self::kStatusPublish);
+        $query->where('type', $type);
+        if (is_numeric($curAid)) {
+            $query->where('id', '<>', $curAid);
+        }
+        return $query->take($count)->get();
+    }
 }

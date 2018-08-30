@@ -10,9 +10,11 @@
             <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/news/">资讯</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">资讯详情</span></div>
         @endif
         <div class="inner">
-            <dl id="Right">
-                <dt>直播赛程</dt>
-            </dl>
+            <div id="Right">
+                <dl>
+                    <dt>直播赛程</dt>
+                </dl>
+            </div>
             <div id="Left">
                 <div class="con">
                     <h1>{{$article->title}}</h1>
@@ -20,6 +22,15 @@
                         作者：{{$article->author}}&nbsp;&nbsp;&nbsp;&nbsp;{{$article->type_obj->name}}<span>发表于：{{substr($article->publish_at, 0, 16)}}</span></p>
                     <div class="detail">{!! $article->getContent() !!}</div>
                 </div>
+                @if(isset($res) && count($res) > 0)
+                <div class="other">
+                    <div class="title">相关文章</div>
+                    @foreach($res as $re)
+                    <a target="_blank" href="{{$re->getUrl()}}">{{$re->title}}</a>
+                    @endforeach
+                    <p class="clear"></p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -27,7 +38,7 @@
 @section("js")
 <script type="text/javascript">
     $.get("/news/lives.html", function (html) {
-        $("#Right").html(html);
+        $("#Right dl").html(html);
     });
 </script>
 @endsection
