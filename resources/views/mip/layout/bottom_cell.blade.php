@@ -5,7 +5,7 @@ $cdn = UrlCommonTool::MIP_PREFIX;
     $cur = empty($cur) ? 'live' : $cur;
     if ($cur == "live") {
         $liveIco = $cdn . "/img/commom_icon_live_s.png";
-        $liveUrl = '';
+        $liveUrl = 'href=#';
         $liveClass = 'class="on"';
     } else {
         $liveIco = $cdn . "/img/commom_icon_live_n.png";
@@ -15,7 +15,7 @@ $cdn = UrlCommonTool::MIP_PREFIX;
 
     if ($cur == "anchor") {
         $anchorIco = $cdn . "/img/commom_icon_anchor_s.png";
-        $anchorUrl = '';
+        $anchorUrl = 'href=#';
         $anchorClass = 'class="on"';
     } else {
         $anchorIco = $cdn . "/img/commom_icon_anchor_n.png";
@@ -25,7 +25,7 @@ $cdn = UrlCommonTool::MIP_PREFIX;
 
     if ($cur == "news") {
         $newsIco = $cdn . "/img/icon_news_s.png";
-        $newsUrl = '';
+        $newsUrl = 'href=#';
         $newsClass = 'class="on"';
     } else {
         $newsIco = $cdn . "/img/icon_news_n.png";
