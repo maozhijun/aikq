@@ -150,12 +150,17 @@ class PcArticle extends Model
     }
 
     public static function relationsArticle($curAid, $type, $count = 10) {
-        $query = self::query();
-        $query->where('status', self::kStatusPublish);
-        $query->where('type', $type);
         if (is_numeric($curAid)) {
-            $query->where('id', '<>', $curAid);
+            return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.id <> $curAid and p.status = ".self::kStatusPublish." and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
         }
-        return $query->take($count)->get();
+        return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = ".self::kStatusPublish." and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+//        $query = self::query();
+//        "SELECT * FROM address WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM address))) ORDER BY id LIMIT 0,10";
+//        $query->where('status', self::kStatusPublish);
+//        $query->where('type', $type);
+//        if (is_numeric($curAid)) {
+//            $query->where('id', '<>', $curAid);
+//        }
+//        return $query->take($count)->get();
     }
 }

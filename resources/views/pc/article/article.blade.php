@@ -26,7 +26,7 @@
                 <div class="other">
                     <div class="title">相关文章</div>
                     @foreach($res as $re)
-                    <a target="_blank" href="{{$re->getUrl()}}">{{$re->title}}</a>
+                    <a target="_blank" href="{{$re->url}}">{{$re->title}}</a>
                     @endforeach
                     <p class="clear"></p>
                 </div>
