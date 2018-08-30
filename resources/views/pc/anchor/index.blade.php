@@ -1,14 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251702">
-    <style>
-        body {
-            padding-top: 60px;
-        }
-        #TableHead {
-            top: 60px;
-        }
-    </style>
 @endsection
 @section('h1')
     <h1>美女主播球赛讲解</h1>

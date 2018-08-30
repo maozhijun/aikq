@@ -8,7 +8,7 @@
         @endif
         <div class="inner">
             <div id="Info">
-                <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</h1>@endif
+                <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}</h1>@endif
                 <p class="line">
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))

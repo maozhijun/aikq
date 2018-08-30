@@ -237,20 +237,21 @@ class AnchorController extends Controller
         $json = $this->playerUrl($request, $room_id)->getData();
         $json = json_encode($json);
         if (!empty($json)) {
-            Storage::disk('public')->put('static/anchor/room/url/' . $room_id . '.json', $json);
+            Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
         }
 
         //直播终端页面
         $html = $this->room(new Request(), $room_id);
         if (!empty($html)) {
             Storage::disk('public')->put('static/anchor/room/' . $room_id . '.html', $html);//暂时保留旧链接
-            Storage::disk('public')->put('static/anchor/room' . $room_id . '.html', $html);
+            Storage::disk('public')->put('www/anchor/room' . $room_id . '.html', $html);
+            Storage::disk('public')->put('www/anchor/room/' . $room_id . '.html', $html);
         }
 
         //播放器静态化
         $player = $this->player(new Request(), $room_id);
         if (!empty($player)) {
-            Storage::disk('public')->put('static/anchor/room/player/' . $room_id . '.html', $player);
+            Storage::disk('public')->put('www/anchor/room/player/' . $room_id . '.html', $player);
         }
     }
 }
