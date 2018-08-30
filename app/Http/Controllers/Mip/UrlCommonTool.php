@@ -13,7 +13,7 @@ use App\Models\LgMatch\Match;
 class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
-    const MIP_PREFIX = "";
+    const MIP_PREFIX = "/";
 
     /*********************直播相关*************************/
 

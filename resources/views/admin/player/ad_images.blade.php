@@ -5,27 +5,27 @@
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
-                <form method="post" action="/admin/live/player/images/save" enctype="multipart/form-data">
-                    <tr>
-                        {{csrf_field()}}
-                        <th>
-                            <select name="type">
-                                @foreach($typeCns as $key=>$name)
-                                    <option value="{{$key}}">{{$name}}</option>
-                                @endforeach
-                            </select>
-                        </th>
-                        <th>
-                            <input type="file" name="image" style="width: 200px;float: left;margin-right: 5px;" required>
-                            <span style="display: none;">
-                                <input name="name" placeholder="微信名称" style="width: 160px;">
-                                <input name="text" placeholder="广告语">
-                            </span>
-                            <div style="clear: both"></div>
-                        </th>
-                        <th><button type="submit" class="btn btn-xs btn-success">保存</button></th>
-                    </tr>
-                </form>
+                {{--<form method="post" action="/admin/live/player/images/save" enctype="multipart/form-data">--}}
+                    {{--<tr>--}}
+                        {{--{{csrf_field()}}--}}
+                        {{--<th>--}}
+                            {{--<select name="type">--}}
+                                {{--@foreach($typeCns as $key=>$name)--}}
+                                    {{--<option value="{{$key}}">{{$name}}</option>--}}
+                                {{--@endforeach--}}
+                            {{--</select>--}}
+                        {{--</th>--}}
+                        {{--<th>--}}
+                            {{--<input type="file" name="image" style="width: 200px;float: left;margin-right: 5px;" required>--}}
+                            {{--<span style="display: none;">--}}
+                                {{--<input name="name" placeholder="微信名称" style="width: 160px;">--}}
+                                {{--<input name="text" placeholder="广告语">--}}
+                            {{--</span>--}}
+                            {{--<div style="clear: both"></div>--}}
+                        {{--</th>--}}
+                        {{--<th><button type="submit" class="btn btn-xs btn-success">保存</button></th>--}}
+                    {{--</tr>--}}
+                {{--</form>--}}
                 <tr>
                     <th width="200px;">广告类型</th>
                     <th>图片</th>
