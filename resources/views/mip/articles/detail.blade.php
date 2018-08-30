@@ -4,9 +4,6 @@
 @endsection
 @section('banner')
     <div id="Navigation">
-        @if(isset($h1))
-        <h1>{{$h1}}</h1>
-        @endif
         <div class="banner">
             <a class="home" href="{{\App\Http\Controllers\Mip\UrlCommonTool::homeLivesUrl()}}"></a>
             <mip-img height="26" width="75" src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/image_slogan_nav.png"></mip-img>

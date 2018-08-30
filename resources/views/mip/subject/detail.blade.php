@@ -11,7 +11,9 @@
 @section('banner')
     <div id="Navigation">
         <div class="banner">
-            <h1>{{$subject['name']}}</h1>
+            @if(isset($h1))
+                <h1>{{$h1}}</h1>
+            @endif
         </div>
     </div>
 @endsection
