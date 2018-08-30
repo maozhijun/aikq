@@ -7,9 +7,6 @@
 @endsection
 @section('banner')
     <div id="Navigation">
-        @if(isset($h1))
-        <h1>{{$h1}}</h1>
-        @endif
         <div class="banner">
             <a class="home" href="/"></a>
            <img src="{{env('CDN_URL')}}/img/mobile/image_slogan_nav.png">
