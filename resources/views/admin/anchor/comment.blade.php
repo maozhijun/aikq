@@ -253,16 +253,20 @@
     <script type="application/javascript">
         //评论
         function loadZBB() {
-            id = $('#zbb').val();
+            var url = $('#zbb').val();
+            var params = url.split('/');
+            var id = params[params.length - 1];
+            id = id.split('.')[0];
+            var sport = params[params.length - 3];
             $.ajax({
-                'url':'https://cache.zhibo8.cc/json/2018/zuqiu/'+id+'_count.htm',
+                'url':'https://cache.zhibo8.cc/json/2018/'+sport+'/'+id+'_count.htm',
                 'success':function (json) {
                     json = JSON.parse(json);
 
                     var root_num = json['root_num'];
 //                    console.log(root_num);
                     //加载最新一页
-                    loadZZBComment('https://cache.zhibo8.cc/json/2018/zuqiu/'+id+'_'+parseInt(root_num/100 - 1)+'.htm');
+                    loadZZBComment('https://cache.zhibo8.cc/json/2018/'+sport+'/'+id+'_'+parseInt(root_num/100 - 1)+'.htm');
                 }
             })
         }
