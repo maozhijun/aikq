@@ -13,11 +13,17 @@
                 <div class="get">
                     <div class="title">
                         <div class="input" id="GetInput">
-                            <input type="text" name="get" placeholder="请输入采集地址">
+                            <input type="text" name="get" placeholder="请输入360采集地址">
                             <button>开始采集</button>
                         </div>
                     </div>
-                    <ul id="Get">
+                    <div class="title" style="top: 43px">
+                        <div class="input" id="GetInput2">
+                            <input type="text" id="zbb" placeholder="请输入直播吧采集地址">
+                            <button>开始采集</button>
+                        </div>
+                    </div>
+                    <ul id="Get" style="top: 86px">
                         <div class="in">
                             </div>
                         <!-- <li>
@@ -91,6 +97,14 @@
     </script>
     <script type="text/javascript">
         function GetSocket () {
+            $('#GetInput2 button').click(function() {
+                if ($('#GetInput2 input').val() == '') {
+                    alert('请填写采集地址');
+                    return;
+                }
+                loadZBB();
+            });
+
             $('#GetInput button').click(function(){
                 if ($('#GetInput input').val() == '') {
                     alert('请填写采集地址');
@@ -235,5 +249,88 @@
             };
             return new Uint8Array(new Uint32Array(m).buffer);
         };
+    </script>
+    <script type="application/javascript">
+        //评论
+        function loadZBB() {
+            id = $('#zbb').val();
+            $.ajax({
+                'url':'https://cache.zhibo8.cc/json/2018/zuqiu/'+id+'_count.htm',
+                'success':function (json) {
+                    json = JSON.parse(json);
+
+                    var root_num = json['root_num'];
+//                    console.log(root_num);
+                    //加载最新一页
+                    loadZZBComment('https://cache.zhibo8.cc/json/2018/zuqiu/'+id+'_'+parseInt(root_num/100 - 1)+'.htm');
+                }
+            })
+        }
+
+        //评论
+        function loadZBBHot() {
+            var id = $('#zbb').val();
+            $.ajax({
+                'url':'https://cache.zhibo8.cc/json/2018/zuqiu/'+id+'_hot.htm',
+                'success':function (json) {
+                    json = JSON.parse(json);
+                    for(var i = 0 ; i < json.length ; i++){
+                        var item = json[json.length - 1 -i];
+                        console.log('zbb_'+item['id'],item['username'],item['content'],item['createtime'],'text',true);
+                    }
+                }
+            })
+        }
+
+        var zbb_last = 0;
+        var zbb_array = new Array();
+        var zbb_index = 0;
+
+        function loadZZBComment(url,nextUrl) {
+            $.ajax({
+                'url':url,
+                'success':function (json) {
+                    json = JSON.parse(json);
+                    for(var i = 0 ; i < json.length ; i++){
+                        var item = json[json.length - 1 -i];
+                        if (item['room'] == 2 && item['id'] > zbb_last) {
+                            console.log('room_' + item['room'] + ' zbb_' + item['id'], item['username'], item['content'], item['createtime'], 'text', true);
+                            var Li = '<li><p class="name">' + item['username'] + '<button onclick="Use(this)">引用</button><span>' + item['createtime'] + '</span></p><p class="con">' + item['content'] + '</p></li>';
+                            $('#Get .in').append(Li);
+                            zbb_last = item['id'];
+                            zbb_array.push(item);
+                        }
+                    }
+                    if (zbb_array.length > 0){
+                        sendZZB();
+                    }
+                    else{
+                        window.setTimeout(sendZZB, 3000);
+                    }
+                    if (nextUrl){
+                        loadZZBComment(nextUrl);
+                    }
+                }
+            })
+        }
+
+        function sendZZB() {
+            for(var i = 0 ; i < 1; i++){
+                if (zbb_index + i < zbb_array.length) {
+                    var data = zbb_array[i + zbb_index];
+                    Send(data['content'], data['username']);
+                }
+            }
+            zbb_index = zbb_index + 1;
+            if (zbb_index >= zbb_array.length - 1){
+                zbb_array = new Array();
+                zbb_index = 0;
+                loadZBB();
+                console.log('reload');
+            }
+            else{
+                window.setTimeout(sendZZB, 1000);
+            }
+        }
     </script>
 @endsection
