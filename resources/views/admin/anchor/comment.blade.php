@@ -333,7 +333,7 @@
                 console.log('reload');
             }
             else{
-                window.setTimeout(sendZZB, 1000);
+                window.setTimeout(sendZZB, 2000);
             }
         }
     </script>
