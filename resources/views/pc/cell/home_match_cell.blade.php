@@ -16,9 +16,6 @@
 
     $firstChannel = isset($channels[0]) ? $channels[0] : [];
     $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
-if(isset($firstChannel['akq_url']) && strlen($firstChannel['akq_url']) > 0){
-    $url = $firstChannel['akq_url'];
-}
     $impt_style = '';
     if ($impt == 2) {
         if ($sport == 1) {
@@ -67,7 +64,15 @@ if(isset($firstChannel['akq_url']) && strlen($firstChannel['akq_url']) > 0){
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
                 <a target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
             @else
-                <a target="_blank" href="{{$url . '?btn=' . $index}}">{{$channel['name']}}</a>
+                <?php
+                if(isset($channel['akq_url']) && strlen($channel['akq_url']) > 0){
+                    $tmp_url = $channel['akq_url'];
+                }
+                else{
+                    $tmp_url = $url;
+                }
+                ?>
+                <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$channel['name']}}</a>
             @endif
         @endforeach
         @if($match['sport'] == 1)
