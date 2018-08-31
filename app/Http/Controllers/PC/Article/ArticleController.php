@@ -113,7 +113,7 @@ class ArticleController extends Controller
         $result['title'] = $detail->title . "_" . $typeName . "-爱看球直播";
         $result['keywords'] = str_replace('，', ',', $detail->labels);
         $result['description'] = $detail->digest;
-        $data = isset(Controller::SUBJECT_NAME_IDS[$type->name_en]) ? Controller::SUBJECT_NAME_IDS[$type->name_en] : null;
+        $data = array_key_exists($type->name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$type->name_en] : null;
         if (isset($data)) {
             $data['name_en'] = $type->name_en;
             $result['zhuanti'] = $data;
