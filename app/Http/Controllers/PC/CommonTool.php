@@ -307,7 +307,7 @@ class CommonTool
             $name_en = $mls[$sport.'-'.$lid]['name_en'];
             $url = "/".$name_en."/live".$sport.$tempMid.".html";
         } else {
-            $url = "/live".$sport.$tempMid.".html";
+            $url = "/other/live".$sport.$tempMid.".html";
         }
         return $url;
     }
