@@ -266,7 +266,7 @@
                     var root_num = json['root_num'];
 //                    console.log(root_num);
                     //加载最新一页
-                    loadZZBComment('https://cache.zhibo8.cc/json/2018/'+sport+'/'+id+'_'+parseInt(root_num/100 - 1)+'.htm');
+                    loadZZBComment('https://cache.zhibo8.cc/json/2018/'+sport+'/'+id+'_'+parseInt(root_num/100)+'.htm');
                 }
             })
         }
@@ -289,10 +289,14 @@
         var zbb_last = 0;
         var zbb_array = new Array();
         var zbb_index = 0;
+        var zbb_first = true;
 
         function loadZZBComment(url,nextUrl) {
             $.ajax({
                 'url':url,
+                'error':function (e) {
+                    window.setTimeout(sendZZB, 3000);
+                },
                 'success':function (json) {
                     json = JSON.parse(json);
                     for(var i = 0 ; i < json.length ; i++){
@@ -305,6 +309,13 @@
                             zbb_array.push(item);
                         }
                     }
+
+                    if (zbb_first){
+                        zbb_array = new Array();
+                        zbb_index = 0;
+                        zbb_first = false;
+                    }
+
                     if (zbb_array.length > 0){
                         sendZZB();
                     }
