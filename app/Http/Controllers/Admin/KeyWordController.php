@@ -42,6 +42,7 @@ class KeyWordController extends Controller
                 $ts = new CloudKeyword();
                 $ts->keyword = $request->key;
                 $ts->url = $request->url;
+                $ts->level = $request->input('level',0);
                 if ($ts->save()) {
                     return back()->with('success', '保存成功');;
                 }
@@ -55,9 +56,18 @@ class KeyWordController extends Controller
         if ($request->has('id')) {
             $ts = CloudKeyword::query()->find($request->id);
             if (isset($ts)) {
+                if ($request->input('status') == -1){
+                    $ts->status = $request->input('status');
+                    if ($ts->save()) {
+                        return back()->with('success', '成功');
+                    }
+                }
                 $ts->status = $request->input('status');
+                $ts->level = $request->input('level');
+                $ts->url = $request->input('url');
+                $ts->keyword = $request->input('key');
                 if ($ts->save()) {
-                    return back()->with('success', '成功');;
+                    return back()->with('success', '成功');
                 }
             }
         }

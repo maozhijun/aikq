@@ -25,7 +25,7 @@
                         @for($i = 0 ; $i < count($keys) ; $i++)
                             <?php
                             $item = $keys[$i];
-                            if ($item['level'] == 0){
+                            if (is_null($item['level']) || $item['level'] == 0){
                                 if ($i < 1)
                                     $level = 10;
                                 else if($i < 2)

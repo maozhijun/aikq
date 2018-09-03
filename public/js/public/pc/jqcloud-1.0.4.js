@@ -125,7 +125,7 @@
 						});
 					}
 
-					inner_html = $('<a>').attr(word.link).text(word.text);
+					inner_html = $('<a target="_blank">').attr(word.link).text(word.text);
 				} else {
 					inner_html = word.text;
 				}

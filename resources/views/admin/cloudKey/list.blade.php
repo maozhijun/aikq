@@ -19,6 +19,7 @@
                 <tr>
                     <th><input type="text" placeholder="关键字" name="key"></th>
                     <th><input type="text" placeholder="url" name="url"></th>
+                    <th><input style="width: 50px" type="text" placeholder="等级" name="level"></th>
                     <th>
                         <button type="submit" class="btn btn-default">增加</button>
                     </th>
@@ -26,17 +27,27 @@
                 <tr>
                     <th>关键字</th>
                     <th style="width: 60%">链接</th>
+                    <th style="width: 5%">等级</th>
                     <th>操作</th>
                 </tr>
             </form>
             </thead>
             <tbody>
             @foreach($filters as $filter)
+                <form action="/admin/cloudkeyword/update" enctype="multipart/form-data" method="post">
+                    {{ csrf_field() }}
                 <tr>
-                    <td><input name="" value="{{ $filter->keyword }}"></td>
-                    <td><input style="width: 100%" value="{{ $filter->url }}"></td>
-                    <td><a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="if(confirm('确定删除？'))location.href='/admin/cloudkeyword/update?status=-1&id='+('{{ $filter->id }}');">删除</a></td>
+                    <input style="display: none" name="status" value="{{ $filter->status }}">
+                    <input style="display: none" name="id" value="{{ $filter->id }}">
+                    <td><input name="key" value="{{ $filter->keyword }}"></td>
+                    <td><input style="width: 100%" name="url" value="{{ $filter->url }}"></td>
+                    <td><input style="width: 50px" name="level" value="{{ $filter->level }}"></td>
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-ok"></span>保存</button>
+                        <a class="btn btn-sm btn-danger" href="javascript:void(0);" onclick="if(confirm('确定删除？'))location.href='/admin/cloudkeyword/update?status=-1&id='+('{{ $filter->id }}');">删除</a>
+                    </td>
                 </tr>
+                </form>
             @endforeach
             </tbody>
         </table>
