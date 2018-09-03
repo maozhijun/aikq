@@ -12,7 +12,7 @@ mip-vd-tabs.tab .inner{
 }
 
 #Live{
-	
+	background: #fff;
 }
 #Live .day{
 	height: 22px;
@@ -26,6 +26,10 @@ mip-vd-tabs.tab .inner{
 	background: url(../img/icon_right.png) no-repeat right center #fff; background-size: 30px;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+}
+#Live a.unload{
+	opacity: 0.5;
+	background: #fff;
 }
 #Live a + a{
 	border-top: 1px solid #dcdcdc;
