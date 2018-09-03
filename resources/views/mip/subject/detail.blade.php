@@ -30,7 +30,19 @@
             @foreach($lives as $day=>$matches)
                 <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
                 @foreach($matches as $match)
-                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid'])}}" @if($match['status']>0)class="live" @endif>
+                    <?php
+                    $url = "#";
+                    $className = "unload";
+                    if (array_key_exists('channels', $match)) {
+                        $channels = $match['channels'];
+                        $isMatching = $match['status']>0 || (isset($match['isMatching']) && $match['isMatching']);
+                        if (isset($channels) && count($channels) > 0) {
+                            $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
+                            $className = $isMatching ? "live" : "";
+                        }
+                    }
+                    ?>
+                    <a href="{{$url}}" @if(strlen($className) > 0)class="{{$className}}" @endif>Q
                         <p class="time">{{date('H:i', $match['time'])}}</p>
                         <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                     </a>
