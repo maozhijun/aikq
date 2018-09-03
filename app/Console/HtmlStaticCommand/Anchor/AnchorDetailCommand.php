@@ -41,7 +41,7 @@ class AnchorDetailCommand extends BaseCommand
 
             $html = $con->room($request, $room_id);
             if (!empty($html)) {
-                Storage::disk('public')->put('www/anchor/room' . $room_id . '.html', $html);
+                Storage::disk('public')->put('www/anchor/room/' . $room_id . '.html', $html);
             }
 
             $mCon->roomStatic($request);
@@ -63,6 +63,11 @@ class AnchorDetailCommand extends BaseCommand
      * @return array|mixed
      */
     public static function getCacheValidRooms($key) {
+        $rooms = AnchorRoom::validRooms();
+        foreach ($rooms as $room) {
+            $roomArray[] = ['id'=>$room->id];
+        }
+        return $roomArray;
         $cache = Redis::get($key);
         $roomArray = json_decode($cache, true);
         if (is_null($roomArray) || count($roomArray) == 0) {
