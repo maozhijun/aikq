@@ -3,7 +3,7 @@
     $channels = $match['channels'];
     $sport = $match['sport'];
     $mid = $match['mid'];
-    $lid = $match['lid'];
+    $lid = isset($match['lid']) ? $match['lid'] : 0;
     $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
 
     $firstChannel = isset($channels[0]) ? $channels[0] : [];
