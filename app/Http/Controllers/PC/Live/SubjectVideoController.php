@@ -227,17 +227,15 @@ class SubjectVideoController extends Controller
             }
 
             //静态化终端html
-//            $videos = isset($data['videos']) ? $data['videos'] : [];
-//            $con = new SubjectController();
-//            foreach ($videos as $video) {
-//                $pc_detail_html = $con->subjectVideoHtml($video);
-//                if (!empty($pc_detail_html)) {
-//                    $pc_detail_patch = CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video');
-//                    $pc_detail_patch = '/www' . $pc_detail_patch;
-//                    dump($pc_detail_patch);
-//                    Storage::disk("public")->put($pc_detail_patch, $pc_detail_html);
-//                }
-//            }
+            $videos = isset($data['videos']) ? $data['videos'] : [];
+            $con = new SubjectController();
+            foreach ($videos as $video) {
+                $con->staticSubjectVideo($video);
+                $channels = isset($video['channels']) ? $video['channels'] : [];
+                foreach ($channels as $channel) {
+                    $con->staticSVideoChannelJson($channel, $channel['id']);
+                }
+            }
         }
     }
     //=====================================静态化 结束=====================================//

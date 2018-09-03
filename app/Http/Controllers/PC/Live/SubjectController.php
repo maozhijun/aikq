@@ -361,10 +361,16 @@ class SubjectController extends Controller
      * @param $vid
      */
     public function staticSubjectVideoHtml(Request $request, $vid) {
-        $html = $this->subjectVideo($request, '', '', $vid);
+        $sv = $this->getSubjectVideo($vid);
+        $this->staticSubjectVideo($sv);
+    }
+
+
+    public function staticSubjectVideo($sv) {
+        $html = $this->subjectVideoHtml($sv);
         if (!empty($html)) {//静态化录像终端
-            $patch = MatchTool::subjectLink($vid, 'video');
-            Storage::disk("public")->put($patch, $html);
+            $patch = CommonTool::getSubjectVideoDetailPath($sv['s_lid'], $sv['id']);
+            Storage::disk("public")->put('www/'.$patch, $html);
         }
     }
 
@@ -399,12 +405,31 @@ class SubjectController extends Controller
      */
     public function staticSubjectVideoChannelJson(Request $request, $ch_id) {
         $json = $this->getSubjectVideoChannel($ch_id);//$this->getSubjectVideo($ch_id);//
-        $jsonStr = json_encode($json);
+        $this->staticSVideoChannelJson($json, $ch_id);
+//        $jsonStr = json_encode($json);
+//        if (!empty($jsonStr)) {
+//            $patch = MatchTool::subjectChannelLink($ch_id, 'video');
+//            Storage::disk("public")->put('www/'.$patch, $jsonStr);
+//            $patch = MatchTool::subjectChannelLink($ch_id, 'video', true);
+//            Storage::disk("public")->put('m/'.$patch, $jsonStr);
+//        }
+    }
+
+    /**
+     * 静态化录像线路json
+     * @param $channel
+     * @param $ch_id
+     */
+    public function staticSVideoChannelJson($channel, $ch_id) {
+        $channel['code'] = 0;
+        if (isset($channel['id'])) unset($channel['id']);
+        if (isset($channel['link'])) $channel['playurl'] = $channel['link'];
+        $jsonStr = json_encode($channel);
         if (!empty($jsonStr)) {
             $patch = MatchTool::subjectChannelLink($ch_id, 'video');
-            Storage::disk("public")->put($patch, $jsonStr);
+            Storage::disk("public")->put('www/'.$patch, $jsonStr);
             $patch = MatchTool::subjectChannelLink($ch_id, 'video', true);
-            Storage::disk("public")->put($patch, $jsonStr);
+            Storage::disk("public")->put('m/'.$patch, $jsonStr);
         }
     }
 
@@ -435,6 +460,7 @@ class SubjectController extends Controller
         $html = $this->subjectPlayer($request);
         if (!empty($html)) {
             Storage::disk("public")->put("/live/subject/player.html", $html);
+            Storage::disk("public")->put("/www/live/subject/player.html", $html);
         }
     }
 
