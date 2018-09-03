@@ -1,6 +1,8 @@
 @extends("pc.layout.base")
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/article.css?rd=20180000002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/jqcloud.css?rd=20180000002">
+
 @endsection
 @section("content")
     <div id="Content">
@@ -14,6 +16,43 @@
                 <dl>
                     <dt>直播赛程</dt>
                 </dl>
+                <div id="LatinWords">
+                    <?php
+                    $keys = \App\Models\Admin\CloudKeyword::getKeyWord();
+                    ?>
+                    <p class="title">热门关键词</p>
+                    <div id="LatinWords_in">
+                        @for($i = 0 ; $i < count($keys) ; $i++)
+                            <?php
+                            $item = $keys[$i];
+                            if ($item['level'] == 0){
+                                if ($i < 1)
+                                    $level = 10;
+                                else if($i < 2)
+                                    $level = 8;
+                                else if($i < 3)
+                                    $level = 7;
+                                else if($i < 4)
+                                    $level = 6;
+                                else if($i < 5)
+                                    $level = 5;
+                                else if($i < 6)
+                                    $level = 4;
+                                else if($i < 15)
+                                    $level = 3;
+                                else if($i < 23)
+                                    $level = 2;
+                                else
+                                    $level = 1;
+                            }
+                            else{
+                                $level = $item['level'];
+                            }
+                            ?>
+                            <a target="_blank" href="{{$item['url']}}" level="{{$level}}">{{$item['keyword']}}</a>
+                        @endfor
+                    </div>
+                </div>
             </div>
             <div id="Left">
                 <div class="con">
@@ -23,22 +62,27 @@
                     <div class="detail">{!! $article->getContent() !!}</div>
                 </div>
                 @if(isset($res) && count($res) > 0)
-                <div class="other">
-                    <div class="title">相关文章</div>
-                    @foreach($res as $re)
-                    <a target="_blank" href="{{$re->url}}">{{$re->title}}</a>
-                    @endforeach
-                    <p class="clear"></p>
-                </div>
+                    <div class="other">
+                        <div class="title">相关文章</div>
+                        @foreach($res as $re)
+                            <a target="_blank" href="{{$re->url}}">{{$re->title}}</a>
+                        @endforeach
+                        <p class="clear"></p>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
 @endsection
 @section("js")
-<script type="text/javascript">
-    $.get("/news/lives.html", function (html) {
-        $("#Right dl").html(html);
-    });
-</script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jqcloud-1.0.4.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/article.js"></script>
+    <script type="text/javascript">
+        $.get("/news/lives.html", function (html) {
+            $("#Right dl").html(html);
+        });
+        window.onload = function () { //需要添加的监控放在这里
+            setPage();
+        }
+    </script>
 @endsection

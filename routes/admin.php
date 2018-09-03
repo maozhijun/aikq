@@ -180,3 +180,10 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::get('/filter/add', 'TrieStoreController@add');//新增
     Route::get('/filter/del', 'TrieStoreController@del');//删除
 });
+
+Route::group(['middleware' => 'admin_auth'], function () {
+    //云关键字
+    Route::get('/cloudkeyword/', 'KeyWordController@lists');//列表
+    Route::get('/cloudkeyword/add', 'KeyWordController@add');//新增
+    Route::get('/cloudkeyword/update', 'KeyWordController@update');//修改
+});
