@@ -256,6 +256,7 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
+            $tmp['akq_url'] = $channel->akq_url;
             $array[] = $tmp;
         }
         return $array;
@@ -294,6 +295,7 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
+            $tmp['akq_url'] = $this->akq_url;
             $array[] = $tmp;
         }
         return $array;

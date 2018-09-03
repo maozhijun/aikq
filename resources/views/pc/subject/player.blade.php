@@ -16,7 +16,7 @@
 </head>
 <body scroll="no">
 <div class="player_content" id="MyFrame">
-    <p class="noframe" style="display: none;">距离比赛还有 <b>08:23</b><img class="code" src="/img/pc/code.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>
+    <p class="noframe" style="display: none;">距离比赛还有 <b>08:23</b><img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>fs188fs</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -49,7 +49,7 @@
     window.jsj = 'http://206dy.com/vip.php?url=';//'http://jx.618g.com/?url=';//'http://api.nobij.top/vip/?url=';//'http://api.daliuba.com/?url=';//'http://www.jsjhealth.cn/video/?url=';
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201803030001"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201808281556"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

@@ -9,10 +9,13 @@
 namespace App\Console\Sync;
 
 
+use App\Http\Controllers\Sync\BasketballController;
+use App\Models\LgMatch\BasketMatch;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\OtherMatch;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 class LiveSyncCommand extends Command
 {
@@ -48,44 +51,32 @@ class LiveSyncCommand extends Command
      */
     public function handle()
     {
-        //同步 other_matches 开始
-        $lastOtherUpdate = OtherMatch::query()->orderByDesc('updated_at')->first();
-        $update_at = $lastOtherUpdate->updated_at;
-        $query = \App\Models\LgMatch\OtherMatch::query();
-        $others = $query->where('updated_at', '>', $update_at)->get();
-        $otherCount = 0;
-        foreach ($others as $other) {
-            $flg = OtherMatch::copyLgOtherMatch($other);
-            if ($flg) $otherCount++;
-        }
-        dump("match有变化的other_matchs数据条数：" . count($others) . "，本库更新成功条数：" . $otherCount);
-        //同步 other_matches 结束
+        $start = time();
+        //同步取消
+        //同步篮球数据
+        $key = "LiveSyncCommand_ID";
+        $lastId = Redis::get($key);
+        $lastId = empty($lastId) ? 1 : $lastId + 1;
+        $query = BasketMatch::query()->where('id', '>=', $lastId);
+        $query->take(1000)->orderBy('id');
+        $lgMatches = $query->get();
+        $bCon = new BasketballController();
+        foreach ($lgMatches as $lgMatch) {
+            $id = $lgMatch->id;
 
-        //同步 match_lives 开始
-        $lastMatchLiveUpdate = MatchLive::query()->orderByDesc('updated_at')->first();
-        $update_at = $lastMatchLiveUpdate->updated_at;
-        $query = \App\Models\LgMatch\MatchLive::query();
-        $lives = $query->where('updated_at', '>', $update_at)->get();
-        $liveCount = 0;
-        foreach ($lives as $live) {
-            $flg = MatchLive::copyLgMatchLive($live);
-            if ($flg) $liveCount++;
-        }
-        dump("match有变化的match_lives数据条数：" . count($lives) . "，本库更新成功条数：" . $liveCount);
-        //同步 match_lives 结束
+            $aMatch = \App\Models\Match\BasketMatch::query()->find($id);
+            if (!isset($aMatch)) {
+                $aMatch = new \App\Models\Match\BasketMatch();
+                $aMatch->id = $id;
+            }
 
-        //同步 match_live_channels 开始
-        $lastChannel = MatchLiveChannel::query()->orderByDesc('updated_at')->first();
-        $update_at = $lastChannel->updated_at;
-        $query = \App\Models\LgMatch\MatchLiveChannel::query();
-        $channels = $query->where('updated_at', '>', $update_at)->get();
-        $channelCount = 0;
-        foreach ($channels as $channel) {
-            $flg = MatchLiveChannel::copyLgMatchLiveChannel($channel);
-            if ($flg) $channelCount++;
+            $bCon->copyMatch($lgMatch, $aMatch);
+
+            $aMatch->save();
+            $lastId = $lgMatch->id;
         }
-        dump("match有变化的match_live_channels数据条数：" . count($channels) . "，本库更新成功条数：" . $channelCount);
-        //同步 match_live_channels 结束
+        dump("LAST_ID：" . $lastId . "，本次更新时间为：" . (time() - $start) . ",更新条数：" . count($lgMatches));
+        Redis::set($key, $lastId);
     }
 
 

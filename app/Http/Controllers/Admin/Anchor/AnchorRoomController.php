@@ -115,4 +115,16 @@ class AnchorRoomController extends Controller
             return back()->with('error', '保存失败');
         }
     }
+
+    /**
+     * 评论管理
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function comment(Request $request){
+        $room_id = $request->input('room_id',0);
+        $result = array();
+        $result['room'] = AnchorRoom::find($room_id);
+        return view('admin.anchor.comment', $result);
+    }
 }

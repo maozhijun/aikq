@@ -63,7 +63,7 @@ function videoActive() {
             }
         },
         "error": function () {
-            showWXCode('扫二维码进入群', '/img/pc/code.jpg');
+            showWXCode('扫二维码进入群', '/img/pc/image_qr_868.jpg');
         }
     });
 }

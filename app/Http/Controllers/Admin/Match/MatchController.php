@@ -230,6 +230,7 @@ class MatchController extends Controller
         $use = $request->input('use');//使用这个线路的网站，1、通用，2、爱、3、黑土、4、310.
         $impt = $request->input('impt');//是否重点线路，1：普通，2：重点线路
         $ad = $request->input('ad', 1);//
+        $akq_url = $request->input('akq_url', '');//
 
         //判断参数 开始
         if (!in_array($type, MatchLiveChannel::kTypeArray)) {
@@ -319,6 +320,7 @@ class MatchController extends Controller
         $channel->impt = $impt;
         $channel->ad = $ad;
         $channel->admin_id = $admin_id;//当前登录的管理员ID
+        $channel->akq_url = $akq_url;
 
         $exception = DB::transaction(function() use ($channel, $match_id, $sport) {
             if (!isset($channel->id)) {

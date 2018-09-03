@@ -13,6 +13,7 @@ Route::group([], function () {
 
     Route::any("/password/edit", "BsController@passwordEdit");
     Route::get("/info", "BsController@info");
+    Route::get("/comment", "BsController@comment");
     Route::post("/info/save", "BsController@saveInfo");
 
     Route::post("/info/room/start", "BsController@startLive");//开播，获取推流地址

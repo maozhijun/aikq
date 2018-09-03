@@ -4,11 +4,11 @@
 @endsection
 @section("content")
     <div id="Content">
-        <div class="inner" style="padding-left: 0">
-            {{--<div id="Tab">--}}
-            {{--<a class="on">直播信息</a>--}}
-            {{--<a href="/bs/matches">赛事预约</a>--}}
-            {{--</div>--}}
+        <div class="inner" style="">
+            <div id="Tab">
+                <a class="on">直播信息</a>
+                <a href="/bs/comment">评论管理</a>
+            </div>
             <div id="Link">
                 {{--<button class="get" style="display: {{$iLive ? 'none' : 'block'}};">开始直播，获取推流地址</button>--}}
                 {{--<button class="reset live" style="display: {{$iLive ? 'block' : 'none'}};" >重置推流地址</button>--}}

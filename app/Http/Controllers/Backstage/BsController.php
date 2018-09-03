@@ -110,6 +110,19 @@ class BsController extends Controller
     }
 
     /**
+     * 评论管理
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function comment(Request $request){
+        $anchor = $request->admin_user;
+        $room = $anchor->room;
+        $result['anchor'] = $anchor;
+        $result['room'] = $room;
+        return view('backstage.comment', $result);
+    }
+
+    /**
      * 修改主播房间状态为 直播中
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

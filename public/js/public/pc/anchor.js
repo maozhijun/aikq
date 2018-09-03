@@ -1,3 +1,4 @@
+var Comment = true;
 
 function setPage(){
 	$('#Hot button.left').click(function () {
@@ -9,6 +10,20 @@ function setPage(){
 	})
 
 	$('#Anchor .imgbox').height($('#Anchor .imgbox').width());
+
+	$('#Info .comment button').click(function(){
+		if ($(this).hasClass('open')) {
+			$(this).prop('class','close');
+			Comment = false;
+		}else{
+			$(this).prop('class','open');
+			Comment = true;
+		}
+	})
+}
+
+function parentComment () {
+	return Comment;
 }
 
 function setADClose () {

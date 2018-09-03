@@ -144,6 +144,8 @@ Route::group(['namespace'=>'Anchor', 'middleware' => 'admin_auth'], function () 
 
     Route::get('/anchor/room/book_list', 'AnchorRoomController@bookList');//预约比赛列表
     Route::post('/anchor/tag/update', 'AnchorRoomController@bookUpdate');//修改预约比赛
+
+    Route::get('/anchor/comment', 'AnchorRoomController@comment');//插弹幕
 });
 
 /**

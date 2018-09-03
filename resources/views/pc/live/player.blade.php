@@ -55,7 +55,7 @@
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201807231226"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201808281556"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}

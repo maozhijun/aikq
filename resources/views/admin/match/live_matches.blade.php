@@ -145,6 +145,7 @@
             var matchId = dataDiv.parent().attr('match_id');
             var name = dataDiv.find("input[name=name]").val();
             var content = dataDiv.find("input[name=content]").val();
+            var akq_url = dataDiv.find("input[name=akq_url]").val();
             var h_content = dataDiv.find("input[name=h_content]").val();
             var od = dataDiv.find("input[name=od]").val();
             var use = dataDiv.find("select[name=use]").val();
@@ -183,6 +184,7 @@
             data['player'] = dataDiv.find("select[name=player]").val();
             data['name'] = name;
             data['content'] = content;
+            data['akq_url'] = akq_url;
             data['h_content'] = h_content;
             data['od'] = od;
             data['use'] = use;

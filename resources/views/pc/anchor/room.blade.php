@@ -1,6 +1,14 @@
-@extends('pc.layout.base')
+@extends('pc.layout.anchor_base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/room.css?t">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/room.css?201808301656">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+        #TableHead {
+            top: 60px;
+        }
+    </style>
 @endsection
 @section('content')
     <div id="Content">
@@ -29,7 +37,7 @@
                     }
                 }
                 ?>
-                <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!! $matchText !!}</p>
+                <p>主播：{{$anchor->name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{!! $matchText !!}<span class="comment">弹幕：<button class="open"></button></p>
             </div>
             <?php
             $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
@@ -56,7 +64,7 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor.js?201808311700"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();
