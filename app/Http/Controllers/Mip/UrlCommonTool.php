@@ -16,7 +16,11 @@ class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
 //    const MIP_PREFIX = env("MIP_URL", "http://yingchaozhibo.cc");
-    const MIP_PREFIX = "http://yingchaozhibo.cc";
+    const MIP_PREFIX = "http://mip.aikq.cc";
+
+    protected static function getMipPrefix() {
+        return env('MIP_URL', self::MIP_PREFIX);
+    }
 
     /*********************直播相关*************************/
 
@@ -89,6 +93,6 @@ class UrlCommonTool
 
     public static function downloadUrl() {
 //        return self::MIP_PREFIX."/download.html";
-        return "/mip/downloadPhone.html";
+        return self::getMipPrefix()."/downloadPhone.html";
     }
 }
