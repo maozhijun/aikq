@@ -68,7 +68,7 @@ io.on('connect', function (socket) {
                         'type':99 ,
                         'time':info.time
                     }
-                    io.to('mid:' + mid).emit('server_send_message', tmp);
+                    // io.to('mid:' + mid).emit('server_send_message', tmp);
                 }
 
                 //直播人数
