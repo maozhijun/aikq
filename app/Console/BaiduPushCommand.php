@@ -14,8 +14,6 @@ use Illuminate\Console\Command;
 
 class BaiduPushCommand extends Command
 {
-    const EACH_PUSH_COUNT = 10; //每次提交链接的数量
-
     const WWW_OFFSET = 0;
     const M_OFFSET = 1;
     const MIP_OFFSET = 2;
@@ -87,7 +85,7 @@ class BaiduPushCommand extends Command
         $articles = PcArticle::query()
             ->where('status', 1)
             ->whereRaw("!(is_baidu_push >> $offset & 1)")
-            ->orderBy(PcArticle::CREATED_AT, 'desc')->take(self::EACH_PUSH_COUNT)->get();
+            ->orderBy(PcArticle::CREATED_AT, 'desc')->take($this->getEachPushCount())->get();
 
         $host = $this->getHostByOffset($offset);
         foreach ($articles as $article) {
@@ -187,5 +185,9 @@ class BaiduPushCommand extends Command
                 break;
         }
         return $token;
+    }
+
+    protected function getEachPushCount() {
+        return env('EACH_BAIDU_PUSH_COUNT', 10);
     }
 }
