@@ -208,13 +208,13 @@ class ArticleController extends Controller
             $detail->save();
         });
 
-        if(isset($article->url)) {
-            $con = new \App\Http\Controllers\PC\Article\ArticleController();
-            $con->generateHtml($article);//生成静态文件
-        }
-
         if (isset($exception)) {
             return response()->json(['code' => 403, 'error' => '数据库异常']);
+        }
+
+        if($article->status == PcArticle::kStatusPublish) {
+            $con = new \App\Http\Controllers\PC\Article\ArticleController();
+            $con->generateHtml($article);//生成静态文件
         }
 
         $type_obj = $article->type_obj;
