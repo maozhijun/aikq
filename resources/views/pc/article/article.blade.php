@@ -1,7 +1,7 @@
 @extends("pc.layout.base")
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/article.css?rd=201809031647">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/jqcloud.css?rd=20180000002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/article.css?rd={{date('YmdHi')}}">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/jqcloud.css?rd={{date('YmdHi')}}">
 
 @endsection
 @section("content")

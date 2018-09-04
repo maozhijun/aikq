@@ -107,6 +107,7 @@
 					weight = Math.round((word.weight - word_array[word_array.length - 1].weight) /
 						(word_array[0].weight - word_array[word_array.length - 1].weight) * 9.0) + 1;
 				}
+				weight = word_array[index].weight;
 				word_span = $('<span>').attr(word.html).addClass('w' + weight + " " + custom_class);
 
 				// 如果单词添加链接。url属性设置

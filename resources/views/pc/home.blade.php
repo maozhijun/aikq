@@ -1,6 +1,6 @@
 @extends('pc.layout.base')<?php $submitBD = true;//主动提交 ?>
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=201808161236">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time={{date('YmdHi')}}">
 @endsection
 @section('content')
     <div id="Content">

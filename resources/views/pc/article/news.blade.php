@@ -1,6 +1,6 @@
 @extends("pc.layout.base")
 @section("css")
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?rd=2000000003">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/news.css?{{date('YmdHi')}}">
 @endsection
 @section('h1')
 	<h1>体育新闻资讯</h1>

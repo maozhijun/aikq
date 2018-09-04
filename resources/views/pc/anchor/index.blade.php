@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time=201807251702">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/anchor.css?time={{date('YmdHi')}}">
 @endsection
 @section('h1')
     <h1>美女主播球赛讲解</h1>

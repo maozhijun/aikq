@@ -22,7 +22,7 @@
         ?>
     <meta http-equiv="mobile-agent" content="format=xhtml; url={{$ma_url}}">
     <meta http-equiv="mobile-agent" content="format=html5; url={{$ma_url}}">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time=2018000003">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time={{date('YmdHi')}}">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">

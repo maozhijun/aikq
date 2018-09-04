@@ -3,7 +3,7 @@
 	<meta name="robots"content="nofollow">
 @endsection
 @section('css')
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time=20180203030006">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time={{date('YmdHi')}}">
 	<style type="text/css">
 		table.list thead th{height: 30px; font-size: 12px; line-height: 30px;}
 		table.list tbody th{height: 20px; font-size: 12px; line-height: 20px;}
