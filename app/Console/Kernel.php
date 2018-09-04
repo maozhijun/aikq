@@ -175,7 +175,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('shop_living_json:run')->everyMinute();
 
         //百度主动推送，一小时一次
-//        $schedule->command('baidu_push:run all')->hourlyAt(20);
+        $schedule->command('baidu_push:run all')->hourlyAt(20);
     }
 
     /**

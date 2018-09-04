@@ -95,6 +95,10 @@ class BaiduPushCommand extends Command
         }
 
         dump($urls);
+        if (count($urls) <= 0) {
+            echo "$host : there is nothing to push<br>";
+            return;
+        }
 
         $resultCount = $this->onBaiduPush($urls, $offset);
 //        $resultCount = 10;
@@ -144,7 +148,10 @@ class BaiduPushCommand extends Command
         $result = curl_exec($ch);
         echo "baidu_push_result:".$result.'<br>';
         $data = json_decode($result, true);
-        if (is_array($data) && array_key_exists("success", $data)) {
+        if (is_array($data) && (array_key_exists("success", $data) || array_key_exists("success_mip", $data))) {
+            if (array_key_exists("success_mip", $data)) {
+                return $data['success_mip'];
+            }
             return $data['success'];
         }
         return -1;
