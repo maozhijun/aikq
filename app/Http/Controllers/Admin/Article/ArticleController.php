@@ -10,10 +10,12 @@ namespace App\Http\Controllers\Admin\Article;
 
 
 use App\Http\Controllers\Admin\UploadTrait;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
 use App\Models\Article\PcArticleType;
+use App\Models\HCT\ForeignArticle;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -207,15 +209,28 @@ class ArticleController extends Controller
             $detail->save();
         });
 
-        if(isset($article->url)) {
-            $con = new \App\Http\Controllers\PC\Article\ArticleController();
-            $con->generateHtml($article);//生成静态文件
+        if ($request->input('fid')){
+            $foreign = ForeignArticle::find($request->input('fid'));
+            if (isset($foreign)){
+                $foreign->aid = $article->id;
+                $foreign->save();
+            }
         }
 
         if (isset($exception)) {
             return response()->json(['code' => 403, 'error' => '数据库异常']);
         }
-        return response()->json(['code' => 0, 'id' => $article->id, 'action' => $action, 'url' => $article->url]);
+
+        if($article->status == PcArticle::kStatusPublish) {
+            $con = new \App\Http\Controllers\PC\Article\ArticleController();
+            $con->generateHtml($article);//生成静态文件
+        }
+
+        $type_obj = $article->type_obj;
+        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
+        $tmp = CommonTool::getArticleDetailUrl($type_name_en, $article->id);
+
+        return response()->json(['code' => 0, 'id' => $article->id, 'action' => $action, 'url' => $tmp]);
     }
 
     /**

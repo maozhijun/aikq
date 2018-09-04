@@ -187,3 +187,10 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::any('/cloudkeyword/add', 'KeyWordController@add');//新增
     Route::any('/cloudkeyword/update', 'KeyWordController@update');//修改
 });
+
+Route::group(['namespace'=>'Article','middleware' => 'admin_auth'], function () {
+    //翻译文章
+    Route::get('/foreign/', 'ForeignArticleController@articles');//列表
+    Route::any('/foreign/detail', 'ForeignArticleController@detail');//新增
+    Route::any('/foreign/update', 'ForeignArticleController@update');//修改
+});
