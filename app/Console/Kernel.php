@@ -97,6 +97,8 @@ class Kernel extends ConsoleKernel
 
         ShopLiveCommand::class,//shop 安卓app直播页面
 
+        BaiduPushCommand::class,//百度主动推送
+
     ];
 
     /**
@@ -171,6 +173,9 @@ class Kernel extends ConsoleKernel
 
         //shop接口
         $schedule->command('shop_living_json:run')->everyMinute();
+
+        //百度主动推送，一小时一次
+//        $schedule->command('baidu_push:run all')->hourlyAt(20);
     }
 
     /**
