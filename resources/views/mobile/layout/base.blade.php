@@ -20,7 +20,8 @@
     <script type="text/javascript">
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var url = window.location.href;
-            url = url.replace('{{env('M_URL')}}','{{env('WWW_URL')}}');
+            url = url.replace('m.dlfyb.com','{{env('WWW_URL')}}');
+            url = url.replace('m.aikq.cc','{{env('WWW_URL')}}');
             window.location = url;
         }
     </script>

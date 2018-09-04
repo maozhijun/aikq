@@ -111,6 +111,7 @@
     </div>
     <div style="float: right;width: 50%;padding-left: 100px">
         <strong>原文</strong>
+        <a target="_blank" href="{{$f_article['url']}}">点击去原文</a>
         <h1>{{$f_article['title_en']}}</h1>
         <div>
             {{$f_article['content_en']}}
