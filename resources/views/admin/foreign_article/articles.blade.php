@@ -50,7 +50,7 @@
                         <td>{{$article->url}}</td>
                         <td>{{ $article->created_at }}</td>
                         <td>
-                            <a class="btn btn-xs btn-info" href="/admin/foreign/detail?id={{ $article->id }}"
+                            <a class="btn btn-xs btn-info" href="/admin/foreign/detail?fid={{ $article->id }}"
                                target="_blank">
                                 <span class="glyphicon glyphicon-edit"></span>详情
                             </a>

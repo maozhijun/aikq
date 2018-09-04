@@ -55,9 +55,13 @@ class ForeignArticleController extends Controller
         $query->select('foreign_articles.*','foreign_article_contents.content_en','foreign_article_contents.content_ch');
         $article = $query->get();
         if (count($article) > 0)
-            $result['article'] = $article[0];
+            $result['f_article'] = $article[0];
         else
-            $result['article'] = null;
+            $result['f_article'] = null;
+        if (isset($result['f_article']['aid'])) {
+            $article = PcArticle::query()->find($result['f_article']['aid']);
+            $result['article'] = $article;
+        }
         $types = PcArticleType::allTypes();
         $result['types'] = $types;
         $result['authors'] = [];//$authors;

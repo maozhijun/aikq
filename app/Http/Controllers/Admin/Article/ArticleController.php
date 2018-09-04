@@ -15,6 +15,7 @@ use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
 use App\Models\Article\PcArticleType;
+use App\Models\HCT\ForeignArticle;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -207,6 +208,14 @@ class ArticleController extends Controller
             $detail->content = $content;
             $detail->save();
         });
+
+        if ($request->input('fid')){
+            $foreign = ForeignArticle::find($request->input('fid'));
+            if (isset($foreign)){
+                $foreign->aid = $article->id;
+                $foreign->save();
+            }
+        }
 
         if(isset($article->url)) {
             $con = new \App\Http\Controllers\PC\Article\ArticleController();

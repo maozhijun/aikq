@@ -1,118 +1,118 @@
 @extends('admin.layout.base')
 @section('content')
     <h1 class="page-header">新建文章</h1>
-    <div style="float: left;width: 50%">
-    <div class="row">
-        <div class="col-lg-12">
-            <form class="form" method="post" action="/admin/article/save/">
-                {{ csrf_field() }}
-                <input type="hidden" name="id" value="">
-                <input type="hidden" name="action">
-                <input type="hidden" name="content">
-                <input type="hidden" name="images">
+    <div style="float: left;width: 600px">
+        <div class="row">
+            <div class="col-lg-12">
+                <form class="form" method="post" action="/admin/article/save/">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="fid" value="{{$f_article->id}}">
+                    <input type="hidden" name="action">
+                    <input type="hidden" name="content">
+                    <input type="hidden" name="images">
 
-                <div class="input-group form-group">
-                    <span class="input-group-addon">标题</span>
-                    <input type="text"
-                           name="title"
-                           value="{{ session('title',isset($article)?$article->title_ch:'') }}"
-                           class="form-control"
-                           placeholder="标题"
-                           required autofocus>
-                    <span class="input-group-addon">{{isset($article) ? mb_strlen($article->title_ch) : 0}}字</span>
-                </div>
-                <div class="input-group form-group">
-                    <span class="input-group-addon">摘要</span>
-                    <input type="text"
-                           name="digest"
-                           value=""
-                           class="form-control"
-                           placeholder="摘要"
-                           required>
-                    <span class="input-group-addon">0字</span>
-                </div>
-                <div class="input-group form-group">
-                    <span class="input-group-addon">标签</span>
-                    <input type="text"
-                           value=""
-                           name="labels"
-                           class="form-control"
-                           placeholder="标签">
-                </div>
-                <div class="input-group form-group">
-                    <span class="input-group-addon">作者</span>
-                    <input type="text"
-                           name="author"
-                           value="{{ session('author',isset($article) ? $article->author: '') }}"
-                           class="form-control"
-                           placeholder="作者"
-                           required>
-                </div>
-                <div class="input-group form-group">
-                    <span class="input-group-addon">来源</span>
-                    <input type="text"
-                           name="resource"
-                           value="{{ session('resource', isset($article) ? $article->resource: '') }}"
-                           class="form-control"
-                           placeholder="来源"
-                           required>
-                </div>
-                <div class="input-group form-group col-lg-3">
-                    <span class="input-group-addon">分类</span>
-                    <select name="type" class="form-control" id="type">
-                        <option value="">选择分类</option>
-                        @foreach($types as $type)
-                            <option @if(isset($article) && $article->type == $type->id) selected @endif value="{{$type->id}}">{{$type->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input @if(isset($article) && $article->original == 1) checked @endif value="1" name="original" type="checkbox" class="form-check-input">
-                        原创
-                    </label>
-                </div>
-                <br>
-                <!-- 编辑器容器 -->
-                <script id="ueditor_container" type="text/plain"></script>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">标题</span>
+                        <input type="text"
+                               name="title"
+                               value="{{ session('title',isset($article)?$article->title:$f_article->title_ch) }}"
+                               class="form-control"
+                               placeholder="标题"
+                               required autofocus>
+                        <span class="input-group-addon">{{isset($article) ? mb_strlen($article->title) : mb_strlen($f_article->title_ch)}}字</span>
+                    </div>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">摘要</span>
+                        <input type="text"
+                               name="digest"
+                               value="{{ session('digest',isset($article)?$article->digest:'') }}"
+                               class="form-control"
+                               placeholder="摘要"
+                               required>
+                        <span class="input-group-addon">{{isset($article) ? mb_strlen($article->digest) : 0}}字</span>
+                    </div>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">标签</span>
+                        <input type="text"
+                               value="{{ session('labels',isset($article)?$article->labels:'') }}"
+                               name="labels"
+                               class="form-control"
+                               placeholder="标签">
+                    </div>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">作者</span>
+                        <input type="text"
+                               name="author"
+                               value="{{ session('author',isset($article) ? $article->author: '') }}"
+                               class="form-control"
+                               placeholder="作者"
+                               required>
+                    </div>
+                    <div class="input-group form-group">
+                        <span class="input-group-addon">来源</span>
+                        <input type="text"
+                               name="resource"
+                               value="{{ session('resource', isset($article) ? $f_article->resource: '') }}"
+                               class="form-control"
+                               placeholder="来源"
+                               required>
+                    </div>
+                    <div class="input-group form-group col-lg-3">
+                        <span class="input-group-addon">分类</span>
+                        <select name="type" class="form-control" id="type">
+                            <option value="">选择分类</option>
+                            @foreach($types as $type)
+                                <option @if(isset($article) && $article->type == $type->id) selected @endif value="{{$type->id}}">{{$type->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input @if(isset($article) && $article->original == 1) checked @endif value="1" name="original" type="checkbox" class="form-check-input">
+                            原创
+                        </label>
+                    </div>
+                    <br>
+                    <!-- 编辑器容器 -->
+                    <script id="ueditor_container" type="text/plain"></script>
 
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="useContentImage" onchange="changeCheckbox(this)" disabled="disabled">
-                        使用第一张图片为封面
-                    </label>
-                    <button type="button" class="btn btn-sm btn-default" onclick="uploadCover()">
-                        <span class="glyphicon glyphicon-upload"></span>上传封面
-                    </button>
-                </div>
-                <img class="img-thumbnail" id="coverImage" src="{{ isset($article) ? $article->cover:'' }}" style="display: {{!empty($article->cover) ? 'block' : 'none'}};" >
-                <input type="hidden" name="cover" id="coverImageInput" value="{{ isset($article) ? $article->cover : '' }}">
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-2">
-                        <button type="button" onclick="save()" class="btn btn-primary">保存</button>
-                    </div>
-                    <div class="col-lg-2">
-                        <button type="button" onclick="preview()" class="btn btn-info">预览</button>
-                    </div>
-                    <div class="col-lg-2">
-                        <button id="publishBtn" {{ isset($article) && $article->status==1 ? 'disabled' : '' }} type="button" onclick="publish()" class="btn btn-success">
-                            保存并发布
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="useContentImage" onchange="changeCheckbox(this)" disabled="disabled">
+                            使用第一张图片为封面
+                        </label>
+                        <button type="button" class="btn btn-sm btn-default" onclick="uploadCover()">
+                            <span class="glyphicon glyphicon-upload"></span>上传封面
                         </button>
                     </div>
-                </div>
-            </form>
+                    <img class="img-thumbnail" id="coverImage" src="{{ isset($article) ? $article->cover:'' }}" style="display: {{!empty($article->cover) ? 'block' : 'none'}};" >
+                    <input type="hidden" name="cover" id="coverImageInput" value="{{ isset($article) ? $article->cover : '' }}">
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-2">
+                            <button type="button" onclick="save()" class="btn btn-primary">保存</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" onclick="preview()" class="btn btn-info">预览</button>
+                        </div>
+                        <div class="col-lg-2">
+                            <button id="publishBtn" {{ isset($article) && $article->status==1 ? 'disabled' : '' }} type="button" onclick="publish()" class="btn btn-success">
+                                保存并发布
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+        <form id="imageUploadForm" enctype="multipart/form-data" action="/admin/upload/cover" method="post">
+            {{ csrf_field() }}
+            <input type="file" id="ImageBrowse" name="cover" onchange="changeCoverImage()" style="position:absolute;clip:rect(0 0 0 0);"/>
+        </form>
     </div>
-    <form id="imageUploadForm" enctype="multipart/form-data" action="/admin/upload/cover" method="post">
-        {{ csrf_field() }}
-        <input type="file" id="ImageBrowse" name="cover" onchange="changeCoverImage()" style="position:absolute;clip:rect(0 0 0 0);"/>
-    </form>
-        </div>
     <div style="float: right;width: 50%;padding-left: 100px">
         <strong>原文</strong>
-        <h1>{{$article['title_en']}}</h1>
+        <h1>{{$f_article['title_en']}}</h1>
         <div>
-            {{$article['content_en']}}
+            {{$f_article['content_en']}}
         </div>
     </div>
 @endsection
@@ -120,7 +120,7 @@
 @section('js')
     @include('vendor.ueditor.assets')
     <script type="text/html" id="article_content">
-    {!! isset($article)?$article->content_ch:'' !!}
+    {{(isset($article) && strlen($article['content'])>0)?$article['content']:$f_article['content_ch']}}
     </script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
@@ -128,7 +128,9 @@
             $('#coverImage').hide();
         }
         var isContentChange = false;
-        var ue = UE.getEditor('ueditor_container');
+        var ue = UE.getEditor('ueditor_container',{
+            initialFrameWidth: 600
+        });
         ue.ready(function () {
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
             ue.addListener('contentChange', function (editor) {
@@ -149,6 +151,8 @@
                 }
             });
             @if(isset($article))
+                ue.setContent($('#article_content').html());
+            @elseif(isset($f_article))
                 ue.setContent($('#article_content').html());
             @else
                 ue.setContent("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
