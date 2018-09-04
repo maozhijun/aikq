@@ -120,7 +120,7 @@
 @section('js')
     @include('vendor.ueditor.assets')
     <script type="text/html" id="article_content">
-    {{(isset($article) && strlen($article['content'])>0)?$article['content']:$f_article['content_ch']}}
+    {!! (isset($article) && strlen($article->getContent())>0)?$article->getContent():$f_article['content_ch'] !!}
     </script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
