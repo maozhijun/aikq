@@ -49,11 +49,13 @@ class NotFoundCommand extends Command
      */
     public function handle()
     {
-        $html = view('mobile.404',array('static'=>'1'));
-        if (isset($html) && strlen($html) > 0)
+        $html = view('mobile.404');
+        if (isset($html) && strlen($html) > 0) {
             Storage::disk("public")->put("/m/404.html", $html);
+            Storage::disk("public")->put("/mip/404.html", $html);
+        }
         $html = view('pc.404');
         if (isset($html) && strlen($html) > 0)
-            Storage::disk("public")->put("/pc/404.html", $html);
+            Storage::disk("public")->put("/www/404.html", $html);
     }
 }

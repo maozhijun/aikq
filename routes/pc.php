@@ -63,6 +63,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/static/subject/specimen/{sid}', 'SubjectController@staticSubjectSpecimenHtml');//专题集锦html静态化，线路静态化
 
     Route::get('/static/subject/player', 'SubjectController@staticPlayer');//专题player页面静态化
+    Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//专题player页面静态化
 
     //专题录像静态化 开始
     Route::get('/static/subject-videos/leagues', 'SubjectVideoController@staticVideoLeaguesJson');//静态化热门录像类型json

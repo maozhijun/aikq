@@ -42,7 +42,9 @@
         } else {
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 var url = window.location.href;
-                url = url.replace('{{env('WWW_URL')}}','{{env('M_URL')}}');
+                url = url.replace('mp.dlfyb.com','{{env('M_URL')}}');
+                url = url.replace('www.aikq.cc','{{env('M_URL')}}');
+                url = url.replace('//aikq.cc','//{{env('M_URL')}}');
                 window.location = url;
             }
         }

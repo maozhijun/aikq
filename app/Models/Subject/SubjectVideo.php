@@ -101,7 +101,10 @@ class SubjectVideo extends Model
 
         $channel_array = [];
         foreach ($channels as $channel) {
-            $channel_array[] = ['id'=>$channel->id, 'title'=>$channel->title, 'cover'=>$channel->cover, 'player'=>$channel->player, 'link'=>$channel->content];
+            $ch_array = ['id'=>$channel->id, 'title'=>$channel->title, 'cover'=>$channel->cover, 'player'=>$channel->player, 'link'=>$channel->content];
+            $ch_array['platform'] = $channel->platform;
+            $ch_array['playurl'] = $channel->content;
+            $channel_array[] = $ch_array;
         }
         $obj['channels'] = $channel_array;
         return $obj;
