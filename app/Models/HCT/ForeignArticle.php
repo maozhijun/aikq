@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
-class ForeignArticleEn extends Model
+class ForeignArticle extends Model
 {
-    
+    const kStatusInvaild = -1;
 }

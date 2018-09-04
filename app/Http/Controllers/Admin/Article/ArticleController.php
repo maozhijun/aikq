@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 
 use App\Http\Controllers\Admin\UploadTrait;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
@@ -215,7 +216,12 @@ class ArticleController extends Controller
         if (isset($exception)) {
             return response()->json(['code' => 403, 'error' => '数据库异常']);
         }
-        return response()->json(['code' => 0, 'id' => $article->id, 'action' => $action, 'url' => $article->url]);
+
+        $type_obj = $article->type_obj;
+        $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
+        $tmp = CommonTool::getArticleDetailUrl($type_name_en, $article->id);
+
+        return response()->json(['code' => 0, 'id' => $article->id, 'action' => $action, 'url' => $tmp]);
     }
 
     /**

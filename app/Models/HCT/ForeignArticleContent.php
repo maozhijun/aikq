@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
-class ForeignArticleCh extends Model
+class ForeignArticleContent extends Model
 {
 
 }
