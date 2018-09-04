@@ -7,6 +7,7 @@
                 <form class="form" method="post" action="/admin/article/save/">
                     {{ csrf_field() }}
                     <input type="hidden" name="fid" value="{{$f_article->id}}">
+                    <input type="hidden" name="id" value="{{ isset($article)?$article->id:'' }}">
                     <input type="hidden" name="action">
                     <input type="hidden" name="content">
                     <input type="hidden" name="images">
