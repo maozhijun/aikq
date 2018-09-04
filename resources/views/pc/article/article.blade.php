@@ -7,7 +7,7 @@
 @section("content")
     <div id="Content">
         @if(isset($zhuanti))
-            <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}">{{$zhuanti['name']}}</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">资讯详情</span></div>
+            <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">资讯详情</span></div>
         @else
             <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/news/">资讯</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">资讯详情</span></div>
         @endif
