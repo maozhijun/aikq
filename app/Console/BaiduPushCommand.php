@@ -126,6 +126,7 @@ class BaiduPushCommand extends Command
         }
 
         $token = $this->getBaiduTokenByOffset($offset);
+        echo "host = $host; token = $token <br>";
         if ($offset == self::MIP_OFFSET) {
             $api = "http://data.zz.baidu.com/urls?site=$host&token=$token&type=mip";
         } else {
