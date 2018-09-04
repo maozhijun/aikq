@@ -23,7 +23,7 @@ class AdminAuthVerify
                     $url = $request->url();
                     $start = stripos($url, '/admin');
                     $action = substr($url, $start);
-                    if ($action != "/admin" && $action != "/admin/") {//首页每个角色都应该可以访问。
+                    if ($action != "/admin" && $action != "/admin/" && $action != "/admin/index") {//首页每个角色都应该可以访问。
                         //答题串关，有主页权限则拥有所有答题串关的权限
                         $hasAccess = $login->hasAccess($action);
                         if (!$hasAccess) {
