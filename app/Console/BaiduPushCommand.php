@@ -14,8 +14,6 @@ use Illuminate\Console\Command;
 
 class BaiduPushCommand extends Command
 {
-    const EACH_PUSH_COUNT = 10; //每次提交链接的数量
-
     const WWW_OFFSET = 0;
     const M_OFFSET = 1;
     const MIP_OFFSET = 2;
@@ -87,7 +85,7 @@ class BaiduPushCommand extends Command
         $articles = PcArticle::query()
             ->where('status', 1)
             ->whereRaw("!(is_baidu_push >> $offset & 1)")
-            ->orderBy(PcArticle::CREATED_AT, 'desc')->take(self::EACH_PUSH_COUNT)->get();
+            ->orderBy(PcArticle::CREATED_AT, 'desc')->take($this->getEachPushCount())->get();
 
         $host = $this->getHostByOffset($offset);
         foreach ($articles as $article) {
@@ -95,6 +93,10 @@ class BaiduPushCommand extends Command
         }
 
         dump($urls);
+        if (count($urls) <= 0) {
+            echo "$host : there is nothing to push<br>";
+            return;
+        }
 
         $resultCount = $this->onBaiduPush($urls, $offset);
 //        $resultCount = 10;
@@ -126,6 +128,7 @@ class BaiduPushCommand extends Command
         }
 
         $token = $this->getBaiduTokenByOffset($offset);
+        echo "host = $host; token = $token <br>";
         if ($offset == self::MIP_OFFSET) {
             $api = "http://data.zz.baidu.com/urls?site=$host&token=$token&type=mip";
         } else {
@@ -143,7 +146,10 @@ class BaiduPushCommand extends Command
         $result = curl_exec($ch);
         echo "baidu_push_result:".$result.'<br>';
         $data = json_decode($result, true);
-        if (is_array($data) && array_key_exists("success", $data)) {
+        if (is_array($data) && (array_key_exists("success", $data) || array_key_exists("success_mip", $data))) {
+            if (array_key_exists("success_mip", $data)) {
+                return $data['success_mip'];
+            }
             return $data['success'];
         }
         return -1;
@@ -179,5 +185,9 @@ class BaiduPushCommand extends Command
                 break;
         }
         return $token;
+    }
+
+    protected function getEachPushCount() {
+        return env('EACH_BAIDU_PUSH_COUNT', 10);
     }
 }
