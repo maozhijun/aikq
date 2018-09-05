@@ -69,3 +69,5 @@ Route::group(["namespace" => 'Subject'], function () {
         Route::get("/$name/", "SubjectController@detail");//专题页
     }
 });
+
+Route::get("/test/{id}", "Subject\\SubjectController@staticSubjectDetailJson");

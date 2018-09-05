@@ -250,6 +250,11 @@ class AikanQController extends Controller
     public function basketballLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
 
+        $result = $this->basketballLivesJsonData($isMobile);
+        return response()->json($result);
+    }
+
+    public function basketballLivesJsonData($isMobile) {
         $match_array = [];
         $bArray = [];
 
@@ -270,7 +275,7 @@ class AikanQController extends Controller
         }
 
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
     /**
@@ -280,6 +285,11 @@ class AikanQController extends Controller
      */
     public function footballLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
+        $result = $this->footballLivesJsonData($isMobile);
+        return response()->json($result);
+    }
+
+    public function footballLivesJsonData($isMobile) {
         $query = $this->getLiveMatches(MatchLive::kSportFootball);
         $matches = $query->get();
 
@@ -301,7 +311,7 @@ class AikanQController extends Controller
         }
 
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
     /**
@@ -945,12 +955,20 @@ class AikanQController extends Controller
      */
     public function subjectSpecimenChannelJson(Request $request, $cid) {
         $isMobile = $request->input('isMobile') == 1;
-        $specimen = SubjectSpecimen::query()->find($cid);
-        if (!isset($specimen)) {
+        $result = $this->subjectSpecimenChannelJsonData($isMobile, $cid);
+        if (!isset($result)) {
             return response()->json(['code'=>-1, 'message'=>'线路不存在']);
         }
-        $result = ['code'=>0, 'playurl'=>$specimen->link, 'player'=>$specimen->player, 'platform'=>$specimen->platform];
         return response()->json($result);
+    }
+
+    public function subjectSpecimenChannelJsonData($isMobile, $cid) {
+        $specimen = SubjectSpecimen::query()->find($cid);
+        if (!isset($specimen)) {
+            return null;
+        }
+        $result = ['code'=>0, 'playurl'=>$specimen->link, 'player'=>$specimen->player, 'platform'=>$specimen->platform];
+        return $result;
     }
 
     /**

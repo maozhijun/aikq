@@ -322,13 +322,14 @@ class MatchController extends Controller
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
 
-        $exception = DB::transaction(function() use ($channel, $match_id, $sport) {
+        $exception = DB::transaction(function() use ($channel, $match_id, $sport, $match) {
             if (!isset($channel->id)) {
                 $live = MatchLive::query()->where('match_id', $match_id)->where('sport', $sport)->first();
                 if (!isset($live)) {//查找是否有 直播
                     $live = new MatchLive();
                     $live->match_id = $match_id;
                     $live->sport = $sport;
+                    $live->league_id = $match->lid;
                     $live->save();
                 }
                 $channel->live_id = $live->id;

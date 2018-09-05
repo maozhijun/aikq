@@ -196,16 +196,16 @@ class SubjectVideoController extends Controller
             }
 
             //静态化终端html
-            $videos = isset($data['videos']) ? $data['videos'] : [];
-            foreach ($videos as $video) {
-                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
-                if (!empty($m_detail_html)) {
-                    $m_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
-                    $m_patch = '/m' . $m_patch;
-                    dump($m_patch);
-                    Storage::disk("public")->put($m_patch, $m_detail_html);
-                }
-            }
+//            $videos = isset($data['videos']) ? $data['videos'] : [];
+//            foreach ($videos as $video) {
+//                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
+//                if (!empty($m_detail_html)) {
+//                    $m_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+//                    $m_patch = '/m' . $m_patch;
+//                    dump($m_patch);
+//                    Storage::disk("public")->put($m_patch, $m_detail_html);
+//                }
+//            }
         } else {
             $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
             if ($page == 1) {

@@ -105,14 +105,9 @@ class LiveController extends Controller
      */
     protected function basketballLiveJson() {
         try {
-            $ch = curl_init();
-            $url = env('LIAOGOU_URL')."aik/basketballLivesJson";
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-            $server_output = curl_exec ($ch);
-            curl_close ($ch);
-            Storage::disk("public")->put("/static/json/basketball-lives.json", $server_output);
+            $aikCon = new AikanQController();
+            $livesJson = $aikCon->basketballLivesJsonData(false);
+            Storage::disk("public")->put("/static/json/basketball-lives.json", json_encode($livesJson));
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -123,18 +118,9 @@ class LiveController extends Controller
      */
     protected function footballLiveJson() {
         try {
-            $ch = curl_init();
-            $url = env('LIAOGOU_URL')."aik/footballLivesJson";
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-            $server_output = curl_exec ($ch);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close ($ch);
-            if ($code >= 400 || empty($server_output)) {
-                return;
-            }
-            Storage::disk("public")->put("/static/json/football-lives.json", $server_output);
+            $aikCon = new AikanQController();
+            $livesJson = $aikCon->footballLivesJsonData(false);
+            Storage::disk("public")->put("/static/json/football-lives.json", json_encode($livesJson));
         } catch (\Exception $exception) {
             Log::error($exception);
         }

@@ -194,8 +194,6 @@ class SubjectController extends Controller
         } catch (\Exception $exception) {
             $server_output = "";
         }
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
         $subjects = json_decode($server_output, true);
         $subjects = isset($subjects) ? $subjects : [];
         return $subjects;
@@ -207,11 +205,6 @@ class SubjectController extends Controller
      * @return array|mixed|void
      */
     public function getSubjectDetail($id) {
-//        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $id;
-//        $server_output = $this->execUrl($url);
-//        $subjects = json_decode($server_output, true);
-//        $subjects = isset($subjects) ? $subjects : [];
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjectDetail(new Request(), $id)->getData();
         $data = json_encode($data);
@@ -225,9 +218,8 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideo($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id;
-        $server_output = $this->execUrl($url);
-        $video = json_decode($server_output, true);
+        $aikCon = new AikanQController();
+        $video = $aikCon->subjectVideo($id);
         $video = isset($video) ? $video : [];
         return $video;
     }
@@ -238,9 +230,8 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectSpecimen($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/specimen/" . $id;
-        $server_output = $this->execUrl($url);
-        $specimen = json_decode($server_output, true);
+        $aikCon = new AikanQController();
+        $specimen = $aikCon->subjectSpecimen(new Request(), $id);
         $specimen = isset($specimen) ? $specimen : [];
         return $specimen;
     }
@@ -251,8 +242,9 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideoChannel($cid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/video/channel/" . $cid;
-        $server_output = $this->execUrl($url);
+        $aikCon = new AikanQController();
+        $server_output = $aikCon->subjectVideoChannelJson(new Request(), $cid)->getData();
+        $server_output = json_encode($server_output);
         $channel = json_decode($server_output, true);
         $channel = isset($channel) ? $channel : ['code'=>-1];
         return $channel;
@@ -264,9 +256,10 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectSpecimenChannel($cid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/specimen/channel/" . $cid;
-        $server_output = $this->execUrl($url);
-        $specimen = json_decode($server_output, true);
+        $aikCon = new AikanQController();
+        $specimen = $aikCon->subjectSpecimenChannelJson(new Request(), $cid)->getData();
+        $specimen = json_encode($specimen);
+        $specimen = json_decode($specimen, true);
         $specimen = isset($specimen) ? $specimen : ['code'=>-1];
         return $specimen;
     }
@@ -277,9 +270,6 @@ class SubjectController extends Controller
      * @param Request $request
      */
     public function staticSubjectLeagues(Request $request) {
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjects(new Request())->getData();
         $server_output = json_encode($data);
@@ -294,8 +284,9 @@ class SubjectController extends Controller
      * @param $slid
      */
     public function staticSubjectDetailJson(Request $request, $slid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $slid;
-        $server_output = $this->execUrl($url);
+        $aikCon = new AikanQController();
+        $data = $aikCon->subjectDetail($request, $slid)->getData();
+        $server_output = json_encode($data);
         if (!empty($server_output)) {
             Storage::disk("public")->put("/static/json/subject/" . $slid . ".json", $server_output);
         }
