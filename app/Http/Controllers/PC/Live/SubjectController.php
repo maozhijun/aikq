@@ -62,8 +62,6 @@ class SubjectController extends Controller
         }
         $subject['content'] = $new_content;
         $icon = $subject['icon'];
-        $icon = str_replace('https://www.liaogou168.com', '', $icon);
-        $icon = str_replace('http://www.liaogou168.com', '', $icon);
         if (!preg_match("/^https?:\/\//", $icon)) {
             $icon = env('CDN_URL') . $icon;
         }
