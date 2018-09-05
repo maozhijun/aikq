@@ -29,6 +29,21 @@ class ArticleHCTController extends Controller
         $t_ch = $request->input('title_ch');
         $c_en = $request->input('content_en');
         $c_ch = $request->input('content_ch');
+        if (is_null($url)){
+            return response()->json(array('code'=>'-1','message'=>'url error'));
+        }
+        elseif(is_null($t_en)){
+            return response()->json(array('code'=>'-1','message'=>'t_en error'));
+        }
+        elseif(is_null($t_ch)){
+            return response()->json(array('code'=>'-1','message'=>'t_en error'));
+        }
+        elseif(is_null($c_en)){
+            return response()->json(array('code'=>'-1','message'=>'t_en error'));
+        }
+        elseif(is_null($c_ch)){
+            return response()->json(array('code'=>'-1','message'=>'t_en error'));
+        }
         $en_m = ForeignArticle::where('url','=',$url)->get();
         if (count($en_m) > 0){
             return response()->json(array('code'=>'0','message'=>'url is exite'));

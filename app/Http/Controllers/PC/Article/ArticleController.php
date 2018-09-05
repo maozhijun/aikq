@@ -273,4 +273,12 @@ class ArticleController extends Controller
             'data'=>$detail->appModel(true)
         ));
     }
+
+    public function logBaiduSpider(Request $request,$id){
+        $article = PcArticle::find($id);
+        if (isset($article)) {
+            $article->baidu_spider_count = isset($article->baidu_spider_count) ? $article->baidu_spider_count++ : 1;
+            $article->save();
+        }
+    }
 }

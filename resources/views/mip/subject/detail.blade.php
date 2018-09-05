@@ -66,7 +66,7 @@
                 {{--@foreach($videos as $day=>$matches)--}}
                     {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
                     {{--@foreach($matches as $match)--}}
-                        {{--<div class="item"><a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">{{$match['hname']}} vs {{$match['aname']}}<span><mip-img src="http://img5.imgtn.bdimg.com/it/u=236407236,1342164149&fm=26&gp=0.jpg"></mip-img></span></a></div>--}}
+                        <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>
                     {{--@endforeach--}}
                 {{--@endforeach--}}
             {{--@else--}}

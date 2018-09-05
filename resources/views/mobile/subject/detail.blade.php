@@ -14,7 +14,7 @@
     <div class="tab">
         <p class="on" type="Live">直播</p>
         <p type="News">资讯</p>
-        <p type="Recording">录像</p>
+        {{--<p type="Recording">录像</p>--}}
         <p type="Rank">积分榜</p>
     </div>
 @endsection
@@ -55,18 +55,17 @@
         @else
         @endif
     </div>
-    <div id="Recording" style="display: none;">
-        @if(isset($videos) && count($videos) > 0)
-            @foreach($videos as $day=>$matches)
-                <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
-                @foreach($matches as $match)
-                    <?php $v_url = \App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($match['s_lid'], $match['id'], 'video') ?>
-                    <a href="{{$v_url}}"><p class="time">{{date('H:i', $match['time'])}}</p><p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>
-                @endforeach
-            @endforeach
-        @else
-        @endif
-    </div>
+    {{--<div id="Recording" style="display: none;">--}}
+        {{--@if(isset($videos) && count($videos) > 0)--}}
+            {{--@foreach($videos as $day=>$matches)--}}
+                {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
+                {{--@foreach($matches as $match)--}}
+                    {{--<a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>--}}
+                {{--@endforeach--}}
+            {{--@endforeach--}}
+        {{--@else--}}
+        {{--@endif--}}
+    {{--</div>--}}
     <div id="Rank" style="display: none;">
         @if(isset($ranks) && count($ranks) > 0)
             <div class="in">

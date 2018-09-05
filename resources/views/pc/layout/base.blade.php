@@ -18,7 +18,10 @@
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
         <?php
         $ma_url = request()->url();
-        $ma_url = str_replace(env('WWW_URL'),env('M_URL'),$ma_url);
+        $str= $ma_url;
+        $patten = '(http[s]?:\/\/\w*.\w*.\w*\/)';
+        preg_match($patten, $str, $match);
+        $ma_url = 'https://'.str_replace($match,env('M_URL').'/',$ma_url);
         ?>
     <meta http-equiv="mobile-agent" content="format=xhtml; url={{$ma_url}}">
     <meta http-equiv="mobile-agent" content="format=html5; url={{$ma_url}}">
