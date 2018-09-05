@@ -49,8 +49,6 @@ Route::group(["namespace" => 'Live'], function () {
     //直播相关静态化
     Route::get('/live/player-json/{id}', 'LiveController@staticLiveUrl');//静态化 线路json
     Route::get('/live/cache/live-json', 'LiveController@allLiveJsonStatic');//直播赛事接口静态化
-    Route::get('/live/cache/player/json', 'LiveController@staticPlayerJson');//静态化所有当前正在比赛的线路
-    Route::get('/live/cache/flush', 'LiveController@flushVideoCache');//刷新缓存文件
     Route::get('/live/cache/match/detail_id/{id}/{sport}', 'LiveController@staticLiveDetailById');//静态化wap/pc终端/线路
 
     //专题静态化
@@ -83,7 +81,6 @@ Route::group(["namespace" => 'Live'],function (){
     Route::get('/live/all/json', 'LiveController@allLiveJsonStatic');
     Route::post('/live/valid/code', 'LiveController@validCode');//验证高清验证码
     Route::get('/live/rec-code/{code}', 'LiveController@recCode');//接收验证码
-    Route::get('/live/ad/get-image', 'LiveController@getImage');//获取远程图片
     Route::get('/live/ad/images', 'LiveController@getVideoAdImage');//获取播放器广告图片
     Route::post('/live/ad/set-active', 'LiveController@setActive');//设置播放器活动
     //Route::get('/invitation/{code}',"HomeController@invitation");

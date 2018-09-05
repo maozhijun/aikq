@@ -147,14 +147,8 @@ class LiveController extends Controller
         if ($cid <= 0){
             return;
         }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/livesError?cid=" . $cid;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
+        $akqCon = new AikanQController();
+        $json = $akqCon->saveLivesError($cid);
         return $json;
     }
 
@@ -221,16 +215,9 @@ class LiveController extends Controller
      * @return mixed
      */
     protected function getLives($bet = '') {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/livesJson?bet=" . $bet;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        //$code = curl_getinfo($ch, CURLE_RECV_ERROR);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        return $json;//$this->toNewMatchArray($json);
+        $akqCon = new AikanQController();
+        $json = $akqCon->livesJsonData($bet);
+        return $json;
     }
 
     /**
@@ -467,47 +454,34 @@ class LiveController extends Controller
     public function matchPlayerChannel(Request $request, $mid = '',$sport = ''){
         $mid = $request->input('mid', $mid);
         $sport = $request->input('sport', $sport);
+        $akqCon = new AikanQController();
 
         $ch = curl_init();
         if ($sport == 3) {
-            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/$mid" . '.json';
+            $json = $akqCon->otherDetailJsonData($mid);
         } else if ($sport == 2) {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/$mid" . '.json';
+            $json = $akqCon->basketDetailJsonData($mid);
         } else {
-            $url = env('LIAOGOU_URL')."aik/lives/detailJson/$mid" . '.json';
+            $json = $akqCon->detailJsonData($mid, false);
         }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        if ($code == 200 && isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+
+        if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
             $channels = $json['live']['channels'];
         } else{
             $channels = array();
         }
+
         $ch = curl_init();
         if ($sport == 3) {
-            $url = env('LIAOGOU_URL')."aik/lives/otherDetailJson/mobile/$mid" . '.json';
+            $json = $akqCon->otherDetailJsonData($mid, true);
         } else if ($sport == 2) {
-            $url = env('LIAOGOU_URL')."aik/lives/basketDetailJson/mobile/$mid" . '.json';
+            $json = $akqCon->basketDetailJsonData($mid, true);
         } else {
-            $url = env('LIAOGOU_URL')."aik/lives/detailJson/mobile/$mid" . '.json';
+            $json = $akqCon->detailJsonData($mid, true);
         }
-
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
-        if ($code == 200 && isset($json) && isset($json['live']) && isset($json['live']['channels'])){
+        if (isset($json) && isset($json['live']) && isset($json['live']['channels'])){
             $mchannels = $json['live']['channels'];
-        }
-        else{
+        } else{
             $mchannels = array();
         }
         return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
@@ -560,40 +534,6 @@ class LiveController extends Controller
         return view('pc.live.player');
     }
 
-    /**
-     * 获取天天直播源js
-     * @param Request $request
-     * @param $mid
-     * @return mixed
-     */
-    public function getTTZBLiveUrl(Request $request,$mid){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?sport='.$request->input('sport',1);
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        return $server_output;
-    }
-
-    /**
-     * 获取无插件playurl
-     * @param Request $request
-     * @param $mid
-     * @return mixed
-     */
-    public function getWCJLiveUrl(Request $request,$mid){
-        $ch = curl_init();
-        $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        return $server_output;
-    }
 
     /**
      * 获取playurl根据比赛id
@@ -604,23 +544,18 @@ class LiveController extends Controller
     public function getLiveUrlMatch(Request $request,$mid){
         $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.$isMobile.'&sport='.$request->input('sport',1);
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
+        $sport = $request->input('sport',1);
+
+        $akqCon = new AikanQController();
+        $data = $akqCon->getLiveUrlMatch($request, $mid, $isMobile, $sport)->getData();
+        $server_output = json_encode($data);
         return $server_output;
     }
 
     public function getLiveUrlMatch2(Request $request,$mid,$sport,$isMobile){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile='.($isMobile?1:0).'&sport='.$sport;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
+        $akqCon = new AikanQController();
+        $data = $akqCon->getLiveUrlMatch($request, $mid, $isMobile, $sport)->getData();
+        $server_output = json_encode($data);
         return $server_output;
     }
 
@@ -631,24 +566,16 @@ class LiveController extends Controller
     }
 
     public function getLiveUrlMatchM(Request $request,$mid,$sport){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile=1&sport='.$sport;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
+        $akqCon = new AikanQController();
+        $data = $akqCon->getLiveUrlMatch($request, $mid, true, $sport)->getData();
+        $server_output = json_encode($data);
         return $server_output;
     }
 
     public function getLiveUrlMatchPC(Request $request,$mid,$sport){
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."match/live/url/match/$mid".'?isMobile=0&sport='.$sport;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
+        $akqCon = new AikanQController();
+        $data = $akqCon->getLiveUrlMatch($request, $mid, false, $sport)->getData();
+        $server_output = json_encode($data);
         return $server_output;
     }
 
@@ -660,18 +587,11 @@ class LiveController extends Controller
      */
     public function getLiveUrl(Request $request,$mid){
         $code = isset($_COOKIE[self::LIVE_HD_CODE_KEY]) ? $_COOKIE[self::LIVE_HD_CODE_KEY] : '';//$request->cookie(self::LIVE_HD_CODE_KEY);//cookie的验证码//$code = $request->cookie(self::LIVE_HD_CODE_KEY);
-        $sport = $request->input('sport',1);
-        $ch = curl_init();
         $isMobile = \App\Http\Controllers\Controller::isMobile($request)?1:0;
-        $url = env('LIAOGOU_URL')."match/live/url/channel/$mid".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        if ($server_output == false) {
-            return "";
-        }
+
+        $akqCon = new AikanQController();
+        $data = $akqCon->getLiveUrl($request, $mid, $isMobile)->getData();
+        $server_output = json_encode($data);
         return $server_output;
     }
 
@@ -771,47 +691,6 @@ class LiveController extends Controller
     }
 
     /**
-     * 静态化播放页面异步请求
-     * @param Request $request
-     */
-    public function staticPlayerJson(Request $request) {
-        //$json = $this->getLives();
-        $cache = Storage::get('/public/static/json/lives.json');
-        $json = json_decode($cache, true);
-
-        if (!isset($json['matches'])) return;
-        $matches = $json['matches'];
-        foreach ($matches as $time=>$match_array) {
-            foreach ($match_array as $match) {
-                if (!isset($match) || !isset($match['time'])) {
-                    continue;
-                }
-                $m_time = strtotime($match['time']);
-                $status = $match['status'];
-                $now = time();
-
-                $flg_1 = $m_time >= $now && $now + 60 * 60 >= $m_time;//开赛前1小时
-                $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
-                if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
-                    if (isset($match['channels'])) {
-                        //echo $match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time'];
-                        $channels = $match['channels'];
-                        foreach ($channels as $channel) {
-                            $ch_id = $channel['id'];
-                            if ($channel['type'] != MatchLiveChannel::kTypeTTZB) {
-                                //$has_mobile = MatchLiveChannel::hasMobile($channel['type']);
-                                //$this->staticLiveUrl($request, $ch_id, true);
-                                NoStartPlayerJsonCommand::flushPlayerJson($ch_id, true);
-                                usleep(100);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * 静态化直播线路的json
      * @param Request $request
      * @param $id
@@ -874,17 +753,8 @@ class LiveController extends Controller
             $player = $this->player($request);
             $sport = !isset($sport) ? $request->input('sport',1) : $sport;
             $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
-
-            //天天的源有效时间为100秒左右。超过时间则失效无法播放，需要重新请求。
-//            $ch = curl_init();
-//            $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=0&sport='. $sport;
-//            curl_setopt($ch, CURLOPT_URL,$url);
-//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//            curl_setopt($ch, CURLOPT_TIMEOUT, 5);//5秒超时
-//            $pc_json = curl_exec ($ch);
-//            curl_close ($ch);
             $aiCon = new AikanQController();
-            $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
+            $jsonStr = $aiCon->getLiveUrl($request, $id, $has_mobile)->getData();
             $pc_json = json_encode($jsonStr);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
@@ -907,13 +777,6 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
-//                $ch = curl_init();
-//                $url = env('LIAOGOU_URL')."match/live/url/channel/$id".'?breakTTZB=break&isMobile=1&sport='.$request->input('sport',1);
-//                curl_setopt($ch, CURLOPT_URL,$url);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                curl_setopt($ch, CURLOPT_TIMEOUT, 10);//5秒超时
-//                $mobile_json = curl_exec ($ch);
-//                curl_close ($ch);
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
@@ -928,71 +791,6 @@ class LiveController extends Controller
         }
     }
 
-    /**
-     * 刷新缓存
-     * @param Request $request
-     */
-    public function flushVideoCache(Request $request) {
-        $mid = $request->input('mid');//比赛ID
-        $sport = $request->input('sport');//竞技类型
-        $ch_id = $request->input('ch_id');//线路id
-        try {
-            if(!empty($sport) && in_array($sport, [1, 2]) && is_numeric($mid)) {
-                if ($sport == 1) {
-                    $html = $this->detail($request, $mid);
-                    Storage::disk("public")->put("/live/football/". $mid. ".html", $html);
-                } else {
-                    $html = $this->basketDetail($request, $mid);
-                    Storage::disk("public")->put("/live/basketball/". $mid. ".html", $html);
-                }
-                $mController = new \App\Http\Controllers\Mobile\Live\LiveController();
-                $mController->liveDetailStatic($request, $mid, $sport);//刷新移动直播终端。
-            }
-            if (is_numeric($ch_id)) {
-                $this->staticLiveUrl($request, $ch_id);
-            }
-        } catch (\Exception $exception) {
-            echo $exception->getMessage();
-        }
-    }
-
-    public static function links() {
-        $links = [];
-//        $key = 'base_link_cache';
-//        $server_output = Redis::get($key);
-//
-//        if (empty($server_output)) {
-//            try {
-//                $ch = curl_init();
-//                $url = env('LIAOGOU_URL')."/json/link.json";
-//                curl_setopt($ch, CURLOPT_URL,$url);
-//                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//                $server_output = curl_exec($ch);
-//                $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-//                curl_close ($ch);
-//                if ($http_code >= 400) {
-//                    $server_output = "";
-//                }
-//            } catch (\Exception $e) {
-//                Log::error($e);
-//            }
-//            if (empty($server_output)) {
-//                return $links;
-//            }
-//            Redis::setEx($key, 60 * 10, $server_output);
-//        }
-//
-//        if (empty($server_output)) {
-//            return $links;
-//        }
-//        $json = json_decode($server_output);
-//        if (is_array($json)) {
-//            foreach ($json as $j) {
-//                $links[] = ['name'=>$j->name, 'url'=>$j->url];
-//            }
-//        }
-        return $links;
-    }
 
     /**
      * 输入验证码
@@ -1048,14 +846,10 @@ class LiveController extends Controller
             $server_output = Storage::get('/public/match/live/url/channel/' . $ch_id . '.json');//文件缓存
             //获取缓存文件 结束
         } catch (\Exception $exception) {
-            $sport = $request->input('sport',1);
-            $ch = curl_init();
             $isMobile = \App\Http\Controllers\Controller::isMobile($request) ? 1 : 0;
-            $url = env('LIAOGOU_URL')."match/live/url/channel/$ch_id".'?breakTTZB=break&isMobile='.$isMobile.'&sport='.$sport . '&code=' . $code;
-            curl_setopt($ch, CURLOPT_URL,$url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $server_output = curl_exec ($ch);
-            curl_close ($ch);
+            $akqCon = new AikanQController();
+            $server_output = $akqCon->getLiveUrl($request, $ch_id, $isMobile)->getData();
+            $server_output = json_encode($server_output);
         }
         $json = json_decode($server_output, true);
         if (is_null($json)) {
@@ -1069,71 +863,6 @@ class LiveController extends Controller
             unset($json['h_playurl']);
         }
         return \response()->json($json);
-    }
-
-    /**
-     * 抓取网络图片
-     * @param Request $request
-     */
-    public function getImage(Request $request) {
-        $type = $request->input('type');//广告图片类型 1.前置广告类( l ), 2 . 暂停广告类 ( d ) , 3. 缓冲广告类 (z)
-        $patch = $request->input('patch');//图片路径
-        $name = $request->input('name');
-        $text = $request->input('text');
-        if (!in_array($type, [1, 2, 3, 4, 5])) {
-            echo "参数错误";
-            return;
-        }
-        $save_patch = '/static/m/dd_image/';
-        switch ($type) {
-            case 1:
-                $save_patch .= 'l/';
-                break;
-            case 2:
-                $save_patch .= 'd/';
-                break;
-            case 3:
-                $save_patch .= 'z/';
-                break;
-            case 4:
-                $save_patch .= 'w/';
-                break;
-            case 5:
-                $save_patch .= 'cd/';
-                break;
-        }
-        $this->delStorageFiles('/public' . $save_patch);//删除图片
-        //保存图片
-        //获取远程文件所采用的方法
-        //$url = "http://d.hiphotos.baidu.com/image/pic/item/8601a18b87d6277fcdb9b01d24381f30e924fc68.jpg";
-        if (!empty($patch)) {
-            $start = substr($patch, 0, 1);
-            if($start == '/') {
-                $patch = substr($patch, 1);
-            }
-            $url = env('LIAOGOU_URL') . $patch;//"http://img2.plures.net/0b215072-9862-4fdf-a5af-6c142c3aa95b";
-            $ch = curl_init();
-
-            $timeout = 10;
-            curl_setopt($ch,CURLOPT_URL, $url);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, $timeout);
-            $img = curl_exec($ch);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            if ($http_code >= 400) {
-                echo "获取链接内容失败";
-                return;
-            }
-            //header("Content-Type:image/png");
-            $list = explode("/", $url);
-            $ext = $list[count($list) - 1];
-            $list = explode('?', $ext);
-            $fileName = $list[0];
-            $file_patch = $save_patch . $fileName;
-            Storage::disk('public')->put($file_patch, $img);
-        }
-        $this->staticAdImages($type, $name, $text);
     }
 
     /**

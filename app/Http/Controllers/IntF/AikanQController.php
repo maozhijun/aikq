@@ -45,8 +45,13 @@ class AikanQController extends Controller
     }
 
     /*************** kanqiuma接口 ********************/
+
     public function livesError(Request $request){
         $cid = $request->input('cid',0);
+        $this->saveLivesError($cid);
+    }
+
+    public function saveLivesError($cid) {
         if ($cid <= 0)
             return;
         if (Redis::exists($this->errorCid)){
@@ -1179,9 +1184,10 @@ class AikanQController extends Controller
      * 根据channel id获取url
      * @param Request $request
      * @param $channelId
+     * @param $mobile
      * @return mixed
      */
-    public function getLiveUrl(Request $request, $channelId){
+    public function getLiveUrl(Request $request, $channelId, $mobile = false){
         $channel = MatchLiveChannel::query()->find($channelId);
         if (is_null($channel) || is_null($channel->content)){
             return response()->json(array('code'=>-1,'message'=>'no channel'));
@@ -1250,7 +1256,7 @@ class AikanQController extends Controller
                 return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeBallBar,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
                 break;
             case MatchLiveChannel::kTypeTTZB:
-                    if (self::isMobile($request)||$request->input('isMobile',0)) {
+                    if (self::isMobile($request)|| $request->input('isMobile',$mobile) ) {
                         $playurl = $this->ttzbLiveRTMPUrl($channel->content);
                         if (isset($playurl))
                             return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
