@@ -39,7 +39,8 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get("/lives", "LiveController@lives");//直播列表
 
     Route::get("/live/subject/videos/{type}/{page}.html", 'LiveController@subjectVideos');//录像列表
-    Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
+//    Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
+    Route::get("/videos/video{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
     Route::get("/lives/data/refresh.json", "LiveController@match_live");//比赛比分数据
 });
 
@@ -64,9 +65,10 @@ Route::group(["namespace" => 'Article'], function () {
 /**
  * 赛事专题
  */
-Route::group(["namespace" => 'Subject'], function () {
+Route::group([], function () {
     foreach (\App\Http\Controllers\Controller::SUBJECT_NAME_IDS as $name=>$id) {
-        Route::get("/$name/", "SubjectController@detail");//专题页
+        Route::get("/$name/", "Subject\\SubjectController@detail");//专题页
+        Route::get("/$name/video{id}.html", "Live\\LiveController@subjectVideoDetail");//专题录像终端
     }
 });
 

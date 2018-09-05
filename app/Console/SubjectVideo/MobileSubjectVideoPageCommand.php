@@ -82,8 +82,6 @@ class MobileSubjectVideoPageCommand extends Command
     protected function staticPage($type, $page) {
         $sub = new SubjectVideoController();
         $sub->staticSubjectVideosHtml(new Request(), $type, $page, true);
-//        $url = asset('/static/subject-videos/detail/' . $type . '/' . $page) . '?isMobile=1';
-//        SubjectController::execUrl($url);
     }
 
     /**

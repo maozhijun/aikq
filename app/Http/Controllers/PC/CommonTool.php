@@ -244,9 +244,9 @@ class CommonTool
     protected static function getSubjectLeagueNameEn($lid) {
         $name_en = "";
         if ($lid != 'all' && $lid != 999) {
-            $leagues = SubjectController::getSubjects();
-            if (isset($leagues[$lid])) {
-                $name_en = $leagues[$lid]['name_en'];
+            $sl = SubjectLeague::query()->find($lid);
+            if (isset($sl)) {
+                $name_en = $sl->name_en;
             }
         } else if ($lid == 999) {
             $name_en = "other";

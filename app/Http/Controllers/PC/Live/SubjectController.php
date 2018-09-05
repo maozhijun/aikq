@@ -429,7 +429,7 @@ class SubjectController extends Controller
             $patch = MatchTool::subjectChannelLink($ch_id, 'video');
             Storage::disk("public")->put('www/'.$patch, $jsonStr);
             $patch = MatchTool::subjectChannelLink($ch_id, 'video', true);
-            Storage::disk("public")->put('m/'.$patch, $jsonStr);
+            Storage::disk("public")->put('www/'.$patch, $jsonStr);
         }
     }
 
