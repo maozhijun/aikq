@@ -321,8 +321,12 @@ class AikanQController extends Controller
      */
     public function otherLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
-        $match_array = [];
+        $result = $this->otherLivesJsonData($isMobile);
+        return Response::json($result);
+    }
 
+    public function otherLivesJsonData($isMobile) {
+        $match_array = [];
         $query = $this->getLiveMatches(MatchLive::kSportSelfMatch);
         $matches = $query->get();
         foreach ($matches as $match) {
@@ -354,7 +358,7 @@ class AikanQController extends Controller
             }
         }
         $result = ['matches'=>$match_array];
-        return Response::json($result);
+        return $result;
     }
     ////////////////////////////////   列表接口结束   ////////////////////////////////
 

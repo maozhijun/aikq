@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class LiveController extends Controller
 {
+
     const BET_MATCH = 1;
     const LIVE_HD_CODE_KEY = 'LIVE_HD_CODE_KEY';
 
@@ -1297,26 +1298,21 @@ class LiveController extends Controller
     }
 
     public function appLiveDetail(Request $request,$sport,$mid){
+        $akqCon = new AikanQController();
         $ch = curl_init();
         if ($sport == 1) {
-            $url = env('LIAOGOU_URL') . "aik/lives/detailJson/$mid" . '.json';
+            $json = $akqCon->detailJsonData($mid, false);
         }
         else if ($sport == 2) {
-            $url = env('LIAOGOU_URL') . "aik/lives/basketDetailJson/$mid" . '.json';
+            $json = $akqCon->basketDetailJsonData($mid, false);
         }
         else if ($sport == 3) {
-            $url = env('LIAOGOU_URL') . "aik/lives/otherDetailJson/$mid" . '.json';
+            $json = $akqCon->otherDetailJsonData($mid, false);
         }
-        if (is_null($url)){
+        if (is_null($json)){
             return null;
         }
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,8);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $json = json_decode($server_output,true);
         $this->_saveAppData($json,$sport,$mid);
-        return $server_output;
+        return json_encode($json);
     }
 }
