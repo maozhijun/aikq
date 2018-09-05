@@ -30,3 +30,7 @@ Route::group(['namespace'=>'Api', 'middleware'=>'web'], function () {
 Route::group(['namespace'=>'IntF'], function () {
     Route::any("/spider/ttzb/{action}", "SpiderTTZBController@index");//天天直播抓取
 });
+
+Route::group(["namespace" => 'PC\Article'], function () {
+    Route::get("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
+});

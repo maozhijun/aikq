@@ -120,8 +120,6 @@ Route::group(["namespace" => 'Article'], function () {
     Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端 和上面的文章终端一样，适配不同的URL
 
     Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
-
-    Route::post("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
 });
 
 //主播

@@ -226,7 +226,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '/app/v120/anchor/chat/post',
+                url: 'http://api.aikq.cc/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);

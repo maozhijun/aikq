@@ -9,6 +9,7 @@ use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Admin\Test;
+use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
@@ -34,6 +35,11 @@ class StaticServiceProvider extends ServiceProvider
         AnchorRoom::saved(function ($room){
             //终端静态化
             $this->pushStaticUrl('/api/static/anchor/room/'.$room->id);
+        });
+
+        Anchor::saved(function ($anchor){
+            //终端静态化
+            $this->pushStaticUrl('/api/static/anchor/room/'.$anchor->room->id);
         });
 
         //线路日志记录  开始

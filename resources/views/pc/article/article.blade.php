@@ -84,14 +84,14 @@
         window.onload = function () { //需要添加的监控放在这里
             setPage();
         }
-        var ua = window.location.userAgent;
+        var ua = navigator.userAgent;
         if (ua.indexOf('http://www.baidu.com/search/spider.html') > 0) {
             $.ajaxSetup({
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
             });
             $.ajax({
                 type: 'POST',
-                url: 'https://api.aikq.cc/spider/article/'+'{{$article['id']}}',
+                url: 'http://api.aikq.cc/spider/article/'+'{{$article['id']}}',
                 success: function (data) {
                     console.log(data);
                 },

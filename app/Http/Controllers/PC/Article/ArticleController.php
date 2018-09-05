@@ -121,6 +121,7 @@ class ArticleController extends Controller
         //相关文章
         $res = PcArticle::relationsArticle($detail->id, $detail->type, 10);
         $result['res'] = $res;
+        $result['ma_url'] = 'http://'.env('M_URL').$detail->url;
         return view('pc.article.article', $result);
     }
 
@@ -277,8 +278,9 @@ class ArticleController extends Controller
     public function logBaiduSpider(Request $request,$id){
         $article = PcArticle::find($id);
         if (isset($article)) {
-            $article->baidu_spider_count = isset($article->baidu_spider_count) ? $article->baidu_spider_count++ : 1;
+            $article->baidu_spider_count = isset($article->baidu_spider_count) ? ($article->baidu_spider_count + 1) : 1;
             $article->save();
         }
+        return response()->json(array('code'=>0));
     }
 }

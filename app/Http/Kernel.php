@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminAuthVerify;
 use App\Http\Middleware\BackstageAuthVerify;
+use App\Http\Middleware\EnableCrossRequest;
 use App\Http\Middleware\WxBaseVerify;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -20,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
+        EnableCrossRequest::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
