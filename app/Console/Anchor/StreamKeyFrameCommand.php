@@ -9,8 +9,10 @@
 namespace App\Console\Anchor;
 
 
+use App\Http\Controllers\PC\Anchor\AnchorController;
 use App\Models\Anchor\AnchorRoom;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class StreamKeyFrameCommand extends Command
 {
@@ -77,8 +79,23 @@ class StreamKeyFrameCommand extends Command
                 }
                 $room->check_at = date_create();
                 $room->save();
+                $con = new AnchorController();
+                $this->staticPlayerUrlApp($con, $room);
             }
         }
+    }
+
+    /**
+     * 静态化app接口
+     * @param AnchorController $con
+     * @param $room
+     */
+    protected function staticPlayerUrlApp(AnchorController $con, $room) {
+        $result = $con->playerUrlAppArray($room);
+        $result = json_encode($result);
+        $path = 'anchor/room/url/'.$room->id.'.json';
+        Storage::disk('public')->put('app/v110/'.$path, $result);
+        Storage::disk('public')->put('app/v120/'.$path, $result);
     }
 
     public static function spiderKeyFrame($stream, $outPath)

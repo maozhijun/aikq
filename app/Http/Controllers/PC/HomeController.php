@@ -41,6 +41,7 @@ class HomeController extends Controller
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://api.aikq.cc',
+                'ws_host'=>'http://ws.aikq.cc',
                 'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
@@ -59,6 +60,7 @@ class HomeController extends Controller
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
                 'host'=>'http://api.aikq.cc',
+                'ws_host'=>'http://ws.aikq.cc',
                 'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
