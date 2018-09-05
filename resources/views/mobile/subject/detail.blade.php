@@ -14,7 +14,7 @@
     <div class="tab">
         <p class="on" type="Live">直播</p>
         <p type="News">资讯</p>
-        {{--<p type="Recording">录像</p>--}}
+        <p type="Recording">录像</p>
         <p type="Rank">积分榜</p>
     </div>
 @endsection
@@ -60,7 +60,8 @@
             @foreach($videos as $day=>$matches)
                 <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
                 @foreach($matches as $match)
-                    <div class="item"><a href="">{{$match['hname']}} vs {{$match['aname']}}<span><img src="http://img5.imgtn.bdimg.com/it/u=236407236,1342164149&fm=26&gp=0.jpg"></span></a></div>
+                    <?php $v_url = \App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($match['s_lid'], $match['id'], 'video') ?>
+                    <a href="{{$v_url}}"><p class="time">{{date('H:i', $match['time'])}}</p><p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>
                 @endforeach
             @endforeach
         @else
