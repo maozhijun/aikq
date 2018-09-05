@@ -92,11 +92,6 @@ class VideoController extends Controller
      * @return array|mixed
      */
     public function getVideos($tid, $pageNo) {
-//        $url = env('LIAOGOU_URL')."aik/videos/page/" . $type . '?page=' . $page;
-//        $server_output = SubjectController::execUrl($url);
-//        $videos = json_decode($server_output, true);
-//        $videos = isset($videos) ? $videos : [];
-//        $isMobile = $request->input('isMobile') == 1;
         $pageSize = self::page_size;
         if ($tid != 'all') {
             $type = HotVideoType::query()->find($tid);
@@ -140,10 +135,6 @@ class VideoController extends Controller
      * @return array|mixed
      */
     public function getVideoPageMsg($id, $isMobile = false) {
-//        $url = env('LIAOGOU_URL')."aik/videos/page-msg/" . $id . ($isMobile ? '?isMobile=1' : '');
-//        $server_output = SubjectController::execUrl($url);
-//        $page = json_decode($server_output, true);
-//        $page = isset($page) ? $page : [];
         $pageSize = self::page_size;
         if ($id != 'all') {
             $type = HotVideoType::query()->find($id);
@@ -175,11 +166,6 @@ class VideoController extends Controller
         foreach ($types as $type) {
             $array[$type->id] = $type->name;
         }
-
-//        $url = env('LIAOGOU_URL')."aik/videos/types";
-//        $server_output = SubjectController::execUrl($url);
-//        $types = json_decode($server_output, true);
-//        $types = isset($types) ? $types : [];
         $typesStr = json_encode($array);
         Storage::disk("public")->put('/live/videos/types.json', $typesStr);
     }
