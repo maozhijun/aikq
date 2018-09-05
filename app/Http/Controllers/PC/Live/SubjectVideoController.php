@@ -182,27 +182,30 @@ class SubjectVideoController extends Controller
             $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             $m_html = $msCon->subjectVideosHtml($data);
             if (!empty($m_html)) {
-                $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.html';
-                Storage::disk("public")->put($patch, $m_html);
+                $patch = 'm/live/subject/videos/' . $type . '/' . $page . '.html';
+                Storage::disk("public")->put('static/'.$patch, $m_html);//兼容静态化地址
+                Storage::disk("public")->put($patch, $m_html);//新的静态化地址
             }
 
             //静态化json
             if (isset($data['page']) && isset($data['videos'])) {
                 $json = $msCon->subjectVideoData2Json($data);
-                $patch = '/static/m/live/subject/videos/' . $type . '/' . $page . '.json';
-                Storage::disk("public")->put($patch, json_encode($json));
+                $patch = 'm/live/subject/videos/' . $type . '/' . $page . '.json';
+                Storage::disk("public")->put('static/'.$patch, json_encode($json));//兼容静态化地址
+                Storage::disk("public")->put($patch, json_encode($json));//新的静态化地址
             }
 
             //静态化终端html
-//            $videos = isset($data['videos']) ? $data['videos'] : [];
-//            foreach ($videos as $video) {
-//                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
-//                if (!empty($m_detail_html)) {
-//                    $m_patch = MatchTool::subjectPatch($video['id'], 'video');
-//                    $m_patch = '/static/m' . $m_patch;
-//                    Storage::disk("public")->put($m_patch, $m_detail_html);
-//                }
-//            }
+            $videos = isset($data['videos']) ? $data['videos'] : [];
+            foreach ($videos as $video) {
+                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
+                if (!empty($m_detail_html)) {
+                    $m_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+                    $m_patch = '/m' . $m_patch;
+                    dump($m_patch);
+                    Storage::disk("public")->put($m_patch, $m_detail_html);
+                }
+            }
         } else {
             $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
             if ($page == 1) {
