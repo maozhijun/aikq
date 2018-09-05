@@ -239,27 +239,14 @@ class LiveController extends Controller
     /**
      * wap专题终端
      * @param Request $request
-     * @param $first
-     * @param $second
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
-    public function subjectVideoDetail(Request $request, $first, $second, $id) {
-        $ch = curl_init();
-        //$url = env('LIAOGOU_URL')."aik/subjects/league/video/detail/" . $id . "?isMobile=1";
-        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id . "?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
-        if (is_null($json) || count($json) == 0) {
-            return;
+    public function subjectVideoDetail(Request $request, $id) {
+        $akqCon = new AikanQController();
+        $json = $akqCon->subjectVideo($id, true);
+        if (!isset($json)) {
+            return abort(404);
         }
         return $this->subjectVideoDetailHtml($json);
     }
