@@ -16,6 +16,7 @@ use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\Shop\ShopLiveCommand;
+use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
 //use App\Console\Subject\CoverCommand;
@@ -101,6 +102,7 @@ class Kernel extends ConsoleKernel
 
         BaiduPushCommand::class,//百度主动推送
 
+        GenerateSitemapCommand::class, //sitemap生成器
     ];
 
     /**
@@ -178,6 +180,9 @@ class Kernel extends ConsoleKernel
         //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
+
+        //百度sitemap生成器，一天两次
+        $schedule->command('generate:sitemap')->twiceDaily(1, 18);
     }
 
     /**

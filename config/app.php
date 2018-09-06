@@ -52,6 +52,9 @@ return [
     */
 
     'url' => env('APP_URL', 'http://kanqiuma.cc'),
+    'www_url' => env('WWW_URL', 'http://www.aikq.cc'),
+    'm_url' => env('M_URL', 'http://m.aikq.cc'),
+    'mip_url' => env('MIP_URL', 'http://mip.aikq.cc'),
 
     /*
     |--------------------------------------------------------------------------
@@ -188,6 +191,10 @@ return [
          * 微信SDK
          */
         Overtrue\LaravelWechat\ServiceProvider::class,
+        /**
+         * sitemap
+         */
+        Roumen\Sitemap\SitemapServiceProvider::class,
     ],
 
     /*
