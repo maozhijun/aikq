@@ -15,50 +15,10 @@ use Illuminate\Http\Request;
 class ShareController extends Controller
 {
     public function index(Request $request) {
-        $all = $request->all();
-        $param = '?intf=aik';
-        if (isset($all)) {
-            foreach ($all as $key=>$value) {
-                $param .= '&' . $key . '=' . $value;
-            }
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/spread/api/matchList.html" . $param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($code >= 400 && $code <= 599) {
-            return "您访问的链接出错或者不存在。";
-        }
-
-        $server_output = str_replace('料狗','爱看球',$server_output);
-        $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
-
-        return $server_output;
+        //弃用
     }
 
     public function url(Request $request) {
-        $all = $request->all();
-        $param = '?intf=aik';
-        if (isset($all)) {
-            foreach ($all as $key=>$value) {
-                $param .= '&' . $key . '=' . $value;
-            }
-        }
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."/spread/api/matchListUrl.html" . $param;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($code >= 400 && $code <= 599) {
-            return "您访问的链接出错或者不存在。";
-        }
-        $server_output = str_replace('料狗','爱看球',$server_output);
-        $server_output = str_replace('https://www.liaogou168.com/img/ico.ico','//static.cdn.dlfyb.com/img/pc/ico.ico',$server_output);
-        return $server_output;
+        //弃用
     }
 }

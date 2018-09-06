@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Mobile\Live;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mobile\UrlCommonTool;
 use App\Models\LgMatch\Match;
 use App\Models\Match\MatchLive;
@@ -20,6 +21,14 @@ use Illuminate\Support\Facades\Storage;
 
 class LiveController extends Controller
 {
+
+    protected $aikCon;
+
+    function __construct()
+    {
+        $this->aikCon = new AikanQController();
+    }
+
     /////////////////////////////////////  静态化列表 开始   /////////////////////////////////////
     /**
      * 静态化wap全部列表文件
@@ -107,20 +116,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function footballLives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/footballLivesJson?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
+        $json = $this->aikCon->footballLivesJsonData(true);
         if (is_null($json)) {
-            return;
+            return abort(404);
         }
         $json['type'] = 'football';
         return view('mobile.live.lives', $json);
@@ -132,20 +130,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function basketballLives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/basketballLivesJson?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
+        $json = $this->aikCon->basketballLivesJsonData(true);
         if (is_null($json)) {
-            return;
+            return abort(404);
         }
         $json['type'] = 'basketball';
         return view('mobile.live.lives', $json);
@@ -157,20 +144,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function otherLives(Request $request) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/otherLivesJson?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
+        $json = $this->aikCon->otherLivesJsonData(true);
         if (is_null($json)) {
-            return;
+            return abort(404);
         }
         $json['type'] = 'other';
         return view('mobile.live.lives', $json);
@@ -184,17 +160,9 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function subjectVideos(Request $request, $type, $page) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . "?isMobile=1&page=" . $page;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return abort(404);
-        }
+        $subCon = new SubjectVideoController();
+        $server_output = $subCon->subjectVideos($request, $type, $page, true)->getData();
+        $server_output = json_encode($server_output);
         $json = json_decode($server_output,true);
         if (is_null($json)) {
             return abort(404);

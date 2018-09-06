@@ -45,8 +45,13 @@ class AikanQController extends Controller
     }
 
     /*************** kanqiuma接口 ********************/
+
     public function livesError(Request $request){
         $cid = $request->input('cid',0);
+        $this->saveLivesError($cid);
+    }
+
+    public function saveLivesError($cid) {
         if ($cid <= 0)
             return;
         if (Redis::exists($this->errorCid)){
@@ -250,6 +255,11 @@ class AikanQController extends Controller
     public function basketballLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
 
+        $result = $this->basketballLivesJsonData($isMobile);
+        return response()->json($result);
+    }
+
+    public function basketballLivesJsonData($isMobile) {
         $match_array = [];
         $bArray = [];
 
@@ -270,7 +280,7 @@ class AikanQController extends Controller
         }
 
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
     /**
@@ -280,6 +290,11 @@ class AikanQController extends Controller
      */
     public function footballLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
+        $result = $this->footballLivesJsonData($isMobile);
+        return response()->json($result);
+    }
+
+    public function footballLivesJsonData($isMobile) {
         $query = $this->getLiveMatches(MatchLive::kSportFootball);
         $matches = $query->get();
 
@@ -301,7 +316,7 @@ class AikanQController extends Controller
         }
 
         $result = ['matches'=>$match_array];
-        return response()->json($result);
+        return $result;
     }
 
     /**
@@ -311,8 +326,12 @@ class AikanQController extends Controller
      */
     public function otherLivesJson(Request $request) {
         $isMobile = $request->input('isMobile',0);
-        $match_array = [];
+        $result = $this->otherLivesJsonData($isMobile);
+        return Response::json($result);
+    }
 
+    public function otherLivesJsonData($isMobile) {
+        $match_array = [];
         $query = $this->getLiveMatches(MatchLive::kSportSelfMatch);
         $matches = $query->get();
         foreach ($matches as $match) {
@@ -344,7 +363,7 @@ class AikanQController extends Controller
             }
         }
         $result = ['matches'=>$match_array];
-        return Response::json($result);
+        return $result;
     }
     ////////////////////////////////   列表接口结束   ////////////////////////////////
 
@@ -945,12 +964,20 @@ class AikanQController extends Controller
      */
     public function subjectSpecimenChannelJson(Request $request, $cid) {
         $isMobile = $request->input('isMobile') == 1;
-        $specimen = SubjectSpecimen::query()->find($cid);
-        if (!isset($specimen)) {
+        $result = $this->subjectSpecimenChannelJsonData($isMobile, $cid);
+        if (!isset($result)) {
             return response()->json(['code'=>-1, 'message'=>'线路不存在']);
         }
-        $result = ['code'=>0, 'playurl'=>$specimen->link, 'player'=>$specimen->player, 'platform'=>$specimen->platform];
         return response()->json($result);
+    }
+
+    public function subjectSpecimenChannelJsonData($isMobile, $cid) {
+        $specimen = SubjectSpecimen::query()->find($cid);
+        if (!isset($specimen)) {
+            return null;
+        }
+        $result = ['code'=>0, 'playurl'=>$specimen->link, 'player'=>$specimen->player, 'platform'=>$specimen->platform];
+        return $result;
     }
 
     /**
@@ -1157,9 +1184,10 @@ class AikanQController extends Controller
      * 根据channel id获取url
      * @param Request $request
      * @param $channelId
+     * @param $mobile
      * @return mixed
      */
-    public function getLiveUrl(Request $request, $channelId){
+    public function getLiveUrl(Request $request, $channelId, $mobile = false){
         $channel = MatchLiveChannel::query()->find($channelId);
         if (is_null($channel) || is_null($channel->content)){
             return response()->json(array('code'=>-1,'message'=>'no channel'));
@@ -1228,7 +1256,7 @@ class AikanQController extends Controller
                 return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeBallBar,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
                 break;
             case MatchLiveChannel::kTypeTTZB:
-                    if (self::isMobile($request)||$request->input('isMobile',0)) {
+                    if (self::isMobile($request)|| $request->input('isMobile',$mobile) ) {
                         $playurl = $this->ttzbLiveRTMPUrl($channel->content);
                         if (isset($playurl))
                             return response()->json(array('code'=>0,'type'=>MatchLiveChannel::kTypeTTZB,'player'=>$channel->player,'cid'=>$channel->id,'playurl'=>$playurl,'match'=>$match, 'platform'=>$channel->platform, 'ad'=>$channel->ad ));
