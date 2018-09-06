@@ -105,6 +105,11 @@ Route::get('/act/transfer/rank.html', "TransferController@rank");
 //Route::get('/shop/match/lives', "ShopController@shopLives");//shop接口
 Route::get('/json/shop/lives.json', "ShopController@shopLives");//shop接口
 
+//cms接口
+Route::group([], function () {
+    Route::get("/json/cms/channels/{mid}/{sport}", "CmsController@getChannels");
+});
+
 //直播数量调用接口
 Route::group([], function () {
     Route::get("/aik/lives_count/mid/{sport}/{mid}", "MatchLiveCountController@matchLiveCountById");

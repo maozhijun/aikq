@@ -215,7 +215,7 @@ class ArticleController extends Controller
         //文章内容处理 结束
         $fid = $request->input('fid');
         if (is_numeric($fid)){
-            $foreign = ForeignArticle::query()->find($request->input($fid));
+            $foreign = ForeignArticle::query()->find($fid);
             if (isset($foreign)){
                 $foreign->aid = $article->id;
                 $foreign->status = $article->status == PcArticle::kStatusPublish ? ForeignArticle::kStatusValid : $foreign->status;
