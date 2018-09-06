@@ -15,6 +15,7 @@ use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\Shop\ShopLiveCommand;
+use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
 use App\Console\LiveCheck\LiveCollectCommands;
 //use App\Console\Subject\CoverCommand;
@@ -99,6 +100,7 @@ class Kernel extends ConsoleKernel
 
         BaiduPushCommand::class,//百度主动推送
 
+        GenerateSitemapCommand::class, //sitemap生成器
     ];
 
     /**
@@ -176,6 +178,9 @@ class Kernel extends ConsoleKernel
 
         //百度主动推送，一小时一次
         $schedule->command('baidu_push:run all')->hourlyAt(20);
+
+        //百度sitemap生成器，一天两次
+        $schedule->command('generate:sitemap')->twiceDaily(1, 18);
     }
 
     /**
