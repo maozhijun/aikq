@@ -33,7 +33,8 @@ class ForeignArticleController extends Controller
     {
         $query = ForeignArticle::query();
         $query->where('status','<>',ForeignArticle::kStatusInvaild);
-        $query->orderBy('status')->orderBy('created_at', 'desc');
+        //$query->orderBy('status');
+        $query->orderBy('created_at', 'desc');
 //        $query->join('foreign_article_contents','foreign_articles.id','=','foreign_article_contents.id');
 //        $query->select('foreign_articles.*','foreign_article_contents.content_en','foreign_article_contents.content_ch');
         $articles = $query->paginate(40);

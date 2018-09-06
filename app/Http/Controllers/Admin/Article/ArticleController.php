@@ -218,6 +218,7 @@ class ArticleController extends Controller
             $foreign = ForeignArticle::query()->find($request->input($fid));
             if (isset($foreign)){
                 $foreign->aid = $article->id;
+                $foreign->status = $article->status == PcArticle::kStatusPublish ? ForeignArticle::kStatusValid : $foreign->status;
                 $foreign->save();
             }
         }
