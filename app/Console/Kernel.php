@@ -134,25 +134,6 @@ class Kernel extends ConsoleKernel
             $mController->matchLiveStatic(new Request());//每分钟刷新比赛状态数据
         })->everyMinute();
 
-        $schedule->command('db_spread_cache:run')->everyTenMinutes();
-
-        //$schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
-
-        //专题静态化
-        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
-        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
-        $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
-        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
-
-        //热门录像静态化
-        //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
-        //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
-
-        //专题录像静态化
-        //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
-        //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
-        //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
-
         //appsocket相关
         //静态化app主播接口  /app/v120/anchor/index.json , /app/v120/anchor/room/url/26.json , /app/v120/anchor/living.json
         $schedule->command("anchor_living_cache:run")->everyMinute();
@@ -178,6 +159,25 @@ class Kernel extends ConsoleKernel
 
         //百度主动推送，一小时一次
         $schedule->command('baidu_push:run all')->hourlyAt(20);
+
+        $schedule->command('db_spread_cache:run')->everyTenMinutes();
+
+        //$schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
+
+        //专题静态化
+        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
+        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
+        $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
+        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
+
+        //热门录像静态化
+        //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
+        //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
+
+        //专题录像静态化
+        //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
+        //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
+        //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 
         //百度sitemap生成器，一天两次
         $schedule->command('generate:sitemap')->twiceDaily(1, 18);

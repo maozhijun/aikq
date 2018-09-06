@@ -15,5 +15,5 @@ use Illuminate\Support\Facades\Redis;
 
 class ForeignArticle extends Model
 {
-    const kStatusInvaild = -1;
+    const kStatusInvaild = -1, kStatusValid = 1;
 }
