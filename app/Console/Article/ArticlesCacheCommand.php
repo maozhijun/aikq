@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Redis;
 class ArticlesCacheCommand extends Command
 {
 
-    const ARTICLE_CACHE_KEY = "ArticlesCacheCommand_ARTICLE_CACHE_KEY";
+    const ARTICLE_CACHE_KEY = "ArticlesCacheCommand_ARTICLE_CACHE_KEY_";
 
     /**
      * The name and signature of the console command.
@@ -51,7 +51,7 @@ class ArticlesCacheCommand extends Command
         $articles = $query->take(60)->get();
         $array = [];
         foreach ($articles as $article) {
-            $array[] = ['title'=>$article->title, 'url'=>$article->getUrl()];
+            $array[] = ['title'=>$article->title, 'url'=>$article->getUrl(), 'publish_at'=>$article->publish_at];
         }
         Redis::set(self::ARTICLE_CACHE_KEY, json_encode($array));
     }
