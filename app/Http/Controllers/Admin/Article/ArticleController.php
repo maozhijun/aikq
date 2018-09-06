@@ -189,7 +189,6 @@ class ArticleController extends Controller
                 }
             }
         }
-        //文章内容处理 结束
 
         $exception = DB::transaction(function () use ($article, $controller, $hasId, $content) {
             if ($article->status == 1) {
@@ -209,16 +208,18 @@ class ArticleController extends Controller
             $detail->save();
         });
 
-        if ($request->input('fid')){
-            $foreign = ForeignArticle::find($request->input('fid'));
+        if (isset($exception)) {
+            return response()->json(['code' => 403, 'error' => '数据库异常']);
+        }
+
+        //文章内容处理 结束
+        $fid = $request->input('fid');
+        if (is_numeric($fid)){
+            $foreign = ForeignArticle::query()->find($request->input($fid));
             if (isset($foreign)){
                 $foreign->aid = $article->id;
                 $foreign->save();
             }
-        }
-
-        if (isset($exception)) {
-            return response()->json(['code' => 403, 'error' => '数据库异常']);
         }
 
         if($article->status == PcArticle::kStatusPublish) {

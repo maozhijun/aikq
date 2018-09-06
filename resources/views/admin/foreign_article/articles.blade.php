@@ -54,6 +54,7 @@
                                target="_blank">
                                 <span class="glyphicon glyphicon-edit"></span>详情
                             </a>
+                            @if(!empty($article->aid))<div style="margin-top: 2px"><label class="label label-success">已发布</label></div>@endif
                         </td>
                         <td>
                             <p>

@@ -100,7 +100,7 @@ class PcArticle extends Model
     }
 
     public static function indexArticles() {
-        $key = "IndexArticles_Cache";
+        $key = "IndexArticles_Cache_";
         $articleCache = Redis::get($key);
         if (empty($articleCache)) {
             $query = self::getPublishQuery();
@@ -110,19 +110,19 @@ class PcArticle extends Model
             foreach ($articles as $article) {
                 $array[] = ['title'=>$article->title, 'url'=>$article->getUrl(), 'publish_at'=>$article->publish_at];
             }
-            shuffle($array);
-            $result = [];
-            foreach ($array as $index=>$ar) {
-                if ($index >= 12) break;
-                $result[] = $ar;
-            }
-            usort($result, function ($a, $b) {
-                $a_publish_at = strtotime($a['publish_at']);
-                $b_publish_at = strtotime($b['publish_at']);
-                return $b_publish_at - $a_publish_at;
-            });
-            $articleCache = json_encode($result);
-            Redis::setEx($key, 1 * 60 * 60, $articleCache);
+            //shuffle($array);
+            //$result = [];
+            //foreach ($array as $index=>$ar) {
+            //    if ($index >= 12) break;
+            //    $result[] = $ar;
+            //}
+            //usort($result, function ($a, $b) {
+            //    $a_publish_at = strtotime($a['publish_at']);
+            //    $b_publish_at = strtotime($b['publish_at']);
+            //    return $b_publish_at - $a_publish_at;
+            //});
+            $articleCache = json_encode($array);
+            Redis::setEx($key, 10 * 60, $articleCache);
         }
         return json_decode($articleCache, true);
     }
