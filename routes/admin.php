@@ -188,6 +188,13 @@ Route::group(['middleware' => 'admin_auth'], function () {
     Route::any('/cloudkeyword/update', 'KeyWordController@update');//修改
 });
 
+Route::group(['namespace'=>'Seo','middleware' => 'admin_auth'], function () {
+    //404url
+    Route::get('/seo/error_url', 'ErrorUrlController@errorUrls');//列表
+    Route::any('/seo/error_url/add', 'ErrorUrlController@errorUrlAdd');//增加
+});
+
+
 Route::group(['namespace'=>'Article','middleware' => 'admin_auth'], function () {
     //翻译文章
     Route::get('/foreign/', 'ForeignArticleController@articles');//列表

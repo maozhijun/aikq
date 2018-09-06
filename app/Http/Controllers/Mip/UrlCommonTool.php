@@ -25,6 +25,7 @@ class UrlCommonTool
     /*********************直播相关*************************/
 
     public static function homeLivesUrl($prefix = self::MIP_PREFIX) {
+        return '/';
         return $prefix."/";
     }
 
