@@ -387,7 +387,7 @@ function countdown() {
 function PlayVideoShare (cid, type){
     var url;
 
-    url = 'http://api.aikq.cc/anchor/room/url/' + cid + '.json';
+    url = '/anchor/room/url/' + cid + '.json';
     url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
     console.log(url);
     $.ajax({

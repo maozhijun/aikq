@@ -142,7 +142,7 @@
 
         //    var socket = io.connect('http://bj.xijiazhibo.cc');
 //        var socket = io.connect('http://localhost:6001');
-        var socket = io.connect('https://ws.aikq.cc');
+        var socket = io.connect('https://ws.aikanqiu.com');
         socket.on('connect', function (data) {
             console.log('connect');
             var mid = '{{'99_'.$room_id}}';
@@ -226,7 +226,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: 'http://api.aikq.cc/app/v120/anchor/chat/post',
+                url: '//cms.aikanqiu.com/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);

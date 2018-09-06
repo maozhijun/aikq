@@ -132,7 +132,7 @@
         }
 
         function GetMy () {
-            var socket = io.connect('https://ws.aikq.cc');
+            var socket = io.connect('https://ws.aikanqiu.com');
             socket.on('connect', function (data) {
                 console.log('connect');
                 var mid = '{{'99_'.$room['id']}}';
@@ -188,7 +188,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'https://www.aikq.cc/app/v120/anchor/chat/post',
+                url: '//cms.aikanqiu.com/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);
