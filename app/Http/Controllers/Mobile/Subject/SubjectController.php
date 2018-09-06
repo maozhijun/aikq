@@ -23,6 +23,14 @@ use Illuminate\Support\Facades\Storage;
  */
 class SubjectController extends Controller
 {
+
+    protected $akqCon;
+
+    function __construct()
+    {
+        $this->akqCon = new AikanQController();
+    }
+
     /**
      *
      * @param Request $request
@@ -191,8 +199,6 @@ class SubjectController extends Controller
         } catch (\Exception $exception) {
             $server_output = "";
         }
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
         $subjects = json_decode($server_output, true);
         $subjects = isset($subjects) ? $subjects : [];
         return $subjects;
@@ -204,11 +210,6 @@ class SubjectController extends Controller
      * @return array|mixed|void
      */
     public function getSubjectDetail($id) {
-//        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $id;
-//        $server_output = $this->execUrl($url);
-//        $subjects = json_decode($server_output, true);
-//        $subjects = isset($subjects) ? $subjects : [];
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjectDetail(new Request(), $id)->getData();
         $data = json_encode($data);
@@ -222,9 +223,7 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideo($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id;
-        $server_output = $this->execUrl($url);
-        $video = json_decode($server_output, true);
+        $video = $this->akqCon->subjectVideo($id);
         $video = isset($video) ? $video : [];
         return $video;
     }
@@ -235,9 +234,7 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectSpecimen($id) {
-        $url = env('LIAOGOU_URL')."aik/subjects/specimen/" . $id;
-        $server_output = $this->execUrl($url);
-        $specimen = json_decode($server_output, true);
+        $specimen = $this->akqCon->subjectSpecimen($id);
         $specimen = isset($specimen) ? $specimen : [];
         return $specimen;
     }
@@ -248,9 +245,7 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectVideoChannel($cid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/video/channel/" . $cid;
-        $server_output = $this->execUrl($url);
-        $channel = json_decode($server_output, true);
+        $channel = $this->akqCon->subjectVideoChannelJson(new Request(), $cid);
         $channel = isset($channel) ? $channel : ['code'=>-1];
         return $channel;
     }
@@ -261,9 +256,7 @@ class SubjectController extends Controller
      * @return array|mixed
      */
     public function getSubjectSpecimenChannel($cid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/specimen/channel/" . $cid;
-        $server_output = $this->execUrl($url);
-        $specimen = json_decode($server_output, true);
+        $specimen = $this->akqCon->subjectSpecimenChannelJson(new Request(), $cid)->getData();
         $specimen = isset($specimen) ? $specimen : ['code'=>-1];
         return $specimen;
     }
@@ -274,9 +267,6 @@ class SubjectController extends Controller
      * @param Request $request
      */
     public function staticSubjectLeagues(Request $request) {
-//        $url = env('LIAOGOU_URL')."aik/subjects";
-//        $server_output = self::execUrl($url);
-
         $aiCon = new AikanQController();
         $data = $aiCon->subjects(new Request())->getData();
         $server_output = json_encode($data);
@@ -291,8 +281,8 @@ class SubjectController extends Controller
      * @param $slid
      */
     public function staticSubjectDetailJson(Request $request, $slid) {
-        $url = env('LIAOGOU_URL')."aik/subjects/detail/" . $slid;
-        $server_output = $this->execUrl($url);
+        $server_output = $this->akqCon->subjectDetail($request, $slid)->getData();
+        $server_output = json_encode($server_output);
         if (!empty($server_output)) {
             Storage::disk("public")->put("/static/json/subject/" . $slid . ".json", $server_output);
         }

@@ -16,6 +16,7 @@ use App\Models\Match\League;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
+use App\Models\Match\OtherMatch;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -322,13 +323,24 @@ class MatchController extends Controller
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
 
-        $exception = DB::transaction(function() use ($channel, $match_id, $sport) {
+        if (!isset($match)) {
+            if ($sport == MatchLive::kSportFootball) {
+                $match = Match::query()->find($match_id);
+            } else if ($sport == MatchLive::kSportBasketball) {
+                $match = BasketMatch::query()->find($match_id);
+            } else if ($sport == MatchLive::kSportSelfMatch) {
+                $match = OtherMatch::query()->find($match_id);
+            }
+        }
+
+        $exception = DB::transaction(function() use ($channel, $match_id, $sport, $match) {
             if (!isset($channel->id)) {
                 $live = MatchLive::query()->where('match_id', $match_id)->where('sport', $sport)->first();
                 if (!isset($live)) {//查找是否有 直播
                     $live = new MatchLive();
                     $live->match_id = $match_id;
                     $live->sport = $sport;
+                    $live->league_id = isset($match) ? $match->lid : null;
                     $live->save();
                 }
                 $channel->live_id = $live->id;

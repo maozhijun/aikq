@@ -54,6 +54,18 @@
                                target="_blank">
                                 <span class="glyphicon glyphicon-edit"></span>详情
                             </a>
+                            @if(!empty($article->aid))
+                                <div style="margin-top: 2px">
+                                    @if($article->status == 1)<label class="label label-success">已发布</label>@endif
+                                    @if($article->status == 0)<label class="label label-warning">已保存</label>@endif
+                                </div>
+                                <div style="margin-top: 5px">
+                                    <a class="btn btn-xs btn-default" href="/admin/article/new?id={{$article->aid}}"
+                                       target="_blank">
+                                        <span class="glyphicon glyphicon-edit"></span>查看
+                                    </a>
+                                </div>
+                            @endif
                         </td>
                         <td>
                             <p>

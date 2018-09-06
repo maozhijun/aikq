@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Mip\Live;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\LgMatch\Match;
 use App\Models\Match\Odd;
@@ -69,18 +70,8 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function subjectVideos(Request $request, $type, $page) {
-        $ch = curl_init();
-        $url = env('LIAOGOU_URL')."aik/subjects/league/video/page/" . $type . "?isMobile=1&page=" . $page;
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return abort(404);
-        }
-        $json = json_decode($server_output,true);
+        $subCon = new SubjectVideoController();
+        $json = $subCon->subjectVideos(new Request(), $type, $page, true)->getData();
         if (is_null($json)) {
             return abort(404);
         }
@@ -130,21 +121,10 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function subjectVideoDetail(Request $request, $first, $second, $id) {
-        $ch = curl_init();
-        //$url = env('LIAOGOU_URL')."aik/subjects/league/video/detail/" . $id . "?isMobile=1";
-        $url = env('LIAOGOU_URL')."aik/subjects/video/" . $id . "?isMobile=1";
-        curl_setopt($ch, CURLOPT_URL,$url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $server_output = curl_exec ($ch);
-        $http_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($http_code >= 400) {
-            return;
-        }
-        $json = json_decode($server_output,true);
+        $aikCon = new AikanQController();
+        $json = $aikCon->subjectVideo($id, true);
         if (is_null($json) || count($json) == 0) {
-            return;
+            return abort(404);
         }
         return $this->subjectVideoDetailHtml($json);
     }

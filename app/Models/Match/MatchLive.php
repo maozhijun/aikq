@@ -9,6 +9,7 @@
 namespace App\Models\Match;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use Illuminate\Database\Eloquent\Model;
 
 class MatchLive extends Model
@@ -142,6 +143,11 @@ class MatchLive extends Model
         $query->orderBy('od');
         $channels = $query->limit(10)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
+        $lid = $this->league_id;
+        if (!isset($lid)) {
+            $match = $this->getMatch();
+            $lid = $match->lid;
+        }
         for ($index = 0 ; $index < count($channels) ; $index++) {
             $channel = $channels[$index];
             $tmp = $channel->channelArray();
@@ -151,6 +157,9 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
+            if ($channel->use == MatchLiveChannel::kUseAiKQ) {
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $lid, $this->match_id);
+            }
             $array[] = $tmp;
         }
         return $array;
@@ -209,6 +218,12 @@ class MatchLive extends Model
         $query->orderBy('nod');
         $channels = $query->limit(6)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
+        $lid = $this->league_id;
+        if (!isset($lid)) {
+            $match = $this->getMatch();
+            $lid = $match->lid;
+        }
+
         for ($index = 0 ; $index < count($channels) ; $index++) {
             $channel = $channels[$index];
             $tmp = $channel->channelArray();
@@ -217,6 +232,9 @@ class MatchLive extends Model
             $tmp['type'] = $channel->type;
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
+            if ($channel->use == MatchLiveChannel::kUseAiKQ) {
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $lid, $this->match_id);
+            }
             $array[] = $tmp;
         }
         return $array;
@@ -247,6 +265,7 @@ class MatchLive extends Model
         $query->orderBy('od');
         $channels = $query->limit(10)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
+        $match = $this->getMatch();
         for ($index = 0 ; $index < count($channels) ; $index++) {
             $channel = $channels[$index];
             $tmp = $channel->channelArray();
@@ -257,6 +276,9 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $channel->akq_url;
+            if ($channel->use == MatchLiveChannel::kUseAiKQ) {
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $match->lid, $this->match_id);
+            }
             $array[] = $tmp;
         }
         return $array;

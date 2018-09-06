@@ -48,8 +48,7 @@ class LeaguesJsonCommand extends Command
     {
         $con = new SubjectController();
         $con->staticSubjectLeagues(new Request());
-        //$url = asset('/static/subject/leagues');
-        //SubjectController::execUrl($url, 10);
+
         $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
         foreach (Controller::SUBJECT_NAME_IDS as $str=>$data){
             echo $str;
