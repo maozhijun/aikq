@@ -82,7 +82,7 @@ class PlayerController extends Controller
         foreach ($newImages as $key=>$val) {
             $images[$key] = $val;
         }
-        Storage::disk('public')->put('www/m/dd_image/images.json', json_encode($images));
+        Storage::disk('public')->put('www/json/dd_image/images.json', json_encode($images));
     }
 
     public static function getAdImages() {

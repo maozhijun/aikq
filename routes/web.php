@@ -107,7 +107,7 @@ Route::get('/json/shop/lives.json', "ShopController@shopLives");//shop接口
 
 //cms接口
 Route::group([], function () {
-    Route::get("/json/cms/channels/{mid}/{sport}", "CmsController@getChannels");
+    Route::get("/json/cms/channels/{mid}/{sport}.json", "CmsController@getChannels");
 });
 
 //直播数量调用接口
