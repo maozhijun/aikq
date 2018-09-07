@@ -104,11 +104,13 @@
 //                            $preUrl = str_replace("http://","https://",env('APP_URL'));
 //                        }
 
-                        //$preUrl = 'http://'.env('WWW_URL');
-                        $preUrl = '//www.aikanqiu.com';
+                        //$preUrl = 'http://'.env('WWW_URL'); 由于静态化 使用 api.aikq.cc,则其实获取的httphost就是api.aikq.cc 弃用，使用js获取
+                        //$preUrl = request()->getHttpHost();//'//www.aikanqiu.com';
+                        //$preUrl = preg_replace("/(^m\.)|(^mip\.)/", "www.", $preUrl);
+                        //$preUrl = '//'.$preUrl;
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
-                    <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
+                    <button id="{{$channel['channelId']}}" value="{{'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
                 @endforeach
                 @if($match['sport'] < 3 && count($channels) < 3)
                     <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>
@@ -128,7 +130,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030002"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030003"></script>
     <script type="text/javascript">
         window.onload = function () {
             setPage();
