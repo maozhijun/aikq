@@ -659,7 +659,7 @@ class LiveController extends Controller
             }
             //每一个比赛的player页面生成
             $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
-            $this->staticLiveChannelsJson($request, $mid, $sport);
+            //$this->staticLiveChannelsJson($request, $mid, $sport);
             if (is_numeric($ch_id)) {
                 $this->staticLiveUrl($request, $ch_id, true);
             }
@@ -698,7 +698,7 @@ class LiveController extends Controller
      * @param $mid
      * @param $sport
      */
-    protected function staticLiveChannelsJson($request, $mid, $sport) {
+    public function staticLiveChannelsJson(Request $request, $mid, $sport) {
         $cmsCon = new CmsController();
         $data = $cmsCon->getChannels($request, $mid, $sport)->getData();
         $path = "www/json/cms/channels/$mid/$sport.json";
