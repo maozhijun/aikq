@@ -11,6 +11,7 @@ namespace App\Http\Controllers\PC\Live;
 use App\Console\LiveDetailCommand;
 use App\Console\NoStartPlayerJsonCommand;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\CmsController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Match;
@@ -165,7 +166,8 @@ class LiveController extends Controller
             //return abort(404);
         }
 
-        $articles = PcArticle::indexArticles();
+        $isBaidu = str_contains($request->header('User-Agent'),'http://www.baidu.com/search/spider.html');
+        $articles = PcArticle::indexArticles($isBaidu);
 
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['check'] = 'all';
@@ -658,6 +660,7 @@ class LiveController extends Controller
             }
             //每一个比赛的player页面生成
             $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
+            //$this->staticLiveChannelsJson($request, $mid, $sport);
             if (is_numeric($ch_id)) {
                 $this->staticLiveUrl($request, $ch_id, true);
             }
@@ -688,6 +691,19 @@ class LiveController extends Controller
         if (!empty($mjson)) {
             Storage::disk("public")->put("/www/match/live/url/match/pc/" . $mid . "_" . $sport .".json", $pjson);
         }
+    }
+
+    /**
+     * 静态化给cms的线路接口
+     * @param $request
+     * @param $mid
+     * @param $sport
+     */
+    public function staticLiveChannelsJson(Request $request, $mid, $sport) {
+        $cmsCon = new CmsController();
+        $data = $cmsCon->getChannels($request, $mid, $sport)->getData();
+        $path = "www/json/cms/channels/$mid/$sport.json";
+        Storage::disk('public')->put($path, json_encode($data));
     }
 
     /**

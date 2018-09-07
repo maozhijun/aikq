@@ -8,6 +8,7 @@ use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
+use App\Console\Cms\CmsChannelsCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
 use App\Console\HtmlStaticCommand\Article\ArticleDetailCommand;
@@ -97,6 +98,7 @@ class Kernel extends ConsoleKernel
         NotFoundCommand::class,//404页面
 
         ShopLiveCommand::class,//shop 安卓app直播页面
+        CmsChannelsCommand::class,//cms 直播终端线路静态化
 
         BaiduPushCommand::class,//百度主动推送
 

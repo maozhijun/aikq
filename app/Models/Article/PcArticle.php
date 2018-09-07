@@ -64,6 +64,13 @@ class PcArticle extends Model
         return env('APP_URL').'/mip'.$this->getUrl();
     }
 
+    public static function getBaiduQuery(){
+        $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+        $query->where('baidu_spider_count','>',0);
+        $query->orderByDesc('publish_at');
+        return $query;
+    }
+
     public static function getPublishQuery() {
         $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
         $query->orderByDesc('publish_at');
@@ -99,7 +106,21 @@ class PcArticle extends Model
         return $modelItem;
     }
 
-    public static function indexArticles() {
+    /**
+     * 返回首页文章
+     * @param bool $isBaidu
+     * @return mixed
+     */
+    public static function indexArticles($isBaidu = false) {
+        if($isBaidu){
+            $query = self::getBaiduQuery();
+            $articles = $query->take(30)->get();
+            foreach ($articles as $article) {
+                $array[] = ['title'=>$article->title, 'url'=>$article->getUrl(), 'publish_at'=>$article->publish_at];
+            }
+            $articleCache = json_encode($array);
+            return json_decode($articleCache, true);
+        }
         $key = "IndexArticles_Cache_";
         $articleCache = Redis::get($key);
         if (empty($articleCache)) {

@@ -40,7 +40,19 @@ function setPage () {
     		$(this).attr('class','on');
     		var value = $(this).attr('value');
     		if (value && document.getElementById('Frame')) {
-                document.getElementById('Frame').src = $(this).attr('value');
+    		    if (/^https?:\/\//.test(value)) {
+                    document.getElementById('Frame').src = $(this).attr('value');
+                } else {
+                    //处理域名
+                    var host = window.location.host;
+                    if (/^m\.dlfyb\.com/.test(host)) {
+                        host = host.replace(/^m\./,"mp.");
+                    } else {
+                        host = host.replace(/^m\./,"www.");
+                    }
+                    value = '//' + host + value;
+                    document.getElementById('Frame').src = value;
+                }
             }
     	}
     });

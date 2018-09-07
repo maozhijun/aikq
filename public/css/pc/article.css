@@ -114,6 +114,7 @@ body{
 #Left .other{
 	padding-bottom: 10px;
 	background: #fff;
+	font-size: 0; line-height: 0;
 }
 #Left .other .title{
 	height: 38px;
@@ -132,8 +133,8 @@ body{
 #Left .other a{
 	width: 50%; height: 32px;
 	font-size: 14px; line-height: 32px; text-align: left; color: #393939;
+	display: inline-block;
 	overflow: hidden;
-	float: left;
 }
 #Left .other a:hover{
 	color: #4492fd;

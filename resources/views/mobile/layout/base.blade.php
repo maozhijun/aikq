@@ -18,16 +18,15 @@
     <link href="/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     @yield("first_js")
     <script type="text/javascript">
-        var url = window.location.href;
-        // var inHost = /^https?:\/\/m\.dlfyb\.com/.test(url)
-        //                 || /^https?:\/\/m\.aikq\.cc/.test(url) || /^https?:\/\/m\.aikanqiu\.com/.test(url);
-
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-            {{--url = url.replace('m.dlfyb.com','{{env('WWW_URL')}}');--}}
-            {{--url = url.replace('m.aikq.cc','{{env('WWW_URL')}}');--}}
-            {{--url = url.replace('m.aikanqiu.com','{{env('WWW_URL')}}');--}}
+            var url = window.location.href;
+            if (url.indexOf("m.dlfyb.com") != -1) {
+                url = url.replace(/(https?:\/\/)m\./, "$1mp.");
+                window.location.href = url;
+            } else {
                 url = url.replace(/(https?:\/\/)m\./, "$1www.");
-            window.location.href = url;
+                window.location.href = url;
+            }
         }
     </script>
 </head>

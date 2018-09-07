@@ -40,13 +40,13 @@
         } else {
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 var url = window.location.href;
-                // url = url.replace('mp.dlfyb.com','m.dlfyb.com');
-                // url = url.replace('www.aikq.cc','m.dlfyb.com');
-                // url = url.replace('//aikq.cc','//m.dlfyb.com');
-                // window.location = url;
-
-                url = url.replace(/(https?:\/\/)www\./, "$1m.");
-                window.location.href = url;
+                if (url.indexOf("mp.dlfyb.com") != -1) {
+                    url = url.replace(/(https?:\/\/)(mp\.)?/, "$1m.");
+                    window.location.href = url;
+                } else {
+                    url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
+                    window.location.href = url;
+                }
             }
         }
     </script>

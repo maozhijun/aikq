@@ -9,7 +9,7 @@ var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
 $.ajax({
-    "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
+    "url": "/json/dd_image/images.json?time=" + (new Date()).getTime(),
     "success": function (json) {
         if (json) {
             if (json.l) ad_l = json.l;
@@ -277,9 +277,9 @@ function playHandler (){
     //PC时添加心跳请求
     if (!isPhone() && !WXCodeRun) {
         console.log(WXCodeRun);
-        checkActive();
+        //checkActive();
         WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
-            checkActive();
+            //checkActive();
         }, 15 * 60 * 1000);
     }
     CKobject.getObjectById('ckplayer_a1')._V_.muted = false; //安卓有可能出现默认静音，这里修改一下静音选项
@@ -904,7 +904,7 @@ function getParam() {
 
 function checkActive() {
     $.ajax({
-        "url": "/m/dd_image/active.json?time=" + (new Date()).getTime(),
+        "url": "/json/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code && (json.txt != active_text || json.code != active_code) ) {
                 active_text = json.txt;

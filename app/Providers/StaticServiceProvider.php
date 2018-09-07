@@ -83,6 +83,9 @@ class StaticServiceProvider extends ServiceProvider
                 MatchController::flush310Live($match_id, $sport, $ch_id);//刷新终端、线路json
                 MatchController::flushAikqLive($match_id, $sport, $ch_id);//刷新终端、线路json
             }
+            //静态化cms接口文件
+            $liveCon = new \App\Http\Controllers\PC\Live\LiveController();
+            $liveCon->staticLiveChannelsJson(new Request(), $match_id, $sport);
         });
         //线路日志记录 结束
 

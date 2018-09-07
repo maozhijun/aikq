@@ -69,6 +69,11 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/pc.php'));
 
         Route::middleware('web')
+            ->prefix('forspider')
+            ->namespace($this->namespace . '\PC')
+            ->group(base_path('routes/pc.php'));
+
+        Route::middleware('web')
             ->prefix('db')
             ->namespace($this->namespace . '\DB')
             ->group(base_path('routes/web.php'));

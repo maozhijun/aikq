@@ -11,6 +11,13 @@
                 </div>
                 <button type="submit" class="btn btn-default">确认</button>
             </form>
+            <form method="post" role="search" class="navbar-form navbar-left" action='/admin/seo/error_url/add'>
+                {{ csrf_field() }}
+                <div class="form-group">
+                    <input class="form-control" placeholder="url" type="text" name="url">
+                </div>
+                <button type="submit" class="btn btn-default">增加</button>
+            </form>
         </div>
 
         <table class="table table-striped">

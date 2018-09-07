@@ -51,7 +51,8 @@ class LiveDetailCommand extends Command
 //        $articles = PcArticle::query()->where('status', PcArticle::kStatusPublish)->get();
 //        foreach ($articles as $article){
 //            $ch = curl_init();
-//            $url = 'http://leisuzhibo.cc/static/article/'.$article->id;
+//            $url = 'http://cms.aikq.cc/static/article/'.$article->id;
+//            dump($url);
 //            curl_setopt($ch, CURLOPT_URL,$url);
 //            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //            curl_setopt($ch, CURLOPT_TIMEOUT, 2);//8秒超时

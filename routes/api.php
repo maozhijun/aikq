@@ -32,5 +32,5 @@ Route::group(['namespace'=>'IntF'], function () {
 });
 
 Route::group(["namespace" => 'PC\Article'], function () {
-    Route::get("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
+    Route::any("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
 });
