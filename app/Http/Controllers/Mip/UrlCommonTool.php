@@ -75,8 +75,9 @@ class UrlCommonTool
         return $prefix."/news/";
     }
 
-    public static function newsForPageUrl($type, $prefix = self::MIP_PREFIX) {
-        return $prefix."/news/$type";
+    public static function newsForPageUrl($type) {
+        $prefix = env("API_URL", "http://api.aikq.cc");
+        return $prefix."/mip/news/$type";
     }
 
     public static function newsDetailUrl(PcArticle $article, $prefix = self::MIP_PREFIX) {
