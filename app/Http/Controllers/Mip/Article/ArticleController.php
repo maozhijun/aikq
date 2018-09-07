@@ -63,7 +63,7 @@ class ArticleController extends Controller
         $items = array();
         foreach ($articles as $article) {
             $item = array();
-            $item['url'] = $article->getMipUrl();
+            $item['url'] = $article->getUrl();
             $item['cover'] = $article->getCover();
             $item['title'] = $article->title;
             $item['date'] = date('Y.m.d', strtotime($article->publish_at));
