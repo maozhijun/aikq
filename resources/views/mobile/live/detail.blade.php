@@ -17,21 +17,11 @@
     </style>
 @endsection
 @section('banner')
-    <?php
-//        if ($match['sport'] == 2) {
-//            $href = "/m/basketball.html";
-//        } else if ($match['sport'] == 3) {
-//            $href = "/m/other.html";
-//        } else {
-//            $href = "/m/football.html";
-//        }
-        $href = '/m/index.html'
-    ?>
     <div id="Navigation">
         @if(isset($h1))
             <h1>{{$h1}}</h1>
         @endif
-        <div class="banner"><a class="home" href="{{$href}}"></a>爱看球</div>
+        <div class="banner"><a class="home" href="/"></a>爱看球</div>
     </div>
 @endsection
 @section('content')
@@ -60,8 +50,8 @@
             <div class="score">
                 {{--@if($show_live || $match['status'] == -1)--}}
                 {{--<p style="display: {{$show_live ? 'none' : 'block'}};">--}}
-                    {{--<span class="host">{{$match['hscore']}}</span>--}}
-                    {{--<span class="away">{{$match['ascore']}}</span>--}}
+                {{--<span class="host">{{$match['hscore']}}</span>--}}
+                {{--<span class="away">{{$match['ascore']}}</span>--}}
                 {{--</p>--}}
                 {{--<button onclick="showScore(this);">{{$show_live ? '显示比分' : '隐藏比分'}}</button>--}}
                 {{--@else <b>VS</b>--}}
@@ -75,7 +65,7 @@
         @endif
     </div>
     <?php $channels = $live['channels'];?>
-    <div class="default" id="Video"> {{-- @if($match['sport'] == 3 && count($channels) == 1) style="height: 436px;" @endif --}}
+    <div class="default" id="Video">
         @if(!isset($live))
             <p class="line" style="display: none;">
                 <button disabled>线路一</button>
@@ -86,28 +76,23 @@
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
-//                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-//                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                        else if($channel['type'] == 99){
-//                            if ($channel['player'] == 11){
-//                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                            }
-//                            else{
-//                                if (stristr($channel['link'],'player.pptv.com')){
-//                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                                }
-//                                else{
-//                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                                }
-//                            }
-//                        } else {
-//                            $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                        }
-
-                        //$preUrl = 'http://'.env('WWW_URL'); 由于静态化 使用 api.aikq.cc,则其实获取的httphost就是api.aikq.cc 弃用，使用js获取
-                        //$preUrl = request()->getHttpHost();//'//www.aikanqiu.com';
-                        //$preUrl = preg_replace("/(^m\.)|(^mip\.)/", "www.", $preUrl);
-                        //$preUrl = '//'.$preUrl;
+                    //                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
+                    //                            $preUrl = str_replace("https://","http://",env('APP_URL'));
+                    //                        else if($channel['type'] == 99){
+                    //                            if ($channel['player'] == 11){
+                    //                                $preUrl = str_replace("https://","http://",env('APP_URL'));
+                    //                            }
+                    //                            else{
+                    //                                if (stristr($channel['link'],'player.pptv.com')){
+                    //                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
+                    //                                }
+                    //                                else{
+                    //                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
+                    //                                }
+                    //                            }
+                    //                        } else {
+                    //                            $preUrl = str_replace("http://","https://",env('APP_URL'));
+                    //                        }
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
@@ -117,12 +102,12 @@
                 @endif
                 <?php //$ch_cn = ['线路一', '线路二', '线路三']; ?>
                 {{--@for($index = count($channels); $index < 3; $index++)--}}
-                    {{--<button disabled>{{$ch_cn[$index]}}</button>--}}
+                {{--<button disabled>{{$ch_cn[$index]}}</button>--}}
                 {{--@endfor--}}
             </div>
         @endif
-            <iframe id="Frame"></iframe>
-            <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></div>
+        <iframe id="Frame"></iframe>
+        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></div>
     </div>
     <div id="Content">
         <img src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg">
@@ -153,7 +138,7 @@
         //----------------------------------------------------------------------//
         //刷新比赛信息
         function refresh() {
-            @if(isset($match['mid']))
+                    @if(isset($match['mid']))
             var preTime = 0;
             $.ajax({
                 "url": "/m/lives/data/refresh.json?time=" + (new Date()).getTime(),
@@ -182,9 +167,9 @@
             @endif
         }
         //----------------------------------------------------------//
-            @if($match['status'] > 0 && $match['status'] < 4)
-            setInterval(refresh, 5000);//获取比赛统计数据
-            @endif
+        @if($match['status'] > 0 && $match['status'] < 4)
+        setInterval(refresh, 5000);//获取比赛统计数据
+        @endif
         @endif
     </script>
 @endsection
