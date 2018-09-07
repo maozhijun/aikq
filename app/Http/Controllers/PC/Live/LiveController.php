@@ -166,7 +166,8 @@ class LiveController extends Controller
             //return abort(404);
         }
 
-        $articles = PcArticle::indexArticles();
+        $isBaidu = str_contains($request->header('User-Agent'),'http://www.baidu.com/search/spider.html');
+        $articles = PcArticle::indexArticles($isBaidu);
 
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['check'] = 'all';
