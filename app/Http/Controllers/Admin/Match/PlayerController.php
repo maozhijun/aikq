@@ -83,6 +83,7 @@ class PlayerController extends Controller
             $images[$key] = $val;
         }
         Storage::disk('public')->put('www/json/dd_image/images.json', json_encode($images));
+        Storage::disk('public')->put('m/json/dd_image/images.json', json_encode($images));
     }
 
     public static function getAdImages() {

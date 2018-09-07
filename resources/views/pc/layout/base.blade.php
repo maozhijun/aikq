@@ -45,7 +45,7 @@
                 // url = url.replace('//aikq.cc','//m.dlfyb.com');
                 // window.location = url;
 
-                url = url.replace(/(https?:\/\/)www\./, "$1m.");
+                url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
                 window.location.href = url;
             }
         }

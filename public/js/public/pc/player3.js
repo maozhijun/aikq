@@ -277,9 +277,9 @@ function playHandler (){
     //PC时添加心跳请求
     if (!isPhone() && !WXCodeRun) {
         console.log(WXCodeRun);
-        checkActive();
+        //checkActive();
         WXCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
-            checkActive();
+            //checkActive();
         }, 15 * 60 * 1000);
     }
     CKobject.getObjectById('ckplayer_a1')._V_.muted = false; //安卓有可能出现默认静音，这里修改一下静音选项
