@@ -103,7 +103,9 @@
 //                        } else {
 //                            $preUrl = str_replace("http://","https://",env('APP_URL'));
 //                        }
-                        $preUrl = '';//'http://'.env('WWW_URL');
+
+                        //$preUrl = 'http://'.env('WWW_URL');
+                        $preUrl = '//www.aikanqiu.com';
                     ?>
                     {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
                     <button id="{{$channel['channelId']}}" value="{{$preUrl.'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
