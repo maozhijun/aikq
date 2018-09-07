@@ -2,7 +2,6 @@
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/article.css?rd={{date('YmdHi')}}">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/jqcloud.css?rd={{date('YmdHi')}}">
-
 @endsection
 @section("content")
     <div id="Content">
@@ -67,7 +66,6 @@
                         @foreach($res as $re)
                             <a target="_blank" href="{{$re->url}}">{{$re->title}}</a>
                         @endforeach
-                        <p class="clear"></p>
                     </div>
                 @endif
             </div>
