@@ -89,7 +89,7 @@
             });
             $.ajax({
                 type: 'POST',
-                url: 'http://cms.aikq.cc/spider/article/'+'{{$article['id']}}',
+                url: '/api/spider/article/'+'{{$article['id']}}',
                 success: function (data) {
                     console.log(data);
                 },

@@ -92,6 +92,13 @@ class BsController extends Controller
     {
         $anchor = $request->admin_user;
         $room = $anchor->room;
+        if (!isset($room)) {
+            $room = new AnchorRoom();
+            $room->title = $anchor->name . '的直播间';
+            $room->anchor_id = $anchor->id;
+            $room->status = AnchorRoom::kStatusValid;
+            $room->save();
+        }
         $result['anchor'] = $anchor;
         $result['room'] = $room;
         $result['iLive'] = isset($room) && $room->live_status == AnchorRoom::kLiveStatusLiving;

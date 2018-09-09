@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Admin\Match\MatchController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Mobile\Live\LiveController;
 use App\Http\Controllers\PC\Anchor\AnchorController;
 use App\Http\Controllers\PC\CommonTool;
@@ -34,12 +35,14 @@ class StaticServiceProvider extends ServiceProvider
         //
         AnchorRoom::saved(function ($room){
             //终端静态化
-            $this->pushStaticUrl('/api/static/anchor/room/'.$room->id);
+            $url = env('API_URL') . '/api/static/anchor/room/'.$room->id;
+            $this->pushStaticUrl($url);
         });
 
         Anchor::saved(function ($anchor){
             //终端静态化
-            $this->pushStaticUrl('/api/static/anchor/room/'.$anchor->room->id);
+            $url = env('API_URL') . '/api/static/anchor/room/'.$anchor->room->id;
+            $this->pushStaticUrl($url);
         });
 
         //线路日志记录  开始
@@ -113,15 +116,17 @@ class StaticServiceProvider extends ServiceProvider
     }
 
     private function pushStaticUrl($url) {
-        $cache = Redis::get('akq_service_static_url');
-        $roomArray = json_decode($cache, true);
-        if (is_null($roomArray) || count($roomArray) == 0) {
-            $roomArray = array();
-        }
-        if (in_array($url,$roomArray)){
-            return;
-        }
-        $roomArray[] = $url;
-        Redis::set('akq_service_static_url',json_encode($roomArray));
+        Controller::execUrl($url, 2, false);
+
+//        $cache = Redis::get('akq_service_static_url');
+//        $roomArray = json_decode($cache, true);
+//        if (is_null($roomArray) || count($roomArray) == 0) {
+//            $roomArray = array();
+//        }
+//        if (in_array($url,$roomArray)){
+//            return;
+//        }
+//        $roomArray[] = $url;
+//        Redis::set('akq_service_static_url',json_encode($roomArray));
     }
 }

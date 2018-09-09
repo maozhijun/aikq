@@ -226,7 +226,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '//cms.aikanqiu.com/app/v120/anchor/chat/post',
+                url: '/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);
