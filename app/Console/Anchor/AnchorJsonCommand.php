@@ -51,7 +51,7 @@ class AnchorJsonCommand extends Command
     public function handle() {
         //做队列
         $cache = Redis::get('akq_service_static_url');
-        $urls = json_decode($cache, true);
+        $urls = [];//json_decode($cache, true);
         for ($i = 0 ; $i < min(10,count($urls)) ; $i++){
             $url = asset($urls[$i]);
             echo $url;
@@ -77,6 +77,7 @@ class AnchorJsonCommand extends Command
             $json = json_encode($json);
             if (!empty($json)) {
                 Storage::disk('public')->put('static/anchor/room/url/' . $room_id . '.json', $json);
+                Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
             }
             unset($roomArray[$index]);
         }
