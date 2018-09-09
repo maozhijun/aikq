@@ -240,6 +240,12 @@ class AnchorController extends Controller
             Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
         }
 
+        $mcon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
+        $mhtml = $mcon->room($request, $room_id);
+        if (!empty($mhtml)){
+            Storage::disk('public')->put('/m/anchor/room/' . $room_id . '.html', $mhtml);
+        }
+
         //直播终端页面
         $html = $this->room(new Request(), $room_id);
         if (!empty($html)) {

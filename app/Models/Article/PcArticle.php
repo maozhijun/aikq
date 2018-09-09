@@ -66,7 +66,7 @@ class PcArticle extends Model
 
     public static function getBaiduQuery(){
         $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
-        $query->where('baidu_spider_count','>',0);
+        $query->where('baidu_spider_count','=',0);
         $query->orderByDesc('publish_at');
         return $query;
     }
@@ -113,10 +113,16 @@ class PcArticle extends Model
      */
     public static function indexArticles($isBaidu = false) {
         if($isBaidu){
-            $query = self::getBaiduQuery();
-            $articles = $query->take(30)->get();
+            $articles = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = ".self::kStatusPublish.") as a ORDER BY r LIMIT 0,30;");
             foreach ($articles as $article) {
-                $array[] = ['title'=>$article->title, 'url'=>$article->getUrl(), 'publish_at'=>$article->publish_at];
+                $array[] = ['title'=>$article->title, 'url'=>$article->url, 'publish_at'=>$article->publish_at];
+            }
+            if(count($array) < 30){
+                $query = self::getPublishQuery();
+                $articles = $query->take(30 - count($array))->get();
+                foreach ($articles as $article) {
+                    $array[] = ['title'=>$article->title, 'url'=>$article->getUrl(), 'publish_at'=>$article->publish_at];
+                }
             }
             $articleCache = json_encode($array);
             return json_decode($articleCache, true);
