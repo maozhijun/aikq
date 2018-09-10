@@ -57,7 +57,6 @@ class PlayerJsonCommand extends Command
     public function staticPlayerJson(Request $request) {
         $cache = Storage::get('/public/static/json/lives.json');
         $json = json_decode($cache, true);
-
         if (!isset($json['matches'])) return;
         $matches = $json['matches'];
         $con = new LiveController();
@@ -72,7 +71,8 @@ class PlayerJsonCommand extends Command
 
                 $flg_1 = $m_time >= $now && $now + 30 * 60 >= $m_time;//开赛前1小时
                 $flg_2 = false;//$m_time <= $now && $m_time + 3 * 60 * 60  >= $now;//开赛后3小时
-                if ($status > 0 || $flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
+                if ($flg_1 || $flg_2 ) {//1小时内的比赛静态化接口、天天源不做静态化。
+                    //dump($match['hname'] . ' VS ' . $match['aname'] . ' ' . $match['time']);
                     if (isset($match['channels'])) {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
