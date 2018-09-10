@@ -25,6 +25,8 @@ class ArticleHCTController extends Controller
 {
     public function saveHCT(Request $request){
         $url = $request->input('url');
+        $url = str_replace('https://','',$url);
+        $url = str_replace('http://','',$url);
         $t_en = $request->input('title_en');
         $t_ch = $request->input('title_ch');
         $c_en = $request->input('content_en');
