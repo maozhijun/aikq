@@ -80,7 +80,7 @@ function videoActive() {
     });
 }
 var wxCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
-    videoActive();
+    //videoActive();
 }, 5000);
 
 
