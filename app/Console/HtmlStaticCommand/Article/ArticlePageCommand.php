@@ -54,12 +54,13 @@ class ArticlePageCommand extends BaseCommand
         }
 
         $lastPage = $articles->lastPage();
+        $staticPage = 6;//每次静态化的文章列表数量
         if ($lastPage > 1) {
             //静态化其他资讯页
             $page = $this->getCachePage(self::ARTICLE_PAGE_KEY);
-            $page = $page >= $lastPage ? 2 : $lastPage;
-            $lastPage = $lastPage > $indexPage ? $indexPage : $lastPage;
-            for (; $page <= $lastPage; $page++) {
+            $page = $page >= $lastPage ? 2 : $page;
+            $forPage = ($page + $staticPage) >= $lastPage ? $lastPage : $page + $staticPage;
+            for (; $page <= $forPage; $page++) {
                 $this->staticNewsHtml($page);
             }
             $this->setCachePage(self::ARTICLE_PAGE_KEY, $page);
