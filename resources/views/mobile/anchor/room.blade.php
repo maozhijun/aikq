@@ -2,19 +2,14 @@
 <html>
 <head>
     <script type="text/javascript">
-        if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
             var url = window.location.href;
-            url = url.split('/');
-            var str = '';
-            if (url[3] == 'm'){
-                for (var i = 0 ; i < url.length ; i++){
-                    if (i == 3){
-                        continue;
-                    }
-                    str = str + url[i] + '/';
-                }
-                str = str.substr(0,str.length - 1);
-                window.location = str;
+            if (url.indexOf("m.dlfyb.com") != -1) {
+                url = url.replace(/(https?:\/\/)m\./, "$1mp.");
+                window.location.href = url;
+            } else {
+                url = url.replace(/(https?:\/\/)m\./, "$1www.");
+                window.location.href = url;
             }
         }
     </script>
@@ -44,8 +39,9 @@
     </div>
 </div>
 <div id="Video">
-    <p>主播正在客户端直播~~</p>
-    <a href="http://mp.dlfyb.com/downloadPhone.html">点击下载app观看</a>
+    {{--<p>主播正在客户端直播~~</p>--}}
+    {{--<a href="http://mp.dlfyb.com/downloadPhone.html">点击下载app观看</a>--}}
+    <iframe href="{{'https://www.aikq.cc/anchor/room/player/'.$room['id'].'.html'}}"></iframe>
 </div>
 @if(isset($match) && isset($room_tag) && $room_tag['show_score'] == 1)
     <?php
