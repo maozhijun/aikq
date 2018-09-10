@@ -20,7 +20,7 @@
             $channels = $match['channels'];
             $sport = $match['sport'];
             $mid = $match['mid'];
-            $link = asset('/').'live/spPlayer/player-' . $mid . '-' . $sport . '.html';
+            $link = 'http://www.aikanqiu.com/live/spPlayer/player-' . $mid . '-' . $sport . '.html';
         ?>
         <input type="text" name="link" id="ch_{{$mid}}_{{$sport}}" value="{{$link}}"><button class="copy" for="ch_{{$mid}}_{{$sport}}">复制</button>
     </td>
