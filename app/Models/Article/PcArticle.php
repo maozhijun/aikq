@@ -85,6 +85,7 @@ class PcArticle extends Model
     }
 
     public function appModel($isWithDetail = false) {
+        $url =  env('APP_URL').'/'.$this->getUrl();
         $modelItem = [
             'id'=>$this->id,
             'title'=>$this->title,
@@ -96,7 +97,7 @@ class PcArticle extends Model
             'read_count'=>$this->read_count,
             'resource'=>$this->resource,
             'publish_at'=>strtotime($this->publish_at),
-            'url'=>$this->getWebUrl(),
+            'url'=>$url,
         ];
         if ($isWithDetail) {
             $modelItem['content'] = $this->getContent();
