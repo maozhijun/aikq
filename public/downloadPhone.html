@@ -16,7 +16,9 @@
     var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
     var isApp = u.indexOf('Liaogou168') > -1 || u.indexOf('AKQ') > -1;
     if (!isAndroid && !isiOS && !isApp){
-        window.location = '/download.html';
+        var url = window.location.href;
+        url = url.replace(/(https?:\/\/)m\./, "$1www.");
+        window.location.href = url;
     }
 </script>
 <body style="padding: 0px;">
@@ -52,7 +54,7 @@
     </div>
     <div class="content sort">
         <p>1.下载前请先至【设定】> [安全性] > 将[未知的来源] 打勾（务必请打勾）</p>
-        <p>2.点击【下载按钮】或扫描QR code下载爱看球 apk并同意安装即可</p>
+        <p>2.点击【下载按钮】或扫描二维码下载爱看球 apk并同意安装即可</p>
     </div>
 </div>
 
