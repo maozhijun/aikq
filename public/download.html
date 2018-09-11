@@ -17,7 +17,9 @@
 	var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
 	var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
 	if (isAndroid || isiOS){
-		window.location = 'http://mp.dlfyb.com/downloadPhone.html';
+        var url = window.location.href;
+        url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
+        window.location.href = url;
 	}
 </script>
 <body>
@@ -59,7 +61,7 @@
 			<div class="title"><p><span class="b">A</span><span class="s">ndroid</span>如何安装</p></div>
 			<div class="con android">
 				<p>1.下载前请先至【设定】> [安全性] > 将[未知的来源] 打勾（务必请打勾）</p>
-				<p>2.点击【下载按钮】或扫描QR code下载爱看球 apk并同意安装即可</p>
+				<p>2.点击【下载按钮】或扫描二维码下载爱看球 apk并同意安装即可</p>
 			</div>
 		</div>
 		<img src="//static.cdn.dlfyb.com/img/pc/image_bg_down.jpg" class="bg">
@@ -67,12 +69,12 @@
 	<div id="Cover" style="display: none;">
 		<div class="inner">
 			<p class="title">请使用手机安装程式</p>
-			<p><img src="//static.cdn.dlfyb.com/img/pc/download.png"></p>
+			<p><img src="//static.cdn.dlfyb.com/img/pc/download_code.png"></p>
 			<div class="con">
 				<span>安装提醒：</span>
 				<p>1.Android手机下载前请先至「设定 > 安全性」中将「未知的来源」打勾</p>
 				<p>2.IOS手机下载后请至「设定 > 一般 > 描述档或装置管理」中, 点击信任「企业级APP」</p>
-				<p>3.请勿使用微信的QRcode扫码器</p>
+				<p>3.如使用微信扫描码，扫码完成后，按右上角选择在浏览器中打开</p>
 			</div>
 		</div>
 	</div>
@@ -106,16 +108,3 @@
 	})();
 </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
