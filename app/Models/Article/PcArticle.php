@@ -187,11 +187,28 @@ class PcArticle extends Model
         return array();
     }
 
-    public static function relationsArticle($curAid, $type, $count = 10) {
-        if (is_numeric($curAid)) {
-            return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.id <> $curAid and p.status = ".self::kStatusPublish." and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+    public static function relationsArticle($curAid, $type, $count = 10,$isBaidu = false) {
+        if($isBaidu){
+            if (is_numeric($curAid)) {
+                $result = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.id <> $curAid and p.baidu_spider_count = 0 and p.status = " . self::kStatusPublish . " and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+            }
+            else {
+                $result = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = " . self::kStatusPublish . " and p.type = $type and p.baidu_spider_count = 0) as a ORDER BY r LIMIT 0,$count;");
+            }
+            if(count($result) < $count){
+                $result = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.id <> $curAid and p.baidu_spider_count = 0 and p.status = " . self::kStatusPublish . ") as a ORDER BY r LIMIT 0,$count;");
+                if(count($result) < $count){
+                    $result = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = " . self::kStatusPublish . " and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+                }
+            }
+            return $result;
         }
-        return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = ".self::kStatusPublish." and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+        else {
+            if (is_numeric($curAid)) {
+                return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.id <> $curAid and p.status = " . self::kStatusPublish . " and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+            }
+            return DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = " . self::kStatusPublish . " and p.type = $type) as a ORDER BY r LIMIT 0,$count;");
+        }
 //        $query = self::query();
 //        "SELECT * FROM address WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM address))) ORDER BY id LIMIT 0,10";
 //        $query->where('status', self::kStatusPublish);

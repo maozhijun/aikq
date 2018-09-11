@@ -74,7 +74,8 @@ class ArticleController extends Controller
         if ($type_obj->name_en != $t_name) {
             return abort(404);
         }
-        return $this->detailHtml($detail);
+        $isBaidu = str_contains($request->header('User-Agent'),'http://www.baidu.com/search/spider.html');
+        return $this->detailHtml($detail,$isBaidu);
     }
 
     /**
@@ -93,15 +94,22 @@ class ArticleController extends Controller
         if ($type_obj->name_en != $name_en) {
             return abort(404);
         }
-        return $this->detailHtml($detail);
+        $isBaidu = str_contains($request->header('User-Agent'),'http://www.baidu.com/search/spider.html');
+        return $this->detailHtml($detail,$isBaidu);
     }
 
     /**
      * 文章终端html
      * @param PcArticle $detail
+     * @param bool $isBaidu 是否百度
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function detailHtml(PcArticle $detail) {
+    protected function detailHtml(PcArticle $detail,$isBaidu = false) {
+        if ($isBaidu){
+            $detail->baidu_spider_count = $detail->baidu_spider_count + 1;
+            $detail->save();
+        }
+        
         $type = $detail->type_obj;
         if (!isset($type)) {
             $typeName = '其他资讯';
@@ -119,7 +127,7 @@ class ArticleController extends Controller
             $result['zhuanti'] = $data;
         }
         //相关文章
-        $res = PcArticle::relationsArticle($detail->id, $detail->type, 10);
+        $res = PcArticle::relationsArticle($detail->id, $detail->type, 10,$isBaidu);
         $result['res'] = $res;
         $result['ma_url'] = 'http://'.env('M_URL').$detail->url;
         return view('pc.article.article', $result);
@@ -276,6 +284,8 @@ class ArticleController extends Controller
     }
 
     public function logBaiduSpider(Request $request,$id){
+        //不在这里ajax记录了,貌似不准
+        return response()->json(array('code'=>0));
         $article = PcArticle::find($id);
         if (isset($article)) {
             $article->baidu_spider_count = isset($article->baidu_spider_count) ? ($article->baidu_spider_count + 1) : 1;
