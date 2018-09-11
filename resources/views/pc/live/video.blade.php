@@ -14,27 +14,13 @@
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
                             <?php
-//                            if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-//                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                            else if($channel['type'] == 99){
-//                                if ($channel['player'] == 11){
-//                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                                }
-//                                else{
-//                                    if (stristr($channel['link'],'player.pptv.com')){
-//                                        $preUrl = str_replace("https://","http://",env('APP_URL'));
-//                                    }
-//                                    else{
-//                                        $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                                    }
-//                                }
-//                            } else {
-//                                $preUrl = str_replace("http://","https://",env('APP_URL'));
-//                            }
-//                            $link = $preUrl.'/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                                $player = $channel['player'];
+                                if ($player == 11) {
+                                    $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                                } else {
+                                    $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                                }
                             ?>
-                            {{--<button id="{{$channel['channelId']}}" @if($show_live) onclick="ChangeChannel('{{$link}}', this)" @else onclick="changeShare('{{$link}}', this);" @endif >{{$channel['name']}}</button>--}}
                             <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
                         @endforeach
                     @endif

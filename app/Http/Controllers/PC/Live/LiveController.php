@@ -726,7 +726,12 @@ class LiveController extends Controller
                 //每一个channel的player页面生成
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
-                    Storage::disk("public")->put("/www/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
+                    $playerType = $json['player'];
+                    if ($playerType == 11) {
+                        Storage::disk("public")->put("/www/live/iframe/player-" . $id . '-' . $json['type'] . ".html", $player);
+                    } else {
+                        Storage::disk("public")->put("/www/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
+                    }
                 }
 
                 //保存app

@@ -76,26 +76,14 @@
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
-                    //                        if ($channel['type'] == 3 || $channel['type'] == 1 || $channel['type'] == 2 || $channel['type'] == 7)
-                    //                            $preUrl = str_replace("https://","http://",env('APP_URL'));
-                    //                        else if($channel['type'] == 99){
-                    //                            if ($channel['player'] == 11){
-                    //                                $preUrl = str_replace("https://","http://",env('APP_URL'));
-                    //                            }
-                    //                            else{
-                    //                                if (stristr($channel['link'],'player.pptv.com')){
-                    //                                    $preUrl = str_replace("https://","http://",env('APP_URL'));
-                    //                                }
-                    //                                else{
-                    //                                    $preUrl = str_replace("http://","https://",env('APP_URL'));
-                    //                                }
-                    //                            }
-                    //                        } else {
-                    //                            $preUrl = str_replace("http://","https://",env('APP_URL'));
-                    //                        }
+                        $player = $channel['player'];
+                        if ($player == 11) {
+                            $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                        } else {
+                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                        }
                     ?>
-                    {{--@if($show_live) onclick="ChangeChannel('{{$preUrl.'/live/player.html?cid='.$channel['id']}}', this)" @endif--}}
-                    <button id="{{$channel['channelId']}}" value="{{'/live/player/player-'.$channel['id'].'-'. $channel['type'] .'.html'}}">{{$channel['name']}}</button>
+                    <button id="{{$channel['channelId']}}" value="{{$link}}">{{$channel['name']}}</button>
                 @endforeach
                 @if($match['sport'] < 3 && count($channels) < 3)
                     <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>

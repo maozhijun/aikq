@@ -17,7 +17,13 @@
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
             <?php
-            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+            $player = $channel['player'];
+            if ($player == 11) {
+                $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+            } else {
+                $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+            }
+            //$link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
             if (!empty($channel['link']) && stristr($channel['link'],'leqiuba.cc'))
                 $link = '';
             ?>
