@@ -1,11 +1,11 @@
 @extends('mobile.layout.base')
-
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/league.css?time=20180000000001">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/league.css?time=20180000000002">
 @endsection
 @section('banner')
     <div id="Navigation">
         <div class="banner">
+            <a class="home" href="/"></a>
             @if(isset($h1))
                 <h1>{{$h1}}</h1>
             @endif

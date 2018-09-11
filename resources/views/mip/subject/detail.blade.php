@@ -1,7 +1,7 @@
 @extends('mip.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/league.css">
+    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/league.css?time={{date('YmdHi')}}">
 @endsection
 @section('js')
     <script src="https://c.mipcdn.com/static/v1/mip-vd-tabs/mip-vd-tabs.js"></script>
@@ -11,6 +11,7 @@
 @section('banner')
     <div id="Navigation">
         <div class="banner">
+            <a class="home" href="/"></a>
             @if(isset($h1))
                 <h1>{{$h1}}</h1>
             @endif
@@ -42,7 +43,7 @@
                         }
                     }
                     ?>
-                    <a href="{{$url}}" @if(strlen($className) > 0)class="{{$className}}" @endif>Q
+                    <a href="{{$url}}" @if(strlen($className) > 0)class="{{$className}}" @endif>
                         <p class="time">{{date('H:i', $match['time'])}}</p>
                         <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                     </a>
@@ -66,7 +67,7 @@
                 {{--@foreach($videos as $day=>$matches)--}}
                     {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
                     {{--@foreach($matches as $match)--}}
-                        <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>
+{{--                        <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>--}}
                     {{--@endforeach--}}
                 {{--@endforeach--}}
             {{--@else--}}
