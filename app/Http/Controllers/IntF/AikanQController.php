@@ -825,7 +825,7 @@ class AikanQController extends Controller
             if (is_null($url)){
                 $url = $article->getUrl();
             }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at];
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
         }
         $result['articles'] = $article_array;
         //专题资讯 结束

@@ -52,8 +52,9 @@
     <div id="News" style="display: none;">
         @if(isset($articles) && count($articles) > 0)
             @foreach($articles as $article)
+                <?php $a_cover = isset($article['cover']) ? $article['cover'] : ''; ?>
                 <a href="{{$article["link"]}}" class="li">
-                    <div class="imgbox" style="background: url(https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2148120987,1371891926&fm=27&gp=0.jpg) no-repeat center; background-size: cover;"></div>
+                    @if(!empty($a_cover)) <div class="imgbox" style="background: url({{$a_cover}}) no-repeat center; background-size: cover;"></div> @endif
                     <h6>{{$article["title"]}}</h6>
                     <p class="info">{{date("Y.m.d", strtotime($article["update_at"]))}}&nbsp;&nbsp;{{date("H:i", strtotime($article["update_at"]))}}</p>
                 </a>
