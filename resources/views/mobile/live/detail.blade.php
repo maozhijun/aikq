@@ -115,7 +115,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030003"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030004"></script>
     <script type="text/javascript">
         window.onload = function () {
             setPage();
