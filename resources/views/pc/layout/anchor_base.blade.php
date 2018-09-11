@@ -53,8 +53,8 @@
 <div id="Bottom">
     {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
     {{--<p class="business"><a target="_blank" href="/live/business.html">视频调用</a></p>--}}
-    <p><a target="_blank" href="http://www.aikq.cc">爱看球</a><a target="_blank" href="http://www.aikq.cc">JRS直播</a><a target="_blank" href="http://www.aikq.cc">低调看直播</a></p>
-    <p>Copyright 2014-2015 ©aikq.cc, All rights reserved.</p>
+    <p><a target="_blank" href="http://www.aikanqiu.com">爱看球</a><a target="_blank" href="http://www.aikanqiu.com">JRS直播</a><a target="_blank" href="http://www.aikanqiu.com">低调看直播</a></p>
+    <p>Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
     <p>业务联系QQ：2080989735（商务合作）</p>
 </div>

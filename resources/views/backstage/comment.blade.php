@@ -174,7 +174,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'https://www.aikq.cc/app/v120/anchor/chat/post',
+                url: 'https://cms.aikq.cc/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);

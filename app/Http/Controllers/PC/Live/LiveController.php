@@ -486,7 +486,7 @@ class LiveController extends Controller
         } else{
             $mchannels = array();
         }
-        return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+        return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
     }
 
     /**
@@ -511,7 +511,7 @@ class LiveController extends Controller
         else{
             $mChannels = array();
         }
-        return view('pc.live.match_channel',array('mchannels'=>$mChannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+        return view('pc.live.match_channel',array('mchannels'=>$mChannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
     }
 
     /**
@@ -529,7 +529,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function player(Request $request){
-        return view('pc.live.player',array('cdn'=>env('CDN_URL'),'host'=>'www.aikq.cc'));
+        return view('pc.live.player',array('cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
     }
 
     public function share(Request $request){

@@ -34,7 +34,7 @@
         @endif
     </div>
     <div class="default" id="Video">
-        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikq.cc/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
+        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
 
         </mip-iframe>
         <div class="publicAd"><mip-img width="100%" src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/banner_app_n@3x.jpg"></mip-img></div>

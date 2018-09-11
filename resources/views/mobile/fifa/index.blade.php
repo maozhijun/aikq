@@ -1,8 +1,8 @@
 @extends('mobile.fifa.base')
 @section('content')
     <div id="Topbar">
-        <a href="https://www.aikq.cc/m/">直播</a>
-        <a href="https://www.aikq.cc/m/live/subject/videos/all/1.html">录像</a>
+        <a href="https://m.aikanqiu.com/">直播</a>
+        <a href="https://m.aikanqiu.com/live/subject/videos/all/1.html">录像</a>
         <a href="https://shop.liaogou168.com/article/recommends">推荐</a>
         <a class="on">世界杯</a>
     </div>

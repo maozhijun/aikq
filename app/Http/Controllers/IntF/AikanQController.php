@@ -713,7 +713,7 @@ class AikanQController extends Controller
      */
     protected function flushJson($mid, $sport, $ch_id) {
         //$url = 'http://www.aikq.cc/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $ch_id;
-        $url = 'http://www.aikq.cc/live/player-json/' . $ch_id;
+        $url = 'http://cms.aikq.cc/live/player-json/' . $ch_id;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

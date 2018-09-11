@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="http://static.cdn.dlfyb.com/css/mobile/style_phone.css?t=201808241105">
     <link rel="stylesheet" type="text/css" href="http://static.cdn.dlfyb.com/css/mobile/downloadPhone.css?t=201808141550">
-    <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="img/ico.ico">
+    <link rel="Shortcut Icon" data-ng-href="http://static.cdn.dlfyb.com/img/pc/ico.ico" href="http://static.cdn.dlfyb.com/img/pc/ico.ico">
     <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     <title>爱看球APP下载_爱看球官网软件下载-爱看球直播</title>
 </head>
@@ -17,13 +17,15 @@
     var isApp = u.indexOf('Liaogou168') > -1 || u.indexOf('AKQ') > -1;
     if (!isAndroid && !isiOS && !isApp){
         var url = window.location.href;
-        url = url.replace(/(https?:\/\/)m\./, "$1www.");
-        window.location.href = url;
+        if (/(https?:\/\/)m\./.test(url)) {
+            url = url.replace(/(https?:\/\/)m\./, "$1www.");
+            window.location.href = url;
+        }
     }
 </script>
 <body style="padding: 0px;">
 <h1>爱看球APP下载</h1>
-<img src="/img/mobile/image_bg_top_n.jpg" class="bg">
+<img src="http://static.cdn.dlfyb.com/img/mobile/image_bg_top_n.jpg" class="bg">
 <div class="downbox">
     <a id="iOS" href="itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist" class="down">iOS下载</a>
     <a id="Android" href="https://static.cdn.dlfyb.com/android.apk" class="down" download="https://static.cdn.dlfyb.com/android.apk">安卓下载</a>
@@ -58,7 +60,7 @@
     </div>
 </div>
 
-<img src="/img/mobile/image_bg_down_n.jpg" class="bg">
+<img src="http://static.cdn.dlfyb.com/img/mobile/image_bg_down_n.jpg" class="bg">
 
 <!-- <div id="Step" step="1" style="display: none;">
     <div class="inner">
@@ -95,8 +97,8 @@
     <button onclick="$(this).parent().css('display','none')"></button>
 </div>
 </body>
-<script src="/js/jquery.js"></script>
-<script src="/js/jquery.mobile.js"></script>
+<script src="http://static.cdn.dlfyb.com/js/jquery.js"></script>
+<script src="http://static.cdn.dlfyb.com/js/jquery.mobile.js"></script>
 <script type="text/javascript">
     var u = navigator.userAgent;
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
@@ -148,20 +150,6 @@
         hm.src = "https://hm.baidu.com/hm.js?19357052dae32337b52601a9b1541c57";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
     })();
 </script>
 </html>

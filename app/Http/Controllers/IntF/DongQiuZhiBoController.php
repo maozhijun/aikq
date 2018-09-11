@@ -64,7 +64,7 @@ class DongQiuZhiBoController extends Controller
                         }
                     }
                 }
-                $preUrl = 'http://www.aikq.cc';
+                $preUrl = 'http://www.aikanqiu.com';
                 //$url = $preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid'];
                 $url = $preUrl . '/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html';
                 $tmp['url'] = $url;
@@ -404,7 +404,7 @@ class DongQiuZhiBoController extends Controller
         foreach ($matches as $match) {
             if (count($match['channels']) == 0)
                 continue;
-            $match['channel_url'] = 'http://www.aikq.cc/#/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html';
+            $match['channel_url'] = 'http://www.aikanqiu.com/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html';
             $time = date('Y-m-d', strtotime($match['time']));
             if (isset($match_array[$time])) {
                 $match_array[$time][] = $match;
@@ -450,7 +450,7 @@ class DongQiuZhiBoController extends Controller
                         }
                     }
                 }
-                $preUrl = 'http://www.aikq.cc';
+                $preUrl = 'http://www.aikanqiu.com';
                 $url = $preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid'];
                 $tmp['url'] = $url;
                 $json[] = $tmp;

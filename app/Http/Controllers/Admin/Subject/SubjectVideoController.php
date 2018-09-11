@@ -310,10 +310,10 @@ class SubjectVideoController extends Controller
      * @param null $ch_id
      */
     public function flushVideo($vid, $ch_id = null) {
-        $url = 'http://www.aikq.cc/static/subject/video/' . $vid;
+        $url = 'http://cms.aikq.cc/static/subject/video/' . $vid;
         SubjectSpecimenController::excUrl($url);
         if (isset($ch_id)) {
-            $ch_url = 'http://www.aikq.cc/static/subject/video/channel/' . $ch_id;
+            $ch_url = 'http://cms.aikq.cc/static/subject/video/channel/' . $ch_id;
             SubjectSpecimenController::excUrl($ch_url);
         }
     }
