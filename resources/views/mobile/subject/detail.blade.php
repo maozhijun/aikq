@@ -27,18 +27,24 @@
                 <?php
                 $url = "javascript:void(0)";
                 $className = "unload";
+                $impt_style = '';
                 if (array_key_exists('channels', $match)) {
                     $channels = $match['channels'];
                     $isMatching = $match['status']>0 || (isset($match['isMatching']) && $match['isMatching']);
                     if (isset($channels) && count($channels) > 0) {
-                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
+                        $firstChannel = $channels[0];
+                        $impt = $firstChannel['impt'];
+                        if ($impt == 2) {
+                            $impt_style = 'style="color:#bc1c25;"';
+                        }
+                        $url = $firstChannel['live_url'];//\App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
                         $className = $isMatching ? "live" : "";
                     }
                 }
                 ?>
                 <a href="{{$url}}" @if(strlen($className) > 0)class="{{$className}}" @endif>
                     <p class="time">{{date('H:i', $match['time'])}}</p>
-                    <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
+                    <p {!! $impt_style !!} class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                 </a>
             @endforeach
         @endforeach
@@ -46,8 +52,9 @@
     <div id="News" style="display: none;">
         @if(isset($articles) && count($articles) > 0)
             @foreach($articles as $article)
+                <?php $a_cover = isset($article['cover']) ? $article['cover'] : ''; ?>
                 <a href="{{$article["link"]}}" class="li">
-                    <div class="imgbox" style="background: url(https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2148120987,1371891926&fm=27&gp=0.jpg) no-repeat center; background-size: cover;"></div>
+                    @if(!empty($a_cover)) <div class="imgbox" style="background: url({{$a_cover}}) no-repeat center; background-size: cover;"></div> @endif
                     <h6>{{$article["title"]}}</h6>
                     <p class="info">{{date("Y.m.d", strtotime($article["update_at"]))}}&nbsp;&nbsp;{{date("H:i", strtotime($article["update_at"]))}}</p>
                 </a>

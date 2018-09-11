@@ -51,8 +51,9 @@ class DownloadCommand extends Command
         $pcContent = file_get_contents($pcPath);
         $wapContent = file_get_contents($wapPath);
 
-        Storage::disk('public')->put('www/download.html', $pcContent);
-        Storage::disk('public')->put('m/download.html', $wapContent);
+        Storage::disk('public')->put('www/download/index.html', $pcContent);
+        Storage::disk('public')->put('m/download/index.html', $wapContent);
+        Storage::disk('public')->put('mip/download/index.html', $wapContent);
     }
 
 }

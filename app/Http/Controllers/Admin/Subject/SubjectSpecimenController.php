@@ -164,7 +164,7 @@ class SubjectSpecimenController extends Controller
      * @param $sid
      */
     public function flushSpecimen($sid) {
-        $url = 'http://www.aikq.cc/static/subject/specimen/' . $sid;
+        $url = 'http://cms.aikq.cc/static/subject/specimen/' . $sid;
         self::excUrl($url, 2);
     }
 

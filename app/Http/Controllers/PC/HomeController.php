@@ -18,7 +18,7 @@ class HomeController extends Controller
                     'weixin'=>'kanqiu868',
                     'ios_version'=>'1.2.0',
                     'android_version'=>'1.2.0',
-                    'update_url'=>'https://www.aikq.cc/downloadPhone2.html#browser',
+                    'update_url'=>'https://www.aikanqiu.com/download/#browser',
                     'anchor'=>1,
                 ]
             ]

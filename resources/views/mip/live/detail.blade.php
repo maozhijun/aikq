@@ -36,7 +36,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
     </div>
     <div class="default" id="Video">
         @if($match['status'] >= 0 || (isset($match['isMatching']) && $match['isMatching']))
-            <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikq.cc/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
+            <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
 
             </mip-iframe>
             <div class="publicAd"><mip-img width="100%" src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></mip-img></div>

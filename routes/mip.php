@@ -39,8 +39,6 @@ Route::group(["namespace" => 'Live'], function () {
 
     Route::get("/live/subject/videos/{type}/{page}.html", 'LiveController@subjectVideos');//录像列表
     Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
-
-    Route::get("/lives/data/refresh.json", "LiveController@match_live");//比赛比分数据
 });
 
 //主播

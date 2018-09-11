@@ -25,7 +25,7 @@
             if (strlen($sv_id) >= 4) {
                 $first = substr($sv_id, 0, 2);
                 $second = substr($sv_id, 2, 4);
-                $player_url = "http://www.aikq.cc/live/subject/video/" . $first . "/" . $second . "/" . $sv_id . ".html";
+                $player_url = "http://www.aikanqiu.com/live/subject/video/" . $first . "/" . $second . "/" . $sv_id . ".html";
             }
         ?>
         @if(isset($player_url)) <a href="{{$player_url}}" target="_blank" class="btn btn-default">预览</a> @endif

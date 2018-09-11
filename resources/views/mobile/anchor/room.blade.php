@@ -41,7 +41,7 @@
 <div id="Video">
     {{--<p>主播正在客户端直播~~</p>--}}
     {{--<a href="http://mp.dlfyb.com/downloadPhone.html">点击下载app观看</a>--}}
-    <iframe href="{{'https://www.aikq.cc/anchor/room/player/'.$room['id'].'.html'}}"></iframe>
+    <iframe href="{{'https://www.aikanqiu.com/anchor/room/player/'.$room['id'].'.html'}}"></iframe>
 </div>
 @if(isset($match) && isset($room_tag) && $room_tag['show_score'] == 1)
     <?php

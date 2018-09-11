@@ -85,14 +85,6 @@ class MobileSubjectVideoPageCommand extends Command
     }
 
     /**
-     * 静态化类型json
-     */
-    protected function staticTypes() {
-        $url = asset('/static/subject-videos/leagues');
-        SubjectController::execUrl($url);
-    }
-
-    /**
      * 获取静态化页数
      * @param $tid
      * @return int

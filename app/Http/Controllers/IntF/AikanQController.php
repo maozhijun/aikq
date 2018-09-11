@@ -713,7 +713,7 @@ class AikanQController extends Controller
      */
     protected function flushJson($mid, $sport, $ch_id) {
         //$url = 'http://www.aikq.cc/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $ch_id;
-        $url = 'http://www.aikq.cc/live/player-json/' . $ch_id;
+        $url = 'http://cms.aikq.cc/live/player-json/' . $ch_id;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -825,7 +825,7 @@ class AikanQController extends Controller
             if (is_null($url)){
                 $url = $article->getUrl();
             }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at];
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
         }
         $result['articles'] = $article_array;
         //专题资讯 结束
