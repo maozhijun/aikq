@@ -37,6 +37,14 @@ class ForeignArticleController extends Controller
         $query->orderBy('created_at', 'desc');
 //        $query->join('foreign_article_contents','foreign_articles.id','=','foreign_article_contents.id');
 //        $query->select('foreign_articles.*','foreign_article_contents.content_en','foreign_article_contents.content_ch');
+        $from = $request->input('from');
+        $sport = $request->input('sport');
+        if (isset($from)){
+            $query->where('from','=',$from);
+        }
+        if (isset($sport)){
+            $query->where('sport','=',$sport);
+        }
         $articles = $query->paginate(40);
         $result['articles'] = $articles;
         return view('admin.foreign_article.articles', $result);
