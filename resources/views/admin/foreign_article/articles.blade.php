@@ -4,26 +4,25 @@
     <div class="row">
         <div>
             <form class="form-inline">
-                {{--<div class="form-group">--}}
-                {{--<label>标题：</label>--}}
-                {{--<input type="text" name="title" value="{{ request('title', '') }}">--}}
-                {{--</div>--}}
-                {{--<div class="form-group" style="margin-left: 10px;">--}}
-                {{--<label>作者：</label>--}}
-                {{--<input type="text" name="author" value="{{ request('author', '') }}">--}}
-                {{--</div>--}}
-                {{--<div class="form-group" style="margin-left: 10px;margin-right: 10px;">--}}
-                {{--<label>分类：</label>--}}
-                {{--<select name="type" style="height: 26px;">--}}
-                {{--<option value="">全部</option>--}}
-                {{--@foreach($t_names as $id=>$type)--}}
-                {{--<option @if($id == request('type')) selected @endif value="{{$id}}">{{$type}}</option>--}}
-                {{--@endforeach--}}
-                {{--</select>--}}
-                {{--</div>--}}
-                {{--<button type="submit" class="btn btn-primary btn-sm">--}}
-                {{--<span class="glyphicon glyphicon-search"></span>搜索--}}
-                {{--</button>--}}
+                <div class="form-group" style="margin-left: 10px;margin-right: 10px;">
+                    <label>类型：</label>
+                    <select name="sport" style="height: 26px;">
+                        <option value="">全部</option>
+                        <option @if(1 == request('sport')) selected @endif value="1">足球</option>
+                        <option @if(2 == request('sport')) selected @endif value="2">篮球</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-left: 10px;margin-right: 10px;">
+                    <label>来源：</label>
+                    <select name="from" style="height: 26px;">
+                        <option value="">全部</option>
+                        <option @if('skysport' == request('from')) selected @endif value="skysport">skysport</option>
+                        <option @if('espn' == request('from')) selected @endif value="espn">espn</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-search"></span>搜索
+                </button>
             </form>
         </div>
         <div class="table-responsive">
