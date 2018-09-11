@@ -27,18 +27,24 @@
                 <?php
                 $url = "javascript:void(0)";
                 $className = "unload";
+                $impt_style = '';
                 if (array_key_exists('channels', $match)) {
                     $channels = $match['channels'];
                     $isMatching = $match['status']>0 || (isset($match['isMatching']) && $match['isMatching']);
                     if (isset($channels) && count($channels) > 0) {
-                        $url = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
+                        $firstChannel = $channels[0];
+                        $impt = $firstChannel['impt'];
+                        if ($impt == 2) {
+                            $impt_style = 'style="color:#bc1c25;"';
+                        }
+                        $url = $firstChannel['live_url'];//\App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($lid,$match['sport'],$match['mid']);
                         $className = $isMatching ? "live" : "";
                     }
                 }
                 ?>
                 <a href="{{$url}}" @if(strlen($className) > 0)class="{{$className}}" @endif>
                     <p class="time">{{date('H:i', $match['time'])}}</p>
-                    <p class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
+                    <p {!! $impt_style !!} class="match">{{$match['hname']}}<span>@if($match['status'] == 0) vs @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</span>{{$match['aname']}}</p>
                 </a>
             @endforeach
         @endforeach
