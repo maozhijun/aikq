@@ -31,6 +31,8 @@ class ArticleHCTController extends Controller
         $t_ch = $request->input('title_ch');
         $c_en = $request->input('content_en');
         $c_ch = $request->input('content_ch');
+        $from = $request->input('from');
+        $sport = $request->input('sport');
         if (is_null($url)){
             return response()->json(array('code'=>'-1','message'=>'url error'));
         }
@@ -51,11 +53,13 @@ class ArticleHCTController extends Controller
             return response()->json(array('code'=>'0','message'=>'url is exite'));
         }
         else{
-            $result = DB::transaction(function () use ($request, $url, $t_en, $t_ch,$c_en,$c_ch) {
+            $result = DB::transaction(function () use ($request, $url, $t_en, $t_ch,$c_en,$c_ch,$sport,$from) {
                 $en_m = new ForeignArticle();
                 $en_m->url = $url;
                 $en_m->title_en = $t_en;
                 $en_m->title_ch = $t_ch;
+                $en_m->from = $from;
+                $en_m->sport = $sport;
                 if ($en_m->save()){
                     $ch_m = new ForeignArticleContent();
                     $ch_m->content_en = $c_en;
