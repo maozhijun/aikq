@@ -26,12 +26,14 @@ class SubjectController extends Controller
     /**
      *
      * @param Request $request
+     * @param $name
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $name = null) {
         if (is_null($name)) {
             $path = $request->path();
-            $name = str_replace("m/", "", $path);
+            $name = str_replace("mip/", "", $path);
+            $name = str_replace("m/", "", $name);
         }
         if (!array_key_exists($name, self::SUBJECT_NAME_IDS)) {
             return abort(404);

@@ -54,9 +54,9 @@
             @if(isset($articles) && count($articles) > 0)
                 @foreach($articles as $article)
                     <a href="{{$article["link"]}}" class="li">
-                        <mip-img height="66" layout="fixed-height" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2148120987,1371891926&fm=27&gp=0.jpg"></mip-img>
+                        @if(isset($article['cover'])) <mip-img height="66" layout="fixed-height" src="{{$article['cover']}}"></mip-img> @endif
                         <h6>{{$article["title"]}}</h6>
-                        {{--                    <p class="info">{{date("Y.m.d", strtotime($article["update_at"]))}}&nbsp;&nbsp;{{date("H:i", strtotime($article["update_at"]))}}</p>--}}
+                        <p class="info">{{date("Y.m.d", strtotime($article["update_at"]))}}&nbsp;&nbsp;{{date("H:i", strtotime($article["update_at"]))}}</p>
                     </a>
                 @endforeach
             @else

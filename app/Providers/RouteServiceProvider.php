@@ -38,12 +38,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
         $this->mapBackstageRoutes();
         $this->mapIntFRoutes();
+        $this->mapMipRoutes();
 
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        $this->mapMipRoutes();
         //
         $this->mapAPPRoutes();
         //
