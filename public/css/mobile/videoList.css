@@ -69,7 +69,7 @@ img.logo{
 #Navigation .league{
 	width: 50px; height: 50px;
 	margin-top: -25px;
-	background: url(../img/icon_more_n.png) no-repeat center; background-size: 50px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/icon_more_n.png) no-repeat center; background-size: 50px;
 	position: absolute; top: 50%; right: 44px;
 	display: block;
 }
