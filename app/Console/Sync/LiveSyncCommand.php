@@ -53,7 +53,17 @@ class LiveSyncCommand extends Command
         $type = $this->argument('type');
         switch ($type) {
             case 'fb':
-                $this->syncFootball();
+                $nowDate = '2018-08-10';
+                $startDate = '2018-05-07';
+                $startTime = strtotime($startDate);
+                $nowTime = strtotime($nowDate);
+                while ($startTime < $nowTime) {
+                    dump($startDate);
+                    $this->syncFootball($startDate);
+                    $startTime = $startTime + 24 * 60 * 60;
+                    $startDate = date('Y-m-d', $startTime);
+                    sleep(2);
+                }
                 break;
             case 'bb':
                 $this->syncBasketball();
@@ -66,14 +76,15 @@ class LiveSyncCommand extends Command
     }
 
 
-    public function syncFootball() {
+    public function syncFootball($date = '') {
+        $date = empty($date) ? date('Y-m-d') : $date;
         $start = time();
         //同步取消
         //同步篮球数据
         $key = "LiveSyncCommand_ID_Football";
         $lastId = Redis::get($key);
         $lastId = empty($lastId) ? 1 : $lastId + 1;
-        $query = Match::query()->whereBetween('time', ['2018-04-18 00:00:00', '2018-04-18 23:59:59']);//
+        $query = Match::query()->whereBetween('time', [$date.' 00:00:00', $date.' 23:59:59']);//
         //$query->where('id', '>=', $lastId);
         $query->take(1500)->orderBy('id');
         $lgMatches = $query->get();
