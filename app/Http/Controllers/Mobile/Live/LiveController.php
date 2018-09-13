@@ -313,8 +313,8 @@ class LiveController extends Controller
     public function basketballDetailHtml($json, $id) {
         $colum = 'other';
         $sport = 2;
-        if (array_key_exists($json['match']['lid'],Match::path_league_basketball_arrays)){
-            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+        if (array_key_exists($json['match']['lid'],\App\Models\LgMatch\Match::path_league_basketball_arrays)){
+            $colum = \App\Models\LgMatch\Match::path_league_basketball_arrays[$json['match']['lid']];
         }
         $date = substr($id,0,2);
         if ($colum == 'other'){
