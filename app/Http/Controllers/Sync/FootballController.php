@@ -76,7 +76,7 @@ class FootballController extends Controller
      * @param Match $lgMatch
      * @param \App\Models\Match\Match $aMatch
      */
-    protected function copyMatch(Match $lgMatch, \App\Models\Match\Match &$aMatch) {
+    public function copyMatch(Match $lgMatch, \App\Models\Match\Match &$aMatch) {
         $aMatch->lid = $lgMatch->lid;
         $aMatch->lsid = $lgMatch->lsid;
         $aMatch->season = $lgMatch->season;

@@ -106,7 +106,7 @@ class LiveDetailCommand extends Command
                             $url = env('API_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
                             dump($url);
                             self::flushLiveDetailHtml($url);
-                            $liveCon->staticLiveDetailById($request, $mid, $sport, $channel['id']);
+                            //$liveCon->staticLiveDetailById($request, $mid, $sport, $channel['id']);
                         }
 //                        $liveCon->staticLiveDetailById($request, $mid, $sport);
                     } catch (\Exception $exception) {

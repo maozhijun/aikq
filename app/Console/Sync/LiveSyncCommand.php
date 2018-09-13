@@ -10,10 +10,9 @@ namespace App\Console\Sync;
 
 
 use App\Http\Controllers\Sync\BasketballController;
+use App\Http\Controllers\Sync\FootballController;
 use App\Models\LgMatch\BasketMatch;
-use App\Models\Match\MatchLive;
-use App\Models\Match\MatchLiveChannel;
-use App\Models\Match\OtherMatch;
+use App\Models\LgMatch\Match;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
@@ -26,7 +25,7 @@ class LiveSyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sync_live_matches:run';
+    protected $signature = 'sync_live_matches:run {type}';
 
     /**
      * The console command description.
@@ -51,10 +50,58 @@ class LiveSyncCommand extends Command
      */
     public function handle()
     {
+        $type = $this->argument('type');
+        switch ($type) {
+            case 'fb':
+                $this->syncFootball();
+                break;
+            case 'bb':
+                $this->syncBasketball();
+                break;
+            case 'all':
+                $this->syncFootball();
+                $this->syncBasketball();
+                break;
+        }
+    }
+
+
+    public function syncFootball() {
         $start = time();
         //同步取消
         //同步篮球数据
-        $key = "LiveSyncCommand_ID";
+        $key = "LiveSyncCommand_ID_Football";
+        $lastId = Redis::get($key);
+        $lastId = empty($lastId) ? 1 : $lastId + 1;
+        $query = Match::query()->whereBetween('time', ['2018-04-18 00:00:00', '2018-04-18 23:59:59']);//
+        //$query->where('id', '>=', $lastId);
+        $query->take(1500)->orderBy('id');
+        $lgMatches = $query->get();
+        $fCon = new FootballController();
+        foreach ($lgMatches as $lgMatch) {
+            $id = $lgMatch->id;
+
+            $aMatch = \App\Models\Match\Match::query()->find($id);
+            if (!isset($aMatch)) {
+                $aMatch = new \App\Models\Match\Match();
+                $aMatch->id = $id;
+            }
+
+            $fCon->copyMatch($lgMatch, $aMatch);
+
+            $aMatch->save();
+            $lastId = $lgMatch->id;
+        }
+        dump("足球更新 LAST_ID：" . $lastId . "，本次更新时间为：" . (time() - $start) . ",更新条数：" . count($lgMatches));
+        Redis::set($key, $lastId);
+    }
+
+
+    public function syncBasketball() {
+        $start = time();
+        //同步取消
+        //同步篮球数据
+        $key = "LiveSyncCommand_ID_Basketball";
         $lastId = Redis::get($key);
         $lastId = empty($lastId) ? 1 : $lastId + 1;
         $query = BasketMatch::query()->where('id', '>=', $lastId);
@@ -75,9 +122,8 @@ class LiveSyncCommand extends Command
             $aMatch->save();
             $lastId = $lgMatch->id;
         }
-        dump("LAST_ID：" . $lastId . "，本次更新时间为：" . (time() - $start) . ",更新条数：" . count($lgMatches));
+        dump("篮球更新 LAST_ID：" . $lastId . "，本次更新时间为：" . (time() - $start) . ",更新条数：" . count($lgMatches));
         Redis::set($key, $lastId);
     }
-
 
 }

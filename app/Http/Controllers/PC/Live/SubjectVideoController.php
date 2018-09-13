@@ -172,7 +172,7 @@ class SubjectVideoController extends Controller
                 }
             }
         }
-        dump($type . ' ' . $sub_name_en);
+        dump($type . ' ' . $sub_name_en . ' page : ' . $page);
         if ($isMobile) {
             $msCon = new \App\Http\Controllers\Mobile\Live\LiveController();
             $m_html = $msCon->subjectVideosHtml($data);
