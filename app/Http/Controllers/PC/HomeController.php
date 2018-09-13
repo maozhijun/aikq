@@ -67,6 +67,8 @@ class HomeController extends Controller
                 'android_version'=>'1.2.0',
                 'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
                 'android_upgrade_url'=>'http://mp.dlfyb.com/downloadPhone.html',
+                'android_install_url'=>'http://static.cdn.dlfyb.com/android.apk',
+                'install_url'=>'itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist',
                 'anchor'=>1,
                 'showMore'=>'1',
             ]

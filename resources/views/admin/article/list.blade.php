@@ -37,6 +37,8 @@
                     <th width="80px;">状态</th>
                     <th width="88px;">发布时间</th>
                     <th width="50px;">阅读</th>
+                    <th width="25px;">推送</th>
+                    <th width="25px;">获爬</th>
                     <th width="80px;">录入</th>
                     <th width="170px;">操作</th>
                 </tr>
@@ -55,6 +57,8 @@
                         <td>{{ $article->statusCN() }}</td>
                         <td>{{ $article->publish_at }}</td>
                         <td>{{ $article->read_count }}</td>
+                        <td style="color: {{$article->is_baidu_push > 0 ? 'green': 'red'}}" >{{ $article->is_baidu_push > 0 ? '是' : '否'}}</td>
+                        <td style="color: {{$article->baidu_spider_count > 0 ? 'green': 'red'}}" >{{ $article->baidu_spider_count > 0 ? '是' : '否'}}</td>
                         <td>{{isset($article->c_user) ? ($article->c_user->name) : ''}}</td>
                         <td>
                             <p>
