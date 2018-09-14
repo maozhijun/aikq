@@ -157,6 +157,7 @@
             var req = {
                 'mid':mid,
                 'isPc':1,
+                'vaildUser':1,
                 'time':time,
                 'verification':in_string,
                 'nickname':nickname
