@@ -41,7 +41,7 @@
             </div>
             <?php
             $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
-            $link = 'https://www.aikanqiu.com/anchor/room/player/'.$room->id.'.html';
+            $link = '//www.aikanqiu.com/anchor/room/player/'.$room->id.'.html';
             ?>
             <iframe src="{{$link}}" id="MyFrame"></iframe>
             <div id="Chat">
