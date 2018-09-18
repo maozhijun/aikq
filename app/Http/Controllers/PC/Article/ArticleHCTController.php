@@ -60,6 +60,7 @@ class ArticleHCTController extends Controller
                 $en_m->title_ch = $t_ch;
                 $en_m->from = $from;
                 $en_m->sport = $sport;
+                $en_m->content_len = strlen(strip_tags($c_ch));
                 if ($en_m->save()){
                     $ch_m = new ForeignArticleContent();
                     $ch_m->content_en = $c_en;
