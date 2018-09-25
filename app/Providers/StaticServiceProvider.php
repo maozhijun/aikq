@@ -39,7 +39,7 @@ class StaticServiceProvider extends ServiceProvider
             $this->pushStaticUrl($url);
         });
 
-        Anchor::saved(function ($anchor){
+        Anchor::updated(function ($anchor){
             //终端静态化
             $url = env('API_URL') . '/api/static/anchor/room/'.$anchor->room->id;
             $this->pushStaticUrl($url);
