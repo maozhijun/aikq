@@ -199,8 +199,8 @@
 
             var type = form.type.value;
             if (type != 12) {//世界杯类型取消限制
-                if ($.trim(form.title.value).length < 11 || $.trim(form.title.value).length > 22) {
-                    toastr.error('标题必须不少于10字符，不能多于23字符');
+                if ($.trim(form.title.value).length < 11 || $.trim(form.title.value).length > 31) {
+                    toastr.error('标题必须不少于10字符，不能多于30字符');
                     return false;
                 }
                 if ($.trim(form.digest.value).length < 31 || $.trim(form.digest.value).length > 100) {

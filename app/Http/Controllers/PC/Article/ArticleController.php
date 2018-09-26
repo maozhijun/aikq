@@ -109,7 +109,7 @@ class ArticleController extends Controller
             $detail->baidu_spider_count = $detail->baidu_spider_count + 1;
             $detail->save();
         }
-        
+
         $type = $detail->type_obj;
         if (!isset($type)) {
             $typeName = '其他资讯';

@@ -12,9 +12,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mobile\UrlCommonTool;
-use App\Models\LgMatch\Match;
+use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
-use App\Models\Match\Odd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -195,6 +194,16 @@ class LiveController extends Controller
         foreach ($videos as $video) {
             $time = $video['time'];
             $day = date('Y-m-d', $time);
+
+            $match = Match::query()->find($video['mid']);
+            if (isset($match)) {
+                $hid = $match->hid;
+                $aid = $match->aid;
+                $video['lid'] = $match->lid;
+                $video['hicon'] = Match::getTeamIconCn($hid);
+                $video['aicon'] = Match::getTeamIconCn($aid);
+            }
+
             $matches[$day][] = $video;
         }
         $json['matches'] = $matches;
@@ -274,8 +283,8 @@ class LiveController extends Controller
     public function footballDetailHtml($json, $id) {
         $colum = 'other';
         $sport = 1;
-        if (array_key_exists($json['match']['lid'],Match::path_league_football_arrays)){
-            $colum = Match::path_league_football_arrays[$json['match']['lid']];
+        if (array_key_exists($json['match']['lid'],\App\Models\LgMatch\Match::path_league_football_arrays)){
+            $colum = \App\Models\LgMatch\Match::path_league_football_arrays[$json['match']['lid']];
         }
         $date = substr($id,0,2);
         if ($colum == 'other'){
@@ -304,8 +313,8 @@ class LiveController extends Controller
     public function basketballDetailHtml($json, $id) {
         $colum = 'other';
         $sport = 2;
-        if (array_key_exists($json['match']['lid'],Match::path_league_basketball_arrays)){
-            $colum = Match::path_league_basketball_arrays[$json['match']['lid']];
+        if (array_key_exists($json['match']['lid'],\App\Models\LgMatch\Match::path_league_basketball_arrays)){
+            $colum = \App\Models\LgMatch\Match::path_league_basketball_arrays[$json['match']['lid']];
         }
         $date = substr($id,0,2);
         if ($colum == 'other'){

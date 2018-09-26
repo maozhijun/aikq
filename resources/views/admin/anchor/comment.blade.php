@@ -179,6 +179,7 @@
                 return (e<16?"0":"")+e.toString(16);
             }).join("");
             var req = {
+                'spider':1,
                 'message':message,
                 'time':time,
                 'verification':in_string,

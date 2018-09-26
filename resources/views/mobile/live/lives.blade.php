@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201808281657">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201808281659">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -13,7 +13,7 @@
 @endsection
 @section('content')
     <div class="publicAd">
-        <a href="http://mp.dlfyb.com/downloadPhone.html">
+        <a href="http://m.aikanqiu.com/download/">
             <img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg">
         </a>
     </div>

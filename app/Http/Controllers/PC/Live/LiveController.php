@@ -383,8 +383,9 @@ class LiveController extends Controller
             return abort(404);
         }
         $match = $json['match'];
-
+        $channels = $json['live']['channels'];
         $this->_saveAppData($json,2,$id);
+        $json['live']['channels'] = $channels;
         if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
             $zhuangti = Match::path_league_football_arrays[$match['lid']];
             $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
@@ -397,6 +398,7 @@ class LiveController extends Controller
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
+        $json['channels'] = $channels;
         return view('pc.live.video', $json);
     }
 

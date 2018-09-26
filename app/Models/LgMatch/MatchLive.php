@@ -116,6 +116,15 @@ class MatchLive extends Model
             $tmp['type'] = $channel->type;
             $tmp['name'] = strlen($tmp['name']) > 0 ? $tmp['name'] : $channelsName[$index];
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -151,6 +160,15 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -183,6 +201,15 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -217,6 +244,15 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -256,6 +292,15 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -294,6 +339,15 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -327,6 +381,15 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             $array[] = $tmp;
+            $tmp['akq_url'] = $this->akq_url;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }

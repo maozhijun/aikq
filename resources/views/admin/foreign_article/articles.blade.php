@@ -32,9 +32,10 @@
                     <th>ID</th>
                     <th>标题(英)</th>
                     <th>标题(中)</th>
+                    <th width="60px;">字数</th>
                     <th>url</th>
                     <th width="88px;">创建时间</th>
-                    <th width="80px;">详细</th>
+                    <th width="80px;">详情</th>
                     <th width="170px;">操作</th>
                 </tr>
                 </thead>
@@ -46,6 +47,7 @@
                         </td>
                         <td>{{$article->title_en}}</td>
                         <td>{{$article->title_ch}}</td>
+                        <td>{{$article->content_len}}</td>
                         <td>{{$article->url}}</td>
                         <td>{{ $article->created_at }}</td>
                         <td>

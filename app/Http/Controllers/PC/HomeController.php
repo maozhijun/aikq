@@ -46,8 +46,8 @@ class HomeController extends Controller
                 'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
                 'android_version'=>'1.2.0',
-                'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
-                'android_upgrade_url'=>'http://mp.dlfyb.com/downloadPhone.html',
+                'update_url'=>'http://mp.dlfyb.com/download/#browser',
+                'android_upgrade_url'=>'http://mp.dlfyb.com/download/',
                 'anchor'=>1,
                 'showMore'=>'0',
             ]
@@ -65,8 +65,10 @@ class HomeController extends Controller
                 'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
                 'android_version'=>'1.2.0',
-                'update_url'=>'http://mp.dlfyb.com/downloadPhone.html#browser',
-                'android_upgrade_url'=>'http://mp.dlfyb.com/downloadPhone.html',
+                'update_url'=>'http://mp.dlfyb.com/download/#browser',
+                'android_upgrade_url'=>'http://mp.dlfyb.com/download/',
+                'android_install_url'=>'http://static.cdn.dlfyb.com/android.apk',
+                'install_url'=>'itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist',
                 'anchor'=>1,
                 'showMore'=>'1',
             ]

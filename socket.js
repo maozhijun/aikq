@@ -26,6 +26,7 @@ io.on('connect', function (socket) {
     // console.log('a user connected');
 
     var mid = '';
+    var vaildUser = 0;
 
     //绑定监听事件
     //接收用户发的消息
@@ -48,6 +49,7 @@ io.on('connect', function (socket) {
         try {
             mid = info.mid;
             var isPc = info.isPc;
+            vaildUser = info.vaildUser;
             //验证
             var md5 = crypto.createHash('md5');
 
@@ -71,20 +73,22 @@ io.on('connect', function (socket) {
                     // io.to('mid:' + mid).emit('server_send_message', tmp);
                 }
 
-                //直播人数
-                client.get(mid+'_userCount', function(err, object) {
-                    var count = 0;
-                    if (null == err) {
-                        count = parseInt(object);
-                        if (myIsNaN2(count)){
-                            count = 0;
+                if (vaildUser == 1) {
+                    //直播人数
+                    client.get(mid + '_userCount', function (err, object) {
+                        var count = 0;
+                        if (null == err) {
+                            count = parseInt(object);
+                            if (myIsNaN2(count)) {
+                                count = 0;
+                            }
+                            // console.log('count ' + count);
                         }
-                        // console.log('count ' + count);
-                    }
-                    client.set(mid+'_userCount', (count+1), function(err) {
-                        // console.log(err)
+                        client.set(mid + '_userCount', (count + 1), function (err) {
+                            // console.log(err)
+                        });
                     });
-                });
+                }
 
                 if (isPc == 1 || 1) {
                     //发送之前的 历史记录
@@ -114,21 +118,23 @@ io.on('connect', function (socket) {
     });
 
     socket.on('disconnect', function (socket) {
-        client.get(mid+'_userCount', function (err, object) {
-            var count = 0;
-            if (null == err) {
-                count = parseInt(object);
-                if (myIsNaN2(count)){
-                    count = 0;
+        if (vaildUser == 1) {
+            client.get(mid + '_userCount', function (err, object) {
+                var count = 0;
+                if (null == err) {
+                    count = parseInt(object);
+                    if (myIsNaN2(count)) {
+                        count = 0;
+                    }
                 }
-            }
-            if (count <= 0){
-                count = 1;
-            }
-            client.set(mid+'_userCount', (count - 1), function (err) {
+                if (count <= 0) {
+                    count = 1;
+                }
+                client.set(mid + '_userCount', (count - 1), function (err) {
 
+                });
             });
-        });
+        }
     });
 });
 
