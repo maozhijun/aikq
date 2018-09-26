@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <link rel="canonical" href="{{isset($canonical) ? $canonical : env('M_URL')}}">
+    <link rel="canonical" href="{{isset($canonical) ? $canonical : \App\Http\Controllers\Mip\UrlCommonTool::getMobileUrl()}}">
     <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
     <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/style_phone.css">
     @yield('css')

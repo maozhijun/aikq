@@ -55,7 +55,7 @@ class LiveController extends Controller
             return;
         }
         $json['type'] = 'live';
-        $json['canonical'] = UrlCommonTool::homeLivesUrl(env('M_URL'));
+        $json['canonical'] = UrlCommonTool::homeLivesUrl(UrlCommonTool::getMobileUrl());
 
         $json = array_merge($this->html_var, $json);
 
@@ -88,7 +88,7 @@ class LiveController extends Controller
      */
     public function subjectVideosHtml($data) {
         $json = $this->subjectVideoData2Json($data);
-        $json['canonical'] = UrlCommonTool::homeVideosUrl(env('M_URL'));
+        $json['canonical'] = UrlCommonTool::homeVideosUrl(UrlCommonTool::getMobileUrl());
         return view('mip.video.lives', $json);
     }
 
@@ -136,7 +136,7 @@ class LiveController extends Controller
      */
     public function subjectVideoDetailHtml($data) {
         $json['match'] = $data;
-        $json['canonical'] = UrlCommonTool::matchVideoUrl($data['mid'], env('M_URL'));
+        $json['canonical'] = UrlCommonTool::matchVideoUrl($data['mid'], UrlCommonTool::getMobileUrl());
         return view('mip.video.detail', $json);
     }
 
@@ -174,7 +174,7 @@ class LiveController extends Controller
         else{
             $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         }
-        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, env('M_URL'));
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, UrlCommonTool::getMobileUrl());
         return view('mip.live.detail', $json);
     }
 
@@ -207,7 +207,7 @@ class LiveController extends Controller
             $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         }
 
-        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, env('M_URL'));
+        $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, UrlCommonTool::getMobileUrl());
         return view('mip.live.detail', $json);
     }
 
@@ -229,7 +229,7 @@ class LiveController extends Controller
         $sport = 3;
         $date = substr($id,0,2);
         $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        $json['canonical'] = UrlCommonTool::matchLiveUrl(0, $sport, $id, env('M_URL'));
+        $json['canonical'] = UrlCommonTool::matchLiveUrl(0, $sport, $id, UrlCommonTool::getMobileUrl());
         return view('mip.live.detail', $json);
     }
 }

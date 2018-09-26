@@ -26,7 +26,7 @@ class AnchorController extends Controller
         $result['hotMatches'] = $hotMatches;
         $result['title'] = '美女主播球赛讲解_主播频道-爱看球直播';
         $result['h1'] = '美女主播球赛讲解';
-        $result['canonical'] = UrlCommonTool::homeAnchorUrl(env('M_URL'));
+        $result['canonical'] = UrlCommonTool::homeAnchorUrl(UrlCommonTool::getMobileUrl());
         return view('mip.anchor.index', $result);
     }
 
@@ -45,7 +45,7 @@ class AnchorController extends Controller
         $result['books'] = $room->getTagMatch();
         $result['title'] = '美女主播球赛讲解_主播频道-爱看球直播';
         $result['h1'] = '美女主播球赛讲解';
-        $result['canonical'] = UrlCommonTool::anchorRoomUrl($room_id, env('M_URL'));
+        $result['canonical'] = UrlCommonTool::anchorRoomUrl($room_id, UrlCommonTool::getMobileUrl());
         return view('mip.anchor.room', $result);
     }
 

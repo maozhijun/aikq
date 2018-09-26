@@ -79,7 +79,7 @@ class SubjectController extends Controller
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
         $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
-        $result['canonical'] = UrlCommonTool::subjectUrl($name, env('M_URL'));
+        $result['canonical'] = UrlCommonTool::subjectUrl($name, UrlCommonTool::getMobileUrl());
 //        dump($result);
         return view('mip.subject.detail', $result);
     }
