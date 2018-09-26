@@ -84,11 +84,12 @@ class PlayerController extends Controller
         }
         Storage::disk('public')->put('www/json/dd_image/images.json', json_encode($images));
         Storage::disk('public')->put('m/json/dd_image/images.json', json_encode($images));
+        Storage::disk('public')->put('m/dd_image/images.json', json_encode($images));
     }
 
     public static function getAdImages() {
         try {
-            $string = Storage::get("public/www/m/dd_image/images.json");
+            $string = Storage::get("public/www/json/dd_image/images.json");
             $json = json_decode($string, true);
         } catch (\Exception $exception) {
             $json = null;
