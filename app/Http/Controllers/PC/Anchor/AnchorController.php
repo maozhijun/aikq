@@ -223,6 +223,19 @@ class AnchorController extends Controller
             'verification'=>$request->input('verification'),
             'mid'=>$request->input('mid'),
         ];
+
+        if ($request->input('spider',0) == 0){
+            try {
+                $history = Storage::get('public/www/log/'.$request->input('mid').'.json');
+                $history = json_decode($history, true);
+            } catch (\Exception $exception) {
+                $history = array();
+            }
+            $history[] = $data;
+            $history = json_encode($history);
+            Storage::disk('public')->put('www/log/' .$request->input('mid').'.json', $history);
+        }
+
         broadcast(new ChatPushNotification($data));
         return response()->json(['code' => '0','msg'=>'成功'], 200);
     }

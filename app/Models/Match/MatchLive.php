@@ -280,6 +280,14 @@ class MatchLive extends Model
                 $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $match->lid, $this->match_id);
             }
             $array[] = $tmp;
+            if(isset($channel->akq_url) && strlen($channel->akq_url) > 0){
+                $params = explode('/',$channel->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
@@ -319,6 +327,14 @@ class MatchLive extends Model
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $this->akq_url;
             $array[] = $tmp;
+            if(isset($this->akq_url) && strlen($this->akq_url) > 0){
+                $params = explode('/',$this->akq_url);
+                $params = $params[count($params) - 1];
+                $params = explode('.',$params);
+                $params = $params[0];
+                $params = str_replace('room','',$params);
+                $tmp['room_id'] = $params;
+            }
         }
         return $array;
     }
