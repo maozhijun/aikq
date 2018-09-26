@@ -98,7 +98,7 @@
                             <td>
                                 <select name="status">
                                     <option value="1" {{ $type->status==1?'selected':'' }}>显示</option>
-                                    <option value="0" {{ $type->status==2?'selected':'' }}>不显示</option>
+                                    <option value="2" {{ $type->status==2?'selected':'' }}>不显示</option>
                                 </select>
                             </td>
                             <td>{{$type->created_at}}</td>
