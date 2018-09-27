@@ -104,7 +104,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030005"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030006"></script>
     <script type="text/javascript">
         window.onload = function () {
             setPage();
@@ -157,7 +157,7 @@
         }
         //----------------------------------------------------------//
         @if($match['status'] > 0 && $match['status'] < 4)
-        setInterval(refresh, 5000);//获取比赛统计数据
+        //setInterval(refresh, 5000);//获取比赛统计数据
         @endif
         @endif
     </script>
