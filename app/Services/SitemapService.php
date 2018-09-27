@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\Article\PcArticle;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -14,6 +15,10 @@ class SitemapService
 
     const SITEMAP_STORAGE_PATH = "app/public/www/sitemap";
 
+    const WWW_OFFSET = 0;
+    const M_OFFSET = 1;
+    const MIP_OFFSET = 2;
+
     /**
      * 首页（包括首页、主播首页、资讯首页、下载页）
      * @return bool
@@ -23,27 +28,27 @@ class SitemapService
         $sitemap = App::make("sitemap");
 
         //首页
-        $sitemap->add(config('app.www_url'), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.m_url'), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.mip_url'), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::WWW_OFFSET), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::M_OFFSET), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::MIP_OFFSET), date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
 
         //主播首页
         $anchorHost = "/anchor/";
-        $sitemap->add(config('app.www_url').$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.m_url').$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.mip_url').$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::M_OFFSET).$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$anchorHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
 
         //资讯首页
         $newsHost = "/news/";
-        $sitemap->add(config('app.www_url').$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.m_url').$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
-        $sitemap->add(config('app.mip_url').$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::M_OFFSET).$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
+        $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
 
         //下载页
         $downloadHost = '/download.html';
-        $sitemap->add(config('app.www_url').$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
-        $sitemap->add(config('app.m_url').$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
-        $sitemap->add(config('app.mip_url').$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
+        $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
+        $sitemap->add($this->getHostByOffset(self::M_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
+        $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
 
         $info = $sitemap->store('xml', 'home', storage_path(self::SITEMAP_STORAGE_PATH));
         Log::info($info);
@@ -58,9 +63,9 @@ class SitemapService
     {
         $sitemap = App::make("sitemap");
         foreach (Controller::SUBJECT_NAME_IDS as $name=>$item) {
-            $sitemap->add(config('app.www_url')."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
-            $sitemap->add(config('app.m_url')."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
-            $sitemap->add(config('app.mip_url')."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
+            $sitemap->add($this->getHostByOffset(self::WWW_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
+            $sitemap->add($this->getHostByOffset(self::M_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
+            $sitemap->add($this->getHostByOffset(self::MIP_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
         }
         $info = $sitemap->store('xml', 'subject', storage_path(self::SITEMAP_STORAGE_PATH));
         Log::info($info);
@@ -99,9 +104,9 @@ class SitemapService
                     $lastModTime = $_data['lastmod'];
                 }
                 $index++;
-                $sitemap->add(config('app.www_url').$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
-                $sitemap->add(config('app.m_url').$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
-                $sitemap->add(config('app.mip_url').$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
+                $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
+                $sitemap->add($this->getHostByOffset(self::M_OFFSET).$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
+                $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
             }
             $info = $sitemap->store('xml','news-' . $name, storage_path(self::SITEMAP_STORAGE_PATH));
             $lastModTimes[$name] = $lastModTime;
@@ -116,17 +121,33 @@ class SitemapService
         $sitemap = App::make ("sitemap");
 
         if ($this->buildHome()) {
-            $sitemap->addSitemap(config('app.www_url') . '/sitemap/home.xml', date(self::YMDHI_FORMAT, time()));
+            $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/home.xml', date(self::YMDHI_FORMAT, time()));
         }
         if ($this->buildSubject()) {
-            $sitemap->addSitemap(config('app.www_url') . '/sitemap/subject.xml', date(self::YMDHI_FORMAT, time()));
+            $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/subject.xml', date(self::YMDHI_FORMAT, time()));
         }
         if ($lastModTimes = $this->buildArticles()) {
             foreach ($lastModTimes as $name => $time) {
-                $sitemap->addSitemap(config('app.www_url') . '/sitemap/news-' . $name . '.xml', date(self::YMDHI_FORMAT, $time));
+                $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/news-' . $name . '.xml', date(self::YMDHI_FORMAT, $time));
             }
         }
 
         $sitemap->store('sitemapindex', 'sitemap');
+    }
+
+    protected function getHostByOffset($offset) {
+        $host = "";
+        switch ($offset) {
+            case self::MIP_OFFSET:
+                $host = UrlCommonTool::convertHost(env('MIP_URL'));
+                break;
+            case self::M_OFFSET:
+                $host = UrlCommonTool::convertHost(env('M_URL'));
+                break;
+            case self::WWW_OFFSET:
+                $host = UrlCommonTool::convertHost(env('WWW_URL'));
+                break;
+        }
+        return $host;
     }
 }

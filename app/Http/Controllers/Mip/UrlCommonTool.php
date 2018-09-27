@@ -100,10 +100,13 @@ class UrlCommonTool
 
 
     public static function getMobileUrl() {
-        $mUrl = env('M_URL');
-        if (!starts_with($mUrl, "http")) {
-            $mUrl = "https://$mUrl";
+        return self::convertHost(env('M_URL'));
+    }
+
+    public static function convertHost($host) {
+        if (!starts_with($host, "http")) {
+            $host = "https://$host";
         }
-        return $mUrl;
+        return $host;
     }
 }
