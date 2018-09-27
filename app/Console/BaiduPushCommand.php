@@ -9,6 +9,7 @@
 namespace App\Console;
 
 
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\Article\PcArticle;
 use Illuminate\Console\Command;
 
@@ -86,6 +87,7 @@ class BaiduPushCommand extends Command
             ->where('status', 1)
             ->whereRaw("!(is_baidu_push >> $offset & 1)")
             ->orderBy(PcArticle::CREATED_AT, 'desc')->take($this->getEachPushCount())->get();
+//            ->orderBy(PcArticle::CREATED_AT, 'desc')->get();
 
         $host = $this->getHostByOffset($offset);
         foreach ($articles as $article) {
@@ -159,13 +161,13 @@ class BaiduPushCommand extends Command
         $host = "";
         switch ($offset) {
             case self::MIP_OFFSET:
-                $host = env('MIP_URL');
+                $host = UrlCommonTool::convertHost(env('MIP_URL'));
                 break;
             case self::M_OFFSET:
-                $host = env('M_URL');
+                $host = UrlCommonTool::convertHost(env('M_URL'));
                 break;
             case self::WWW_OFFSET:
-                $host = env('WWW_URL');
+                $host = UrlCommonTool::convertHost(env('WWW_URL'));
                 break;
         }
         return $host;

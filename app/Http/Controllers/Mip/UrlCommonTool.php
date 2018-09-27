@@ -97,4 +97,16 @@ class UrlCommonTool
 //        return self::MIP_PREFIX."/download.html";
         return self::getMipPrefix()."/downloadPhone.html";
     }
+
+
+    public static function getMobileUrl() {
+        return self::convertHost(env('M_URL'));
+    }
+
+    public static function convertHost($host) {
+        if (!starts_with($host, "http")) {
+            $host = "https://$host";
+        }
+        return $host;
+    }
 }

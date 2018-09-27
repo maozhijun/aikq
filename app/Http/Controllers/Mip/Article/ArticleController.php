@@ -49,7 +49,7 @@ class ArticleController extends Controller
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
         $result['h1'] = '体育新闻资讯';
-        $result['canonical'] = UrlCommonTool::homeNewsUrl(env('M_URL'));
+        $result['canonical'] = UrlCommonTool::homeNewsUrl(UrlCommonTool::getMobileUrl());
 //        return view('mip.articles.news', $result);
         return view('mip.articles.news', $result);
     }
@@ -105,7 +105,7 @@ class ArticleController extends Controller
         $result['keywords'] = str_replace('，', ',', $article->labels);
         $result['description'] = $article->digest;
 
-        $result['canonical'] = UrlCommonTool::newsDetailUrl($article, env('M_URL'));
+        $result['canonical'] = UrlCommonTool::newsDetailUrl($article, UrlCommonTool::getMobileUrl());
 
         return view("mip.articles.detail", $result);
     }
