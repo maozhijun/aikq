@@ -115,7 +115,7 @@
 
 
     if (isWeiXin()){
-        $('a.down').attr('href','javascript:$("#Share").css("display","");')
+        $('a.down').attr('href','javascript:$("#Share").css("display","");').removeAttr('download');
     }else if(navigator.userAgent.indexOf('UCBrowser') > -1 && isiOS) {
         $('a.down').attr('href','javascript:alert("请在Safari中打开，即可下载");')
     }else{
