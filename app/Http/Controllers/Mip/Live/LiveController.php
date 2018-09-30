@@ -55,7 +55,7 @@ class LiveController extends Controller
             return;
         }
         $json['type'] = 'live';
-        $json['canonical'] = UrlCommonTool::homeLivesUrl(UrlCommonTool::getMobileUrl());
+        $json['canonical'] = UrlCommonTool::getMobileUrl();
 
         $json = array_merge($this->html_var, $json);
 
