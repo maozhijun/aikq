@@ -57,14 +57,14 @@
             </div>
             <div id="Live">
                 <?php
-                    $redis = \Illuminate\Support\Facades\Redis::connection('server50');
+//                    $redis = \Illuminate\Support\Facades\Redis::connection('server50');
                 ?>
                 <p class="title">正在直播</p>
                 <div class="list">
                     @foreach($livingRooms as $livingRoom)
                         <?php
 //                        $match = $livingRoom->getLivingMatch();
-                            $count =$redis->get('99_'.$livingRoom['id'].'_userCount')>0 ? $redis->get('99_'.$livingRoom['id'].'_userCount') : 0;
+                            $count =0;//=$redis->get('99_'.$livingRoom['id'].'_userCount')>0 ? $redis->get('99_'.$livingRoom['id'].'_userCount') : 0;
                         ?>
                         <div class="item">
                             <a href="/anchor/room{{$livingRoom['id']}}.html" target="_blank">
