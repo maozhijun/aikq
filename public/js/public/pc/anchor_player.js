@@ -400,9 +400,9 @@ function PlayVideoShare (cid, type){
                     show_ad = false;
                 }
                 var Link = data.live_url;
-                if (isPhone()){
-                    Link = data.live_mobile_url;
-                }
+                // if (isPhone()){
+                //     Link = data.live_mobile_url;
+                // }
                 var PlayType = data.player;
 
                 if (PlayType == 11) { //iframe
