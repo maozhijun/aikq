@@ -84,6 +84,13 @@ class PcArticle extends Model
         return $cover;
     }
 
+    public function getLocalCover() {
+        $cover = $this->cover;
+        $local = env('APP_URL');
+        $cover = str_replace($local, '//www.aikanqiu.com', $cover);
+        return $cover;
+    }
+
     public function appModel($isWithDetail = false) {
         $url =  env('APP_URL').'/'.$this->getUrl();
         $modelItem = [
