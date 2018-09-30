@@ -49,7 +49,7 @@ class LiveDetailCommand extends Command
      */
     public function handle() {
 //        $articles = PcArticle::query()->where('status', PcArticle::kStatusPublish)->get();
-//        foreach ($articles as $article){
+//        foreach ($articles as $index=>$article){
 //            $ch = curl_init();
 //            $url = 'http://cms.aikq.cc/static/article/'.$article->id;
 //            dump($url);
@@ -58,6 +58,9 @@ class LiveDetailCommand extends Command
 //            curl_setopt($ch, CURLOPT_TIMEOUT, 2);//8秒超时
 //            curl_exec ($ch);
 //            curl_close ($ch);
+//            if ( ($index + 1) % 20 == 0 ) {
+//                sleep(5);
+//            }
 //        }
 //        return;
 
