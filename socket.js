@@ -4,7 +4,7 @@ var io = require('socket.io')(http, {'transports': ['websocket', 'polling']});
 var Redis = require('ioredis');
 var php_redis = new Redis(6380,'127.0.0.1');
 var redis6379 = require("redis"),
-    client6379 = redis6379.createClient(6381,'127.0.0.1');
+    client6379 = redis6379.createClient(6379,'127.0.0.1');
 var redis6380 = require("redis"),
     client6380 = redis6380.createClient(6380,'127.0.0.1');
 

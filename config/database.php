@@ -147,7 +147,7 @@ return [
         'server50' => [
             'host' => '172.31.172.238',
             'password' => env('REDIS_PASSWORD', null),
-            'port' => 6381,
+            'port' => 6379,
             'database' => 0,
         ],
     ],
