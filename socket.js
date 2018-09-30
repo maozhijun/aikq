@@ -2,9 +2,11 @@ var app = require('express');
 var http = require('http').Server(app);
 var io = require('socket.io')(http, {'transports': ['websocket', 'polling']});
 var Redis = require('ioredis');
-var php_redis = new Redis();
-var redis = require("redis"),
-    client = redis.createClient();
+var php_redis = new Redis(6380,'127.0.0.1');
+var redis6379 = require("redis"),
+    client6379 = redis6379.createClient(6381,'127.0.0.1');
+var redis6380 = require("redis"),
+    client6380 = redis6380.createClient(6380,'127.0.0.1');
 
 var crypto = require('crypto');
 
@@ -13,7 +15,7 @@ php_redis.subscribe('akq_chat_notification', function(err, count) {
 });
 
 php_redis.on('message', function(channel, notification) {
-    // console.log('mid:'+notification);
+    console.log('mid:'+notification);
     notification = JSON.parse(notification);
     // 將訊息推播給使用者
     userPostChat(notification.data,notification.data.mid);
@@ -75,7 +77,7 @@ io.on('connect', function (socket) {
 
                 if (vaildUser == 1) {
                     //直播人数
-                    client.get(mid + '_userCount', function (err, object) {
+                    client6379.get(mid + '_userCount', function (err, object) {
                         var count = 0;
                         if (null == err) {
                             count = parseInt(object);
@@ -84,7 +86,7 @@ io.on('connect', function (socket) {
                             }
                             // console.log('count ' + count);
                         }
-                        client.set(mid + '_userCount', (count + 1), function (err) {
+                        client6379.set(mid + '_userCount', (count + 1), function (err) {
                             // console.log(err)
                         });
                     });
@@ -92,7 +94,7 @@ io.on('connect', function (socket) {
 
                 if (isPc == 1 || 1) {
                     //发送之前的 历史记录
-                    client.get(mid + '_history', function (err, object) {
+                    client6379.get(mid + '_history', function (err, object) {
                         if (null == err) {
                             // console.log('send 1 '+JSON.stringify(object));
                             if (null == object) {
@@ -119,7 +121,7 @@ io.on('connect', function (socket) {
 
     socket.on('disconnect', function (socket) {
         if (vaildUser == 1) {
-            client.get(mid + '_userCount', function (err, object) {
+            client6379.get(mid + '_userCount', function (err, object) {
                 var count = 0;
                 if (null == err) {
                     count = parseInt(object);
@@ -130,7 +132,7 @@ io.on('connect', function (socket) {
                 if (count <= 0) {
                     count = 1;
                 }
-                client.set(mid + '_userCount', (count - 1), function (err) {
+                client6379.set(mid + '_userCount', (count - 1), function (err) {
 
                 });
             });
@@ -185,7 +187,7 @@ function userPostChat(info,socket_mid) {
             io.to('mid:' + socket_mid).emit('server_send_message', tmp);
             console.log('socket send ' + socket_mid);
             //保存历史记录
-            client.get(socket_mid+'_history', function(err, object) {
+            client6379.get(socket_mid+'_history', function(err, object) {
                 if (null == err) {
                     if (null == object){
                         object = new Array();
@@ -198,10 +200,10 @@ function userPostChat(info,socket_mid) {
                 // console.log('bj2 '+JSON.stringify(tmp));
                 object.push(tmp);
                 // console.log('bj3 '+JSON.stringify(object));
-                client.set(socket_mid+'_history', JSON.stringify(object), function(err) {
+                client6379.set(socket_mid+'_history', JSON.stringify(object), function(err) {
                     // console.log(err);
                 });
-                client.expire(socket_mid+'_history', 60*60*3);
+                client6379.expire(socket_mid+'_history', 60*60*3);
             });
         }
         else {
@@ -234,7 +236,7 @@ function scheduleCronstyle(){
 
 function postScore() {
     //缓存里面拿数据
-    client.get('redis_refresh_match', function(err, object) {
+    client6380.get('redis_refresh_match', function(err, object) {
         if (null == err && object != null) {
             var datas = JSON.parse(object);
             for (var i = 0 ; i < datas.length ; i++){
@@ -268,26 +270,7 @@ function postScore() {
 }
 
 function postColor() {
-    //缓存里面拿数据
-    client.get('redis_refresh_color', function(err, object) {
-        if (null == err && object != null && object.length > 0) {
-            var datas = JSON.parse(object);
-            for (var i = 0 ; i < datas.length ; i++){
-                var data = datas[i];
-                var score = {
-                    'h_color':data['h_color'],
-                    'a_color':data['a_color']
-                }
-                // console.log(score);
-                io.to('mid:' + '99_'+data['room_id']).emit('server_color_change', score);
-            }
 
-            // var tmp = [];
-            client.set('redis_refresh_color',  '', function(err) {
-                // console.log(err)
-            });
-        }
-    });
 }
 
 scheduleCronstyle();

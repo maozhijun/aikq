@@ -37,7 +37,9 @@ function setPage () {
     $('#Video button').click(function(){
     	if (this.className != 'on') {
     		$('#Video button.on').removeAttr('class');
-    		$(this).attr('class','on');
+    		var $this = $(this);
+            $this.attr('class','on');
+    		var isHttps = $this.attr("https");
     		var value = $(this).attr('value');
     		if (value && document.getElementById('Frame')) {
     		    if (/^https?:\/\//.test(value)) {
@@ -50,7 +52,11 @@ function setPage () {
                     } else {
                         host = host.replace(/^m\./,"www.");
                     }
-                    value = '//' + host + value;
+                    if (isHttps == 1) {
+                        value = 'https://' + host + value;
+                    } else {
+                        value = '//' + host + value;
+                    }
                     document.getElementById('Frame').src = value;
                 }
             }

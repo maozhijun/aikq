@@ -76,6 +76,7 @@
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
                     <?php
+                        $content = $channel['link'];
                         $player = $channel['player'];
                         if ($player == 11) {
                             $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
@@ -83,7 +84,7 @@
                             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
                         }
                     ?>
-                    <button id="{{$channel['channelId']}}" value="{{$link}}">{{$channel['name']}}</button>
+                    <button https="{{preg_match("/\.m3u8/", $content)}}" id="{{$channel['channelId']}}" value="{{$link}}">{{$channel['name']}}</button>
                 @endforeach
                 @if($match['sport'] < 3 && count($channels) < 3)
                     <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>
@@ -103,7 +104,7 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030004"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030006"></script>
     <script type="text/javascript">
         window.onload = function () {
             setPage();
@@ -156,7 +157,7 @@
         }
         //----------------------------------------------------------//
         @if($match['status'] > 0 && $match['status'] < 4)
-        setInterval(refresh, 5000);//获取比赛统计数据
+        //setInterval(refresh, 5000);//获取比赛统计数据
         @endif
         @endif
     </script>
