@@ -56,12 +56,15 @@
                 </div>
             </div>
             <div id="Live">
+                <?php
+                    $redis = \Illuminate\Support\Facades\Redis::connection('server50');
+                ?>
                 <p class="title">正在直播</p>
                 <div class="list">
                     @foreach($livingRooms as $livingRoom)
                         <?php
 //                        $match = $livingRoom->getLivingMatch();
-                            $count = \Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount')>0?\Illuminate\Support\Facades\Redis::get('99_'.$livingRoom['id'].'_userCount'):0;
+                            $count =$redis->get('99_'.$livingRoom['id'].'_userCount')>0 ? $redis->get('99_'.$livingRoom['id'].'_userCount') : 0;
                         ?>
                         <div class="item">
                             <a href="/anchor/room{{$livingRoom['id']}}.html" target="_blank">
@@ -75,7 +78,7 @@
                                     <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
                                     <?php
-                                    $count = 255*(1+$count) + random_int(1,99);
+                                    $count = 10*(1+$count) + random_int(1,99);
                                     ?>
                                     <p class="name"><span>{{$count}}人</span>{{$livingRoom->anchor->name}}</p>
                                 </div>
