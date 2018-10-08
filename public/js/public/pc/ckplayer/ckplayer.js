@@ -20,8 +20,8 @@
 */
 function ckcpt() {
     var cpt = '';
-    //cpt += '/img/pc/2961515143003_pic_hd.png,0,2,6,-120,0,0|';
-    //cpt += '/img/pc/logo_akq_white.png,2,0,-184,20,0,0|';
+    // cpt += 'https://img.liaogou168.com/kqm/file/img/ck_logo.png,0,2,6,-120,0,0|';
+    // cpt += 'img/logo_akq_white.png,2,0,-184,20,0,0|';
     return cpt;
 }
 /*
@@ -118,11 +118,11 @@ function ckstyle() { //定义总的风格
 		4、播放器最小高度
 		这里只是初始化时的设置，最终加载完播放器后显示的效果需要在style.swf/style.xml里设置该参数
 		*/
-        mylogo: 'logo.swf',
+        mylogo: 'akq.png',
         /*
 		视频加载前显示的logo文件，不使用设置成null，即mylogo='null';
 		*/
-        pm_mylogo: '1,1,-100,-55',
+        pm_mylogo: '1,1,-150,-110',
         /*
 		视频加载前显示的logo文件(mylogo参数的)的位置
 		本软件所有的四个参数控制位置的方式全部都是统一的意思，如下
@@ -854,9 +854,9 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
 				else if(this.browser()['B'].toLowerCase().indexOf('chrome')>-1 && this.PCCheck()){
 					this.embedSWF(f,d,i,w,h,v,p);
 				}
-                else if(this.PCCheck() && (navigator.userAgent.indexOf('Safari') == -1 || e[0].indexOf('m3u8') == -1) ){
-                    this.embedSWF(f,d,i,w,h,v,p);
-                }
+				else if(this.PCCheck() && (navigator.userAgent.indexOf('Safari') == -1 || e[0].indexOf('m3u8') == -1)){
+					this.embedSWF(f,d,i,w,h,v,p);
+				}
 				else if(this.isHTML5()){
 					this.embedHTML5(d,i,w,h,e,v,s,j);
 				}
