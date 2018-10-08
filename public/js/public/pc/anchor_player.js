@@ -9,7 +9,7 @@ var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
 $.ajax({
-    "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
+    "url": "/json/dd_image/images.json?time=" + (new Date()).getTime(),
     "success": function (json) {
         if (json) {
             if (json.l) ad_l = json.l;
