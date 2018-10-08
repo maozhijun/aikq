@@ -153,7 +153,7 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
     //var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com');
+    var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
     socket.on('connect', function (data) {
         console.log('connect');
         var mid = '{{'99_'.$room_id}}';
@@ -173,6 +173,7 @@
     });
 
     socket.on('server_send_message', function (data) {
+        console.log(data);
         if (data['type'] && data['type'] == 99){
 
         }
