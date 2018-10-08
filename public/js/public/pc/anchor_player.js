@@ -8,25 +8,25 @@ var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
-$.ajax({
-    "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
-    "success": function (json) {
-        if (json) {
-            if (json.l) ad_l = json.l;
-            if (json.d) ad_d = json.d;
-            if (json.z) ad_z = json.z;
-            if (json.w) ad_w = json.w;
-            if (json.cd) cd = json.cd;
-            if (json.cd_name) cd_name = json.cd_name;
-            if (json.cd_text) cd_text = json.cd_text;
-            if (json.code) valid_code = json.code;
-        }
-        var code = getCookie('LIVE_HD_CODE_KEY');
-        if (code == valid_code) {
-            ad_time = 0;//已输入验证码，不出广告
-        }
-    }
-});
+// $.ajax({
+//     "url": "/m/dd_image/images.json?time=" + (new Date()).getTime(),
+//     "success": function (json) {
+//         if (json) {
+//             if (json.l) ad_l = json.l;
+//             if (json.d) ad_d = json.d;
+//             if (json.z) ad_z = json.z;
+//             if (json.w) ad_w = json.w;
+//             if (json.cd) cd = json.cd;
+//             if (json.cd_name) cd_name = json.cd_name;
+//             if (json.cd_text) cd_text = json.cd_text;
+//             if (json.code) valid_code = json.code;
+//         }
+//         var code = getCookie('LIVE_HD_CODE_KEY');
+//         if (code == valid_code) {
+//             ad_time = 0;//已输入验证码，不出广告
+//         }
+//     }
+// });
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;
@@ -884,7 +884,7 @@ function showWXCode (Text,Code) { //文字和二维码图片地址，文字可�
         pRadius: [10,0,0] //附加图片的弧度
         // tween:[['x',1,50,0.3],['alpha',1,100,0.3]]//缓动效果
     }
-    CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
+    // CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
     // setTimeout(function(){
     //     CKobject.getObjectById('ckplayer_a1').textBoxTween('AttWX',[['x',1,130,0.4]]);
     // },100);
@@ -965,7 +965,7 @@ function popText (text,name) {
         // pRadius: [10,0,0] //附加图片的弧度
         // tween:[['x',1,Left,10]]//缓动效果
     }
-    CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
+    /// CKobject.getObjectById('ckplayer_a1').textBoxShow(WXCode);
 }
 
 function textBoxShowHandler(b){
