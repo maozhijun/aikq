@@ -25,7 +25,7 @@
 <![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=201808182005"></script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript">
     function isMobileWithJS() {
         var u = navigator.userAgent;
@@ -53,7 +53,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player.js?rd={{date('YmdHi')}}"></script>
 <script>
     $.ajaxSetup({
