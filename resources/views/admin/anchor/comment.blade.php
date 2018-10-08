@@ -52,7 +52,7 @@
     </div>
 @endsection
 @section("js")
-    <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     <script type="text/javascript">
         var myScroll = true, getScroll = true;
         window.onload = function () { //需要添加的监控放在这里
@@ -132,7 +132,7 @@
         }
 
         function GetMy () {
-            var socket = io.connect('https://ws.aikanqiu.com');
+            var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
             socket.on('connect', function (data) {
                 console.log('connect');
                 var mid = '{{'99_'.$room['id']}}';

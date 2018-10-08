@@ -1,6 +1,7 @@
 var app = require('express');
 var http = require('http').Server(app);
-var io = require('socket.io')(http, {'transports': ['websocket', 'polling']});
+var io = require('socket.io')(http, {'transports': ['websocket']});
+// var io = require('socket.io')(http, {'transports': ['polling']});
 var Redis = require('ioredis');
 var php_redis = new Redis(6380,'127.0.0.1');
 var redis6379 = require("redis"),
