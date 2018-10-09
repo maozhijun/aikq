@@ -67,11 +67,11 @@
                 <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$channel['name']}}</a>
             @endif
         @endforeach
-        @if($match['sport'] == 1)
-            <a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Article">专家推荐</a>
-        @elseif($match['sport'] == 2)
-            <a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html">专家推荐</a>
-        @endif
+        {{--@if($match['sport'] == 1)--}}
+            {{--<a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Article">专家推荐</a>--}}
+        {{--@elseif($match['sport'] == 2)--}}
+            {{--<a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html">专家推荐</a>--}}
+        {{--@endif--}}
     </td>
     <td>@if(isset($match['isMatching']) && $match['isMatching'])<p class="live">直播中</p> @endif</td>
 </tr>

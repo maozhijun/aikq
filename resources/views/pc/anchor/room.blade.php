@@ -77,7 +77,7 @@
             }, 2000);//2秒滑动到指定位置
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
         var nickname = getCookie('ws_nickname');
         if (nickname && nickname.length > 0){
