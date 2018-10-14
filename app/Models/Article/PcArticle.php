@@ -93,11 +93,12 @@ class PcArticle extends Model
 
     public function appModel($isWithDetail = false) {
         $url =  env('APP_URL').'/'.$this->getUrl();
+        $cover = $this->getCover();
         $modelItem = [
             'id'=>$this->id,
             'title'=>$this->title,
             'author_name'=>$this->author,
-            'cover'=>$this->getCover(),
+            'cover'=>'https://www.aikanqiu.com'.$cover,
             'digest'=>$this->digest,
             'labels'=>$this->labels,
             'elite'=>$this->elite,

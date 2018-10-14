@@ -386,7 +386,12 @@ function countdown() {
 function PlayVideoShare (cid, type){
     var url;
 
-    url = '/anchor/room/url/' + cid + '.json';
+    if (isMobileWithJS()){
+        url = '/anchor/room/url/m_' + cid + '.json';
+    }
+    else{
+        url = '/anchor/room/url/' + cid + '.json';
+    }
     url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
     console.log(url);
     $.ajax({

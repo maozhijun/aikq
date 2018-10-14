@@ -74,9 +74,12 @@ class AnchorController extends Controller
         return view('pc.anchor.player',$result);
     }
 
-    public function playerUrl(Request $request,$room_id){
+    public function playerUrl(Request $request,$room_id,$isMobile = false){
         $room = AnchorRoom::find($room_id);
         $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
+        if ($isMobile){
+            $url = (isset($room->live_m3u8)&&strlen($room->live_m3u8) > 0)?$room->live_m3u8:'';
+        }
         if (isset($room)) {
             $match = $room->getLivingTag();
             return response()->json(array('code' => 0, 'match'=>$match, 'status' => $room->status, 'title' => $room->title, 'live_url' => $url));
@@ -226,7 +229,7 @@ class AnchorController extends Controller
 
         if ($request->input('spider',0) == 0){
             try {
-                $history = Storage::get('public/www/log/'.$request->input('mid').'.json');
+                $history = Storage::get('public/www/log/'.$request->input('mid').'_'.date('Ymd').'.json');
                 $history = json_decode($history, true);
             } catch (\Exception $exception) {
                 $history = array();
@@ -251,6 +254,12 @@ class AnchorController extends Controller
         $json = json_encode($json);
         if (!empty($json)) {
             Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
+        }
+
+        $m_json = $this->playerUrl($request, $room_id,true)->getData();
+        $m_json = json_encode($m_json);
+        if (!empty($m_json)) {
+            Storage::disk('public')->put('www/anchor/room/url/m_' . $room_id . '.json', $m_json);
         }
 
         $mcon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();
