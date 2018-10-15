@@ -136,6 +136,14 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/app/v120.php'));
     }
 
+    protected function mapAPPV130Routes(){
+        Route::prefix('app/v130')
+            ->middleware('api')
+            ->namespace($this->namespace .'\PC')
+            ->group(base_path('routes/app/v130.php'));
+    }
+
+
     protected function mapBackstageRoutes(){
         Route::prefix('bs')
             ->middleware('web')

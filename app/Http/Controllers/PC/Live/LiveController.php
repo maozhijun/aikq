@@ -96,6 +96,7 @@ class LiveController extends Controller
                 Storage::disk("public")->put("/static/json/lives.json", $server_output);
                 Storage::disk("public")->put("/app/v101/lives.json", $server_output);
                 Storage::disk("public")->put("/app/v110/lives.json", $server_output);
+                Storage::disk("public")->put("/app/v130/lives.json", $server_output);
             }
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -741,12 +742,21 @@ class LiveController extends Controller
                 $iv=env('APP_DES_IV');
                 $appData = $json;
 
-                if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/player/justfun.html')){
+                    $appData['playurl'] = explode('=',$appData['playurl'])[1];
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                    dump($appData['playurl']);
+                    $appData['type'] = '98';
+                }
+                else{
+                    if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                        $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                    }
                 }
                 $appData = json_encode($appData);
                 Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
                 Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
+                Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
                 $mobile_json = $pc_json;
@@ -795,7 +805,16 @@ class LiveController extends Controller
                 if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
                 }
-                $appData = json_encode($appData);
+                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/player/justfun.html')){
+                    $appData['playurl'] = explode('=',$appData['playurl'])[1];
+                    $appData['type'] = '98';
+                    $appData = json_encode($appData);
+                    Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
+                }
+                else{
+                    $appData = json_encode($appData);
+                    Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
+                }
                 Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
                 Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
             }
@@ -1037,6 +1056,12 @@ class LiveController extends Controller
             foreach ($json['live']['channels'] as $channel) {
                 if (isset($channel['link']) && !stristr($channel['link'],'leqiuba.cc'))
                 {
+                    if (isset($channel['link']) && str_contains($channel['link'],'www.aikanqiu.com/live/player/justfun.html'))
+                    {
+                        //130处理抓饭的
+                        $channel['link'] = explode('=',$channel['link'])[1];
+                        $channel['type'] = '98';
+                    }
                     //乐球吧不要
                     $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
                     $channels[] = $channel;
@@ -1047,6 +1072,7 @@ class LiveController extends Controller
         $appData = json_encode($appData);
         Storage::disk("public")->put("/app/v101/lives/" . $sport . '/' . $mid . '.json', $appData);
         Storage::disk("public")->put("/app/v110/lives/" . $sport . '/' . $mid . '.json', $appData);
+        Storage::disk("public")->put("/app/v130/lives/" . $sport . '/' . $mid . '.json', $appData);
     }
 
     public function appLiveDetail(Request $request,$sport,$mid){
