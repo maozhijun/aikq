@@ -398,6 +398,24 @@ function countdown() {
 //获取播放地址
 function PlayVideoShare (cid, type){
     var url;
+    if (type == 98) {
+        url = 'http://m.justfun.live/tv/' + cid;
+
+        $.ajaxPrefilter(function (options) {
+            if (options.crossDomain && jQuery.support.cors) {
+                var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+                options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+                //options.url = "http://cors.corsproxy.io/url=" + options.url;
+            }
+        });
+
+        $.get(url, function (response) {
+            var matches = response.match(/<video _src='(.*?)' class=/is);
+            LoadCK (matches[1]);
+        });
+        return;
+    }
+
     // if (type == 9) {
     //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
     // } else {

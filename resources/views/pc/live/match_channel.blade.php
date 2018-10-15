@@ -61,6 +61,14 @@
 <!--[if lte IE 8]>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
+@if(!isset($channels) || !isset($mchannels) || count($channels) == 0 || count($mchannels) == 0)
+    <script type="text/javascript">
+        var href = window.location.href;
+        var iframeSrc = href.replace("spPlayer", "iframe");
+        console.log(href, iframeSrc);
+        document.getElementById('MyFrame').src = iframeSrc;
+    </script>
+@endif
 <script type="text/javascript">
     function closeAD(button) {
         $(button).parent().remove();
