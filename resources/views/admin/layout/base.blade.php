@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>爱看球管理后台</title>
     <!-- Bootstrap -->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">
-    <link href="//cdn.bootcss.com/bootstrap/3.3.7/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/admin/toastr.min.css" rel="stylesheet">
+    {{--<link href="//cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">--}}
+    <link href="/bootstrap//3.3.7/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">
     <link href="{{ asset('/css/admin/dashboard.css') }}" rel="stylesheet">
     @yield('css')
 </head>
@@ -16,10 +17,10 @@
 @yield('content')
 
 </body>
-<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
-<script src="//cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-<script src="//cdn.bootcss.com/js-sha1/0.4.1/sha1.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+<script src="/js/admin/toastr.min.js"></script>
+<script src="/js/sha1.js"></script>
 <script type="text/javascript">
     $(function () {
         var success = '{{ session('success','') }}';

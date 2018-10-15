@@ -36,7 +36,7 @@
 
 .iframe{
 	height: 500px;
-	background: url(http://static.cdn.dlfyb.com/img/pc/image_video_bg.jpg?t) no-repeat center; background-size: cover;
+	background: url(/img/pc/image_video_bg.jpg?t) no-repeat center; background-size: cover;
 	position: relative;
 }
 .iframe p.noframe,
@@ -56,7 +56,7 @@
 .iframe .ADWarm_RU{
 	width: 240px; height: 34px;
 	padding-top: 146px;
-	background: url(http://static.cdn.dlfyb.com/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
+	background: url(/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
 	position: absolute; right: -40px; bottom: -100px; z-index: 100;
 }
 .iframe .ADWarm_RU p{
@@ -81,13 +81,13 @@
 }
 #Share:before{
 	width: 130px; height: 50px;
-	background: url(http://static.cdn.dlfyb.com/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
+	background: url(/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
 	position: absolute; top: 0; left: 0;
 	content: '';
 }
 #Share:after{
 	width: 130px; height: 50px;
-	background: url(http://static.cdn.dlfyb.com/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
+	background: url(/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
 	position: absolute; top: 0; right: 0;
 	content: '';
 }

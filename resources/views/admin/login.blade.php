@@ -79,7 +79,7 @@
 @section('js')
     <script type="application/javascript">
         function formSubmit(form) {
-            form.password.value = sha1(form.password.value);
+            form.password.value = hex_sha1(form.password.value);
             return true;
         }
     </script>

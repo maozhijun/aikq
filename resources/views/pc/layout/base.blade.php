@@ -60,7 +60,7 @@
         <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>
         {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
         <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/">资讯</a>
-        <a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>
+        {{--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>--}}
         <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/business.html" target="_blank">源调用</a>
         <a class="column" href="/download/" target="">下载</a>
         @yield('nav_inner')

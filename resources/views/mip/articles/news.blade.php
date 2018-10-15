@@ -23,7 +23,7 @@
         @foreach($page as $article)
             <a href="{{$article->getUrl()}}" class="li">
                 @if(!empty($article->cover))
-                    <mip-img height="66" layout="fixed-height" src="{{$article->getCover()}}"></mip-img>
+                    <mip-img height="66" layout="fixed-height" src="{{$article->getLocalCover()}}"></mip-img>
                 @endif
                 <h6>{{$article->title}}</h6>
                 <p class="info">{{date('Y.m.d', strtotime($article->publish_at))}}&nbsp;&nbsp;{{date('H:i', strtotime($article->publish_at))}}</p>

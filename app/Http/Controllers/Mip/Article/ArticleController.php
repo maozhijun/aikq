@@ -64,7 +64,7 @@ class ArticleController extends Controller
         foreach ($articles as $article) {
             $item = array();
             $item['url'] = $article->getUrl();
-            $item['cover'] = $article->getCover();
+            $item['cover'] = $article->getLocalCover();
             $item['title'] = $article->title;
             $item['date'] = date('Y.m.d', strtotime($article->publish_at));
             $item['time'] = date('H:i', strtotime($article->publish_at));

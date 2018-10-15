@@ -77,7 +77,7 @@
             }, 2000);//2秒滑动到指定位置
         }
     </script>
-    <script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
         var nickname = getCookie('ws_nickname');
         if (nickname && nickname.length > 0){
@@ -142,7 +142,7 @@
 
         //    var socket = io.connect('http://bj.xijiazhibo.cc');
 //        var socket = io.connect('http://localhost:6001');
-        var socket = io.connect('https://ws.aikanqiu.com');
+        var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
         socket.on('connect', function (data) {
             console.log('connect');
             var mid = '{{'99_'.$room_id}}';

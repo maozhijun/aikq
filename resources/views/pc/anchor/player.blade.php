@@ -25,7 +25,7 @@
 <![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=201808182005"></script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
 <script type="text/javascript">
     function isMobileWithJS() {
         var u = navigator.userAgent;
@@ -53,7 +53,6 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player.js?rd={{date('YmdHi')}}"></script>
 <script>
     $.ajaxSetup({
@@ -153,7 +152,7 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
     //var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com');
+    var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
     socket.on('connect', function (data) {
         console.log('connect');
         var mid = '{{'99_'.$room_id}}';
@@ -173,6 +172,7 @@
     });
 
     socket.on('server_send_message', function (data) {
+        console.log(data);
         if (data['type'] && data['type'] == 99){
 
         }

@@ -41,7 +41,7 @@
 <div id="Video">
     {{--<p>主播正在客户端直播~~</p>--}}
     {{--<a href="http://mp.dlfyb.com/downloadPhone.html">点击下载app观看</a>--}}
-    <iframe href="{{'https://www.aikanqiu.com/anchor/room/player/'.$room['id'].'.html'}}"></iframe>
+    <iframe src="{{'https://www.aikanqiu.com/anchor/room/player/'.$room['id'].'.html'}}"></iframe>
 </div>
 @if(isset($match) && isset($room_tag) && $room_tag['show_score'] == 1)
     <?php
@@ -91,7 +91,7 @@
 </div>
 </body>
 <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
 <script type="text/javascript">
     function encodeUTF8(s){
         var i,r=[],c,x;
@@ -149,7 +149,7 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
 //    var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com');
+    var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
     socket.on('connect', function (data) {
         var mid = '{{'99_'.$room_id}}';
         var time = Date.parse( new Date())/1000 + '';

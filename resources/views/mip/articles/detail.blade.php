@@ -11,7 +11,7 @@
     </div>
 @endsection
 @section('content')
-    <mip-img id="BG" layout="fixed-height" height="320" src="{{empty($article->cover) ? \App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX.'/img/mobile/image_bg.jpg' : $article->getCover()}}"></mip-img>
+    <mip-img id="BG" layout="fixed-height" height="320" src="{{empty($article->cover) ? \App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX.'/img/mobile/image_bg.jpg' : $article->getLocalCover()}}"></mip-img>
     <h1>{{$article->title}}</h1>
     <div id="Introduction">
         <div class="modify"></div>

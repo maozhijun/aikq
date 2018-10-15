@@ -79,11 +79,11 @@
                                 @foreach($match['channels'] as $c_index=>$channel)
                                     <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
                                 @endforeach
-                                @if($match['sport'] == 1)
-                                    <a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html#Article">专家推荐</a>
-                                @elseif($match['sport'] == 2)
-                                    <a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html">专家推荐</a>
-                                @endif
+                                {{--@if($match['sport'] == 1)--}}
+                                    {{--<a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html#Article">专家推荐</a>--}}
+                                {{--@elseif($match['sport'] == 2)--}}
+                                    {{--<a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html">专家推荐</a>--}}
+                                {{--@endif--}}
                             </td>
                         </tr>
                         @endforeach

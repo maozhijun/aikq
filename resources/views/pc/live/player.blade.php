@@ -54,7 +54,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201809061137"></script>
 <script>
     $.ajaxSetup({
