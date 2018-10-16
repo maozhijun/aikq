@@ -46,6 +46,13 @@ class AnchorIndexCommand extends BaseCommand
         if ($data && strlen($data) > 0){
             Storage::disk('public')->put('app/v120/config.json', $data);
         }
+
+        //app正在直播主播列表
+        $data = $controller->appConfivV130p();
+        $data = json_encode($data);
+        if ($data && strlen($data) > 0){
+            Storage::disk('public')->put('app/v130/config.json', $data);
+        }
     }
 
     protected function onMipHandler(Request $request)
