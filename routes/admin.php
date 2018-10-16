@@ -82,7 +82,11 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
 
 });
 
-
+Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
+    Route::get('/live/relation/videos', 'RelationVideoController@videos');//相关视频列表
+    Route::post('/live/relation/videos/save', 'RelationVideoController@saveVideo');//相关视频列表 保存
+    Route::post('/live/relation/videos/del', 'RelationVideoController@delVideo');//相关视频列表 删除
+});
 
 /**
  * 专题相关
