@@ -85,7 +85,7 @@ class HomeController extends Controller
                 'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu868',
                 'ios_version'=>'1.2.0',
-                'android_version'=>'1.2.0',
+                'android_version'=>'1.3.0',
                 'update_url'=>'http://mp.dlfyb.com/download/#browser',
                 'android_upgrade_url'=>'http://mp.dlfyb.com/download/',
                 'android_install_url'=>'https://www.aikanqiu.com/android.apk',
