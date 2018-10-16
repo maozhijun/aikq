@@ -47,6 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAPPRoutes();
         //
         $this->mapAPPV120Routes();
+        $this->mapAPPV130Routes();
     }
 
     /**
