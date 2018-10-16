@@ -30,7 +30,7 @@ class OtherPlayerCommand extends BaseCommand
                 break;
         }
         if (strlen($player) > 0) {
-            Storage::disk("public")->put("/www/live/player/$type.html", $player);
+            Storage::disk("public")->put("/www/live/otherPlayer/$type.html", $player);
         }
     }
 
