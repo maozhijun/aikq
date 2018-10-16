@@ -6,8 +6,7 @@
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-    {{--<link href="//cdn.bootcss.com/bootstrap/3.3.7/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">--}}
-    {{--<link href="//cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">--}}
+    <link href="/bootstrap/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">
     <link href="{{env('CDN_URL')}}/css/admin/toastr.min.css" rel="stylesheet">
     <link href="{{ asset('/css/admin/dashboard.css') }}" rel="stylesheet">
     @yield('css')
