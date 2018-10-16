@@ -75,6 +75,27 @@ class HomeController extends Controller
         );
     }
 
+    public function appConfivV130p(){
+        return array(
+            'code'=>0,
+            'data'=>[
+                'more'=>'https://shop.liaogou168.com/',
+                'host'=>'http://cms.aikanqiu.com',
+                'ws_host'=>'http://ws.aikanqiu.com',
+                'icon'=>'http://mp.dlfyb.com/img/pc/image_qr_868.jpg',
+                'weixin'=>'kanqiu868',
+                'ios_version'=>'1.2.0',
+                'android_version'=>'1.2.0',
+                'update_url'=>'http://mp.dlfyb.com/download/#browser',
+                'android_upgrade_url'=>'http://mp.dlfyb.com/download/',
+                'android_install_url'=>'http://static.cdn.dlfyb.com/android.apk',
+                'install_url'=>'itms-services://?action=download-manifest&url=https://static.cdn.dlfyb.com/test.plist',
+                'anchor'=>1,
+                'showMore'=>'1',
+            ]
+        );
+    }
+
     public function index(Request $request){
        return view('pc.home');
    }

@@ -745,7 +745,7 @@ class LiveController extends Controller
                 $iv=env('APP_DES_IV');
                 $appData = $json;
 
-                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/player/justfun.html')){
+                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
                     $appData['playurl'] = explode('=',$appData['playurl'])[1];
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
                     dump($appData['playurl']);
@@ -808,7 +808,7 @@ class LiveController extends Controller
                 if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
                 }
-                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/player/justfun.html')){
+                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
                     $appData['playurl'] = explode('=',$appData['playurl'])[1];
                     $appData['type'] = '98';
                     $appData = json_encode($appData);
@@ -1059,7 +1059,7 @@ class LiveController extends Controller
             foreach ($json['live']['channels'] as $channel) {
                 if (isset($channel['link']) && !stristr($channel['link'],'leqiuba.cc'))
                 {
-                    if (isset($channel['link']) && str_contains($channel['link'],'www.aikanqiu.com/live/player/justfun.html'))
+                    if (isset($channel['link']) && str_contains($channel['link'],'www.aikanqiu.com/live/otherPlayer/justfun.html'))
                     {
                         //130处理抓饭的
                         $channel['link'] = explode('=',$channel['link'])[1];
