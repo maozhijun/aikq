@@ -50,10 +50,10 @@
             <p>资讯</p>
         </a>
     </dd>
-    <dd>
-        <a href="https://shop.liaogou168.com">
-            <img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">
-            <p>推荐</p>
-        </a>
-    </dd>
+    {{--<dd>--}}
+        {{--<a href="https://shop.liaogou168.com">--}}
+            {{--<img src="{{env('CDN_URL')}}/img/mobile/commom_icon_recommend_n.png">--}}
+            {{--<p>推荐</p>--}}
+        {{--</a>--}}
+    {{--</dd>--}}
 </dl>
