@@ -45,19 +45,15 @@ class DeleteExpireFileCommand extends Command
      */
     public function handle()
     {
-        $del_time = strtotime('-7 days');//24小时前的文件删除
+        $del_time = strtotime('-30 days');//一个月前的文件删除
 
-        $this->delStorageFiles('/public/live/basketball', $del_time);//删除 电脑 篮球直播终端
-        $this->delStorageFiles('/public/live/football', $del_time);//删除 电脑 足球直播终端
-        $this->delStorageFiles('/public/live/player', $del_time);//删除 直播终端的player文件
+        $this->delStorageFiles('/www/live/player', $del_time);//删除 直播终端的player文件
+        $this->delStorageFiles('/www/live/iframe', $del_time);//删除 直播终端的player文件
+        $this->delStorageFiles('/www/live/spPlayer', $del_time);//删除 直播终端外链player文件
 
-        $this->delStorageFiles('/public/static/m/live/basketball', $del_time);//删除 移动端 篮球直播终端
-        $this->delStorageFiles('/public/static/m/live/football', $del_time);//删除 移动端 足球直播终端
+        $this->delStorageFiles('/www/match/live/url/channel', $del_time);//删除电脑的 json 文件
+        $this->delStorageFiles('/www/match/live/url/channel/mobile', $del_time);//删除移动的 json 文件
 
-        $this->delStorageFiles('/public/match/live/url/channel', $del_time);//删除电脑的 json 文件
-        $this->delStorageFiles('/public/match/live/url/channel/mobile', $del_time);//删除移动的 json 文件
-
-        $this->delStorageFiles('/public/live/spPlayer', $del_time);
     }
 
     /**
