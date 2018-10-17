@@ -68,6 +68,12 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+<script>
+    $.ajaxSetup({
+        scriptCharset: "utf-8", //or "ISO-8859-1"
+        contentType: "application/json; charset=utf-8"
+    });
+</script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         var cid = getUrlParam('cid');
@@ -75,19 +81,13 @@
 
         var url = 'http://m.justfun.live/tv/' + cid;
 
-        $.ajaxPrefilter(function (options) {
-            if (options.crossDomain && jQuery.support.cors) {
-                var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-                options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-                //options.url = "http://cors.corsproxy.io/url=" + options.url;
-            }
-        });
-
-        $.get(url, function (response) {
-            var matches = response.match(/<video _src='(.*?)' class=/is);
-            LoadCK (matches[1]);
-        });
-    }
+        $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?',
+            function (data) {
+                var response = JSON.stringify(data);
+                var matches = response.match(/<video _src='(.*?)' class=/is);
+                LoadCK(matches[1]);
+            });
+    };
 
     //paraName 等找参数的名称
     function getUrlParam(paraName) {

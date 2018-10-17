@@ -17,6 +17,7 @@ use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
 use App\Console\HtmlStaticCommand\OtherPlayerCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
+use App\Console\JustFun\JustFunStreamStaticCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
@@ -109,6 +110,8 @@ class Kernel extends ConsoleKernel
         DownloadCommand::class,//静态化下载页面
 
         OtherPlayerCommand::class,//其他静态播放器静态化
+
+        JustFunStreamStaticCommand::class,//抓饭流静态化
     ];
 
     /**
