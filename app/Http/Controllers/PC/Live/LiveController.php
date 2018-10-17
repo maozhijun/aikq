@@ -90,14 +90,51 @@ class LiveController extends Controller
             $aiCon = new AikanQController();
             $jsonObj = $aiCon->livesJson(new Request())->getData();
             $server_output = json_encode($jsonObj);
-            if ($bet == self::BET_MATCH) {
-                Storage::disk("public")->put("/static/json/bet-lives.json", $server_output);
-            } else{
-                Storage::disk("public")->put("/static/json/lives.json", $server_output);
-                Storage::disk("public")->put("/app/v101/lives.json", $server_output);
-                Storage::disk("public")->put("/app/v110/lives.json", $server_output);
-                Storage::disk("public")->put("/app/v130/lives.json", $server_output);
+            Storage::disk("public")->put("/static/json/lives.json", $server_output);
+
+            $matchArray = json_decode($server_output, true);
+
+            $newMatches = [];
+
+            if (isset($matchArray['matches'])) {
+                $matches = $matchArray['matches'];
+
+                foreach ($matches as $time=>$array) {
+                    $newArray = [];
+
+                    foreach ($array as $id=>$match) {
+                        $newMatch = $match;
+
+                        if (isset($match['channels'])) {
+                            $channels = $match['channels'];
+                            $newChannels = [];
+                            foreach ($channels as $index=>$channel) {
+                                if (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerIFrame) {
+                                    if (isset($channel['link'])) {
+                                        $link = $channel['link'];
+                                        if (!str_contains($link,'/justfun.html')) {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                $newChannels[] = $channel;
+                            }
+                            $newMatch['channels'] = $newChannels;
+                            if (count($newChannels) > 0) {
+                                $newArray[$id] = $newMatch;
+                            }
+                        }
+                    }
+
+                    $newMatches[$time] = $newArray;
+                }
             }
+
+            $matchArray['matches'] = $newMatches;
+            $app_output = json_encode($matchArray);
+            Storage::disk("public")->put("/app/v101/lives.json", $app_output);
+            Storage::disk("public")->put("/app/v110/lives.json", $app_output);
+            Storage::disk("public")->put("/app/v130/lives.json", $app_output);
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -733,11 +770,8 @@ class LiveController extends Controller
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
                     $playerType = $json['player'];
-                    if ($playerType == 11) {
-                        Storage::disk("public")->put("/www/live/iframe/player-" . $id . '-' . $json['type'] . ".html", $player);
-                    } else {
-                        Storage::disk("public")->put("/www/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
-                    }
+                    Storage::disk("public")->put("/www/live/iframe/player-" . $id . '-' . $json['type'] . ".html", $player);
+                    Storage::disk("public")->put("/www/live/player/player-" . $id . '-' . $json['type'] . ".html", $player);
                 }
 
                 //保存app
@@ -1057,15 +1091,16 @@ class LiveController extends Controller
         $channels = array();
         if ($json['live'] && $json['live']['channels']) {
             foreach ($json['live']['channels'] as $channel) {
-                if (isset($channel['link']) && !stristr($channel['link'],'leqiuba.cc'))
+                if (isset($channel['link']))
                 {
-                    if (isset($channel['link']) && str_contains($channel['link'],'www.aikanqiu.com/live/otherPlayer/justfun.html'))
+                    if (str_contains($channel['link'],'www.aikanqiu.com/live/otherPlayer/justfun.html'))
                     {
                         //130处理抓饭的
                         $channel['link'] = explode('=',$channel['link'])[1];
                         $channel['type'] = '98';
+                    } else if (isset($channel['type']) && $channel['type'] == MatchLiveChannel::kPlayerIFrame) {
+                        continue;//iframe的不要
                     }
-                    //乐球吧不要
                     $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
                     $channels[] = $channel;
                 }
