@@ -102,12 +102,12 @@ class StreamKeyFrameCommand extends Command
 
     public static function spiderKeyFrame($stream, $outPath)
     {
-        shell_exec('nohup /usr/bin/ffmpeg -ss 1 -i "'.$stream.'" -y -vframes 1 -f mjpeg -s 220*135 ' . $outPath . ' >> /tmp/ffmpeg.log  &');
+        shell_exec('nohup /usr/bin/ffmpeg -ss 1 -i "'.$stream.'" -y -vframes 1 -f mjpeg ' . $outPath . ' >> /tmp/ffmpeg.log  &');
     }
 
     public static function spiderRtmpKeyFrame($stream, $outPath)
     {
-        shell_exec("nohup /usr/bin/ffmpeg -ss 1 -i \"$stream\"  -y -vframes 1 -f mjpeg -s 220*135 $outPath >> /tmp/ffmpeg.log &");
+        shell_exec("nohup /usr/bin/ffmpeg -ss 1 -i \"$stream\"  -y -vframes 1 -f mjpeg $outPath >> /tmp/ffmpeg.log &");
     }
 
 }
