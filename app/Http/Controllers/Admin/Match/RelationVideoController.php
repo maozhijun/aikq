@@ -18,8 +18,14 @@ class RelationVideoController extends Controller
 {
 
     public function videos(Request $request) {
+        $title = $request->input('title');
+        $label = $request->input('label');
 
         $query = RelationVideo::query();
+        if (!empty($title)) {
+            $query->where('title', 'like', '%'.$title.'%');
+        }
+        $query->orderByDesc('created_at');
         $page = $query->paginate();
         $page->appends($request->all());
 

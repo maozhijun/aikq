@@ -21,7 +21,7 @@ class MatchLiveChannel extends Model
     const kAutoSpider = 1, kAutoHand = 2;//1、爬虫获取的，2、手动录入的。
     const kShow = 1, kHide = 2;//1、显示该直播链接，0、不显示直播链接
     const kIsPrivate = 2, kIsNotPrivate = 1;//1、无版权，2、有版权
-    const kPlatformAll = 1, kPlatformPC = 2, kPlatformWAP = 3;//1、全部平台显示，2、在PC端显示，3、在WAP端显示。
+    const kPlatformAll = 1, kPlatformPC = 2, kPlatformWAP = 3, kPlatformPCWAP = 4, kPlatformApp = 5;//1、全部平台显示，2、在PC端显示，3、在WAP端显示，4，在pc和wap播放，在app上播放。
     const kUseAll = 1, kUseAiKQ = 2, kUseHeiTu = 3, kUseLg310 = 4;//使用的平台。
     const kHasAd = 1, kNoAd = 2;//1：有播放器广告，2：无播放器广告
     const kTypeArray = [self::kTypeSS365, self::kTypeTTZB, self::kTypeBallBar, self::kTypeWCJ, self::kTypeDDK, self::kTypeKBS,self::kTypeCCTVAPP, self::kTypeLZ, self::kTypeCode,self::kTypeQQ, self::kTypeOther];

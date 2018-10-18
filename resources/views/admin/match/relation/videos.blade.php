@@ -1,21 +1,26 @@
 @extends('admin.layout.nav')
+@section('css')
+    <style>
+        .input-form {
+            display: inline;
+            vertical-align: bottom;
+            float: left;
+            margin-right: 5px;
+        }
+    </style>
+@endsection
 @section('content')
     <h1 class="page-header">相关视频列表</h1>
     <div class="row">
-        <div>
-            <form class="form-inline">
-                <div class="form-group">
-                    <label>标题：</label>
-                    <input type="text" name="title" value="{{ request('title', '') }}">
-                </div>
-                <div class="form-group" style="margin-left: 10px;">
-                    <label>作者：</label>
-                    <input type="text" name="author" value="{{ request('author', '') }}">
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm">
-                    <span class="glyphicon glyphicon-search"></span>搜索
-                </button>
-            </form>
+        <div style="margin: 15px 0 15px;">
+            <div>
+                <form action="" method="get">
+                    <input name="hname" style="width: 260px; margin-left: 10px;" value="" class="form-control input-form" placeholder="标题">
+                    <input name="hname" style="width: 260px; margin-left: 10px;" value="" class="form-control input-form" placeholder="标签">
+                    <button style="margin-left: 10px;" class="btn btn-primary">搜索</button>
+                </form>
+                <div style="clear: both"></div>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-striped">
