@@ -126,7 +126,9 @@ class LiveController extends Controller
                         }
                     }
 
-                    $newMatches[$time] = $newArray;
+                    if (count($newArray) > 0) {
+                        $newMatches[$time] = $newArray;
+                    }
                 }
             }
 
