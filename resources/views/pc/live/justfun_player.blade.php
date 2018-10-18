@@ -57,9 +57,6 @@
 <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201809061137"></script>
 <script>
-    $.ajaxSetup({
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    });
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");
@@ -68,22 +65,14 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-<script>
-    $.ajaxSetup({
-        scriptCharset: "utf-8", //or "ISO-8859-1"
-        contentType: "application/json; charset=utf-8"
-    });
-</script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         var cid = getUrlParam('cid');
         if (cid == undefined || cid == 0) return;
 
-        var url = 'http://m.justfun.live/tv/' + cid;
+        var url = 'https://mip.aikanqiu.com/t-justfun/tv/' + cid;
 
-        $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?',
-            function (data) {
-                var response = JSON.stringify(data);
+        $.get(url, function (response) {
                 var matches = response.match(/<video _src='(.*?)' class=/is);
                 LoadCK(matches[1]);
             });

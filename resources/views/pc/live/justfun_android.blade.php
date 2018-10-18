@@ -8,36 +8,30 @@
     <script type="text/javascript">
         function onTest(cid) {
             // js执行的代码
-            var url = 'http://m.justfun.live/tv/' + cid;
-
-            $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?',
-                function (data) {
-                    var response = data.contents;
-                    var tempStr = response.split("/live/")[1];
-//                    console.log(tempStr);
-                    tempStr = tempStr.split(".jpg")[0];
+            var url = 'https://mip.aikanqiu.com/t-justfun/tv/' + cid;
+            $.get(url, function (response) {
+                var tempStr = response.split("/live/")[1];
+                tempStr = tempStr.split(".jpg")[0];
 //                    console.log(tempStr);
 //                var matches = response.match(/<video _src='(.*?)' class=/is);
 //                m3u8Url = matches[1];
-                    var infoUrl = "http://www.justfun.live/live-channel-info/channel/info?cid=" + tempStr;
+                var infoUrl = "https://mip.aikanqiu.com/justfun/live-channel-info/channel/info?cid=" + tempStr;
 //                    console.log(infoUrl);
-                    $.getJSON('http://whateverorigin.org/get?url=' + encodeURIComponent(infoUrl) + '&callback=?',
-                        function (rawData) {
-                            var response = rawData.contents;
-                            data = JSON.parse(response);
-                            var infoData = base64Decode(data['vipPlayInfo']);
-                            while (!infoData.endsWith('}')) {
-                                infoData = infoData.substr(0, infoData.length - 1);
-                            }
+                $.get(infoUrl, function (response) {
+                    var data = JSON.parse(response);
+                    var infoData = base64Decode(data['vipPlayInfo']);
+                    while (!infoData.endsWith('}')) {
+                        infoData = infoData.substr(0, infoData.length - 1);
+                    }
 //                    console.log(infoData);
-                            infoData = JSON.parse(infoData);
+                    infoData = JSON.parse(infoData);
 //                    console.log(infoData);
-                            var rtmpUrl = infoData['origin'];
-                            var flvUrl = infoData['origin_flv'];
+                    var rtmpUrl = infoData['origin'];
+                    var flvUrl = infoData['origin_flv'];
 
-                            location.href = rtmpUrl;
-                        });
+                    location.href = rtmpUrl;
                 });
+            });
         }
 
         onTest(getUrlParam("cid"));
