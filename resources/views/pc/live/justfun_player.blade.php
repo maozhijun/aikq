@@ -57,9 +57,6 @@
 <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/player3.js?rd=201809061137"></script>
 <script>
-    $.ajaxSetup({
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    });
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");
@@ -73,21 +70,13 @@
         var cid = getUrlParam('cid');
         if (cid == undefined || cid == 0) return;
 
-        var url = 'http://m.justfun.live/tv/' + cid;
-
-        $.ajaxPrefilter(function (options) {
-            if (options.crossDomain && jQuery.support.cors) {
-                var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-                options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-                //options.url = "http://cors.corsproxy.io/url=" + options.url;
-            }
-        });
+        var url = 'https://mip.aikanqiu.com/t-justfun/tv/' + cid;
 
         $.get(url, function (response) {
-            var matches = response.match(/<video _src='(.*?)' class=/is);
-            LoadCK (matches[1]);
-        });
-    }
+                var matches = response.match(/<video _src='(.*?)' class=/is);
+                LoadCK(matches[1]);
+            });
+    };
 
     //paraName 等找参数的名称
     function getUrlParam(paraName) {

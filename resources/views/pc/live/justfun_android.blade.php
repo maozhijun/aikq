@@ -8,26 +8,17 @@
     <script type="text/javascript">
         function onTest(cid) {
             // js执行的代码
-            url = 'http://m.justfun.live/tv/' + cid;
-
-            $.ajaxPrefilter(function (options) {
-                if (options.crossDomain && jQuery.support.cors) {
-                    var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-                    options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-                    //options.url = "http://cors.corsproxy.io/url=" + options.url;
-                }
-            });
-
+            var url = 'https://mip.aikanqiu.com/t-justfun/tv/' + cid;
             $.get(url, function (response) {
-                var tempStr = response.split("fengyuncid: \"")[1];
-                tempStr = tempStr.split("\",")[0];
+                var tempStr = response.split("/live/")[1];
+                tempStr = tempStr.split(".jpg")[0];
+//                    console.log(tempStr);
 //                var matches = response.match(/<video _src='(.*?)' class=/is);
 //                m3u8Url = matches[1];
-                var infoUrl = "http://www.justfun.live/live-channel-info/channel/info?cid=" + tempStr;
+                var infoUrl = "https://mip.aikanqiu.com/justfun/live-channel-info/channel/info?cid=" + tempStr;
+//                    console.log(infoUrl);
                 $.get(infoUrl, function (response) {
-//                    console.log(response);
                     var data = JSON.parse(response);
-//                    console.log(data);
                     var infoData = base64Decode(data['vipPlayInfo']);
                     while (!infoData.endsWith('}')) {
                         infoData = infoData.substr(0, infoData.length - 1);
@@ -85,8 +76,7 @@
             return testStr;
         }
 
-        function decrypt(arg1)
-        {
+        function decrypt(arg1) {
             var loc1 =undefined;
             var loc2 =undefined;
             var loc3 =undefined;
