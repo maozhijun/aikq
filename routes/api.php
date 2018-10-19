@@ -34,3 +34,7 @@ Route::group(['namespace'=>'IntF'], function () {
 Route::group(["namespace" => 'PC\Article'], function () {
     Route::any("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
 });
+
+Route::group(["namespace" => 'Sync'], function () {
+    Route::any("/label/sync/article", "LabelController@syncArticleLabel");//
+});

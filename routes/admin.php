@@ -82,10 +82,22 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
 
 });
 
+/**
+ * 相关视频
+ */
 Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
     Route::get('/live/relation/videos', 'RelationVideoController@videos');//相关视频列表
     Route::post('/live/relation/videos/save', 'RelationVideoController@saveVideo');//相关视频列表 保存
     Route::post('/live/relation/videos/del', 'RelationVideoController@delVideo');//相关视频列表 删除
+});
+
+/**
+ * 标签
+ */
+Route::group(['namespace'=>'Label', 'middleware' => 'admin_auth'], function () {
+    Route::get('/labels', 'LabelController@labels');//标签列表
+    Route::post('/labels/group/del', 'LabelController@delLabelGroup');//标签近义词 删除
+    Route::post('/labels/group/save', 'LabelController@saveLabelGroup');//标签近义词 保存
 });
 
 /**
