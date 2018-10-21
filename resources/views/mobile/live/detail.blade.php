@@ -98,10 +98,10 @@
         <iframe id="Frame"></iframe>
         <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></div>
     </div>
-    <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg">
-        <p>扫二维码进入群</p>
-    </div>
+    {{--<div id="Content">--}}
+        {{--<img src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg">--}}
+        {{--<p>扫二维码进入群</p>--}}
+    {{--</div>--}}
 @endsection
 @section('js')
     <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030006"></script>

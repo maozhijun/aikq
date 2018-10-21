@@ -73,7 +73,7 @@
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
-    <p id="PC"><a href="http://m.aikanqiu.com/download/">下载爱看球APP，流畅度快3倍<br/>www.aikanqiu.com</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    {{--<p id="PC"><a href="http://m.aikanqiu.com/download/">下载爱看球APP，流畅度快3倍<br/>www.aikanqiu.com</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>--}}
 @endsection
 @section('bottom')
     @component("mobile.layout.bottom_cell", ["cur"=>'live']) @endcomponent

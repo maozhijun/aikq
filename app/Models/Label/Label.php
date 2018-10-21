@@ -16,6 +16,16 @@ class Label extends Model
 {
     public $timestamps = false;
 
+    public static function saveLabel($label) {
+        $obj = Label::query()->where('label', $label)->first();
+        if (!isset($obj)) {
+            $obj = new Label();
+            $obj->label = $label;
+            $obj->save();
+        }
+        return $obj;
+    }
+
     public function sameLabels() {
         $id = $this->id;
         $query = self::query();

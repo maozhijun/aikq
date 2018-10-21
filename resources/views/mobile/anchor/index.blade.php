@@ -59,7 +59,7 @@
             @foreach($livingRooms as $livingRoom)
                 <li><a href="/anchor/room{{$livingRoom['id']}}.html">
                         <div class="imgbox">
-                            <img src="{{$livingRoom['live_cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                            <img src="http://aikanqiu.com{{$livingRoom['live_cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
                             <p>{{$livingRoom->anchor->name}}</p>
                         </div>
                         <p class="name">{{$livingRoom['title']}}</p>

@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Admin\Match;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Label\Label;
+use App\Models\Label\LabelVideo;
 use App\Models\Match\RelationVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -80,6 +82,17 @@ class RelationVideoController extends Controller
             $video->labels = $labels;
             $video->link = $link;
             $video->save();
+
+            $labelsStr = str_replace('，', ',', $labels);
+            $list = explode(',', $labelsStr);
+
+            $video_id = $video->id;
+            $date = $video->created_at;
+            Log::info('date = ' . $date);
+            foreach ($list as $str) {
+                $newLabel = Label::saveLabel($str);
+                LabelVideo::saveLabelVideo($newLabel, $video_id, $date);
+            }
         } catch (\Exception $exception) {
             Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
