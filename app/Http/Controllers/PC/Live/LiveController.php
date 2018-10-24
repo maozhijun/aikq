@@ -654,6 +654,8 @@ class LiveController extends Controller
         $ch_id = empty($ch_id) ? $request->input('ch_id') : $ch_id;
         try {
             $path = CommonTool::getLiveDetailStaticPath($mid, $sport);
+            if (strlen($path) <= 0) return; //如果返回的路径为空，则不再执行下面的代码
+
             $pcPath = "/www" . $path;
             $mPath = "/m" . $path;
             $mipPath = "/mip" . $path;

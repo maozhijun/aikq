@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers\Mobile;
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Models\LgMatch\Match;
 use App\Models\Subject\SubjectLeague;
@@ -24,18 +25,19 @@ class UrlCommonTool
     }
 
     public static function matchLiveUrl($lid,$sport,$id){
-        $str = 'other';
-        if ($sport == 1){
-            if (array_key_exists($lid,Match::path_league_football_arrays)){
-                $str = Match::path_league_football_arrays[$lid];
-            }
-        }
-        elseif($sport == 2){
-            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
-                $str = Match::path_league_basketball_arrays[$lid];
-            }
-        }
-        return '/'.$str.'/'.'live'.$sport.$id.'.html';
+        return CommonTool::getLiveDetailUrl($sport, $lid, $id);
+//        $str = 'other';
+//        if ($sport == 1){
+//            if (array_key_exists($lid,Match::path_league_football_arrays)){
+//                $str = Match::path_league_football_arrays[$lid];
+//            }
+//        }
+//        elseif($sport == 2){
+//            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
+//                $str = Match::path_league_basketball_arrays[$lid];
+//            }
+//        }
+//        return '/'.$str.'/'.'live'.$sport.$id.'.html';
     }
 
     /*********************录像相关*************************/

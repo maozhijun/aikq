@@ -30,18 +30,19 @@ class UrlCommonTool
     }
 
     public static function matchLiveUrl($lid, $sport, $id, $prefix = self::MIP_PREFIX) {
-        $str = 'other';
-        if ($sport == 1){
-            if (array_key_exists($lid,Match::path_league_football_arrays)){
-                $str = Match::path_league_football_arrays[$lid];
-            }
-        }
-        elseif($sport == 2){
-            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
-                $str = Match::path_league_basketball_arrays[$lid];
-            }
-        }
-        return $prefix.'/'.$str.'/'.'live'.$sport.$id.'.html';
+        $url = CommonTool::getLiveDetailUrl($sport, $lid, $id);
+//        $str = 'other';
+//        if ($sport == 1){
+//            if (array_key_exists($lid,Match::path_league_football_arrays)){
+//                $str = Match::path_league_football_arrays[$lid];
+//            }
+//        }
+//        elseif($sport == 2){
+//            if (array_key_exists($lid,Match::path_league_basketball_arrays)){
+//                $str = Match::path_league_basketball_arrays[$lid];
+//            }
+//        }
+        return $prefix.$url;
     }
 
 

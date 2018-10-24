@@ -433,10 +433,19 @@ class AikanQController extends Controller
         $result['data'] = array();
         
         $time = date('m月d日 H:i', strtotime($match['time']));
-        $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['hname'] .' VS '. $match['aname'] . ' ' . $time . '-爱看球直播';
+
+        //title，主vs客，根据球队id大小排序
+        $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['hname'] .' VS '. $match['aname'] . ' ' . '-爱看球直播';
         $result['h1'] = $match['hname'] . 'VS' . $match['aname'];
-        $result['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
         $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
+        if (isset($match['hid']) && isset($match['aid'])) {
+            if ($match['hid'] > $match['aid']) {
+                $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['aname'] .' VS '. $match['hname'] . ' ' . '-爱看球直播';
+                $result['h1'] = $match['aname'] . 'VS' . $match['hname'];
+                $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['aname'] . ' VS ' . $match['hname'] . "，JRS低调看直播就来爱看球直播。";
+            }
+        }
+        $result['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
 //        dump($result);
         return $result;
     }
@@ -561,10 +570,19 @@ class AikanQController extends Controller
         $result['show_live'] = $show_live;
 
         $time = date('m月d日 H:i', strtotime($match['time']));
-        $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['hname'] .' VS '. $match['aname'] . ' ' . $time . '-爱看球直播';
+
+        //title，主vs客，根据球队id大小排序
+        $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['hname'] .' VS '. $match['aname'] . ' ' . '-爱看球直播';
         $result['h1'] = $match['hname'] . 'VS' . $match['aname'];
-        $result['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
         $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
+        if (isset($match['hid']) && isset($match['aid'])) {
+            if ($match['hid'] > $match['aid']) {
+                $result['title'] = $match['win_lname'] . ' JRS直播 ' . $match['aname'] .' VS '. $match['hname'] . ' ' . '-爱看球直播';
+                $result['h1'] = $match['aname'] . 'VS' . $match['hname'];
+                $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['aname'] . ' VS ' . $match['hname'] . "，JRS低调看直播就来爱看球直播。";
+            }
+        }
+        $result['keywords'] = '爱看球直播,' . $match['lname'] . '直播,' . $match['hname'] . '直播,' . $match['aname'] . '直播,高清直播';
         return $result;
     }
 

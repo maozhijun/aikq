@@ -255,34 +255,23 @@ class CommonTool
     }
 
     public static function getLiveDetailStaticPath($mid, $sport) {
-        $len = strlen($mid);
-        $tempMid = $mid;
-        if ($len < 4) {
-            for ($index = $len; $index < 4; $index++) {
-                $tempMid = "0".$tempMid;
-            }
+        $tempData = self::getDetailNameDataByMid($mid, $sport);
+        //只有满足，mid等于比赛两队最近的比赛才返回保存路径
+        $recentMid = "";
+        if (isset($tempData['hid']) && isset($tempData['aid'])
+            && $tempData['hid'] > 0 && $tempData['aid'] > 0) {
+            $recentMid = self::getRecentMidByTid($mid, $sport, $tempData['hid'], $tempData['aid']);
         }
+        if ($mid != $recentMid) return "";
+
+        $tempMid = $tempData['name'];
+        $name_en = $tempData['name_en'];
+
         $first = substr($tempMid, 0, 2);
         $second = substr($tempMid, 2, 2);
 
-        if ($sport == MatchLive::kSportFootball) {
-            $match = Match::query()->find($mid);
-        } else if ($sport == MatchLive::kSportBasketball) {
-            $match = BasketMatch::query()->find($mid);
-        } else if ($sport == MatchLive::kSportSelfMatch) {
-            $match = OtherMatch::query()->find($mid);
-        }
-        if (!isset($match)) {
-            return "";
-        }
-        $lid = $match->lid;
-        $mls = Controller::MATCH_LEAGUE_IDS;
-        if (isset($mls[$sport.'-'.$lid])) {
-            $name_en = $mls[$sport.'-'.$lid]['name_en'];
-            $path = "/".$name_en."/live/".$sport."/".$first."/".$second."/".$tempMid.".html";
-        } else {
-            $path = "/other/live/".$sport."/".$first."/".$second."/".$tempMid.".html";
-        }
+        $path = "/".$name_en."/live/".$sport."/".$first."/".$second."/".$tempMid.".html";
+
         return $path;
     }
 
@@ -294,6 +283,17 @@ class CommonTool
      * @return string
      */
     public static function getLiveDetailUrl($sport, $lid, $mid) {
+        $tempData = self::getDetailNameDataByMid($mid, $sport);
+
+        $tempMid = $tempData['name'];
+        $name_en = $tempData['name_en'];
+
+        $url = "/".$name_en."/live".$sport.$tempMid.".html";
+        return $url;
+    }
+
+    public static function getDetailNameDataByMid($mid, $sport) {
+        $name_en = "other";
         $len = strlen($mid);
         $tempMid = $mid;
         if ($len < 4) {
@@ -302,14 +302,76 @@ class CommonTool
             }
         }
 
+        if ($sport == MatchLive::kSportFootball) {
+            $match = Match::query()->find($mid);
+        } else if ($sport == MatchLive::kSportBasketball) {
+            $match = BasketMatch::query()->find($mid);
+        } else if ($sport == MatchLive::kSportSelfMatch) {
+            $match = OtherMatch::query()->find($mid);
+        }
+        if (!isset($match)) {
+            return ['name'=>$tempMid, 'name_en'=>$name_en];
+        }
+
+        $hid = 0;
+        if (isset($match->hid)) {
+            $hid = $match->hid;
+        }
+        $aid = 0;
+        if (isset($match->aid)) {
+            $aid = $match->aid;
+        }
+
+        //统一让更小的tid放在前面
+        if ($hid > $aid) {
+            $tempTid = $hid;
+            $hid = $aid;
+            $aid = $tempTid;
+        }
+
+        if ($hid == 0 && $aid == 0) {
+            $name = $tempMid;
+        } else {
+            $len = strlen($hid);
+            $tempHid = $hid;
+            if ($len < 4) {
+                for ($index = $len; $index < 4; $index++) {
+                    $tempHid = "0".$tempHid;
+                }
+            }
+            $name = $tempHid.'vs'.$aid;
+        }
+
+        //赛事专题名字
+        $lid = $match->lid;
         $mls = Controller::MATCH_LEAGUE_IDS;
         if (isset($mls[$sport.'-'.$lid])) {
-            $name_en = $mls[$sport.'-'.$lid]['name_en'];
-            $url = "/".$name_en."/live".$sport.$tempMid.".html";
-        } else {
-            $url = "/other/live".$sport.$tempMid.".html";
+            $name_en = $mls[$sport . '-' . $lid]['name_en'];
         }
-        return $url;
+
+        return ['name'=>$name, 'name_en'=>$name_en, 'hid'=>$hid, 'aid'=>$aid];
     }
 
+    /**
+     * 根据两队id，和sport获取最近的两队对阵比赛id
+     */
+    private static function getRecentMidByTid($mid, $sport, $hid, $aid) {
+        if ($sport == MatchLive::kSportFootball) {
+            $query = Match::query();
+        } else if ($sport == MatchLive::kSportBasketball) {
+            $query = BasketMatch::query();
+        }
+        if (isset($query)) {
+            $recentMatch = $query->whereIn('hid', [$hid, $aid])
+                ->whereIn('aid', [$hid, $aid])
+                ->where('status', '>=', 0) //比赛还未结束
+                ->orderBy('time') //最近的比赛
+                ->first();
+
+            if (isset($recentMatch)) {
+                return $recentMatch->id;
+            }
+        }
+        return $mid;
+    }
 }
