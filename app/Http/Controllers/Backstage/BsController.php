@@ -242,7 +242,7 @@ class BsController extends Controller
             $anchor = $request->admin_user;
             if ($request->hasFile("anchor_icon")) {
                 $icon = $this->saveUploadedFile($request->file("anchor_icon"), 'cover');
-                $anchor->icon = $icon->getUrl();
+                $anchor->icon = $icon->getEvnUrl();
                 $anchor->save();
             }
             $room = $anchor->room;
@@ -263,7 +263,7 @@ class BsController extends Controller
                 $isEdit = true;
             } else if ($request->hasFile("room_cover")) {
                 $cover = $this->saveUploadedFile($request->file("room_cover"), 'cover');
-                $room->cover = $cover->getUrl();
+                $room->cover = $cover->getEvnUrl();
                 $isEdit = true;
             }
             if ($isEdit) {

@@ -12,4 +12,9 @@ class Upload extends Model
     {
         return Storage::disk($this->disks)->url($this->path);
     }
+
+    public function getEvnUrl() {
+        $prefix = $this->env;
+        return $prefix."/".$this->disks."/".$this->path;
+    }
 }

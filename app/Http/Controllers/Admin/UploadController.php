@@ -21,7 +21,7 @@ class UploadController extends Controller
         if ($request->hasFile('cover')) {
             $file = $request->file('cover');
             $upload = $this->saveUploadedFile($file, 'cover');
-            $url = $upload->getUrl();
+            $url = $upload->getEvnUrl();
             return response($url);
         }
     }
