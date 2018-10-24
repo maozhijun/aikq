@@ -339,7 +339,7 @@ class CommonTool
                     $tempHid = "0".$tempHid;
                 }
             }
-            $name = $tempHid.'vs'.$aid;
+            $name = $tempHid.$aid;
         }
 
         //赛事专题名字
