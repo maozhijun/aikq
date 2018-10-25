@@ -279,7 +279,6 @@ class MatchLive extends Model
             if ($channel->use == MatchLiveChannel::kUseAiKQ) {
                 $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $match->lid, $this->match_id);
             }
-            $array[] = $tmp;
             if(isset($channel->akq_url) && strlen($channel->akq_url) > 0){
                 $params = explode('/',$channel->akq_url);
                 $params = $params[count($params) - 1];
@@ -288,6 +287,7 @@ class MatchLive extends Model
                 $params = str_replace('room','',$params);
                 $tmp['room_id'] = $params;
             }
+            $array[] = $tmp;
         }
         return $array;
     }
