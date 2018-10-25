@@ -110,4 +110,9 @@ class SubjectVideo extends Model
         return $obj;
     }
 
+    public static function relationVideos($hid, $aid) {
+        $query = self::query();
+
+    }
+
 }

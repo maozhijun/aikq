@@ -1,75 +1,388 @@
 @extends('pc.layout.base')
-@section('content')
-    <div id="Content">
+@section('css')
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+@endsection
+@section("content")
+<div id="Content">
+    <div class="inner">
         @if(isset($zhuanti))
             <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>  <a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>  >&nbsp;&nbsp;<span class="on">{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}@endif</span></div>
         @else
             <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$match['hname']}}@if(!empty($match['aname']))&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}@endif</span></div>
         @endif
-        <div class="inner">
+        <div class="right_part">
+            @if(isset($leagueLives) && count($leagueLives) > 0)
+            <div id="League">
+                <p class="title">{{$match['win_lname']}}赛事直播</p>
+                <ul>
+                    @foreach($leagueLives as $leagueLive)
+                    <li>
+                        <p class="time">{{date('m/d H:i', strtotime($leagueLive['time']))}}</p>
+                        <p class="status">
+                            @if($leagueLive->status == -1)已结束
+                            @elseif($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
+                                <a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>
+                            @endif
+                        </p>
+                        <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
+                    </li>
+                    @endforeach
+                    {{--<li>--}}
+                        {{--<p class="time">10/20 22:15</p>--}}
+                        {{--<p class="status"><a class="live" href="">直播中</a></p>--}}
+                        {{--<p class="team"><a href="">瓦伦西亚 vs 莱加内安徽发</a></p>--}}
+                    {{--</li>--}}
+                    {{--<li>--}}
+                        {{--<p class="time">10/20 22:15</p>--}}
+                        {{--<p class="status"><a class="record" href="">录像</a></p>--}}
+                        {{--<p class="team"><a href="">瓦伦西亚 vs 莱加内安徽发</a></p>--}}
+                    {{--</li>--}}
+                </ul>
+            </div>
+            @endif
+            @if(isset($articles) && count($articles) > 0)
+            <div id="News">
+                <p class="title">相关新闻</p>
+                @foreach($articles as $index=>$article)
+                    @if($index < 3)
+                        <a class="big" target="_blank" href="{{$article->url}}">
+                            @if(!empty($article->cover))<p class="imgbox" style="background: url({{$article->cover}}); background-size: cover;"></p>@endif
+                            <p class="con">{{$article->title}}</p>
+                        </a>
+                    @else
+                        <a target="_blank" class="small" href="{{$article->url}}">{{$article->title}}</a>
+                    @endif
+                @endforeach
+            </div>
+            @endif
+            <div id="Record">
+                <p class="title">相关录像</p>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+                <a href="">
+                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                    <p class="name">C罗运球被对手</p>
+                </a>
+            </div>
+        </div>
+        <div class="left_part">
+            <!-- <div class="adbanner inner"><a href="https://www.liaogou168.com/merchant/detail/10008" target="_blank"><img src="img/ad_1.jpg"><button class="close"></button></a></div> -->
             <div id="Info">
-                <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}</h1>@endif
+                <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}@endif</h1>
                 <p class="line">
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
                             <?php
-                                $player = $channel['player'];
-                                if ($player == 11) {
-                                    $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                                } else {
-                                    $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                                }
+                            $player = $channel['player'];
+                            if ($player == 11) {
+                                $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                            } else {
+                                $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                            }
                             ?>
                             <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
                         @endforeach
                     @endif
-                    {{--<span>如视频出现卡顿或停止播放，请点击<a href="javascript:(function () {document.getElementById('Frame').src = document.getElementById('Frame').src;})();">[刷新]</a></span>--}}
                 </p>
             </div>
             <div class="iframe" id="Video">
-                @if($match['status'] == 0 && !$show_live)
-                @elseif($show_live)
-                @elseif($match['status'] == -1 && !$show_live)
-                    {{--<p class="noframe"><img src="/img/pc/icon_matchOver.png">比赛已结束</p>--}}
-                @endif
-                <div class="ADWarm_RU" style="display: none;"><p onclick="document.getElementById('Video').removeChild(this.parentNode)">· 我知道了 ·</p></div>
+                <!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->
             </div>
-            <div class="share" id="Share" style="display:none;">
-                复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
+            <div class="share" id="Share">
+                {{--复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>--}}
             </div>
-            @if(isset($articles) && count($articles) > 0)
-            <div id="News">
-                <div class="title">相关文章</div>
-                @foreach($articles as $article)
-                <a target="_blank" href="{{$article['url']}}">{{$article['title']}}</a>
-                @endforeach
-                <p class="clear"></p>
+            <div id="Data">
+                <div class="column">
+                    <a href="javascript:void(0)" class="on" value="Analysis">数据分析</a>
+                    @if($hasLineup)<a href="javascript:void(0)" value="Lineup">球队阵容</a>@endif
+                    @if($hasTech)<a href="javascript:void(0)" value="Technology">技术统计</a> @endif
+                </div>
+                <div id="Analysis" style="display: ;">
+                    @if(isset($passVSMatches) && count($passVSMatches) > 0)
+                    <p class="title">对往赛事</p>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>赛事</th>
+                            <th>时间</th>
+                            <th>主队</th>
+                            <th>比分</th>
+                            <th>客队</th>
+                            <th>录像</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($passVSMatches as $pMatch)
+                        <tr>
+                            <td>{{$pMatch->getLeagueName()}}</td>
+                            <td>{{substr($pMatch['time'], 2, 14)}}</td>
+                            <td>{{$pMatch['hname']}}</td>
+                            <td>{{$pMatch['hscore']}}-{{$pMatch['ascore']}}</td>
+                            <td>{{$pMatch['aname']}}</td>
+                            <td><a href="{{$pMatch['id']}}">全场录像</a></td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                    @if(isset($hNearMatches) && count($hNearMatches) > 0)
+                    <p class="title">{{$match['hname']}}近期战绩</p>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>赛事</th>
+                            <th>时间</th>
+                            <th>主队</th>
+                            <th>比分</th>
+                            <th>客队</th>
+                            <th>录像</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($hNearMatches as $hMatch)
+                        <tr>
+                            <td>{{$hMatch->getLeagueName()}}</td>
+                            <td>{{substr($hMatch['time'], 2, 14)}}</td>
+                            <td>{{$hMatch['hname']}}</td>
+                            <td>{{$hMatch['hscore']}}-{{$hMatch['ascore']}}</td>
+                            <td>{{$hMatch['aname']}}</td>
+                            <td><a href="{{$hMatch['id']}}">全场录像</a></td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                    @if(isset($aNearMatches) && count($aNearMatches) > 0)
+                    <p class="title">{{$match['aname']}}近期战绩</p>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>赛事</th>
+                            <th>时间</th>
+                            <th>主队</th>
+                            <th>比分</th>
+                            <th>客队</th>
+                            <th>录像</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($aNearMatches as $aMatch)
+                        <tr>
+                            <td>{{$aMatch->getLeagueName()}}</td>
+                            <td>{{substr($aMatch['time'], 2, 14)}}</td>
+                            <td>{{$aMatch['hname']}}</td>
+                            <td>{{$aMatch['hscore']}}-{{$aMatch['ascore']}}</td>
+                            <td>{{$aMatch['aname']}}</td>
+                            <td><a href="{{$aMatch['id']}}">全场录像</a></td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                </div>
+                <div id="Lineup" style="display: none;">
+                    <div class="team">
+                        @if($hasLineup)
+                        <p class="title">{{$match['hname']}}</p>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>号码</th>
+                                <th>姓名</th>
+                                <th>首发</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(isset($lineup['home']))
+                            @foreach($lineup['home'] as $l)
+                            <tr>
+                                <td>{{$l['num']}}</td>
+                                <td>{{$l['name']}}</td>
+                                <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
+                            </tr>
+                            @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+                    <div class="team">
+                        <p class="title">{{$match['aname']}}</p>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>号码</th>
+                                <th>姓名</th>
+                                <th>首发</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(isset($lineup['away']))
+                                @foreach($lineup['away'] as $l)
+                                    <tr>
+                                        <td>{{$l['num']}}</td>
+                                        <td>{{$l['name']}}</td>
+                                        <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="Technology" style="display: none;">
+                    @if(isset($tech) && count($tech))
+                    <p class="title">本次技术统计</p>
+                    <table>
+                        <colgroup>
+                            <col>
+                            <col width="{{$sport == 2 ? 100 : 45}}">
+                            <col width="15%">
+                            <col width="{{$sport == 2 ? 100 : 45}}">
+                            <col>
+                        </colgroup>
+                        @foreach($tech as $t)
+                        <tr>
+                            <td>
+                                <p><span style="width: {{ (isset($t['h_p']) && is_numeric($t['h_p'])) ? ($t['h_p'] * 100) : 0 }}%;"></span></p>
+                            </td>
+                            <td>{{$t['h']}}</td>
+                            <td>{{$t['name']}}</td>
+                            <td>{{$t['a']}}</td>
+                            <td>
+                                <p><span style="width: {{ (isset($t['a_p']) && is_numeric($t['a_p'])) ? ($t['a_p'] * 100) : 0 }}%;"></span></p>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endif
+                    @if(isset($events) && count($events) > 0)
+                    <p class="title">详细事件</p>
+                    <table>
+                        <colgroup>
+                            <col>
+                            <col width="16%">
+                            <col width="11%">
+                            <col width="16%">
+                            <col>
+                        </colgroup>
+                        <thead>
+
+                        <tr>
+                            <th>{{$match['hname']}}</th>
+                            <th>事件</th>
+                            <th>时间</th>
+                            <th>事件</th>
+                            <th>{{$match['aname']}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($events as $event)
+                        <tr>
+                            <td>@if($event['is_home']){{\App\Models\LgMatch\MatchEvent::getKindCn($event['kind'])}}@endif</td>
+                            <td>@if($event['is_home']){{\App\Models\LgMatch\MatchEvent::getEventCn($event['kind'], $event['player_name_j'], $event['player_name_j2'])}}@endif</td>
+                            <td>{{$event['happen_time']}}‘</td>
+                            <td>@if(!$event['is_home']){{\App\Models\LgMatch\MatchEvent::getKindCn($event['kind'])}}@endif</td>
+                            <td>@if(!$event['is_home']){{\App\Models\LgMatch\MatchEvent::getEventCn($event['kind'], $event['player_name_j'], $event['player_name_j2'])}}@endif</td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    @endif
+                </div>
+            </div>
+            @if(count($moreLives) > 0)
+            <div id="Other">
+                <p class="title">更多直播</p>
+                <table>
+                    <colgroup>
+                        <col width="120">
+                        <col width="100">
+                        <col width="30%">
+                        <col>
+                        <col width="100">
+                    </colgroup>
+                    @foreach($moreLives as $more)
+                    <tr>
+                        <td>{{$more['league_name']}}</td>
+                        <td>{{substr($more['time'], 5, 11)}}</td>
+                        <td>{{$more['hname']}} VS {{$more['aname']}}</td>
+                        <td>
+                            <?php
+                            $mChannels = $more['channels'];
+                            $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($more['sport'], $more['lid'], $more['mid']);
+                            ?>
+                            @foreach($mChannels as $mch)
+                                @if(isset($mch['player']) && $mch['player'] == 16){{-- 外链 --}}
+                                <a target="_blank" href="/live/ex-link/{{$mch['id']}}">{{$mch['name']}}</a>
+                                @else
+                                    <?php
+                                    if(isset($mch['akq_url']) && strlen($mch['akq_url']) > 0){
+                                        $tmp_url = $mch['akq_url'];
+                                    }
+                                    else{
+                                        $tmp_url = $url;
+                                    }
+                                    ?>
+                                    <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$mch['name']}}</a>
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>@if($more['isMatching'])<a target="_blank" href="{{$url}}">直播中</a>@endif</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
             @endif
         </div>
-        <div class="adbanner inner"><img src="{{env('CDN_URL')}}/img/pc/banner_pc_868.jpg"><img class="show" src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg"></div>
-        <div class="adbanner inner"><a href="/download/" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/image_ad_pc.jpg"></a></div>
     </div>
+    <!-- <div class="adbanner inner"><img src="img/banner_pc_n@1x.jpg"><img class="show" src="img/wechat.jpeg"></div> -->
     <div class="clear"></div>
+</div>
+<!-- <div class="adflag left">
+    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
+</div>
+<div class="adflag right">
+    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
+</div> -->
 @endsection
-@section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js?time=2018020001"></script>
-    <script type="text/javascript">
-        window.onload = function () { //需要添加的监控放在这里
-            setADClose();
-            LoadVideo();
-        }
-        function changeShare(link, obj) {
-            if (obj.className.indexOf('on') != -1) {
-                return;
-            }
-            $("#Info button").removeClass('on');
-            $(obj).addClass('on');
-            $("#Share input").val(link);
-        }
-    </script>
-@endsection
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=2018020003">
+@section("js")
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
+<script type="text/javascript">
+    window.onload = function () { //需要添加的监控放在这里
+        setADClose();
+        setPage();
+    }
+</script>
 @endsection

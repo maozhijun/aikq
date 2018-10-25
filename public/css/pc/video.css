@@ -1,11 +1,151 @@
-﻿
+﻿#Content{
+	padding-bottom: 60px;
+}
+
+.right_part {
+    width: 220px;
+    float: right;
+}
+.left_part {
+    margin-right: 240px;
+}
+
+/*右边*/
+.right_part .title{
+	height: 48px;
+	padding-left: 26px;
+	border-bottom: 2px solid #4492fd;
+	font-size: 16px; line-height: 48px; color: #242526;
+	position: relative;
+}
+.right_part .title:before{
+	height: 30px; width: 6px;
+	margin-top: -15px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 10px;
+	content: '';
+}
+
+#League{
+	margin-bottom: 20px;
+	background: #fff;
+}
+#League ul{
+
+}
+#League ul li{
+	height: 22px;
+	margin-left: 10px; padding: 28px 10px 0 0;
+	position: relative;
+}
+#League ul li + li{
+	border-top: 1px solid #e1e4e8;
+}
+#League ul li p.time{
+	font-size: 12px; line-height: 12px; color: #919191;
+	position: absolute; left: 0; top: 6px;
+}
+#League ul li p.status{
+	font-size: 12px; line-height: 12px; text-align: right; color: #919191;
+	position: absolute; top: 6px; right: 20px;
+}
+#League ul li p.status a.record{
+	color: #4492fd;
+}
+#League ul li p.status a.live{
+	color: #c41212;
+}
+#League ul li p.team{
+	height: 14px;
+	font-size: 12px; line-height: 14px; text-align: center; color: #666;
+	overflow: hidden;
+}
+#League ul li p.team a{
+	color: #666;
+}
+#League ul li p.team a:hover{
+	color: #4492fd; text-decoration: underline;
+}
+
+#News{
+	margin-bottom: 20px; padding-bottom: 10px;
+	background: #fff;
+}
+#News a.big{
+	height: 56px;
+	padding-left: 92px; margin: 10px 10px 0;
+	background: #f7f7f7;
+	position: relative;
+	display: block;
+}
+#News a.big .imgbox{
+	width: 84px;
+	position: absolute; top: 0; left: 0; bottom: 0;
+}
+#News a.big p.con{
+	height: 56px;
+	font-size: 12px; line-height: 16px; color: #666;
+	vertical-align: middle;
+	display: table-cell;
+}
+#News a.big:hover p.con{
+	color: #4492fd;
+}
+#News a.small{
+	height: 12px;
+	margin: 9px 10px 0;
+	font-size: 12px; line-height: 12px; color: #666;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	display: block;
+}
+#News a.big + a.small{
+	margin-top: 20px;
+}
+#News a.small:hover{
+	color: #4492fd;
+}
+
+#Record{
+	margin-bottom: 20px; padding-bottom: 10px;
+	background: #fff;
+	font-size: 0; text-align: center;
+}
+#Record .title{
+	text-align: left;
+}
+#Record a{
+	width: 100px;
+	margin: 10px 3px 0;
+	background: #f7f7f7;
+	vertical-align: top;
+	display: inline-block;
+}
+#Record a .imgbox{
+	height: 55px;
+	position: relative;
+}
+#Record a .imgbox:before{
+	background: url(https://www.aikanqiu.com/img/pc/icon_pause_n.png) no-repeat center; background-size: 28px;
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+#Record a .name{
+	height: 26px;
+	font-size: 12px; line-height: 26px; color: #242526;
+	overflow: hidden;
+}
+#Record a:hover .name{
+	color: #4492fd;
+}
+
+/*左边*/
 #Info{
 	height: 70px;
 	padding: 20px 20px 0;
-	background: #e1edff;
+	background: #234981;
 }
 #Info p.name, #Info h1.name{
-	font-size: 18px; line-height: 28px; text-align: center; font-weight: normal;
+	font-size: 18px; line-height: 28px; text-align: center; color: #fff; font-weight: normal;
 }
 #Info p.line{
 	height: 32px;
@@ -14,8 +154,8 @@
 #Info p.line button{
 	height: 24px;
 	padding: 0 20px; margin-top: 4px;
-	border-radius: 4px;
-	background: #8aacda;
+	border-radius: 4px; border: 1px solid #fff;
+	background: none;
 	font-size: 14px; text-align: center; color: #fff;
 	display: inline-block;
 }
@@ -23,7 +163,8 @@
 	margin-left: 20px;
 }
 #Info p.line button.on, #Info p.line button:hover{
-	background: #1267dc;
+	background: #fff;
+	color: #234981;
 }
 #Info p.line span{
 	font-size: 14px; line-height: 32px; color: #999;
@@ -36,7 +177,7 @@
 
 .iframe{
 	height: 500px;
-	background: url(/img/pc/image_video_bg.jpg?t) no-repeat center; background-size: cover;
+	background: url(https://www.aikanqiu.com/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 .iframe p.noframe,
@@ -56,7 +197,7 @@
 .iframe .ADWarm_RU{
 	width: 240px; height: 34px;
 	padding-top: 146px;
-	background: url(/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
+	background: url(https://www.aikanqiu.com/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
 	position: absolute; right: -40px; bottom: -100px; z-index: 100;
 }
 .iframe .ADWarm_RU p{
@@ -81,18 +222,18 @@
 }
 #Share:before{
 	width: 130px; height: 50px;
-	background: url(/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
+	background: url(https://www.aikanqiu.com/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
 	position: absolute; top: 0; left: 0;
 	content: '';
 }
 #Share:after{
 	width: 130px; height: 50px;
-	background: url(/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
+	background: url(https://www.aikanqiu.com/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
 	position: absolute; top: 0; right: 0;
 	content: '';
 }
 #Share input{
-	width: 350px; height: 28px;
+	width: 55%; height: 28px;
 	margin-left: 10px; padding: 0 10px;
 	border: 1px solid #e6e6e6;
 	background: #f7f7f7;
@@ -109,45 +250,214 @@
 	position: absolute;
 }
 
-#News{
-	padding-bottom: 10px; margin-top: 10px;
+#Data{
 	background: #fff;
 }
-#News .title{
-	height: 38px;
-	padding-left: 34px; margin-bottom: 10px;
-	border-bottom: 1px solid #e6e6e6;
-	font-size: 16px; line-height: 38px; color: #393939;
+#Data .column{
+	height: 40px;
+	margin-top: 20px; padding-left: 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 0;
+}
+#Data .column a{
+	height: 40px;
+	margin-right: 30px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #919191;
 	position: relative;
+	display: inline-block;
 }
-#News .title:before{
-	width: 4px; height: 20px;
-	margin-top: -10px;
-	background: #4492fd;
-	position: absolute; left: 20px; top: 50%;
-	content: '';
+#Data .column a.on{
+	font-size: 16px;
 }
-#News a{
-	width: 33.3%; height: 32px;
-	font-size: 14px; line-height: 32px; text-align: left; color: #393939;
-	overflow: hidden;
-	float: left;
-}
-#News a:hover{
+#Data .column a.on, #Data .column a:hover{
 	color: #4492fd;
 }
-#News a:before{
-	width: 20px;
-	display: inline-block;
+#Data .column a.on:after{
+	height: 2px;
+	background: #4492fd;
+	position: absolute; bottom: 0; left: 2px; right: 2px;
 	content: '';
 }
 
-@media screen and (max-width: 1280px){ 
-	#News a{
-		height: 26px;
-		font-size: 12px; line-height: 26px;
-	}
+#Analysis{
+	padding: 20px;
 }
+#Analysis .title{
+	height: 16px;
+	padding-left: 12px; margin-bottom: 10px;
+	font-size: 14px; line-height: 16px; color: #242526;
+	position: relative;
+}
+#Analysis table + .title{
+	margin-top: 30px;
+}
+#Analysis .title:before{
+	width: 4px; height: 10px;
+	border-top: 6px solid #4492fd;
+	background: #9fc0ec;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Analysis table{
+	width: 100%;
+}
+#Analysis table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 15px; text-align: center; color: #576880;
+}
+#Analysis table td{
+	height: 40px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+#Analysis table td:last-child{
+	color: #ababab;
+}
+#Analysis table tr:nth-child(even) td{
+	background: #f7f7f7;
+}
+#Analysis table td a{
+	color: #4492fd;
+}
+
+#Lineup{
+	padding: 20px;
+	font-size: 0; text-align: center;
+}
+#Lineup .team{
+	width: 49%;
+	vertical-align: top;
+	display: inline-block;
+}
+#Lineup .team + .team{
+	margin-left: 1.5%;
+}
+#Lineup .title{
+	height: 16px;
+	padding-left: 12px; margin-bottom: 10px;
+	font-size: 14px; line-height: 16px; text-align: left; color: #242526;
+	position: relative;
+}
+#Lineup .title:before{
+	width: 4px; height: 10px;
+	border-top: 6px solid #4492fd;
+	background: #9fc0ec;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Lineup table{
+	width: 100%;
+	border: 1px solid #e1e4e8;
+}
+#Lineup table th{
+	height: 30px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #919191;
+}
+#Lineup table td{
+	height: 40px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #242526;
+	border-top: 1px solid #e1e4e8;
+}
+
+#Technology{
+	padding: 20px;
+}
+#Technology .title{
+	height: 16px;
+	padding-left: 12px; margin-bottom: 10px;
+	font-size: 14px; line-height: 16px; color: #242526;
+	position: relative;
+}
+#Technology table + .title{
+	margin-top: 30px;
+}
+#Technology .title:before{
+	width: 4px; height: 10px;
+	border-top: 6px solid #4492fd;
+	background: #9fc0ec;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Technology table{
+	width: 100%;
+	border: 1px solid #e1e4e8;
+}
+#Technology table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 15px; text-align: center; color: #576880;
+}
+#Technology table td{
+	height: 40px;
+	border-top: 1px solid #e1e4e8;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+#Technology table tr:first-child td{
+	border-top: none;
+}
+#Technology table td p{
+	height: 6px;
+	text-align: left;
+}
+#Technology table td:first-child p{
+	font-size: 0; text-align: right;
+}
+#Technology table td p span{
+	height: 6px;
+	background: #3a6ab1;
+	display: inline-block;
+}
+
+#Other{
+	margin-top: 20px; padding-left: 20px;
+	background: #fff;
+}
+#Other .title{
+	height: 40px;
+	padding-left: 36px; margin-left: -20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 16px; line-height: 40px; color: #242526;
+	position: relative;
+}
+#Other .title:before{
+	height: 24px; width: 6px;
+	margin-top: -12px;
+	background: #4794fd;
+	position: absolute; top: 50%; left: 20px;
+	content: '';
+}
+#Other table{
+	width: 100%;
+}
+#Other table td{
+	height: 50px;
+	border-top: 1px solid #e1e4e8;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+#Other table tr:first-child td{
+	border-top: none;
+}
+#Other table td:nth-child(4) a, #Other table td a:hover{
+	color: #4492fd;
+}
+#Other table td a + a{
+	margin-left: 20px;
+}
+#Other table td:last-child a{
+	width: 68px; height: 26px;
+	border-radius: 4px;
+	background: #ca5353;
+	line-height: 26px; color: #fff;
+	display: inline-block;
+}
+
+
+
+
+
+
+
+
 
 
 
