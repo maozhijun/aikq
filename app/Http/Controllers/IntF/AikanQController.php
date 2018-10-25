@@ -8,11 +8,14 @@
 namespace App\Http\Controllers\IntF;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Stage;
+use App\Models\Match\BasketLeague;
 use App\Models\Match\BasketMatch;
+use App\Models\Match\League;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
@@ -27,6 +30,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class AikanQController extends Controller
 {
@@ -822,7 +826,6 @@ class AikanQController extends Controller
     }
 
     /**
-     *
      * @param $isMobile
      * @param SubjectLeague $sl
      * @return array|null
@@ -1527,4 +1530,189 @@ class AikanQController extends Controller
         return $obj;
     }
 
+    //==============================赛事积分排名============================================
+    public static function getLeagueBySport($sport, $lid) {
+        $league = null;
+        if ($sport == MatchLive::kSportFootball) {
+            $league = \App\Models\LgMatch\League::find($lid);
+        } else if ($sport == MatchLive::kSportBasketball) {
+            $league = \App\Models\LgMatch\BasketLeague::find($lid);
+        }
+        return $league;
+    }
+
+    public static function leagueRankData($sport, $lid) {
+        $league = self::getLeagueBySport($sport, $lid);
+        if ($league == null) return null;
+        //联赛排名 开始
+        if ($sport == MatchLive::kSportFootball) {//联赛才出
+            if ($league->type == 1) {//联赛排名
+                $ranks = Score::getFootballScores($lid);
+                $rank_array = [];
+                foreach ($ranks as $rank) {
+                    $rank_array[] = ['name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
+                        , 'score'=>$rank->score, 'rank'=>$rank->rank];
+                }
+                $ranks = $rank_array;//排名
+            } else {//杯赛积分
+                //获取最新的小组赛
+                $ranks = Score::footballCupScores($lid);
+            }
+        } else {//篮球排名 暂时只有NBA / CBA
+            if ($lid == 1) {//NBA 排名分东西部
+                $west = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest);
+                $east = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast);
+                $ranks = ['west'=>$west, 'east'=>$east];
+            } else {
+                $ranks = BasketScore::getScoresByLid($lid);
+            }
+        }
+        return $ranks;
+    }
+
+    public static function leagueRankStatic($sport, $lid) {
+        $rankData = self::leagueRankData($sport, $lid);
+        $staticData = self::getStaticLeagueRank($sport, $lid);
+        //如果数据库返回的数据为空，而静态化的数据不为空，则不覆盖
+        if ($rankData == null && $staticData != null) return;
+
+        Storage::disk("public")->put("/static/json/rank/$sport/$lid.json", json_encode($rankData));
+    }
+
+    public static function getStaticLeagueRank($sport, $lid) {
+        $data = Storage::get("/public/static/json/rank/$sport/$lid.json");
+        if (isset($data) && strlen($data) > 0) {
+            return json_decode($data, true);
+        }
+        return null;
+    }
+
+    //==============================球队终端==========================================
+    /**
+     * 球队终端页面数据
+     */
+    public static function teamDetailData($sport, $lid, $tid) {
+
+        $teamData = self::teamData($sport, $tid);
+        $result = [];
+        if (!isset($teamData)) {
+            return null;
+        }
+
+        //专题资讯 开始
+        $articles = PcArticle::articlesByType("");
+        $article_array = [];
+        foreach ($articles as $article) {
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+        }
+        $result['articles'] = $article_array;
+        //专题资讯 结束
+
+        //联赛排名 开始
+        $result['rank'] = self::getStaticLeagueRank($sport, $lid);
+        //联赛排名 结束
+
+        //球队直播 开始
+        $result['lives'] = self::getTeamLives($lid, $tid);
+        //球队直播 结束
+
+        //球队录像 开始
+//        $result['videos'] = SubjectVideo::newVideos($slid, $isMobile);
+        //球队录像 结束
+
+        //球队集锦 开始
+//        $result['specimens'] = SubjectSpecimen::getNewSpecimens($slid, $isMobile);
+        //球队集锦 结束
+
+        $result['team'] = $teamData;
+        $league = self::getLeagueBySport($sport, $lid);
+        $leagueName = "";
+        if (isset($league)) {
+            $leagueName = $league->name;
+            $leagueData['name'] = $leagueName;
+            $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+            if (isset($subject)) {
+                $leagueData['name_en'] = $subject->name_en;
+            }
+            $result['league'] = $leagueData;
+        }
+        $teamName = $teamData['name'];
+        $result['title'] = "【$teamName】".$leagueName.$teamName."直播_".$teamData."赛程、球员阵容、新闻视频-爱看球直播";
+        $result['h1'] = $teamData['name'].'直播';
+        return $result;
+    }
+
+    /**
+     * 球队终端数据
+     */
+    protected static function teamData($sport, $tid) {
+        $flag = 0;
+        if (strlen($tid) > 2) {
+            $flag = substr($tid, 0, 2);
+        }
+        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
+
+        $data = self::curlData($url);
+        return $data;
+    }
+
+    protected static function curlData($url,$timeout = 5){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);//5秒超时
+        $pc_json = curl_exec ($ch);
+        curl_close ($ch);
+        $pc_json = json_decode($pc_json,true);
+        return $pc_json;
+    }
+
+    /**
+     * 获取球队的比赛列表
+     */
+    protected static function getTeamLives($sport, $tid, $isMobile = false, $count = 15) {
+        if (!in_array($sport, [MatchLive::kSportFootball, MatchLive::kSportBasketball])) {
+            return [];
+        }
+        if ($sport == MatchLive::kSportFootball) {
+            $query = Match::query();
+            //$tableName = 'matches';
+        } else {
+            $query = BasketMatch::query();
+            //$tableName = 'basket_matches';
+        }
+        $query->where('time', '>=', date('Y-m-d H:i', strtotime('-3 hours')));
+        $query->where('status', '>=', 0);
+        $query->where(function ($q) use ($tid){
+            $q->where('hid', $tid)
+                ->where('aid', $tid);
+        });
+        $query->orderBy('time');
+        $query->selectRaw('*, id as mid');
+        $matches = $query->take($count)->get();
+
+        $array = [];
+        foreach ($matches as $match) {
+            $time = strtotime($match->time);
+            $day = strtotime(date('Y-m-d', $time));
+            $mid = $match->mid;
+
+            $obj = ['time'=>$time, 'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
+                'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport];
+
+            $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);
+            $live = $liveQuery->first();
+            $channels = [];
+            if (isset($live)) {
+                $channels = $isMobile ? $live->mAiKqChannels() : $live->kAiKqChannels();
+            }
+            $obj['channels'] = $channels;
+            $array[$day][] = $obj;
+        }
+        return $array;
+    }
 }

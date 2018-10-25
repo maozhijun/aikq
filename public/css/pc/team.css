@@ -1,0 +1,303 @@
+﻿#Content{
+	padding-bottom: 60px;
+}
+
+.right_part {
+    width: 220px;
+    float: right;
+}
+.left_part {
+    margin-right: 240px;
+}
+
+/*右边*/
+.right_part .title{
+	height: 48px;
+	padding-left: 26px;
+	border-bottom: 2px solid #4492fd;
+	font-size: 16px; line-height: 48px; color: #242526;
+	position: relative;
+}
+.right_part .title:before{
+	height: 30px; width: 6px;
+	margin-top: -15px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 10px;
+	content: '';
+}
+
+#Player{
+	background: #fff;
+	margin-bottom: 20px;
+}
+#Player table{
+	width: 100%;
+}
+#Player table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
+}
+#Player table td{
+	height: 36px;
+	border-top: 1px solid #e1e4e8;
+	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
+}
+#Player table td p{
+	height: 20px; width: 20px;
+	margin: 0 auto;
+	background: #234981;
+	color: #fff; line-height: 20px;
+}
+
+#Rank{
+	background: #fff;
+	margin-bottom: 20px;
+}
+#Rank table{
+	width: 100%;
+}
+#Rank table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
+}
+#Rank table td{
+	height: 40px;
+	border-top: 1px solid #e1e4e8;
+	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
+}
+#Rank table td p{
+	height: 20px; width: 20px;
+	margin: 0 auto;
+	border-radius: 10px;
+	background: #c1c4cf;
+	color: #fff; line-height: 20px;
+}
+#Rank table tr:nth-child(1) td p, #Rank table tr:nth-child(2) td p, #Rank table tr:nth-child(3) td p{
+	background: #4492fd;
+}
+
+
+/*左边*/
+#Info{
+	min-height: 80px;
+	margin-bottom: 20px; padding: 30px 0 30px 200px;
+	background: #234981;
+	position: relative;
+	font-size: 0;
+}
+#Info .imgbox{
+	height: 106px; width: 200px;
+	margin-top: -53px;
+	position: absolute; left: 0; top: 50%;
+}
+#Info .imgbox img{
+	width: 80px; height: 80px;
+	margin: 0 auto 10px;
+	display: block;
+}
+#Info .imgbox h1{
+	height: 16px;
+	font-size: 16px; line-height: 16px; text-align: center; color: #fff; font-weight: normal;
+	overflow: hidden;
+}
+#Info .part{
+	min-height: 80px;
+	position: relative;
+	display: inline-block; vertical-align: top;
+}
+#Info .part:before{
+	width: 2px;
+	border-top: 30px solid #4492fd;
+	background: #145dbe;
+	position: absolute; top: 0; left: 0; bottom: 0;
+	content: '';
+}
+#Info .partOne{
+	width: 45%;
+}
+#Info .partTwo{
+	width: 55%;
+}
+#Info .part p{
+	padding: 0 10px 0 20px;
+	font-size: 14px; line-height: 18px; color: #fff;
+}
+#Info .part p + p{
+	margin-top: 13px;
+}
+#Info .part p span{
+	color: #bebed4;
+}
+
+#Match{
+	margin-top: 20px; padding: 0 20px 20px;
+	background: #fff;
+}
+#Match .title{
+	height: 40px;
+	padding-left: 36px; margin: 0 -20px 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 16px; line-height: 40px; color: #242526;
+	position: relative;
+}
+#Match .title:before{
+	height: 24px; width: 6px;
+	margin-top: -12px;
+	background: #4794fd;
+	position: absolute; top: 50%; left: 20px;
+	content: '';
+}
+#Match table{
+	width: 100%;
+}
+#Match table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
+}
+#Match table td{
+	height: 40px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+#Match table td:last-child{
+	color: #ababab;
+}
+#Match table tr:nth-child(even) td{
+	background: #f7f7f7;
+}
+#Match table td a{
+	color: #4492fd;
+}
+
+#News{
+	margin-top: 20px; padding: 0 10px 0;
+	background: #fff;
+	font-size: 0; line-height: 0; vertical-align: top;
+}
+#News .title{
+	height: 40px;
+	padding-left: 36px; margin: 0 -10px 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 16px; line-height: 40px; color: #242526;
+	position: relative;
+}
+#News .title:before{
+	height: 24px; width: 6px;
+	margin-top: -12px;
+	background: #4794fd;
+	position: absolute; top: 50%; left: 20px;
+	content: '';
+}
+#News .item{
+	width: 50%;
+	display: inline-block;
+}
+#News a{
+	height: 92px;
+	margin: 0 10px 20px; padding-right: 10px;
+	background: #f7f7f7;
+	font-size: 14px; line-height: 18px; text-align: left; color: #666;
+	display: block;
+	overflow: hidden;
+}
+#News a:hover{
+	color: #4492fd;
+}
+#News a .imgbox{
+	width: 140px; height: 92px;
+	margin-right: 15px;
+	float: left;
+}
+#News a .con{
+	height: 92px; width: 100%;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#Record{
+	margin-top: 20px; padding: 0 10px 0;
+	background: #fff;
+	font-size: 0; line-height: 0; vertical-align: top;
+}
+#Record .title{
+	height: 40px;
+	padding-left: 36px; margin: 0 -10px 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 16px; line-height: 40px; color: #242526;
+	position: relative;
+}
+#Record .title:before{
+	height: 24px; width: 6px;
+	margin-top: -12px;
+	background: #4794fd;
+	position: absolute; top: 50%; left: 20px;
+	content: '';
+}
+#Record .item{
+	width: 25%;
+	display: inline-block;
+}
+#Record a{
+	margin: 0 10px 20px;
+	background: #f7f7f7;
+	display: block;
+	overflow: hidden;
+}
+#Record a:hover{
+	color: #4492fd;
+}
+#Record a .imgbox{
+	height: 94px;
+	position: relative;
+}
+#Record a .imgbox:before{
+	background: url(/img/pc/icon_pause_n.png) no-repeat center; background-size: 40px;
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+#Record a .con{
+	height: 40px;
+	font-size: 12px; line-height: 40px; text-align: center; clear: #666;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
