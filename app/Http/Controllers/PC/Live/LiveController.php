@@ -16,6 +16,7 @@ use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
+use App\Models\Match\BasketMatch;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -74,7 +75,9 @@ class LiveController extends Controller
     public function livesStatic(Request $request){
         $html = $this->lives(new Request());
         try {
-            Storage::disk("public")->put("/www/index.html",$html);
+            if (!empty($html)) {
+                Storage::disk("public")->put("/www/index.html", $html);
+            }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
@@ -369,6 +372,17 @@ class LiveController extends Controller
         $akqCon = new AikanQController();
         $json = $akqCon->detailJsonData($id, false);
         $json['articles'] = PcArticle::randArticles(12);
+        $lid = isset($json['match']['lid']) ? $json['match']['lid'] : null;
+        if (isset($lid)) {
+            //获取 赛事的其他赛程
+            $mQuery = \App\Models\Match\Match::query()->where('lid', $lid);
+            $mQuery->where('id', '<>', $json['match']['mid']);
+            $mQuery->where('time', '>=', date('Y-m-d H:i', strtotime('-3 days')));
+            $leagueLives = $mQuery->take(7)->get();
+            $json['leagueLives'] = $leagueLives;
+        }
+        $json['sport'] = MatchLive::kSportFootball;
+        $json['lid'] = $lid;
         return $this->detailHtml($json, $id);
     }
 
@@ -415,6 +429,38 @@ class LiveController extends Controller
             return abort(404);
         }
         $json['articles'] = PcArticle::randArticles(12);
+        $lid = isset($json['match']['lid']) ? $json['match']['lid'] : null;
+
+        $match = $json['match'];
+        $mid = $match['id'];
+        $hid = $match['hid'];
+        $aid = $match['aid'];
+
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+        if (isset($lid)) {//获取 赛事的其他赛程
+            $mQuery = \App\Models\Match\BasketMatch::query()->where('lid', $lid);
+            $mQuery->where('id', '<>', $json['match']['mid']);
+            $mQuery->where('time', '>=', date('Y-m-d H:i', strtotime('-3 days')));
+            $leagueLives = $mQuery->take(7)->get();
+            $json['leagueLives'] = $leagueLives;
+        }
+        $passVSMatches = BasketMatch::vsMatches($hid, $aid);//过往战绩
+        $hNearMatches = BasketMatch::nearMatches($hid);//主队近期战绩
+        $aNearMatches = BasketMatch::nearMatches($aid);//客队近期战绩
+        $moreLives = $this->moreLives($mid, 7);//TODO 更多直播
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
+        //dump($articles);
+
+        $json['passVSMatches'] = $passVSMatches;
+        $json['hNearMatches'] = $hNearMatches;
+        $json['aNearMatches'] = $aNearMatches;
+        $json['moreLives'] = $moreLives;
+        $json['articles'] = $articles;
+
+        $json['sport'] = MatchLive::kSportBasketball;
+        $json['lid'] = $lid;
+
         return $this->basketDetailHtml($json, $id);
     }
 
@@ -1115,6 +1161,38 @@ class LiveController extends Controller
         Storage::disk("public")->put("/app/v101/lives/" . $sport . '/' . $mid . '.json', $appData);
         Storage::disk("public")->put("/app/v110/lives/" . $sport . '/' . $mid . '.json', $appData);
         Storage::disk("public")->put("/app/v130/lives/" . $sport . '/' . $mid . '.json', $appData);
+    }
+
+    /**
+     * 更多直播
+     * @param $curId
+     * @param int $count
+     * @return array|null
+     */
+    public function moreLives($curId, $count = 7) {
+        $liveJson = $this->getCacheLives();
+        if (is_null($liveJson) || !isset($liveJson['matches'])) {
+            return null;
+        }
+        $liveMatches = $liveJson['matches'];
+        $matches = [];
+        foreach ($liveMatches as $time=>$array) {
+            foreach ($array as $key=>$match) {
+                $mid = $match['mid'];
+                if ($mid == $curId) continue;
+                $matches[] = $match;
+                if (count($matches) >= $count) {
+                    break;
+                }
+            }
+        }
+        return $matches;
+    }
+
+    public function getCacheLives() {
+        $cache = Storage::get('/public/static/json/lives.json');
+        $json = json_decode($cache, true);
+        return $json;
     }
 
     public function appLiveDetail(Request $request,$sport,$mid){

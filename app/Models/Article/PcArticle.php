@@ -12,6 +12,8 @@ namespace App\Models\Article;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Admin\Account;
+use App\Models\Label\Label;
+use App\Models\Label\LabelGroup;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -227,4 +229,42 @@ class PcArticle extends Model
 //        }
 //        return $query->take($count)->get();
     }
+
+
+    /**
+     * 获取相关新闻方法
+     * @param $labels
+     * @param $count
+     * @return array
+     */
+    public static function liveRelationArticle(array $labels, $count = 10) {
+        $lidStr = "";
+        foreach ($labels as $label) {
+            $labelEntity = Label::query()->where('label', $label)->first();
+            $id = $labelEntity->id;
+            if (empty($lidStr)) {
+                $lidStr .= $id;
+            } else {
+                $lidStr .= ",".$id;
+            }
+        }
+
+
+        $query = PcArticle::query();
+        $query->join('label_articles', 'label_articles.article_id', '=', 'pc_articles.id');
+        $query->whereExists(function ($exQuery) use ($lidStr) {
+            $exQuery->selectRaw("1");
+            $exQuery->from("label_groups");
+            $exQuery->whereRaw("lid_main in (".$lidStr.")");
+            $exQuery->whereRaw("(lid_same = label_articles.label_id or label_articles.label_id in (".$lidStr.") ) ");
+        });
+        $query->where('pc_articles.status', PcArticle::kStatusPublish);
+        $query->orderByDesc("pc_articles.publish_at");
+        $query->take($count);
+        $query->select("pc_articles.*");
+
+        return $query->get();
+    }
+
+
 }

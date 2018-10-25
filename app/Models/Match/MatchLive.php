@@ -405,9 +405,23 @@ class MatchLive extends Model
         return $array;
     }
 
-    public static function isLive($mid, $sport = MatchLive::kSportFootball) {
-        $count = MatchLive::query()->where('sport', $sport)
-            ->where('match_id', $mid)->get()->count();
+    public static function isLive($mid, $sport = MatchLive::kSportFootball, $platform = null) {
+        $query = MatchLive::query();
+        $query->join('match_live_channels', 'match_live_channels.live_id', '=', 'match_lives.id');
+        $query->where('match_lives.sport', $sport)->where('match_lives.match_id', $mid);
+        $query->where('match_live_channels.show', MatchLiveChannel::kShow);
+        if (isset($platform)) {
+            if ($platform != MatchLiveChannel::kPlatformAll) {
+                $query->where(function ($orQuery) use ($platform) {
+                    $orQuery->where('match_live_channels.platform', '=', $platform);
+                    $orQuery->orWhere('match_live_channels.platform', '=', MatchLiveChannel::kPlatformAll);
+                });
+            } else {
+                $query->where('match_live_channels.platform', '=', $platform);
+            }
+        }
+
+        $count = $query->count();
         return $count > 0;
     }
 

@@ -1,3 +1,32 @@
+function setPage(){
+    if (canSaveIE()) {
+        $('#Navigation .inner').append('<a class="save" href="javascript:void(0)">【收藏本站】</a>');
+        $('#Navigation a.save').click(function(e) {
+            var href = 'https://www.aikanqiu.com', title = '爱看球，世界各大体育赛事直播！';
+            try{
+                if(window.sidebar){
+                    sidebar.addPanel(title, href, "");
+                }else{
+                    external.addFavorite(href, title);
+                }
+            }catch(e){
+                alert("加入收藏失败，请按Ctrl+D进行添加");
+            }
+            return false;
+        });
+    }
+
+    LoadVideo();
+
+    $('#Data .column a').click(function(){
+        if (!$(this).hasClass('on')) {
+            $(this).siblings().removeClass('on').end().addClass('on');
+            $('#Analysis, #Lineup, #Technology').css('display','none');
+            $('#' + $(this).attr('value')).css('display','');
+        }
+    })
+}
+
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;
@@ -68,7 +97,7 @@ function ChangeChannel (Link,obj) {
 		document.getElementById('Frame').src = Link;
 	}
 
-	document.getElementById('Share').getElementsByTagName('input')[0].value = Link;
+	//document.getElementById('Share').getElementsByTagName('input')[0].value = Link;
 
 }
 
@@ -102,4 +131,16 @@ function setADClose () {
 		}
     })
 	
+}
+
+function canSaveIE () {
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+    if(isIE || isIE11) {
+        return true;
+    }else{
+        return false;
+    }
 }

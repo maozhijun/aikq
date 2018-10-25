@@ -1504,7 +1504,7 @@ class AikanQController extends Controller
         $obj = ['hname'=>$match->hname, 'aname'=>$match->aname, 'sport'=>$sport ];
         $obj['league_name'] = $match->getLeagueName();
         $obj['lid'] = $match->lid;
-        $obj['isMatching'] = ($match->status > 0 && $match->status <= 4);
+        $obj['isMatching'] = ($match->status > 0);
         $obj['host_icon'] = $match->getTeamIcon(true);
         $obj['away_icon'] = $match->getTeamIcon(false);
         $obj['mid'] = $match['mid'];
