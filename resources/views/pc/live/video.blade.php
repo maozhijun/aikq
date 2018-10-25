@@ -19,7 +19,8 @@
                     <li>
                         <p class="time">{{date('m/d H:i', strtotime($leagueLive['time']))}}</p>
                         <p class="status">
-                            @if(\App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
+                            @if($leagueLive->status == -1)已结束
+                            @elseif($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
                                 <a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>
                             @endif
                         </p>
@@ -120,8 +121,8 @@
             <div id="Data">
                 <div class="column">
                     <a href="javascript:void(0)" class="on" value="Analysis">数据分析</a>
-                    <a href="javascript:void(0)" value="Lineup">球队阵容</a>
-                    <a href="javascript:void(0)" value="Technology">技术统计</a>
+                    @if($hasLineup)<a href="javascript:void(0)" value="Lineup">球队阵容</a>@endif
+                    @if($hasTech)<a href="javascript:void(0)" value="Technology">技术统计</a> @endif
                 </div>
                 <div id="Analysis" style="display: ;">
                     @if(isset($passVSMatches) && count($passVSMatches) > 0)
@@ -208,7 +209,8 @@
                 </div>
                 <div id="Lineup" style="display: none;">
                     <div class="team">
-                        <p class="title">英格兰</p>
+                        @if($hasLineup)
+                        <p class="title">{{$match['hname']}}</p>
                         <table>
                             <thead>
                             <tr>
@@ -218,106 +220,21 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @if(isset($lineup['home']))
+                            @foreach($lineup['home'] as $l)
                             <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
+                                <td>{{$l['num']}}</td>
+                                <td>{{$l['name']}}</td>
+                                <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
+                            @endforeach
+                            @endif
                             </tbody>
                         </table>
+                        @endif
                     </div>
                     <div class="team">
-                        <p class="title">西班牙</p>
+                        <p class="title">{{$match['aname']}}</p>
                         <table>
                             <thead>
                             <tr>
@@ -327,226 +244,46 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td>是</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>瑞恩</td>
-                                <td></td>
-                            </tr>
+                            @if(isset($lineup['away']))
+                                @foreach($lineup['away'] as $l)
+                                    <tr>
+                                        <td>{{$l['num']}}</td>
+                                        <td>{{$l['name']}}</td>
+                                        <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div id="Technology" style="display: none;">
+                    @if(isset($tech) && count($tech))
                     <p class="title">本次技术统计</p>
                     <table>
                         <colgroup>
                             <col>
-                            <col width="45">
+                            <col width="{{$sport == 2 ? 100 : 45}}">
                             <col width="15%">
-                            <col width="45">
+                            <col width="{{$sport == 2 ? 100 : 45}}">
                             <col>
                         </colgroup>
+                        @foreach($tech as $t)
                         <tr>
                             <td>
-                                <p><span style="width: 60%;"></span></p>
+                                <p><span style="width: {{ (isset($t['h_p']) && is_numeric($t['h_p'])) ? ($t['h_p'] * 100) : 0 }}%;"></span></p>
                             </td>
-                            <td>2</td>
-                            <td>角球角球角球角球角球</td>
-                            <td>9</td>
+                            <td>{{$t['h']}}</td>
+                            <td>{{$t['name']}}</td>
+                            <td>{{$t['a']}}</td>
                             <td>
-                                <p><span style="width: 40%;"></span></p>
+                                <p><span style="width: {{ (isset($t['a_p']) && is_numeric($t['a_p'])) ? ($t['a_p'] * 100) : 0 }}%;"></span></p>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><span style="width: 60%;"></span></p>
-                            </td>
-                            <td>2</td>
-                            <td>角球</td>
-                            <td>9</td>
-                            <td>
-                                <p><span style="width: 40%;"></span></p>
-                            </td>
-                        </tr>
+                        @endforeach
                     </table>
+                    @endif
+                    @if(isset($events) && count($events) > 0)
                     <p class="title">详细事件</p>
                     <table>
                         <colgroup>
@@ -557,45 +294,28 @@
                             <col>
                         </colgroup>
                         <thead>
+
                         <tr>
-                            <th>英格兰</th>
+                            <th>{{$match['hname']}}</th>
                             <th>事件</th>
                             <th>时间</th>
                             <th>事件</th>
-                            <th>西班牙</th>
+                            <th>{{$match['aname']}}</th>
                         </tr>
                         </thead>
                         <tbody>
+                        @foreach($events as $event)
                         <tr>
-                            <td>莫离（助攻:皮亚尔）</td>
-                            <td>进球</td>
-                            <td>25‘</td>
-                            <td></td>
-                            <td></td>
+                            <td>@if($event['is_home']){{\App\Models\LgMatch\MatchEvent::getKindCn($event['kind'])}}@endif</td>
+                            <td>@if($event['is_home']){{\App\Models\LgMatch\MatchEvent::getEventCn($event['kind'], $event['player_name_j'], $event['player_name_j2'])}}@endif</td>
+                            <td>{{$event['happen_time']}}‘</td>
+                            <td>@if(!$event['is_home']){{\App\Models\LgMatch\MatchEvent::getKindCn($event['kind'])}}@endif</td>
+                            <td>@if(!$event['is_home']){{\App\Models\LgMatch\MatchEvent::getEventCn($event['kind'], $event['player_name_j'], $event['player_name_j2'])}}@endif</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>57‘</td>
-                            <td>黄牌</td>
-                            <td>阿诺托维奇</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>57‘</td>
-                            <td>换人</td>
-                            <td>安东尼奥（换上）佩里克（换下）</td>
-                        </tr>
-                        <tr>
-                            <td>安东尼奥（换上）佩里克（换下）</td>
-                            <td>换人</td>
-                            <td>57‘</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                        @endforeach
                         </tbody>
                     </table>
+                    @endif
                 </div>
             </div>
             @if(count($moreLives) > 0)

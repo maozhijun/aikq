@@ -12,6 +12,7 @@ use App\Console\LiveDetailCommand;
 use App\Console\NoStartPlayerJsonCommand;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\IntF\CmsController;
+use App\Http\Controllers\IntF\MatchController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Match;
@@ -372,7 +373,17 @@ class LiveController extends Controller
         $akqCon = new AikanQController();
         $json = $akqCon->detailJsonData($id, false);
         $json['articles'] = PcArticle::randArticles(12);
-        $lid = isset($json['match']['lid']) ? $json['match']['lid'] : null;
+
+        $match = $json['match'];
+
+        $lid = isset($match['lid']) ? $match['lid'] : null;
+        $hid = $match['hid'];
+        $aid = $match['aid'];
+        $mid = $match['mid'];
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+        $sport = $match['sport'];
+
         if (isset($lid)) {
             //获取 赛事的其他赛程
             $mQuery = \App\Models\Match\Match::query()->where('lid', $lid);
@@ -381,8 +392,31 @@ class LiveController extends Controller
             $leagueLives = $mQuery->take(7)->get();
             $json['leagueLives'] = $leagueLives;
         }
-        $json['sport'] = MatchLive::kSportFootball;
+
+        $passVSMatches = \App\Models\Match\Match::vsMatches($hid, $aid);//过往战绩
+        $hNearMatches = \App\Models\Match\Match::nearMatches($hid);//主队近期战绩
+        $aNearMatches = \App\Models\Match\Match::nearMatches($aid);//客队近期战绩
+        $moreLives = $this->moreLives($mid, 7);//更多直播
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
+
+        $tech = MatchController::tech($sport, $mid);//篮球数据
+        $lineup = MatchController::footballLineup($mid);//球队阵容
+
+        $json['passVSMatches'] = $passVSMatches;
+        $json['hNearMatches'] = $hNearMatches;
+        $json['aNearMatches'] = $aNearMatches;
+        $json['moreLives'] = $moreLives;
+        $json['articles'] = $articles;
+
+        $json['tech'] = isset($tech['tech']) ? $tech['tech'] : [];
+        $json['events'] = isset($tech['event']['events']) ? $tech['event']['events'] : [];
+        $json['hasTech'] = isset($tech['tech']) && count($tech['tech']) > 0;
+        $json['lineup'] = $lineup;
+        $json['hasLineup'] = isset($lineup) && count($lineup) > 0;
+
+        $json['sport'] = $sport;
         $json['lid'] = $lid;
+
         return $this->detailHtml($json, $id);
     }
 
@@ -438,27 +472,36 @@ class LiveController extends Controller
 
         $hname = $match['hname'];
         $aname = $match['aname'];
+        $sport = MatchLive::kSportBasketball;
+
         if (isset($lid)) {//获取 赛事的其他赛程
             $mQuery = \App\Models\Match\BasketMatch::query()->where('lid', $lid);
             $mQuery->where('id', '<>', $json['match']['mid']);
-            $mQuery->where('time', '>=', date('Y-m-d H:i', strtotime('-3 days')));
+            $mQuery->where('time', '>=', date('Y-m-d H:i', strtotime('-4 hours')));
             $leagueLives = $mQuery->take(7)->get();
             $json['leagueLives'] = $leagueLives;
         }
         $passVSMatches = BasketMatch::vsMatches($hid, $aid);//过往战绩
         $hNearMatches = BasketMatch::nearMatches($hid);//主队近期战绩
         $aNearMatches = BasketMatch::nearMatches($aid);//客队近期战绩
-        $moreLives = $this->moreLives($mid, 7);//TODO 更多直播
+        $moreLives = $this->moreLives($mid, 7);//更多直播
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        //dump($articles);
+        //TODO
+
+        $tech = MatchController::tech($sport, $mid);//篮球数据
+        $lineup = MatchController::basketballLineup($mid);//球队阵容
 
         $json['passVSMatches'] = $passVSMatches;
         $json['hNearMatches'] = $hNearMatches;
         $json['aNearMatches'] = $aNearMatches;
         $json['moreLives'] = $moreLives;
         $json['articles'] = $articles;
+        $json['tech'] = $tech;
+        $json['hasTech'] = isset($tech) && count($tech) > 0;
+        $json['lineup'] = $lineup;
+        $json['hasLineup'] = isset($lineup) && count($lineup) > 0;
 
-        $json['sport'] = MatchLive::kSportBasketball;
+        $json['sport'] = $sport;
         $json['lid'] = $lid;
 
         return $this->basketDetailHtml($json, $id);

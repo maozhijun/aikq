@@ -241,6 +241,7 @@ class PcArticle extends Model
         $lidStr = "";
         foreach ($labels as $label) {
             $labelEntity = Label::query()->where('label', $label)->first();
+            if (!isset($labelEntity)) continue;
             $id = $labelEntity->id;
             if (empty($lidStr)) {
                 $lidStr .= $id;
