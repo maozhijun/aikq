@@ -1,7 +1,7 @@
 @extends('mip.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="/mip/css/team.css">
+    <link rel="stylesheet" type="text/css" href="/css/team.css">
 @stop
 <?php
     $coach = "";

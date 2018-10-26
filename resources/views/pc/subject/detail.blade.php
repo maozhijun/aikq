@@ -72,9 +72,17 @@
                                 @endif</td>
                             <td>{{date('H:i', $match['time'])}}</td>
                             <td>@if($match['status'] > 0 && count($match['channels']) > 0)<p class="live">直播中</p>@endif</td>
-                            <td>{{$match['hname']}}</td>
+                            @if(isset($match['hid']))
+                                <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $subject['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+                            @else
+                                <td>{{$match['hname']}}</td>
+                            @endif
                             <td>@if($match['status'] == 0) VS @else {{$match['hscore'] . ' - ' . $match['ascore']}} @endif</td>
-                            <td>{{$match['aname']}}</td>
+                            @if(isset($match['aid']))
+                                <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $subject['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+                            @else
+                                <td>{{$match['aname']}}</td>
+                            @endif
                             <td>
                                 @foreach($match['channels'] as $c_index=>$channel)
                                     <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>

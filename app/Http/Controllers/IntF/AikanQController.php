@@ -1049,6 +1049,7 @@ class AikanQController extends Controller
                 $round = $match->round;
             }
             $obj = ['time'=>$time, 'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
+                'hid'=>$match->hid, 'aid'=>$match->aid,
                 'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport, 'round'=>$round];
             $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);
             $live = $liveQuery->first();
@@ -1509,6 +1510,8 @@ class AikanQController extends Controller
         $obj = ['hname'=>$match->hname, 'aname'=>$match->aname, 'sport'=>$sport ];
         $obj['league_name'] = $match->getLeagueName();
         $obj['lid'] = $match->lid;
+        $obj['hid'] = $match->hid;
+        $obj['aid'] = $match->aid;
         $obj['isMatching'] = ($match->status > 0);
         $obj['host_icon'] = $match->getTeamIcon(true);
         $obj['away_icon'] = $match->getTeamIcon(false);
