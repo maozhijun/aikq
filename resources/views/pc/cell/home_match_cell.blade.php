@@ -45,11 +45,19 @@
     @if(isset($match['type']) && $match['type'] == 1)
         <td colspan="5">{{$match['hname']}}</td>
     @else
-        <td>{{$match['hname']}}</td>
+        @if(isset($match['hid']))
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+        @else
+            <td>{{$match['hname']}}</td>
+        @endif
         <td></td>
         <td>VS</td>
         <td></td>
-        <td>{{$match['aname']}}</td>
+        @if(isset($match['aid']))
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+        @else
+            <td>{{$match['aname']}}</td>
+        @endif
     @endif
     <td>
         @foreach($channels as $index=>$channel)

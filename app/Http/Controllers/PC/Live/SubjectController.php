@@ -12,6 +12,7 @@ namespace App\Http\Controllers\PC\Live;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Article\PcArticle;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
@@ -96,19 +97,26 @@ class SubjectController extends Controller
     public function subjectVideo(Request $request, $name_en, $vid) {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         //录像 播放页面
-        $video = $this->getSubjectVideo($vid);
-        if (!isset($sl) || isset($video['error']) || ($sl->id != $video['s_lid']) ) {
+        $svc = $this->getVideoChannel($vid);
+        if (!isset($svc) || !isset($sl)) {
             return abort(404);
         }
-        return $this->subjectVideoHtml($video);
+        $video = $svc->video;
+        if (!isset($video)) {
+            return abort(404);
+        }
+        return $this->subjectVideoHtml($video, $svc, $sl);
     }
 
     /**
      * 专题录像终端HTML
      * @param $video
+     * @param $svc
+     * @param $sl
+     * @param
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideoHtml($video) {
+    public function subjectVideoHtml($video, $svc, $sl) {
         $result['match'] = $video;
         $result['type'] = 'video';
 
@@ -116,10 +124,22 @@ class SubjectController extends Controller
         $hname = $video['hname'];
         $aname = $video['aname'];
 
+        //获取这场比赛是所有录像、集锦
+        $allChannels = $video->getAllChannels();
+        $moreVideos = SubjectVideo::moreVideos($svc->id);//更多视频
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
+
         $match_title = $hname . "VS" . $aname;
         $result['title'] = $match_title . "全场回放_" . $match_title . "高清录像_" . $lname . "录像_爱看球直播";
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
-        return view('pc.subject.video', $result);
+        $result['svc'] = $svc;
+        $result['sl'] = $sl;
+        $result['video'] = $video;
+        $result['allChannels'] = $allChannels;
+        $result['moreVideos'] = $moreVideos;
+        $result['articles'] = $articles;
+
+        return view('pc.video.detail', $result);
     }
 
     /**
@@ -275,6 +295,11 @@ class SubjectController extends Controller
         $intF = new AikanQController();
         $video = $intF->subjectVideo($id, false);
         return $video;
+    }
+
+    public function getVideoChannel($id) {
+        $svc = SubjectVideoChannels::query()->find($id);
+        return $svc;
     }
 
     /**

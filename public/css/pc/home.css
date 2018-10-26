@@ -18,6 +18,7 @@ table.list{
 }
 table.list thead th{
 	height: 50px;
+	border-top: 2px solid #4492fd;
 	background: #f2f8fd;
 	font-size: 16px; line-height: 50px; text-align: center; color: #002c90;
 	position: relative;
@@ -119,6 +120,9 @@ table.list tbody td:nth-child(4){
 	padding-right: 10px;
 	text-align: right; color: #bc1c25;
 }
+table.list tbody td:nth-child(4) a{
+	color: inherit;
+}
 table.list tbody td:nth-child(5){
 	padding-right: 10px;
 	text-align: right;
@@ -133,6 +137,9 @@ table.list tbody td:nth-child(7){
 table.list tbody td:nth-child(8){
 	padding-left: 12px;
 	text-align: left; color: #4492fd;
+}
+table.list tbody td:nth-child(8) a{
+	color: inherit;
 }
 table.list tbody td:nth-child(9), table.list tbody td[colspan='5'] + td{
 	text-align: left;
@@ -191,6 +198,9 @@ table.list p.live{
 	margin-top: 0;
     position: fixed; top: 90px; left: 50%; z-index: 3;
     display: none;
+}
+#TableHead th{
+	border-color: #f2f8fd !important;
 }
 
 /*广告*/

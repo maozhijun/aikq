@@ -2,6 +2,7 @@
 namespace App\Console\HtmlStaticCommand\Team;
 
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Team\TeamController;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\BasketSeason;
@@ -109,20 +110,24 @@ class TeamDetailCommand extends Command
             AikanQController::leagueRankStatic($sport, $lid);
 
             $hid = $match->hid;
-            if (isset($hid) && strlen($hid) > 0) {
-                TeamController::detailStatic($sport, $lid, $hid);
-            }
+            self::onTeamDetailStaticByTid($sport, $lid, $hid);
             $aid = $match->aid;
-            if (isset($aid) && strlen($aid) > 0) {
-                TeamController::detailStatic($sport, $lid, $aid);
-            }
+            self::onTeamDetailStaticByTid($sport, $lid, $aid);
         }
     }
 
     public static function onTeamDetailStaticByTid($sport, $lid, $tid)
     {
         if (isset($tid) && strlen($tid) > 0) {
-            TeamController::detailStatic($sport, $lid, $tid);
+            $data = AikanQController::teamDetailData($sport, $lid, $tid);
+            $path = CommonTool::getTeamDetailPath($sport, $lid, $tid);
+
+            //pc站
+            TeamController::detailStatic($data, $path);
+            //web站
+            \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($data, $path);
+            //mip站
+            \App\Http\Controllers\Mip\Team\TeamController::detailStatic($data, $path);
         }
     }
 }

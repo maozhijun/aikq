@@ -6,11 +6,12 @@
  * Time: 10:57
  */
 
-namespace App\Http\Controllers\PC\Team;
+namespace App\Http\Controllers\Mobile\Team;
 
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
@@ -18,12 +19,6 @@ use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    public function rank(Request $request, $sport, $lid) {
-        $rankData = AikanQController::leagueRankData($sport, $lid);
-        $leagueData = AikanQController::getLeagueDataByLid($sport, $lid);
-        return view('pc.team.detail_rank_cell', ['ranks'=>$rankData, 'subject'=>$leagueData]);
-    }
-
     public function detail(Request $request, $name_en, $tid)
     {
         $lid = "";
@@ -40,18 +35,17 @@ class TeamController extends Controller
         $data = AikanQController::teamDetailData($sport, $lid, $tid);
         return self::detailHtml($data);
     }
-
     private static function detailHtml($data)
     {
         if ($data == null) return abort(404);
-        return view('pc.team.detail', $data);
+        return view('mobile.team.detail', $data);
     }
 
     public static function detailStatic($data, $path)
     {
         $html = self::detailHtml($data);
 
-        Storage::disk('public')->put("www/$path", $html);
-        echo "pc: $path </br>";
+        Storage::disk('public')->put("m/$path", $html);
+        echo "mobile: $path </br>";
     }
 }

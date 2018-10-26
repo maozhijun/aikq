@@ -185,9 +185,19 @@ table.live tbody td:first-child + td + td + td{
 	padding-left: 5px;
 	text-align: right; color: #bc1c25;
 }
+table.live tbody td:first-child + td + td + td a{
+	padding: 0; margin: 0;
+	color: inherit;
+	display: inline;
+}
 table.live tbody td:first-child + td + td + td + td + td{
 	padding-right: 5px;
 	text-align: left; color: #4492fd;
+}
+table.live tbody td:first-child + td + td + td + td + td a{
+	padding: 0; margin: 0;
+	color: inherit;
+	display: inline;	
 }
 table.live tbody td:first-child span{
 	width: 100%; max-width: 60px; height: 24px;

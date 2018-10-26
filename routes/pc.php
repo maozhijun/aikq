@@ -157,7 +157,7 @@ Route::group(["namespace" => 'Live'], function () {
 
     Route::get('/{name_en}', 'SubjectController@detail');//专题终端页 英超、中超、等等
     Route::get('/{name_en}/video{vid}.html', 'SubjectController@subjectVideo');//专题录像终端页
-    Route::get('/{name_en}/specimen{sid}.html', 'SubjectController@subjectSpecimen');//专题集锦播放终端页面
+//    Route::get('/{name_en}/specimen{sid}.html', 'SubjectController@subjectSpecimen');//专题集锦播放终端页面
 
     Route::get('/live/subject/video/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
     Route::get('/live/subject/video/channel/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
