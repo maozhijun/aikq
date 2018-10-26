@@ -269,7 +269,7 @@ class CommonTool
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
         }
-        return "/$name_en/team/$sport/".substr($tempTid, 0, 2). "/". substr($tempTid, 2, 2) . ".html";
+        return "/$name_en/team/$sport/".substr($tempTid, 0, 2). "/". $tempTid . ".html";
     }
 
     /**
@@ -282,7 +282,11 @@ class CommonTool
         } else {
             $name_en = "other";
         }
-        return "/$name_en/team$sport$tid.html";
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        return "/$name_en/team$sport$tempTid.html";
     }
 
     public static function getLiveDetailStaticPath($mid, $sport) {

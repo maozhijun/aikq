@@ -92,13 +92,21 @@
                                 <tr>
                                     <td>{{$match['lname']}}</td>
                                     <td>{{date('y-m-d', $match['time'])}} {{date('H:i', $match['time'])}}</td>
-                                    <td>{{$match['hname']}}</td>
+                                    @if(isset($match['hid']) && $match['hid'] != $team['id'])
+                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+                                    @else
+                                        <td>{{$match['hname']}}</td>
+                                    @endif
                                     @if($match['status'] < 0)
                                         <td>{{$match['hscore']}} - {{$match['ascore']}}</td>
                                     @else
                                         <td>VS</td>
                                     @endif
-                                    <td>{{$match['aname']}}</td>
+                                    @if(isset($match['aid']) && $match['aid'] != $team['id'])
+                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+                                    @else
+                                        <td>{{$match['aname']}}</td>
+                                    @endif
                                     <td>
                                         @if($match['status'] >= 0)
                                             @foreach($match['channels'] as $c_index=>$channel)
@@ -128,60 +136,6 @@
                 @if(isset($videos) && count($videos) > 0)
                     <div id="Record">
                         <p class="title">相关录像</p>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="">
-                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                            </a>
-                        </div>
                         <div class="item">
                             <a href="">
                                 <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>

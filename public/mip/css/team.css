@@ -1,0 +1,197 @@
+﻿img.logo{
+	position: absolute;
+	display: none;
+}
+
+/*顶栏筛选*/
+#Info{
+	height: 210px;
+	padding-left: 145px;
+	background: url(../img/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	position: relative;
+}
+#Info mip-img{
+	width: 90px; height: 90px;
+	position: absolute; top: 44px; left: 30px;
+}
+#Info .name{
+	width: 145px;
+	font-size: 16px; line-height: 20px; text-align: center; color: #fff; font-weight: bold;
+	position: absolute; top: 150px; left: 0;
+}
+#Info .more{
+	width: 100%;
+}
+#Info .more p{
+	font-size: 14px; line-height: 16px; color: #fff;
+}
+#Info .more p + p{
+	margin-top: 10px;
+}
+#Info .more p span{
+	color: #9ac5ff;
+}
+
+/*tab*/
+section{
+	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
+}
+
+/*内容区域*/
+#Content{
+	
+}
+
+#Data{
+	padding: 15px 12px 0;
+}
+#Data table{
+	width: 100%;
+}
+#Data table th{
+	height: 34px;
+	background: none;
+	font-size: 13px; line-height: 18px; text-align: center; color: #7e7e7e;
+}
+#Data table td{
+	height: 50px;
+	font-size: 13px; line-height: 18px; text-align: center; color: #565656;
+}
+#Data table td:first-child, #Data table td span{
+	color: #7e7e7e;
+}
+#Data table td:nth-child(2){
+	font-size: 11px;
+}
+#Data table td:last-child{
+	color: #c1c9d4;
+}
+#Data table td:last-child a{
+	color: #4492fd;
+}
+
+#Player{
+	padding: 24px 12px 0;
+}
+#Player table{
+	width: 100%;
+}
+#Player table th{
+	height: 34px;
+	background: none;
+	font-size: 13px; line-height: 18px; text-align: center; color: #7e7e7e;
+}
+#Player table td{
+	height: 44px;
+	font-size: 13px; line-height: 18px; text-align: center; color: #565656;
+}
+#Player table td p{
+	width: 20px; height: 20px;
+	margin: 0 auto;
+	border-radius: 4px;
+	background: #6d93c6;
+	font-size: 14px; line-height: 20px; color: #fff;
+}
+
+#News{
+	background: #fff;
+}
+#News a{
+	height: 80px;
+	padding: 10px 0 10px 130px; margin: 0 12px;
+	position: relative;
+	display: block;
+}
+#News a + a{
+	border-top: 1px solid #e0e3ea;
+}
+#News mip-img{
+	width: 120px;
+	position: absolute; top: 10px; left: 0; bottom: 10px;
+	float: left;
+}
+#News .con{
+	height: 80px; width: 100%;
+	font-size: 16px; line-height: 24px; color: #565656;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#Record{
+	padding: 15px 8px 0;
+	background: #fff;
+	font-size: 0; line-height: 0;
+}
+#Record .item{
+	width: 50%;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+#Record .item a{
+	margin: 0 4px;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 2px 7px 0 rgba(2, 33, 127, 0.1);
+	overflow: hidden;
+	display: block;
+}
+#Record .item a mip-img{
+	height: 100px;
+}
+#Record .item a .con{
+	height: 40px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #565656;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+
+/*微信*/
+#WX{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
+
+/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

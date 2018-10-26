@@ -1857,6 +1857,7 @@ class AikanQController extends Controller
         $obj = ['time'=>strtotime($match->time), 'lid'=>$match->lid,
             'lname'=>isset($match->lname) ? $match->lname : (isset($match['win_lname']) ? $match['win_lname'] : $lname),
             'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
+            'hid'=>$match->hid, 'aid'=>$match->aid,
             'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport];
 
         $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);

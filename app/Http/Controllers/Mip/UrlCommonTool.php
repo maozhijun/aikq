@@ -91,6 +91,10 @@ class UrlCommonTool
         return $prefix."/$name/";
     }
 
+    public static function getTeamDetailUrl($sport, $lid, $tid, $prefix = self::MIP_PREFIX) {
+        $url = CommonTool::getTeamDetailUrl($sport, $lid, $tid);
+        return $prefix.$url;
+    }
 
     /*********************其他*************************/
 
