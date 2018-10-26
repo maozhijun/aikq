@@ -116,6 +116,11 @@ class UrlCommonTool
         return self::MOBILE_PREFIX."/$name/";
     }
 
+    public static function getTeamDetailUrl($sport, $lid, $tid) {
+        $url = CommonTool::getTeamDetailUrl($sport, $lid, $tid);
+        return $url;
+    }
+
 
     /*********************其他*************************/
 

@@ -50,13 +50,13 @@
                 <tbody>
                 @if(isset($lives) && count($lives) > 0)
                     @foreach($lives as $match)
-                        <?php $liveUrl = \App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']) ?>
+                        <?php $liveUrl = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']) ?>
                         <tr>
                             <td>{{$match['lname']}}</td>
                             <td><span>{{date('y/m/d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
                             <td>
                                 @if(isset($match['hid']) && $match['hid'] != $team['id'])
-                                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a>
+                                    <a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a>
                                 @else
                                     {{$match['hname']}}
                                 @endif
@@ -66,7 +66,7 @@
                                      vs
                                 @endif
                                 @if(isset($match['aid']) && $match['aid'] != $team['id'])
-                                    <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a>
+                                    <a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a>
                                 @else
                                     {{$match['aname']}}
                                 @endif
