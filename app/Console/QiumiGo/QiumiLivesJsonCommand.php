@@ -44,6 +44,7 @@ class QiumiLivesJsonCommand extends Command
      */
     public function handle()
     {
+        //pc端的
         $url = 'http://cms.aikanqiu.com/json/lives.json?time=' . time();
         $ch = curl_init();
         $timeout = 5;
@@ -55,6 +56,20 @@ class QiumiLivesJsonCommand extends Command
 
         if ($lines_string && strlen($lines_string) > 0) {
             Storage::disk("public")->put("/static/json/lives.json", $lines_string);
+        }
+
+        //web端的
+        $url = 'http://cms.aikanqiu.com/m/json/lives.json?time=' . time();
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $lines_string = curl_exec($ch);
+        curl_close($ch);
+
+        if ($lines_string && strlen($lines_string) > 0) {
+            Storage::disk("public")->put("/static/m/json/lives.json", $lines_string);
         }
     }
 }
