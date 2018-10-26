@@ -68,4 +68,11 @@ Route::group(["namespace" => 'Subject'], function () {
     }
 });
 
+/**
+ * 球队终端
+ */
+Route::group(["namespace" => 'Team'], function () {
+    Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
+});
+
 Route::get("/test/{id}", "Subject\\SubjectController@staticSubjectDetailJson");

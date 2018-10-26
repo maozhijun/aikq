@@ -1,0 +1,315 @@
+﻿img.logo{
+	position: absolute;
+	display: none;
+}
+
+/*顶栏筛选*/
+#Info{
+	height: 420px;
+	padding-left: 290px;
+	background: url(/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+	position: relative;
+}
+#Info img{
+	width: 180px; height: 180px;
+	position: absolute; top: 88px; left: 60px;
+}
+#Info .name{
+	width: 290px;
+	font-size: 32px; line-height: 40px; text-align: center; color: #fff; font-weight: bold;
+	position: absolute; top: 300px; left: 0;
+}
+#Info .more{
+	width: 100%;
+}
+#Info .more p{
+	font-size: 28px; line-height: 32px; color: #fff;
+}
+#Info .more p + p{
+	margin-top: 20px;
+}
+#Info .more p span{
+	color: #9ac5ff;
+}
+
+/*tab*/
+.tabbox{
+	height: 88px;
+	background: #fff;
+	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
+	top: 88px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+.tabbox button{
+	height: 88px;
+	background: #fff;
+	font-size: 28px; text-align: center;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+.tabbox button.on{
+	color: #4492fd;
+}
+.tabbox button.on:before{
+	width: 50px; height: 4px;
+	margin-left: -25px;
+	border-radius: 2px;
+	background: #4492fd;
+	position: absolute; bottom: 6px; left: 50%;
+	content: '';
+}
+
+/*内容区域*/
+#Content{
+	
+}
+
+#Data{
+	padding: 30px 24px 0;
+}
+#Data table{
+	width: 100%;
+}
+#Data table th{
+	height: 68px;
+	background: none;
+	font-size: 26px; line-height: 36px; text-align: center; color: #7e7e7e;
+}
+#Data table td{
+	height: 100px;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
+}
+#Data table td:first-child, #Data table td span{
+	color: #7e7e7e;
+}
+#Data table td:nth-child(2){
+	font-size: 22px;
+}
+#Data table td:last-child{
+	color: #c1c9d4;
+}
+#Data table td:last-child a{
+	color: #4492fd;
+}
+
+#Player{
+	padding: 48px 24px 0;
+}
+#Player .h_a{
+	height: 58px; width: 500px;
+	margin: 0 auto 40px;
+	border: 1px solid #4492fd; border-radius: 8px;
+	font-size: 0; text-align: center;
+	overflow: hidden;
+}
+#Player .h_a button{
+	height: 58px; width: 250px;
+	background: #fff;
+	font-size: 28px; text-align: center; color: #6e6e6e;
+	vertical-align: top;
+}
+#Player .h_a button.on{
+	background: #4492fd;
+	color: #fff;
+}
+#Player table{
+	width: 100%;
+}
+#Player table th{
+	height: 68px;
+	background: none;
+	font-size: 26px; line-height: 36px; text-align: center; color: #7e7e7e;
+}
+#Player table td{
+	height: 88px;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
+}
+#Player table td p{
+	width: 44px; height: 44px;
+	margin: 0 auto;
+	border-radius: 8px;
+	background: #6d93c6;
+	font-size: 28px; line-height: 44px; color: #fff;
+}
+
+#Technology{
+	
+}
+#Technology .title{
+	height: 100px;
+	margin: 0 -24px; padding-left: 44px;
+	font-size: 28px; line-height: 100px; color: #565656;
+	position: relative;
+}
+#Technology .title:after{
+	height: 14px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #5c95e4;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+#Technology .title:before{
+	height: 40px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #d1d8f0;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+#Technology table{
+	width: 100%;
+}
+#Technology .default{
+	padding: 10px 24px 0;
+	background: #fff;
+}
+#Technology .count table td{
+	height: 88px;
+	font-size: 28px; line-height: 36px; text-align: center; color: #565656;
+}
+#Technology .count table td:nth-child(2), #Technology table td:nth-child(4){
+	width: 80px;
+}
+#Technology .count table td:nth-child(3){
+	width: 180px;
+}
+#Technology .count table td p{
+	height: 14px;
+	background: #6d93c6;
+	display: inline-block;
+}
+#Technology .count table td:first-child p{
+	border-radius: 7px 0 0 7px;
+	float: right;
+}
+#Technology .count table td:last-child p{
+	border-radius: 0 7px 7px 0;
+	float: left;
+}
+#Technology .event table th{
+	height: 68px;
+	background: #fff;
+	font-size: 28px; line-height: 36px; text-align: center; color: #7e7e7e;
+}
+#Technology .event table td{
+	height: 100px;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
+}
+#Technology .event table td:nth-child(3){
+	background: #f9f9f9;
+}
+#Technology .event table td span{
+	font-size: 22px; color: #7e7e7e;
+}
+#Technology .event table td:nth-child(3){
+	width: 110px;
+}
+#Technology .event table td:nth-child(2), #Technology .event table td:nth-child(4){
+	width: 110px;
+	color: #6d93c6;
+}
+#Technology .event table td:nth-child(1), #Technology .event table td:nth-child(5){
+	width: 200px;
+}
+
+#News{
+	background: #fff;
+}
+#News a{
+	height: 160px;
+	padding: 20px 0 20px 260px; margin: 0 24px;
+	position: relative;
+	display: block;
+}
+#News a + a{
+	border-top: 1px solid #e0e3ea;
+}
+#News .imgbox{
+	width: 240px;
+	position: absolute; top: 20px; left: 0; bottom: 20px;
+	float: left;
+}
+#News .con{
+	height: 160px; width: 100%;
+	font-size: 32px; line-height: 48px; color: #565656;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#Record{
+	padding: 30px 16px 0;
+	background: #fff;
+	font-size: 0; line-height: 0;
+}
+#Record .item{
+	width: 50%;
+	padding-bottom: 20px;
+	display: inline-block;
+}
+#Record .item a{
+	margin: 0 8px;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 2px 7px 0 rgba(2, 33, 127, 0.1);
+	overflow: hidden;
+	display: block;
+}
+#Record .item a .imgbox{
+	height: 200px;
+}
+#Record .item a .con{
+	height: 80px;
+	font-size: 28px; line-height: 80px; text-align: center; color: #565656;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+
+/*微信*/
+#WX{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
+
+/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

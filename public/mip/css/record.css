@@ -1,0 +1,147 @@
+﻿body{
+	padding-top: 310px;
+}
+img.logo{
+	position: absolute;
+	display: none;
+}
+
+
+#Video{
+	margin-bottom: 0; padding-top: 210px;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 2;
+}
+#Video mip-iframe{
+	width: 100%; height: 210px;
+	background: #333; 
+	position: absolute; bottom: 44px; left: 0;
+	display: block;
+}
+
+/*.tabbox{
+	height: 44px;
+	padding: 0 12px;
+	background: #fff;
+	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
+	position: fixed; top: 255px; left: 0; right: 0; z-index: 1;
+	white-space: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+}
+.tabbox button{
+	height: 44px;
+	padding: 0 20px;
+	background: none;
+	font-size: 14px; text-align: center;
+	position: relative;
+	display: inline-block;
+}
+.tabbox button.on{
+	color: #4492fd;
+}
+.tabbox button.on:before{
+	width: 0; bottom: 0;
+	margin-left: -6px;
+	border-top: 6px solid #4492fd; border-left: 6px solid transparent; border-right: 6px solid transparent;
+	position: absolute; top: 0; left: 50%;
+	content: '';
+}
+*/
+/*内容区域*/
+#Content{
+	
+}
+#Record{
+	padding: 0 8px;
+	background: #fff;
+	font-size: 0; line-height: 0;
+}
+#Record .title{
+	height: 50px;
+	margin: 0 -8px; padding-left: 22px;
+	font-size: 14px; line-height: 50px; color: #565656;
+	position: relative;
+}
+#Record .title:after{
+	height: 7px; width: 4px;
+	border-radius: 0 0 2px 2px;
+	background: #5c95e4;
+	position: absolute; top: 15px; left: 12px;
+	content: '';
+}
+#Record .title:before{
+	height: 20px; width: 4px;
+	border-radius: 0 0 2px 2px;
+	background: #d1d8f0;
+	position: absolute; top: 15px; left: 12px;
+	content: '';
+}
+#Record .item{
+	width: 50%;
+	padding-bottom: 10px;
+	display: inline-block;
+}
+#Record .item a{
+	margin: 0 4px;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 2px 7px 0 rgba(2, 33, 127, 0.1);
+	overflow: hidden;
+	display: block;
+}
+#Record .item a mip-img{
+	height: 100px;
+}
+#Record .item a .con{
+	height: 40px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #565656;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+
+/*微信*/
+#WX{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
+
+/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
