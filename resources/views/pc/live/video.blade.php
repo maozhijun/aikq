@@ -27,16 +27,6 @@
                         <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
                     </li>
                     @endforeach
-                    {{--<li>--}}
-                        {{--<p class="time">10/20 22:15</p>--}}
-                        {{--<p class="status"><a class="live" href="">直播中</a></p>--}}
-                        {{--<p class="team"><a href="">瓦伦西亚 vs 莱加内安徽发</a></p>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<p class="time">10/20 22:15</p>--}}
-                        {{--<p class="status"><a class="record" href="">录像</a></p>--}}
-                        {{--<p class="team"><a href="">瓦伦西亚 vs 莱加内安徽发</a></p>--}}
-                    {{--</li>--}}
                 </ul>
             </div>
             @endif
@@ -116,13 +106,14 @@
                         </thead>
                         <tbody>
                         @foreach($passVSMatches as $pMatch)
+                        <?php $fv = \App\Models\Subject\SubjectVideo::firstVideo($pMatch['id']); ?>
                         <tr>
                             <td>{{$pMatch->getLeagueName()}}</td>
                             <td>{{substr($pMatch['time'], 2, 14)}}</td>
                             <td>{{$pMatch['hname']}}</td>
                             <td>{{$pMatch['hscore']}}-{{$pMatch['ascore']}}</td>
                             <td>{{$pMatch['aname']}}</td>
-                            <td><a href="{{$pMatch['id']}}">全场录像</a></td>
+                            <td>@if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">录像</a>@endif</td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -143,13 +134,14 @@
                         </thead>
                         <tbody>
                         @foreach($hNearMatches as $hMatch)
+                        <?php $fv = \App\Models\Subject\SubjectVideo::firstVideo($hMatch['id']); ?>
                         <tr>
                             <td>{{$hMatch->getLeagueName()}}</td>
                             <td>{{substr($hMatch['time'], 2, 14)}}</td>
                             <td>{{$hMatch['hname']}}</td>
                             <td>{{$hMatch['hscore']}}-{{$hMatch['ascore']}}</td>
                             <td>{{$hMatch['aname']}}</td>
-                            <td><a href="{{$hMatch['id']}}">全场录像</a></td>
+                            <td>@if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">录像</a>@endif</td>
                         </tr>
                         @endforeach
                         </tbody>
@@ -170,13 +162,14 @@
                         </thead>
                         <tbody>
                         @foreach($aNearMatches as $aMatch)
+                        <?php $fv = \App\Models\Subject\SubjectVideo::firstVideo($aMatch['id']); ?>
                         <tr>
                             <td>{{$aMatch->getLeagueName()}}</td>
                             <td>{{substr($aMatch['time'], 2, 14)}}</td>
                             <td>{{$aMatch['hname']}}</td>
                             <td>{{$aMatch['hscore']}}-{{$aMatch['ascore']}}</td>
                             <td>{{$aMatch['aname']}}</td>
-                            <td><a href="{{$aMatch['id']}}">全场录像</a></td>
+                            <td>@if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">录像</a>@endif</td>
                         </tr>
                         @endforeach
                         </tbody>

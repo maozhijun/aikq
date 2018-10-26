@@ -145,4 +145,13 @@ class SubjectVideo extends Model
         return $query->get();
     }
 
+    public static function firstVideo($mid) {
+        $query = self::query();
+        $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
+        $query->where('mid', $mid);
+        $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        $query->orderBy('subject_video_channels.od');
+        return $query->first();
+    }
+
 }

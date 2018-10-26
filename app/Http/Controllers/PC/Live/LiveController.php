@@ -581,7 +581,7 @@ class LiveController extends Controller
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
-        return view('pc.live.video', $json);
+        return view('pc.live.video_backups', $json);
     }
 
     /**
