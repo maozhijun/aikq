@@ -19,6 +19,8 @@ use App\Console\HtmlStaticCommand\OtherPlayerCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Console\JustFun\JustFunStreamStaticCommand;
+use App\Console\QiumiGo\QiumiLiveDetailCommand;
+use App\Console\QiumiGo\QiumiLivesJsonCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
@@ -115,6 +117,10 @@ class Kernel extends ConsoleKernel
         JustFunStreamStaticCommand::class,//抓饭流静态化
 
         TeamDetailCommand::class, //球队终端静态化
+
+        //专门for qiumigo
+        QiumiLivesJsonCommand::class,
+        QiumiLiveDetailCommand::class,
     ];
 
     /**
@@ -125,6 +131,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        if (env("APP_ENV") == 'qiumigo') {
+            $schedule->command('qiumi_live_json_cache:run')->everyMinute();
+            $schedule->command('qiumi_live_detail_cache:run all')->everyTenMinutes();
+            $schedule->command('qiumi_live_detail_cache:run live')->everyMinute();
+            return;
+        }
+
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
