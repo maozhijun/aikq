@@ -1,75 +1,81 @@
 @extends('pc.layout.base')
-@section('content')
-    <div id="Content">
-        <div class="inner">
-            <div id="Info">
-                <h1 class="name"></h1>
-                <p class="line">
-                    {{--<button id="{{$channel['id']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['title']}}</button>--}}
-                </p>
-            </div>
-            <div class="iframe" id="Video">
-                <div class="ADWarm_RU" style="display: none;"><p onclick="document.getElementById('Video').removeChild(this.parentNode)">· 我知道了 ·</p></div>
-            </div>
-            <div class="share" id="Share">
-                复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>
+@section("css")
+    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/record.css">
+@endsection
+@section("content")
+<div id="Content">
+    <div class="inner">
+        <div id="Crumb">
+            <a href="index.html">爱看球</a>
+            @if(isset($sl))&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/{{$sl['name_en']}}">{{$sl['name']}}</a>@endif
+            &nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$svc['title']}}</span>
+        </div>
+        <div id="Player">
+            <iframe src="{{$svc['content']}}"></iframe>
+            <div class="list">
+                <h1>{{$video['hname']}} vs {{$video['aname']}}</h1>
+                <ul>
+                    @foreach($allChannels as $ch)
+                    <li @if($ch['id'] == $svc['id']) class="on" @endif >
+                        <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                        <a class="con" @if($ch['id'] != $svc['id']) href="video{{$ch['id']}}.html" @endif >{{$ch['title']}}</a>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
-        <div id="Talent" class="tabContent inner" style=""></div>
+        @if(isset($articles) && count($articles) > 0)
+        <div class="right_part">
+            <div id="News">
+                <p class="title">相关新闻</p>
+                @foreach($articles as $index=>$article)
+                    @if($index < 3)
+                        <a class="big" href="{{$article->url}}" target="_blank">
+                            <p class="imgbox" style="background: url({{$article->cover}}); background-size: cover;"></p>
+                            <p class="con">{{$article['title']}}</p>
+                        </a>
+                    @else
+                        <a class="small" href="{{$article->url}}" target="_blank">{{$article['title']}}</a>
+                    @endif
+                @endif
+            </div>
+        </div>
+        @endif
+        @if(isset($moreVideos) && count($moreVideos) > 0)
+        <div class="left_part">
+            <div id="Record">
+                <p class="title">更多精彩录像</p>
+                @foreach($moreVideos as $mVideo)
+                <div class="item">
+                    <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mVideo['s_lid'], $mVideo['id'], 'video')}}">
+                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? '/img/pc/video_bg.jpg' : $mVideo['cover']}}); background-size: cover;"></p>
+                        <p class="con">{{$mVideo['title']}}</p>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
     <div class="clear"></div>
+</div>
 @endsection
-@section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-    <script type="text/javascript">
-        window.onload = function () { //需要添加的监控放在这里
-            setADClose();
-        }
-        function changeShare(link, obj) {
-            if (obj.className.indexOf('on') != -1) {
-                return;
-            }
-            $("#Info button").removeClass('on');
-            $(obj).addClass('on');
-            $("#Share input").val(link);
-        }
-        $(function () {
-            var id = GetQueryString('id');
-            var type = GetQueryString('type');
-            if (type != 'sv') type = 'hv';
-            if (/\d+/.test(id)) {
-                var index = Math.floor(id / 10000);
-                var url;
-                if (type == 'sv') {
-                    url = "/live/subject/videos/channel/" + index + "/" + id + '.json';
-                } else {
-                    url = "/live/videos/channel/" + index + "/" + id + '.json';
-                }
-                $.ajax({
-                    "url": url,
-                    "dataType": "json",
-                    "success": function (json) {
-                        if (json && json.code == 0) {
-                            $("#Info h1.name").html(json.lname + "：" + json.hname);
-                            var host = window.location.host;
-                            if (json.player == 11 || json.playurl.indexOf('player.pptv.com') != -1) {
-                                host = 'http://' + host;
-                            } else {
-                                host = 'https://' + host;
-                            }
-                            var link = host + '/live/subject/player.html?cid=' + id + '&type=' + type;
-                            var btnHtml = '<button id="' + id + '"onclick="ChangeChannel(\'' + link + '\', this)" style="display: none;"></button>';
-                            $("#Info p.line").html(btnHtml);
-                            LoadVideo();
-                        }
-                    },
-                    "error": function () {
-                    }
-                });
-            }
-        });
-    </script>
-@endsection
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?t=123">
-@endsection
+
+<!-- <div class="adflag left">
+    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
+</div>
+<div class="adflag right">
+    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
+</div> -->
+</body>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
+<![endif]-->
+<!-- <script type="text/javascript" src="js/team.js"></script> -->
+<script type="text/javascript">
+    window.onload = function () { //需要添加的监控放在这里
+        setADClose();
+    }
+</script>
+</html>

@@ -1,0 +1,213 @@
+﻿#Content{
+	padding-bottom: 60px;
+}
+
+.right_part {
+    width: 220px;
+    float: right;
+}
+.left_part {
+    margin-right: 240px;
+}
+
+/*播放区域*/
+#Player{
+	height: 380px;
+	margin-bottom: 20px; padding-right: 240px;
+	background: #234981;
+	position: relative;
+}
+#Player iframe{
+	width: 100%; height: 100%;
+}
+#Player .list{
+	width: 240px;
+	padding-top: 48px;
+	position: absolute; top: 0; bottom: 0; right: 0;
+}
+#Player .list h1{
+	height: 48px;
+	padding-left: 10px;
+	background: #183663;
+	font-size: 16px; line-height: 48px; color: #fff; font-weight: normal;
+	position: absolute; top: 0; left: 0; right: 0;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#Player .list ul{
+	height: 100%;
+	padding: 0 8px;
+	overflow-y: auto; overflow-x: hidden;
+}
+#Player .list ul li{
+	height: 70px;
+	margin-bottom: 14px;
+	background: #465c7c;
+	cursor: pointer;
+}
+#Player .list ul li:first-child{
+	margin-top: 14px;
+}
+#Player .list ul li .imgbox{
+	width: 130px; height: 70px;
+	position: relative;
+	float: left;
+}
+#Player .list ul li .imgbox:before{
+	background: url(../img/icon_pause_n.png) no-repeat center; background-size: 36px;
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+#Player .list ul li .con{
+	height: 70px; width: 110px;
+	font-size: 12px; line-height: 18px; text-align: center; color: #fff;
+	vertical-align: middle;
+	display: table-cell;
+}
+#Player .list ul li.on, #Player .list ul li:hover{
+	background: #f7f7f7;
+	box-shadow: 0px 2px 10px 0px rgba(8, 0, 36, 0.6);
+}
+#Player .list ul li.on .con, #Player .list ul li:hover .con{
+	color: #4492fd;
+}
+
+/*右边*/
+.right_part .title{
+	height: 48px;
+	padding-left: 26px;
+	border-bottom: 2px solid #4492fd;
+	font-size: 16px; line-height: 48px; color: #242526;
+	position: relative;
+}
+.right_part .title:before{
+	height: 30px; width: 6px;
+	margin-top: -15px;
+	background: #4492fd;
+	position: absolute; top: 50%; left: 10px;
+	content: '';
+}
+
+#News{
+	margin-bottom: 20px; padding-bottom: 10px;
+	background: #fff;
+}
+#News a.big{
+	height: 56px;
+	padding-left: 92px; margin: 10px 10px 0;
+	background: #f7f7f7;
+	position: relative;
+	display: block;
+}
+#News a.big .imgbox{
+	width: 84px;
+	position: absolute; top: 0; left: 0; bottom: 0;
+}
+#News a.big p.con{
+	height: 56px;
+	font-size: 12px; line-height: 16px; color: #666;
+	vertical-align: middle;
+	display: table-cell;
+}
+#News a.big:hover p.con{
+	color: #4492fd;
+}
+#News a.small{
+	height: 12px;
+	margin: 9px 10px 0;
+	font-size: 12px; line-height: 12px; color: #666;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	display: block;
+}
+#News a.big + a.small{
+	margin-top: 20px;
+}
+#News a.small:hover{
+	color: #4492fd;
+}
+
+/*左边*/
+#Record{
+	padding: 0 10px 0;
+	background: #fff;
+	font-size: 0; line-height: 0; vertical-align: top;
+}
+#Record .title{
+	height: 40px;
+	padding-left: 36px; margin: 0 -10px 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 16px; line-height: 40px; color: #242526;
+	position: relative;
+}
+#Record .title:before{
+	height: 24px; width: 6px;
+	margin-top: -12px;
+	background: #4794fd;
+	position: absolute; top: 50%; left: 20px;
+	content: '';
+}
+#Record .item{
+	width: 25%;
+	display: inline-block;
+}
+#Record a{
+	margin: 0 10px 20px;
+	background: #f7f7f7;
+	display: block;
+	overflow: hidden;
+}
+#Record a:hover{
+	color: #4492fd;
+}
+#Record a .imgbox{
+	height: 94px;
+	position: relative;
+}
+#Record a .imgbox:before{
+	background: url(../img/icon_pause_n.png) no-repeat center; background-size: 40px;
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+#Record a .con{
+	height: 40px;
+	font-size: 12px; line-height: 40px; text-align: center; clear: #666;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

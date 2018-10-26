@@ -8,25 +8,25 @@ var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
 var valid_code = '8888', show_ad = true, matchTime, matchStatus, errorRepeat = 1;
 
-$.ajax({
-    "url": "/json/dd_image/images.json?time=" + (new Date()).getTime(),
-    "success": function (json) {
-        if (json) {
-            if (json.l) ad_l = json.l;
-            if (json.d) ad_d = json.d;
-            if (json.z) ad_z = json.z;
-            if (json.w) ad_w = json.w;
-            if (json.cd) cd = json.cd;
-            if (json.cd_name) cd_name = json.cd_name;
-            if (json.cd_text) cd_text = json.cd_text;
-            if (json.code) valid_code = json.code;
-        }
-        var code = getCookie('LIVE_HD_CODE_KEY');
-        if (code == valid_code) {
-            ad_time = 0;//已输入验证码，不出广告
-        }
-    }
-});
+// $.ajax({
+//     "url": "/json/dd_image/images.json?time=" + (new Date()).getTime(),
+//     "success": function (json) {
+//         if (json) {
+//             if (json.l) ad_l = json.l;
+//             if (json.d) ad_d = json.d;
+//             if (json.z) ad_z = json.z;
+//             if (json.w) ad_w = json.w;
+//             if (json.cd) cd = json.cd;
+//             if (json.cd_name) cd_name = json.cd_name;
+//             if (json.cd_text) cd_text = json.cd_text;
+//             if (json.code) valid_code = json.code;
+//         }
+//         var code = getCookie('LIVE_HD_CODE_KEY');
+//         if (code == valid_code) {
+//             ad_time = 0;//已输入验证码，不出广告
+//         }
+//     }
+// });
 //获取链点参数
 function GetQueryString(str,href) {
     var Href;

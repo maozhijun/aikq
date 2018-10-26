@@ -55,41 +55,17 @@
                 @endforeach
             </div>
             @endif
+            @if(isset($videos) && count($videos) )
             <div id="Record">
                 <p class="title">相关录像</p>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
+                @foreach($videos as $video)
+                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
+                    <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                    <p class="name">{{$video['title']}}</p>
                 </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
-                <a href="">
-                    <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                    <p class="name">C罗运球被对手</p>
-                </a>
+                @endforeach
             </div>
+            @endif
         </div>
         <div class="left_part">
             <!-- <div class="adbanner inner"><a href="https://www.liaogou168.com/merchant/detail/10008" target="_blank"><img src="img/ad_1.jpg"><button class="close"></button></a></div> -->
