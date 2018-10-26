@@ -69,9 +69,9 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" name="mid" value="">
             <input type="hidden" name="cover" value="">
-            <button onmouseover="showCover(this);" onmouseout="hideCover();" style="float: left;margin-right: 5px;" type="button" class="btn btn-default" onclick="uploadCover(this)">
-                <span class="glyphicon glyphicon-upload"></span>封面图
-            </button>
+            {{--<button onmouseover="showCover(this);" onmouseout="hideCover();" style="float: left;margin-right: 5px;" type="button" class="btn btn-default" onclick="uploadCover(this)">--}}
+                {{--<span class="glyphicon glyphicon-upload"></span>封面图--}}
+            {{--</button>--}}
             <select id="s_lid" name="s_lid" style="width: 130px;" class="form-control input-form">
                 <option value="">联赛专题</option>
                 @foreach($leagues as $league)
@@ -93,7 +93,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>封面</th>
+                    {{--<th>封面</th>--}}
                     <th>专题</th>
                     <th>比赛信息</th>
                     <th width="200px;">操作</th>
@@ -111,12 +111,12 @@
                         <input type="hidden" name="mid" value="{{$video->mid}}">
                         <tr style="{!! $tr_color !!}">
                             <td><h5>{{$video->id}}</h5></td>
-                            <td>
-                                <input type="hidden" name="cover" value="{{$video->cover}}">
-                                <button onmouseover="showCover(this);" onmouseout="hideCover();" style="float: left;margin-right: 5px;" type="button" class="btn btn-default" onclick="uploadCover(this)">
-                                    <span class="glyphicon glyphicon-upload"></span>封面图
-                                </button>
-                            </td>
+                            {{--<td>--}}
+                                {{--<input type="hidden" name="cover" value="{{$video->cover}}">--}}
+                                {{--<button onmouseover="showCover(this);" onmouseout="hideCover();" style="float: left;margin-right: 5px;" type="button" class="btn btn-default" onclick="uploadCover(this)">--}}
+                                    {{--<span class="glyphicon glyphicon-upload"></span>封面图--}}
+                                {{--</button>--}}
+                            {{--</td>--}}
                             <td>
                                 <select id="s_lid{{$video->id}}" name="s_lid" style="width: 130px;" class="form-control input-form">
                                     <option value="">联赛专题</option>
@@ -256,6 +256,7 @@
             var cover = channelDiv.find('input[name=cover]').val();
             var title = channelDiv.find('input[name=title]').val();
             var platform = channelDiv.find('select[name=platform]').val();
+            var type = channelDiv.find('select[name=type]').val();
             var player = channelDiv.find('select[name=player]').val();
             var content = channelDiv.find('input[name=content]').val();
             var od = channelDiv.find('input[name=od]').val();
@@ -281,7 +282,7 @@
                 alert("录像线路排序只能填写正整数");
                 return;
             }
-            var data = {"cover": cover, "title": title, "platform": platform, "player": player
+            var data = {"cover": cover, "title": title, "platform": platform, "type": type, "player": player
                 , "content": content, "od": od, "sv_id": sv_id, 'id': ch_id};
 
             $(thisObj).button('loading');

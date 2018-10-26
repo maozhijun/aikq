@@ -185,6 +185,7 @@ class SubjectVideoController extends Controller
         $title = $request->input('title');//录像标题
         $cover = $request->input('cover');//录像封面
         $platform = $request->input('platform');//录像播放平台
+        $type = $request->input('type');//录像类型，1：录像，2：集锦
         $player = $request->input('player');//录像播放方式
         $content = $request->input('content');//录像链接内容
         $od = $request->input('od');//录像排序
@@ -226,6 +227,7 @@ class SubjectVideoController extends Controller
             $sv_ch->title = $title;
             $sv_ch->cover = $cover;
             $sv_ch->platform = $platform;
+            $sv_ch->type = $type;
             $sv_ch->player = $player;
             $sv_ch->content = $content;
             $sv_ch->od = $od;
