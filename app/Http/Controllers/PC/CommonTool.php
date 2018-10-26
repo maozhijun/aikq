@@ -254,6 +254,37 @@ class CommonTool
         return $name_en;
     }
 
+    /**
+     * 球队终端静态path
+     */
+    public static function getTeamDetailPath($sport, $lid, $tid) {
+        $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+        if (isset($subject)) {
+            $name_en = $subject->name_en;
+        } else {
+            $name_en = "other";
+        }
+
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        return "/$name_en/team/$sport/".substr($tempTid, 0, 2). "/". substr($tempTid, 2, 2) . ".html";
+    }
+
+    /**
+     * 球队终端url
+     */
+    public static function getTeamDetailUrl($sport, $lid, $tid) {
+        $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+        if (isset($subject)) {
+            $name_en = $subject->name_en;
+        } else {
+            $name_en = "other";
+        }
+        return "/$name_en/team$sport$tid.html";
+    }
+
     public static function getLiveDetailStaticPath($mid, $sport) {
         $tempData = self::getDetailNameDataByMid($mid, $sport);
         //只有满足，mid等于比赛两队最近的比赛才返回保存路径

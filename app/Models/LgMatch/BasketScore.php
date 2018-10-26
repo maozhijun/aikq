@@ -29,27 +29,33 @@ class BasketScore extends Model
      * @return array
      */
     public static function getScoresByLid($lid, $zone = 0) {
-        $query = self::query();
-        $query->join('basket_teams', 'basket_teams.id', '=', 'basket_scores.tid');
-        $query->where('basket_scores.lid', $lid);
-        $query->where('basket_scores.zone', $zone);
-        $query->orderBy('basket_scores.rank');
-        $query->selectRaw("basket_teams.name_china, basket_scores.league_bat_w, basket_scores.league_bat_l");
-        $query->addSelect(['basket_scores.zone', 'basket_scores.rank', 'basket_scores.win', 'basket_scores.lose']);
-        $scores = $query->get();
-        $array = [];
-        foreach ($scores as $score) {
-            if ($lid == 1) {
-                $win = $score->league_bat_w;
-                $lose = $score->league_bat_l;
-            } else {
-                $win = $score->win;
-                $lose = $score->lose;
-            }
+        $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
 
-            $total = $win + $lose;
-            $win_p = $total > 0 ? round($win / $total, 2) * 100: 0;
-            $array[] = ['name'=>$score->name_china, 'win'=>$win, 'lose'=>$lose, 'rank'=>$score->rank, 'win_p'=>$win_p];
+        $array = [];
+        if(isset($season)) {
+            $query = self::query();
+            $query->join('basket_teams', 'basket_teams.id', '=', 'basket_scores.tid');
+            $query->where('basket_scores.lid', $lid);
+            $query->where('basket_scores.zone', $zone);
+            $query->where('basket_scores.season', $season->name);
+            $query->orderBy('basket_scores.rank');
+            $query->selectRaw("basket_teams.name_china, basket_scores.league_bat_w, basket_scores.league_bat_l");
+            $query->addSelect(['basket_scores.zone', 'basket_scores.rank', 'basket_scores.win', 'basket_scores.lose']);
+            $scores = $query->get();
+
+            foreach ($scores as $score) {
+                if ($lid == 1) {
+                    $win = $score->league_bat_w;
+                    $lose = $score->league_bat_l;
+                } else {
+                    $win = $score->win;
+                    $lose = $score->lose;
+                }
+
+                $total = $win + $lose;
+                $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
+                $array[] = ['name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p];
+            }
         }
         return $array;
     }

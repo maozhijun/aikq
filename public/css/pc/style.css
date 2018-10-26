@@ -26,10 +26,26 @@ html{height: 100%;}
 body{
 	min-height: 100%;
 	padding: 90px 14% 176px;
-	background: url(/img/pc/image_bg.jpg) no-repeat center top #f2f2f2; background-size: 100% auto; color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
+	background: #f7f7f7;
+	color: #000; font-weight: normal; font: 12px/20px 'PingFang','PingFangSC-Regular','苹方',Tahoma, Helvetica, Arial,'微软雅黑',sans-serif;
 	box-sizing: border-box;
 	-webkit-text-size-adjust: none;
 	position: relative;
+}
+body:before, body:after{
+	height: 1080px;
+	position: fixed; top: 0; z-index: -1;
+	content: '';
+}
+body:before{
+	width: 124px;
+	background: url(https://www.aikanqiu.com/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	left: 0;
+}
+body:after{
+	width: 317px;
+	background: url(https://www.aikanqiu.com/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	right: 0;
 }
 
 /*基础样式*/
@@ -72,7 +88,7 @@ body{
 /*无内容*/
 .noList{
 	padding: 160px 0 40px;
-	background: url(/img/pc/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
+	background: url(https://www.aikanqiu.com/img/pc/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
 	font-size: 16px; line-height: 24px; text-align: center; color: #999;
 	display: none;
 }
@@ -96,7 +112,7 @@ body{
 }
 #Navigation .inner{
 	height: 58px;
-	/*background: url(/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
+	/*background: url(http://static.cdn.dlfyb.com/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
 	font-size: 0;
 	position: initial;
 }
@@ -150,7 +166,7 @@ body{
 #Link{
 	height: 30px;
 	padding: 0 12%;
-	background: url(/img/pc/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
+	background: url(https://www.aikanqiu.com/img/pc/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
 	text-align: center;
 	position: fixed; top: 60px; left: 0; right: 0; z-index: 9;
 }
@@ -171,13 +187,13 @@ body{
 #Crumb{
 	height: 40px;
 	margin-top: -20px;
-	font-size: 12px; line-height: 40px; color: #d4d4d4;
+	font-size: 12px; line-height: 40px; color: #a8a8a8;
 }
 #Crumb a{
-	color: #d4d4d4;	
+	color: #a8a8a8;	
 }
 #Crumb a:hover, #Crumb .on{
-	color: #fff;
+	color: #6e6e6e;
 }
 
 /*内容*/
@@ -196,7 +212,7 @@ body{
 #Bottom{
 	height: 120px;
 	padding: 30px 0 26px;
-	background: #f2f2f2;
+	background: #f7f7f7;
 	font-size: 14px; line-height: 30px; text-align: center; color: #808488;
 	position: absolute; bottom: 0; left: 0; right: 0;
 }

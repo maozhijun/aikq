@@ -40,6 +40,62 @@ class MatchEvent extends Model
         return $cn;
     }
 
+    public static function getEventCn($kind, $playerName, $playerName1) {
+        $cn = "";
+        switch ($kind) {
+            case 1:
+                $cn = $playerName . "（进球）";
+                break;
+            case 2:
+                $cn = $playerName . "（红牌）";
+                break;
+            case 3:
+                $cn = $playerName . "（黄牌）";
+                break;
+            case 7:
+                $cn = $playerName . "（点球）";
+                break;
+            case 8:
+                $cn = $playerName . "（乌龙球）";
+                break;
+            case 9:
+                $cn = $playerName . "（两黄一红）";
+                break;
+            case 11:
+                $cn = $playerName . "（换上） " . $playerName1 . "（换下）";
+                break;
+        }
+        return $cn;
+    }
+
+    public static function getKindCn($kind) {
+        $cn = "";
+        switch ($kind) {
+            case 1:
+                $cn = "进球";
+                break;
+            case 2:
+                $cn = "红牌";
+                break;
+            case 3:
+                $cn = "黄牌";
+                break;
+            case 7:
+                $cn = "点球";
+                break;
+            case 8:
+                $cn = "乌龙球";
+                break;
+            case 9:
+                $cn = "两黄一红";
+                break;
+            case 11:
+                $cn = "换人";
+                break;
+        }
+        return $cn;
+    }
+
     public function kindCss() {
         $kind = $this->kind;
         $css = "";

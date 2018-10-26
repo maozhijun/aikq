@@ -82,4 +82,12 @@ class SubjectLeague extends Model
         return $query->first();
     }
 
+    /**
+     * 根据传入的赛事id和sport返回subject_league
+     */
+    public static function getSubjectLeagueByLid($sport, $lid) {
+        $query = self::query();
+        $query->where(['sport'=>$sport, 'lid'=>$lid]);
+        return $query->first();
+    }
 }

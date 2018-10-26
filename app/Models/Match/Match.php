@@ -542,4 +542,42 @@ class Match extends Model
         }
         return $matchTime;
     }
+
+
+    /**
+     * 两支球队的过往对阵
+     * @param $hid
+     * @param $aid
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function vsMatches($hid, $aid) {
+        $query = self::query();
+        $query->where('status', -1);
+        $query->where(function ($orQuery) use ($hid, $aid) {
+            $orQuery->where(function ($andQuery) use ($hid, $aid) {
+                $andQuery->where('hid', $hid);
+                $andQuery->where('aid', $aid);
+            });
+            $orQuery->orWhere(function ($andQuery) use ($hid, $aid) {
+                $andQuery->where('aid', $hid);
+                $andQuery->where('hid', $aid);
+            });
+        });
+        $query->orderByDesc('time');
+        $query->take(7);
+        return $query->get();
+    }
+
+    public static function nearMatches($team_id) {
+        $query = self::query();
+        $query->where('status', -1);
+        $query->where(function ($orQuery) use ($team_id) {
+            $orQuery->where('aid', $team_id);
+            $orQuery->orWhere('hid', $team_id);
+        });
+        $query->orderByDesc('time');
+        $query->take(7);
+        return $query->get();
+    }
+
 }
