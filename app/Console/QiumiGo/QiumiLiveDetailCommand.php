@@ -88,6 +88,7 @@ class QiumiLiveDetailCommand extends Command
                             $channels = $match['channels'];
                             foreach ($channels as $channel) {
                                 $ch_id = $channel['id'];
+                                dump($ch_id);
                                 if (is_numeric($ch_id)) {
                                     $liveCon->staticLiveUrl($request, $ch_id, true, null, true);
                                 }
@@ -135,6 +136,7 @@ class QiumiLiveDetailCommand extends Command
                             $channels = $match['channels'];
                             foreach ($channels as $channel) {
                                 $ch_id = $channel['id'];
+                                dump($ch_id);
                                 if (is_numeric($ch_id)) {
                                     $liveCon->staticLiveUrl($request, $ch_id, true, null, true);
                                 }
