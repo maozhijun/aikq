@@ -142,6 +142,15 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/{name_en}/live{param}.html',"LiveController@detailBySL");//足球直播页、篮球直播页、自建赛事直播页
 });
 
+/**
+ * 球队终端
+ */
+Route::group(["namespace" => 'Team'], function () {
+    Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
+
+    Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分
+});
+
 Route::group(["namespace" => 'Live'], function () {
     //========================================================专题页面========================================================//
     Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面

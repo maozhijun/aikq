@@ -2,25 +2,19 @@
 
 namespace App\Providers;
 
+use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Http\Controllers\Admin\Match\MatchController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Mobile\Live\LiveController;
-use App\Http\Controllers\PC\Anchor\AnchorController;
-use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\SubjectController;
-use App\Http\Controllers\PC\MatchTool;
-use App\Models\Admin\Test;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
 use App\Models\Subject\SubjectSpecimen;
-use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class StaticServiceProvider extends ServiceProvider
@@ -102,6 +96,13 @@ class StaticServiceProvider extends ServiceProvider
         SubjectSpecimen::saved(function ($specimen) {
             $subCon = new SubjectController();
             $subCon->staticSubjectSpecimenNew($specimen, false);//静态化pc终端
+        });
+
+        //赛事排名json、球队终端静态化
+        MatchLive::saved(function ($matchLive) {
+            $sport = $matchLive->sport;
+            $mid = $matchLive->match_id;
+            TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
         });
     }
 
