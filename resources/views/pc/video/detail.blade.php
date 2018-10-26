@@ -17,7 +17,7 @@
                 <ul>
                     @foreach($allChannels as $ch)
                     <li @if($ch['id'] == $svc['id']) class="on" @endif >
-                        <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($ch['cover']) ? '/img/pc/video_bg.jpg' : $ch['cover']}}); background-size: cover;"></p>
                         <a class="con" @if($ch['id'] != $svc['id']) href="video{{$ch['id']}}.html" @endif >{{$ch['title']}}</a>
                     </li>
                     @endforeach
