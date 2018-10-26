@@ -19,6 +19,8 @@ use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\MatchLiveChannel;
+use App\Models\Match\RelationVideo;
+use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -398,6 +400,7 @@ class LiveController extends Controller
         $aNearMatches = \App\Models\Match\Match::nearMatches($aid);//客队近期战绩
         $moreLives = $this->moreLives($mid, 7);//更多直播
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
+        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
 
         $tech = MatchController::tech($sport, $mid);//篮球数据
         $lineup = MatchController::footballLineup($mid);//球队阵容
@@ -407,6 +410,7 @@ class LiveController extends Controller
         $json['aNearMatches'] = $aNearMatches;
         $json['moreLives'] = $moreLives;
         $json['articles'] = $articles;
+        $json['videos'] = $videos;
 
         $json['tech'] = isset($tech['tech']) ? $tech['tech'] : [];
         $json['events'] = isset($tech['event']['events']) ? $tech['event']['events'] : [];

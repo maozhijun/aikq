@@ -154,25 +154,25 @@ class CommonTool
 
     /**
      * 获取PC录像终端链接
-     * @param $lid
+     * @param $slid
      * @param $id
      * @param $type  video/specimen
      * @return string
      */
-    public static function getVideosDetailUrlByPc($lid, $id, $type) {
-        $name_en = self::getSubjectLeagueNameEn($lid);
+    public static function getVideosDetailUrlByPc($slid, $id, $type) {
+        $name_en = self::getSubjectLeagueNameEn($slid);
         $name_en = empty($name_en) ? "/videos" : "/$name_en";
         return $name_en."/$type"."$id.html";
     }
 
     /**
      * 录像终端静态化路径
-     * @param $lid
+     * @param $slid
      * @param $id
      * @return string
      */
-    public static function getSubjectVideoDetailPath($lid, $id) {
-        $name_en = self::getSubjectLeagueNameEn($lid);
+    public static function getSubjectVideoDetailPath($slid, $id) {
+        $name_en = self::getSubjectLeagueNameEn($slid);
         $name_en = empty($name_en) ? "/videos" : "/$name_en";
         $len = strlen($id);
         if ($len < 4) {

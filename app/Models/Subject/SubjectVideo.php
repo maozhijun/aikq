@@ -43,6 +43,14 @@ class SubjectVideo extends Model
         return $query->get();
     }
 
+    public function getAllChannels() {
+        $query = SubjectVideoChannels::query();
+        $query->where('sv_id', $this->id);
+        $query->orderBy('type');
+        $query->orderBy('od');
+        return $query->get();
+    }
+
     /**
      * 获取最新录像
      * @param $slid
@@ -110,9 +118,31 @@ class SubjectVideo extends Model
         return $obj;
     }
 
-    public static function relationVideos($hid, $aid) {
+    public static function relationVideos($hname, $aname, $count = 10) {
         $query = self::query();
+        $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
+        $query->where(function ($orQuery) use ($hname, $aname) {
+            $orQuery->whereIn('subject_videos.hname', [$hname, $aname]);
+            $orQuery->orWhereIn('subject_videos.aname', [$hname, $aname]);
+        });
+        $query->take($count);
+        $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
+        $query->orderByDesc('subject_video_channels.id');
+        $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        return $query->get();
+    }
 
+    public static function moreVideos($curChannelId = null, $count = 12) {
+        $query = self::query();
+        $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
+        if (is_numeric($curChannelId)) {
+            $query->where('subject_video_channels.id', '<>', $curChannelId);
+        }
+        $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
+        $query->orderByDesc('subject_video_channels.id');
+        $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        $query->take($count);
+        return $query->get();
     }
 
 }
