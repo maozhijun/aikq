@@ -3,11 +3,17 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="/css/pc/team.css">
 @stop
-
+<?php
+    $coach = "";
+?>
 @section('content')
     <div id="Content">
         <div class="inner">
-            <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/{{$name_en}}">英超</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">切尔西</span></div>
+            @if(isset($league) && isset($league['name_en']))
+                <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/{{$league['name_en']}}">{{$league['name']}}</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$team['name']}}</span></div>
+            @else
+                <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$team['name']}}</span></div>
+            @endif
             <div class="right_part">
                 <div id="Player">
                     <p class="title">球队球员</p>
@@ -25,236 +31,45 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>-</td>
-                            <td>瓜迪奥拉</td>
-                            <td><p>教</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
-                        <tr>
-                            <td>31</td>
-                            <td>埃德松·桑塔纳</td>
-                            <td><p>门</p></td>
-                        </tr>
+                        @if(isset($team['lineup']) && count($team['lineup']) > 0)
+                            @foreach($team['lineup'] as $lineup)
+                                <?php if (str_contains($lineup['position'], "教练")) $coach = $lineup['name']; ?>
+                                <tr>
+                                    <td>{{strlen($lineup['num']) > 0 ? $lineup['num'] : '-'}}</td>
+                                    <td>{{$lineup['name']}}</td>
+                                    <td>{{$lineup['position']}}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td><p>-</p></td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
                 </div>
                 <div id="Rank">
-                    <p class="title">积分榜</p>
-                    <table>
-                        <colgroup>
-                            <col width="34">
-                            <col>
-                            <col width="54">
-                            <col width="48">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>排名</th>
-                            <th>球队</th>
-                            <th>胜/平/负</th>
-                            <th>积分</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><p>1</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>2</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>3</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>4</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>5</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>6</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>7</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>8</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>9</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>10</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>11</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>12</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>13</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>14</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>15</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td><p>16</p></td>
-                            <td>上海上港</td>
-                            <td>25/3/1</td>
-                            <td>78</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    @if(isset($rank) && count($rank) > 0)
+                        @include('pc.team.detail_rank_cell', ['ranks'=>$rank, 'subject'=>$league ])
+                    @endif
                 </div>
             </div>
             <div class="left_part">
                 <div id="Info">
                     <div class="imgbox">
-                        <img src="https://ss1.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/xiaodu/pic/item/738b4710b912c8fc3aca0501f6039245d78821c5.jpg">
-                        <h1>曼切斯特城</h1>
+                        <img src="{{$team['icon']}}" onerror='this.src="/img/pc/icon_teamDefault.png"'>
+                        <h1>{{$team['name']}}</h1>
                     </div>
                     <div class="part partOne">
-                        <p><span>现任主教练：</span>何塞普·瓜迪奥拉</p>
-                        <p><span>所在城市：</span>曼切斯特</p>
-                        <p><span>成立时间：</span>1880年</p>
+                        <p><span>现任主教练：</span>{{$coach}}</p>
+                        <p><span>所在城市：</span>{{$team['city']}}</p>
+                        <p><span>成立时间：</span>{{strlen($team['establish']) > 0 ? $team['establish'] : "-"}}</p>
                     </div>
                     <div class="part partTwo">
-                        <p><span>外文队名：</span>Manchester City F.C.</p>
-                        <p><span>球队主场：</span>伊蒂哈德球场</p>
+                        <p><span>外文队名：</span>@if(isset($team['nameEn']) && strlen($team['nameEn']) > 0){{$team['nameEn']}} @else - @endif</p>
+                        <p><span>球队主场：</span>{{$team['gym']}}</p>
                     </div>
                 </div>
                 <div id="Match">
@@ -267,177 +82,114 @@
                             <th>主队</th>
                             <th>比分</th>
                             <th>客队</th>
-                            <th>录像</th>
+                            <th>录像/直播</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>VS</td>
-                            <td>西班牙</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>VS</td>
-                            <td>西班牙</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>1 - 2</td>
-                            <td>西班牙</td>
-                            <td><a href="">全场录像</a></td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>1 - 2</td>
-                            <td>西班牙</td>
-                            <td><a href="">全场录像</a></td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>1 - 2</td>
-                            <td>西班牙</td>
-                            <td>全场录像</td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>1 - 2</td>
-                            <td>西班牙</td>
-                            <td>全场录像</td>
-                        </tr>
-                        <tr>
-                            <td>欧国联</td>
-                            <td>18-09-09 02:00</td>
-                            <td>英格兰</td>
-                            <td>1 - 2</td>
-                            <td>西班牙</td>
-                            <td>全场录像</td>
-                        </tr>
+                        @if(isset($lives) && count($lives) > 0)
+                            @foreach($lives as $match)
+                                <?php $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']) ?>
+                                <tr>
+                                    <td>{{$match['lname']}}</td>
+                                    <td>{{date('y-m-d', $match['time'])}} {{date('H:i', $match['time'])}}</td>
+                                    <td>{{$match['hname']}}</td>
+                                    @if($match['status'] < 0)
+                                        <td>{{$match['hscore']}} - {{$match['ascore']}}</td>
+                                    @else
+                                        <td>VS</td>
+                                    @endif
+                                    <td>{{$match['aname']}}</td>
+                                    <td>
+                                        @if($match['status'] >= 0)
+                                            @foreach($match['channels'] as $c_index=>$channel)
+                                                <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                 </div>
-                <div id="News">
-                    <p class="title">相关新闻</p>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
+                @if(isset($articles) && count($articles) > 0)
+                    <div id="News">
+                        <p class="title">相关新闻</p>
+                        @foreach($articles as $article)
+                            <div class="item">
+                                <a target="_blank" href="{{$article['link']}}">
+                                    <p class="imgbox" style="background: url({{$article['cover']}}); background-size: cover;"></p>
+                                    <p class="con">{{$article['title']}}</p>
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
+                @endif
+                @if(isset($videos) && count($videos) > 0)
+                    <div id="Record">
+                        <p class="title">相关录像</p>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a href="">
+                                <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
+                                <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                </div>
-                <div id="Record">
-                    <p class="title">相关录像</p>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="">
-                            <p class="imgbox" style="background: url(https://ss0.bdstatic.com/6ONWsjip0QIZ8tyhnq/it/u=1175366969,3493604330&fm=77&w_h=121_75&cs=2759057500,2022424845); background-size: cover;"></p>
-                            <p class="con">罗纳尔多原告的律师要求证明对方引用的文件是假的,aiyowei</p>
-                        </a>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
         <div class="clear"></div>
@@ -445,4 +197,33 @@
 @stop
 
 @section('js')
+    <script type="text/javascript">
+        function initRankButton() {
+            $('#Rank .title button').click(function(){
+                if (!$(this).hasClass('on')) {
+                    $('#Rank .title button.on').removeClass('on');
+                    $(this).addClass('on');
+
+                    $('#East, #West').css('display','none');
+                    $('#' + $(this).val()).css('display','');
+                }
+            });
+        }
+        initRankButton();
+
+        @if(isset($league))
+            $(function () {
+                $.ajax({
+                    url: "/json/rank/{{$league['sport']}}/{{$league['lid']}}.html",
+                    dataType: "html",
+                    success: function (data) {
+                        if(data) {
+                           $("#Rank").html(data);
+                        initRankButton();
+                        }
+                    }
+                });
+            });
+        @endif
+    </script>
 @stop

@@ -258,7 +258,12 @@ class CommonTool
      * 球队终端静态path
      */
     public static function getTeamDetailPath($sport, $lid, $tid) {
-        $name_en = self::getSubjectLeagueNameEn($lid);
+        $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+        if (isset($subject)) {
+            $name_en = $subject->name_en;
+        } else {
+            $name_en = "other";
+        }
 
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {

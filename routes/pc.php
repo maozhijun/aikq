@@ -147,6 +147,8 @@ Route::group(["namespace" => 'Live'], function () {
  */
 Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
+
+    Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分
 });
 
 Route::group(["namespace" => 'Live'], function () {

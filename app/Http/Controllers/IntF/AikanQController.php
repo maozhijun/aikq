@@ -11,8 +11,10 @@ namespace App\Http\Controllers\IntF;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Stage;
+use App\Models\LgMatch\Team;
 use App\Models\Match\BasketLeague;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\League;
@@ -1577,30 +1579,91 @@ class AikanQController extends Controller
         if ($rankData == null && $staticData != null) return;
 
         Storage::disk("public")->put("/static/json/rank/$sport/$lid.json", json_encode($rankData));
+
+        //同时把rank的html也静态化了
+        $leagueData = self::getLeagueDataByLid($sport, $lid);
+        $html = view('pc.team.detail_rank_cell', ['ranks'=>$rankData, 'subject'=>$leagueData]);
+        Storage::disk("public")->put("/www/json/rank/$sport/$lid.html", $html);
     }
 
     public static function getStaticLeagueRank($sport, $lid) {
-        $data = Storage::get("/public/static/json/rank/$sport/$lid.json");
-        if (isset($data) && strlen($data) > 0) {
-            return json_decode($data, true);
+        try {
+            $data = Storage::get("/public/static/json/rank/$sport/$lid.json");
+            if (isset($data) && strlen($data) > 0) {
+                return json_decode($data, true);
+            }
+        } catch (\Exception $e) {
+
         }
         return null;
     }
 
+    /**
+     * 根据球队id，获取联赛信息
+     */
+    public static function getLeagueDataByLid($sport, $lid) {
+        $league = self::getLeagueBySport($sport, $lid);
+        $leagueData = [];
+        if (isset($league)) {
+            $leagueData['lid'] = $lid;
+            $leagueData['type'] = $league->type;
+            $leagueData['sport'] = $sport;
+            $leagueData['name'] = $league->name;
+            $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+            if (isset($subject)) {
+                $leagueData['name_en'] = $subject->name_en;
+            }
+        }
+        return $leagueData;
+    }
+
     //==============================球队终端==========================================
+    /**
+     * 根据球队id，获取联赛id
+     */
+    public static function getLeagueByTid($sport, $tid) {
+        if ($sport == MatchLive::kSportBasketball) {
+            $score = BasketScore::query()->join('basket_leagues as l', function ($join){
+                $join->on('l.id', '=', 'basket_scores.lid')
+                    ->where('l.type', '=', 1);
+            })->where('tid', $tid)->orderBy('season', 'desc')->first();
+        } else {
+            $score = Score::query()->join('leagues as l', function ($join){
+                $join->on('l.id', '=', 'scores.lid')
+                    ->where('l.type', '=', 1);
+            })->where('tid', $tid)->orderBy('season', 'desc')->first();
+        }
+//        dump($score);
+        if (isset($score)) {
+            return $score->lid;
+        }
+        return "";
+    }
     /**
      * 球队终端页面数据
      */
     public static function teamDetailData($sport, $lid, $tid) {
-
         $teamData = self::teamData($sport, $tid);
         $result = [];
         if (!isset($teamData)) {
             return null;
         }
 
+        $teamName = isset($teamData['shortName']) ? $teamData['shortName'] : $teamData['name'];
+        if (!isset($lid) || strlen($lid) <= 0) {
+            $lid = self::getLeagueByTid($sport, $tid);
+        }
+
+        $result['team'] = $teamData;
+        $leagueData = self::getLeagueDataByLid($sport, $lid);
+        $leagueName = "";
+        if (count($leagueData) > 0) {
+            $result['league'] = $leagueData;
+            $leagueName = isset($leagueData['name']) ? $leagueData['name'] : "";
+        }
+
         //专题资讯 开始
-        $articles = PcArticle::articlesByType("");
+        $articles = PcArticle::liveRelationArticle([$teamName]);
         $article_array = [];
         foreach ($articles as $article) {
             $url = $article->url;
@@ -1617,7 +1680,7 @@ class AikanQController extends Controller
         //联赛排名 结束
 
         //球队直播 开始
-        $result['lives'] = self::getTeamLives($lid, $tid);
+        $result['lives'] = self::getTeamLives($sport, $lid, $tid, $leagueName);
         //球队直播 结束
 
         //球队录像 开始
@@ -1628,20 +1691,7 @@ class AikanQController extends Controller
 //        $result['specimens'] = SubjectSpecimen::getNewSpecimens($slid, $isMobile);
         //球队集锦 结束
 
-        $result['team'] = $teamData;
-        $league = self::getLeagueBySport($sport, $lid);
-        $leagueName = "";
-        if (isset($league)) {
-            $leagueName = $league->name;
-            $leagueData['name'] = $leagueName;
-            $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
-            if (isset($subject)) {
-                $leagueData['name_en'] = $subject->name_en;
-            }
-            $result['league'] = $leagueData;
-        }
-        $teamName = $teamData['name'];
-        $result['title'] = "【$teamName】".$leagueName.$teamName."直播_".$teamData."赛程、球员阵容、新闻视频-爱看球直播";
+        $result['title'] = "【".$teamName."】".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻视频-爱看球直播";
         $result['h1'] = $teamData['name'].'直播';
         return $result;
     }
@@ -1650,14 +1700,99 @@ class AikanQController extends Controller
      * 球队终端数据
      */
     protected static function teamData($sport, $tid) {
-        $flag = 0;
-        if (strlen($tid) > 2) {
-            $flag = substr($tid, 0, 2);
-        }
-        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
+        //通过数据库请求
+        return self::getTeamDataByDB($sport, $tid);
 
-        $data = self::curlData($url);
-        return $data;
+        //通过接口请求
+//        $flag = 0;
+//        if (strlen($tid) > 2) {
+//            $flag = substr($tid, 0, 2);
+//        }
+//        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
+//
+//        $data = self::curlData($url);
+//        return $data;
+    }
+
+    private static function getTeamDataByDB($sport, $tid)
+    {
+        $result = array();
+        if ($sport == MatchLive::kSportBasketball) {
+            $result = self::basketTeamData($tid);
+        } elseif ($sport == MatchLive::kSportFootball) {
+            $result = self::footTeamData($tid);
+        }
+        return $result;
+    }
+
+    private static function footTeamData($tid)
+    {
+        $result = null;
+        $team = Team::find($tid);
+        if (isset($team)) {
+            $result = [
+                'id' => $team->id, 'name' => $team->name, 'icon' => Team::getIcon($team->icon), 'describe' => $team->describe,
+                'city' => $team->city, 'establish' => $team->establish, 'gym' => $team->gym,
+            ];
+            $lineup = $team->lineup;
+            if (isset($lineup) && strlen($lineup) > 0) {
+                preg_match_all("/\\[(.*?)\\]/is", $lineup, $matches);
+                if (isset($matches[1]) && count($matches[1]) > 0) {
+                    $lineups = array();
+                    foreach ($matches[1] as $str) {
+                        list($pid, $num, $name, $nameBig, $status,
+                            $birth, $height, $weight, $position, $nation,
+                            $nationBig, $value, $contract, $firstCount, $firstGoal,
+                            $secondCount, $secondGoal, $assist) = explode(",", $str, 18);
+
+                        $lineups[] = [
+                            'num' => trim($num), 'name' => trim($name), 'birth' => trim($birth), 'height' => trim($height),
+                            'weight' => trim($weight), 'position' => trim($position), 'nation' => trim($nation),
+                            'value' => trim($value), 'contract' => trim($contract), 'firstCount' => trim($firstCount),
+                            'firstGoal' => trim($firstGoal), 'secondCount' => trim($secondCount),
+                            'secondGoal' => trim($secondGoal), 'assist' => trim($assist)
+                        ];
+                    }
+                    $result['lineup'] = $lineups;
+                }
+            }
+        }
+        return $result;
+    }
+
+    private static function basketTeamData($tid)
+    {
+        $result = null;
+        $team = BasketTeam::find($tid);
+        if (isset($team)) {
+            $result = [
+                'id' => $team->id, 'name' => $team->name_china, 'nameEn' => $team->name_en, 'shortName' => $team->name_china_short,
+                'icon' => BasketTeam::getIcon($team->icon), 'describe' => $team->describe, 'link' => $team->link,
+                'city' => $team->city, 'establish' => $team->establish, 'gym' => $team->gym,
+            ];
+            $lineup = $team->lineup;
+            if (isset($lineup) && strlen($lineup) > 0) {
+                preg_match_all("/\\[(.*?)\\]/is", $lineup, $matches);
+                if (isset($matches[1]) && count($matches[1]) > 0) {
+                    $lineups = array();
+                    foreach ($matches[1] as $str) {
+                        list($pid, $name, $nameBig, $nameEn, $shortName,
+                            $shortNameBig, $shortNameEn, $num, $position, $birth,
+                            $height, $weight, $careerAge, $contract, $value,
+                            $nation, $nationBig) = explode(",", $str, 17);
+
+                        $lineups[] = [
+                            'num' => trim($num), 'name' => trim($name), 'shortName' => trim($shortName),
+                            'birth' => trim($birth), 'height' => trim($height), 'weight' => trim($weight),
+                            'position' => trim($position), 'nation' => trim(str_replace('[', '', $nation)),
+                            'value' => trim($value), 'contract' => trim($contract), 'careerAge' => trim($careerAge)
+                        ];
+                    }
+                    $result['lineup'] = $lineups;
+                }
+            }
+        }
+        return $result;
     }
 
     protected static function curlData($url,$timeout = 5){
@@ -1674,7 +1809,7 @@ class AikanQController extends Controller
     /**
      * 获取球队的比赛列表
      */
-    protected static function getTeamLives($sport, $tid, $isMobile = false, $count = 15) {
+    protected static function getTeamLives($sport, $lid, $tid, $lname, $isMobile = false, $count = 15) {
         if (!in_array($sport, [MatchLive::kSportFootball, MatchLive::kSportBasketball])) {
             return [];
         }
@@ -1685,34 +1820,52 @@ class AikanQController extends Controller
             $query = BasketMatch::query();
             //$tableName = 'basket_matches';
         }
-        $query->where('time', '>=', date('Y-m-d H:i', strtotime('-3 hours')));
-        $query->where('status', '>=', 0);
+        if (isset($lid) && strlen($lid) > 0) {
+            $query->where('lid', $lid);
+        }
         $query->where(function ($q) use ($tid){
             $q->where('hid', $tid)
-                ->where('aid', $tid);
+                ->orWhere('aid', $tid);
         });
-        $query->orderBy('time');
         $query->selectRaw('*, id as mid');
+
+        $tempQuery = clone $query;
+
+        $query->where('time', '>=', date('Y-m-d H:i', strtotime('-3 hours')));
+        $query->where('status', '>=', 0);
+        $query->orderBy('time');
         $matches = $query->take($count)->get();
 
+        //历史比赛
+        $recentMatches = $tempQuery->where('status', '-1')
+            ->take($count - count($matches))->orderBy('time', 'desc')->get();
+
         $array = [];
+        foreach ($recentMatches as $match) {
+            $array[] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
+        }
+        $array = array_reverse($array);
         foreach ($matches as $match) {
-            $time = strtotime($match->time);
-            $day = strtotime(date('Y-m-d', $time));
-            $mid = $match->mid;
-
-            $obj = ['time'=>$time, 'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
-                'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport];
-
-            $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);
-            $live = $liveQuery->first();
-            $channels = [];
-            if (isset($live)) {
-                $channels = $isMobile ? $live->mAiKqChannels() : $live->kAiKqChannels();
-            }
-            $obj['channels'] = $channels;
-            $array[$day][] = $obj;
+           $array[] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
         }
         return $array;
+    }
+
+    private static function onMatchItemConvert($sport, $match, $lname, $isMobile) {
+        $mid = $match->mid;
+
+        $obj = ['time'=>strtotime($match->time), 'lid'=>$match->lid,
+            'lname'=>isset($match->lname) ? $match->lname : (isset($match['win_lname']) ? $match['win_lname'] : $lname),
+            'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
+            'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport];
+
+        $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);
+        $live = $liveQuery->first();
+        $channels = [];
+        if (isset($live)) {
+            $channels = $isMobile ? $live->mAiKqChannels() : $live->kAiKqChannels();
+        }
+        $obj['channels'] = $channels;
+        return $obj;
     }
 }

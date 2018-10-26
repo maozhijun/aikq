@@ -249,16 +249,17 @@ class PcArticle extends Model
                 $lidStr .= ",".$id;
             }
         }
-
+        if(strlen($lidStr) <= 0) return [];
 
         $query = PcArticle::query();
         $query->join('label_articles', 'label_articles.article_id', '=', 'pc_articles.id');
-        $query->whereExists(function ($exQuery) use ($lidStr) {
-            $exQuery->selectRaw("1");
-            $exQuery->from("label_groups");
-            $exQuery->whereRaw("lid_main in (".$lidStr.")");
-            $exQuery->whereRaw("(lid_same = label_articles.label_id or label_articles.label_id in (".$lidStr.") ) ");
-        });
+//        $query->whereExists(function ($exQuery) use ($lidStr) {
+//            $exQuery->selectRaw("1");
+//            $exQuery->from("label_groups");
+//            $exQuery->whereRaw("lid_main in (".$lidStr.")");
+//            $exQuery->whereRaw("(lid_same = label_articles.label_id or label_articles.label_id in (".$lidStr.") ) ");
+//        });
+        $query->whereRaw('label_articles.label_id in ('.$lidStr.')');
         $query->where('pc_articles.status', PcArticle::kStatusPublish);
         $query->orderByDesc("pc_articles.publish_at");
         $query->take($count);
