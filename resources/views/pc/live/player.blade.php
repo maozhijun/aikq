@@ -88,4 +88,5 @@
     }
     showDownload();
 </script>
+{{--<script type="text/javascript" src="{{$cdn}}/js/testSocket3.js?timd={{date('YmdHi')}}"></script>--}}
 </html>

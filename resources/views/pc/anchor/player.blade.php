@@ -53,7 +53,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player.js?rd={{date('YmdHi')}}"></script>
+<script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
@@ -152,7 +152,7 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
     //var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
+    var socket = io.connect('https://ws.aikanqiu.com',{reconnect:'false',transports: ['websocket']});
     socket.on('connect', function (data) {
         console.log('connect');
         var mid = '{{'99_'.$room_id}}';
@@ -183,4 +183,5 @@
         }
     });
 </script>
+{{--<script type="text/javascript" src="{{$cdn}}/js/testSocket3.js?timd={{date('YmdHi')}}"></script>--}}
 </html>
