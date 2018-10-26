@@ -861,7 +861,6 @@ class LiveController extends Controller
             $aiCon = new AikanQController();
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
             $jsonData = json_decode(json_encode($jsonStr), true);
-            dump($jsonData);
             $origin_json = $jsonData;
             if (!$isForQiumi) {
                 //判断是否要跳转到qiumigo，目前只有nba要跳
