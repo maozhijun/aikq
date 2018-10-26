@@ -9,9 +9,7 @@
 namespace App\Console\QiumiGo;
 
 
-use App\Http\Controllers\IntF\AikanQController;
 use Illuminate\Console\Command;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class QiumiLivesJsonCommand extends Command
@@ -46,9 +44,17 @@ class QiumiLivesJsonCommand extends Command
      */
     public function handle()
     {
-        $aiCon = new AikanQController();
-        $jsonObj = $aiCon->livesJson(new Request())->getData();
-        $server_output = json_encode($jsonObj);
-        Storage::disk("public")->put("/static/json/lives.json", $server_output);
+        $url = 'http://cms.aikanqiu.com/json/lives.json?time=' . time();
+        $ch = curl_init();
+        $timeout = 5;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $lines_string = curl_exec($ch);
+        curl_close($ch);
+
+        if ($lines_string && strlen($lines_string) > 0) {
+            Storage::disk("public")->put("/static/json/lives.json", $lines_string);
+        }
     }
 }
