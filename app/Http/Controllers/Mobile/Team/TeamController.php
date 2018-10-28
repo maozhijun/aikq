@@ -46,6 +46,6 @@ class TeamController extends Controller
         $html = self::detailHtml($data);
 
         Storage::disk('public')->put("m/$path", $html);
-        echo "mobile: $path </br>";
+//        echo "mobile: $path </br>";
     }
 }

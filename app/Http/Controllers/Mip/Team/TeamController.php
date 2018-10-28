@@ -47,6 +47,6 @@ class TeamController extends Controller
         $html = self::detailHtml($data);
 
         Storage::disk('public')->put("mip/$path", $html);
-        echo "mip: $path </br>";
+//        echo "mip: $path </br>";
     }
 }
