@@ -130,7 +130,7 @@
                     @if(isset($match['mid']))
             var preTime = 0;
             $.ajax({
-                "url": "/m/lives/data/refresh.json?time=" + (new Date()).getTime(),
+                "url": jsonHost + "/json/m/lives/data/refresh.json?time=" + (new Date()).getTime(),
                 "dataType": "json",
                 "success": function (json) {
                     var dataItem = json["{{$match['mid']}}"];

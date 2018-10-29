@@ -55,7 +55,7 @@ class PlayerJsonCommand extends Command
      * @param Request $request
      */
     public function staticPlayerJson(Request $request) {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (!isset($json['matches'])) return;
         $matches = $json['matches'];

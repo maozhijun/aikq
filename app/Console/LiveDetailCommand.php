@@ -81,7 +81,7 @@ class LiveDetailCommand extends Command
     }
 
     protected function staticPcLiveDetail() {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json) || !isset($json['matches'])) {
             echo '获取数据失败';

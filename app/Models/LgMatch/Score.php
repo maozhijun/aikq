@@ -88,7 +88,8 @@ class Score extends Model
         $array = [];
         foreach ($scores as $score) {
             $g = $score->group;
-            $array[$g][] = ['group'=>$g, 'score'=>$score->score, 'win'=>$score->win, 'draw'=>$score->draw, 'name'=>$score->tname,
+            $array[$g][] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>1,
+                'group'=>$g, 'score'=>$score->score, 'win'=>$score->win, 'draw'=>$score->draw, 'name'=>$score->tname,
                             'lose'=>$score->lose, 'count'=>$score->count, 'goal'=>$score->goal, 'fumble'=>$score->fumble];
         }
         return $array;

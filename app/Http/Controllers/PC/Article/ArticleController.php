@@ -139,7 +139,7 @@ class ArticleController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
     public function detailLives(Request $request) {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             return "";

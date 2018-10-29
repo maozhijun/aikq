@@ -109,55 +109,6 @@
         return;
     }
 
-    //获取地址
-    function PlayVideoShare(mid ,sport) {
-        var host = '{{$host}}';
-        var url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
-        if (isMobileWithJS()){
-            //http://www.aikq.cc/match/live/url/channel/mobile/39716.json?time=1529393999444
-            url = '/match/live/url/match/m/' + mid + '_' + sport +'.json';
-        }
-        else{
-            //http://www.aikq.cc/match/live/url/channel/39716.json?time=1529393956092
-            url = '/match/live/url/match/pc/' + mid + '_' + sport +'.json';
-        }
-        $.ajax({
-            url: url,
-            type:'GET',
-            dataType:'json',
-            success:function(data){
-                if (data.code == 0){
-                    var preUrl;
-                    if (GetHttp() == 'https://') { //如果当前地址是https，则只能使用https的player
-                        preUrl = 'https://';
-                        //preUrl = 'https://' + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
-                    }else{ //如果当前地址是http
-                        if (data.play == 11) { //规定了播放方式，并为iframe方式，使用http
-                            preUrl = 'http://';
-                            //preUrl = 'http://' + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
-                        }else if (data.play >= 12) { //规定了播放方式，并为播放器播放，使用https
-                            preUrl = 'https://';
-                            //preUrl = 'https://' + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
-                        } else if (data.playurl) { //如果无规定，则要对playurl做判断
-                            preUrl = CheckHttp(data.playurl);
-                            //preUrl = CheckHttp(data.playurl) + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
-                        }else if (data.js){ //如果加密了，无playurl，用https
-                            preUrl = 'https://';
-                            //preUrl = 'https://' + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid;
-                        }
-                    }
-//                    preUrl = preUrl + host + '/live/player.html?sport=' + sport + '&cid=' + data.cid + "&type=" + data.type;
-                    preUrl = preUrl + host + '/live/player/player-'+data.cid+'-'+data.type+'.html';
-                    var MyFrame = document.getElementById('MyFrame');
-                    MyFrame.setAttribute('allowfullscreen','true');
-                    MyFrame.setAttribute('scrolling','no');
-                    MyFrame.setAttribute('frameborder','0');
-                    MyFrame.src = preUrl;
-                }
-            }
-        })
-    }
-
     window.onload = function () { //需要添加的监控放在这里
         if (isMobileWithJS()){
             $('div.mchannel')[0].style.display = '';

@@ -27,7 +27,11 @@
             @foreach($ranks as $rank)
                 <tr>
                     <td><span>{{$rank['rank']}}</span></td>
-                    <td>{{$rank['name']}}</td>
+                    @if(isset($rank['tid']))
+                        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                    @else
+                        <td>{{$rank['name']}}</td>
+                    @endif
                     <td>{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</td>
                     <td>{{$rank['score']}}</td>
                 </tr>
@@ -56,7 +60,11 @@
                 @foreach($scores as $index=>$score)
                     <tr>
                     <td><span>{{$index + 1}}</span></td>
-                    <td>{{$score['name']}}</td>
+                        @if(isset($score['tid']))
+                            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($score['sport'], $score['lid'], $score['tid'])}}">{{$score['name']}}</a></td>
+                        @else
+                            <td>{{$score['name']}}</td>
+                        @endif
                     <td>{{$score['win']}}/{{$score['draw']}}/{{$score['lose']}}</td>
                     <td>{{$score['score']}}</td>
                 </tr>
@@ -87,7 +95,11 @@
             @foreach($ranks['east'] as $east)
                 <tr>
                     <td><span>{{$east['rank']}}</span></td>
-                    <td>{{$east['name']}}</td>
+                    @if(isset($east['tid']))
+                        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($east['sport'], $east['lid'], $east['tid'])}}">{{$east['name']}}</a></td>
+                    @else
+                        <td>{{$east['name']}}</td>
+                    @endif
                     <td>{{$east['win']}}/{{$east['lose']}}</td>
                     <td>{{$east['win_p']}}%</td>
                 </tr>
@@ -115,7 +127,11 @@
                 @foreach($ranks['west'] as $west)
                     <tr>
                         <td><span>{{$west['rank']}}</span></td>
-                        <td>{{$west['name']}}</td>
+                        @if(isset($west['tid']))
+                            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($west['sport'], $west['lid'], $west['tid'])}}">{{$west['name']}}</a></td>
+                        @else
+                            <td>{{$west['name']}}</td>
+                        @endif
                         <td>{{$west['win']}}/{{$west['lose']}}</td>
                         <td>{{$west['win_p']}}%</td>
                     </tr>
@@ -144,7 +160,11 @@
             @foreach($ranks as $rank)
                 <tr>
                     <td><span>{{$rank['rank']}}</span></td>
-                    <td>{{$rank['name']}}</td>
+                    @if(isset($rank['tid']))
+                        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                    @else
+                        <td>{{$rank['name']}}</td>
+                    @endif
                     <td>{{$rank['win']}}/{{$rank['lose']}}</td>
                     <td>{{$rank['win_p']}}%</td>
                 </tr>
