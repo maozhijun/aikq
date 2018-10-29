@@ -11,9 +11,6 @@ namespace App\Console\SubjectVideo;
 use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Models\Subject\SubjectVideoChannels;
-use Illuminate\Console\Command;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 
 class VideoCommand extends BaseCommand
@@ -51,8 +48,8 @@ class VideoCommand extends BaseCommand
 
         $type = $this->argument('type');
         $key = self::CACHE_KEY.$type;
-        $lastId = Cache::get($key);
-
+        $lastId = Redis::get($key);
+dump("last = ".$lastId);
         $query = SubjectVideoChannels::query();
         $query->orderBy('id');
         if (!empty($lastId)) {

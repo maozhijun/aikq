@@ -265,7 +265,7 @@ class SubjectController extends Controller
     public static function getSubjects() {
         //先从文件获取内容
         try {
-            $server_output = Storage::get('public/json/subject/leagues.json');
+            $server_output = Storage::get('public/static/json/subject/leagues.json');
         } catch (\Exception $exception) {
             $server_output = "";
         }
@@ -348,7 +348,7 @@ class SubjectController extends Controller
         $data = $aiCon->subjectsData();
         $server_output = json_encode($data);
         if (!empty($server_output)) {
-            Storage::disk("public")->put("json/subject/leagues.json", $server_output);
+            Storage::disk("public")->put("static/json/subject/leagues.json", $server_output);
         }
     }
 
@@ -404,11 +404,11 @@ class SubjectController extends Controller
     public function staticSubjectVideoDetailM(SubjectVideoChannels $ch) {
         $video = $ch->video;
         $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-        $html = $mCon->subjectVideoDetailHtml($video, $ch);
+        $html = $mCon->subjectVideoDetailHtml($ch, $video);
 
         if (!empty($html)) {//静态化录像终端
             $patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $ch['id']);
-            Storage::disk("public")->put('www/'.$patch, $html);
+            Storage::disk("public")->put('m/'.$patch, $html);
         }
     }
 
