@@ -68,6 +68,34 @@ class MatchEvent extends Model
         return $cn;
     }
 
+    public static function getEventCnByWap($kind, $playerName, $playerName1) {
+        $cn = "";
+        switch ($kind) {
+            case 1:
+                $cn = $playerName;
+                break;
+            case 2:
+                $cn = $playerName;
+                break;
+            case 3:
+                $cn = $playerName;
+                break;
+            case 7:
+                $cn = $playerName;
+                break;
+            case 8:
+                $cn = $playerName;
+                break;
+            case 9:
+                $cn = $playerName . "<ba/><span>（两黄一红）</span>";
+                break;
+            case 11:
+                $cn = $playerName . "<span>（换上）</span> <br/>" . $playerName1 . "<span>（换下）</span>";
+                break;
+        }
+        return $cn;
+    }
+
     public static function getKindCn($kind) {
         $cn = "";
         switch ($kind) {

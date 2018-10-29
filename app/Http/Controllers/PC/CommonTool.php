@@ -295,9 +295,9 @@ class CommonTool
         $recentMid = "";
         if (isset($tempData['hid']) && isset($tempData['aid'])
             && $tempData['hid'] > 0 && $tempData['aid'] > 0) {
-            $recentMid = self::getRecentMidByTid($mid, $sport, $tempData['hid'], $tempData['aid']);
+            //$recentMid = self::getRecentMidByTid($mid, $sport, $tempData['hid'], $tempData['aid']);
         }
-        if ($mid != $recentMid) return "";
+        //if ($mid != $recentMid) return "";
 
         $tempMid = $tempData['name'];
         $name_en = $tempData['name_en'];

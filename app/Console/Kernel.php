@@ -33,6 +33,7 @@ use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 //use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 //use App\Console\SubjectVideo\SubjectVideoDetailCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
+use App\Console\SubjectVideo\VideoCommand;
 use App\Console\Sync\BasketballMatchCommand;
 use App\Console\Sync\BasketballUpdateMatchCommand;
 use App\Console\Sync\FootballMatchCommand;
@@ -72,6 +73,7 @@ class Kernel extends ConsoleKernel
         //CoverCommand::class,//专题封面同步
         //SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表、专题终端页             DB
+        VideoCommand::class,//录像终端静态化
         PlayerCommand::class,//录像player静态化                                          不需要修改
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化    DB
 
@@ -202,7 +204,6 @@ class Kernel extends ConsoleKernel
         //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
 
         //专题录像静态化
-        //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 

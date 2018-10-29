@@ -9,7 +9,7 @@
 namespace App\Console\Subject;
 
 
-use App\Console\SubjectVideo\SubjectVideoCoverCommand;
+use App\Console\SubjectVideo\VideoCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
 use App\Http\Controllers\PC\Live\SubjectController;
 use Illuminate\Console\Command;
@@ -58,7 +58,7 @@ class CoverCommand extends Command
         $covers = isset($data['covers']) ? $data['covers'] : [];
         $data_time = isset($data['last']) ? $data['last'] : '';
         foreach ($covers as $cover) {
-            SubjectVideoCoverCommand::syncImage($cover, 'live/subject');
+            VideoCommand::syncImage($cover, 'live/subject');
         }
         $this->setLastSyncTime($data_time);
         echo "专题封面图同步任务耗时：" . (time() - $start) . " 秒，共同步" . count($covers) . "张图片。\n";

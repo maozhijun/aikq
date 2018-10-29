@@ -201,10 +201,11 @@ class SubjectController extends Controller
      */
     public function staticSubjectVideoNew(SubjectVideoChannels $videoChannel) {
         $video = $videoChannel->video;
-        $pcVideo = SubjectVideo::video2Array($video, false);
+        $sl = SubjectLeague::query()->find($video['s_lid']);
         //静态化录像终端 PC
         $pcCon = new SubjectController();
-        $pc_detail_html = $pcCon->subjectVideoHtml($pcVideo);
+        $pc_detail_html = $pcCon->subjectVideoHtml($video, $videoChannel, $sl);
+
         if (!empty($pc_detail_html)) {
             $pc_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
             $pc_detail_patch = '/www' . $pc_detail_patch;
@@ -213,8 +214,8 @@ class SubjectController extends Controller
 
         //静态化录像终端 WAP
         $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
-        $mVideo = SubjectVideo::video2Array($video, true);
-        $m_detail_html = $mCon->subjectVideoDetailHtml($mVideo);
+
+        $m_detail_html = $mCon->subjectVideoDetailHtml($videoChannel, $video);
         if (!empty($m_detail_html)) {
             $m_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
             $m_detail_patch = '/m' . $m_detail_patch;
@@ -388,10 +389,25 @@ class SubjectController extends Controller
     }
 
 
-    public function staticSubjectVideo($sv) {
-        $html = $this->subjectVideoHtml($sv);
+    public function staticSubjectVideoDetailPc(SubjectVideoChannels $ch) {
+        $video = $ch->video;
+        $sl = SubjectLeague::query()->find($video['s_lid']);
+
+        $html = $this->subjectVideoHtml($video, $ch, $sl);
+
         if (!empty($html)) {//静态化录像终端
-            $patch = CommonTool::getSubjectVideoDetailPath($sv['s_lid'], $sv['id']);
+            $patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $ch['id']);
+            Storage::disk("public")->put('www/'.$patch, $html);
+        }
+    }
+
+    public function staticSubjectVideoDetailM(SubjectVideoChannels $ch) {
+        $video = $ch->video;
+        $mCon = new \App\Http\Controllers\Mobile\Live\LiveController();
+        $html = $mCon->subjectVideoDetailHtml($video, $ch);
+
+        if (!empty($html)) {//静态化录像终端
+            $patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $ch['id']);
             Storage::disk("public")->put('www/'.$patch, $html);
         }
     }

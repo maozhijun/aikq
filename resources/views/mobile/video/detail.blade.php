@@ -1,58 +1,38 @@
-<?php
-    $keywords = "爱看球," . $match['lname'] ."录像," . $match['hname'] . "," . $match['aname'];
-    $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清全场回放";
-?>
 @extends('mobile.layout.base')
-@section('title')
-    <title>爱看球|{{$match['lname']}}录像|【{{date('Y-m-d H:i', $match['time']) . ' ' . $match['hname'] . ' VS ' . $match['aname']}}】</title>
-@endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/record.css">
 @endsection
 @section('banner')
     <div id="Navigation">
-        <div class="banner"><a class="home" href="/live/subject/videos/all/1.html"></a>爱看球</div>
+        <div class="banner"><a class="home" href="/"></a>{{$video['hname'] .' VS '.$video['aname']}}</div>
     </div>
 @endsection
 @section('content')
-    <div class="default" id="Info" style="height: 140px;">
-        <p class="other">{{$match['hname'] . ' ' . $match['hscore'] . ' - ' . $match['ascore'] . ' ' . $match['aname']}}</p>
+    <div class="default" id="Video">
+        <iframe src="{{$svc['content']}}" id="MyIframe"></iframe>
     </div>
-    <div class="default" id="Video" style="height: 436px;">
-        <?php $channels = $match['channels'];?>
-        <div class="line">
-            @foreach($channels as $index=>$channel)
-                <?php
-                if ($channel['player'] == 11 || $channel['player'] == 19 || stristr($channel['link'], 'player.pptv.com')){
-                    $preUrl = str_replace("https://", "http://",env('APP_URL'));
-                } else{
-                    $preUrl = str_replace("http://", "https://",env('APP_URL'));
-                }
-                $url = $preUrl . '/live/subject/player.html?cid=' . $channel['id'] . '&type=video';
-                ?>
-                <button id="{{$channel['id']}}" value="{{$preUrl.'/live/subject/player.html?cid=' . $channel['id'] . '&type=video'}}">{{$channel['title']}}</button>
+    <div class="tabbox">
+        <button class="on" value="{{$svc['content']}}">{{$svc['title']}}</button>
+        @foreach($allChannels as $ch)
+        @continue($ch['id'] == $svc['id'])
+        <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $ch['id'], 'video')}}">{{$ch['title']}}</a>
+        @endforeach
+    </div>
+    @if(isset($moreVideos) && count($moreVideos) > 0)
+    <div id="Content">
+        <div id="Record">
+            <p class="title">更多精彩视频</p>
+            @foreach($moreVideos as $mv)
+                <div class="item">
+                    <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mv['s_lid'], $mv['id'], 'video')}}">
+                        <p class="imgbox" style="background: url({{empty($mv['cover']) ? '/img/pc/video_bg.jpg' : $mv['cover']}}) no-repeat center; background-size: cover;"></p>
+                        <p class="con">{{$mv['title']}}</p>
+                    </a>
+                </div>
             @endforeach
         </div>
-        <iframe id="Frame" src=""></iframe>
-        <div class="publicAd"><img src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></div>
     </div>
-    <div id="Content">
-        <img src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg">
-        <p>扫二维码进入群</p>
-    </div>
+    @endif
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030002"></script>
-    <script>
-        window.onload = function () {
-            setPage();
-        }
-    </script>
-    <script type="text/javascript">
-        var ua = navigator.userAgent;
-        if (ua.indexOf('Liaogou168') > 0 || ua.indexOf('AKQ') > 0){
-            $('#Navigation').remove();
-            $('body').css('padding','0')
-        }
-    </script>
 @endsection

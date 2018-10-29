@@ -548,9 +548,10 @@ class Match extends Model
      * 两支球队的过往对阵
      * @param $hid
      * @param $aid
+     * @param $count
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public static function vsMatches($hid, $aid) {
+    public static function vsMatches($hid, $aid, $count = 7) {
         $query = self::query();
         $query->where('status', -1);
         $query->where(function ($orQuery) use ($hid, $aid) {
@@ -564,11 +565,11 @@ class Match extends Model
             });
         });
         $query->orderByDesc('time');
-        $query->take(7);
+        $query->take($count);
         return $query->get();
     }
 
-    public static function nearMatches($team_id) {
+    public static function nearMatches($team_id, $count = 7) {
         $query = self::query();
         $query->where('status', -1);
         $query->where(function ($orQuery) use ($team_id) {
@@ -576,7 +577,7 @@ class Match extends Model
             $orQuery->orWhere('hid', $team_id);
         });
         $query->orderByDesc('time');
-        $query->take(7);
+        $query->take($count);
         return $query->get();
     }
 

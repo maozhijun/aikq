@@ -1,0 +1,196 @@
+﻿body{
+	padding-top: 619px;
+}
+img.logo{
+	position: absolute;
+	display: none;
+}
+
+/*顶栏筛选*/
+#Navigation .select, #Navigation select{
+	height: 56px;
+	padding: 0 20px; margin-top: -28px;
+	border-radius: 8px; border: none;
+	background: #fff;
+	font-size: 24px; line-height: 56px; text-align: center; color: #4492fd;
+	position: absolute; top: 50%; right: 26px;
+}
+#Navigation select{
+	opacity: 0;
+	z-index: 1;
+}
+
+#Video{
+	margin-bottom: 0;
+	position: fixed; top: 88px; left: 0; right: 0; z-index: 2;
+}
+#Video iframe{
+	width: 100%; height: 420px;
+	background: #333; 
+	display: block;
+}
+#Video .outPlay{
+	width: 100%; height: 420px;
+	/*background: url(../../img/customer2/bg_video.jpg) no-repeat center; background-size: cover;*/
+	position: relative;
+}
+#Video .outPlay:before{
+	background: rgba(0,0,0,0.5);
+	position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+	content: '';
+}
+#Video .outPlay img{
+	height: 66px;
+	padding-top: 155px; margin: 0 auto;
+	position: relative; z-index: 1;
+	display: block;
+}
+#Video .outPlay p.reciprocal{
+	padding-top: 8px;
+	font-size: 24px; line-height: 48px; text-align: center; color: #bdbdbd;
+	position: relative; z-index: 1;
+}
+#Video .outPlay p.reciprocal span{
+	font-size: 36px; line-height: 36px; text-align: center; color: #fff;
+	display: block;
+}
+#Video .outPlay p.end{
+	padding-top: 8px;
+	font-size: 28px; line-height: 48px; text-align: center; color: #bdbdbd;
+	position: relative; z-index: 1;
+}
+#Video:after{
+	height: 4px;
+	background: #4492fd;
+	position: absolute; bottom: -4px; left: 0; right: 0; z-index: 1;
+	content: '';
+}
+
+.tabbox{
+	height: 88px;
+	padding: 0 24px;
+	background: #fff;
+	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
+	position: fixed; top: 509px; left: 0; right: 0; z-index: 1;
+	white-space: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+}
+.tabbox button, .tabbox a{
+	height: 88px;
+	padding: 0 40px;
+	background: none;
+	font-size: 28px; line-height: 88px; text-align: center;
+	position: relative;
+	display: inline-block;
+	box-sizing: border-box;
+}
+.tabbox button.on, .tabbox a.on{
+	color: #4492fd;
+}
+.tabbox button.on:before, .tabbox a.on:before{
+	width: 0; bottom: 0;
+	margin-left: -12px;
+	border-top: 12px solid #4492fd; border-left: 12px solid transparent; border-right: 12px solid transparent;
+	position: absolute; top: 0; left: 50%;
+	content: '';
+}
+
+/*内容区域*/
+#Content{
+	
+}
+#Record{
+	padding: 0 16px;
+	background: #fff;
+	font-size: 0; line-height: 0;
+}
+#Record .title{
+	height: 100px;
+	margin: 0 -16px; padding-left: 44px;
+	font-size: 28px; line-height: 100px; color: #565656;
+	position: relative;
+}
+#Record .title:after{
+	height: 14px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #5c95e4;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+#Record .title:before{
+	height: 40px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #d1d8f0;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+#Record .item{
+	width: 50%;
+	padding-bottom: 20px;
+	display: inline-block;
+}
+#Record .item a{
+	margin: 0 8px;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 2px 7px 0 rgba(2, 33, 127, 0.1);
+	overflow: hidden;
+	display: block;
+}
+#Record .item a .imgbox{
+	height: 200px;
+}
+#Record .item a .con{
+	height: 80px;
+	font-size: 28px; line-height: 80px; text-align: center; color: #565656;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+
+/*微信*/
+#WX{
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
+}
+
+
+/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
+	#Video{
+		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
+	}
+	.tabbox{
+		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

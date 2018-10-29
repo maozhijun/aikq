@@ -748,7 +748,6 @@ class LiveController extends Controller
         try {
             $path = CommonTool::getLiveDetailStaticPath($mid, $sport);
             if (strlen($path) <= 0) return; //如果返回的路径为空，则不再执行下面的代码
-
             $pcPath = "/www" . $path;
             $mPath = "/m" . $path;
             $mipPath = "/mip" . $path;

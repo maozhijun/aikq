@@ -189,18 +189,6 @@ class SubjectVideoController extends Controller
                 Storage::disk("public")->put('static/'.$patch, json_encode($json));//兼容静态化地址
                 Storage::disk("public")->put($patch, json_encode($json));//新的静态化地址
             }
-
-            //静态化终端html
-//            $videos = isset($data['videos']) ? $data['videos'] : [];
-//            foreach ($videos as $video) {
-//                $m_detail_html = $msCon->subjectVideoDetailHtml($video);
-//                if (!empty($m_detail_html)) {
-//                    $m_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
-//                    $m_patch = '/m' . $m_patch;
-//                    dump($m_patch);
-//                    Storage::disk("public")->put($m_patch, $m_detail_html);
-//                }
-//            }
         } else {
             $patch = '/live/subject/videos/' . $type . '/' . $page . '.html';
             if ($page == 1) {
@@ -222,17 +210,6 @@ class SubjectVideoController extends Controller
                 //echo $type . ' patch : ' . $patch . "\n";
                 Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表
                 Storage::disk("public")->put($newPatch, $html);//静态化热门录像分页列表
-            }
-
-            //静态化终端html
-            $videos = isset($data['videos']) ? $data['videos'] : [];
-            $con = new SubjectController();
-            foreach ($videos as $video) {
-                $con->staticSubjectVideo($video);
-                $channels = isset($video['channels']) ? $video['channels'] : [];
-                foreach ($channels as $channel) {
-                    $con->staticSVideoChannelJson($channel, $channel['id']);
-                }
             }
         }
     }

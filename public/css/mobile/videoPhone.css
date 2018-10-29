@@ -1,118 +1,37 @@
-﻿img.logo{
+﻿body{
+	padding-top: 597px;
+}
+img.logo{
 	position: absolute;
 	display: none;
 }
 
-#Info{
-	height: 220px;
-	padding-top: 10px; margin-bottom: 0;
-	border: none;
-	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
-	-webkit-justify-content: center; -moz-justify-content: center; -ms-justify-content: center; -o-justify-content: center; justify-content: center;
-}
-#Info .score{
-	width: 200px;
-	margin-top: -60px;
-	font-size: 40px; line-height: 60px; text-align: center;
-}
-#Info .score p{
-	margin: 0 -100px;
-	font-size: 60px; line-height: 60px;
-	position: relative;
-}
-#Info .score p:before{
-	width: 60px;
-	margin-left: -30px;
-	position: absolute; top: 0; left: 50%;
-	content: '-';
-}
-#Info .score p span{
-	width: 47%;
-	display: inline-block;
-}
-#Info .score p span.host{
-	text-align: right;
-}
-#Info .score p span.away{
-	text-align: left;
-}
-#Info .score p span.host:after,
-#Info .score p span.away:before{
-	height: 60px; width: 30px;
-	display: inline-block;
-	content: '';
-}
-#Info .score button{
-	height: 32px;
-	margin-top: 36px; padding: 0 10px;
+/*顶栏筛选*/
+#Navigation .select, #Navigation select{
+	height: 56px;
+	padding: 0 20px; margin-top: -28px;
+	border-radius: 8px; border: none;
 	background: #fff;
-	font-size: 24px; color: #999;
+	font-size: 24px; line-height: 56px; text-align: center; color: #4492fd;
+	position: absolute; top: 50%; right: 26px;
 }
-#Info p.other{
-	padding-bottom: 10px;
-	font-size: 40px; line-height: 60px; text-align: center;
-}
-
-#Info .team{
-	height: 200px;
-	padding-top: 20px;
-	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
-}
-#Info .team .img{
-	width: 80px; height: 80px;
-	margin: 0 auto; padding: 10px;
-	border-radius: 50%; border: 4px solid #4492fd;
-	display: block;
-}
-#Info .team img{
-	width: 76px; height: 76px;
-	margin: 0 auto;
-	display: block;
-}
-#Info .team p{
-	max-height: 64px;
-	padding: 18px 30px 0;
-	font-size: 28px; line-height: 32px; text-align: center;
-	overflow: hidden;
+#Navigation select{
+	opacity: 0;
+	z-index: 1;
 }
 
 #Video{
-	border: none;
-	overflow: hidden;
-}
-#Video .line{
-	height: 60px;
-	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-	overflow: hidden;
-}
-#Video .line button{
-	height: 60px;
-	background: #2e70c9;
-	font-size: 24px; color: #7598ea;
-	position: relative;
-	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
-}
-#Video .line button.on{
-	background: #4492fd;
-	color: #fff;
-}
-#Video .line button:first-child:before,
-#Video .line button.on:before,
-#Video .line button.on + button:before{
-	display: none;
-}
-#Video .line button:disabled{
-	color: #999;
+	margin-bottom: 0;
+	position: fixed; top: 88px; left: 0; right: 0; z-index: 1;
 }
 #Video iframe{
 	width: 100%; height: 420px;
-	background: #333;
+	background: #333; 
 	display: block;
 }
 #Video .outPlay{
 	width: 100%; height: 420px;
-	background: url(/img/mobile/bg_video.jpg) no-repeat center; background-size: cover;
+	/*background: url(../../img/customer2/bg_video.jpg) no-repeat center; background-size: cover;*/
 	position: relative;
 }
 #Video .outPlay:before{
@@ -142,312 +61,263 @@
 }
 
 .tabbox{
-	height: 80px;
-	box-shadow: 0 2px 2px 0 rgba(127, 2, 2, 0.17);
+	height: 88px;
+	background: #fff;
+	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
+	position: fixed; top: 509px; left: 0; right: 0; z-index: 1;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 }
 .tabbox button{
-	height: 80px;
+	height: 88px;
 	background: #fff;
 	font-size: 28px; text-align: center;
 	position: relative;
 	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
 }
 .tabbox button.on{
-	color: #e1223a;
+	color: #4492fd;
 }
 .tabbox button.on:before{
-	width: 110px; height: 4px;
-	margin-left: -55px;
-	background: #e1223a;
-	position: absolute; bottom: 0; left: 50%;
+	width: 50px; height: 4px;
+	margin-left: -25px;
+	border-radius: 2px;
+	background: #4492fd;
+	position: absolute; bottom: 6px; left: 50%;
 	content: '';
 }
 
+/*内容区域*/
 #Content{
-	margin-top: 30px;
-}
-#Content > img{
-	width: 300px; height: 300px;
-	margin: 0 auto;
-	box-shadow: 0 6px 10px 0 rgba(38, 32, 125, 0.5);
-	display: block;
-}
-#Content > p{
-	padding-top: 30px;
-	font-size: 28px; line-height: 42px; text-align: center; color: #6a6464;
+	
 }
 
-ul#Odd{
+#Data{
 
 }
-ul#Odd li{
-	padding: 24px 0 0 40px;
+#Data .default{
+	padding: 10px 24px 0;
 }
-ul#Odd li + li{
-	border-top: 1px solid #e6e6e6;
-}
-ul#Odd li p.name{
-	height: 60px;
-	font-size: 28px; line-height: 60px; color: #e1223a;
+#Data .title{
+	height: 100px;
+	margin: 0 -24px; padding-left: 44px;
+	font-size: 28px; line-height: 100px; color: #565656;
 	position: relative;
 }
-ul#Odd li p.name:before{
-	width: 4px; height: 24px;
-	margin-top: -12px;
-	background: #e1223a;
-	position: absolute; top: 50%; left: -14px;
+#Data .title:after{
+	height: 14px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #5c95e4;
+	position: absolute; top: 30px; left: 24px;
 	content: '';
 }
-ul#Odd li table{
+#Data .title:before{
+	height: 40px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #d1d8f0;
+	position: absolute; top: 30px; left: 24px;
+	content: '';
+}
+#Data table{
 	width: 100%;
 }
-ul#Odd li table td{
+#Data table th{
 	height: 68px;
-	border-top: 1px solid #e6e6e6;
-	font-size: 28px; line-height: 40px; text-align: center;
+	background: none;
+	font-size: 26px; line-height: 36px; text-align: center; color: #7e7e7e;
 }
-ul#Odd li table tr:first-child td{
-	border-top: none;
-}
-ul#Odd li table td:nth-child(1){
-	text-align: left; color: #666;
-}
-ul#Odd li table td p{
-	height: 40px;
-	padding: 0 20px;
-	border-radius: 8px;
-	display: inline-block;
-}
-ul#Odd li table td p.up{
-	background: #e1223a;
-	color: #fff;
-}
-ul#Odd li table td p.down{
-	background: #1cbc5d;
-	color: #fff;
-}
-
-dl#Prompt{
-	margin: 28px 0 28px 60px; padding: 0 60px 0 24px;
-	border-left: 2px solid #d8d8d8;
-	position: relative;
-}
-dl#Prompt dt{
-	font-size: 24px; line-height: 24px; color: #999;
-}
-dl#Prompt dt:last-child{
-	padding-top: 60px;
-}
-dl#Prompt dt:before{
-	width: 18px; height: 18px;
-	border-radius: 50%;
-	background: #d8d8d8;
-	position: absolute; left: -10px;
-	content: '';
-}
-dl#Prompt dt:first-child:before{
-	top: 0;
-}
-dl#Prompt dt:last-child:before{
-	bottom: 0;
-}
-dl#Prompt dd{
-	padding-top: 60px;
-}
-dl#Prompt dd:before{
-	width: 14px; height: 14px;
-	border-radius: 50%; border: 2px solid #d8d8d8;
-	background: #fff;
-	position: absolute; left: -10px;
-	content: '';
-}
-dl#Prompt dd p.minute{
-	font-size: 24px; line-height: 24px; color: #666;
-}
-dl#Prompt dd p.text{
-	margin-top: 8px; padding: 28px;
-	background: #f3f3f3;
-	font-size: 26px; line-height: 40px; color: #333;
-}
-
-dl#Statistics{
-	padding: 40px 60px 50px;
-}
-dl#Statistics dt{
+#Data table td{
 	height: 100px;
-	padding-bottom: 60px;
-	font-size: 32px; line-height: 100px; text-align: center; font-weight: bold;
-	position: relative;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
 }
-dl#Statistics dt img{
-	width: 100px; height: 100px;
-	position: absolute; top: 0;
+#Data table td:first-child, #Data table td span{
+	color: #7e7e7e;
 }
-dl#Statistics dt img.host{
-	left: 0;
+#Data table td:nth-child(2){
+	font-size: 22px;
 }
-dl#Statistics dt img.away{
-	right: 0;
+#Data table td:last-child{
+	color: #c1c9d4;
 }
-dl#Statistics dd{
-	height: 40px;
-	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-	-webkit-box-align: center; -moz-box-align: center; -ms-flex-align: center; -webkit-align-items: center; align-items: center;
+#Data table td:last-child a{
+	color: #4492fd;
 }
-dl#Statistics dd + dd{
-	margin-top: 16px;
+
+#Player{
+	padding: 48px 24px 44px;
 }
-dl#Statistics dd p.name{
-	width: 156px; height: 40px;
-	font-size: 24px; line-height: 40px; text-align: center; color: #999;
-}
-dl#Statistics dd p.number{
-	width: 100px; height: 40px;
-	font-size: 28px; line-height: 40px; text-align: center;
-}
-dl#Statistics dd p.line{
-	height: 8px;
-	border-radius: 4px;
-	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+#Player .h_a{
+	height: 58px; width: 500px;
+	margin: 0 auto 40px;
+	border: 1px solid #4492fd; border-radius: 8px;
+	font-size: 0; text-align: center;
 	overflow: hidden;
 }
-dl#Statistics dd p.line span{
-	height: 8px;
-	border-radius: 4px;
-	display: block;
+#Player .h_a button{
+	height: 58px; width: 250px;
+	background: #fff;
+	font-size: 28px; text-align: center; color: #6e6e6e;
+	vertical-align: top;
 }
-dl#Statistics dd p.host span{
-	background: #e1223a;
-	float: right;
+#Player .h_a button.on{
+	background: #4492fd;
+	color: #fff;
 }
-dl#Statistics dd p.away span{
-	background: #ff6602;
-	float: left;
+#Player table{
+	width: 100%;
+}
+#Player table th{
+	height: 68px;
+	background: none;
+	border-bottom: 1px solid #e0e3ea;
+	font-size: 26px; line-height: 36px; text-align: center; color: #7e7e7e;
+}
+#Player table td{
+	height: 100px;
+	border-bottom: 1px solid #e0e3ea;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
+}
+#Player table td p{
+	width: 44px; height: 44px;
+	margin: 0 auto;
+	border-radius: 8px;
+	background: #6d93c6;
+	font-size: 28px; line-height: 44px; color: #fff;
 }
 
-div#Event{
-	padding: 28px 0 150px;
+#Technology{
+	
 }
-div#Event dl{
-	margin-top: 64px;
+#Technology .title{
+	height: 100px;
+	margin: 0 -24px; padding-left: 44px;
+	font-size: 28px; line-height: 100px; color: #565656;
 	position: relative;
 }
-div#Event dl:before{
-	width: 2px;
-	margin-left: -1px;
-	background: #d8d8d8;
-	position: absolute; top: 0; bottom: 0; left: 50%;
+#Technology .title:after{
+	height: 14px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #5c95e4;
+	position: absolute; top: 30px; left: 24px;
 	content: '';
 }
-div#Event dl dt{
-	height: 24px;
-	font-size: 24px; line-height: 24px; text-align: center;
-	position: absolute; left: 0; right: 0;
-}
-div#Event dl dt.end{
-	color: #bdbdbd;
-}
-div#Event dl dt:first-child{
-	padding-bottom: 72px;
-	background: url(../../img/customer2/icon_video_end.png) no-repeat center bottom 24px; background-size: 30px;
-	top: -92px;
-}
-div#Event dl dt:first-child:before{
-	width: 18px; height: 18px;
-	margin-left: -9px;
-	border-radius: 50%;
-	background: #d8d8d8;
-	position: absolute; top: 81px; left: 50%;
+#Technology .title:before{
+	height: 40px; width: 10px;
+	border-radius: 0 0 5px 5px;
+	background: #d1d8f0;
+	position: absolute; top: 30px; left: 24px;
 	content: '';
 }
-div#Event dl dt:last-child{
-	padding-top: 72px;
-	background: url(../../img/customer2/icon_video_begin.png) no-repeat center 24px; background-size: 30px;
-	bottom: -92px;
+#Technology table{
+	width: 100%;
 }
-div#Event dl dt:last-child:before{
-	width: 18px; height: 18px;
-	margin-left: -9px;
-	border-radius: 50%;
-	background: #d8d8d8;
-	position: absolute; bottom: 81px; left: 50%;
-	content: '';
+#Technology .default{
+	padding: 10px 24px 0;
+	background: #fff;
 }
-div#Event dl dd{
-	min-height: 60px;
-	padding-bottom: 40px;
-	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
-	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
+#Technology .count table td{
+	height: 88px;
+	font-size: 28px; line-height: 36px; text-align: center; color: #565656;
+}
+#Technology .count table td:nth-child(2), #Technology table td:nth-child(4){
+	width: 80px;
+}
+#Technology .count table td:nth-child(3){
+	width: 180px;
+}
+#Technology .count table td p{
+	height: 14px;
+	background: #6d93c6;
+	display: inline-block;
+}
+#Technology .count table td:first-child p{
+	border-radius: 7px 0 0 7px;
+	float: right;
+}
+#Technology .count table td:last-child p{
+	border-radius: 0 7px 7px 0;
+	float: left;
+}
+#Technology .event table th{
+	height: 68px;
+	background: #fff;
+	font-size: 28px; line-height: 36px; text-align: center; color: #7e7e7e;
+}
+#Technology .event table td{
+	height: 100px;
+	font-size: 26px; line-height: 36px; text-align: center; color: #565656;
+}
+#Technology .event table td:nth-child(3){
+	background: #f9f9f9;
+}
+#Technology .event table td span{
+	font-size: 22px; color: #7e7e7e;
+}
+#Technology .event table td:nth-child(3){
+	width: 110px;
+}
+#Technology .event table td:nth-child(2), #Technology .event table td:nth-child(4){
+	width: 110px;
+	color: #6d93c6;
+}
+#Technology .event table td:nth-child(1), #Technology .event table td:nth-child(5){
+	width: 200px;
+}
+
+#News{
+	background: #fff;
+}
+#News a{
+	height: 160px;
+	padding: 20px 0 20px 260px; margin: 0 24px;
 	position: relative;
+	display: block;
 }
-div#Event dl dt + dd{
-	padding-top: 40px;
+#News a + a{
+	border-top: 1px solid #e0e3ea;
 }
-div#Event dl dd.host{
-	padding-right: 50%;
+#News .imgbox{
+	width: 240px;
+	position: absolute; top: 20px; left: 0; bottom: 20px;
+	float: left;
 }
-div#Event dl dd.away{
-	padding-left: 50%;
+#News .con{
+	height: 160px; width: 100%;
+	font-size: 32px; line-height: 48px; color: #565656;
+	vertical-align: middle;
+	display: table-cell;
 }
-div#Event dl dd p.minute{
-	width: 56px; height: 56px;
-	border: 2px solid #d8d8d8; border-radius: 50%;
-	background: #ededed;
-	font-size: 24px; line-height: 56px; text-align: center; color: #666;
-	position: absolute; top: 0; z-index: 1;
+
+#Record{
+	padding: 30px 16px 0;
+	background: #fff;
+	font-size: 0; line-height: 0;
 }
-div#Event dl dt + dd p.minute{
-	top: 40px;
+#Record .item{
+	width: 50%;
+	padding-bottom: 20px;
+	display: inline-block;
 }
-div#Event dl dd p.minute span{
-	position: absolute;
+#Record .item a{
+	margin: 0 8px;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 2px 7px 0 rgba(2, 33, 127, 0.1);
+	overflow: hidden;
+	display: block;
 }
-div#Event dl dd.host p.minute{
-	margin-right: -30px;
-	right: 50%;
+#Record .item a .imgbox{
+	height: 200px;
 }
-div#Event dl dd.away p.minute{
-	margin-left: -30px;
-	left: 50%;
-}
-div#Event dl dd ul{
-	margin: -10px 0;
-	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
-}
-div#Event dl dd.host ul{
-	padding-left: 10px;
-	text-align: right;
-}
-div#Event dl dd.aways ul{
-	padding-right: 10px;
-	text-align: left;
-}
-div#Event dl dd ul li{
-	font-size: 28px; line-height: 40px;
-	position: relative;
-}
-div#Event dl dd.host ul li{
-	padding-right: 94px;
-}
-div#Event dl dd.away ul li{
-	padding-left: 94px;
-}
-div#Event dl dd ul li img{
-	width: 30px; height: 30px;
-	position: absolute; top: 5px;
-}
-div#Event dl dd.host ul li img{
-	right: 47px;
-}
-div#Event dl dd.away ul li img{
-	left: 47px;
+#Record .item a .con{
+	height: 80px;
+	font-size: 28px; line-height: 80px; text-align: center; color: #565656;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
 
 /*微信*/
 #WX{
-	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
 
@@ -476,7 +346,6 @@ div#Event dl dd.away ul li img{
 		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
 	}
 }*/
-
 
 
 
