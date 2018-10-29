@@ -19,8 +19,6 @@ use App\Console\HtmlStaticCommand\OtherPlayerCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Console\JustFun\JustFunStreamStaticCommand;
-use App\Console\QiumiGo\QiumiLiveDetailCommand;
-use App\Console\QiumiGo\QiumiLivesJsonCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
