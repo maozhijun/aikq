@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin\Article;
 
 use App\Http\Controllers\Admin\UploadTrait;
 use App\Http\Controllers\PC\CommonTool;
+use App\Http\Controllers\Sync\LabelController;
 use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
@@ -190,7 +191,7 @@ class ArticleController extends Controller
             }
         }
 
-        $exception = DB::transaction(function () use ($article, $controller, $hasId, $content) {
+        $exception = DB::transaction(function () use ($article, $controller, $hasId, $content, $labels) {
             if ($article->status == 1) {
                 $article->url = $article->getUrl();
             }
@@ -206,6 +207,13 @@ class ArticleController extends Controller
             }
             $detail->content = $content;
             $detail->save();
+
+            //保存文章标签关系
+            $list = explode(",", $labels);
+            foreach ($list as $label) {
+                $labelEntity = LabelController::saveLabel($label);
+                LabelController::saveLabelArticle($labelEntity, $article->id, $article->publish_at);
+            }
         });
 
         if (isset($exception)) {
