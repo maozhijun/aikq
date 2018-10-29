@@ -464,7 +464,7 @@ function PlayVideoShare (cid, type){
                     } else{ //其他，获取播放地址和播放方式
                         var Link = getLink(data);
                         var PlayType = data.player;
-                        if (PlayType == 11 || Link.indexOf('qiumigo.com') != -1) { //iframe
+                        if (PlayType == 11) { //iframe
                             LoadIframe(Link)
                         }else if (PlayType == 12) { //ckplayer
                             CheckPlayerType(Link,1);

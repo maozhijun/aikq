@@ -100,7 +100,11 @@
                         @foreach($ranks as $key=>$rank)
                             <div class="list">
                                 <p class="rank">{{$key+1}}</p>
-                                <p class="team">{{$rank['name']}}</p>
+                                @if(isset($rank['tid']))
+                                    <p class="team"><a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></p>
+                                @else
+                                    <p class="team">{{$rank['name']}}</p>
+                                @endif
                                 @if(array_key_exists('draw',$rank))
                                     <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
                                 @else
@@ -146,7 +150,11 @@
                         @foreach($groupRanks as $key=>$rank)
                             <div class="list">
                                 <p class="rank">{{$key+1}}</p>
-                                <p class="team">{{$rank['name']}}</p>
+                                @if(isset($rank['tid']))
+                                    <p class="team"><a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></p>
+                                @else
+                                    <p class="team">{{$rank['name']}}</p>
+                                @endif
                                 @if(isset($rank['draw']))
                                     <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
                                 @else

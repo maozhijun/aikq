@@ -457,8 +457,8 @@ class LiveController extends Controller
     public function matchLiveStatic(Request $request) {
         try {
             $json = $this->match_live($request, true);
-            Storage::disk("public")->put("/static/m/lives/data/refresh.json", $json);
-            Storage::disk("public")->put("m/lives/data/refresh.json", $json);
+            Storage::disk("public")->put("/static/json/m/lives/data/refresh.json", $json);
+//            Storage::disk("public")->put("m/lives/data/refresh.json", $json);
         } catch (\Exception $e) {
             Log::error($e);
         }

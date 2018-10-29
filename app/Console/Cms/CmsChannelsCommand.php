@@ -65,7 +65,7 @@ class CmsChannelsCommand extends Command
                 $channels = $match['channels'];
                 $mid = $match['mid'];
                 $sport = $match['sport'];
-                $path = "www/json/cms/channels/$mid/$sport.json";
+                $path = "static/json/cms/channels/$mid/$sport.json";
                 dump($path);
                 Storage::disk('public')->put($path, json_encode(['code'=>0, 'channels'=>$channels]));
             }

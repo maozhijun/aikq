@@ -83,9 +83,7 @@
                             case 5:
                             case 99:{
                                 var Link = data.playurl;
-                                if (Link.indexOf('qiumigo.com') != -1) {
-                                    LoadIframe(Link);
-                                }else if (Link.indexOf('player.pptv.com') != -1) {
+                                if (Link.indexOf('player.pptv.com') != -1) {
                                     LoadPPTV(Link)
                                 }else if (Link.indexOf('staticlive.douyucdn.cn') != -1 || Link.indexOf('upstatic.qiecdn.com') != -1 || Link.indexOf('liveshare.huya.com') != -1) {
                                     LoadTV(Link)

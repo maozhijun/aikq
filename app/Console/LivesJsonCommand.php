@@ -58,6 +58,6 @@ class LivesJsonCommand extends Command
         $aiCon = new AikanQController();
         $jsonObj = $aiCon->livesJson(new Request(), true)->getData();
         $server_output = json_encode($jsonObj);
-        Storage::disk("public")->put("static/m/json/lives.json", $server_output);
+        Storage::disk("public")->put("static/json/m/lives.json", $server_output);
     }
 }

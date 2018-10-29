@@ -85,7 +85,7 @@ class SubjectVideoController extends Controller
      */
     public function getLeagues() {
         try {
-            $leagues = Storage::get('public/live/subject/videos/leagues.json');
+            $leagues = Storage::get('public/static/json/pc/subject/videos/leagues.json');
         } catch (\Exception $exception) {
             $leagues = "[]";
         }
@@ -141,7 +141,7 @@ class SubjectVideoController extends Controller
         $data = $aiCon->subjectVideoTypes(new Request())->getData();
         $typesStr = json_encode($data);
         $types = json_decode($typesStr, true);
-        Storage::disk("public")->put('/live/subject/videos/leagues.json', $typesStr);
+        Storage::disk("public")->put('static/json/pc/subject/videos/leagues.json', $typesStr);
         $data = array();
         foreach ($types as $key=>$item){
             $item['type'] = $key;
@@ -185,7 +185,7 @@ class SubjectVideoController extends Controller
             //静态化json
             if (isset($data['page']) && isset($data['videos'])) {
                 $json = $msCon->subjectVideoData2Json($data);
-                $patch = 'm/live/subject/videos/' . $type . '/' . $page . '.json';
+                $patch = 'static/json/m/subject/videos/' . $type . '/' . $page . '.json';
                 Storage::disk("public")->put('static/'.$patch, json_encode($json));//兼容静态化地址
                 Storage::disk("public")->put($patch, json_encode($json));//新的静态化地址
             }

@@ -860,7 +860,8 @@ class AikanQController extends Controller
                 $ranks = Score::getFootballScores($lid);
                 $rank_array = [];
                 foreach ($ranks as $rank) {
-                    $rank_array[] = ['name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
+                    $rank_array[] = ['tid'=>$rank->tid, 'sport'=>$sport, 'lid'=>$rank->lid,
+                        'name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
                         , 'score'=>$rank->score, 'rank'=>$rank->rank];
                 }
                 $result['ranks'] = $rank_array;//排名
@@ -1557,7 +1558,8 @@ class AikanQController extends Controller
                 $ranks = Score::getFootballScores($lid);
                 $rank_array = [];
                 foreach ($ranks as $rank) {
-                    $rank_array[] = ['name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
+                    $rank_array[] = ['tid'=>$rank->tid, 'lid'=>$lid, 'sport'=>$sport,
+                        'name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
                         , 'score'=>$rank->score, 'rank'=>$rank->rank];
                 }
                 $ranks = $rank_array;//排名
@@ -1583,17 +1585,17 @@ class AikanQController extends Controller
         //如果数据库返回的数据为空，而静态化的数据不为空，则不覆盖
         if ($rankData == null && $staticData != null) return;
 
-        Storage::disk("public")->put("/static/json/rank/$sport/$lid.json", json_encode($rankData));
+        Storage::disk("public")->put("/static/json/pc/rank/$sport/$lid.json", json_encode($rankData));
 
         //同时把rank的html也静态化了
         $leagueData = self::getLeagueDataByLid($sport, $lid);
         $html = view('pc.team.detail_rank_cell', ['ranks'=>$rankData, 'subject'=>$leagueData]);
-        Storage::disk("public")->put("/www/json/rank/$sport/$lid.html", $html);
+        Storage::disk("public")->put("/static/json/pc/rank/$sport/$lid.html", $html);
     }
 
     public static function getStaticLeagueRank($sport, $lid) {
         try {
-            $data = Storage::get("/public/static/json/rank/$sport/$lid.json");
+            $data = Storage::get("/public/static/json/pc/rank/$sport/$lid.json");
             if (isset($data) && strlen($data) > 0) {
                 return json_decode($data, true);
             }

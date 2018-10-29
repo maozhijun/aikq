@@ -195,7 +195,7 @@ class SubjectController extends Controller
     public static function getSubjects() {
         //先从文件获取内容
         try {
-            $server_output = Storage::get('public/static/json/subject/leagues.json');
+            $server_output = Storage::get('public/static/json/pc/subject/leagues.json');
         } catch (\Exception $exception) {
             $server_output = "";
         }
@@ -271,7 +271,7 @@ class SubjectController extends Controller
         $data = $aiCon->subjects(new Request())->getData();
         $server_output = json_encode($data);
         if (!empty($server_output)) {
-            Storage::disk("public")->put("/static/json/subject/leagues.json", $server_output);
+            Storage::disk("public")->put("/static/json/pc/subject/leagues.json", $server_output);
         }
     }
 
@@ -284,7 +284,7 @@ class SubjectController extends Controller
         $server_output = $this->akqCon->subjectDetail($request, $slid)->getData();
         $server_output = json_encode($server_output);
         if (!empty($server_output)) {
-            Storage::disk("public")->put("/static/json/subject/" . $slid . ".json", $server_output);
+            Storage::disk("public")->put("/static/json/pc/subject/" . $slid . ".json", $server_output);
         }
     }
 

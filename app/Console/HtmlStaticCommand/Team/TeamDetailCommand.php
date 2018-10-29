@@ -66,7 +66,7 @@ class TeamDetailCommand extends Command
 
     protected function fromLivesData()
     {
-        $lives = json_decode(Storage::get("/public/static/json/lives.json"), true);
+        $lives = json_decode(Storage::get("/public/static/json/pc/lives.json"), true);
         foreach ($lives['matches'] as $data => $matches) {
             foreach ($matches as $key => $match) {
                 list($sport, $mid) = explode("_", $key, 2);
