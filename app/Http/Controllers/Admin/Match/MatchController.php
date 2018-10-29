@@ -413,6 +413,7 @@ class MatchController extends Controller
             $live->impt = $impt;
             $live->save();
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'设置失败。']);
         }
         return response()->json(['code'=>200, 'msg'=>'设置成功。']);
