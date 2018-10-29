@@ -87,7 +87,7 @@
                     <button https="{{preg_match("/\.m3u8/", $content)}}" id="{{$channel['channelId']}}" value="{{$link}}">{{$channel['name']}}</button>
                 @endforeach
                 @if($match['sport'] < 3 && count($channels) < 3)
-                    <button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>
+                    {{--<button onclick="window.open('https://shop.liaogou168.com/lqb/articles/{{$match['sport']}}/{{$match['mid']}}.html?default=1')">专家推荐</button>--}}
                 @endif
                 <?php //$ch_cn = ['线路一', '线路二', '线路三']; ?>
                 {{--@for($index = count($channels); $index < 3; $index++)--}}
