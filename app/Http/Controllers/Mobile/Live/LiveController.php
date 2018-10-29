@@ -252,7 +252,7 @@ class LiveController extends Controller
      * @param $video
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideoDetailHtml($svc, $video) {
+    public function subjectVideoDetailHtml(SubjectVideoChannels $svc, SubjectVideo $video) {
         $data = [];
         $allChannels = $video->getAllChannels();
         $moreVideos = SubjectVideo::moreVideos($svc->id);//更多视频

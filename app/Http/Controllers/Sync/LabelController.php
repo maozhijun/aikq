@@ -48,7 +48,7 @@ class LabelController extends Controller
     }
 
 
-    protected function saveLabel($label) {
+    public static function saveLabel($label) {
         $obj = Label::query()->where('label', $label)->first();
         if (!isset($obj)) {
             $obj = new Label();
@@ -58,7 +58,7 @@ class LabelController extends Controller
         return $obj;
     }
 
-    protected function saveLabelArticle($label, $article_id, $publish_at) {
+    public static function saveLabelArticle($label, $article_id, $publish_at) {
         if (!isset($label)) {
             return;
         }
