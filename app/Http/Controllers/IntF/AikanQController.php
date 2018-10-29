@@ -1252,7 +1252,8 @@ class AikanQController extends Controller
             }
         }
 
-        $tmp = array('status'=>$match->status,'show_live'=>$show_live, 'time'=>strtotime($match['time']));
+        $tmp = array('sport'=>$live['sport'], 'lid'=>isset($match['lid']) ? $match['lid'] : '',
+            'status'=>$match->status,'show_live'=>$show_live, 'time'=>strtotime($match['time']));
         if ($match['status'] == 0 && !$show_live){
             $matchTime = strtotime($match['time']);
             $now = strtotime(date('Y-m-d H:i:s'));
@@ -1266,6 +1267,7 @@ class AikanQController extends Controller
             $tmp['minute_html'] = $minute_html;
             $tmp['second_html'] = $second_html;
         }
+
         $match = $tmp;
 
         switch ($channel->type){

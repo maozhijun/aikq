@@ -52,6 +52,6 @@ class TeamController extends Controller
         $html = self::detailHtml($data);
 
         Storage::disk('public')->put("www/$path", $html);
-        echo "pc: $path </br>";
+//        echo "pc: $path </br>";
     }
 }

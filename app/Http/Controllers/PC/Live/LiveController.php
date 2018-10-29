@@ -853,14 +853,25 @@ class LiveController extends Controller
      * @param $has_mobile
      * @param $sport
      */
-    public function staticLiveUrl(Request $request, $id, $has_mobile = false, $sport = null) {
+    public function staticLiveUrl(Request $request, $id, $has_mobile = false, $sport = null, $isForQiumi = false) {
         try {
             $player = $this->player($request);
             $sport = !isset($sport) ? $request->input('sport',1) : $sport;
             $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
             $aiCon = new AikanQController();
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
-            $pc_json = json_encode($jsonStr);
+            $jsonData = json_decode(json_encode($jsonStr), true);
+            $origin_json = $jsonData;
+            if (!$isForQiumi) {
+                //判断是否要跳转到qiumigo，目前只有nba要跳
+                if (isset($jsonData['match']) && $jsonData['match']['sport'] == MatchLive::kSportBasketball
+                    && $jsonData['match']['lid']  == 1) {
+                    $playUrl = env("QIUMI_HOST")."live/iframe/player-".$jsonData['cid']."-".$jsonData['type'].".html";
+                    $jsonData['type'] = MatchLiveChannel::kTypeBallBar;
+                    $jsonData['playurl'] = $playUrl;
+                }
+            }
+            $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("/www/match/live/url/channel/". $id . '.json', $pc_json);
                 //每一个channel的player页面生成
@@ -872,25 +883,28 @@ class LiveController extends Controller
                 }
 
                 //保存app
-                $key = env('APP_DES_KEY');
-                $iv=env('APP_DES_IV');
-                $appData = $json;
+                if (!$isForQiumi) {
+                    $key = env('APP_DES_KEY');
+                    $iv=env('APP_DES_IV');
+                    $appData = $origin_json;
 
-                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
-                    $appData['playurl'] = explode('=',$appData['playurl'])[1];
-                    $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
-                    dump($appData['playurl']);
-                    $appData['type'] = '98';
-                }
-                else{
-                    if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                    if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
+                        $appData['playurl'] = explode('=',$appData['playurl'])[1];
                         $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                        dump($appData['playurl']);
+                        $appData['type'] = '98';
                     }
+                    else{
+                        if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                            $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                        }
+                    }
+
+                    $appData = json_encode($appData);
+                    Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
+                    Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
+                    Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
                 }
-                $appData = json_encode($appData);
-                Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
-                Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
-                Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
                 $mobile_json = $pc_json;
