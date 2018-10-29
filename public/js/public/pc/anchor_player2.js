@@ -486,7 +486,7 @@ function PlayVideoSubject (cid, type){
                 //CloseLoading();
                 var show_live = true;
                 if (isPhone && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu868</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
