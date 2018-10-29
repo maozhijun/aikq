@@ -14,6 +14,7 @@ use App\Http\Controllers\IntF\MatchController;
 use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mobile\UrlCommonTool;
 use App\Models\Article\PcArticle;
+use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
@@ -380,18 +381,39 @@ class LiveController extends Controller
 
 
     public function basketballDetailHtml($json, $id) {
-        $colum = 'other';
         $sport = 2;
-        if (array_key_exists($json['match']['lid'],\App\Models\LgMatch\Match::path_league_basketball_arrays)){
-            $colum = \App\Models\LgMatch\Match::path_league_basketball_arrays[$json['match']['lid']];
-        }
-        $date = substr($id,0,2);
-        if ($colum == 'other'){
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
-        else{
-            $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        }
+
+        $match = $json['match'];
+        $hid = $match['hid'];
+        $aid = $match['aid'];
+        $mid = $match['mid'];
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+
+        $passVSMatches = BasketMatch::vsMatches($hid, $aid);//过往战绩
+        $hNearMatches = BasketMatch::nearMatches($hid);//主队近期战绩
+        $aNearMatches = BasketMatch::nearMatches($aid);//客队近期战绩
+
+        $tech = MatchController::tech($sport, $mid);//篮球数据
+        $lineup = MatchController::basketballLineup($mid);//球队阵容
+
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
+        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
+
+        $json['tech'] = $tech;
+        $json['hasTech'] = isset($tech) && count($tech) > 0;
+        $json['lineup'] = $lineup;
+        $json['hasLineup'] = isset($lineup) && count($lineup) > 0;
+
+        $json['hasVideos'] = isset($videos) && count($videos) > 0;
+        $json['hasArticle'] = isset($articles) && count($articles) > 0;
+
+        $json['videos'] = $videos;
+        $json['articles'] = $articles;
+
+        $json['passVSMatches'] = $passVSMatches;
+        $json['hNearMatches'] = $hNearMatches;
+        $json['aNearMatches'] = $aNearMatches;
 
         return view('mobile.live.detail', $json);
     }
