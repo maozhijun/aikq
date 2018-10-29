@@ -19,6 +19,7 @@
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
 <script type="text/javascript" src="{{env('CND_URL')}}/js/pc/ckplayer/ckplayer.js" charset="UTF-8"></script>
 <script type="text/javascript">
+    window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
     function PlayVideoShare(CID,sport) {
         $.ajax({
             url:'/match/live/url/match/' + CID+'?sport='+sport,

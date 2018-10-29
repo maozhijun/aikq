@@ -402,9 +402,9 @@ function PlayVideoShare (cid, type){
     //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
     // } else {
     if (isPhone()) {
-        url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
+        url = window.jsonHost + '/json/m/match/live/url/channel/' + cid + '.json';
     } else {
-        url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
+        url = window.jsonHost + '/json/pc/match/live/url/channel/' + cid + '.json';
     }
     // }
     url = url + '?time=' + (new Date()).getTime();

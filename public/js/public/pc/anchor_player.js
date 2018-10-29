@@ -387,10 +387,10 @@ function PlayVideoShare (cid, type){
     var url;
 
     if (isMobileWithJS()){
-        url = jsonHost + '/json/m/anchor/room/url/' + cid + '.json';
+        url = window.jsonHost + '/json/m/anchor/room/url/' + cid + '.json';
     }
     else{
-        url = jsonHost + '/json/pc/anchor/room/url/' + cid + '.json';
+        url = window.jsonHost + '/json/pc/anchor/room/url/' + cid + '.json';
     }
     url = url + '?time=' + (new Date()).getTime();
     console.log(url);
@@ -470,10 +470,10 @@ function PlayVideoSubject (cid, type){
         var cidStr = cid + '';
         var first = cidStr.substr(0, 2);
         var second = cidStr.substr(2, 4);
-        url = jsonHost + '/json/'+ mobil +'/subject/' + type + '/channel/' + first + '/' + second + '/' + cid + '.json';
+        url = window.jsonHost + '/json/'+ mobil +'/subject/' + type + '/channel/' + first + '/' + second + '/' + cid + '.json';
     } else {
         var index = Math.floor(cid / 10000);
-        url = jsonHost + '/json/'+ mobil +'/videos/channel/' + index + '/' + cid + '.json';
+        url = window.jsonHost + '/json/'+ mobil +'/videos/channel/' + index + '/' + cid + '.json';
     }
 
     url = url + '?time=' + (new Date()).getTime();
@@ -840,7 +840,7 @@ function getParam() {
 
 function checkActive() {
     $.ajax({
-        "url": jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
+        "url": window.jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code && (json.txt != active_text || json.code != active_code) ) {
                 active_text = json.txt;
