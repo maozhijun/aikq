@@ -65,6 +65,7 @@
 @endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor.js?201808311700"></script>
+    <script type="text/javascript" src="/js/public/pc/client.js?rd={{date('YmdHi')}}"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();
@@ -76,6 +77,20 @@
                 scrollLeft: $(this).width()
             }, 2000);//2秒滑动到指定位置
         }
+        var userId = '{{ csrf_token() }}';
+        var roomId = '{{$room_id}}';
+//        userId = 9;
+//        roomId = 99;
+        var client = new MyClient({
+            notify: function(data) {
+                console.log(data);
+//            alert(JSON.stringify(data));
+                var json = eval('(' + data + ')');
+                console.log(json);
+                $('#Chat ul').append('<li><span>'+json['nickname']+'：</span>'+json['message']+'</li>');
+                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
+            }
+        });
     </script>
     <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
@@ -142,57 +157,57 @@
 
         //    var socket = io.connect('http://bj.xijiazhibo.cc');
 //        var socket = io.connect('http://localhost:6001');
-        var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
-        socket.on('connect', function (data) {
-            console.log('connect');
-            var mid = '{{'99_'.$room_id}}';
-            var time = Date.parse( new Date())/1000 + '';
-            var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
-            var key = new Uint8Array(encodeUTF8(key));
-            var result = md5(key);
-            var in_string = Array.prototype.map.call(result,function(e){
-                return (e<16?"0":"")+e.toString(16);
-            }).join("");
-            var nickname = getCookie('ws_nickname');
-            var req = {
-                'mid':mid,
-                'isPc':1,
-                'vaildUser':1,
-                'time':time,
-                'verification':in_string,
-                'nickname':nickname
-            }
-            socket.emit('user_mid', req);
-        });
+        {{--var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});--}}
+        {{--socket.on('connect', function (data) {--}}
+            {{--console.log('connect');--}}
+            {{--var mid = '{{'99_'.$room_id}}';--}}
+            {{--var time = Date.parse( new Date())/1000 + '';--}}
+            {{--var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);--}}
+            {{--var key = new Uint8Array(encodeUTF8(key));--}}
+            {{--var result = md5(key);--}}
+            {{--var in_string = Array.prototype.map.call(result,function(e){--}}
+                {{--return (e<16?"0":"")+e.toString(16);--}}
+            {{--}).join("");--}}
+            {{--var nickname = getCookie('ws_nickname');--}}
+            {{--var req = {--}}
+                {{--'mid':mid,--}}
+                {{--'isPc':1,--}}
+                {{--'vaildUser':1,--}}
+                {{--'time':time,--}}
+                {{--'verification':in_string,--}}
+                {{--'nickname':nickname--}}
+            {{--}--}}
+            {{--socket.emit('user_mid', req);--}}
+        {{--});--}}
 
-        socket.on('server_send_message', function (data) {
-            console.log(data);
-            $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
-            $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
-        });
-        socket.on('server_match_change', function (data) {
-//            console.log(data);
-            $('#match_score').html(data['hscore'] + " - " + data['ascore']);
-        });
-        socket.on('server_color_change', function (data) {
-//            console.log(data);
-            $('#home_color')[0].style.background = data['h_color'];
-            $('#away_color')[0].style.background = data['a_color'];
-        });
+        {{--socket.on('server_send_message', function (data) {--}}
+            {{--console.log(data);--}}
+            {{--$('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');--}}
+            {{--$("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);--}}
+        {{--});--}}
+        {{--socket.on('server_match_change', function (data) {--}}
+{{--//            console.log(data);--}}
+            {{--$('#match_score').html(data['hscore'] + " - " + data['ascore']);--}}
+        {{--});--}}
+        {{--socket.on('server_color_change', function (data) {--}}
+{{--//            console.log(data);--}}
+            {{--$('#home_color')[0].style.background = data['h_color'];--}}
+            {{--$('#away_color')[0].style.background = data['a_color'];--}}
+        {{--});--}}
 
-        var hasHistory = false;
-        socket.on('server_history_message', function (messages) {
-            if (hasHistory){
-                return;
-            }
-            hasHistory = true;
-//            console.log(messages);
-            for (var i = 0 ; i < messages.length ; i++){
-                var data = messages[i];
-                $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
-                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
-            }
-        });
+        {{--var hasHistory = false;--}}
+        {{--socket.on('server_history_message', function (messages) {--}}
+            {{--if (hasHistory){--}}
+                {{--return;--}}
+            {{--}--}}
+            {{--hasHistory = true;--}}
+{{--//            console.log(messages);--}}
+            {{--for (var i = 0 ; i < messages.length ; i++){--}}
+                {{--var data = messages[i];--}}
+                {{--$('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');--}}
+                {{--$("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);--}}
+            {{--}--}}
+        {{--});--}}
 
         function send() {
             var message = document.getElementById('text').value;
@@ -222,7 +237,7 @@
                     'time':time,
                     'verification':in_string,
                     'nickname':nickname,
-                    'mid':'{{'99_'.$room_id}}',
+                    'mid':'{{$room_id}}',
                 };
             }
             $.ajax({
@@ -263,7 +278,7 @@
         }
 
         window.onbeforeunload = function () {
-            socket.disconnect();
+//            socket.disconnect();
         }
     </script>
 @endsection

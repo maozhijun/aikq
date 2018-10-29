@@ -207,6 +207,10 @@ class AnchorController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function sendMessage(Request $request){
+        if (stristr($request->input('mid'),'99_')){
+            return response()->json(['code' => '-1','msg'=>'弹幕系统升级中暂时不能发新弹幕'], 200);
+        }
+
         if (strlen($request->input('message','')) == 0 || strlen($request->input('nickname','')) == 0){
             return response()->json(['code' => '-1','msg'=>'昵称和内容不能为空'], 200);
         }
@@ -226,6 +230,21 @@ class AnchorController extends Controller
             'verification'=>$request->input('verification'),
             'mid'=>$request->input('mid'),
         ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://172.31.172.238:7172/1/push/room?rid=".$request->input('mid'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS , json_encode($data));
+        $output = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($output);
+        if ($json->ret == 1){
+            return response()->json(['code' => '0','msg'=>'成功'], 200);
+        }
+        else{
+            return response()->json(['code' => '-1','msg'=>'失败'], 200);
+        }
 
         if ($request->input('spider',0) == 0){
             try {
