@@ -84,7 +84,7 @@ function showWXCode (text, code) {
 }
 function videoActive() {
     $.ajax({
-        "url": jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
+        "url": window.jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code) {
                 showWXCode(json.txt, json.code);
