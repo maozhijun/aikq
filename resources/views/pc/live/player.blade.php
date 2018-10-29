@@ -28,6 +28,7 @@
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300007"></script>
 
 <script type="text/javascript">
+    window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
     function isMobileWithJS() {
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1; //android终端或者uc浏览器

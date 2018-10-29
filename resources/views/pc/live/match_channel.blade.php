@@ -11,6 +11,9 @@
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
     <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
+    <script type="text/javascript">
+        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
+    </script>
 </head>
 <body scroll="no">
 <div class="line channel" style="display: none">
