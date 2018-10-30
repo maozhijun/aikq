@@ -54,6 +54,7 @@
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
+{{--<script type="text/javascript" src="/js/public/pc/client.js?rd={{date('YmdHi')}}"></script>--}}
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
@@ -152,36 +153,36 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
     //var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com',{reconnect:'false',transports: ['websocket']});
-    socket.on('connect', function (data) {
-        console.log('connect');
-        var mid = '{{'99_'.$room_id}}';
-        var time = Date.parse( new Date())/1000 + '';
-        var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
-        var key = new Uint8Array(encodeUTF8(key));
-        var result = md5(key);
-        var in_string = Array.prototype.map.call(result,function(e){
-            return (e<16?"0":"")+e.toString(16);
-        }).join("");
-        var req = {
-            'mid':mid,
-            'time':time,
-            'verification':in_string,
-        }
-        socket.emit('user_mid', req);
-    });
+    {{--var socket = io.connect('https://ws.aikanqiu.com',{reconnect:'false',transports: ['websocket']});--}}
+    {{--socket.on('connect', function (data) {--}}
+        {{--console.log('connect');--}}
+        {{--var mid = '{{'99_'.$room_id}}';--}}
+        {{--var time = Date.parse( new Date())/1000 + '';--}}
+        {{--var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);--}}
+        {{--var key = new Uint8Array(encodeUTF8(key));--}}
+        {{--var result = md5(key);--}}
+        {{--var in_string = Array.prototype.map.call(result,function(e){--}}
+            {{--return (e<16?"0":"")+e.toString(16);--}}
+        {{--}).join("");--}}
+        {{--var req = {--}}
+            {{--'mid':mid,--}}
+            {{--'time':time,--}}
+            {{--'verification':in_string,--}}
+        {{--}--}}
+        {{--socket.emit('user_mid', req);--}}
+    {{--});--}}
 
-    socket.on('server_send_message', function (data) {
-        console.log(data);
-        if (data['type'] && data['type'] == 99){
+    {{--socket.on('server_send_message', function (data) {--}}
+        {{--console.log(data);--}}
+        {{--if (data['type'] && data['type'] == 99){--}}
 
-        }
-        else {
-            if (top && top.window.parentComment && top.window.parentComment()) {
-                popText(data['message'], data['nickname']);
-            }
-        }
-    });
+        {{--}--}}
+        {{--else {--}}
+            {{--if (top && top.window.parentComment && top.window.parentComment()) {--}}
+                {{--popText(data['message'], data['nickname']);--}}
+            {{--}--}}
+        {{--}--}}
+    {{--});--}}
 </script>
 {{--<script type="text/javascript" src="{{$cdn}}/js/testSocket3.js?timd={{date('YmdHi')}}"></script>--}}
 </html>
