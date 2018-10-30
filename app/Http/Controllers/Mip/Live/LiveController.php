@@ -10,10 +10,15 @@ namespace App\Http\Controllers\Mip\Live;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\MatchController;
 use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mip\UrlCommonTool;
+use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Match;
+use App\Models\Match\BasketMatch;
 use App\Models\Match\Odd;
+use App\Models\Subject\SubjectVideo;
+use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -115,28 +120,38 @@ class LiveController extends Controller
     /**
      * wap专题终端
      * @param Request $request
-     * @param $first
-     * @param $second
+     * @param $name_en
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
-    public function subjectVideoDetail(Request $request, $first, $second, $id) {
-        $aikCon = new AikanQController();
-        $json = $aikCon->subjectVideo($id, true);
-        if (is_null($json) || count($json) == 0) {
+    public function subjectVideoDetail(Request $request, $name_en, $id) {
+        $svc = SubjectVideoChannels::query()->find($id);
+        if (!isset($svc)) {
             return abort(404);
         }
-        return $this->subjectVideoDetailHtml($json);
+        $sv = $svc->video;
+        if (!isset($sv)) {
+            return abort(404);
+        }
+        return $this->subjectVideoDetailHtml($svc, $sv);
     }
 
     /**
      * wap专题终端HTML
-     * @param $data
+     * @param $svc
+     * @param $sv
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideoDetailHtml($data) {
-        $json['match'] = $data;
-        $json['canonical'] = UrlCommonTool::matchVideoUrl($data['mid'], UrlCommonTool::getMobileUrl());
+    public function subjectVideoDetailHtml(SubjectVideoChannels $svc, SubjectVideo $sv) {
+        $allChannels = $sv->getAllChannels();
+        $moreVideos = SubjectVideo::moreVideos($svc['id']);
+
+        $json['canonical'] = UrlCommonTool::matchVideoUrl($sv['mid'], UrlCommonTool::getMobileUrl());
+        $json['svc'] = $svc;
+        $json['match'] = $sv;
+        $json['allChannels'] = $allChannels;
+        $json['moreVideos'] = $moreVideos;
+
         return view('mip.video.detail', $json);
     }
 
@@ -175,6 +190,37 @@ class LiveController extends Controller
             $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         }
         $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, UrlCommonTool::getMobileUrl());
+
+        $match = $json['match'];
+        $hid = $match['hid'];
+        $aid = $match['aid'];
+        $mid = $match['mid'];
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+
+        $passVSMatches = \App\Models\Match\Match::vsMatches($hid, $aid);//过往战绩
+        $hNearMatches = \App\Models\Match\Match::nearMatches($hid);//主队近期战绩
+        $aNearMatches = \App\Models\Match\Match::nearMatches($aid);//客队近期战绩
+
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 14);//相关新闻
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
+
+        $lineup = MatchController::footballLineup($mid);//球队阵容
+        $tech = MatchController::tech($sport, $mid);//足球事件
+        $events = isset($tech['event']['events']) ? $tech['event']['events'] : [];
+
+        $json['passVSMatches'] = $passVSMatches;
+        $json['hNearMatches'] = $hNearMatches;
+        $json['aNearMatches'] = $aNearMatches;
+
+        $json['hasArticle'] = isset($articles) && count($articles) > 0;
+        $json['hasVideo'] = isset($videos) && count($videos) > 0;
+        $json['articles'] = $articles;
+        $json['videos'] = $videos;
+
+        $json['lineup'] = $lineup;
+        $json['events'] = $events;
+        $json['hasEvents'] = count($events) > 0;
         return view('mip.live.detail', $json);
     }
 
@@ -208,6 +254,38 @@ class LiveController extends Controller
         }
 
         $json['canonical'] = UrlCommonTool::matchLiveUrl($lid, $sport, $id, UrlCommonTool::getMobileUrl());
+
+        $match = $json['match'];
+        $hid = $match['hid'];
+        $aid = $match['aid'];
+        $mid = $match['mid'];
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+
+        $passVSMatches = BasketMatch::vsMatches($hid, $aid);//过往战绩
+        $hNearMatches = BasketMatch::nearMatches($hid);//主队近期战绩
+        $aNearMatches = BasketMatch::nearMatches($aid);//客队近期战绩
+
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 14);//相关新闻
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
+
+        $lineup = MatchController::basketballLineup($mid);//球队阵容
+        $tech = MatchController::tech($sport, $mid);//足球事件
+        $events = isset($tech['event']['events']) ? $tech['event']['events'] : [];
+
+        $json['passVSMatches'] = $passVSMatches;
+        $json['hNearMatches'] = $hNearMatches;
+        $json['aNearMatches'] = $aNearMatches;
+
+        $json['hasArticle'] = isset($articles) && count($articles) > 0;
+        $json['hasVideo'] = isset($videos) && count($videos) > 0;
+        $json['articles'] = $articles;
+        $json['videos'] = $videos;
+
+        $json['lineup'] = $lineup;
+        $json['events'] = $events;
+        $json['hasEvents'] = count($events) > 0;
+
         return view('mip.live.detail', $json);
     }
 
@@ -230,6 +308,6 @@ class LiveController extends Controller
         $date = substr($id,0,2);
         $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
         $json['canonical'] = UrlCommonTool::matchLiveUrl(0, $sport, $id, UrlCommonTool::getMobileUrl());
-        return view('mip.live.detail', $json);
+        return view('mip.live.detail_other', $json);
     }
 }

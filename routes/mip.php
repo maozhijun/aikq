@@ -38,7 +38,8 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get("/live/other/{id}.html", "LiveController@otherDetail");//直播终端
 
     Route::get("/live/subject/videos/{type}/{page}.html", 'LiveController@subjectVideos');//录像列表
-    Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
+    //Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
+    Route::get("/{name_en}/video{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
 });
 
 //主播

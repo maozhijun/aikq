@@ -14,7 +14,7 @@
     <div class="tab">
         <p class="on" type="Live">直播</p>
         <p type="News">资讯</p>
-        {{--<p type="Recording">录像</p>--}}
+        <p type="Recording">录像</p>
         <p type="Rank">积分榜</p>
     </div>
 @endsection
@@ -62,17 +62,23 @@
         @else
         @endif
     </div>
-    {{--<div id="Recording" style="display: none;">--}}
-        {{--@if(isset($videos) && count($videos) > 0)--}}
-            {{--@foreach($videos as $day=>$matches)--}}
-                {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
-                {{--@foreach($matches as $match)--}}
-                    {{--<a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>--}}
-                {{--@endforeach--}}
-            {{--@endforeach--}}
-        {{--@else--}}
-        {{--@endif--}}
-    {{--</div>--}}
+    <div id="Recording" style="display: none;">
+        @if(isset($videos) && count($videos) > 0)
+            @foreach($videos as $day=>$matches)
+                <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
+                @foreach($matches as $match)
+                <?php
+                    $firstCh = isset($match['channels'][0]) ? $match['channels'][0] : null;
+                ?>
+                <a @if(isset($firstCh)) href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($match['s_lid'], $firstCh['id'], 'video')}}"@endif >
+                    @if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif
+                    <p class="match">{{$match['hname']}} vs {{$match['aname']}}</p>
+                </a>
+                @endforeach
+            @endforeach
+        @else
+        @endif
+    </div>
     <div id="Rank" style="display: none;">
         @if(isset($ranks) && count($ranks) > 0)
             <div class="in">
@@ -100,7 +106,11 @@
                     @foreach($ranks as $key=>$rank)
                         <div class="list">
                             <p class="rank">{{$key+1}}</p>
-                            <p class="team">{{$rank['name']}}</p>
+                            @if(isset($rank['tid']))
+                                <p class="team"><a target="_blank" href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></p>
+                            @else
+                                <p class="team">{{$rank['name']}}</p>
+                            @endif
                             @if(array_key_exists('draw',$rank))
                                 <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
                             @else
@@ -146,7 +156,11 @@
                     @foreach($groupRanks as $key=>$rank)
                         <div class="list">
                             <p class="rank">{{$key+1}}</p>
-                            <p class="team">{{$rank['name']}}</p>
+                            @if(isset($rank['tid']))
+                                <p class="team"><a target="_blank" href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></p>
+                            @else
+                                <p class="team">{{$rank['name']}}</p>
+                            @endif
                             @if(isset($rank['draw']))
                                 <p class="wdl">{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</p>
                             @else

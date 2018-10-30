@@ -18,6 +18,7 @@
     <link href="/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     @yield("first_js")
     <script type="text/javascript">
+        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
             var url = window.location.href;
             if (url.indexOf("m.dlfyb.com") != -1) {
@@ -47,18 +48,18 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
+{{--<script>--}}
+    {{--(function(){--}}
+        {{--var bp = document.createElement('script');--}}
+        {{--var curProtocol = window.location.protocol.split(':')[0];--}}
+        {{--if (curProtocol === 'https') {--}}
+            {{--bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';--}}
+        {{--}--}}
+        {{--else {--}}
+            {{--bp.src = 'http://push.zhanzhang.baidu.com/push.js';--}}
+        {{--}--}}
+        {{--var s = document.getElementsByTagName("script")[0];--}}
+        {{--s.parentNode.insertBefore(bp, s);--}}
+    {{--})();--}}
+{{--</script>--}}
 </html>

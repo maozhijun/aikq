@@ -76,7 +76,7 @@ class VideoController extends Controller
      */
     public function getTypes() {
         try {
-            $types = Storage::get('public/live/videos/types.json');
+            $types = Storage::get('public/static/json/pc/live/videos/types.json');
         } catch (\Exception $exception) {
             $types = "[]";
         }
@@ -167,7 +167,7 @@ class VideoController extends Controller
             $array[$type->id] = $type->name;
         }
         $typesStr = json_encode($array);
-        Storage::disk("public")->put('/live/videos/types.json', $typesStr);
+        Storage::disk("public")->put('/static/json/pc/live/videos/types.json', $typesStr);
     }
 
     /**

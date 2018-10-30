@@ -68,7 +68,6 @@ class DetailCommand extends Command
         if (!empty($html)) {
             $name_en = $sl->name_en;
             Storage::disk("public")->put("/www/$name_en/index.html", $html);
-            Storage::disk("public")->put("/live/subject/" . $sl->id . ".html", $html);//兼容旧地址
         }
 
         //手机

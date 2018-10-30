@@ -51,7 +51,6 @@ class ArticleLiveCellCommands extends Command
         $con = new ArticleController();
         $html = $con->detailLives(new Request());
         if (!empty($html)) {
-            Storage::disk("public")->put("news/lives.html", $html);
             Storage::disk("public")->put("www/news/lives.html", $html);
         }
     }

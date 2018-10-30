@@ -24,6 +24,7 @@
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
+        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
         var curUrl = location.href;
         var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
         if (reg.test(curUrl)) {

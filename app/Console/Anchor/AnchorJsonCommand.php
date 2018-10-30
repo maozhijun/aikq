@@ -76,8 +76,7 @@ class AnchorJsonCommand extends Command
             $json = $con->playerUrl($request, $room_id)->getData();
             $json = json_encode($json);
             if (!empty($json)) {
-                Storage::disk('public')->put('static/anchor/room/url/' . $room_id . '.json', $json);
-                Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
+                Storage::disk('public')->put('static/json/pc/anchor/room/url/' . $room_id . '.json', $json);
             }
             unset($roomArray[$index]);
         }

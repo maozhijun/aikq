@@ -135,6 +135,8 @@ class SubjectVideoController extends Controller
             $s_video->sport = $sport;
             $s_video->hname = $match->hname;
             $s_video->aname = $match->aname;
+            $s_video->hid = $match->hid;
+            $s_video->aid = $match->aid;
             $s_video->hscore = $match->hscore;
             $s_video->ascore = $match->ascore;
             $s_video->season = $match->season;

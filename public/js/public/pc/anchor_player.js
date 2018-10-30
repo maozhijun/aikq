@@ -387,12 +387,12 @@ function PlayVideoShare (cid, type){
     var url;
 
     if (isMobileWithJS()){
-        url = '/anchor/room/url/m_' + cid + '.json';
+        url = window.jsonHost + '/json/m/anchor/room/url/' + cid + '.json';
     }
     else{
-        url = '/anchor/room/url/' + cid + '.json';
+        url = window.jsonHost + '/json/pc/anchor/room/url/' + cid + '.json';
     }
-    url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    url = url + '?time=' + (new Date()).getTime();
     console.log(url);
     $.ajax({
         url: url,
@@ -464,19 +464,19 @@ function PlayVideoShare (cid, type){
 function PlayVideoSubject (cid, type){
     var isPhone = window.isMobile;
 
-    var mobil = isPhone ? '/mobile' : '';
+    var mobil = isPhone ? 'm' : 'pc';
     var url;
     if (type == 'video' || type == 'specimen') {
         var cidStr = cid + '';
         var first = cidStr.substr(0, 2);
         var second = cidStr.substr(2, 4);
-        url = '/live/subject/' + type + '/channel' + mobil + '/' + first + '/' + second + '/' + cid + '.json';
+        url = window.jsonHost + '/json/'+ mobil +'/subject/' + type + '/channel/' + first + '/' + second + '/' + cid + '.json';
     } else {
         var index = Math.floor(cid / 10000);
-        url = '/live/videos/channel' + mobil + '/' + index + '/' + cid + '.json';
+        url = window.jsonHost + '/json/'+ mobil +'/videos/channel/' + index + '/' + cid + '.json';
     }
 
-    url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    url = url + '?time=' + (new Date()).getTime();
     $.ajax({
         url: url,
         type:'GET',
@@ -486,7 +486,7 @@ function PlayVideoSubject (cid, type){
                 //CloseLoading();
                 var show_live = true;
                 if (isPhone && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu868</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
@@ -840,7 +840,7 @@ function getParam() {
 
 function checkActive() {
     $.ajax({
-        "url": "/m/dd_image/active.json?time=" + (new Date()).getTime(),
+        "url": window.jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code && (json.txt != active_text || json.code != active_code) ) {
                 active_text = json.txt;

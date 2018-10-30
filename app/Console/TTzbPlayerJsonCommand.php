@@ -47,7 +47,7 @@ class TTzbPlayerJsonCommand extends Command
      */
     public function handle()
     {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             //return abort(404);

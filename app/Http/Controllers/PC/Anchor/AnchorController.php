@@ -248,14 +248,14 @@ class AnchorController extends Controller
 
         if ($request->input('spider',0) == 0){
             try {
-                $history = Storage::get('public/www/log/'.$request->input('mid').'_'.date('Ymd').'.json');
+                $history = Storage::get('public/log/www/history/'.$request->input('mid').'_'.date('Ymd').'.json');
                 $history = json_decode($history, true);
             } catch (\Exception $exception) {
                 $history = array();
             }
             $history[] = $data;
             $history = json_encode($history);
-            Storage::disk('public')->put('www/log/' .$request->input('mid').'.json', $history);
+            Storage::disk('public')->put('log/www/history/' .$request->input('mid').'.json', $history);
         }
 
         broadcast(new ChatPushNotification($data));
@@ -272,13 +272,13 @@ class AnchorController extends Controller
         $json = $this->playerUrl($request, $room_id)->getData();
         $json = json_encode($json);
         if (!empty($json)) {
-            Storage::disk('public')->put('www/anchor/room/url/' . $room_id . '.json', $json);
+            Storage::disk('public')->put('static/json/pc/anchor/room/url/' . $room_id . '.json', $json);
         }
 
         $m_json = $this->playerUrl($request, $room_id,true)->getData();
         $m_json = json_encode($m_json);
         if (!empty($m_json)) {
-            Storage::disk('public')->put('www/anchor/room/url/m_' . $room_id . '.json', $m_json);
+            Storage::disk('public')->put('static/json/m/anchor/room/url/' . $room_id . '.json', $m_json);
         }
 
         $mcon = new \App\Http\Controllers\Mobile\Anchor\AnchorController();

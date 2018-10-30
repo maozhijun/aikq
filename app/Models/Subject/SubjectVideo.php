@@ -121,10 +121,49 @@ class SubjectVideo extends Model
     public static function relationVideos($hname, $aname, $count = 10) {
         $query = self::query();
         $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
-        $query->where(function ($orQuery) use ($hname, $aname) {
-            $orQuery->whereIn('subject_videos.hname', [$hname, $aname]);
-            $orQuery->orWhereIn('subject_videos.aname', [$hname, $aname]);
-        });
+        if (!empty($hname) && !empty($aname)) {
+            $query->where(function ($orQuery) use ($hname, $aname) {
+                $orQuery->whereIn('subject_videos.hname', [$hname, $aname]);
+                $orQuery->orWhereIn('subject_videos.aname', [$hname, $aname]);
+            });
+        } else {
+            $name = empty($hname) ? $aname : $hname;
+            if (!empty($name)) {
+                $query->where(function ($orQuery) use ($name) {
+                    $orQuery->where('subject_videos.hname', $name);
+                    $orQuery->orWhere('subject_videos.aname', $name);
+                });
+            }
+        }
+
+        $query->take($count);
+        $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
+        $query->orderByDesc('subject_video_channels.id');
+        $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        return $query->get();
+    }
+
+    public static function relationVideosByTid($hid, $aid, $sport = MatchLive::kSportFootball, $count = 10) {
+        $query = self::query();
+        $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
+        if (is_numeric($sport)) {
+            $query->where('subject_videos.sport', $sport);
+        }
+        if (is_numeric($hid) && is_numeric($aid)) {
+            $query->where(function ($orQuery) use ($hid, $aid) {
+                $orQuery->whereIn('subject_videos.hid', [$hid, $aid]);
+                $orQuery->orWhereIn('subject_videos.aid', [$hid, $hid]);
+            });
+        } else {
+            $tid = is_numeric($hid) ? $hid : $aid;
+            if (is_numeric($tid)) {
+                $query->where(function ($orQuery) use ($tid) {
+                    $orQuery->where('subject_videos.hid', $tid);
+                    $orQuery->orWhere('subject_videos.aid', $tid);
+                });
+            }
+        }
+
         $query->take($count);
         $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
         $query->orderByDesc('subject_video_channels.id');

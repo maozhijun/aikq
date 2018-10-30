@@ -19,8 +19,6 @@ use App\Console\HtmlStaticCommand\OtherPlayerCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Console\JustFun\JustFunStreamStaticCommand;
-use App\Console\QiumiGo\QiumiLiveDetailCommand;
-use App\Console\QiumiGo\QiumiLivesJsonCommand;
 use App\Console\Shop\ShopLiveCommand;
 use App\Console\Sitemap\GenerateSitemapCommand;
 use App\Console\Spider\SpiderTTZBCommand;
@@ -33,6 +31,7 @@ use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 //use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 //use App\Console\SubjectVideo\SubjectVideoDetailCommand;
 use App\Console\SubjectVideo\SubjectVideoPageCommand;
+use App\Console\SubjectVideo\VideoCommand;
 use App\Console\Sync\BasketballMatchCommand;
 use App\Console\Sync\BasketballUpdateMatchCommand;
 use App\Console\Sync\FootballMatchCommand;
@@ -72,6 +71,7 @@ class Kernel extends ConsoleKernel
         //CoverCommand::class,//专题封面同步
         //SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
         SubjectVideoPageCommand::class,//专题录像 静态化分页列表、专题终端页             DB
+        VideoCommand::class,//录像终端静态化
         PlayerCommand::class,//录像player静态化                                          不需要修改
         MobileSubjectVideoPageCommand::class,//专题录像 wap 列表/终端/线路 json静态化    DB
 
@@ -117,10 +117,6 @@ class Kernel extends ConsoleKernel
         JustFunStreamStaticCommand::class,//抓饭流静态化
 
         TeamDetailCommand::class, //球队终端静态化
-
-        //专门for qiumigo
-        QiumiLivesJsonCommand::class,
-        QiumiLiveDetailCommand::class,
     ];
 
     /**
@@ -131,13 +127,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (env("APP_ENV") == 'qiumigo') {
-            $schedule->command('qiumi_live_json_cache:run')->everyMinute();
-            $schedule->command('qiumi_live_detail_cache:run all')->everyTenMinutes();
-            $schedule->command('qiumi_live_detail_cache:run live')->everyMinute();
-            return;
-        }
-
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
         $schedule->command('sync_update_basketball_matches:run')->everyMinute();
@@ -193,7 +182,7 @@ class Kernel extends ConsoleKernel
 
         //专题静态化
         //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
-        $schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
+        //$schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
         $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
 
@@ -202,7 +191,6 @@ class Kernel extends ConsoleKernel
         //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
 
         //专题录像静态化
-        //$schedule->command('subject_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频封面同步
         //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
         //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
 

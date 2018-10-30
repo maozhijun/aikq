@@ -2,7 +2,7 @@ var CKHead = '/js/public/pc/ckplayer/';
 var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
 var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
-var cd = '/img/pc/image_qr_868.jpg', cd_name = 'kanqiu868', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
+var cd = '/img/pc/image_qr_868.jpg', cd_name = 'kanqiu8888', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
 var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
@@ -402,9 +402,9 @@ function PlayVideoShare (cid, type){
     //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
     // } else {
     if (isPhone()) {
-        url = GetHttp() + host + '/match/live/url/channel/mobile/' + cid + '.json';
+        url = window.jsonHost + '/json/m/match/live/url/channel/' + cid + '.json';
     } else {
-        url = GetHttp() + host + '/match/live/url/channel/' + cid + '.json';
+        url = window.jsonHost + '/json/pc/match/live/url/channel/' + cid + '.json';
     }
     // }
     url = url + '?time=' + (new Date()).getTime();
@@ -420,7 +420,7 @@ function PlayVideoShare (cid, type){
                 matchTime = match.time;
                 var show_live = match.show_live;
                 if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu868</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){
@@ -464,7 +464,7 @@ function PlayVideoShare (cid, type){
                     } else{ //其他，获取播放地址和播放方式
                         var Link = getLink(data);
                         var PlayType = data.player;
-                        if (PlayType == 11 || Link.indexOf('qiumigo.com') != -1) { //iframe
+                        if (PlayType == 11) { //iframe
                             LoadIframe(Link)
                         }else if (PlayType == 12) { //ckplayer
                             CheckPlayerType(Link,1);
@@ -541,7 +541,7 @@ function PlayVideoSubject (cid, type){
                 //CloseLoading();
                 var show_live = true;
                 if (isPhone && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu868</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
                     return;
                 }
                 if(!show_live){

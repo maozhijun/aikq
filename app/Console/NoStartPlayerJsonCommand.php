@@ -56,7 +56,7 @@ class NoStartPlayerJsonCommand extends Command
     public function handle()
     {
         //每十分钟一次，一次执行 50条线路
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
 
         $cache = Redis::get(self::NoStartPlayerJsonCommandCacheKey);

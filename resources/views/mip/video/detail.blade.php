@@ -4,43 +4,45 @@
 ?>
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/videoPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/record.css">
 @endsection
 @section('banner')
     <div id="Navigation">
         <h1>JRS低调看爱看球录像_{{$match['hname']}}VS{{$match['aname']}}</h1>
-        <div class="banner"><a class="home" href="{{\App\Http\Controllers\Mip\UrlCommonTool::homeVideosUrl()}}"></a>比赛录像</div>
+        <div class="banner"><a class="home" href="/"></a>比赛录像</div>{{--\App\Http\Controllers\Mip\UrlCommonTool::homeVideosUrl()--}}
     </div>
 @endsection
 @section('content')
-    <div class="default" id="Info">
-        @if($match['sport'] != 3)
-            <div class="team host">
-                <div class="img"><mip-img width="38" higth="38" src="{{isset($match['hicon'])?$match['hicon']:"/mip/img/icon_teamDefault.png"}}"></mip-img></div>
-                <p>{{$match['hname']}}</p>
-            </div>
-            <div class="score">
-                <p>
-                    <span class="host">{{$match['hscore']}}</span>
-                    <span class="away">{{$match['ascore']}}</span>
-                </p>
-            </div>
-            <div class="team away">
-                <div class="img"><mip-img width="38" higth="38" src="{{isset($match['aicon'])?$match['aicon']:"/mip/img/icon_teamDefault.png"}}"></mip-img></div>
-                <p>{{$match['aname']}}</p>
-            </div>
-        @else
-            <p class="other">{{$match['hname']}}</p>
-        @endif
-    </div>
     <div class="default" id="Video">
-        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
-
-        </mip-iframe>
-        <div class="publicAd"><mip-img width="100%" src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/banner_app_n@3x.jpg"></mip-img></div>
+        <mip-vd-tabs class="tab">
+            <section>
+                <li>{{$svc['title']}}</li>
+                @foreach($allChannels as $ch) @continue($ch->id == $svc->id)
+                <li>{{$ch['title']}}</li>
+                @endforeach
+            </section>
+            <mip-iframe allowfullscreen height="210" allowtransparency="true" src="{{$svc['content']}}" class="MyIframe"></mip-iframe>
+            @foreach($allChannels as $ch) @continue($ch->id == $svc->id)
+            <mip-iframe allowfullscreen height="210" allowtransparency="true" src="{{$ch['content']}}" class="MyIframe"></mip-iframe>
+            @endforeach
+        </mip-vd-tabs>
     </div>
+    @if(isset($moreVideos) && count($moreVideos) > 0)
     <div id="Content">
-        <mip-img width="150" height="150" src="{{env('CDN_URL')}}/img/pc/kanqiu858.jpg"></mip-img>
-        <p>扫二维码进入群</p>
+        <div id="Record">
+            <p class="title">更多精彩视频</p>
+            @foreach($moreVideos as $video)
+                <div class="item">
+                    <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
+                        <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
+                        <p class="con">{{$video['title']}}</p>
+                    </a>
+                </div>
+            @endforeach
+        </div>
     </div>
+    @endif
+@endsection
+@section("js")
+    <script src="https://c.mipcdn.com/static/v1/mip-vd-tabs/mip-vd-tabs.js"></script>
 @endsection

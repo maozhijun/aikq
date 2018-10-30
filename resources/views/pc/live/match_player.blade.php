@@ -19,6 +19,7 @@
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
 <script type="text/javascript" src="{{env('CND_URL')}}/js/pc/ckplayer/ckplayer.js" charset="UTF-8"></script>
 <script type="text/javascript">
+    window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
     function PlayVideoShare(CID,sport) {
         $.ajax({
             url:'/match/live/url/match/' + CID+'?sport='+sport,
@@ -83,9 +84,7 @@
                             case 5:
                             case 99:{
                                 var Link = data.playurl;
-                                if (Link.indexOf('qiumigo.com') != -1) {
-                                    LoadIframe(Link);
-                                }else if (Link.indexOf('player.pptv.com') != -1) {
+                                if (Link.indexOf('player.pptv.com') != -1) {
                                     LoadPPTV(Link)
                                 }else if (Link.indexOf('staticlive.douyucdn.cn') != -1 || Link.indexOf('upstatic.qiecdn.com') != -1 || Link.indexOf('liveshare.huya.com') != -1) {
                                     LoadTV(Link)

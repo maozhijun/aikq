@@ -24,6 +24,15 @@ function isWeiXin() {
 }
 
 function setPage () {
+ 	var u = navigator.userAgent;
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if (isiOS) {
+        document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css">' + 
+        '@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ ' + 
+        '#Video{position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;}' +
+        '.tabbox{position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;}' +
+        '}</style>';
+    }
 
     $('#Video button').click(function(){
     	if (this.className != 'on') {
@@ -55,28 +64,9 @@ function setPage () {
     });
 
     $('#Video button:first').trigger("click");
-
-
-    setSelect ();
-    $('#Navigation select').change(function(){
-        setSelect ();
-    })
-
-    $('#Content .tabbox button').click(function(){
-        if (!$(this).hasClass('on')) {
-            $(this).addClass('on').siblings('.on').removeClass('on');
-            $('#Data, #Player, #Technology, #News, #Record').css('display','none');
-            $('#' + $(this).attr('value')).css('display','');
-        }
-    })
-
-    $('#Player .h_a button').click(function(){
-        if (!$(this).hasClass('on')) {
-            $(this).addClass('on').siblings('.on').removeClass('on');
-            $('#Player .host, #Player .away').css('display','none');
-            $('#Player .' + $(this).attr('value')).css('display','');
-        }
-    })
+    // if (isWeiXin()) {
+    //     $('body').html($('body').html() + '<div id="WX"></div>')
+    // }
 }
 function showWXCode (text, code) {
     $('#Content p').html(text.replace(/\n/g, '<br/>'));
@@ -84,7 +74,7 @@ function showWXCode (text, code) {
 }
 function videoActive() {
     $.ajax({
-        "url": window.jsonHost + "/json/m/dd_image/active.json?time=" + (new Date()).getTime(),
+        "url": "/m/dd_image/active.json?time=" + (new Date()).getTime(),
         "success": function (json) {
             if (json && json.txt && json.code) {
                 showWXCode(json.txt, json.code);
@@ -95,12 +85,9 @@ function videoActive() {
         }
     });
 }
-
-function setSelect () {
-    var Target = $('#Navigation select');
-    $('#MyIframe').attr('src',Target.val())
-    $('#Navigation .select').text(Target.find("option:selected").text());
-}
+var wxCodeRun = setInterval(function(){//每5秒请求一次服务器查看有没有更新 活动信息
+    //videoActive();
+}, 5000);
 
 
 

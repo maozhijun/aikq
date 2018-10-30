@@ -96,7 +96,7 @@ class LiveController extends Controller
             $aiCon = new AikanQController();
             $jsonObj = $aiCon->livesJson(new Request())->getData();
             $server_output = json_encode($jsonObj);
-            Storage::disk("public")->put("/static/json/lives.json", $server_output);
+            Storage::disk("public")->put("static/json/pc/lives.json", $server_output);
 
             $matchArray = json_decode($server_output, true);
 
@@ -140,9 +140,9 @@ class LiveController extends Controller
 
             $matchArray['matches'] = $newMatches;
             $app_output = json_encode($matchArray);
-            Storage::disk("public")->put("/app/v101/lives.json", $app_output);
-            Storage::disk("public")->put("/app/v110/lives.json", $app_output);
-            Storage::disk("public")->put("/app/v130/lives.json", $app_output);
+            Storage::disk("public")->put("app/v101/lives.json", $app_output);
+            Storage::disk("public")->put("app/v110/lives.json", $app_output);
+            Storage::disk("public")->put("app/v130/lives.json", $app_output);
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -155,7 +155,7 @@ class LiveController extends Controller
         try {
             $aikCon = new AikanQController();
             $livesJson = $aikCon->basketballLivesJsonData(false);
-            Storage::disk("public")->put("/static/json/basketball-lives.json", json_encode($livesJson));
+            Storage::disk("public")->put("static/json/pc/basketball-lives.json", json_encode($livesJson));
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -168,7 +168,7 @@ class LiveController extends Controller
         try {
             $aikCon = new AikanQController();
             $livesJson = $aikCon->footballLivesJsonData(false);
-            Storage::disk("public")->put("/static/json/football-lives.json", json_encode($livesJson));
+            Storage::disk("public")->put("static/json/pc/football-lives.json", json_encode($livesJson));
         } catch (\Exception $exception) {
             Log::error($exception);
         }
@@ -206,7 +206,7 @@ class LiveController extends Controller
      */
     public function lives(Request $request) {
         //$json = $this->getLives();
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             //return abort(404);
@@ -229,7 +229,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function business(Request $request) {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             //return abort(404);
@@ -247,7 +247,7 @@ class LiveController extends Controller
      */
     public function betLives(Request $request) {
         //$json = $this->getLives(self::BET_MATCH);
-        $cache = Storage::get('/public/static/json/bet-lives.json');
+        $cache = Storage::get('/public/static/json/pc/bet-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
@@ -305,7 +305,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function basketballLives(Request $request) {
-        $cache = Storage::get('/public/static/json/basketball-lives.json');
+        $cache = Storage::get('/public/static/json/pc/basketball-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
@@ -321,7 +321,7 @@ class LiveController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
     public function footballLives(Request $request) {
-        $cache = Storage::get('/public/static/json/football-lives.json');
+        $cache = Storage::get('/public/static/json/pc/football-lives.json');
         $json = json_decode($cache, true);
         if (is_null($json)){
             return abort(404);
@@ -400,7 +400,7 @@ class LiveController extends Controller
         $aNearMatches = \App\Models\Match\Match::nearMatches($aid);//客队近期战绩
         $moreLives = $this->moreLives($mid, 7);//更多直播
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
 
         $tech = MatchController::tech($sport, $mid);//篮球数据
         $lineup = MatchController::footballLineup($mid);//球队阵容
@@ -748,7 +748,6 @@ class LiveController extends Controller
         try {
             $path = CommonTool::getLiveDetailStaticPath($mid, $sport);
             if (strlen($path) <= 0) return; //如果返回的路径为空，则不再执行下面的代码
-
             $pcPath = "/www" . $path;
             $mPath = "/m" . $path;
             $mipPath = "/mip" . $path;
@@ -825,11 +824,11 @@ class LiveController extends Controller
         //match.json
         $mjson = $this->getLiveUrlMatch2(new Request(),$mid,$sport,true);
         if (!empty($mjson)) {
-            Storage::disk("public")->put("/www/match/live/url/match/m/" . $mid . "_" . $sport .".json", $mjson);
+            Storage::disk("public")->put("static/json/m/match/live/url/match/" . $mid . "_" . $sport .".json", $mjson);
         }
         $pjson = $this->getLiveUrlMatch2(new Request(),$mid,$sport,false);
         if (!empty($mjson)) {
-            Storage::disk("public")->put("/www/match/live/url/match/pc/" . $mid . "_" . $sport .".json", $pjson);
+            Storage::disk("public")->put("static/json/pc/match/live/url/match/" . $mid . "_" . $sport .".json", $pjson);
         }
     }
 
@@ -842,7 +841,7 @@ class LiveController extends Controller
     public function staticLiveChannelsJson(Request $request, $mid, $sport) {
         $cmsCon = new CmsController();
         $data = $cmsCon->getChannels($request, $mid, $sport)->getData();
-        $path = "www/json/cms/channels/$mid/$sport.json";
+        $path = "static/json/cms/channels/$mid/$sport.json";
         Storage::disk('public')->put($path, json_encode($data));
     }
 
@@ -853,7 +852,7 @@ class LiveController extends Controller
      * @param $has_mobile
      * @param $sport
      */
-    public function staticLiveUrl(Request $request, $id, $has_mobile = false, $sport = null, $isForQiumi = false) {
+    public function staticLiveUrl(Request $request, $id, $has_mobile = false, $sport = null) {
         try {
             $player = $this->player($request);
             $sport = !isset($sport) ? $request->input('sport',1) : $sport;
@@ -862,18 +861,9 @@ class LiveController extends Controller
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
             $jsonData = json_decode(json_encode($jsonStr), true);
             $origin_json = $jsonData;
-            if (!$isForQiumi) {
-                //判断是否要跳转到qiumigo，目前只有nba要跳
-                if (isset($jsonData['match']) && $jsonData['match']['sport'] == MatchLive::kSportBasketball
-                    && $jsonData['match']['lid']  == 1) {
-                    $playUrl = env("QIUMI_HOST")."live/iframe/player-".$jsonData['cid']."-".$jsonData['type'].".html";
-                    $jsonData['type'] = MatchLiveChannel::kTypeBallBar;
-                    $jsonData['playurl'] = $playUrl;
-                }
-            }
             $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {
-                Storage::disk("public")->put("/www/match/live/url/channel/". $id . '.json', $pc_json);
+                Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.json', $pc_json);
                 //每一个channel的player页面生成
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
@@ -883,37 +873,35 @@ class LiveController extends Controller
                 }
 
                 //保存app
-                if (!$isForQiumi) {
-                    $key = env('APP_DES_KEY');
-                    $iv=env('APP_DES_IV');
-                    $appData = $origin_json;
+                $key = env('APP_DES_KEY');
+                $iv=env('APP_DES_IV');
+                $appData = $origin_json;
 
-                    if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
-                        $appData['playurl'] = explode('=',$appData['playurl'])[1];
-                        $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
-                        dump($appData['playurl']);
-                        $appData['type'] = '98';
-                    }
-                    else{
-                        if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
-                            $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
-                        }
-                    }
-
-                    $appData = json_encode($appData);
-                    Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
-                    Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
-                    Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
+                if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
+                    $appData['playurl'] = explode('=',$appData['playurl'])[1];
+                    $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                    dump($appData['playurl']);
+                    $appData['type'] = '98';
                 }
+                else{
+                    if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
+                        $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
+                    }
+                }
+
+                $appData = json_encode($appData);
+                Storage::disk("public")->put("/app/v101/channels/" . $id . '.json', $appData);
+                Storage::disk("public")->put("/app/v110/channels/" . $id . '.json', $appData);
+                Storage::disk("public")->put("/app/v130/channels/" . $id . '.json', $appData);
             }
             if ($has_mobile) {
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
-                    Storage::disk("public")->put("/www/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
                 }
             } else {
                 if (!empty($pc_json)) {
-                    Storage::disk("public")->put("/www/match/live/url/channel/mobile/". $id . '.json', $pc_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $pc_json);
                 }
             }
         } catch (\Exception $e) {
@@ -938,7 +926,7 @@ class LiveController extends Controller
             $jsonStr = $aiCon->getLiveUrl($request, $id, $has_mobile)->getData();
             $pc_json = json_encode($jsonStr);
             if (!empty($pc_json)) {
-                Storage::disk("public")->put("/match/live/url/channel/". $id . '.json', $pc_json);
+                Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.json', $pc_json);
                 //每一个channel的player页面生成
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
@@ -969,11 +957,11 @@ class LiveController extends Controller
             if ($has_mobile) {
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
-                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $mobile_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
                 }
             } else {
                 if (!empty($pc_json)) {
-                    Storage::disk("public")->put("/match/live/url/channel/mobile/". $id . '.json', $pc_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $pc_json);
                 }
             }
         } catch (\Exception $e) {
@@ -1010,7 +998,7 @@ class LiveController extends Controller
     public function recCode(Request $request, $code) {
         Redis::set(self::LIVE_HD_CODE_KEY, $code);
         try {
-            $json = Storage::get('public/static/m/dd_image/images.json');
+            $json = Storage::get('public/static/json/m/dd_image/images.json');
             $json = json_decode($json, true);
         } catch (\Exception $e) {
         }
@@ -1019,7 +1007,7 @@ class LiveController extends Controller
         } else {
             $json = ['code'=>$code];
         }
-        Storage::disk('public')->put('/static/m/dd_image/images.json', json_encode($json));
+        Storage::disk('public')->put('/static/json/m/dd_image/images.json', json_encode($json));
     }
 
     /**
@@ -1033,7 +1021,7 @@ class LiveController extends Controller
         $r_code = Redis::get(self::LIVE_HD_CODE_KEY);//服务器的高清验证码
         try {
             //获取缓存文件 开始
-            $server_output = Storage::get('/public/match/live/url/channel/' . $ch_id . '.json');//文件缓存
+            $server_output = Storage::get('/public/static/json/pc/match/live/url/channel/' . $ch_id . '.json');//文件缓存
             //获取缓存文件 结束
         } catch (\Exception $exception) {
             $isMobile = \App\Http\Controllers\Controller::isMobile($request) ? 1 : 0;
@@ -1103,7 +1091,7 @@ class LiveController extends Controller
             $json['cd_name'] = $cd_name;
             $json['cd_text'] = $cd_text;
         }
-        Storage::disk('public')->put('/static/m/dd_image/images.json', json_encode($json));
+        Storage::disk('public')->put('/static/json/m/dd_image/images.json', json_encode($json));
     }
 
     /**
@@ -1114,7 +1102,7 @@ class LiveController extends Controller
         $type = $request->input('type');
         if ($type == 99) {
             //清空活动内容
-            Storage::disk('public')->put('/static/m/dd_image/active.json', json_encode([]));
+            Storage::disk('public')->put('/static/json/m/dd_image/active.json', json_encode([]));
             return;
         }
         $active = $request->input('active');//json内容
@@ -1165,7 +1153,7 @@ class LiveController extends Controller
         $txt = preg_replace($pattern, "\n", $txt);
         $active['txt'] = $txt;
         $active['code'] = $file_patch;
-        Storage::disk('public')->put('/static/m/dd_image/active.json', json_encode($active));
+        Storage::disk('public')->put('/static/json/m/dd_image/active.json', json_encode($active));
     }
 
     /**
@@ -1251,7 +1239,7 @@ class LiveController extends Controller
     }
 
     public function getCacheLives() {
-        $cache = Storage::get('/public/static/json/lives.json');
+        $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         return $json;
     }

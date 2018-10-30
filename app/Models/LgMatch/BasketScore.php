@@ -44,17 +44,12 @@ class BasketScore extends Model
             $scores = $query->get();
 
             foreach ($scores as $score) {
-                if ($lid == 1) {
-                    $win = $score->league_bat_w;
-                    $lose = $score->league_bat_l;
-                } else {
-                    $win = $score->win;
-                    $lose = $score->lose;
-                }
-
+                $win = $score->win;
+                $lose = $score->lose;
                 $total = $win + $lose;
                 $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
-                $array[] = ['name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p];
+                $array[] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>2,
+                    'name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p];
             }
         }
         return $array;
