@@ -1708,17 +1708,17 @@ class AikanQController extends Controller
      */
     protected static function teamData($sport, $tid) {
         //通过数据库请求
-        return self::getTeamDataByDB($sport, $tid);
+//        return self::getTeamDataByDB($sport, $tid);
 
         //通过接口请求
-//        $flag = 0;
-//        if (strlen($tid) > 2) {
-//            $flag = substr($tid, 0, 2);
-//        }
-//        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
-//
-//        $data = self::curlData($url);
-//        return $data;
+        $flag = 0;
+        if (strlen($tid) > 2) {
+            $flag = substr($tid, 0, 2);
+        }
+        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
+
+        $data = self::curlData($url);
+        return $data;
     }
 
     private static function getTeamDataByDB($sport, $tid)
