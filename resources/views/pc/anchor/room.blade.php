@@ -181,7 +181,7 @@
                     'time':time,
                     'verification':in_string,
                     'nickname':nickname,
-                    'mid':'{{.$room_id}}',
+                    'mid':'{{$room_id}}',
                 };
             }
             $.ajax({
