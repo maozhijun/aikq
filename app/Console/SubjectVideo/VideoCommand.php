@@ -97,10 +97,18 @@ class VideoCommand extends BaseCommand
                     dump("Id ：" . $lastId);
                 }
                 break;
+            case "mip":
+                foreach ($channels as $channel) {
+                    $con->staticSubjectVideoDetailMip($channel);
+                    $lastId = $channel->id;
+                    dump("Id ：" . $lastId);
+                }
+                break;
             case "all":
                 foreach ($channels as $channel) {
                     $con->staticSubjectVideoDetailPc($channel);
                     $con->staticSubjectVideoDetailM($channel);
+                    $con->staticSubjectVideoDetailMip($channel);
                     $lastId = $channel->id;
                     dump("Id ：" . $lastId);
                 }

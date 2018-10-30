@@ -203,7 +203,7 @@ class SubjectController extends Controller
         $video = $videoChannel->video;
         $sl = SubjectLeague::query()->find($video['s_lid']);
 
-        $detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+        $detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $videoChannel['id']);
 
         //静态化录像终端 PC
         $pcCon = new SubjectController();
@@ -418,6 +418,17 @@ class SubjectController extends Controller
         if (!empty($html)) {//静态化录像终端
             $patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $ch['id']);
             Storage::disk("public")->put('m/'.$patch, $html);
+        }
+    }
+
+    public function staticSubjectVideoDetailMip(SubjectVideoChannels $ch) {
+        $video = $ch->video;
+        $mCon = new \App\Http\Controllers\Mip\Live\LiveController();
+        $html = $mCon->subjectVideoDetailHtml($ch, $video);
+
+        if (!empty($html)) {//静态化录像终端
+            $patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $ch['id']);
+            Storage::disk("public")->put('mip/'.$patch, $html);
         }
     }
 
