@@ -1691,7 +1691,7 @@ class AikanQController extends Controller
         //球队直播 结束
 
         //球队录像 开始
-//        $result['videos'] = SubjectVideo::newVideos($slid, $isMobile);
+        $result['videos'] = SubjectVideo::relationVideos($teamName, "");
         //球队录像 结束
 
         //球队集锦 开始

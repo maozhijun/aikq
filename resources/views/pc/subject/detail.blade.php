@@ -96,18 +96,6 @@
                 @if(isset($videos) && count($videos) > 0)
                     @component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent
                 @endif
-                {{--@if(isset($specimens) && count($specimens) > 0)--}}
-                {{--<dl id="Collect" style="display: none;">--}}
-                    {{--@foreach($specimens as $s_day=>$se_array)--}}
-                        {{--<dt>{{date('Y年m月d日', $s_day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $s_day)]}}</dt>--}}
-                        {{--<dd>--}}
-                            {{--@foreach($se_array as $se)--}}
-                                {{--<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $se['id'], 'specimen')}}"><img src="{{$se['cover']}}"><p><span>{{$se['title']}}</span></p></a>--}}
-                            {{--@endforeach--}}
-                        {{--</dd>--}}
-                    {{--@endforeach--}}
-                {{--</dl>--}}
-                {{--@endif--}}
             </div>
         </div>
     </div>

@@ -51,7 +51,10 @@
                     <tbody>
                     @if(isset($lives) && count($lives) > 0)
                         @foreach($lives as $match)
-                            <?php $liveUrl = \App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']) ?>
+                            <?php
+                                $liveUrl = \App\Http\Controllers\Mip\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']);
+                                $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                            ?>
                             <tr>
                                 <td>{{$match['lname']}}</td>
                                 <td><span>{{date('y/m/d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
@@ -77,6 +80,8 @@
                                         @foreach($match['channels'] as $c_index=>$channel)
                                             <a href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
                                         @endforeach
+                                    @elseif(isset($fv))
+                                        <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
                                     @endif
                                 </td>
                             </tr>
@@ -131,12 +136,14 @@
             </div>
             <div id="Record">
                 @if(isset($videos) && count($videos) > 0)
-                    <div class="item">
-                        <a href="record.html">
-                            <mip-img height="100" layout="responsive" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2148120987,1371891926&fm=27&gp=0.jpg"></mip-img>
-                            <p class="con">罗纳尔多原告的律师要</p>
-                        </a>
-                    </div>
+                    @foreach($videos as $video)
+                        <div class="item">
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
+                                <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
+                                <p class="con">{{$video['title']}}</p>
+                            </a>
+                        </div>
+                    @endforeach
                 @endif
             </div>
         </mip-vd-tabs>
