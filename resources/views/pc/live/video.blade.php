@@ -110,9 +110,9 @@
                         <tr>
                             <td>{{$pMatch->getLeagueName()}}</td>
                             <td>{{substr($pMatch['time'], 2, 14)}}</td>
-                            <td>{{$pMatch['hname']}}</td>
+                            <td><a {{$pMatch['hid']}} target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($pMatch['sport'], $pMatch['lid'], $pMatch['hid'])}}">{{$pMatch['hname']}}</a></td>
                             <td>{{$pMatch['hscore']}}-{{$pMatch['ascore']}}</td>
-                            <td>{{$pMatch['aname']}}</td>
+                            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($pMatch['sport'], $pMatch['lid'], $pMatch['aid'])}}">{{$pMatch['aname']}}</a></td>
                             <td>@if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">录像</a>@endif</td>
                         </tr>
                         @endforeach

@@ -121,10 +121,21 @@ class SubjectVideo extends Model
     public static function relationVideos($hname, $aname, $count = 10) {
         $query = self::query();
         $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
-        $query->where(function ($orQuery) use ($hname, $aname) {
-            $orQuery->whereIn('subject_videos.hname', [$hname, $aname]);
-            $orQuery->orWhereIn('subject_videos.aname', [$hname, $aname]);
-        });
+        if (!empty($hname) && !empty($aname)) {
+            $query->where(function ($orQuery) use ($hname, $aname) {
+                $orQuery->whereIn('subject_videos.hname', [$hname, $aname]);
+                $orQuery->orWhereIn('subject_videos.aname', [$hname, $aname]);
+            });
+        } else {
+            $name = empty($hname) ? $aname : $hname;
+            if (!empty($name)) {
+                $query->where(function ($orQuery) use ($name) {
+                    $orQuery->where('subject_videos.hname', $name);
+                    $orQuery->orWhere('subject_videos.aname', $name);
+                });
+            }
+        }
+
         $query->take($count);
         $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
         $query->orderByDesc('subject_video_channels.id');
