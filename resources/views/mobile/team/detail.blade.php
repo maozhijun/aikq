@@ -50,7 +50,10 @@
                 <tbody>
                 @if(isset($lives) && count($lives) > 0)
                     @foreach($lives as $match)
-                        <?php $liveUrl = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']) ?>
+                        <?php
+                            $liveUrl = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']);
+                            $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                        ?>
                         <tr>
                             <td>{{$match['lname']}}</td>
                             <td><span>{{date('y/m/d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
@@ -76,6 +79,8 @@
                                     @foreach($match['channels'] as $c_index=>$channel)
                                         <a href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
                                     @endforeach
+                                @elseif(isset($fv))
+                                    <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
                                 @endif
                             </td>
                         </tr>
@@ -128,14 +133,16 @@
                 @endforeach
             @endif
         </div>
-        <div id="Record">
+        <div id="Record" style="display: none;">
             @if(isset($videos) && count($videos) > 0)
-                <div class="item">
-                    <a href="">
-                        <p class="imgbox" style="background: url(https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2200166214,500725521&fm=27&gp=0.jpg) no-repeat center; background-size: cover;"></p>
-                        <p class="con">罗纳尔多原告的律师要</p>
-                    </a>
-                </div>
+                @foreach($videos as $video)
+                    <div class="item">
+                        <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
+                            <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                            <p class="con">{{$video['title']}}</p>
+                        </a>
+                    </div>
+                @endforeach
             @endif
         </div>
     </div>
