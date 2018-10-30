@@ -67,7 +67,11 @@
                     <tr>
                         <td>{{$pm['win_lname']}}</td>
                         <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
-                        <td><a href="team.html">{{$pm['hname']}}</a> {{$pm['hscore']}} - {{$pm['ascore']}} <a href="team.html">{{$pm['aname']}}</a></td>
+                        <td>
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['hid'])}}">{{$pm['hname']}}</a>
+                            {{$pm['hscore']}} - {{$pm['ascore']}}
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['hid'])}}">{{$pm['aname']}}</a>
+                        </td>
                         <td>
                             @if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">回看</a>@endif
                         </td>
@@ -98,7 +102,11 @@
                     <tr>
                         <td>{{$hm['win_lname']}}</td>
                         <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
-                        <td>{{$hm['hname']}} {{$hm['hscore']}} - {{$hm['ascore']}} {{$hm['aname']}}</td>
+                        <td>
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['hid'])}}">{{$hm['hname']}}</a>
+                            {{$hm['hscore']}} - {{$hm['ascore']}}
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['aid'])}}">{{$hm['aname']}}</a>
+                        </td>
                         <td>
                             @if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">回看</a>@endif
                         </td>
@@ -129,7 +137,11 @@
                     <tr>
                         <td>{{$am['win_lname']}}</td>
                         <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
-                        <td>{{$am['hname']}} {{$am['hscore']}} - {{$am['ascore']}} {{$am['aname']}}</td>
+                        <td>
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['hid'])}}">{{$am['hname']}}</a>
+                            {{$am['hscore']}} - {{$am['ascore']}}
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['aid'])}}">{{$am['aname']}}</a>
+                        </td>
                         <td>
                             @if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">回看</a>@endif
                         </td>
