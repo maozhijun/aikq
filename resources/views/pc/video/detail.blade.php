@@ -6,7 +6,7 @@
 <div id="Content">
     <div class="inner">
         <div id="Crumb">
-            <a href="index.html">爱看球</a>
+            <a href="/">爱看球</a>
             @if(isset($sl))&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/{{$sl['name_en']}}">{{$sl['name']}}</a>@endif
             &nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$svc['title']}}</span>
         </div>

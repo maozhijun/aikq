@@ -25,7 +25,7 @@
             @foreach($moreVideos as $mv)
                 <div class="item">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mv['s_lid'], $mv['id'], 'video')}}">
-                        <p class="imgbox" style="background: url({{empty($mv['cover']) ? '/img/pc/video_bg.jpg' : $mv['cover']}}) no-repeat center; background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($mv['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $mv['cover']}}) no-repeat center; background-size: cover;"></p>
                         <p class="con">{{$mv['title']}}</p>
                     </a>
                 </div>

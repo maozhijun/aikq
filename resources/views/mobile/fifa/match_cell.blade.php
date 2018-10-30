@@ -29,8 +29,8 @@ if ($status > 0 || $status == -1) {
 $liveUrl = \App\Http\Controllers\PC\CommonTool::matchWapLivePathWithId($match['mid']);
 $matchUrl = \App\Http\Controllers\PC\CommonTool::matchWapPathWithId($mid,1);
 
-$hicon = isset($match['hicon']) && strlen($match['hicon']) > 0 ? $match['hicon'] : '/phone/img/icon_teamDefault.png';
-$aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon'] : '/phone/img/icon_teamDefault.png';
+$hicon = isset($match['hicon']) && strlen($match['hicon']) > 0 ? $match['hicon'] : env('CDN_URL').'/img/mobile/icon_teamDefault.png';
+$aicon = isset($match['aicon']) && strlen($match['aicon']) > 0 ? $match['aicon'] : env('CDN_URL').'/img/mobile/icon_teamDefault.png';
 ?>
 <a m_status="{{$match['status']}}" id="match_cell_{{$match['mid']}}" class="item" href="{{$status > 0 ? $liveUrl : $matchUrl}}">
     <div id="time_{{$match['mid']}}" class="part group">

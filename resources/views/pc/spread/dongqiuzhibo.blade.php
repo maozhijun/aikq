@@ -53,11 +53,11 @@
                 $flids = [8,11,26,29,31,46,73,77,139];
                 $blids = [1,4];
                 if (($match['sport'] == 2 && in_array($match['lid'],$blids)) || ($match['sport'] == 1 && in_array($match['lid'],$flids)))
-                    $preUrl = 'http://www.aikanqiu.com';
+                    $preUrl = env('WWW_URL');
                 else
                     $preUrl = 'http://www.lg310.com';
 //                $preUrl = 'http://www.lg310.com';
-                $preUrl = 'http://www.aikanqiu.com';
+                $preUrl = env('WWW_URL');
                 ?>
                 <input style="width: 250px" id="a_{{$match['mid']}}"
                        {{--value="{{$preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid']}}"--}}

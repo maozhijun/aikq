@@ -15,10 +15,10 @@
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201808241135">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
-    <link href="/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
+    <link href="{{env('CDN_URL')}}/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     @yield("first_js")
     <script type="text/javascript">
-        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
+        window.jsonHost = '{{env("API_HOST")}}';
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
             var url = window.location.href;
             if (url.indexOf("m.dlfyb.com") != -1) {

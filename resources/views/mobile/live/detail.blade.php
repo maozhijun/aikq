@@ -266,7 +266,7 @@
             @foreach($videos as $video)
             <div class="item">
                 <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" target="_blank">
-                    <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}) no-repeat center; background-size: cover;"></p>
+                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}) no-repeat center; background-size: cover;"></p>
                     <p class="con">{{$video['title']}}</p>
                 </a>
             </div>

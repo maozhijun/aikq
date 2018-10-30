@@ -4,7 +4,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
 ?>
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/videoPhone2.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoPhone2.css">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -14,7 +14,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
 @endsection
 @section('content')
     <div class="default" id="Video">
-        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="http://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
+        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="{{env('WWW_URL')}}/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
         </mip-iframe>
     </div>
     <div id="Content">

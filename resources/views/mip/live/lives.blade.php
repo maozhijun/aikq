@@ -1,6 +1,6 @@
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/videoList.css?rd=201804">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoList.css?rd=201804">
 @endsection
 @section('js')
     <script src="https://c.mipcdn.com/static/v1/mip-lightbox/mip-lightbox.js"></script>
@@ -9,13 +9,13 @@
     <div id="Navigation">
         <h1>JRS低调看爱看球直播</h1>
         <div class="banner">
-            <mip-img height="26" width="75" src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/image_slogan_nav.png"></mip-img>
+            <mip-img height="26" width="75" src="{{env('CDN_URL')}}/img/mip/image_slogan_nav.png"></mip-img>
             <button on="tap:my-lightbox.toggle" id="btn-open" role="button" tabindex="0" class="league"></button>
         </div>
     </div>
 @endsection
 @section('content')
-    <div class="publicAd"><a href={{\App\Http\Controllers\Mip\UrlCommonTool::downloadUrl()}}><mip-img src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/image_ad_wap.jpg"></mip-img></a></div>
+    <div class="publicAd"><a href={{\App\Http\Controllers\Mip\UrlCommonTool::downloadUrl()}}><mip-img src="{{env('CDN_URL')}}/img/mip/image_ad_wap.jpg"></mip-img></a></div>
     <mip-lightbox id="my-lightbox" layout="nodisplay" class="mip-hidden">
         <div class="lightbox" id="League">
             <div class="title">专题分类</div>

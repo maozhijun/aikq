@@ -53,7 +53,7 @@ class PlayerController extends Controller
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
                 $upload = $this->saveUploadedFile($file, 'cover');
-                $image = $upload->getUrl();
+                $image = $upload->getEvnUrl();
                 $link = $image;
             }
 

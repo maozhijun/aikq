@@ -89,7 +89,7 @@
             });
             $.ajax({
                 type: 'POST',
-                url: '/api/spider/article/'+'{{$article['id']}}',
+                url: '{{env('CMS_URL')}}/api/spider/article/'+'{{$article['id']}}',
                 success: function (data) {
                     console.log(data);
                 },
