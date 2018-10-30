@@ -16,7 +16,7 @@ class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
 //    const MIP_PREFIX = env("MIP_URL", "http://yingchaozhibo.cc");
-    const MIP_PREFIX = "//mip.aikanqiu.com";
+    const MIP_PREFIX = "/mip";//"//mip.aikanqiu.com";
 
     protected static function getMipPrefix() {
         return env('MIP_URL', self::MIP_PREFIX);
@@ -27,9 +27,10 @@ class UrlCommonTool
     public static function homeLivesUrl($prefix = self::MIP_PREFIX) {
         return '/';
         return $prefix."/";
+
     }
 
-    public static function matchLiveUrl($lid, $sport, $id, $prefix = self::MIP_PREFIX) {
+    public static function matchLiveUrl($lid, $sport, $id, $prefix = "") {
         $url = CommonTool::getLiveDetailUrl($sport, $lid, $id);
 //        $str = 'other';
 //        if ($sport == 1){
