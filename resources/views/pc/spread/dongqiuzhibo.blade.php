@@ -52,15 +52,9 @@
                 //足球 英超、意甲、德甲、法甲、西甲、欧冠、欧联、中超
                 $flids = [8,11,26,29,31,46,73,77,139];
                 $blids = [1,4];
-                if (($match['sport'] == 2 && in_array($match['lid'],$blids)) || ($match['sport'] == 1 && in_array($match['lid'],$flids)))
-                    $preUrl = env('WWW_URL');
-                else
-                    $preUrl = 'http://www.lg310.com';
-//                $preUrl = 'http://www.lg310.com';
-                $preUrl = env('WWW_URL');
+                $preUrl = 'https:'.env('WWW_URL');
                 ?>
                 <input style="width: 250px" id="a_{{$match['mid']}}"
-                       {{--value="{{$preUrl.'/live/match_channel.html?sport='.$match['sport'].'&mid='.$match['mid']}}"--}}
                        value="{{$preUrl.'/live/spPlayer/player-'.$match['mid'].'-'.$match['sport'].'.html'}}"
                 ><a onclick="copy({{$match['mid']}})">复制</a>
             </td>
