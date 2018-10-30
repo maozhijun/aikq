@@ -78,7 +78,7 @@ class SubjectArticleController extends Controller
             if ($request->hasFile('cover')) {
                 $file = $request->file('cover');
                 $upload = $this->saveUploadedFile($file, 'cover');
-                $cover = $upload->getUrl();
+                $cover = $upload->getEvnUrl();
                 $article->cover = $cover;
             }
             $article->title = $title;
