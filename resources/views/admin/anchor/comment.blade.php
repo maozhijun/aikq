@@ -52,8 +52,10 @@
     </div>
 @endsection
 @section("js")
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
+        var userId = 'admin';
+        var roomId = '{{$room['id']}}';
         var myScroll = true, getScroll = true;
         window.onload = function () { //需要添加的监控放在这里
             GetSocket();
@@ -95,6 +97,7 @@
             return Year + '-' + Month + '-' + Day + '&nbsp;&nbsp;' + Hour + ':' + Minute
         }
     </script>
+    <script type="text/javascript" src="/js/public/pc/client.js?rd={{date('YmdHi')}}"></script>
     <script type="text/javascript">
         function GetSocket () {
             $('#GetInput2 button').click(function() {
@@ -132,34 +135,45 @@
         }
 
         function GetMy () {
-            var socket = io.connect('{{env('WS_URL')}}',{transports: ['websocket']});
-            socket.on('connect', function (data) {
-                console.log('connect');
-                var mid = '{{'99_'.$room['id']}}';
-                var time = Date.parse(new Date())/1000 + '';
-                var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
-                var key = new Uint8Array(encodeUTF8(key));
-                var result = md5(key);
-                var in_string = Array.prototype.map.call(result,function(e){
-                    return (e<16?"0":"")+e.toString(16);
-                }).join("");
-                var req = {
-                    'mid':mid,
-                    'isPc':1,
-                    'time':time,
-                    'verification':in_string
+            var client = new MyClient({
+                notify: function(data) {
+                    console.log(data);
+//            alert(JSON.stringify(data));
+                    var json = eval('(' + data + ')');
+                    console.log(json);
+                    var Li = '<li><p class="name">' + json['nickname'] + '<span>' + '</span></p><p class="con">' + json['message'] + '</p></li>';
+                    $('#My .in').append(Li);
+                    if (myScroll) {
+                        $('#My').scrollTop($('#My')[0].scrollHeight);
+                    }
                 }
-                socket.emit('user_mid', req);
             });
+            {{----}}
+            {{----}}
+            {{--var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});--}}
+            {{--socket.on('connect', function (data) {--}}
+                {{--console.log('connect');--}}
+                {{--var mid = '{{'99_'.$room['id']}}';--}}
+                {{--var time = Date.parse(new Date())/1000 + '';--}}
+                {{--var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);--}}
+                {{--var key = new Uint8Array(encodeUTF8(key));--}}
+                {{--var result = md5(key);--}}
+                {{--var in_string = Array.prototype.map.call(result,function(e){--}}
+                    {{--return (e<16?"0":"")+e.toString(16);--}}
+                {{--}).join("");--}}
+                {{--var req = {--}}
+                    {{--'mid':mid,--}}
+                    {{--'isPc':1,--}}
+                    {{--'time':time,--}}
+                    {{--'verification':in_string--}}
+                {{--}--}}
+                {{--socket.emit('user_mid', req);--}}
+            {{--});--}}
 
-            socket.on('server_send_message', function (data) {
-                console.log(data);
-                var Li = '<li><p class="name">' + data['nickname'] + '<span>' + getTimeType(data['time']*1000) + '</span></p><p class="con">' + data['message'] + '</p></li>';
-                $('#My .in').append(Li);
-                if (myScroll) {
-                    $('#My').scrollTop($('#My')[0].scrollHeight);
-                }
-            });
+            {{--socket.on('server_send_message', function (data) {--}}
+                {{--console.log(data);--}}
+                {{----}}
+            {{--});--}}
         }
 
         function Use (obj) {
@@ -170,7 +184,7 @@
         function Send (message,nickname) {
             message = message ? message : $('#TextCon').val();
             nickname = nickname ? nickname : $('#NickName').val();
-            var mid = '{{'99_'.$room['id']}}';
+            var mid = '{{$room['id']}}';
             var time = Date.parse(new Date())/1000 + '';
             var key = message + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
             var key = new Uint8Array(encodeUTF8(key));
