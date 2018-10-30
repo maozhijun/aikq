@@ -23,6 +23,7 @@
             <th colspan="7">{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</th>
         </tr>
         @foreach($matches as $match)
+        <?php $firstCh = isset($match['channels'][0]) ? $match['channels'][0] : null; ?>
         <tr>
             <td>
                 @if($hasRound)
@@ -39,13 +40,15 @@
             <td>{{$match['hscore'] . ' - ' . $match['ascore']}}</td>
             <td>{{$match['aname']}}</td>
             <td>
-                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $match['id'], 'video')}}">观看录像</a>
+                @if(isset($firstCh))
+                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $firstCh['id'], 'video')}}">观看录像</a>
+                @endif
             </td>
         </tr>
         @endforeach
     @endforeach
-    <tr>
-        <th colspan="7"><a href="/live/subject/videos/{{$slid}}/1.html" style="color:#4492fd;">查看更多录像</a></th>
-    </tr>
+    {{--<tr>--}}
+        {{--<th colspan="7"><a href="/live/subject/videos/{{$slid}}/1.html" style="color:#4492fd;">查看更多录像</a></th>--}}
+    {{--</tr>--}}
     </tbody>
 </table>

@@ -10,6 +10,9 @@ namespace App\Console\SubjectVideo;
 
 use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Http\Controllers\PC\Live\SubjectController;
+use App\Models\Match\BasketMatch;
+use App\Models\Match\Match;
+use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Support\Facades\Redis;
 
@@ -45,11 +48,32 @@ class VideoCommand extends BaseCommand
 
     public function handle()
     {
-
+//        $videos = SubjectVideo::query()->where(function ($orQuery) {
+//            $orQuery->whereNull("hid");
+//            $orQuery->orWhereNull("aid");
+//        })->get();
+//        foreach ($videos as $video) {
+//            $sport = $video['sport'];
+//            $mid = $video['mid'];
+//
+//            if ($sport == 1) {
+//                $match = \App\Models\LgMatch\Match::query()->find($mid);
+//            } else if ($sport == 2) {
+//                $match = \App\Models\LgMatch\BasketMatch::query()->find($mid);
+//            }
+//            if (isset($match)) {
+//                $hid = $match->hid;
+//                $aid = $match->aid;
+//                $video->hid = $hid;
+//                $video->aid = $aid;
+//                $video->save();
+//            }
+//            dump($video->id);
+//        }
+//        return;
         $type = $this->argument('type');
         $key = self::CACHE_KEY.$type;
         $lastId = Redis::get($key);
-dump("last = ".$lastId);
         $query = SubjectVideoChannels::query();
         $query->orderBy('id');
         if (!empty($lastId)) {

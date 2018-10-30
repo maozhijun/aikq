@@ -143,6 +143,34 @@ class SubjectVideo extends Model
         return $query->get();
     }
 
+    public static function relationVideosByTid($hid, $aid, $sport = MatchLive::kSportFootball, $count = 10) {
+        $query = self::query();
+        $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');
+        if (is_numeric($sport)) {
+            $query->where('subject_videos.sport', $sport);
+        }
+        if (is_numeric($hid) && is_numeric($aid)) {
+            $query->where(function ($orQuery) use ($hid, $aid) {
+                $orQuery->whereIn('subject_videos.hid', [$hid, $aid]);
+                $orQuery->orWhereIn('subject_videos.aid', [$hid, $hid]);
+            });
+        } else {
+            $tid = is_numeric($hid) ? $hid : $aid;
+            if (is_numeric($tid)) {
+                $query->where(function ($orQuery) use ($tid) {
+                    $orQuery->where('subject_videos.hid', $tid);
+                    $orQuery->orWhere('subject_videos.aid', $tid);
+                });
+            }
+        }
+
+        $query->take($count);
+        $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
+        $query->orderByDesc('subject_video_channels.id');
+        $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        return $query->get();
+    }
+
     public static function moreVideos($curChannelId = null, $count = 12) {
         $query = self::query();
         $query->join('subject_video_channels', 'subject_video_channels.sv_id', '=', 'subject_videos.id');

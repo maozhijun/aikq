@@ -202,13 +202,15 @@ class SubjectController extends Controller
     public function staticSubjectVideoNew(SubjectVideoChannels $videoChannel) {
         $video = $videoChannel->video;
         $sl = SubjectLeague::query()->find($video['s_lid']);
+
+        $detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
+
         //静态化录像终端 PC
         $pcCon = new SubjectController();
         $pc_detail_html = $pcCon->subjectVideoHtml($video, $videoChannel, $sl);
 
         if (!empty($pc_detail_html)) {
-            $pc_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
-            $pc_detail_patch = '/www' . $pc_detail_patch;
+            $pc_detail_patch = '/www' . $detail_patch;
             Storage::disk("public")->put($pc_detail_patch, $pc_detail_html);
         }
 
@@ -217,9 +219,16 @@ class SubjectController extends Controller
 
         $m_detail_html = $mCon->subjectVideoDetailHtml($videoChannel, $video);
         if (!empty($m_detail_html)) {
-            $m_detail_patch = CommonTool::getSubjectVideoDetailPath($video['s_lid'], $video['id']);
-            $m_detail_patch = '/m' . $m_detail_patch;
+            $m_detail_patch = '/m' . $detail_patch;
             Storage::disk("public")->put($m_detail_patch, $m_detail_html);
+        }
+
+        //静态化录像终端 MIP
+        $mipCon = new \App\Http\Controllers\Mip\Live\LiveController();
+        $mip_detail_html = $mipCon->subjectVideoDetailHtml($videoChannel, $video);
+        if (!empty($mip_detail_html)) {
+            $mip_detail_path = 'mip/'.$detail_patch;
+            Storage::disk("public")->put($mip_detail_path, $mip_detail_html);
         }
     }
 

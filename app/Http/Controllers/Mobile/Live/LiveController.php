@@ -346,7 +346,7 @@ class LiveController extends Controller
         $tech = MatchController::tech($sport, $mid);//篮球数据
 
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
 
         $json['passVSMatches'] = $passVSMatches;
         $json['hNearMatches'] = $hNearMatches;
@@ -398,7 +398,7 @@ class LiveController extends Controller
         $lineup = MatchController::basketballLineup($mid);//球队阵容
 
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
 
         $json['tech'] = $tech;
         $json['hasTech'] = isset($tech) && count($tech) > 0;

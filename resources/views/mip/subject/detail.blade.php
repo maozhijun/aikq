@@ -24,7 +24,7 @@
         <section>
             <li>直播</li>
             <li>资讯</li>
-            {{--<li>录像</li>--}}
+            <li>录像</li>
             <li>积分榜</li>
         </section>
         <div id="Live"  class="inner">
@@ -62,17 +62,18 @@
             @else
             @endif
         </div>
-        {{--<div id="Recording" class="inner">--}}
-            {{--@if(isset($videos) && count($videos) > 0)--}}
-                {{--@foreach($videos as $day=>$matches)--}}
-                    {{--<p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>--}}
-                    {{--@foreach($matches as $match)--}}
-{{--                        <a href="{{\App\Http\Controllers\Mip\UrlCommonTool::matchVideoUrl($match['id'])}}">@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>--}}
-                    {{--@endforeach--}}
-                {{--@endforeach--}}
-            {{--@else--}}
-            {{--@endif--}}
-        {{--</div>--}}
+        <div id="Recording" class="inner">
+            @if(isset($videos) && count($videos) > 0)
+                @foreach($videos as $day=>$matches)
+                    <p class="day">{{date('Y-m-d', $day)}}&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</p>
+                    @foreach($matches as $match)
+                        <?php $firstCh = isset($match['channels'][0]) ? $match['channels'][0] : null; ?>
+                        <a @if(isset($firstCh))href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($match['s_lid'], $firstCh['id'], 'video')}}"@endif>@if(isset($match['time']))<p class="time">{{date('H:i', strtotime($match['time']))}}</p>@endif<p class="match">{{$match['hname']}} vs {{$match['aname']}}</p></a>
+                    @endforeach
+                @endforeach
+            @else
+            @endif
+        </div>
         <div id="Rank" class="inner">
             @if(isset($ranks) && count($ranks) > 0)
                 <div class="in">

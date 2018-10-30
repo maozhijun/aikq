@@ -14,6 +14,8 @@ use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mip\UrlCommonTool;
 use App\Models\LgMatch\Match;
 use App\Models\Match\Odd;
+use App\Models\Subject\SubjectVideo;
+use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -115,28 +117,38 @@ class LiveController extends Controller
     /**
      * wap专题终端
      * @param Request $request
-     * @param $first
-     * @param $second
+     * @param $name_en
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
      */
-    public function subjectVideoDetail(Request $request, $first, $second, $id) {
-        $aikCon = new AikanQController();
-        $json = $aikCon->subjectVideo($id, true);
-        if (is_null($json) || count($json) == 0) {
+    public function subjectVideoDetail(Request $request, $name_en, $id) {
+        $svc = SubjectVideoChannels::query()->find($id);
+        if (!isset($svc)) {
             return abort(404);
         }
-        return $this->subjectVideoDetailHtml($json);
+        $sv = $svc->video;
+        if (!isset($sv)) {
+            return abort(404);
+        }
+        return $this->subjectVideoDetailHtml($svc, $sv);
     }
 
     /**
      * wap专题终端HTML
-     * @param $data
+     * @param $svc
+     * @param $sv
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideoDetailHtml($data) {
-        $json['match'] = $data;
-        $json['canonical'] = UrlCommonTool::matchVideoUrl($data['mid'], UrlCommonTool::getMobileUrl());
+    public function subjectVideoDetailHtml(SubjectVideoChannels $svc, SubjectVideo $sv) {
+        $allChannels = $sv->getAllChannels();
+        $moreVideos = SubjectVideo::moreVideos($svc['id']);
+
+        $json['canonical'] = UrlCommonTool::matchVideoUrl($sv['mid'], UrlCommonTool::getMobileUrl());
+        $json['svc'] = $svc;
+        $json['match'] = $sv;
+        $json['allChannels'] = $allChannels;
+        $json['moreVideos'] = $moreVideos;
+
         return view('mip.video.detail', $json);
     }
 

@@ -400,7 +400,7 @@ class LiveController extends Controller
         $aNearMatches = \App\Models\Match\Match::nearMatches($aid);//客队近期战绩
         $moreLives = $this->moreLives($mid, 7);//更多直播
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        $videos = SubjectVideo::relationVideos($hname, $aname);//相关录像
+        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
 
         $tech = MatchController::tech($sport, $mid);//篮球数据
         $lineup = MatchController::footballLineup($mid);//球队阵容

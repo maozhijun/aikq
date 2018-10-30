@@ -32,7 +32,7 @@
             <div class="left_part default" @if(!$hasLeft) style="width: 100%;" @endif >
                 <div class="tab">
                     <button class="on" value="Live">直播</button>
-{{--                    @if(isset($videos) && count($videos) > 0) <button value="Video">录像</button> @endif--}}
+                    @if(isset($videos) && count($videos) > 0) <button value="Video">录像</button> @endif
 {{--                    @if(isset($specimens) && count($specimens) > 0) <button value="Collect">集锦</button> @endif--}}
                 </div>
                 <table id="Live" class="live">
@@ -87,20 +87,15 @@
                                 @foreach($match['channels'] as $c_index=>$channel)
                                     <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
                                 @endforeach
-                                {{--@if($match['sport'] == 1)--}}
-                                    {{--<a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html#Article">专家推荐</a>--}}
-                                {{--@elseif($match['sport'] == 2)--}}
-                                    {{--<a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', $match['time'])}}/{{$match['mid']}}.html">专家推荐</a>--}}
-                                {{--@endif--}}
                             </td>
                         </tr>
                         @endforeach
                     @endforeach
                     </tbody>
                 </table>
-                {{--@if(isset($videos) && count($videos) > 0)--}}
-                    {{--@component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent--}}
-                {{--@endif--}}
+                @if(isset($videos) && count($videos) > 0)
+                    @component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent
+                @endif
                 {{--@if(isset($specimens) && count($specimens) > 0)--}}
                 {{--<dl id="Collect" style="display: none;">--}}
                     {{--@foreach($specimens as $s_day=>$se_array)--}}
