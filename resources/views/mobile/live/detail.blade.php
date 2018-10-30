@@ -26,7 +26,7 @@
                     $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
                 }
                 ?>
-            <option value="{{$link}}">{{$channel['name']}}</option>
+            <option value="{{env('WWW_URL') . $link}}">{{$channel['name']}}</option>
             @endforeach
         </select>
         @endif
