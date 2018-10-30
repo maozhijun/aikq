@@ -30,10 +30,10 @@ img.bg{
 }
 
 a#Android{
-	background: url(/img/mobile/icon_android_n.png) no-repeat 60px center rgba(255,255,255,0.3); background-size: 50px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_android_n.png) no-repeat 60px center rgba(255,255,255,0.3); background-size: 50px;
 }
 a#iOS{
-	background: url(/img/mobile/icon_ios_n.png) no-repeat 60px center rgba(255,255,255,0.3); background-size: 50px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_ios_n.png) no-repeat 60px center rgba(255,255,255,0.3); background-size: 50px;
 }
 
 p.warm{
@@ -120,7 +120,7 @@ p.warm{
 }
 #Step .inner button.close{
 	width: 60px; height: 60px;
-	background: url(/img/mobile/icon_delete.png) no-repeat center; background-size: 60px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_delete.png) no-repeat center; background-size: 60px;
 	position: absolute; top: -60px; right: 0;
 }
 #Step .inner .imgbox{
@@ -185,7 +185,7 @@ p.warm{
 }
 #Share:before{
 	width: 136px; height: 136px;
-	background: url(/img/mobile/image_guide_n.png) no-repeat center; background-size: 136px;
+	background: url(http://static.dlfyb.com/img/mobile/image_guide_n.png) no-repeat center; background-size: 136px;
 	position: absolute; top: 30px; right: 92px;
 	content: '';
 }
@@ -203,6 +203,6 @@ p.warm{
 #Share button{
 	width: 224px; height: 120px;
 	margin-left: -112px;
-	background: url(/img/mobile/image_isee_n.png) no-repeat center; background-size: cover;
+	background: url(http://static.dlfyb.com/img/mobile/image_isee_n.png) no-repeat center; background-size: cover;
 	position: absolute; bottom: 14%; left: 50%;
 }
