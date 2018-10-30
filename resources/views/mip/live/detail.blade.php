@@ -166,7 +166,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                         <tr>
                             <th>号码</th>
                             <th>姓名</th>
-                            <th>位置</th>
+                            {{--<th>位置</th>--}}
                             <th>首发</th>
                         </tr>
                         </thead>
