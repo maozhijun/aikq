@@ -13,7 +13,7 @@
 @endsection
 @section('content')
     <div class="publicAd">
-        <a href="http://m.aikanqiu.com/download/">
+        <a href="{{env('M_URL')}}/download/">
             <img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg">
         </a>
     </div>

@@ -1,6 +1,6 @@
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/newsPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('STATIC_URL')}}/css/mip/newsPhone.css">
 @endsection
 @section('js')
     <script src="https://c.mipcdn.com/static/v1/mip-infinitescroll/mip-infinitescroll.js"></script>
@@ -14,7 +14,7 @@
             <h1>体育新闻资讯</h1>
         @endif
         <div class="banner">
-            <mip-img height="26" width="75" src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/image_slogan_nav.png"></mip-img>
+            <mip-img height="26" width="75" src="{{env('STATIC_URL')}}/img/mip//image_slogan_nav.png"></mip-img>
         </div>
     </div>
 @endsection

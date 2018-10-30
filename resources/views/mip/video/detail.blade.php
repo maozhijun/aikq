@@ -4,7 +4,7 @@
 ?>
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/record.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/record.css">
 @endsection
 @section('banner')
     <div id="Navigation">

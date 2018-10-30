@@ -1,7 +1,7 @@
 @extends('mobile.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="/css/mobile/team.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/team.css">
 @stop
 <?php
     $coach = "";
@@ -20,7 +20,7 @@
 
 @section('content')
     <div id="Info">
-        <img src="{{$team['icon']}}" onerror='this.src="/img/mobile/icon_teamDefault.png"'>
+        <img src="{{$team['icon']}}" onerror='this.src="{{env('CDN_URL')}}/img/mobile/icon_teamDefault.png"'>
         <div class="name">{{$team['name']}}</div>
         <div class="more">
             <p><span>现任主教练：</span>{{$coach}}</p>
@@ -138,7 +138,7 @@
                 @foreach($videos as $video)
                     <div class="item">
                         <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
-                            <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                            <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
                             <p class="con">{{$video['title']}}</p>
                         </a>
                     </div>
@@ -149,7 +149,7 @@
 @stop
 
 @section('js')
-    <script type="text/javascript" src="/js/public/mobile/team.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/mobile/team.js"></script>
     <script type="text/javascript">
         window.onload = function(){
             setPage();

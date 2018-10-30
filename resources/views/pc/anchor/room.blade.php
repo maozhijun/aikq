@@ -15,7 +15,7 @@
         <div id="Crumb"><a href="/">爱看球</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<a href="/anchor/">主播</a>&nbsp;&nbsp;&gt;&nbsp;&nbsp;<span class="on">{{$anchor->name}}</span></div>
         <div class="inner">
             <div id="Info">
-                <img src="{{$anchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
+                <img src="{{$anchor['icon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_default_head.png'">
                 <h1>{{$room['title']}}</h1>
                 <?php
                 $matchText = '';
@@ -41,7 +41,7 @@
             </div>
             <?php
             $url = (isset($room->live_rtmp)&&strlen($room->live_rtmp) > 0)?$room->live_rtmp:$room->live_flv;
-            $link = 'https://www.aikanqiu.com/anchor/room/player/'.$room->id.'.html';
+            $link = '/anchor/room/player/'.$room->id.'.html';
             ?>
             <iframe src="{{$link}}" id="MyFrame"></iframe>
             <div id="Chat">
@@ -77,7 +77,7 @@
             }, 2000);//2秒滑动到指定位置
         }
     </script>
-    <script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
+    <script src="{{env('CDN_URL')}}/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
         var nickname = getCookie('ws_nickname');
         if (nickname && nickname.length > 0){
@@ -142,7 +142,7 @@
 
         //    var socket = io.connect('http://bj.xijiazhibo.cc');
 //        var socket = io.connect('http://localhost:6001');
-        var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
+        var socket = io.connect('{{env('WS_URL')}}',{transports: ['websocket']});
         socket.on('connect', function (data) {
             console.log('connect');
             var mid = '{{'99_'.$room_id}}';

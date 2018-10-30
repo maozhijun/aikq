@@ -1,6 +1,6 @@
 @extends('mip.layout.base')
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/roomPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('STATIC_URL')}}/css/mip/roomPhone.css">
 @endsection
 @section('banner')
     <div id="Navigation">

@@ -27,11 +27,11 @@
                 <a href="/anchor/room{{$hotMatch['room_id']}}.html" class="item {{$match['status'] > 0 ? 'live':''}}">
                     <div class="match">
                         <p class="team">
-                            <img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">
+                            <img src="{{$match['hicon']}}" onerror="this.src={{env('CDN_URL')}}'/img/pc/icon_teamlogo_n.png'">
                             {{$match['hname']}}
                         </p>
                         <p class="team">
-                            <img src="{{$match['aicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">
+                            <img src="{{$match['aicon']}}" onerror="this.src={{env('CDN_URL')}}'/img/pc/icon_teamlogo_n.png'">
                             {{$match['aname']}}
                         </p>
                         <p class="anchor">主播：{{$hotMatch->room->anchor->name}}</p>
@@ -47,7 +47,7 @@
         </div>
         <ul>
             @foreach($hotAnchors as $hotAnchor)
-                <li><a href="/anchor/room{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon']}}"  onerror="this.src='/img/pc/image_default_head.png'"><p>{{$hotAnchor['name']}}</p></a></li>
+                <li><a href="/anchor/room{{$hotAnchor->room->id}}.html"><img src="{{$hotAnchor['icon']}}"  onerror="this.src={{env('CDN_URL')}}'/img/pc/image_default_head.png'"><p>{{$hotAnchor['name']}}</p></a></li>
             @endforeach
         </ul>
     </div>
@@ -59,14 +59,14 @@
             @foreach($livingRooms as $livingRoom)
                 <li><a href="/anchor/room{{$livingRoom['id']}}.html">
                         <div class="imgbox">
-                            <img src="http://aikanqiu.com{{$livingRoom['live_cover']}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                            <img src="{{env('CDN_URL')}}{{$livingRoom['live_cover']}}" onerror="this.src={{env('CDN_URL')}}'/img/pc/image_bg_room.jpg'">
                             <p>{{$livingRoom->anchor->name}}</p>
                         </div>
                         <p class="name">{{$livingRoom['title']}}</p>
                     </a></li>
             @endforeach
                 <div class="nolist separated">
-                    <img src="/img/pc/image_blank_noneanchor_n.png">
+                    <img src="{{env('CDN_URL')}}/img/pc/image_blank_noneanchor_n.png">
                     <p>还没有主播在直播喔~</p>
                 </div>
         </ul>

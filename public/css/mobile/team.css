@@ -267,7 +267,7 @@
 
 /*微信*/
 #WX{
-	background: url(http://static.cdn.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(http://static.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
 

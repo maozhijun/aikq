@@ -18,7 +18,7 @@ trait UploadTrait
 
     public function saveUploadedFile(UploadedFile $file, $disks)
     {
-        $env = env('IMG_URL', 'http://aikanqiu.com');
+        $env = env('CDN_URL');
         $length = $file->getClientSize();
         $md5 = md5_file($file->getRealPath());
         $extension = $file->guessClientExtension();

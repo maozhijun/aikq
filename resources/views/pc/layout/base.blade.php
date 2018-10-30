@@ -24,7 +24,7 @@
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
-        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
+        window.jsonHost = '{{env("API_HOST")}}';
         var curUrl = location.href;
         var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
         if (reg.test(curUrl)) {
@@ -55,7 +55,7 @@
 <body>
 <div id="Navigation">@if(isset($isIndex) && $isIndex)<h1>JRS低调看爱看球直播</h1>@endif
     <div class="inner">
-        <a href="//www.aikanqiu.com/"><img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
+        <a href="{{env('WWW_URL')}}"><img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
         <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>
@@ -78,9 +78,9 @@
 <div id="Bottom">
     {{--<p>友情链接：@foreach($links as $link)<a target="_blank" href="{{$link['url']}}">{{$link['name']}}</a>@endforeach </p>--}}
     <p>
-        <a target="_blank" href="http://www.aikanqiu.com">爱看球</a>
-        <a target="_blank" href="http://www.aikanqiu.com">JRS直播</a>
-        <a target="_blank" href="http://www.aikanqiu.com">低调看直播</a>
+        <a target="_blank" href="{{env('WWW_URL')}}">爱看球</a>
+        <a target="_blank" href="{{env('WWW_URL')}}">JRS直播</a>
+        <a target="_blank" href="{{env('WWW_URL')}}">低调看直播</a>
         <a target="_blank" href="https://leqiuba.com">乐球吧</a>
     </p>
     <p>粤ICP备16108148号-2 | Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>

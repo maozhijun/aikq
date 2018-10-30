@@ -1,7 +1,7 @@
 @extends('mip.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/league.css?time={{date('YmdHi')}}">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/league.css?time={{date('YmdHi')}}">
 @endsection
 @section('js')
     <script src="https://c.mipcdn.com/static/v1/mip-vd-tabs/mip-vd-tabs.js"></script>

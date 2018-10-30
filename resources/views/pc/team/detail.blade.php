@@ -1,7 +1,7 @@
 @extends('pc.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="/css/pc/team.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/team.css">
 @stop
 <?php
     $coach = "";
@@ -59,7 +59,7 @@
             <div class="left_part">
                 <div id="Info">
                     <div class="imgbox">
-                        <img src="{{$team['icon']}}" onerror='this.src="/img/pc/icon_teamDefault.png"'>
+                        <img src="{{$team['icon']}}" onerror='this.src="{{env('CDN_URL')}}/img/pc/icon_teamDefault.png"'>
                         <h1>{{$team['name']}}</h1>
                     </div>
                     <div class="part partOne">
