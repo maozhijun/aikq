@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\Mip\UrlCommonTool;
 
-$cdn = "{{env('STATIC_URL')}}";
+$cdn = env('CDN_URL');
     $cur = empty($cur) ? 'live' : $cur;
     if ($cur == "live") {
         $liveIco = $cdn . "/img/mip/commom_icon_live_s.png";

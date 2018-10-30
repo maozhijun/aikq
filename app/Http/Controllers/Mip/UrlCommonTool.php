@@ -16,7 +16,7 @@ class UrlCommonTool
 {
     const MIP_STATIC_PATH = "/mip";
 //    const MIP_PREFIX = env("MIP_URL", "http://yingchaozhibo.cc");
-    const MIP_PREFIX = "/mip";//"//mip.aikanqiu.com";
+    const MIP_PREFIX = "";
 
     protected static function getMipPrefix() {
         return env('MIP_URL', self::MIP_PREFIX);
