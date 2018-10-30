@@ -127,7 +127,7 @@ img.logo{
 #Navigation .league{
 	width: 24px; height: 24px;
 	margin-top: -12px;
-	background: url(http://static.dlfyb.com/img/icon_more_n.png) no-repeat center; background-size: 24px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_more_n.png) no-repeat center; background-size: 24px;
 	position: absolute; top: 50%; right: 22px;
 	display: block;
 }
