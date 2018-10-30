@@ -19,7 +19,7 @@ h1{
 
 #Introduction{
 	margin: 0 24px;
-	background: url(/img/mobile/image_trank_n.png) no-repeat center top; background-size: 100% auto;
+	background: url(http://static.dlfyb.com/img/mobile/image_trank_n.png) no-repeat center top; background-size: 100% auto;
 	position: relative;
 }
 #Introduction:before{
@@ -50,13 +50,13 @@ h1{
 }
 #Introduction .modify:after{
 	width: 60px; height: 60px;
-	background: url(/img/mobile/icon_l_n.png) no-repeat center; background-size: 60px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_l_n.png) no-repeat center; background-size: 60px;
 	position: absolute; top: 64px; left: 20px; z-index: 3;
 	content: '';
 }
 #Introduction p{
 	padding: 24px 40px 88px;
-	background: url(/img/mobile/icon_s_n.png) no-repeat right 28px bottom 28px #fff; background-size: 40px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_s_n.png) no-repeat right 28px bottom 28px #fff; background-size: 40px;
 	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
 	font-size: 30px; line-height: 44px; text-align: left; color: #494949;
 	position: relative; z-index: 1;

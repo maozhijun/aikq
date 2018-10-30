@@ -48,7 +48,7 @@
                         <td>{{ $s_league->id }}</td>
                         <td>
                             <p><b>{{$s_league->name}}</b>（{{$s_league->sportCn()}}）</p>
-                            <p><img src="{{$s_league->icon}}" onerror="this.src='/img/icon_team_default.png'" style="max-width: 200px;max-height: 200px;"></p>
+                            <p><img src="{{$s_league->icon}}" onerror="this.src='{{env('CDN_URL')}}/img/icon_team_default.png'" style="max-width: 200px;max-height: 200px;"></p>
                         </td>
                         <td>{!! $s_league->contentHtml() !!}</td>
                         <td>{{$s_league->od}}</td>
