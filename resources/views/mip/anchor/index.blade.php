@@ -1,6 +1,6 @@
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('STATIC_URL')}}/css/mip/anchorPhone.css?rd=201808141800">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/anchorPhone.css?rd=201808141800">
 @endsection
 @section('banner')
     <div id="Navigation">
@@ -8,7 +8,7 @@
             <h1>{{$h1}}</h1>
         @endif
         <div class="banner">
-            <mip-img height="26" width="75" src="{{env('STATIC_URL')}}/img/mip/image_slogan_nav.png"></mip-img>
+            <mip-img height="26" width="75" src="{{env('CDN_URL')}}/img/mip/image_slogan_nav.png"></mip-img>
         </div>
     </div>
 @endsection
@@ -38,7 +38,7 @@
                     </a></li>
             @endforeach
             <div class="nolist separated">
-                <mip-img height="110" width="110" src="{{env('STATIC_URL')}}/img/pc/image_blank_noneanchor_n.png"></mip-img>
+                <mip-img height="110" width="110" src="{{env('CDN_URL')}}/img/pc/image_blank_noneanchor_n.png"></mip-img>
                 <p>还没有主播在直播喔~</p>
             </div>
         </ul>
