@@ -24,13 +24,13 @@
                             <a href="/anchor/room{{$hotMatch['room_id']}}.html" target="_blank">
                                 <p class="time">{{$match['league'] or ''}}<span>{{date('m.d H:i',$match['time'])}}</span></p>
                                 <div class="team">
-                                    <p class="host"><img src="{{$match['hicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">{{$match['hname']}}</p>
+                                    <p class="host"><img src="{{$match['hicon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/icon_teamlogo_n.png'">{{$match['hname']}}</p>
                                     @if($match['status'] > 0)
                                         <p class="vs"><span class="live">直播中</span></p>
                                     @else
                                         <p class="vs"><span>VS</span></p>
                                     @endif
-                                    <p class="away"><img src="{{$match['aicon']}}" onerror="this.src='/img/pc/icon_teamlogo_n.png'">{{$match['aname']}}</p>
+                                    <p class="away"><img src="{{$match['aicon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/icon_teamlogo_n.png'">{{$match['aname']}}</p>
                                 </div>
                                 <p class="anchor">主播：{{$hotMatch->room->anchor->name}}</p>
                             </a>
@@ -47,7 +47,7 @@
                         <div class="item">
                             <a href="/anchor/room{{$hotAnchor->room->id}}.html" target="_blank">
                                 <div class="imgbox" style="height: 102px;">
-                                    <img src="{{$hotAnchor['icon']}}" onerror="this.src='/img/pc/image_default_head.png'">
+                                    <img src="{{$hotAnchor['icon']}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_default_head.png'">
                                 </div>
                                 <p>{{$hotAnchor['name']}}</p>
                             </a>
@@ -69,13 +69,13 @@
                         <div class="item">
                             <a href="/anchor/room{{$livingRoom['id']}}.html" target="_blank">
                                 <?php
-                                $cover = isset($livingRoom['live_cover'])? 'http://aikanqiu.com' . $livingRoom['live_cover']:$livingRoom['cover']
+                                $cover = isset($livingRoom['live_cover'])? env('CDN_URL') . $livingRoom['live_cover']:$livingRoom['cover']
                                 ?>
                                 <div class="imgbox">
-                                    <img src="{{$cover}}" onerror="this.src='/img/pc/image_bg_room.jpg'">
+                                    <img src="{{$cover}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_bg_room.jpg'">
                                 </div>
                                 <div class="info">
-                                    <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='/img/pc/image_default_head.png'">
+                                    <img src="{{$livingRoom->anchor->icon}}" onerror="this.src='{{env('CDN_URL')}}/img/pc/image_default_head.png'">
                                     <p class="room">{{$livingRoom['title']}}</p>
                                     <?php
                                     $count = 10*(1+$count) + random_int(1,99);

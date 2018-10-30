@@ -1,7 +1,7 @@
 @extends('mip.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="/css/team.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/team.css">
 @stop
 <?php
     $coach = "";

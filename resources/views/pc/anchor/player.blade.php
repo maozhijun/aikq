@@ -7,12 +7,12 @@
     {{--<title>爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线</title>--}}
     {{--<meta name="Keywords" content="JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+">--}}
     {{--<meta name="Description" content="爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多">--}}
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/style.css?rd=2018">
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?rd=20180306">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?rd=2018">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?rd=20180306">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
+    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
 </head>
 <body scroll="no">
 <div class="player_content" id="MyFrame">
@@ -24,8 +24,8 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/ckplayer/ckplayer.js?timd=201808182005"></script>
-<script src="https://www.aikanqiu.com/js/public/pc/socket.io.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?timd=201808182005"></script>
+<script src="{{env('CDN_URL')}}/js/public/pc/socket.io.js"></script>
 <script type="text/javascript">
     function isMobileWithJS() {
         var u = navigator.userAgent;
@@ -53,7 +53,7 @@
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script type="text/javascript" src="{{$cdn}}/js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
 <script>
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
@@ -152,7 +152,7 @@
 
     //    var socket = io.connect('http://bj.xijiazhibo.cc');
     //var socket = io.connect('http://localhost:6001');
-    var socket = io.connect('https://ws.aikanqiu.com',{reconnect:'false',transports: ['websocket']});
+    var socket = io.connect('{{env('WS_URL')}}',{reconnect:'false',transports: ['websocket']});
     socket.on('connect', function (data) {
         console.log('connect');
         var mid = '{{'99_'.$room_id}}';

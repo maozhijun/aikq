@@ -5,14 +5,14 @@
     <title>直播终端_免费高清直播_爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{$cdn}}/css/pc/player.css?time=201808201153">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201808201153">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="Shortcut Icon" data-ng-href="{{$cdn}}/img/pc/ico.ico" href="{{$cdn}}/img/pc/ico.ico">
+    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
-        window.jsonHost = '{{env("JSON_HOST", "http://cms.aikanqiu.com")}}';
+        window.jsonHost = '{{env("API_HOST")}}';
     </script>
 </head>
 <body scroll="no">
@@ -57,7 +57,7 @@
 </iframe>
 </div>
 <div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
-    <a target="_top" href="javascript:log(0)"><img id="download_img" src="/img/pc/image_ad_wap2.jpg" width="100%"></a>
+    <a target="_top" href="javascript:log(0)"><img id="download_img" src="{{env('CDN_URL')}}/img/pc/image_ad_wap2.jpg" width="100%"></a>
 </div>
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -102,7 +102,7 @@
     }
 
     if (isMobileWithJS()){
-        $('#download_img').attr('src','/img/mobile/image_ad_wap2.jpg');
+        $('#download_img').attr('src','{{env('CDN_URL')}}/img/mobile/image_ad_wap2.jpg');
     }
 
     //统计

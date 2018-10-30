@@ -14,10 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <link rel="canonical" href="{{isset($canonical) ? $canonical : \App\Http\Controllers\Mip\UrlCommonTool::getMobileUrl()}}">
     <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
-    <link rel="stylesheet" type="text/css" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/css/style_phone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('STATIC_URL')}}/css/mip/style_phone.css">
     @yield('css')
-    <link rel="Shortcut Icon" data-ng-href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/ico.ico" href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/ico.ico">
-    <link href="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
+    <link rel="Shortcut Icon" data-ng-href="{{env('STATIC_URL')}}/img/mip/ico.ico" href="{{env('STATIC_URL')}}/img/mip/ico.ico">
+    <link href="{{env('STATIC_URL')}}/img/mip/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
 </head>
 <body @yield('body_attr') >
     @yield('banner')

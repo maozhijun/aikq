@@ -132,7 +132,7 @@
         }
 
         function GetMy () {
-            var socket = io.connect('https://ws.aikanqiu.com',{transports: ['websocket']});
+            var socket = io.connect('{{env('WS_URL')}}',{transports: ['websocket']});
             socket.on('connect', function (data) {
                 console.log('connect');
                 var mid = '{{'99_'.$room['id']}}';
