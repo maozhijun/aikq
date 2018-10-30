@@ -50,8 +50,4 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
             </div>
         @endif
     </div>
-    <div id="Content">
-        <mip-img width="150" height="150" src="{{env('CDN_URL')}}/img/pc/image_qr_868.jpg"></mip-img>
-        <p>扫二维码进入群</p>
-    </div>
 @endsection
