@@ -6,7 +6,7 @@
 #Video{
 	height: 420px;
 	padding-top: 150px;
-	background: url(/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	background: url(http://static.dlfyb.com/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
 	font-size: 28px; line-height: 40px; text-align: center; color: #fff;
 	position: fixed; top: 88px; left: 0; right: 0; z-index: 1;
 	box-sizing: border-box;
