@@ -27,9 +27,10 @@ class UrlCommonTool
     public static function homeLivesUrl($prefix = self::MIP_PREFIX) {
         return '/';
         return $prefix."/";
+
     }
 
-    public static function matchLiveUrl($lid, $sport, $id, $prefix = self::MIP_PREFIX) {
+    public static function matchLiveUrl($lid, $sport, $id, $prefix = "") {
         $url = CommonTool::getLiveDetailUrl($sport, $lid, $id);
 //        $str = 'other';
 //        if ($sport == 1){
