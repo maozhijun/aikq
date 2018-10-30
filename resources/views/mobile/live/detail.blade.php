@@ -60,12 +60,17 @@
                     </thead>
                     <tbody>
                     @foreach($passVSMatches as $pm)
-                    <?php $pDate = date('Y/m/d H:i', strtotime($pm['time'])); ?>
+                    <?php
+                        $pDate = date('Y/m/d H:i', strtotime($pm['time']));
+                        $fv = \App\Models\Subject\SubjectVideo::firstVideo($pm['id']);
+                    ?>
                     <tr>
                         <td>{{$pm['win_lname']}}</td>
                         <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                         <td><a href="team.html">{{$pm['hname']}}</a> {{$pm['hscore']}} - {{$pm['ascore']}} <a href="team.html">{{$pm['aname']}}</a></td>
-                        <td><a href="">回看</a></td>
+                        <td>
+                            @if(isset($fv))<a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">回看</a>@endif
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>
