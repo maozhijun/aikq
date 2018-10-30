@@ -14,7 +14,7 @@ use App\Models\LgMatch\Match;
 
 class UrlCommonTool
 {
-    const MIP_STATIC_PATH = "/m";
+    const MIP_STATIC_PATH = "/mip";
 //    const MIP_PREFIX = env("MIP_URL", "http://yingchaozhibo.cc");
     const MIP_PREFIX = "";
 
