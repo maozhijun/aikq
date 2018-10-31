@@ -81,7 +81,7 @@ class MatchController extends Controller
                 foreach ($players as $p) {
                     $type = $p['type'];
                     if ($type != "player") continue;
-                    $home[] = ['num'=>'-', 'first'=>(count($home) <= 5 ? 1 : 0), 'name'=>$p['name'], 'location'=>$p['location']];
+                    $home[] = ['num'=>'-', 'first'=>(count($home) < 5 ? 1 : 0), 'name'=>$p['name'], 'location'=>$p['location']];
                 }
                 $array['home'] = $home;
             }
@@ -91,7 +91,7 @@ class MatchController extends Controller
                 foreach ($players as $p) {
                     $type = $p['type'];
                     if ($type != "player") continue;
-                    $away[] = ['num'=>'-', 'first'=>(count($away) <= 5 ? 1 : 0), 'name'=>$p['name'], 'location'=>$p['location']];
+                    $away[] = ['num'=>'-', 'first'=>(count($away) < 5 ? 1 : 0), 'name'=>$p['name'], 'location'=>$p['location']];
                 }
                 $array['away'] = $away;
             }
