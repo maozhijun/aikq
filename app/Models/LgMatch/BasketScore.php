@@ -39,8 +39,7 @@ class BasketScore extends Model
             $query->where('basket_scores.zone', $zone);
             $query->where('basket_scores.season', $season->name);
             $query->orderBy('basket_scores.rank');
-            $query->selectRaw("basket_teams.name_china, basket_scores.league_bat_w, basket_scores.league_bat_l");
-            $query->addSelect(['basket_scores.zone', 'basket_scores.rank', 'basket_scores.win', 'basket_scores.lose']);
+            $query->selectRaw("basket_teams.name_china, basket_scores.*");
             $scores = $query->get();
 
             foreach ($scores as $score) {

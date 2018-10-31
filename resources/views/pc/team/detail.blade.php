@@ -144,7 +144,7 @@
                         @foreach($videos as $video)
                             <div class="item">
                                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
-                                    <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
                                     <p class="con">{{$video['title']}}</p>
                                 </a>
                             </div>
@@ -175,7 +175,7 @@
         @if(isset($league))
             $(function () {
                 $.ajax({
-                    url: "/json/rank/{{$league['sport']}}/{{$league['lid']}}.html",
+                    url: "/json/pc/rank/{{$league['sport']}}/{{$league['lid']}}.html",
                     dataType: "html",
                     success: function (data) {
                         if(data) {
