@@ -58,9 +58,6 @@
 <script src="{{env('CDN_URL')}}/js/public/pc/socket.io.js"></script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player3.js?rd=201809061137"></script>
 <script>
-    $.ajaxSetup({
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    });
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");
