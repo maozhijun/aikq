@@ -9,6 +9,7 @@ use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
 use App\Models\Match\MatchLive;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,6 +54,12 @@ class TeamDetailCommand extends Command
         $type = $this->argument('type');
         if ($type == "lives") {
             $this->fromLivesData();
+        } else if ($type == "subject") {
+            $sleagues = SubjectLeague::getAllLeagues();
+            foreach ($sleagues as $sl) {
+                dump($sl->sport. "_". $sl->lid);
+                $this->fromLeagueData($sl->sport, $sl->lid);
+            }
         } else if (starts_with($type, "lid")) {
             $sport = substr($type, 3, 1);
             $lid = substr($type, 4);
@@ -124,11 +131,11 @@ class TeamDetailCommand extends Command
             $path = CommonTool::getTeamDetailPath($sport, $lid, $tid);
 
             //pc站
-            TeamController::detailStatic($data, $path);
+            TeamController::detailStatic($pcData, $path);
             //web站
-            \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($data, $path);
+            \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($webData, $path);
             //mip站
-            \App\Http\Controllers\Mip\Team\TeamController::detailStatic($data, $path);
+            \App\Http\Controllers\Mip\Team\TeamController::detailStatic($webData, $path);
         }
     }
 }
