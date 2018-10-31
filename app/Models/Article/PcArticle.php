@@ -126,6 +126,7 @@ class PcArticle extends Model
         if($isBaidu){
             //$articles = DB::select("SELECT *,RAND() as r FROM (select * from pc_articles as p where p.status = ".self::kStatusPublish.") as a ORDER BY r LIMIT 0,30;");
             $articles = DB::select("select * from pc_articles as p where p.status = ".self::kStatusPublish." and p.baidu_spider_count = 0 ORDER BY updated_at desc LIMIT 0,30;");
+            $array = array();
             foreach ($articles as $article) {
                 $array[] = ['title'=>$article->title, 'url'=>$article->url, 'publish_at'=>$article->publish_at];
             }
