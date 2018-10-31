@@ -1649,7 +1649,7 @@ class AikanQController extends Controller
     /**
      * 球队终端页面数据
      */
-    public static function teamDetailData($sport, $lid, $tid) {
+    public static function teamDetailData($sport, $lid, $tid, $isMobile = false) {
         $teamData = self::teamData($sport, $tid);
         $result = [];
         if (!isset($teamData)) {
@@ -1687,7 +1687,7 @@ class AikanQController extends Controller
         //联赛排名 结束
 
         //球队直播 开始
-        $result['lives'] = self::getTeamLives($sport, $lid, $tid, $leagueName);
+        $result['lives'] = self::getTeamLives($sport, $lid, $tid, $leagueName, $teamName, $isMobile, 10);
         //球队直播 结束
 
         //球队录像 开始
@@ -1815,7 +1815,7 @@ class AikanQController extends Controller
     /**
      * 获取球队的比赛列表
      */
-    protected static function getTeamLives($sport, $lid, $tid, $lname, $isMobile = false, $count = 15) {
+    protected static function getTeamLives($sport, $lid, $tid, $lname, $tname, $isMobile = false, $count = 15) {
         if (!in_array($sport, [MatchLive::kSportFootball, MatchLive::kSportBasketball])) {
             return [];
         }
@@ -1829,9 +1829,11 @@ class AikanQController extends Controller
         if (isset($lid) && strlen($lid) > 0) {
             $query->where('lid', $lid);
         }
-        $query->where(function ($q) use ($tid){
+        $query->where(function ($q) use ($tid, $tname){
             $q->where('hid', $tid)
-                ->orWhere('aid', $tid);
+                ->orWhere('aid', $tid)
+                ->orWhere('hname', $tname)
+                ->orWhere('aname', $tname);
         });
         $query->selectRaw('*, id as mid');
 
@@ -1844,15 +1846,14 @@ class AikanQController extends Controller
 
         //历史比赛
         $recentMatches = $tempQuery->where('status', '-1')
-            ->take($count - count($matches))->orderBy('time', 'desc')->get();
+            ->take($count)->orderBy('time', 'desc')->get();
 
         $array = [];
         foreach ($recentMatches as $match) {
-            $array[] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
+            $array['recent'][] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
         }
-        $array = array_reverse($array);
         foreach ($matches as $match) {
-           $array[] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
+           $array['schedule'][] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
         }
         return $array;
     }

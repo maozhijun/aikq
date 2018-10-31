@@ -142,44 +142,52 @@
 	color: #bebed4;
 }
 
-#Match{
+.match{
 	margin-top: 20px; padding: 0 20px 20px;
 	background: #fff;
 }
-#Match .title{
+.match .title{
 	height: 40px;
 	padding-left: 36px; margin: 0 -20px 20px;
 	border-bottom: 1px solid #e1e4e8;
 	font-size: 16px; line-height: 40px; color: #242526;
 	position: relative;
 }
-#Match .title:before{
+.match .title:before{
 	height: 24px; width: 6px;
 	margin-top: -12px;
 	background: #4794fd;
 	position: absolute; top: 50%; left: 20px;
 	content: '';
 }
-#Match table{
+.match table{
 	width: 100%;
 }
-#Match table th{
+.match table th{
 	height: 30px;
 	background: #dcdee6;
 	font-size: 12px; line-height: 16px; text-align: center; color: #576880;
 }
-#Match table td{
+.match table td{
 	height: 40px;
 	font-size: 12px; line-height: 16px; text-align: center; color: #666;
 }
-#Match table td:last-child{
+.match table td:last-child{
 	color: #ababab;
 }
-#Match table tr:nth-child(even) td{
+.match table tr:nth-child(even) td{
 	background: #f7f7f7;
 }
-#Match table td a{
+.match table td a{
 	color: #4492fd;
+}
+.match table td:last-child a{
+	width: 64px; height: 24px;
+	margin: 0 auto;
+	border-radius: 2px;
+	background: #bc1c25;
+	line-height: 24px; color: #fff;
+	display: block;
 }
 
 #News{
@@ -264,7 +272,7 @@
 	position: relative;
 }
 #Record a .imgbox:before{
-	background: url(/img/pc/icon_pause_n.png) no-repeat center; background-size: 40px;
+	background: url(http://static.dlfyb.com/img/pc/icon_pause_n.png) no-repeat center; background-size: 40px;
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
 	content: '';
 }

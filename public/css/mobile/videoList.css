@@ -21,7 +21,7 @@ img.logo{
 .default a{
 	height: 110px;
 	padding: 16px 104px 0 24px;
-	background: url(/img/mobile/icon_right.png) no-repeat right center #fff; background-size: 74px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_right.png) no-repeat right center #fff; background-size: 74px;
 	position: relative;
 	vertical-align: top;
 	/*display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;*/
