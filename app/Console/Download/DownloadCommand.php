@@ -45,15 +45,11 @@ class DownloadCommand extends Command
      */
     public function handle()
     {
-        $pcPath = public_path('download.html');
-        $wapPath = public_path('downloadPhone.html');
-
-        $pcContent = file_get_contents($pcPath);
-        $wapContent = file_get_contents($wapPath);
+        $pcContent = view('pc.download');
+        $wapContent = view('mobile.download');
 
         Storage::disk('public')->put('www/download/index.html', $pcContent);
         Storage::disk('public')->put('m/download/index.html', $wapContent);
         Storage::disk('public')->put('mip/download/index.html', $wapContent);
     }
-
 }

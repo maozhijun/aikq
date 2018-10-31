@@ -207,7 +207,7 @@
                         <table>
                             <thead>
                             <tr>
-                                <th>号码</th>
+                                <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                                 <th>姓名</th>
                                 <th>首发</th>
                             </tr>
