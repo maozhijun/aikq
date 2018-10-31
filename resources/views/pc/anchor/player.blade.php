@@ -55,7 +55,8 @@
 </script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/client.js?rd={{date('YmdHi')}}"></script>
-<script>
+<script type="text/javascript">
+    window.jsonHost = '{{env("API_URL")}}';
     $.ajaxSetup({
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
     });
