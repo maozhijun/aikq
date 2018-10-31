@@ -17,9 +17,9 @@
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{env('CND_URL')}}/js/pc/ckplayer/ckplayer.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/ckplayer/ckplayer.js" charset="UTF-8"></script>
 <script type="text/javascript">
-    window.jsonHost = '{{env("API_HOST")}}';
+    window.jsonHost = '{{env("API_URL")}}';
 
     function ShareWarm (Text) {
         var P = document.createElement('p');

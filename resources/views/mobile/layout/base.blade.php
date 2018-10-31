@@ -18,7 +18,7 @@
     <link href="{{env('CDN_URL')}}/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     @yield("first_js")
     <script type="text/javascript">
-        window.jsonHost = '{{env("API_HOST")}}';
+        window.jsonHost = '{{env("API_URL")}}';
         if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
             var url = window.location.href;
             if (url.indexOf("m.dlfyb.com") != -1) {
