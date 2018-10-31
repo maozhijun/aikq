@@ -232,7 +232,7 @@
         @if(isset($league))
             $(function () {
                 $.ajax({
-                    url: "/json/pc/rank/{{$league['sport']}}/{{$league['lid']}}.html",
+                    url: jsonHost + "/json/pc/rank/{{$league['sport']}}/{{$league['lid']}}.html",
                     dataType: "html",
                     success: function (data) {
                         if(data) {
