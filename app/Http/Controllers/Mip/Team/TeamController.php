@@ -32,7 +32,7 @@ class TeamController extends Controller
         $sport = substr($tid, 0, 1);
         $tid = substr($tid, 1);
 
-        $data = AikanQController::teamDetailData($sport, $lid, $tid);
+        $data = AikanQController::teamDetailData($sport, $lid, $tid, true);
         return self::detailHtml($data);
     }
 

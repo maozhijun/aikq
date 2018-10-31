@@ -47,9 +47,10 @@
                     <th>录像/直播</th>
                 </tr>
                 </thead>
+                @if(isset($lives) && isset($lives['schedule']) && count($lives['schedule']) > 0)
                 <tbody>
-                @if(isset($lives) && count($lives) > 0)
-                    @foreach($lives as $match)
+                    <tr><td colspan="4">未来赛程</td></tr>
+                    @foreach($lives['schedule'] as $match)
                         <?php
                             $liveUrl = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']);
                             $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
@@ -85,8 +86,49 @@
                             </td>
                         </tr>
                     @endforeach
-                @endif
                 </tbody>
+                @endif
+                @if(isset($lives) && isset($lives['recent']) && count($lives['recent']) > 0)
+                <tbody>
+                    <tr><td colspan="4">历史比赛</td></tr>
+                    @foreach($lives['recent'] as $match)
+                        <?php
+                        $liveUrl = \App\Http\Controllers\Mobile\UrlCommonTool::matchLiveUrl($match['lid'], $match['sport'], $match['mid']);
+                        $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                        ?>
+                        <tr>
+                            <td>{{$match['lname']}}</td>
+                            <td><span>{{date('y/m/d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
+                            <td>
+                                @if(isset($match['hid']) && $match['hid'] != $team['id'])
+                                    <a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a>
+                                @else
+                                    {{$match['hname']}}
+                                @endif
+                                @if($match['status'] < 0)
+                                    {{$match['hscore']}} - {{$match['ascore']}}
+                                @else
+                                    vs
+                                @endif
+                                @if(isset($match['aid']) && $match['aid'] != $team['id'])
+                                    <a href="{{\App\Http\Controllers\Mobile\UrlCommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a>
+                                @else
+                                    {{$match['aname']}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($match['status'] >= 0)
+                                    @foreach($match['channels'] as $c_index=>$channel)
+                                        <a href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                    @endforeach
+                                @elseif(isset($fv))
+                                    <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                @endif
             </table>
         </div>
         <div id="Player" class="default" style="display: none;">
