@@ -47,16 +47,15 @@
         document.body.appendChild(P)
     }
     window.host = window.location.host;//'{{$host}}';
-{{--    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';--}}
-            window.isMobile = isMobileWithJS();
+    window.isMobile = isMobileWithJS();
     window.cdn_url = '{{$cdn}}';
     if (window.cdn_url && window.cdn_url != "") {
         window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
     }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
-<script src="{{env('CDN_URL')}}/js/public/pc/socket.io.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/player3.js?rd=201809061137"></script>
+<script src="<?php echo env('CDN_URL'); ?>/js/public/pc/socket.io.js"></script>
+<script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201809061137"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {
