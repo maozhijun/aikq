@@ -17,7 +17,7 @@
                 <ul>
                     @foreach($allChannels as $ch)
                     <li @if($ch['id'] == $svc['id']) class="on" @endif >
-                        <p class="imgbox" style="background: url({{empty($ch['cover']) ? env('CDN_URL')'/img/pc/video_bg.jpg' : $ch['cover']}}); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($ch['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $ch['cover']}}); background-size: cover;"></p>
                         <a class="con" @if($ch['id'] != $svc['id']) href="video{{$ch['id']}}.html" @endif >{{$ch['title']}}</a>
                     </li>
                     @endforeach
@@ -48,7 +48,7 @@
                 @foreach($moreVideos as $mVideo)
                 <div class="item" title="{{$mVideo['title']}}">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mVideo['s_lid'], $mVideo['id'], 'video')}}">
-                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL')'/img/pc/video_bg.jpg' : $mVideo['cover']}}); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $mVideo['cover']}}); background-size: cover;"></p>
                         <p class="con">{{$mVideo['title']}}</p>
                     </a>
                 </div>
