@@ -161,9 +161,8 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>号码</th>
+                        <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                         <th>姓名</th>
-                        {{--<th>位置</th>--}}
                         <th>首发</th>
                     </tr>
                     </thead>
@@ -171,9 +170,8 @@
                     @if(isset($lineup['home']))
                     @foreach($lineup['home'] as $hl)
                         <tr>
-                            <td><p>{{$hl['num']}}</p></td>
+                            <td><p>{{$match['sport'] == 1 ? $hl['num'] : $hl['location']}}</p></td>
                             <td>{{$hl['name']}}</td>
-                            {{--<td>门将</td>--}}
                             <td>{{$hl['first'] == 1 ? '是' : '否'}}</td>
                         </tr>
                     @endforeach
@@ -185,9 +183,8 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>号码</th>
+                        <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                         <th>姓名</th>
-                        {{--<th>位置</th>--}}
                         <th>首发</th>
                     </tr>
                     </thead>
@@ -195,9 +192,8 @@
                     @if(isset($lineup['away']))
                         @foreach($lineup['away'] as $al)
                             <tr>
-                                <td><p>{{$al['num']}}</p></td>
+                                <td><p>{{$match['sport'] == 1 ? $al['num'] : $al['location']}}</p></td>
                                 <td>{{$al['name']}}</td>
-                                {{--<td>门将</td>--}}
                                 <td>{{$al['first'] == 1 ? '是' : '否'}}</td>
                             </tr>
                         @endforeach
