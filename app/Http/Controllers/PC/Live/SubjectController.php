@@ -274,7 +274,7 @@ class SubjectController extends Controller
     public static function getSubjects() {
         //先从文件获取内容
         try {
-            $server_output = Storage::get('public/static/json/subject/leagues.json');
+            $server_output = Storage::get('public/static/json/pc/subject/leagues.json');
         } catch (\Exception $exception) {
             $server_output = "";
         }
@@ -357,7 +357,7 @@ class SubjectController extends Controller
         $data = $aiCon->subjectsData();
         $server_output = json_encode($data);
         if (!empty($server_output)) {
-            Storage::disk("public")->put("static/json/subject/leagues.json", $server_output);
+            Storage::disk("public")->put("static/json/pc/subject/leagues.json", $server_output);
         }
     }
 
