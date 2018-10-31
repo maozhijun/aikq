@@ -49,9 +49,10 @@
             <div id="Record">
                 <p class="title">相关录像</p>
                 @foreach($videos as $video)
-                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
+                <?php $vTitle = $video->getVideoTitle(); ?>
+                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$vTitle}}">
                     <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
-                    <p class="name">{{$video['title']}}</p>
+                    <p class="name">{{$vTitle}}</p>
                 </a>
                 @endforeach
             </div>

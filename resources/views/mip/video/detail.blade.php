@@ -32,10 +32,11 @@
         <div id="Record">
             <p class="title">更多精彩视频</p>
             @foreach($moreVideos as $video)
+                <?php $vTitle = $video->getVideoTitle(); ?>
                 <div class="item">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
                         <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
-                        <p class="con">{{$video['title']}}</p>
+                        <p class="con">{{$vTitle}}</p>
                     </a>
                 </div>
             @endforeach

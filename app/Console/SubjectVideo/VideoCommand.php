@@ -10,6 +10,8 @@ namespace App\Console\SubjectVideo;
 
 use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Http\Controllers\PC\Live\SubjectController;
+use App\Models\LgMatch\BasketStage;
+use App\Models\LgMatch\Stage;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Subject\SubjectVideo;
@@ -48,27 +50,22 @@ class VideoCommand extends BaseCommand
 
     public function handle()
     {
-//        $videos = SubjectVideo::query()->where(function ($orQuery) {
-//            $orQuery->whereNull("hid");
-//            $orQuery->orWhereNull("aid");
-//        })->get();
+//        $videos = SubjectVideo::query()->whereNull("stage_cn")->whereNotNull("stage")->get();
 //        foreach ($videos as $video) {
 //            $sport = $video['sport'];
-//            $mid = $video['mid'];
+//            $stageId = $video['stage'];
 //
 //            if ($sport == 1) {
-//                $match = \App\Models\LgMatch\Match::query()->find($mid);
+//                $stage = Stage::query()->find($stageId);
 //            } else if ($sport == 2) {
-//                $match = \App\Models\LgMatch\BasketMatch::query()->find($mid);
+//                $stage = BasketStage::query()->find($stageId);
 //            }
-//            if (isset($match)) {
-//                $hid = $match->hid;
-//                $aid = $match->aid;
-//                $video->hid = $hid;
-//                $video->aid = $aid;
+//            if (isset($stage)) {
+//                $name = $stage->name;
+//                $video->stage_cn = $name;
 //                $video->save();
 //            }
-//            dump($video->id);
+//            dump($video->stage_cn);
 //        }
 //        return;
         $type = $this->argument('type');

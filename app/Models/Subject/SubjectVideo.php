@@ -140,6 +140,7 @@ class SubjectVideo extends Model
         $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
         $query->orderByDesc('subject_video_channels.id');
         $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        $query->addSelect("subject_videos.season", "subject_videos.round", "subject_videos.group", "subject_videos.stage_cn", "subject_videos.lname");
         return $query->get();
     }
 
@@ -168,6 +169,7 @@ class SubjectVideo extends Model
         $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
         $query->orderByDesc('subject_video_channels.id');
         $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        $query->addSelect("subject_videos.season", "subject_videos.round", "subject_videos.group", "subject_videos.stage_cn", "subject_videos.lname");
         return $query->get();
     }
 
@@ -180,6 +182,7 @@ class SubjectVideo extends Model
         $query->orderByDesc('subject_videos.time')->orderBy('subject_video_channels.od');
         $query->orderByDesc('subject_video_channels.id');
         $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
+        $query->addSelect("subject_videos.season", "subject_videos.round", "subject_videos.group", "subject_videos.stage_cn", "subject_videos.lname");
         $query->take($count);
         return $query->get();
     }
@@ -191,6 +194,28 @@ class SubjectVideo extends Model
         $query->select("subject_video_channels.*", "subject_videos.hname", 'subject_videos.aname', 'subject_videos.s_lid');
         $query->orderBy('subject_video_channels.od');
         return $query->first();
+    }
+
+    public function getMatchInfo() {
+        $lname = $this->lname;
+        $hname = $this->hname;
+        $aname = $this->aname;
+
+        $season = $this->season;
+        $round = $this->round;
+
+        $stage_cn = $this->stage_cn;
+        $group = $this->group;
+
+        if (!empty($stage_cn)) {
+            return $season . "" . $lname . "" . $stage_cn . $group . " " .$hname." VS ".$aname;
+        } else {
+            return $season . "" . $lname . "" .$round . "轮 " . $hname." VS ".$aname;
+        }
+    }
+
+    public function getVideoTitle() {
+        return ($this->type == 1 ? $this->getMatchInfo() . ' ' : '') . $this->title;
     }
 
 }

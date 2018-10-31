@@ -14,7 +14,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
 @endsection
 @section('content')
     <div class="default" id="Video">
-        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="{{env('WWW_URL')}}/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
+        <mip-iframe layout="fixed-height" width="100" height="210" allowfullscreen allowtransparency="true" src="https:{{env('WWW_URL')}}/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" id="MyIframe">
         </mip-iframe>
     </div>
     <div id="Content">
@@ -253,10 +253,11 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
             @if($hasVideo)
             <div id="Record">
                 @foreach($videos as $video)
+                    <?php $vTitle = $video->getVideoTitle(); ?>
                     <div class="item">
                         <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
                             <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
-                            <p class="con">{{$video['title']}}</p>
+                            <p class="con">{{$vTitle}}</p>
                         </a>
                     </div>
                 @endforeach
