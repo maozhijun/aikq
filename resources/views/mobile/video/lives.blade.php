@@ -26,7 +26,7 @@
 @endsection
 
 @section('content')
-    <a href="http://mp.dlfyb.com/downloadPhone.html"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
+    <a href="/download/"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
     <?php $week_array = array('周日','周一','周二','周三','周四','周五','周六'); ?>
     @foreach($matches as $time=>$match_array)
         <?php $week = date('w', strtotime($time)); ?>

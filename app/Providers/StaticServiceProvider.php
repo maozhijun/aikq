@@ -29,13 +29,13 @@ class StaticServiceProvider extends ServiceProvider
         //
         AnchorRoom::saved(function ($room){
             //终端静态化
-            $url = env('API_URL') . '/api/static/anchor/room/'.$room->id;
+            $url = env('CMS_URL') . '/api/static/anchor/room/'.$room->id;
             $this->pushStaticUrl($url);
         });
 
         Anchor::updated(function ($anchor){
             //终端静态化
-            $url = env('API_URL') . '/api/static/anchor/room/'.$anchor->room->id;
+            $url = env('CMS_URL') . '/api/static/anchor/room/'.$anchor->room->id;
             $this->pushStaticUrl($url);
         });
 

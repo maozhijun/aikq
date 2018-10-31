@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
-        window.jsonHost = '{{env("API_HOST")}}';
+        window.jsonHost = '{{env("API_URL")}}';
     </script>
 </head>
 <body scroll="no">

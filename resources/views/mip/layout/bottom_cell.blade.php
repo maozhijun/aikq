@@ -8,7 +8,7 @@ use App\Http\Controllers\Mip\UrlCommonTool;
         $liveUrl = 'href=#';
         $liveClass = 'class="on"';
     } else {
-        $liveIco = $cdn . "/img/mip/mip/commom_icon_live_n.png";
+        $liveIco = $cdn . "/img/mip/commom_icon_live_n.png";
         $liveUrl = 'href='.UrlCommonTool::homeLivesUrl();
         $liveClass = '';
     }
@@ -52,10 +52,10 @@ use App\Http\Controllers\Mip\UrlCommonTool;
             <p>资讯</p>
         </a>
     </dd>
-    <dd>
-        <a href="https://shop.liaogou168.com">
-            <mip-img height="24" width="24" src="{{$cdn}}/img/mip/commom_icon_recommend_n.png"></mip-img>
-            <p>推荐</p>
-        </a>
-    </dd>
+    {{--<dd>--}}
+        {{--<a href="https://shop.liaogou168.com">--}}
+            {{--<mip-img height="24" width="24" src="{{$cdn}}/img/mip/commom_icon_recommend_n.png"></mip-img>--}}
+            {{--<p>推荐</p>--}}
+        {{--</a>--}}
+    {{--</dd>--}}
 </dl>

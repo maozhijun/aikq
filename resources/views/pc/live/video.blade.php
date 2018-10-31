@@ -50,7 +50,7 @@
                 <p class="title">相关录像</p>
                 @foreach($videos as $video)
                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
-                    <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
                     <p class="name">{{$video['title']}}</p>
                 </a>
                 @endforeach
@@ -183,7 +183,7 @@
                         <table>
                             <thead>
                             <tr>
-                                <th>号码</th>
+                                <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                                 <th>姓名</th>
                                 <th>首发</th>
                             </tr>
@@ -192,7 +192,7 @@
                             @if(isset($lineup['home']))
                             @foreach($lineup['home'] as $l)
                             <tr>
-                                <td>{{$l['num']}}</td>
+                                <td>{{$match['sport'] == 1 ? $l['num'] : $l['location']}}</td>
                                 <td>{{$l['name']}}</td>
                                 <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
                             </tr>
@@ -207,7 +207,7 @@
                         <table>
                             <thead>
                             <tr>
-                                <th>号码</th>
+                                <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                                 <th>姓名</th>
                                 <th>首发</th>
                             </tr>
@@ -216,7 +216,7 @@
                             @if(isset($lineup['away']))
                                 @foreach($lineup['away'] as $l)
                                     <tr>
-                                        <td>{{$l['num']}}</td>
+                                        <td>{{$match['sport'] == 1 ? $l['num'] : $l['location']}}</td>
                                         <td>{{$l['name']}}</td>
                                         <td>{{$l['first'] == 1 ? '是' :'否'}}</td>
                                     </tr>

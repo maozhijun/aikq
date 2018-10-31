@@ -72,59 +72,116 @@
                         <p><span>球队主场：</span>{{$team['gym']}}</p>
                     </div>
                 </div>
-                <div id="Match">
-                    <p class="title">最近比赛</p>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>赛事</th>
-                            <th>时间</th>
-                            <th>主队</th>
-                            <th>比分</th>
-                            <th>客队</th>
-                            <th>录像/直播</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if(isset($lives) && count($lives) > 0)
-                            @foreach($lives as $match)
-                                <?php
+                @if(isset($lives) && isset($lives['schedule']))
+                    <div id="Future" class="match">
+                        <p class="title">未来赛程</p>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>赛事</th>
+                                <th>时间</th>
+                                <th>主队</th>
+                                <th>比分</th>
+                                <th>客队</th>
+                                <th>录像/直播</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(count($lives['schedule']) > 0)
+                                @foreach($lives['schedule'] as $match)
+                                    <?php
                                     $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
                                     $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
-                                ?>
-                                <tr>
-                                    <td>{{$match['lname']}}</td>
-                                    <td>{{date('y-m-d', $match['time'])}} {{date('H:i', $match['time'])}}</td>
-                                    @if(isset($match['hid']) && $match['hid'] != $team['id'])
-                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
-                                    @else
-                                        <td>{{$match['hname']}}</td>
-                                    @endif
-                                    @if($match['status'] < 0)
-                                        <td>{{$match['hscore']}} - {{$match['ascore']}}</td>
-                                    @else
-                                        <td>VS</td>
-                                    @endif
-                                    @if(isset($match['aid']) && $match['aid'] != $team['id'])
-                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
-                                    @else
-                                        <td>{{$match['aname']}}</td>
-                                    @endif
-                                    <td>
-                                        @if($match['status'] >= 0)
-                                            @foreach($match['channels'] as $c_index=>$channel)
-                                                <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
-                                            @endforeach
-                                        @elseif(isset($fv))
-                                            <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
+                                    ?>
+                                    <tr>
+                                        <td>{{$match['lname']}}</td>
+                                        <td>{{date('y-m-d', $match['time'])}} {{date('H:i', $match['time'])}}</td>
+                                        @if(isset($match['hid']) && $match['hid'] != $team['id'])
+                                            <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+                                        @else
+                                            <td>{{$match['hname']}}</td>
                                         @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
+                                        @if($match['status'] < 0)
+                                            <td>{{$match['hscore']}} - {{$match['ascore']}}</td>
+                                        @else
+                                            <td>VS</td>
+                                        @endif
+                                        @if(isset($match['aid']) && $match['aid'] != $team['id'])
+                                            <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+                                        @else
+                                            <td>{{$match['aname']}}</td>
+                                        @endif
+                                        <td>
+                                            @if($match['status'] >= 0)
+                                                @foreach($match['channels'] as $c_index=>$channel)
+                                                    <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                                @endforeach
+                                            @elseif(isset($fv))
+                                                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+                @if(isset($lives) && isset($lives['recent']))
+                     <div id="Match" class="match">
+                        <p class="title">最近比赛</p>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>赛事</th>
+                                <th>时间</th>
+                                <th>主队</th>
+                                <th>比分</th>
+                                <th>客队</th>
+                                <th>录像/直播</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(count($lives['recent']) > 0)
+                                @foreach($lives['recent'] as $match)
+                                    <?php
+                                        $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
+                                        $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                                    ?>
+                                    <tr>
+                                        <td>{{$match['lname']}}</td>
+                                        <td>{{date('y-m-d', $match['time'])}} {{date('H:i', $match['time'])}}</td>
+                                        @if(isset($match['hid']) && $match['hid'] != $team['id'])
+                                            <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+                                        @else
+                                            <td>{{$match['hname']}}</td>
+                                        @endif
+                                        @if($match['status'] < 0)
+                                            <td>{{$match['hscore']}} - {{$match['ascore']}}</td>
+                                        @else
+                                            <td>VS</td>
+                                        @endif
+                                        @if(isset($match['aid']) && $match['aid'] != $team['id'])
+                                            <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+                                        @else
+                                            <td>{{$match['aname']}}</td>
+                                        @endif
+                                        <td>
+                                            @if($match['status'] >= 0)
+                                                @foreach($match['channels'] as $c_index=>$channel)
+                                                    <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                                @endforeach
+                                            @elseif(isset($fv))
+                                                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                     </div>
+                @endif
                 @if(isset($articles) && count($articles) > 0)
                     <div id="News">
                         <p class="title">相关新闻</p>
@@ -144,7 +201,7 @@
                         @foreach($videos as $video)
                             <div class="item">
                                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
-                                    <p class="imgbox" style="background: url({{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
                                     <p class="con">{{$video['title']}}</p>
                                 </a>
                             </div>
@@ -175,7 +232,7 @@
         @if(isset($league))
             $(function () {
                 $.ajax({
-                    url: "/json/rank/{{$league['sport']}}/{{$league['lid']}}.html",
+                    url: jsonHost + "/json/pc/rank/{{$league['sport']}}/{{$league['lid']}}.html",
                     dataType: "html",
                     success: function (data) {
                         if(data) {

@@ -81,15 +81,15 @@ class PcArticle extends Model
 
     public function getCover() {
         $cover = $this->cover;
-        $local = env('APP_URL');
-        $cover = str_replace($local, env('CDN_URL'), $cover);
+//        $local = env('APP_URL');
+//        $cover = str_replace($local, env('CDN_URL'), $cover);
         return $cover;
     }
 
     public function getLocalCover() {
         $cover = $this->cover;
-        $local = env('CDN_URL');
-        $cover = str_replace($local, '//www.aikanqiu.com', $cover);
+//        $local = env('CDN_URL');
+//        $cover = str_replace($local, '//www.aikanqiu.com', $cover);
         return $cover;
     }
 
@@ -100,7 +100,7 @@ class PcArticle extends Model
             'id'=>$this->id,
             'title'=>$this->title,
             'author_name'=>$this->author,
-            'cover'=>env('CDN_URL').$cover,
+            'cover'=>$cover,
             'digest'=>$this->digest,
             'labels'=>$this->labels,
             'elite'=>$this->elite,

@@ -70,19 +70,17 @@ class StreamKeyFrameCommand extends Command
                     if ($room->live_status != AnchorRoom::kLiveStatusLiving) {//开播
                         $room->live_status = AnchorRoom::kLiveStatusLiving;
                         $room->start_at = date_create();
-//                        $con = new AnchorController();
-//                        $this->staticPlayerUrlApp($con, $room);
+                        $room->check_at = date_create();
+                        $room->save();
                     }
                 } else {
                     if ($room->live_status != AnchorRoom::kLiveStatusOffline) {//关播
                         $room->live_status = AnchorRoom::kLiveStatusOffline;
                         $room->close_at = date_create();
-//                        $con = new AnchorController();
-//                        $this->staticPlayerUrlApp($con, $room);
+                        $room->check_at = date_create();
+                        $room->save();
                     }
                 }
-                $room->check_at = date_create();
-                $room->save();
             }
         }
     }

@@ -31,11 +31,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">对赛往绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -50,7 +58,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['hid'])}}">{{$pm['hname']}}</a>
-                                {{$pm['hscore']}} - {{$pm['ascore']}}
+                            </td>
+                            <td>{{$pm['hscore']}} - {{$pm['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['aid'])}}">{{$pm['aname']}}</a>
                             </td>
                             <td>
@@ -66,11 +76,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">{{$match['hname']}}近期战绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -85,7 +103,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['hid'])}}">{{$hm['hname']}}</a>
-                                {{$hm['hscore']}} - {{$hm['ascore']}}
+                            </td>
+                            <td>{{$hm['hscore']}} - {{$hm['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['aid'])}}">{{$hm['aname']}}</a>
                             </td>
                             <td>
@@ -101,11 +121,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">{{$match['aname']}}近期战绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -120,7 +148,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['hid'])}}">{{$am['hname']}}</a>
-                                {{$am['hscore']}} - {{$am['ascore']}}
+                            </td>
+                            <td>{{$am['hscore']}} - {{$am['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['aid'])}}">{{$am['aname']}}</a>
                             </td>
                             <td>
@@ -139,9 +169,8 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                     <table>
                         <thead>
                         <tr>
-                            <th>号码</th>
+                            <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                             <th>姓名</th>
-                            {{--<th>位置</th>--}}
                             <th>首发</th>
                         </tr>
                         </thead>
@@ -149,9 +178,8 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                         @if(isset($lineup['home']))
                             @foreach($lineup['home'] as $hl)
                                 <tr>
-                                    <td><p>{{$hl['num']}}</p></td>
+                                    <td><p>{{$match['sport'] == 1 ? $hl['num'] : $hl['location']}}</p></td>
                                     <td>{{$hl['name']}}</td>
-                                    {{--<td>门将</td>--}}
                                     <td>{{$hl['first'] == 1 ? '是' : '否'}}</td>
                                 </tr>
                             @endforeach
@@ -164,9 +192,8 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                     <table>
                         <thead>
                         <tr>
-                            <th>号码</th>
+                            <th>{{$match['sport'] == 1 ? '号码' : '位置'}}</th>
                             <th>姓名</th>
-                            <th>位置</th>
                             <th>首发</th>
                         </tr>
                         </thead>
@@ -174,9 +201,8 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                         @if(isset($lineup['away']))
                             @foreach($lineup['away'] as $al)
                                 <tr>
-                                    <td><p>{{$al['num']}}</p></td>
+                                    <td><p>{{$match['sport'] == 1 ? $al['num'] : $al['location']}}</p></td>
                                     <td>{{$al['name']}}</td>
-                                    {{--<td>门将</td>--}}
                                     <td>{{$al['first'] == 1 ? '是' : '否'}}</td>
                                 </tr>
                             @endforeach
@@ -229,7 +255,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 @foreach($videos as $video)
                     <div class="item">
                         <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
-                            <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? '/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
+                            <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
                             <p class="con">{{$video['title']}}</p>
                         </a>
                     </div>

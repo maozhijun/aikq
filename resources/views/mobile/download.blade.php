@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="//static.dlfyb.com/css/mobile/style_phone.css?t=201808241105">
-    <link rel="stylesheet" type="text/css" href="//static.dlfyb.com/css/mobile/downloadPhone.css?t=201808141550">
-    <link rel="Shortcut Icon" data-ng-href="//static.dlfyb.com/img/pc/ico.ico" href="//static.cdn.dlfyb.com/img/pc/ico.ico">
-    <link href="img/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201808241105">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/downloadPhone.css?t=201808141550">
+    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
+    <link href="{{env('CDN_URL')}}/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     <title>爱看球APP下载_爱看球官网软件下载-爱看球直播</title>
 </head>
 <script type="text/javascript">
@@ -25,10 +25,10 @@
 </script>
 <body style="padding: 0px;">
 <h1>爱看球APP下载</h1>
-<img src="//static.dlfyb.com/img/mobile/image_bg_top_n.jpg" class="bg">
+<img src="{{env('CDN_URL')}}/img/mobile/image_bg_top_n.jpg" class="bg">
 <div class="downbox">
-    <a id="iOS" href="itms-services://?action=download-manifest&url=https://static.dlfyb.com/test.plist" class="down">iOS下载</a>
-    <a id="Android" href="https://static.dlfyb.com/android.apk" class="down" download="https://static.dlfyb.com/android.apk">安卓下载</a>
+    <a id="iOS" href="itms-services://?action=download-manifest&url={{env('CDN_URL')}}/download/test.plist" class="down">iOS下载</a>
+    <a id="Android" href="{{env('CDN_URL')}}/download/android.apk" class="down" download="{{env('CDN_URL')}}/download/android.apk">安卓下载</a>
     <p class="warm">※安装APP后若无法更新版本，<br/>请先卸载再重新安装</p>
 </div>
 <!-- <p class="ios">苹果用户安装步骤>></p> -->
@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<img src="//static.dlfyb.com/img/mobile/image_bg_down_n.jpg" class="bg">
+<img src="{{env('CDN_URL')}}/img/mobile/image_bg_down_n.jpg" class="bg">
 
 <!-- <div id="Step" step="1" style="display: none;">
     <div class="inner">
@@ -97,8 +97,8 @@
     <button onclick="$(this).parent().css('display','none')"></button>
 </div>
 </body>
-<script src="//static.dlfyb.com/js/jquery.js"></script>
-<script src="//static.dlfyb.com/js/jquery.mobile.js"></script>
+<script src="{{env('CDN_URL')}}/js/jquery.js"></script>
+<script src="{{env('CDN_URL')}}/js/jquery.mobile.js"></script>
 <script type="text/javascript">
     var u = navigator.userAgent;
     var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端

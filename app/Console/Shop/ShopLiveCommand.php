@@ -49,7 +49,7 @@ class ShopLiveCommand extends Command
         $shopCon = new ShopController();
         $json = $shopCon->shopLives(new Request());
         if (isset($json)) {
-            Storage::disk('public')->put('/www/json/shop/lives.json', json_encode($json));
+            Storage::disk('public')->put('/static/json/shop/lives.json', json_encode($json));
         }
     }
 

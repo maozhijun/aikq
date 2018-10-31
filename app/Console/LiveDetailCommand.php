@@ -106,12 +106,10 @@ class LiveDetailCommand extends Command
                     try {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
-                            $url = env('API_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
+                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
                             dump($url);
                             self::flushLiveDetailHtml($url);
-                            //$liveCon->staticLiveDetailById($request, $mid, $sport, $channel['id']);
                         }
-//                        $liveCon->staticLiveDetailById($request, $mid, $sport);
                     } catch (\Exception $exception) {
                         dump($exception);
                     }
@@ -143,7 +141,7 @@ class LiveDetailCommand extends Command
                     try {
                         $channels = $match['channels'];
                         foreach ($channels as $channel) {
-                            $url = env('API_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
+                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
                             dump($url);
                             self::flushLiveDetailHtml($url);
                         }
