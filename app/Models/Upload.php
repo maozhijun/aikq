@@ -14,7 +14,7 @@ class Upload extends Model
     }
 
     public function getEvnUrl() {
-        $prefix = $this->env;
+        $prefix = env('CDN_URL');
         return $prefix."/".$this->disks."/".$this->path;
     }
 }
