@@ -31,11 +31,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">对赛往绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -50,7 +58,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['hid'])}}">{{$pm['hname']}}</a>
-                                {{$pm['hscore']}} - {{$pm['ascore']}}
+                            </td>
+                            <td>{{$pm['hscore']}} - {{$pm['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $pm['lid'], $pm['aid'])}}">{{$pm['aname']}}</a>
                             </td>
                             <td>
@@ -66,11 +76,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">{{$match['hname']}}近期战绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -85,7 +103,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['hid'])}}">{{$hm['hname']}}</a>
-                                {{$hm['hscore']}} - {{$hm['ascore']}}
+                            </td>
+                            <td>{{$hm['hscore']}} - {{$hm['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $hm['lid'], $hm['aid'])}}">{{$hm['aname']}}</a>
                             </td>
                             <td>
@@ -101,11 +121,19 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                 <div class="default">
                     <p class="title">{{$match['aname']}}近期战绩</p>
                     <table>
+                        <colgroup>
+                            <col width="60px">
+                            <col width="65px">
+                            <col>
+                            <col width="70px">
+                            <col>
+                            <col width="45px">
+                        </colgroup>
                         <thead>
                         <tr>
                             <th>赛事</th>
                             <th>时间</th>
-                            <th>对阵</th>
+                            <th  colspan="3">对阵</th>
                             <th>录像</th>
                         </tr>
                         </thead>
@@ -120,7 +148,9 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                             <td><span>{{substr($pDate, 2 , 8)}}</span><br/>{{substr($pDate, 10, 6)}}</td>
                             <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['hid'])}}">{{$am['hname']}}</a>
-                                {{$am['hscore']}} - {{$am['ascore']}}
+                            </td>
+                            <td>{{$am['hscore']}} - {{$am['ascore']}}</td>
+                            <td>
                                 <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $am['lid'], $am['aid'])}}">{{$am['aname']}}</a>
                             </td>
                             <td>
