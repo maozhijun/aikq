@@ -78,7 +78,7 @@ class UrlCommonTool
     }
 
     public static function newsForPageUrl($type) {
-        $prefix = env("API_URL", "http://api.aikq.cc");
+        $prefix = env("CMS_URL", "http://api.aikq.cc");
         return $prefix."/mip/news/$type";
     }
 

@@ -25,7 +25,7 @@ class ArticleDetailCommand extends BaseCommand
         $articles = PcArticle::query()->where('status', PcArticle::kStatusPublish)->get();
         foreach ($articles as $article){
             $ch = curl_init();
-            $url = env('API_URL').'/static/article/'.$article->id;
+            $url = env('CMS_URL').'/static/article/'.$article->id;
             echo "$url <br>";
             curl_setopt($ch, CURLOPT_URL,$url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
