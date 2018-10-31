@@ -40,7 +40,7 @@ class HomeController extends Controller
             'code'=>0,
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
-                'host'=>'https://api.dlfyb.com',
+                'host'=>'http://cms.aikanqiu.com',
                 'ws_host'=>'http://ws.aikanqiu.com',
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
@@ -59,7 +59,7 @@ class HomeController extends Controller
             'code'=>0,
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
-                'host'=>'https://api.dlfyb.com',
+                'host'=>'http://cms.aikanqiu.com',
                 'ws_host'=>'http://ws.aikanqiu.com',
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
@@ -80,7 +80,7 @@ class HomeController extends Controller
             'code'=>0,
             'data'=>[
                 'more'=>'https://shop.liaogou168.com/',
-                'host'=>'https://api.dlfyb.com',
+                'host'=>'http://cms.aikanqiu.com',
                 'ws_host'=>'http://ws.aikanqiu.com',
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
