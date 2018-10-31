@@ -392,7 +392,7 @@ function PlayVideoShare (cid, type){
     else{
         url = window.jsonHost + '/json/pc/anchor/room/url/' + cid + '.json';
     }
-    url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    url = url + '?time=' + (new Date()).getTime();
     console.log(url);
     $.ajax({
         url: url,
