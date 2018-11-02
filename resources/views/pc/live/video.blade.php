@@ -51,7 +51,7 @@
                 @foreach($videos as $video)
                 <?php $vTitle = $video->getVideoTitle(); ?>
                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$vTitle}}">
-                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $video['cover']}}); background-size: cover;"></p>
                     <p class="name">{{$vTitle}}</p>
                 </a>
                 @endforeach
