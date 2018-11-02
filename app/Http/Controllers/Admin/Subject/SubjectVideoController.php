@@ -9,6 +9,8 @@
 namespace App\Http\Controllers\Admin\Subject;
 
 
+use App\Models\LgMatch\BasketStage;
+use App\Models\LgMatch\Stage;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
@@ -87,11 +89,6 @@ class SubjectVideoController extends Controller
         $s_lid = $request->input('s_lid');//sport
         $mid = $request->input('mid');
         $cover = $request->input('cover');//封面图
-//        $hname = $request->input('hname');
-//        $aname = $request->input('aname');
-//        $hscore = $request->input('hscore');
-//        $ascore = $request->input('ascore');
-//        $time = $request->input('time');
 
         if (!is_numeric($mid)) {
             return back()->with('error', '请选择比赛');
@@ -146,6 +143,19 @@ class SubjectVideoController extends Controller
             $s_video->lname = $lname;
             $s_video->time = $match->time;
             $s_video->cover = $cover;
+
+            if (!empty($match->stage)) {
+                $stageId = $match->stage;
+                if ($sport == MatchLive::kSportFootball) {
+                    $stage = Stage::query()->find($stageId);
+                } else if ($sport == MatchLive::kSportBasketball) {
+                    $stage = BasketStage::query()->find($stageId);
+                }
+                if (isset($stage)) {
+                    $s_video->stage_cn = $stage->name;
+                }
+            }
+
             $s_video->save();
             $this->flushVideo($s_video->id);
         } catch (\Exception $exception) {

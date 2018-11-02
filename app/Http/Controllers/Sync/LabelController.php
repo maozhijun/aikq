@@ -70,7 +70,7 @@ class LabelController extends Controller
             $labelArticle = new LabelArticle();
             $labelArticle->label_id = $label_id;
             $labelArticle->article_id = $article_id;
-            $labelArticle->publish_at = $publish_at;
+            //$labelArticle->publish_at = $publish_at;
             $labelArticle->save();
         }
     }

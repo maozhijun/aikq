@@ -90,6 +90,13 @@ class StaticServiceProvider extends ServiceProvider
         SubjectVideoChannels::saved(function($videoChannel) {
             $subCon = new SubjectController();
             $subCon->staticSubjectVideoNew($videoChannel);
+
+            $video = $videoChannel->video;
+            if (isset($video)) {
+                $sport = $video->sport;
+                $mid = $video->mid;
+                TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
+            }
         });
 
         //集锦终端静态化

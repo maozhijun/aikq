@@ -23,10 +23,11 @@
         <div id="Record">
             <p class="title">更多精彩视频</p>
             @foreach($moreVideos as $mv)
+                <?php $vTitle = $mv->getVideoTitle(); ?>
                 <div class="item">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mv['s_lid'], $mv['id'], 'video')}}">
                         <p class="imgbox" style="background: url({{empty($mv['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $mv['cover']}}) no-repeat center; background-size: cover;"></p>
-                        <p class="con">{{$mv['title']}}</p>
+                        <p class="con">{{$vTitle}}</p>
                     </a>
                 </div>
             @endforeach

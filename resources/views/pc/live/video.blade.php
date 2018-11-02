@@ -19,10 +19,10 @@
                     <li>
                         <p class="time">{{date('m/d H:i', strtotime($leagueLive['time']))}}</p>
                         <p class="status">
-                            @if($leagueLive->status == -1)已结束
-                            @elseif($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
-                                <a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>
-                            @endif
+                            {{--@if($leagueLive->status == -1)已结束--}}
+                            {{--@elseif($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))--}}
+                                {{--<a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>--}}
+                            {{--@endif--}}
                         </p>
                         <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
                     </li>
@@ -49,9 +49,10 @@
             <div id="Record">
                 <p class="title">相关录像</p>
                 @foreach($videos as $video)
-                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$video['title']}}">
+                <?php $vTitle = $video->getVideoTitle(); ?>
+                <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$vTitle}}">
                     <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
-                    <p class="name">{{$video['title']}}</p>
+                    <p class="name">{{$vTitle}}</p>
                 </a>
                 @endforeach
             </div>
@@ -327,7 +328,7 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td>@if($more['isMatching'])<a target="_blank" href="{{$url}}">直播中</a>@endif</td>
+                        <td></td>{{-- @if($more['isMatching'])<a target="_blank" href="{{$url}}">直播中</a>@endif --}}
                     </tr>
                     @endforeach
                 </table>

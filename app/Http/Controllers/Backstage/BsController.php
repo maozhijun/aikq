@@ -105,7 +105,7 @@ class BsController extends Controller
         if ($anchor->icon && strlen($anchor->icon) > 0) {
             $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')
                 ->errorCorrection('H')
-                ->merge($anchor->icon, .25, true)
+                //->merge($anchor->icon, .25, true)
                 ->generate(env('APP_URL') . '/anchor/room/' . $room->id . '.html');
         } else {
             $QR = QrCode::format('png')->size(400)->margin(2)->encoding('UTF-8')

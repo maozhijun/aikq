@@ -6,7 +6,7 @@
     <div id="Content">
         <div class="inner">
             <div id="Tab">
-                <a href="info.html">直播信息</a>
+                <a href="info">直播信息</a>
                 <a class="on">评论管理</a>
             </div>
             <div class="box">
