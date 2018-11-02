@@ -83,7 +83,7 @@
                 <!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->
             </div>
             <div class="share" id="Share">
-                {{--复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>--}}
+                复制此地址分享：<input type="text" name="share" value="https://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" onclick="Copy()"><span></span>
             </div>
             <div id="Data">
                 <div class="column">
