@@ -21,9 +21,9 @@
                 <li>{{$ch['title']}}</li>
                 @endforeach
             </section>
-            <mip-iframe allowfullscreen height="210" allowtransparency="true" src="{{$svc['content']}}" class="MyIframe"></mip-iframe>
+            <a href="{{$svc['content']}}" target="_blank"></a>
             @foreach($allChannels as $ch) @continue($ch->id == $svc->id)
-            <mip-iframe allowfullscreen height="210" allowtransparency="true" src="{{$ch['content']}}" class="MyIframe"></mip-iframe>
+            <a href="{{$ch['content']}}" target="_blank"></a>
             @endforeach
         </mip-vd-tabs>
     </div>
@@ -35,7 +35,7 @@
                 <?php $vTitle = $video->getVideoTitle(); ?>
                 <div class="item">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
-                        <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
+                        <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/mobile/image_default_n.jpg' : $video['cover']}}"></mip-img>
                         <p class="con">{{$vTitle}}</p>
                     </a>
                 </div>

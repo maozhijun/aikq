@@ -99,7 +99,7 @@ class SubjectController extends Controller
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         //录像 播放页面
         $svc = $this->getVideoChannel($vid);
-        if (!isset($svc) || !isset($sl)) {
+        if (!isset($svc)) {
             return abort(404);
         }
         $video = $svc->video;
@@ -120,7 +120,6 @@ class SubjectController extends Controller
     public function subjectVideoHtml($video, $svc, $sl) {
         $result['match'] = $video;
         $result['type'] = 'video';
-
         $lname = $video['lname'];
         $hname = $video['hname'];
         $aname = $video['aname'];
@@ -135,7 +134,6 @@ class SubjectController extends Controller
         $result['keywords'] = '爱看球,' . $lname . ',' . $match_title . ',' . $hname . ',' . $aname;
         $result['svc'] = $svc;
         $result['sl'] = $sl;
-        $result['video'] = $video;
         $result['allChannels'] = $allChannels;
         $result['moreVideos'] = $moreVideos;
         $result['articles'] = $articles;

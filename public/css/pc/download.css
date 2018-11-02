@@ -40,10 +40,10 @@ body{
 	content: '';
 }
 .abox .link.ios:before{
-	background: url(/img/pc/icon_ios_n2.png) no-repeat center; background-size: 34px;
+	background: url(http://static.dlfyb.com/img/pc/icon_ios_n2.png) no-repeat center; background-size: 34px;
 }
 .abox .link.android:before{
-	background: url(/img/pc/icon_android_n2.png) no-repeat center; background-size: 34px;
+	background: url(http://static.dlfyb.com/img/pc/icon_android_n2.png) no-repeat center; background-size: 34px;
 }
 
 #Teach{
@@ -92,10 +92,10 @@ body{
 	padding-left: 230px;
 }
 #Teach .con.ios{
-	background: url(/img/pc/icon_ios_blue.png) no-repeat 40px 4px; background-size: 60px;
+	background: url(http://static.dlfyb.com/img/pc/icon_ios_blue.png) no-repeat 40px 4px; background-size: 60px;
 }
 #Teach .con.android{
-	background: url(/img/pc/icon_android_blue.png) no-repeat 40px 4px; background-size: 60px;
+	background: url(http://static.dlfyb.com/img/pc/icon_android_blue.png) no-repeat 40px 4px; background-size: 60px;
 }
 
 .aboxF .warm{
@@ -168,10 +168,10 @@ body{
 		height: 3.7em;
 	}
 	.abox .link.ios:before{
-		background: url(/img/pc/icon_ios_n2.png) no-repeat center; background-size: 24px;
+		background: url(http://static.dlfyb.com/img/pc/icon_ios_n2.png) no-repeat center; background-size: 24px;
 	}
 	.abox .link.android:before{
-		background: url(/img/pc/icon_android_n2.png) no-repeat center; background-size: 24px;
+		background: url(http://static.dlfyb.com/img/pc/icon_android_n2.png) no-repeat center; background-size: 24px;
 	}
 
 	.aboxF .warm{

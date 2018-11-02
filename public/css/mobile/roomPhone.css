@@ -51,7 +51,7 @@
 }
 #Match .vs .time .color{
 	height: 40px;
-	background: url(/img/mobile/icon_cloth_n.png) no-repeat; background-size: 36px;
+	background: url(http://static.dlfyb.com/img/mobile/icon_cloth_n.png) no-repeat; background-size: 36px;
 	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
 }
 #Match .vs .time .color.host{
@@ -173,7 +173,7 @@
 }
 #Anchor .info{
 	padding: 62px 120px 30px 140px;
-	background: url(/img/mobile/image_music_n.png) no-repeat right 20px bottom; background-size: 64px;
+	background: url(http://static.dlfyb.com/img/mobile/image_music_n.png) no-repeat right 20px bottom; background-size: 64px;
 	position: relative;
 }
 #Anchor .info:before{
