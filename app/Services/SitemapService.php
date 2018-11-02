@@ -3,10 +3,19 @@
 namespace App\Services;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\Mip\UrlCommonTool;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketSeason;
+use App\Models\LgMatch\Score;
+use App\Models\LgMatch\Season;
+use App\Models\Match\MatchLive;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class SitemapService
 {
@@ -45,7 +54,7 @@ class SitemapService
         $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
 
         //下载页
-        $downloadHost = '/download.html';
+        $downloadHost = '/download/';
         $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
         $sitemap->add($this->getHostByOffset(self::M_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
         $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
@@ -61,24 +70,105 @@ class SitemapService
      */
     public function buildSubject()
     {
+        $sitemapIndex = App::make("sitemap");
         $sitemap = App::make("sitemap");
-        foreach (Controller::SUBJECT_NAME_IDS as $name=>$item) {
+
+        //把专题详情页的sitemap加入index里
+        $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/subject/index.xml', date(self::YMDHI_FORMAT, time()));
+
+        $subLeagues = SubjectLeague::getAllLeagues();
+        foreach ($subLeagues as $subLeague) {
+            $name = $subLeague['name_en'];
+
             $sitemap->add($this->getHostByOffset(self::WWW_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
             $sitemap->add($this->getHostByOffset(self::M_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
             $sitemap->add($this->getHostByOffset(self::MIP_OFFSET)."/".$name.'/', date(self::YMDHI_FORMAT, time()), '0.9', 'daily');
+
+            //添加专题所有球队的终端页
+            $sitemapIndex = $this->buildSubjectTeams($sitemapIndex, $name, $subLeague['sport'], $subLeague['lid']);
         }
-        $info = $sitemap->store('xml', 'subject', storage_path(self::SITEMAP_STORAGE_PATH));
+        $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/subject/"));
+        $sitemap->store('xml', 'index', storage_path(self::SITEMAP_STORAGE_PATH."/subject"));
+
+        //添加专题最近比赛的终端页
+        $sitemapIndex = $this->buildSubjectLiveDetails($sitemapIndex);
+
+        $info = $sitemapIndex->store('sitemapindex', 'subject', storage_path(self::SITEMAP_STORAGE_PATH));
         Log::info($info);
         return true;
     }
 
     /**
+     * 首页比赛直播
+     */
+    public function buildSubjectLiveDetails($sitemapIndex) {
+        $lives = json_decode(Storage::get("/public/static/json/pc/lives.json"), true);
+        $array = [];
+        foreach ($lives['matches'] as $data => $matches) {
+            foreach ($matches as $key => $match) {
+                list($sport, $mid) = explode("_", $key, 2);
+
+                $liveDetailUrl = CommonTool::getLiveDetailUrl($sport, $match['lid'], $mid);
+                list($empty, $name_en, $other) = explode("/", $liveDetailUrl, 3);
+
+                if (!isset($array[$name_en])) {
+                    $array[$name_en] = App::make("sitemap");
+                }
+                $array[$name_en]->add($this->getHostByOffset(self::WWW_OFFSET).$liveDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                $array[$name_en]->add($this->getHostByOffset(self::M_OFFSET).$liveDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                $array[$name_en]->add($this->getHostByOffset(self::MIP_OFFSET).$liveDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+            }
+        }
+
+        foreach ($array as $name_en=>$sitemap) {
+            $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en/"));
+            $sitemap->store('xml', "live", storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en"));
+
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/$name_en/live.xml", date(self::YMDHI_FORMAT, time()));
+        }
+        return $sitemapIndex;
+    }
+
+    /**
+     * 专题球队终端
+     */
+    public function buildSubjectTeams($sitemapIndex, $name_en, $sport, $lid) {
+        if ($sport == MatchLive::kSportBasketball) {
+            $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = BasketScore::query();
+        } else {
+            $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = Score::query();
+        }
+        if (isset($season)) {
+            AikanQController::leagueRankStatic($sport, $lid);
+            $scores = $query->select('tid')->where('lid', $lid)->where('season', $season->name)->get()->unique('tid');
+
+            $sitemap = App::make("sitemap");
+            foreach ($scores as $score) {
+                $teamUrl = CommonTool::getTeamDetailUrl($sport, $lid, $score['tid']);
+
+                $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$teamUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                $sitemap->add($this->getHostByOffset(self::M_OFFSET).$teamUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$teamUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+            }
+            $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en/"));
+            $info = $sitemap->store('xml', "team", storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en"));
+            Log::info($info);
+
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/$name_en/team.xml", date(self::YMDHI_FORMAT, time()));
+        }
+        return $sitemapIndex;
+    }
+
+
+    /**
      * 资讯终端
-     * @return array
      */
     public function buildArticles()
     {
         $sitemap = App::make("sitemap");
+        $sitemapIndex = App::make("sitemap");
 
         $sitemapName = '';
         $articlesData = [];
@@ -93,7 +183,7 @@ class SitemapService
                         'lastmod' => strtotime($article->updated_at)
                     ];
                 }
-        });
+            });
 
         $lastModTimes = [];
         $index = 0;
@@ -108,13 +198,24 @@ class SitemapService
                 $sitemap->add($this->getHostByOffset(self::M_OFFSET).$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
                 $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$_data['url'], date(self::YMDHI_FORMAT, $_data['lastmod']), '0.8', 'weekly');
             }
-            $info = $sitemap->store('xml','news-' . $name, storage_path(self::SITEMAP_STORAGE_PATH));
+            $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/news/"));
+            $info = $sitemap->store('xml', $name, storage_path(self::SITEMAP_STORAGE_PATH."/news"));
             $lastModTimes[$name] = $lastModTime;
             Log::info($info);
             $sitemap->model->resetItems();
+
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/news/' . $name . '.xml', date(self::YMDHI_FORMAT, $lastModTime));
         }
-        return $lastModTimes;
+
+        $sitemapIndex->store('sitemapindex', 'news', self::SITEMAP_STORAGE_PATH);
+        return true;
     }
+
+
+    /**
+     * ================================================================
+     * ================================================================
+     */
 
     public function buildIndex()
     {
@@ -127,9 +228,7 @@ class SitemapService
             $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/subject.xml', date(self::YMDHI_FORMAT, time()));
         }
         if ($lastModTimes = $this->buildArticles()) {
-            foreach ($lastModTimes as $name => $time) {
-                $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/news-' . $name . '.xml', date(self::YMDHI_FORMAT, $time));
-            }
+            $sitemap->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/news.xml', date(self::YMDHI_FORMAT, time()));
         }
 
         $sitemap->store('sitemapindex', 'sitemap');
@@ -149,5 +248,11 @@ class SitemapService
                 break;
         }
         return $host;
+    }
+
+    protected function fileOnCreate($dir) {
+        if (!file_exists($dir)){
+            mkdir ($dir,0777,true);
+        }
     }
 }

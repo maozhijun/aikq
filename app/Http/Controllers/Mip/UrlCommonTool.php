@@ -111,7 +111,11 @@ class UrlCommonTool
 
     public static function convertHost($host) {
         if (!starts_with($host, "http")) {
-            $host = "https://$host";
+            if (starts_with($host, "//")) {
+                $host = "https:".$host;
+            } else {
+                $host = "https://".$host;
+            }
         }
         return $host;
     }
