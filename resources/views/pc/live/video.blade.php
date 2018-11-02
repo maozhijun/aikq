@@ -24,7 +24,11 @@
                                 {{--<a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>--}}
                             {{--@endif--}}
                         </p>
-                        <p class="team"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</a></p>
+                        @if($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
+                            <p class="team"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</a></p>
+                        @else
+                            <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
+                        @endif
                     </li>
                     @endforeach
                 </ul>
