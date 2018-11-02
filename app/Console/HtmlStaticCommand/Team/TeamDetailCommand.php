@@ -93,6 +93,7 @@ class TeamDetailCommand extends Command
 
     protected static function fromLeagueData($sport, $lid)
     {
+        $hasLeagueData = false;
         if ($sport == MatchLive::kSportBasketball) {
             $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
             $query = BasketScore::query();
@@ -106,7 +107,9 @@ class TeamDetailCommand extends Command
             foreach ($scores as $score) {
                 self::onTeamDetailStaticByTid($sport, $lid, $score->tid);
             }
+            return count($scores) > 0;
         }
+        return $hasLeagueData;
     }
 
     public static function onTeamDetailStaticByMid($sport, $mid)
@@ -126,15 +129,17 @@ class TeamDetailCommand extends Command
             if ($savedLids && strlen($savedLids) > 0) {
                 $lids = explode(",", $savedLids);
             }
-            if (in_array($tempSportLid, $lids)) {
+            $hasLeagueData = false;
+            if (!in_array($tempSportLid, $lids)) {
+                $hasLeagueData = self::fromLeagueData($sport, $lid);
+                $lids[] = $tempSportLid;
+                Redis::set(self::REDIS_KEY_SAVE_LIDS, implode(",", $lids));
+            }
+            if (!$hasLeagueData) {
                 $hid = $match->hid;
                 self::onTeamDetailStaticByTid($sport, $lid, $hid);
                 $aid = $match->aid;
                 self::onTeamDetailStaticByTid($sport, $lid, $aid);
-            } else {
-                self::fromLeagueData($sport, $lid);
-                $lids[] = $tempSportLid;
-                Redis::set(self::REDIS_KEY_SAVE_LIDS, implode(",", $lids));
             }
         }
     }
