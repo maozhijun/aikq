@@ -214,8 +214,9 @@ class SubjectVideo extends Model
         }
     }
 
-    public function getVideoTitle() {
-        return ($this->type == 1 ? $this->getMatchInfo() . ' ' : '') . $this->title;
+    public function getVideoTitle($type = '') {
+        $type = empty($type) ? $this->type : $type;
+        return ($type == 1 ? $this->getMatchInfo() . ' ' : '') . $this->title;
     }
 
 }

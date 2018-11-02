@@ -228,7 +228,7 @@ textarea#Copy{
 }
 #CloseADCode .in button.close{
 	width: 42px; height: 42px;
-	background: url(/img/pc/icon_close_btn_white.png) no-repeat center; background-size: 16px;
+	background: url(http://static.dlfyb.com/img/pc/icon_close_btn_white.png) no-repeat center; background-size: 16px;
 	position: absolute; top: 0; right: 0;	
 }
 #CloseADCode .in div.input{

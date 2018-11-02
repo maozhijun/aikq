@@ -13,12 +13,12 @@ body:before, body:after{
 }
 body:before{
 	width: 124px;
-	background: url(/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	background: url(http://static.dlfyb.com/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
 	left: 0;
 }
 body:after{
 	width: 317px;
-	background: url(/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	background: url(http://static.dlfyb.com/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
 	right: 0;
 }
 
@@ -56,26 +56,26 @@ body:after{
 	position: absolute; top: 95px;
 }
 #Hot button.left{
-	background: url(/img/pc/icon_left_light.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_left_light.png) no-repeat center; background-size: 30px;
 	left: -34px;
 }
 #Hot button.right{
-	background: url(/img/pc/icon_right_light.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_right_light.png) no-repeat center; background-size: 30px;
 	right: -34px;
 }
 #Hot button.left:hover{
-	background: url(/img/pc/icon_left_hover.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_left_hover.png) no-repeat center; background-size: 30px;
 }
 #Hot button.right:hover{
-	background: url(/img/pc/icon_right_hover.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_right_hover.png) no-repeat center; background-size: 30px;
 	right: -34px;
 }
 #Hot button.left:disabled{
-	background: url(/img/pc/icon_left_grey.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_left_grey.png) no-repeat center; background-size: 30px;
 	left: -34px;
 }
 #Hot button.right:disabled{
-	background: url(/img/pc/icon_right_grey.png) no-repeat center; background-size: 30px;
+	background: url(http://static.dlfyb.com/img/pc/icon_right_grey.png) no-repeat center; background-size: 30px;
 	right: -34px;
 }
 #Hot .list{
@@ -109,7 +109,7 @@ body:after{
 #Hot .list .item a .team{
 	height: 80px;
 	padding-top: 50px;
-	background: url(/img/pc/image_bg_match_n.jpg) no-repeat center; background-size: cover;
+	background: url(http://static.dlfyb.com/img/pc/image_bg_match_n.jpg) no-repeat center; background-size: cover;
 	font-size: 0px;
 }
 #Hot .list .item a .team .host, #Hot .list .item a .team .away{
@@ -285,28 +285,8 @@ body:after{
 #Live .list .item a .info p.name span{
 	height: 12px;
 	padding-left: 27px; margin-left: 10px;
-	background: url(/img/pc/icon_number_n.png) no-repeat left center; background-size: auto 12px;
+	background: url(http://static.dlfyb.com/img/pc/icon_number_n.png) no-repeat left center; background-size: auto 12px;
 	color: #95b6e3;
 	display: block;
 	float: right;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
