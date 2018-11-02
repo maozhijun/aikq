@@ -50,7 +50,7 @@
                 <?php $vTitle = $mVideo->getVideoTitle(); ?>
                 <div class="item" title="{{$vTitle}}">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mVideo['s_lid'], $mVideo['id'], 'video')}}">
-                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $mVideo['cover']}}); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $mVideo['cover']}}) center; background-size: cover;"></p>
                         <p class="con">{{$vTitle}}</p>
                     </a>
                 </div>
