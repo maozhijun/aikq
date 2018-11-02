@@ -207,7 +207,7 @@ class SitemapService
             $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . '/sitemap/news/' . $name . '.xml', date(self::YMDHI_FORMAT, $lastModTime));
         }
 
-        $sitemapIndex->store('sitemapindex', 'news', self::SITEMAP_STORAGE_PATH);
+        $sitemapIndex->store('sitemapindex', 'news', storage_path(self::SITEMAP_STORAGE_PATH));
         return true;
     }
 
