@@ -12,7 +12,7 @@
 
         </div>
         <div id="Player">
-            <h1>{{$match->getVideoTitle($svc['type']) . ' ' . $svc['title']}}</h1>
+            <h1>{{$match->getVideoTitle($svc['type'], true) . ' ' . $svc['title']}}</h1>
             <a href="{{$svc['content']}}" target="_blank"></a>
             <div class="list">
                 <ul>

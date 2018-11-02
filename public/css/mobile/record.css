@@ -29,6 +29,11 @@ img.logo{
 	background: #333; 
 	display: block;
 }
+#Video a{
+	width: 100%; height: 420px;
+	background: url(http://static.dlfyb.com/img/pc/icon_pause_n@2x.png) no-repeat center #333; background-size: 140px;
+	display: block;
+}
 #Video .outPlay{
 	width: 100%; height: 420px;
 	/*background: url(../../img/customer2/bg_video.jpg) no-repeat center; background-size: cover;*/
@@ -177,20 +182,3 @@ img.logo{
 		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
 	}
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

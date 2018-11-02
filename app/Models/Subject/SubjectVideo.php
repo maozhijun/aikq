@@ -196,7 +196,7 @@ class SubjectVideo extends Model
         return $query->first();
     }
 
-    public function getMatchInfo() {
+    public function getMatchInfo($showTime = false) {
         $lname = $this->lname;
         $hname = $this->hname;
         $aname = $this->aname;
@@ -206,17 +206,17 @@ class SubjectVideo extends Model
 
         $stage_cn = $this->stage_cn;
         $group = $this->group;
-
+        $time = substr($this->time, 0, 11);
         if (!empty($stage_cn)) {
-            return $season . "" . $lname . "" . $stage_cn . $group . " " .$hname." VS ".$aname;
+            return $season . "" . $lname . "" . $stage_cn . $group . " " .$hname." VS ".$aname . ($showTime ? (' ' . $time ) : '' );
         } else {
-            return $season . "" . $lname . "" .$round . "轮 " . $hname." VS ".$aname;
+            return $season . "" . $lname . "" .$round . "轮 " . $hname." VS ".$aname . ($showTime ? (' ' . $time ) : '' );
         }
     }
 
-    public function getVideoTitle($type = '') {
+    public function getVideoTitle($type = '', $showTime = false) {
         $type = empty($type) ? $this->type : $type;
-        return ($type == 1 ? $this->getMatchInfo() . ' ' : '') . $this->title;
+        return ($type == 1 ? $this->getMatchInfo($showTime) . ' ' : '') . $this->title;
     }
 
 }
