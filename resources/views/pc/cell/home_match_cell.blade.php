@@ -72,7 +72,7 @@
                     $tmp_url = $url;
                 }
                 ?>
-                <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$tmp_url . '#btn=' . $index}}">{{$channel['name']}}</a>
             @endif
         @endforeach
         {{--@if($match['sport'] == 1)--}}

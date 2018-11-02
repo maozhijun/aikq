@@ -79,7 +79,7 @@
                                 <td>
                                     @if($match['status'] >= 0)
                                         @foreach($match['channels'] as $c_index=>$channel)
-                                            <a href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                            <a href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a>
                                         @endforeach
                                     @elseif(isset($fv))
                                         <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>
@@ -120,7 +120,7 @@
                                 <td>
                                     @if($match['status'] >= 0)
                                         @foreach($match['channels'] as $c_index=>$channel)
-                                            <a href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                            <a href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a>
                                         @endforeach
                                     @elseif(isset($fv))
                                         <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($fv['s_lid'], $fv['id'], 'video')}}">全场录像</a>

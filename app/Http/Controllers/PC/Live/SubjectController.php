@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
@@ -18,7 +19,6 @@ use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,16 +43,16 @@ class SubjectController extends Controller
         if (!isset($result) || !isset($result['subject'])) {
             return abort(404);
         }
-        return self::subjectDetailHtml($result, $subjectLeague->id);
+        return self::subjectDetailHtml($result, $subjectLeague);
     }
 
     /**
      * 终端静态化
      * @param $result
-     * @param $slid
+     * @param SubjectLeague $sl
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function subjectDetailHtml($result, $slid) {
+    public static function subjectDetailHtml($result, SubjectLeague $sl) {
         //处理专题内容
         $subject = $result['subject'];
         $content = $subject['content'];
@@ -83,7 +83,8 @@ class SubjectController extends Controller
         }
         $subjectName = $subject['name'];
         $result['hasRound'] = $hasRound;
-        $result['slid'] = $slid;
+        $result['slid'] = $sl['id'];
+        $result['ma_url'] = self::getMobileHttpUrl("/".$sl['name_en']."/");
         return view('pc.subject.detail', $result);
     }
 
@@ -139,6 +140,7 @@ class SubjectController extends Controller
         $result['moreVideos'] = $moreVideos;
         $result['articles'] = $articles;
 
+        $result['ma_url'] = self::getMobileHttpUrl(CommonTool::getVideosDetailUrlByPc($video['s_lid'], $svc['id'], 'video'));
         return view('pc.video.detail', $result);
     }
 
@@ -521,29 +523,4 @@ class SubjectController extends Controller
             Storage::disk("public")->put("/www/live/subject/player.html", $html);
         }
     }
-
-
-
-    //================================================公共方法================================================//
-
-    /**
-     * 请求url获取文本
-     * @param $url
-     * @param int $timeout
-     * @return mixed|string
-     */
-    public static function execUrl($url, $timeout = 5) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-        $server_output = curl_exec ($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close ($ch);
-        if ($code >= 400 || empty($server_output)) {
-            return "";
-        }
-        return $server_output;
-    }
-
 }

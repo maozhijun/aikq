@@ -64,7 +64,7 @@ class DetailCommand extends Command
         if (!isset($result) || !isset($result['subject'])) {
             return;
         }
-        $html = SubjectController::subjectDetailHtml($result, $sl->id);
+        $html = SubjectController::subjectDetailHtml($result, $sl);
         if (!empty($html)) {
             $name_en = $sl->name_en;
             Storage::disk("public")->put("/www/$name_en/index.html", $html);

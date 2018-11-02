@@ -10,12 +10,13 @@ namespace App\Http\Controllers\PC\Anchor;
 
 use App\Events\ChatPushNotification;
 use App\Http\Controllers\Admin\TrieStoreFilter;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
 use App\Models\Anchor\AnchorRoomTag;
 use App\Models\Match\Odd;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
@@ -41,6 +42,7 @@ class AnchorController extends Controller
         $result['description'] = "爱看球主播频道，资深主播为你解说各种体育赛事，包含NBA、英超、西甲、中超、法甲、欧冠等各类热门足球直播，还有美女主播陪你看哦。";
         $result['hotMatches'] = $tmp;
         $result['check'] = 'anchor';
+        $result['ma_url'] = self::getMobileHttpUrl("/anchor/");
         return view('pc.anchor.index',$result);
     }
 
@@ -64,6 +66,7 @@ class AnchorController extends Controller
         $result['title'] = '资深主播'.$anchor->name.'_爱看球直播';
         $result['keywords'] = "爱看球主播,".$anchor->name.',体育直播,资深主播';
         $result['description'] = "爱看球主播频道，资深主播".$anchor->name."正在为你解说体育直播。";
+        $result['ma_url'] = self::getMobileHttpUrl("/anchor/room$room_id.html");
         return view('pc.anchor.room',$result);
     }
 

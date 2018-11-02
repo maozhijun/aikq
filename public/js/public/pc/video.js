@@ -35,7 +35,7 @@ function GetQueryString(str,href) {
     }else{
         Href = location.href;
     };
-    var rs = new RegExp("([\?&])(" + str + ")=([^&#]*)(&|$|#)", "gi").exec(Href);
+    var rs = new RegExp("([\?&#])(" + str + ")=([^&#]*)(&|$|#)", "gi").exec(Href);
     if (rs) {
         return decodeURI(rs[3]);
     } else {
