@@ -13,25 +13,44 @@
 /*播放区域*/
 #Player{
 	height: 380px;
+	padding-top: 48px;
 	margin-bottom: 20px; padding-right: 240px;
 	background: #234981;
 	position: relative;
 }
-#Player iframe{
-	width: 100%; height: 100%;
-}
-#Player .list{
-	width: 240px;
-	padding-top: 48px;
-	position: absolute; top: 0; bottom: 0; right: 0;
-}
-#Player .list h1{
+#Player h1{
 	height: 48px;
 	padding-left: 10px;
 	background: #183663;
 	font-size: 16px; line-height: 48px; color: #fff; font-weight: normal;
 	position: absolute; top: 0; left: 0; right: 0;
 	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#Player iframe{
+	width: 100%; height: 100%;
+}
+#Player > a{
+	width: 100%; height: 100%;
+	background: url(http://static.dlfyb.com/img/pc/bg.jpg) no-repeat center bottom #000; background-size: cover;
+	position: relative;
+	display: block;
+}
+#Player > a:before{
+	background: rgba(0,0,0,0.5);
+	position: absolute; top: 0; bottom: 0; right: 0; left: 0;
+	content: '';
+}
+#Player > a:after{
+	width: 80px; height: 80px;
+	margin: -40px 0 0 -40px;
+	background: url(http://static.dlfyb.com/img/pc/icon_pause_n@2x.png) no-repeat center; background-size: 80px;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+#Player .list{
+	width: 240px;
+	padding-top: 48px;
+	position: absolute; top: 0; bottom: 0; right: 0;
 }
 #Player .list ul{
 	height: 100%;
@@ -45,7 +64,7 @@
 	cursor: pointer;
 }
 #Player .list ul li:first-child{
-	margin-top: 14px;
+	margin-top: 10px;
 }
 #Player .list ul li .imgbox{
 	width: 130px; height: 70px;
@@ -172,42 +191,3 @@
 	font-size: 12px; line-height: 40px; text-align: center; clear: #666;
 	overflow: hidden;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

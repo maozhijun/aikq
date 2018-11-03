@@ -8,6 +8,8 @@
     <meta name="Keywords" content="爱看球,app下载">
     <meta name="Description" content="爱看球手机APP,足球、NBA、电竞赛事免费看。">
     <meta http-equiv="X-UA-Compatible" content="edge" />
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{env('M_URL')}}/download/">
+    <meta http-equiv="mobile-agent" content="format=html5; url={{env('M_URL')}}/download/">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">

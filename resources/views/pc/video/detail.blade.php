@@ -8,16 +8,17 @@
         <div id="Crumb">
             <a href="/">爱看球</a>
             @if(isset($sl))&nbsp;&nbsp;>&nbsp;&nbsp;<a href="/{{$sl['name_en']}}">{{$sl['name']}}</a>@endif
-            &nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$svc['title']}}</span>
+            &nbsp;&nbsp;>&nbsp;&nbsp;<span class="on">{{$match->getVideoTitle($svc['type']) . ' ' . $svc['title']}}</span>
+
         </div>
         <div id="Player">
-            <iframe src="{{$svc['content']}}"></iframe>
+            <h1>{{$match->getVideoTitle($svc['type'], true) . ' ' . $svc['title']}}</h1>
+            <a href="{{$svc['content']}}" target="_blank"></a>
             <div class="list">
-                <h1>{{$video['hname']}} vs {{$video['aname']}}</h1>
                 <ul>
                     @foreach($allChannels as $ch)
                     <li @if($ch['id'] == $svc['id']) class="on" @endif >
-                        <p class="imgbox" style="background: url({{empty($ch['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $ch['cover']}}); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($ch['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $ch['cover']}}); background-size: cover;"></p>
                         <a class="con" @if($ch['id'] != $svc['id']) href="video{{$ch['id']}}.html" @endif >{{$ch['title']}}</a>
                     </li>
                     @endforeach
@@ -49,7 +50,7 @@
                 <?php $vTitle = $mVideo->getVideoTitle(); ?>
                 <div class="item" title="{{$vTitle}}">
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($mVideo['s_lid'], $mVideo['id'], 'video')}}">
-                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $mVideo['cover']}}); background-size: cover;"></p>
+                        <p class="imgbox" style="background: url({{empty($mVideo['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $mVideo['cover']}}) center; background-size: cover;"></p>
                         <p class="con">{{$vTitle}}</p>
                     </a>
                 </div>

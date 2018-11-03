@@ -13,6 +13,10 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
+    @if(isset($ma_url))
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{$ma_url}}">
+    <meta http-equiv="mobile-agent" content="format=html5; url={{$ma_url}}">
+    @endif
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?time={{date('YmdHi')}}">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">

@@ -17,34 +17,12 @@ img.logo{
 	position: absolute; bottom: 44px; left: 0;
 	display: block;
 }
-
-/*.tabbox{
-	height: 44px;
-	padding: 0 12px;
-	background: #fff;
-	box-shadow: 0 2px 2px 0 rgba(2, 33, 127, 0.17);
-	position: fixed; top: 255px; left: 0; right: 0; z-index: 1;
-	white-space: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+#Video a{
+	width: 100%; height: 210px;
+	background: url(http://static.dlfyb.com/img/pc/icon_pause_n@2x.png) no-repeat center #333; background-size: 70px;
+	position: absolute; bottom: 44px; left: 0;
+	display: block;
 }
-.tabbox button{
-	height: 44px;
-	padding: 0 20px;
-	background: none;
-	font-size: 14px; text-align: center;
-	position: relative;
-	display: inline-block;
-}
-.tabbox button.on{
-	color: #4492fd;
-}
-.tabbox button.on:before{
-	width: 0; bottom: 0;
-	margin-left: -6px;
-	border-top: 6px solid #4492fd; border-left: 6px solid transparent; border-right: 6px solid transparent;
-	position: absolute; top: 0; left: 50%;
-	content: '';
-}
-*/
 /*内容区域*/
 #Content{
 	
@@ -102,46 +80,3 @@ img.logo{
 	background: url(http://static.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
-
-
-/*@media only screen and (min-device-width: 320px) and (min-device-height: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait){ 
-	#Video{
-		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
-	}
-	.tabbox{
-		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
-	}
-}
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait){ 
-	#Video{
-		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
-	}
-	.tabbox{
-		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
-	}
-}
-@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation : portrait){ 
-	#Video{
-		position: sticky; position: -webkit-sticky; top: 88px; z-index: 2;
-	}
-	.tabbox{
-		position: sticky; position: -webkit-sticky; top: 596px; z-index: 2;
-	}
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

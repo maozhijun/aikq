@@ -23,11 +23,11 @@
             $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
         ?>
         <p class="info">{{$sportName}}&nbsp;&nbsp;&nbsp;&nbsp;{{$match['league_name']}}&nbsp;&nbsp;{{date('m-d H:i', strtotime($match['time']))}}</p>
-        <p class="match">{{$match['hname']}}&nbsp;&nbsp;VS&nbsp;&nbsp;{{$match['aname']}}</p>
+        <p class="match"><a target="_blank" href="{{$url}}">{{$match['hname']}}&nbsp;VS&nbsp;{{$match['aname']}}</a></p>
         @if(isset($channels) && count($channels) > 0)
         <p class="line">
             @foreach($channels as $index=>$channel)
-                {{--<a target="_blank" href="/live/{{$type}}/{{$match['mid']}}.html?btn={{$index}}">{{$channel['name']}}</a>--}}
+                {{--<a target="_blank" href="/live/{{$type}}/{{$match['mid']}}.html#btn={{$index}}">{{$channel['name']}}</a>--}}
 
                 @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
                     <a target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
@@ -40,7 +40,7 @@
                         $tmp_url = $url;
                     }
                     ?>
-                    <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$channel['name']}}</a>
+                    <a target="_blank" href="{{$tmp_url . '#btn=' . $index}}">{{$channel['name']}}</a>
                 @endif
             @endforeach
         </p>

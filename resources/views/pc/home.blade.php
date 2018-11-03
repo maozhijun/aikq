@@ -83,8 +83,7 @@
                         <th colspan="10">{{date_format(date_create($time),'Y年m月d日')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$week_array[$week]}}</th>
                     </tr>
                     @foreach($match_array as $match)
-                        @component('pc.cell.home_match_cell',['match'=>$match])
-                        @endcomponent
+                        @include('pc.cell.home_match_cell',['match'=>$match])
                     @endforeach
                     @if($bj == 0 && $loop->index == 0)
                         <?php

@@ -97,7 +97,11 @@ class Controller extends BaseController
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
         }
         $server_out = curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
+        if ($code >= 400 || empty($server_output)) {
+            return "";
+        }
         return $server_out;
     }
 
@@ -109,5 +113,17 @@ class Controller extends BaseController
         } catch (\Exception $exception) {
             echo $exception->getMessage();
         }
+    }
+
+    protected static function getMobileHttpUrl($path) {
+        $mobileUrl = env('M_URL');
+        if (!starts_with($mobileUrl, "http")) {
+            if (starts_with($mobileUrl, "//")) {
+                $mobileUrl = "https:".$mobileUrl;
+            } else {
+                $mobileUrl = "https://".$mobileUrl;
+            }
+        }
+        return $mobileUrl.$path;
     }
 }

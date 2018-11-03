@@ -85,7 +85,7 @@
                             @endif
                             <td>
                                 @foreach($match['channels'] as $c_index=>$channel)
-                                    <a target="_blank" href="{{$liveUrl}}?btn={{$c_index}}">{{$channel['name']}}</a>
+                                    <a target="_blank" href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a>
                                 @endforeach
                             </td>
                         </tr>

@@ -10,6 +10,7 @@ namespace App\Http\Controllers\PC\Live;
 
 use App\Console\LiveDetailCommand;
 use App\Console\NoStartPlayerJsonCommand;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\IntF\CmsController;
 use App\Http\Controllers\IntF\MatchController;
@@ -23,7 +24,6 @@ use App\Models\Match\RelationVideo;
 use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
@@ -219,6 +219,7 @@ class LiveController extends Controller
         $json['check'] = 'all';
         $json['arts'] = $articles;
         $json['isIndex'] = true;
+        $json['ma_url'] = self::getMobileHttpUrl("");
 //        dump($articles);
         return view('pc.home', $json);
     }
@@ -237,6 +238,7 @@ class LiveController extends Controller
         $json['week_array'] = array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
         $json['title'] = "视频调用_爱看球";
         $json['check'] = 'business';
+        $json['ma_url'] = self::getMobileHttpUrl("/business.html");
         return view('pc.business', $json);
     }
 

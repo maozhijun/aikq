@@ -24,7 +24,11 @@
                                 {{--<a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>--}}
                             {{--@endif--}}
                         </p>
-                        <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
+                        @if($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
+                            <p class="team"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</a></p>
+                        @else
+                            <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
+                        @endif
                     </li>
                     @endforeach
                 </ul>
@@ -51,7 +55,7 @@
                 @foreach($videos as $video)
                 <?php $vTitle = $video->getVideoTitle(); ?>
                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}" title="{{$vTitle}}">
-                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}); background-size: cover;"></p>
+                    <p class="imgbox" style="background: url({{empty($video['cover']) ? env('CDN_URL').'/img/pc/akq_pc_default_n.jpg' : $video['cover']}}); background-size: cover;"></p>
                     <p class="name">{{$vTitle}}</p>
                 </a>
                 @endforeach
@@ -83,7 +87,7 @@
                 <!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->
             </div>
             <div class="share" id="Share">
-                {{--复制此地址分享：<input type="text" name="share" value="" onclick="Copy()"><span></span>--}}
+                复制此地址分享：<input type="text" name="share" value="https://www.aikanqiu.com/live/spPlayer/player-{{$match['mid']}}-{{$match['sport']}}.html" onclick="Copy()"><span></span>
             </div>
             <div id="Data">
                 <div class="column">
@@ -300,18 +304,15 @@
                         <col width="100">
                     </colgroup>
                     @foreach($moreLives as $more)
+                        <?php
+                        $mChannels = $more['channels'];
+                        $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($more['sport'], $more['lid'], $more['mid']);
+                        ?>
                     <tr>
                         <td>{{$more['league_name']}}</td>
                         <td>{{substr($more['time'], 5, 11)}}</td>
-                        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['hid'])}}">{{$more['hname']}}</a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;VS
-                            <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['aid'])}}">{{$more['aname']}}</a>
-                        </td>
+                        <td><a target="_blank" href="{{$url}}">{{$more['hname']}}&nbsp;VS&nbsp;{{$more['aname']}}</a></td>
                         <td>
-                            <?php
-                            $mChannels = $more['channels'];
-                            $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($more['sport'], $more['lid'], $more['mid']);
-                            ?>
                             @foreach($mChannels as $mch)
                                 @if(isset($mch['player']) && $mch['player'] == 16){{-- 外链 --}}
                                 <a target="_blank" href="/live/ex-link/{{$mch['id']}}">{{$mch['name']}}</a>
@@ -324,7 +325,7 @@
                                         $tmp_url = $url;
                                     }
                                     ?>
-                                    <a target="_blank" href="{{$tmp_url . '?btn=' . $index}}">{{$mch['name']}}</a>
+                                    <a target="_blank" href="{{$tmp_url . '#btn=' . $index}}">{{$mch['name']}}</a>
                                 @endif
                             @endforeach
                         </td>

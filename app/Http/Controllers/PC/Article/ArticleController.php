@@ -50,6 +50,7 @@ class ArticleController extends Controller
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
         $result['check'] = "news";
+        $result['ma_url'] = self::getMobileHttpUrl("/news/");
         return view('pc.article.news', $result);
     }
 
@@ -129,7 +130,7 @@ class ArticleController extends Controller
         //相关文章
         $res = PcArticle::relationsArticle($detail->id, $detail->type, 10,$isBaidu);
         $result['res'] = $res;
-        $result['ma_url'] = 'http://'.env('M_URL').$detail->url;
+        $result['ma_url'] = self::getMobileHttpUrl($detail->url);
         return view('pc.article.article', $result);
     }
 

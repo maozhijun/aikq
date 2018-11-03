@@ -9,11 +9,11 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class SubjectVideoController extends Controller

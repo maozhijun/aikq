@@ -11,6 +11,7 @@ use App\Models\LgMatch\Season;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Storage;
  */
 class TeamDetailCommand extends Command
 {
+    const REDIS_KEY_SAVE_LIDS = 'team_detail_save_lids';
+
     /**
      * The name and signature of the console command.
      *
@@ -53,42 +56,44 @@ class TeamDetailCommand extends Command
     {
         $type = $this->argument('type');
         if ($type == "lives") {
-            $this->fromLivesData();
+            self::fromLivesData();
         } else if ($type == "subject") {
             $sleagues = SubjectLeague::getAllLeagues();
             foreach ($sleagues as $sl) {
                 dump($sl->sport. "_". $sl->lid);
-                $this->fromLeagueData($sl->sport, $sl->lid);
+                self::fromLeagueData($sl->sport, $sl->lid);
             }
         } else if (starts_with($type, "lid")) {
             $sport = substr($type, 3, 1);
             $lid = substr($type, 4);
-            $this->fromLeagueData($sport, $lid);
+            self::fromLeagueData($sport, $lid);
         } else if (starts_with($type, "mid")) {
             $sport = substr($type, 3, 1);
             $mid = substr($type, 4);
-            $this->fromMid($sport, $mid);
+            self::fromMid($sport, $mid);
         }
     }
 
-    protected function fromLivesData()
+    protected static function fromLivesData()
     {
         $lives = json_decode(Storage::get("/public/static/json/pc/lives.json"), true);
         foreach ($lives['matches'] as $data => $matches) {
             foreach ($matches as $key => $match) {
                 list($sport, $mid) = explode("_", $key, 2);
+                dump($sport, $mid);
                 self::onTeamDetailStaticByMid($sport, $mid);
             }
         }
     }
 
-    protected function fromMid($sport, $mid)
+    protected static function fromMid($sport, $mid)
     {
         self::onTeamDetailStaticByMid($sport, $mid);
     }
 
-    protected function fromLeagueData($sport, $lid)
+    protected static function fromLeagueData($sport, $lid)
     {
+        $hasLeagueData = false;
         if ($sport == MatchLive::kSportBasketball) {
             $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
             $query = BasketScore::query();
@@ -102,7 +107,9 @@ class TeamDetailCommand extends Command
             foreach ($scores as $score) {
                 self::onTeamDetailStaticByTid($sport, $lid, $score->tid);
             }
+            return count($scores) > 0;
         }
+        return $hasLeagueData;
     }
 
     public static function onTeamDetailStaticByMid($sport, $mid)
@@ -116,10 +123,24 @@ class TeamDetailCommand extends Command
             $lid = $match->lid;
             AikanQController::leagueRankStatic($sport, $lid);
 
-            $hid = $match->hid;
-            self::onTeamDetailStaticByTid($sport, $lid, $hid);
-            $aid = $match->aid;
-            self::onTeamDetailStaticByTid($sport, $lid, $aid);
+            $savedLids = Redis::get(self::REDIS_KEY_SAVE_LIDS);
+            $tempSportLid = $sport."_".$lid;
+            $lids = [];
+            if ($savedLids && strlen($savedLids) > 0) {
+                $lids = explode(",", $savedLids);
+            }
+            $hasLeagueData = false;
+            if (!in_array($tempSportLid, $lids)) {
+                $hasLeagueData = self::fromLeagueData($sport, $lid);
+                $lids[] = $tempSportLid;
+                Redis::set(self::REDIS_KEY_SAVE_LIDS, implode(",", $lids));
+            }
+            if (!$hasLeagueData) {
+                $hid = $match->hid;
+                self::onTeamDetailStaticByTid($sport, $lid, $hid);
+                $aid = $match->aid;
+                self::onTeamDetailStaticByTid($sport, $lid, $aid);
+            }
         }
     }
 

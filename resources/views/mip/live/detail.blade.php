@@ -256,7 +256,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
                     <?php $vTitle = $video->getVideoTitle(); ?>
                     <div class="item">
                         <a href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($video['s_lid'], $video['id'], 'video')}}">
-                            <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/pc/video_bg.jpg' : $video['cover']}}"></mip-img>
+                            <mip-img height="100" layout="responsive" src="{{empty($video['cover']) ? env('CDN_URL').'/img/mobile/image_default_n.jpg' : $video['cover']}}"></mip-img>
                             <p class="con">{{$vTitle}}</p>
                         </a>
                     </div>
