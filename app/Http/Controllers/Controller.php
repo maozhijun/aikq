@@ -99,7 +99,7 @@ class Controller extends BaseController
         $server_out = curl_exec ($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close ($ch);
-        if ($code >= 400 || empty($server_output)) {
+        if ($code >= 400 || empty($server_out)) {
             return "";
         }
         return $server_out;

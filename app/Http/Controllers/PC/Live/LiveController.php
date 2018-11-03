@@ -799,6 +799,8 @@ class LiveController extends Controller
                     Storage::disk("public")->put($mipPath, $mipHtml);
                 }
             }
+            //保存 线路json文件
+            $this->staticMatchChannelsJson($mid, $sport);
             //每一个比赛的player页面生成
             $this->staticLiveDetailPlayerAndJson($request, $mid, $sport);
             //$this->staticLiveChannelsJson($request, $mid, $sport);
@@ -1244,6 +1246,53 @@ class LiveController extends Controller
         $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
         return $json;
+    }
+
+    public function staticMatchChannelsJson($mid, $sport) {
+        //TODO
+        $query = \App\Models\Match\MatchLive::query()->where('match_id', $mid);
+        $query->where('sport', $sport);
+        $matchLive = $query->first();
+        if (!isset($matchLive)) return;
+
+        $pcChannels = $matchLive->kAiKqChannels();
+        $mChannels = $this->getMobileChannels($matchLive, $pcChannels);
+
+        //重新处理接口内容，以免暴露过多信息
+        $pcArray = [];
+        foreach ($pcChannels as $ch) {
+            //channelId/player/name/type
+            $pcArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
+        }
+
+        $mArray = [];
+        foreach ($mChannels as $ch) {
+            $mArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
+        }
+
+        $pcJson = json_encode($pcArray);
+        $mJson = json_encode($mArray);
+        Storage::disk("public")->put("static/json/pc/channels/$sport/$mid.json", $pcJson);
+        Storage::disk("public")->put("static/json/m/channels/$sport/$mid.json", $mJson);
+    }
+
+    protected function getMobileChannels($live, $pcChannels) {
+        $channels = [];
+        if (!isset($live)) {
+            return $channels;
+        }
+        $mChannels = $live->mAiKqChannels();
+        if (count($mChannels) == 0) {
+            if (count($pcChannels) > 0) {
+                $channels= [$pcChannels[count($pcChannels) - 1]];
+            } else {
+                $channels = [];
+            }
+        } else {
+            $channels = $mChannels;
+        }
+        //判断是否有移动线路，如果没有，则取一条PC线路显示。
+        return $channels;
     }
 
     public function appLiveDetail(Request $request,$sport,$mid){

@@ -16,7 +16,7 @@ function setPage(){
         });
     }
 
-    LoadVideo();
+    //LoadVideo();
 
     $('#Data .column a').click(function(){
         if (!$(this).hasClass('on')) {
