@@ -25,10 +25,10 @@
                     if (isset($room_tag) && $room_tag['show_score']) {
                         if (isset($room_tag['h_color'])) {
                             $matchText .= $match['hname']
-                                .'<span id="home_color" class="color" style="background: '.$room_tag['h_color'].';"></span>'
-                                .' <strong id="match_score">'.$match['hscore'].' - '.$match['ascore'].'</strong> '
-                                .'<span id="away_color" class="color" style="background: '.$room_tag['a_color'].';"></span>'
-                                . $match['aname'];
+                                    .'<span id="home_color" class="color" style="background: '.$room_tag['h_color'].';"></span>'
+                                    .' <strong id="match_score">'.$match['hscore'].' - '.$match['ascore'].'</strong> '
+                                    .'<span id="away_color" class="color" style="background: '.$room_tag['a_color'].';"></span>'
+                                    . $match['aname'];
                         } else {
                             $matchText .= $match['hname'].' <strong id="match_score">'.$match['hscore'].' - '.$match['ascore'].'</strong> '. $match['aname'];
                         }
@@ -65,7 +65,8 @@
 @endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor.js?201808311700"></script>
-    <script src="{{env('CDN_URL')}}/js/public/pc/client.js"></script>
+    {{--<script src="{{env('CDN_URL')}}/js/public/pc/client.js"></script>--}}
+    <script src="http://static.dlfyb.com/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();
@@ -140,18 +141,49 @@
             return new Uint8Array(new Uint32Array(m).buffer);
         };
 
-        var userId = '{{ csrf_token() }}';
-        var roomId = '{{$room_id}}';
-        var client = new MyClient({
-            notify: function(data) {
-                console.log(data);
-//            alert(JSON.stringify(data));
-                var json = eval('(' + data + ')');
-                console.log(json);
-                $('#Chat ul').append('<li><span>'+json['nickname']+'：</span>'+json['message']+'</li>');
-                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
+                {{--var userId = '{{ csrf_token() }}';--}}
+                {{--var roomId = '99_{{$room_id}}';--}}
+                {{--var client = new MyClient({--}}
+                {{--notify: function(data) {--}}
+                {{--console.log(data);--}}
+                {{--//            alert(JSON.stringify(data));--}}
+                {{--var json = eval('(' + data + ')');--}}
+                {{--console.log(json);--}}
+                {{--$('#Chat ul').append('<li><span>'+json['nickname']+'：</span>'+json['message']+'</li>');--}}
+                {{--$("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);--}}
+                {{--}--}}
+                {{--});--}}
+
+        var socket = io.connect('{{env('WS_URL')}}',{reconnect:'false',transports: ['websocket']});
+        socket.on('connect', function (data) {
+            console.log('connect');
+            var mid = '{{'99_'.$room_id}}';
+            var time = Date.parse( new Date())/1000 + '';
+            var key = mid + '?' + time.substring(time.length - 1) + '_' + time.substring(time.length - 2);
+            var key = new Uint8Array(encodeUTF8(key));
+            var result = md5(key);
+            var in_string = Array.prototype.map.call(result,function(e){
+                return (e<16?"0":"")+e.toString(16);
+            }).join("");
+            var req = {
+                'mid':mid,
+                'time':time,
+                'verification':in_string,
+            }
+            socket.emit('user_mid', req);
+        });
+
+        socket.on('server_send_message', function (data) {
+            console.log(data);
+            if (data['type'] && data['type'] == 99){
+            }
+            else {
+                if (top && top.window.parentComment && top.window.parentComment()) {
+                    popText(data['message'], data['nickname']);
+                }
             }
         });
+
 
         function send() {
             var message = document.getElementById('text').value;
@@ -181,12 +213,12 @@
                     'time':time,
                     'verification':in_string,
                     'nickname':nickname,
-                    'mid':'{{$room_id}}',
+                    'mid':'99_{{$room_id}}',
                 };
             }
             $.ajax({
                 type: 'POST',
-                url: '/app/v120/anchor/chat/post',
+                url: '{{env('CMS_URL')}}/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);
@@ -222,7 +254,7 @@
         }
 
         window.onbeforeunload = function () {
-//            socket.disconnect();
+            socket.disconnect();
         }
     </script>
 @endsection

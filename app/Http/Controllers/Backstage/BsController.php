@@ -636,6 +636,7 @@ class BsController extends Controller
     {
         $host = env('PUSH_URL', 'http://live.push.qiushengke.com');
         $url = $host . '/api/v1/get_push_stream?uid=' . $room_id . '&level=' . $level . ($refresh ? '&refresh=1' : '');
+        //http://live.push.qiushengke.com/api/v1/get_push_stream?uid=1&level=1&refresh=1
         $jsonStr = \App\Http\Controllers\Controller::execUrl($url, 5, $isHttp);
         $json = json_decode($jsonStr, true);
         return $json;
