@@ -24,11 +24,11 @@
                                 {{--<a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">直播中</a>--}}
                             {{--@endif--}}
                         </p>
-                        @if($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))
+{{--                        @if($leagueLive->status > 0 && \App\Models\Match\MatchLive::isLive($leagueLive['id'], $sport, \App\Models\Match\MatchLiveChannel::kPlatformPC))--}}
                             <p class="team"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $leagueLive['id'])}}">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</a></p>
-                        @else
-                            <p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>
-                        @endif
+                        {{--@else--}}
+                            {{--<p class="team">{{$leagueLive['hname']}} VS {{$leagueLive['aname']}}</p>--}}
+                        {{--@endif--}}
                     </li>
                     @endforeach
                 </ul>
@@ -353,10 +353,12 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
         setPage();
     }
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime());
 </script>
 @endsection
