@@ -221,7 +221,9 @@ class MatchLive extends Model
         $lid = $this->league_id;
         if (!isset($lid)) {
             $match = $this->getMatch();
-            $lid = $match->lid;
+            if(isset($match) && isset($match->lid)){
+                $lid = $match->lid;
+            }
         }
 
         for ($index = 0 ; $index < count($channels) ; $index++) {
