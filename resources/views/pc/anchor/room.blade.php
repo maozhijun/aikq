@@ -66,7 +66,7 @@
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor.js?201808311700"></script>
     {{--<script src="{{env('CDN_URL')}}/js/public/pc/client.js"></script>--}}
-    <script src="http://static.dlfyb.com/js/public/pc/socket.io.js"></script>
+    <script src="{{env('CDN_URL')}}/js/public/pc/socket.io.js"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();
@@ -154,7 +154,7 @@
                 {{--}--}}
                 {{--});--}}
 
-        var socket = io.connect('{{env('WS_URL')}}',{reconnect:'false',transports: ['websocket']});
+        var socket = io.connect('https://ws.aikanqiu.com',{reconnect:'false',transports: ['websocket']});
         socket.on('connect', function (data) {
             console.log('connect');
             var mid = '{{'99_'.$room_id}}';
@@ -178,9 +178,8 @@
             if (data['type'] && data['type'] == 99){
             }
             else {
-                if (top && top.window.parentComment && top.window.parentComment()) {
-                    popText(data['message'], data['nickname']);
-                }
+                $('#Chat ul').append('<li><span>'+data['nickname']+'：</span>'+data['message']+'</li>');
+                $("#Chat ul").scrollTop($("#Chat ul")[0].scrollHeight);
             }
         });
 
@@ -218,7 +217,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '{{env('CMS_URL')}}/app/v120/anchor/chat/post',
+                url: '{{env('API_URL')}}/app/v120/anchor/chat/post',
                 data: req,
                 success: function (data) {
                     console.log(data);

@@ -97,7 +97,8 @@ class SubjectVideo extends Model
 
         $obj = ['id'=>$video->id, 'mid'=>$video->mid, 'lname'=>$lname,  'hname'=>$video->hname, 'aname'=>$video->aname, 'hscore'=>$video->hscore, 'round'=>$video->round,
                     'ascore'=>$video->ascore, 'time'=>$time, 'season'=>$video->season, 'group'=>$video->group, 'sport'=>$video->sport, 's_lid'=>$video->s_lid];
-
+        $obj['hid'] = $video->hid;
+        $obj['aid'] = $video->aid;
         $match = Match::query()->find($video->mid);
         if (isset($match)) {
             $hid = $match->hid;

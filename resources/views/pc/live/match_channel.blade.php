@@ -108,7 +108,7 @@
     //统计
     function log() {
         _hmt.push(['_trackEvent', 'gotoIndex', '0822']);
-        top.location.href = 'http://mp.dlfyb.com';
+        top.location.href = 'https://www.aikanqiu.com';
         return;
     }
 

@@ -36,9 +36,9 @@
             </td>
             <td>{{date('H:i', $match['time'])}}</td>
             <td></td>
-            <td>{{$match['hname']}}</td>
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
             <td>{{$match['hscore'] . ' - ' . $match['ascore']}}</td>
-            <td>{{$match['aname']}}</td>
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
             <td>
                 @if(isset($firstCh))
                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $firstCh['id'], 'video')}}">观看录像</a>
