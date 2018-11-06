@@ -153,7 +153,7 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             if ($channel->use == MatchLiveChannel::kUseAiKQ) {
-                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $this->match_id);
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, 0, $this->match_id);
             }
             $array[] = $tmp;
         }
@@ -223,7 +223,7 @@ class MatchLive extends Model
             $tmp['mid'] = $this->match_id;
             $tmp['sport'] = $this->sport;
             if ($channel->use == MatchLiveChannel::kUseAiKQ) {
-                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $this->match_id);
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, 0, $this->match_id);
             }
             $array[] = $tmp;
         }
@@ -266,7 +266,7 @@ class MatchLive extends Model
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $channel->akq_url;
             if ($channel->use == MatchLiveChannel::kUseAiKQ) {
-                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, $this->match_id);
+                $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, 0, $this->match_id);
             }
             if(isset($channel->akq_url) && strlen($channel->akq_url) > 0){
                 $params = explode('/',$channel->akq_url);
