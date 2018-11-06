@@ -1054,7 +1054,7 @@ class AikanQController extends Controller
                 $round = $match->round;
             }
             $obj = ['time'=>$time, 'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
-                'hid'=>$match->hid, 'aid'=>$match->aid,
+                'hid'=>$match->hid, 'aid'=>$match->aid, 'lid'=>$match->lid,
                 'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport, 'round'=>$round];
             $liveQuery = MatchLive::query()->where('match_id', $mid)->where('sport',$sport);
             $live = $liveQuery->first();

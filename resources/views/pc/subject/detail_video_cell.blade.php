@@ -23,7 +23,10 @@
             <th colspan="7">{{date('Y年m月d日', $day)}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$weekCnArray[date('w', $day)]}}</th>
         </tr>
         @foreach($matches as $match)
-        <?php $firstCh = isset($match['channels'][0]) ? $match['channels'][0] : null; ?>
+        <?php
+            $firstCh = isset($match['channels'][0]) ? $match['channels'][0] : null;
+            $lid = isset($match['lid']) ? $match['lid'] : 0;
+        ?>
         <tr>
             <td>
                 @if($hasRound)
@@ -36,9 +39,9 @@
             </td>
             <td>{{date('H:i', $match['time'])}}</td>
             <td></td>
-            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $lid, $match['hid'])}}">{{$match['hname']}}</a></td>
             <td>{{$match['hscore'] . ' - ' . $match['ascore']}}</td>
-            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $lid, $match['aid'])}}">{{$match['aname']}}</a></td>
             <td>
                 @if(isset($firstCh))
                 <a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getVideosDetailUrlByPc($slid, $firstCh['id'], 'video')}}">观看录像</a>

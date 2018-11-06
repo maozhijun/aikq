@@ -318,7 +318,7 @@ class CommonTool
      * @param $mid
      * @return string
      */
-    public static function getLiveDetailUrl($sport, $lid, $mid) {
+    public static function getLiveDetailUrl($sport, $lid = 0, $mid) {
         $tempData = self::getDetailNameDataByMid($mid, $sport);
 
         $tempMid = $tempData['name'];

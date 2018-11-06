@@ -94,7 +94,7 @@
                     </tbody>
                 </table>
                 @if(isset($videos) && count($videos) > 0)
-                    @component("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid]) @endcomponent
+                    @include("pc.subject.detail_video_cell", ['lives'=>$videos, 'weekCnArray'=>$weekCnArray, 'slid'=>$slid])
                 @endif
             </div>
         </div>
