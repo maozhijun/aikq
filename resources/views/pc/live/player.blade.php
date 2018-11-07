@@ -29,6 +29,7 @@
 
 <script type="text/javascript">
     window.jsonHost = '{{env("API_URL")}}';
+
     function isMobileWithJS() {
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1; //android终端或者uc浏览器
@@ -49,13 +50,13 @@
     window.host = window.location.host;//'{{$host}}';
     window.isMobile = isMobileWithJS();
     window.cdn_url = '{{$cdn}}';
-    if (window.cdn_url && window.cdn_url != "") {
-        window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
-    }
+    // if (window.cdn_url && window.cdn_url != "") {
+    //     window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
+    // }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script src="<?php echo env('CDN_URL'); ?>/js/public/pc/socket.io.js"></script>
-<script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201809061137"></script>
+<script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201809061100"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {

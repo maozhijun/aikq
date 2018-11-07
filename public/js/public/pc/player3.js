@@ -1,8 +1,9 @@
-var CKHead = '/js/public/pc/ckplayer/';
+var CKHead = window.cdn_url + '/js/public/pc/ckplayer/';
 var maxTimeOut = 0, ad_time = 0;
 // var ad_l = '/img/pc/ankanqiu_six.jpg', ad_d = '/img/pc/ankanqiu_six.jpg', ad_z = '/img/pc/ankanqiu_six.jpg', ad_w = '/img/pc/ankanqiu_six.jpg';
-var ad_l = '/img/pc/demo.jpg', ad_d = '/img/pc/demo.jpg', ad_z = '/img/pc/demo.jpg', ad_w = '/img/pc/demo.jpg';
-var cd = '/img/pc/image_qr_868.jpg', cd_name = 'kanqiu8888', cd_text = '与球迷赛事交流，乐享高清精彩赛事！';
+var ad_l = window.cdn_url + '/img/pc/demo.jpg', ad_d = window.cdn_url + '/img/pc/demo.jpg', ad_z = window.cdn_url + '/img/pc/demo.jpg';
+var ad_w = window.cdn_url + '/img/pc/demo.jpg';
+var cd = window.cdn_url + '/img/pc/image_qr_868.jpg', cd_name = window.cdn_url + 'kanqiu8888', cd_text = window.cdn_url + '与球迷赛事交流，乐享高清精彩赛事！';
 var WXCodeRun = false, firstShowCode = false;
 var active_text = '';//'加微信{font color="#e3f42c"}【fs188fs】{/font}\n球迷乐享超清精彩赛事';
 var active_code = '';//'/img/pc/code.jpg';//'/img/pc/i_wx_code.jpg';
