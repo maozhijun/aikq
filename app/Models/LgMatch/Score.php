@@ -75,22 +75,24 @@ class Score extends Model
      * @return array
      */
     public static function footballCupScores($lid) {
-        $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
-        $year = $season->name;//获取最后的赛季
-        $query = self::query();
-        $query->join('teams', 'teams.id', '=', 'scores.tid');
-        $query->where('lid', $lid);
-        $query->where('season', $year);
-        $query->orderBy('group')->orderByDesc('score');
-        $query->orderByRaw('(goal - fumble) desc');
-        $query->selectRaw('teams.name as tname, scores.*');
-        $scores = $query->get();
         $array = [];
-        foreach ($scores as $score) {
-            $g = $score->group;
-            $array[$g][] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>1,
-                'group'=>$g, 'score'=>$score->score, 'win'=>$score->win, 'draw'=>$score->draw, 'name'=>$score->tname,
-                            'lose'=>$score->lose, 'count'=>$score->count, 'goal'=>$score->goal, 'fumble'=>$score->fumble];
+        $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        if ($season) {
+            $year = $season->name;//获取最后的赛季
+            $query = self::query();
+            $query->join('teams', 'teams.id', '=', 'scores.tid');
+            $query->where('lid', $lid);
+            $query->where('season', $year);
+            $query->orderBy('group')->orderByDesc('score');
+            $query->orderByRaw('(goal - fumble) desc');
+            $query->selectRaw('teams.name as tname, scores.*');
+            $scores = $query->get();
+            foreach ($scores as $score) {
+                $g = $score->group;
+                $array[$g][] = ['tid' => $score->tid, 'lid' => $score->lid, 'sport' => 1,
+                    'group' => $g, 'score' => $score->score, 'win' => $score->win, 'draw' => $score->draw, 'name' => $score->tname,
+                    'lose' => $score->lose, 'count' => $score->count, 'goal' => $score->goal, 'fumble' => $score->fumble];
+            }
         }
         return $array;
     }
