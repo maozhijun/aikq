@@ -70,7 +70,7 @@ class HomeController extends Controller
                 'android_install_url'=>'https://static.dlfyb.com/download/android.apk',
                 'install_url'=>'itms-services://?action=download-manifest&url=https://static.dlfyb.com/download/test.plist',
                 'anchor'=>1,
-                'showMore'=>'1',
+                'showMore'=>'0',
             ]
         );
     }
@@ -91,7 +91,7 @@ class HomeController extends Controller
                 'android_install_url'=>'https://static.dlfyb.com/download/android.apk',
                 'install_url'=>'itms-services://?action=download-manifest&url=https://static.dlfyb.com/download/test.plist',
                 'anchor'=>1,
-                'showMore'=>'1',
+                'showMore'=>'0',
             ]
         );
     }
