@@ -44,22 +44,16 @@
         P.innerHTML = Text;
         document.body.appendChild(P)
     }
+    window.jsonHost = '{{env("API_URL")}}';
     window.host = window.location.host;
+    window.cdn_url = '{{env("CDN_URL")}}';
 //{{--    window.isMobile = '{{\App\Http\Controllers\Controller::isMobileUAgent($_SERVER['HTTP_USER_AGENT'])}}';--}}
             window.isMobile = isMobileWithJS();
-    window.cdn_url = '{{$cdn}}';
-    if (window.cdn_url && window.cdn_url != "") {
-        window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
-    }
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/anchor_player2.js?rd={{date('YmdHi')}}"></script>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/client.js?rd={{date('YmdHi')}}"></script>
 <script type="text/javascript">
-    window.jsonHost = '{{env("API_URL")}}';
-    $.ajaxSetup({
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-    });
     var _hmt = _hmt || [];
     (function() {
         var hm = document.createElement("script");
