@@ -250,15 +250,15 @@ class MatchController extends Controller
 
         try {
             //创建外链
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 1,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 11,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto);
 
             //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 2,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
                 MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto);
 
             //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 2,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
                 MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto);
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
