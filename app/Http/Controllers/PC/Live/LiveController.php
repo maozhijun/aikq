@@ -666,10 +666,14 @@ class LiveController extends Controller
     /**
      * 播放器
      * @param Request $request
+     * @param $nr int 是否带ref
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function player(Request $request){
-        return view('pc.live.player',array('cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
+    public function player(Request $request, $nr = 0){
+        $result['cdn'] = env('CDN_URL');
+        $result['host'] = 'www.aikanqiu.com';
+        $result['nr'] = $nr;
+        return view('pc.live.player',$result);
     }
 
     public function share(Request $request){
@@ -767,6 +771,7 @@ class LiveController extends Controller
                     Storage::disk("public")->put($mPath, $mHtml);
                 }
                 $mipHtml = $mipCon->footballDetail($request, $mid, true);
+//                echo $mipPath;
                 if (!empty($mipHtml)) {
                     Storage::disk("public")->put($mipPath, $mipHtml);
                 }
@@ -858,12 +863,15 @@ class LiveController extends Controller
      */
     public function staticLiveUrl(Request $request, $id, $has_mobile = false, $sport = null) {
         try {
-            $player = $this->player($request);
+
             $sport = !isset($sport) ? $request->input('sport',1) : $sport;
             $has_mobile = $has_mobile || $request->input('has_mobile') == 1;
             $aiCon = new AikanQController();
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
+
             $jsonData = json_decode(json_encode($jsonStr), true);
+            $playurl = $jsonData['playurl'];
+            $player = $this->player($request, preg_match('/ws.live.sjmhw.com/', $playurl) );
             $origin_json = $jsonData;
             $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {
@@ -1261,12 +1269,14 @@ class LiveController extends Controller
         //重新处理接口内容，以免暴露过多信息
         $pcArray = [];
         foreach ($pcChannels as $ch) {
+            if ($ch['player'] == MatchLiveChannel::kPlayerExLink) continue;
             //channelId/player/name/type
             $pcArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
         }
 
         $mArray = [];
         foreach ($mChannels as $ch) {
+            if ($ch['player'] == MatchLiveChannel::kPlayerExLink) continue;
             $mArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
         }
 

@@ -220,20 +220,20 @@ class MatchController extends Controller
         $sport = $request->input('sport');
 
         if (empty($room_num)) {
-            return response()->json(['code'=>401, 'message'=>'房间号码不能为空']);
+            return response()->json(['code'=>401, 'msg'=>'房间号码不能为空']);
         }
         if (!is_numeric($match_id)) {
-            return response()->json(['code'=>401, 'message'=>'比赛ID不能为空']);
+            return response()->json(['code'=>401, 'msg'=>'比赛ID不能为空']);
         }
         if (!in_array($sport, [1, 2, 3])) {
-            return response()->json(['code'=>401, 'message'=>'竞技类型错误']);
+            return response()->json(['code'=>401, 'msg'=>'竞技类型错误']);
         }
 
         $url = "https://www.lehuzhibo.com/lua-cgi/line-info?id=".$room_num;
         $out = \App\Http\Controllers\Controller::execUrl($url, 2, true);
         $json = json_decode($out, true);
         if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
-            return response()->json(['code'=>500, 'message'=>'获取观看地址失败']);
+            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
         }
         $flv = $json['hls'];
         $m3u8 = $json['m3u8'];
