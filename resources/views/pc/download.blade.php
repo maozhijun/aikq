@@ -8,8 +8,8 @@
     <meta name="Keywords" content="爱看球,app下载">
     <meta name="Description" content="爱看球手机APP,足球、NBA、电竞赛事免费看。">
     <meta http-equiv="X-UA-Compatible" content="edge" />
-    <meta http-equiv="mobile-agent" content="format=xhtml; url={{env('M_URL')}}/download/">
-    <meta http-equiv="mobile-agent" content="format=html5; url={{env('M_URL')}}/download/">
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{env('M_URL')}}/download/index.html">
+    <meta http-equiv="mobile-agent" content="format=html5; url={{env('M_URL')}}/download/index.html">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
@@ -36,7 +36,7 @@
         <a class="column" href="/news/">资讯</a>
         <!--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>-->
         <a class="column" href="/business.html" target="_blank">源调用</a>
-        <a class="column on" href="/download/" target="">下载</a>
+        <a class="column on" href="/download/index.html" target="">下载</a>
     </div>
 </div>
 <div id="Content">

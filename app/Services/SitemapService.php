@@ -54,7 +54,7 @@ class SitemapService
         $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$newsHost, date(self::YMDHI_FORMAT, time()), '1.0', 'daily');
 
         //下载页
-        $downloadHost = '/download/';
+        $downloadHost = '/download/index.html';
         $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
         $sitemap->add($this->getHostByOffset(self::M_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');
         $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$downloadHost, date(self::YMDHI_FORMAT, time()), '1.0', 'weekly');

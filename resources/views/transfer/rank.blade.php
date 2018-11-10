@@ -26,7 +26,7 @@
         @endforeach
     </ul>
     <!--广告-->
-    <a href="/download/" class="banner"><img src="{{env('CDN_URL')}}/transfer/img/image_banner_n.jpg"></a>
+    <a href="/download/index.html" class="banner"><img src="{{env('CDN_URL')}}/transfer/img/image_banner_n.jpg"></a>
 </body>
 <script type="text/javascript" src="{{env('CDN_URL')}}/transfer/js/common.js?time=20000006"></script>
 <script type="text/javascript">

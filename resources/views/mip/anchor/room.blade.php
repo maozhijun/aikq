@@ -14,7 +14,7 @@
 @section("content")
     <div id="Video">
         <p>主播正在客户端直播~~</p>
-        <a href="/download/">点击下载app观看</a>
+        <a href="/download/index.html">点击下载app观看</a>
     </div>
     <div id="Anchor">
         <div class="info">

@@ -26,7 +26,7 @@
 @endsection
 
 @section('content')
-    <a href="/download/"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
+    <a href="/download/index.html"><img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a>
     <?php $week_array = array('周日','周一','周二','周三','周四','周五','周六'); ?>
     @foreach($matches as $time=>$match_array)
         <?php $week = date('w', strtotime($time)); ?>
@@ -41,7 +41,7 @@
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>
-    <p id="PC"><a href="/download/">下载爱看球APP，流畅度快3倍<br/>www.aikanqiu.ccom</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
+    <p id="PC"><a href="/download/index.html">下载爱看球APP，流畅度快3倍<br/>www.aikanqiu.ccom</a><button class="close" onclick="this.parentNode.style.display='none'"></button></p>
 @endsection
 
 @section('bottom')

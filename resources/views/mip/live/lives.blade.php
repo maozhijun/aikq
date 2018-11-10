@@ -15,7 +15,7 @@
     </div>
 @endsection
 @section('content')
-    <div class="publicAd"><a href="/download/"><mip-img src="{{env('CDN_URL')}}/img/mip/image_ad_wap.jpg"></mip-img></a></div>
+    <div class="publicAd"><a href="/download/index.html"><mip-img src="{{env('CDN_URL')}}/img/mip/image_ad_wap.jpg"></mip-img></a></div>
     <mip-lightbox id="my-lightbox" layout="nodisplay" class="mip-hidden">
         <div class="lightbox" id="League">
             <div class="title">专题分类</div>

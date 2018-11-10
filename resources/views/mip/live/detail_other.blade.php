@@ -41,7 +41,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
             </mip-iframe>
             <div class="publicAd"><mip-img width="100%" src="{{env('CDN_URL')}}/img/pc/banner_app_868.jpg"></mip-img></div>
         @else
-            <div class="publicAd"><a href="/download/"><img src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a></div>
+            <div class="publicAd"><a href="/download/index.html"><img src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg"></a></div>
             <div class="outPlay">
                 {{--<img src="{{\App\Http\Controllers\Mip\UrlCommonTool::MIP_PREFIX}}/img/customer2/icon_video_live.png">--}}
                 {{--<p class="reciprocal">距离比赛还有<span>05：30</span></p>--}}
