@@ -17,7 +17,6 @@
         <div class="select">{{isset($firstCh) ? $firstCh['name'] : '线路一'}}</div>
         <select>
             @foreach($channels as $channel)
-                @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
                 <?php
                 $content = $channel['link'];
                 $player = $channel['player'];
@@ -26,8 +25,14 @@
                 } else {
                     $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
                 }
+                $ex = $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink;
+                if ($ex) {
+                    $url = $content;
+                } else {
+                    $url = env('WWW_URL') . $link;
+                }
                 ?>
-            <option value="{{env('WWW_URL') . $link}}">{{$channel['name']}}</option>
+            <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
             @endforeach
         </select>
         @endif
@@ -309,6 +314,18 @@
     <script type="text/javascript">
         window.onload = function () {
             setPage();
+        }
+
+        function setSelect () {
+            var Target = $('#Navigation select');
+            var $op = Target.find("option:selected");
+            var ex = $op.attr("ex");
+            if (ex == 1) {
+                location.href = $op.val();
+            } else {
+                $('#MyIframe').attr('src',Target.val());
+                $('#Navigation .select').text(Target.find("option:selected").text());
+            }
         }
     </script>
 @endsection
