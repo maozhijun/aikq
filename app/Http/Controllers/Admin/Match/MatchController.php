@@ -246,7 +246,7 @@ class MatchController extends Controller
         $show = MatchLiveChannel::kShow;
         $isPrivate = MatchLiveChannel::kIsPrivate;
         $use = MatchLiveChannel::kUseAiKQ;
-        $auto = MatchLiveChannel::kAutoSpider;
+        $auto = MatchLiveChannel::kAutoHand;
 
         try {
             //创建外链
