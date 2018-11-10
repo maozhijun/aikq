@@ -13,6 +13,7 @@
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
+                            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
                             <?php
                                 $player = $channel['player'];
                                 if ($player == 11) {

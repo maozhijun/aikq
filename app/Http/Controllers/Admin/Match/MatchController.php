@@ -210,6 +210,63 @@ class MatchController extends Controller
     }
 
     /**
+     * 抓取乐虎直播线路
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveLHChannel(Request $request) {
+        $room_num = $request->input('room_num');
+        $match_id = $request->input('match_id');
+        $sport = $request->input('sport');
+
+        if (empty($room_num)) {
+            return response()->json(['code'=>401, 'message'=>'房间号码不能为空']);
+        }
+        if (!is_numeric($match_id)) {
+            return response()->json(['code'=>401, 'message'=>'比赛ID不能为空']);
+        }
+        if (!in_array($sport, [1, 2, 3])) {
+            return response()->json(['code'=>401, 'message'=>'竞技类型错误']);
+        }
+
+        $url = "https://www.lehuzhibo.com/lua-cgi/line-info?id=".$room_num;
+        $out = \App\Http\Controllers\Controller::execUrl($url, 2, true);
+        $json = json_decode($out, true);
+        if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
+            return response()->json(['code'=>500, 'message'=>'获取观看地址失败']);
+        }
+        $flv = $json['hls'];
+        $m3u8 = $json['m3u8'];
+        $lehu_url = "https://www.lehuzhibo.com/room/".$room_num.".html";
+
+        $channelType = MatchLiveChannel::kTypeOther;
+        $flvPlayer = MatchLiveChannel::kPlayerFlv;
+        $m3u8Player = MatchLiveChannel::kPlayerM3u8;
+        $exPlayer = MatchLiveChannel::kPlayerExLink;
+        $show = MatchLiveChannel::kShow;
+        $isPrivate = MatchLiveChannel::kIsPrivate;
+        $use = MatchLiveChannel::kUseAiKQ;
+        $auto = MatchLiveChannel::kAutoSpider;
+
+        try {
+            //创建外链
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 1,
+                MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto);
+
+            //创建电脑端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 2,
+                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto);
+
+            //创建手机端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 2,
+                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto);
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'msg'=>'保存失败']);
+        }
+        return response()->json(['code'=>200, 'msg'=>'保存成功']);
+    }
+
+    /**
      * 保存直播线路
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

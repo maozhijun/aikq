@@ -18,7 +18,7 @@
             <option value="13" @if(isset($channel) && $channel->player == 13) selected @endif >m3u8</option>
             <option value="14" @if(isset($channel) && $channel->player == 14) selected @endif >flv</option>
             <option value="15" @if(isset($channel) && $channel->player == 15) selected @endif >rtmp</option>
-            {{--<option value="16" @if(isset($channel) && $channel->player == 16) selected @endif >外链</option>--}}
+            <option value="16" @if(isset($channel) && $channel->player == 16) selected @endif >外链</option>
             {{--<option value="17" @if(isset($channel) && $channel->player == 17) selected @endif >clappr</option>--}}
         </select>
         <select name="show">

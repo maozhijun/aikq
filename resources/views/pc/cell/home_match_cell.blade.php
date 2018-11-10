@@ -62,7 +62,7 @@
     <td>
         @foreach($channels as $index=>$channel)
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
             @else
                 <?php
                 if(isset($channel['akq_url']) && strlen($channel['akq_url']) > 0){

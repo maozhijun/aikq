@@ -884,7 +884,7 @@ class LiveController extends Controller
                 if (str_contains($appData['playurl'],'www.aikanqiu.com/live/otherPlayer/justfun.html')){
                     $appData['playurl'] = explode('=',$appData['playurl'])[1];
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
-                    dump($appData['playurl']);
+//                    dump($appData['playurl']);
                     $appData['type'] = '98';
                 }
                 else{

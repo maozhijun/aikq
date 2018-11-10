@@ -17,6 +17,7 @@
         <div class="select">{{isset($firstCh) ? $firstCh['name'] : '线路一'}}</div>
         <select>
             @foreach($channels as $channel)
+                @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
                 <?php
                 $content = $channel['link'];
                 $player = $channel['player'];
