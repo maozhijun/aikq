@@ -80,7 +80,7 @@ class LeHuChannelCommand extends BaseCommand
                             $json = self::getLeHuLink($matchLiveChannel->room_num);
                             if (is_null($json)) continue;
                             $player = $matchLiveChannel->player;
-                            if ($player == MatchLiveChannel::kPlayerFlv && isset($json['m3u8'])) {
+                            if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
                                 $matchLiveChannel->content = $json['m3u8'];
                                 $matchLiveChannel->save();
                             } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
@@ -105,11 +105,11 @@ class LeHuChannelCommand extends BaseCommand
             $out = Controller::execUrl($url, 1, true);
             $json = json_decode($out, true);
             if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
-                dump("获取观看地址失败");
+                //dump("获取观看地址失败");
                 return null;
             }
             $info = $json;
-            Redis::setEx($key, 60 * 10, json_encode($json) );
+            Redis::setEx($key, 60 * 5, json_encode($json) );
         }
 //        dump($room_num . " = " . json_encode($info) );
         return $info;

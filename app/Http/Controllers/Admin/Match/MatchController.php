@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\Match;
 
 
 
+use App\Console\HtmlStaticCommand\LeHuChannelCommand;
 use App\Models\AdConf;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\League;
@@ -353,14 +354,7 @@ class MatchController extends Controller
         if ($type != MatchLiveChannel::kTypeCode) {
             $h_content = '';
         }
-        //根据线路填写内容 自动选择播放平台。
-//        if (preg_match("/^rtmp:\/\//", $content) || preg_match("/.flv/", $content)) {
-//            $platform = MatchLiveChannel::kPlatformPC;
-//        } else if (preg_match("/.m3u8/", $content)) {
-//            $platform = MatchLiveChannel::kPlatformAll;
-//        } else if (strlen($content) < 6) {//预留线路，显示为全部
-//            $platform = MatchLiveChannel::kPlatformAll;
-//        }
+
         $admin = $request->_account;
         $admin_id = $admin->id;
 
@@ -379,6 +373,21 @@ class MatchController extends Controller
         $channel->ad = $ad;
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
+
+        //乐虎线路刷新 开始
+        $room_num = $channel->room_num;
+        if (!empty($room_num) && $player != MatchLiveChannel::kPlayerExLink) {
+            $lh_line = LeHuChannelCommand::getLeHuLink($room_num);
+            if (isset($lh_line)) {
+                if ($player == MatchLiveChannel::kPlayerFlv && isset($lh_line['hls'])) {
+                    $channel->content = $lh_line['hls'];
+                } else {
+                    $channel->content = $lh_line['m3u8'];
+                }
+            }
+        }
+        //乐虎线路刷新 结束
+
 
         if (!isset($match)) {
             if ($sport == MatchLive::kSportFootball) {
@@ -409,9 +418,6 @@ class MatchController extends Controller
             Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存线路失败']);
         }
-        //$this->flush310Live($match_id, $sport, $channel->id);
-        //$this->flushAikqLive($match_id, $sport, $channel->id);
-        //$this->flushHeiTuLive($match_id, $sport, $channel->id);
         return response()->json(['code'=>200, 'msg'=>'保存线路成功']);
     }
 
