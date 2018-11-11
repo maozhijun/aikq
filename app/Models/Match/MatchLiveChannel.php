@@ -251,10 +251,11 @@ class MatchLiveChannel extends Model
      * @param $isPrivate = 1   是否有版权，1：无版权，2：有版权。配合 $use 使用，一般有版权的 $use 用爱看球。
      * @param $use = 1        网站专用，1：通用，2：爱看球，3：黑土，4：lg310。其他：待添加
      * @param $auto = 1          是否自动抓取/手动抓取
+     * @param $room_num string  乐虎房间号
      * @return mixed       返回保存是否成功，成功返回 null，失败返回 $exception
      */
-    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1, $auto = self::kAutoSpider) {
-        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use, $auto) {
+    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1, $auto = self::kAutoSpider, $room_num = null) {
+        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use, $auto, $room_num) {
             $live = MatchLive::query()->where('match_id', $matchId)->where('sport', $sport)->first();
             if (isset($live)) {
                 $live_id = $live->id;
@@ -272,6 +273,7 @@ class MatchLiveChannel extends Model
                     $channel->show = $show;
                     $channel->isPrivate = $isPrivate;
                     $channel->use = $use;
+                    $channel->room_num = $room_num;
                     $channel->save();
                 }
             } else {
@@ -288,8 +290,11 @@ class MatchLiveChannel extends Model
                 $channel->platform = $platform;
                 $channel->player = $player;
                 $channel->od = $od;
-                $channel->auto = self::kAutoSpider;
+                $channel->auto = $auto;
                 $channel->show = $show;
+                $channel->isPrivate = $isPrivate;
+                $channel->use = $use;
+                $channel->room_num = $room_num;
                 $channel->save();
             }
         });
