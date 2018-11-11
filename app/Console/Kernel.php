@@ -15,6 +15,7 @@ use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
 use App\Console\HtmlStaticCommand\Article\ArticleDetailCommand;
 use App\Console\HtmlStaticCommand\Article\ArticlePageCommand;
 use App\Console\HtmlStaticCommand\IndexCommand;
+use App\Console\HtmlStaticCommand\LeHuChannelCommand;
 use App\Console\HtmlStaticCommand\OtherPlayerCommand;
 use App\Console\HtmlStaticCommand\Subject\DetailCommand;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
@@ -52,6 +53,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         IndexCommand::class,//直播 列表静态化                  DB
         LiveDetailCommand::class,//PC终端、移动终端html缓存。  DB
+        LeHuChannelCommand::class,//刷新乐虎线路播放链接
 
         PlayerJsonCommand::class,//静态化赛前1小时和正在比赛的 线路         DB
         NoStartPlayerJsonCommand::class,//静态化 赛前1小时前未开始的 线路   DB
@@ -137,6 +139,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('index_cache:run all')->everyMinute();//每分钟刷新主页缓存
 
         //$schedule->command('live_detail_cache:run')->everyFiveMinutes();//每5分钟刷新终端缓存  在保存的时候静态化
+        $schedule->command('lh_channel:run all')->everyTenMinutes();//刷新乐虎直播线路
 
         $schedule->command('player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次正在直播的比赛的线路内容 在保存的时候静态化
         //$schedule->command('ns_player_json_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次未开始比赛的线路内容 一小时内执静态化所有的json 在保存的时候静态化
