@@ -57,10 +57,16 @@ function setPage () {
     $('#Video button:first').trigger("click");
 
 
-    setSelect ();
+    // setSelect ();
     $('#Navigation select').change(function(){
-        setSelect ();
-    })
+        setSelect (this);
+    });
+    $('#Unload select').change(function(){
+        setSelect (this);
+        $('#Navigation select').val($(this).val()).css('display','');
+    });
+
+
 
     $('#Content .tabbox button').click(function(){
         if (!$(this).hasClass('on')) {
@@ -96,10 +102,21 @@ function videoActive() {
     });
 }
 
-function setSelect () {
-    var Target = $('#Navigation select');
-    $('#MyIframe').attr('src',Target.val())
-    $('#Navigation .select').text(Target.find("option:selected").text());
+function setSelect (obj) {
+    var Target = $(obj);
+    var src = Target.val();
+    if (src == "") {
+        return;
+    }
+    var $op = Target.find("option:selected");
+    var ex = $op.attr("ex");
+    if (ex == 1) {
+        location.href = $op.val();
+    } else {
+        $('#Unload').css('display','none');
+        $('#MyIframe').attr('src', src);
+        $('#Navigation .select').css('display','').text(Target.find("option:selected").text());
+    }
 }
 
 

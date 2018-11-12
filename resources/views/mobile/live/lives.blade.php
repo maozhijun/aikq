@@ -47,11 +47,11 @@
                 if ($impt == 2) {
                     $impt_style = 'style="color:#bc1c25;"';
                 }
-                if (!empty($link) && preg_match('/lehuzhibo\.com/', $link)) {
-                    $url = $link;
-                } else {
+//                if (!empty($link) && preg_match('/lehuzhibo\.com/', $link)) {
+//                    $url = $link;
+//                } else {
                     $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'],$match['mid']);
-                }
+//                }
                 ?>
                 @if($match['sport'] == 3)
                     <a href="{{$url}}">

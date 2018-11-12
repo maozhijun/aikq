@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=1112">
 @endsection
 <?php
     $channels = isset($live) ? $live['channels'] : [];
@@ -14,8 +14,8 @@
         @if(isset($h1))<h1>{{$h1}}</h1>@endif
         <div class="banner"><a class="home" href="/"></a>{{$match['win_lname']}}比赛直播</div>
         @if(isset($channels))
-        <div class="select">{{isset($firstCh) ? $firstCh['name'] : '线路一'}}</div>
-        <select>
+        <div class="select" style="display: none;">{{isset($firstCh) ? $firstCh['name'] : '线路一'}}</div>
+        <select style="display: none;">
             @foreach($channels as $channel)
                 <?php
                 $content = $channel['link'];
@@ -39,6 +39,42 @@
     </div>
     <div class="default" id="Video">
         <iframe src="" id="MyIframe"></iframe>
+        <div id="Unload">
+            <div class="team">
+                <img src="{{$match->home->icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                <p>{{$match['hname']}}</p>
+            </div>
+            <div class="info">
+                <p class="league">{{$match['win_lname']}}</p>
+                <p class="time">{{substr($match['time'], 0, 11)}}<br/>{{substr($match['time'], 11, 5)}}</p>
+                <button>视频直播</button>
+                <select>
+                    <option value="">请选择线路</option>
+                    @foreach($channels as $channel)
+                        <?php
+                        $content = $channel['link'];
+                        $player = $channel['player'];
+                        if ($player == 11) {
+                            $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                        } else {
+                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                        }
+                        $ex = $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink;
+                        if ($ex) {
+                            $url = $content;
+                        } else {
+                            $url = env('WWW_URL') . $link;
+                        }
+                        ?>
+                        <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="team">
+                <img src="{{$match->away->icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                <p>{{$match['aname']}}</p>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -310,22 +346,10 @@
 
 @endsection
 @section('js')
-    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803030006"></script>
+    <script src="{{env('CDN_URL')}}/js/public/mobile/videoPhone.js?time=201803031112"></script>
     <script type="text/javascript">
         window.onload = function () {
             setPage();
-        }
-
-        function setSelect () {
-            var Target = $('#Navigation select');
-            var $op = Target.find("option:selected");
-            var ex = $op.attr("ex");
-            if (ex == 1) {
-                location.href = $op.val();
-            } else {
-                $('#MyIframe').attr('src',Target.val());
-                $('#Navigation .select').text(Target.find("option:selected").text());
-            }
         }
     </script>
 @endsection
