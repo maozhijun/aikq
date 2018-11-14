@@ -92,6 +92,7 @@ class HomeController extends Controller
                 'install_url'=>'itms-services://?action=download-manifest&url=https://static.dlfyb.com/download/test.plist',
                 'anchor'=>1,
                 'showMore'=>'0',
+                'stream_refers'=>['live.sjmhw.com'=>'https://www.aikanqiu.com']
             ]
         );
     }
