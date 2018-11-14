@@ -92,7 +92,8 @@ class HomeController extends Controller
                 'install_url'=>'itms-services://?action=download-manifest&url=https://static.dlfyb.com/download/test.plist',
                 'anchor'=>1,
                 'showMore'=>'0',
-                'stream_refers'=>['live.sjmhw.com'=>'https://www.aikanqiu.com']
+                'stream_refers'=>['live.sjmhw.com'=>'https://www.aikanqiu.com'],//添加需要设置refer的播放地址
+                'android_system_browser'=>0//非直播的url跳转方式：0-app，1-系统浏览器
             ]
         );
     }
