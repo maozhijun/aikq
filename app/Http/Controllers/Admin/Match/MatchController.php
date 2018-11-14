@@ -230,9 +230,7 @@ class MatchController extends Controller
             return response()->json(['code'=>401, 'msg'=>'竞技类型错误']);
         }
 
-        $url = "https://www.lehuzhibo.com/lua-cgi/line-info?id=".$room_num;
-        $out = \App\Http\Controllers\Controller::execUrl($url, 2, true);
-        $json = json_decode($out, true);
+        $json = LeHuChannelCommand::getLeHuLink($room_num);
         if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
             return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
         }

@@ -101,7 +101,7 @@ class LeHuChannelCommand extends BaseCommand
         $infoStr = Redis::get($key);
         $info = json_decode($infoStr, true);
         if (is_null($info)) {
-            $url = "https://www.lehuzhibo.com/lua-cgi/line-info?id=".$room_num;
+            $url = "http://console.lehuzhibo.com/api/channel/$room_num.json";
             $out = Controller::execUrl($url, 1, true);
             $json = json_decode($out, true);
             if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
