@@ -236,7 +236,7 @@ class MatchController extends Controller
         }
         $flv = $json['hls'];
         $m3u8 = $json['m3u8'];
-        $lehu_url = "https://www.lehuzhibo.com/room/".$room_num.".html";
+        $lehu_url = env('LH_URL')."/room/".$room_num.".html";
 
         $channelType = MatchLiveChannel::kTypeOther;
         $flvPlayer = MatchLiveChannel::kPlayerFlv;
