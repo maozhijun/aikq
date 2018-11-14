@@ -910,7 +910,6 @@ class LiveController extends Controller
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
-                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($mobile_json));
                 }
             } else {
                 if (!empty($pc_json)) {
@@ -973,7 +972,6 @@ class LiveController extends Controller
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
-                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($mobile_json));
                 }
             } else {
                 if (!empty($pc_json)) {
