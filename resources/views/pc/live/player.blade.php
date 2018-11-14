@@ -56,7 +56,7 @@
     //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
 </script>
 <script src="<?php echo env('CDN_URL'); ?>/js/public/pc/socket.io.js"></script>
-<script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201809061111"></script>
+<script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201811141650"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {
