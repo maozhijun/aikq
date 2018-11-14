@@ -58,6 +58,9 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
     Route::post('/live/matches/channel/save', 'MatchController@saveChannel');//设置赛事直播频道
     Route::post('/live/matches/channel/del', 'MatchController@delChannel');//删除赛事直播频道
 
+
+    Route::post('/live/matches/channel/save_lehu', 'MatchController@saveLHChannel');//抓取乐虎直播房间线路
+
     Route::post('/live/matches/live/save-impt', 'MatchController@changeLiveImp');//设置重点赛事
     Route::post('/live/matches/channel/random-code', 'MatchController@randomCode');//生成高清验证码
 

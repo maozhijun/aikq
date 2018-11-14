@@ -402,119 +402,167 @@ function PlayVideoShare (cid, type){
     // if (type == 9) {
     //     url = GetHttp() + host + '/match/live/url/channel/hd/' + cid;
     // } else {
-    if (isPhone()) {
-        url = window.jsonHost + '/json/m/match/live/url/channel/' + cid + '.json';
-    } else {
-        url = window.jsonHost + '/json/pc/match/live/url/channel/' + cid + '.json';
+    if (IEVersion() == 9 || IEVersion() == 8){
+        if (isPhone()) {
+            url = window.jsonHost + '/json/m/match/live/url/channel/' + cid + '.js';
+        } else {
+            url = window.jsonHost + '/json/pc/match/live/url/channel/' + cid + '.js';
+        }
+        // }
+        url = url + '?time=' + (new Date()).getTime();
+        $.getScript(url,function(){
+            var data = JSON.parse(a);
+            _playerShareCallback(data);
+        })
     }
-    // }
-    url = url + '?time=' + (new Date()).getTime();
-    $.ajax({
-        url: url,
-        type:'GET',
-        dataType:'json',
-        success:function(data){
-            if (data.code == 0){
-                //CloseLoading();
-                var match = data.match;
-                matchStatus = match.status;
-                matchTime = match.time;
-                var show_live = match.show_live;
-                if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
-                    $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
-                    return;
+    else{
+        if (isPhone()) {
+            url = window.jsonHost + '/json/m/match/live/url/channel/' + cid + '.json';
+        } else {
+            url = window.jsonHost + '/json/pc/match/live/url/channel/' + cid + '.json';
+        }
+        // }
+        url = url + '?time=' + (new Date()).getTime();
+        $.ajax({
+            url: url,
+            type:'GET',
+            dataType:'json',
+            success:function(data){
+                _playerShareCallback(data);
+            }
+        })
+    }
+}
+
+function IEVersion() {
+    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+    var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+    var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+    var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+    if(isIE) {
+        var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+        reIE.test(userAgent);
+        var fIEVersion = parseFloat(RegExp["$1"]);
+        if(fIEVersion == 7) {
+            return 7;
+        } else if(fIEVersion == 8) {
+            return 8;
+        } else if(fIEVersion == 9) {
+            return 9;
+        } else if(fIEVersion == 10) {
+            return 10;
+        } else {
+            return 6;//IE版本<=7
+        }
+    } else if(isEdge) {
+        return 'edge';//edge
+    } else if(isIE11) {
+        return 11; //IE11
+    }else{
+        return -1;//不是ie浏览器
+    }
+}
+
+function _playerShareCallback(data) {
+    if (data.code == 0){
+        //CloseLoading();
+        var match = data.match;
+        matchStatus = match.status;
+        matchTime = match.time;
+        var show_live = match.show_live;
+        if (window.isMobile && data.platform && data.platform == 2 && (show_live || match.status == 0)) {//如果是PC端的线路，未开始比赛或者在直播中，则提示
+            $('#MyFrame').html('<p class="noframe">该比赛暂无手机信号，请使用<b>电脑浏览器</b> 打开<img class="code" src="/img/pc/image_qr_868.jpg">加微信 <b>kanqiu8888</b><br/>与球迷赛事交流，乐享高清精彩赛事！</p>')
+            return;
+        }
+        if(!show_live){
+            if (match.status == 0) {
+                //countdownHtml(match.hour_html, match.minute_html, match.second_html);
+                countdownHtmlNew();
+            }
+            return;
+        }else if(show_live){
+            if (data.ad && data.ad == 2) {
+                show_ad = false;
+            }
+            //高清线路 处理
+            if (data.type == 9 || (data.h_playurl && data.h_playurl.length > 0)) {
+                var code = getCookie('LIVE_HD_CODE_KEY');
+                if (code == valid_code) {//已获取高清码
+                    show_ad = false;
+                    closeCode();
+                    data.playurl = data.h_playurl;
+                } else {
+                    showCode();
                 }
-                if(!show_live){
-                    if (match.status == 0) {
-                        //countdownHtml(match.hour_html, match.minute_html, match.second_html);
-                        countdownHtmlNew();
-                    }
-                    return;
-                }else if(show_live){
-                    if (data.ad && data.ad == 2) {
-                        show_ad = false;
-                    }
-                    //高清线路 处理
-                    if (data.type == 9 || (data.h_playurl && data.h_playurl.length > 0)) {
-                        var code = getCookie('LIVE_HD_CODE_KEY');
-                        if (code == valid_code) {//已获取高清码
-                            show_ad = false;
-                            closeCode();
-                            data.playurl = data.h_playurl;
-                        } else {
-                            showCode();
-                        }
-                    }
-                    // if (data.type == 9 && !data.hd) {
-                    //     showCode();
-                    // } else if (data.hd) {//已获取高清码
-                    //     show_ad = false;
-                    //     closeCode();
-                    // }
-                    //高清线路 处理
-                    if (data.type == 1) { //如果是365，直接播放，不使用链接
-                        var ID = data.id;
-                        LoadSports365(ID)
-                    } else if (data.type == 2) {
-                        var Link = getLink(data);
-                        if (data.playurl) {
-                            LoadIframe(Link);
-                        } else {
-                            CheckPlayerType(Link,0);
-                        }
-                    } else{ //其他，获取播放地址和播放方式
-                        var Link = getLink(data);
-                        var PlayType = data.player;
-                        if (PlayType == 11) { //iframe
-                            LoadIframe(Link)
-                        }else if (PlayType == 12) { //ckplayer
-                            CheckPlayerType(Link,1);
-                        }else if (PlayType == 13) { //m3u8
-                            LoadCK (Link)
-                        }else if (PlayType == 14) { //flv
-                            LoadFlv (Link);
-                        }else if (PlayType == 15) { //rtmp
-                            LoadRtmp (Link)
-                        } else if (PlayType == 17) {
-                            LoadClappr(Link);
-                        } else if (PlayType == 18) {
-                            LoadMP4(Link);
-                        }else if(PlayType == 100){//腾讯体育专用
-                            $.ajax({
-                                url: Link,
-                                dataType: "jsonp",
-                                success: function (data) {
-                                    if(data.playurl) {
-                                        Link = data.playurl;
-                                        if (isMobileWithJS()) {
-                                            Link = Link.replace('.flv', '.m3u8');
-                                            LoadCK(Link);
-                                        }
-                                        else {
-                                            if (Link.indexOf('.flv') != -1) {
-                                                LoadFlv(Link);
-                                            }
-                                            else{
-                                                LoadCK(Link);
-                                            }
-                                        }
+            }
+            // if (data.type == 9 && !data.hd) {
+            //     showCode();
+            // } else if (data.hd) {//已获取高清码
+            //     show_ad = false;
+            //     closeCode();
+            // }
+            //高清线路 处理
+            if (data.type == 1) { //如果是365，直接播放，不使用链接
+                var ID = data.id;
+                LoadSports365(ID)
+            } else if (data.type == 2) {
+                var Link = getLink(data);
+                if (data.playurl) {
+                    LoadIframe(Link);
+                } else {
+                    CheckPlayerType(Link,0);
+                }
+            } else{ //其他，获取播放地址和播放方式
+                var Link = getLink(data);
+                var PlayType = data.player;
+                if (PlayType == 11) { //iframe
+                    LoadIframe(Link)
+                }else if (PlayType == 12) { //ckplayer
+                    CheckPlayerType(Link,1);
+                }else if (PlayType == 13) { //m3u8
+                    LoadCK (Link)
+                }else if (PlayType == 14) { //flv
+                    LoadFlv (Link);
+                }else if (PlayType == 15) { //rtmp
+                    LoadRtmp (Link)
+                } else if (PlayType == 17) {
+                    LoadClappr(Link);
+                } else if (PlayType == 18) {
+                    LoadMP4(Link);
+                }else if(PlayType == 100){//腾讯体育专用
+                    $.ajax({
+                        url: Link,
+                        dataType: "jsonp",
+                        success: function (data) {
+                            if(data.playurl) {
+                                Link = data.playurl;
+                                if (isMobileWithJS()) {
+                                    Link = Link.replace('.flv', '.m3u8');
+                                    LoadCK(Link);
+                                }
+                                else {
+                                    if (Link.indexOf('.flv') != -1) {
+                                        LoadFlv(Link);
                                     }
                                     else{
-                                        document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+                                        LoadCK(Link);
                                     }
                                 }
-                            });
+                            }
+                            else{
+                                document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+                            }
                         }
-                        else{
-                            CheckPlayerType(Link,0)
-                        }
-                    }
+                    });
                 }
-            }else{
-                document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+                else{
+                    CheckPlayerType(Link,0)
+                }
             }
         }
-    })
+    }else{
+        document.getElementById('MyFrame').innerHTML = '<p class="loading">暂无直播信号</p>';
+    }
 }
 
 function PlayVideoSubject (cid, type){

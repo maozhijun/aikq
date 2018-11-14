@@ -60,9 +60,10 @@
         @endif
     @endif
     <td>
-        @foreach($channels as $index=>$channel)
+        <?php $index = 0; ?>
+        @foreach($channels as $channel)
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a target="_blank" href="/live/ex-link/{{$channel['id']}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
             @else
                 <?php
                 if(isset($channel['akq_url']) && strlen($channel['akq_url']) > 0){
@@ -72,7 +73,7 @@
                     $tmp_url = $url;
                 }
                 ?>
-                <a target="_blank" href="{{$tmp_url . '#btn=' . $index}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$tmp_url . '#btn=' . ($index++)}}">{{$channel['name']}}</a>
             @endif
         @endforeach
         {{--@if($match['sport'] == 1)--}}

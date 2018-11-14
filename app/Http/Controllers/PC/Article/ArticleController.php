@@ -286,7 +286,7 @@ class ArticleController extends Controller
 
     public function logBaiduSpider(Request $request,$id){
         //不在这里ajax记录了,貌似不准
-        return response()->json(array('code'=>0));
+//        return response()->json(array('code'=>0));
         $article = PcArticle::find($id);
         if (isset($article)) {
             $article->baidu_spider_count = isset($article->baidu_spider_count) ? ($article->baidu_spider_count + 1) : 1;

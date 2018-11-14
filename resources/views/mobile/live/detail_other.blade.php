@@ -75,6 +75,7 @@
         @else
             <div class="line" @if($match['sport'] == 3 && count($channels) == 1) style="display: none" @endif>
                 @foreach($channels as $index=>$channel)
+                    @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
                     <?php
                         $content = $channel['link'];
                         $player = $channel['player'];

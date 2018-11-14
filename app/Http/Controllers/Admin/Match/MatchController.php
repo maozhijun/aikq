@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\Match;
 
 
 
+use App\Console\HtmlStaticCommand\LeHuChannelCommand;
 use App\Models\AdConf;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\League;
@@ -210,6 +211,61 @@ class MatchController extends Controller
     }
 
     /**
+     * 抓取乐虎直播线路
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveLHChannel(Request $request) {
+        $room_num = $request->input('room_num');
+        $match_id = $request->input('match_id');
+        $sport = $request->input('sport');
+
+        if (empty($room_num)) {
+            return response()->json(['code'=>401, 'msg'=>'房间号码不能为空']);
+        }
+        if (!is_numeric($match_id)) {
+            return response()->json(['code'=>401, 'msg'=>'比赛ID不能为空']);
+        }
+        if (!in_array($sport, [1, 2, 3])) {
+            return response()->json(['code'=>401, 'msg'=>'竞技类型错误']);
+        }
+
+        $json = LeHuChannelCommand::getLeHuLink($room_num);
+        if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
+            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
+        }
+        $flv = $json['hls'];
+        $m3u8 = $json['m3u8'];
+        $lehu_url = env('LH_URL')."/room/".$room_num.".html";
+
+        $channelType = MatchLiveChannel::kTypeOther;
+        $flvPlayer = MatchLiveChannel::kPlayerFlv;
+        $m3u8Player = MatchLiveChannel::kPlayerM3u8;
+        $exPlayer = MatchLiveChannel::kPlayerExLink;
+        $show = MatchLiveChannel::kShow;
+        $isPrivate = MatchLiveChannel::kIsPrivate;
+        $use = MatchLiveChannel::kUseAiKQ;
+        $auto = MatchLiveChannel::kAutoHand;
+
+        try {
+            //创建外链
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 11,
+                MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto, $room_num);
+
+            //创建电脑端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+
+            //创建手机端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
+                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+        } catch (\Exception $exception) {
+            return response()->json(['code'=>500, 'msg'=>'保存失败']);
+        }
+        return response()->json(['code'=>200, 'msg'=>'保存成功']);
+    }
+
+    /**
      * 保存直播线路
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -296,14 +352,7 @@ class MatchController extends Controller
         if ($type != MatchLiveChannel::kTypeCode) {
             $h_content = '';
         }
-        //根据线路填写内容 自动选择播放平台。
-//        if (preg_match("/^rtmp:\/\//", $content) || preg_match("/.flv/", $content)) {
-//            $platform = MatchLiveChannel::kPlatformPC;
-//        } else if (preg_match("/.m3u8/", $content)) {
-//            $platform = MatchLiveChannel::kPlatformAll;
-//        } else if (strlen($content) < 6) {//预留线路，显示为全部
-//            $platform = MatchLiveChannel::kPlatformAll;
-//        }
+
         $admin = $request->_account;
         $admin_id = $admin->id;
 
@@ -322,6 +371,21 @@ class MatchController extends Controller
         $channel->ad = $ad;
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
+
+        //乐虎线路刷新 开始
+        $room_num = $channel->room_num;
+        if (!empty($room_num) && $player != MatchLiveChannel::kPlayerExLink) {
+            $lh_line = LeHuChannelCommand::getLeHuLink($room_num);
+            if (isset($lh_line)) {
+                if ($player == MatchLiveChannel::kPlayerFlv && isset($lh_line['hls'])) {
+                    $channel->content = $lh_line['hls'];
+                } else {
+                    $channel->content = $lh_line['m3u8'];
+                }
+            }
+        }
+        //乐虎线路刷新 结束
+
 
         if (!isset($match)) {
             if ($sport == MatchLive::kSportFootball) {
@@ -352,9 +416,6 @@ class MatchController extends Controller
             Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存线路失败']);
         }
-        //$this->flush310Live($match_id, $sport, $channel->id);
-        //$this->flushAikqLive($match_id, $sport, $channel->id);
-        //$this->flushHeiTuLive($match_id, $sport, $channel->id);
         return response()->json(['code'=>200, 'msg'=>'保存线路成功']);
     }
 

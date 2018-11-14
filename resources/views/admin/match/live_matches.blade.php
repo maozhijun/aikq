@@ -94,6 +94,7 @@
                             <p>对阵：{{$match->hname}} VS {{$match->aname}}</p>
                             <p>时间：{{$match->time}}</p>
                             <p><button class="btn btn-sm btn-primary" onclick="addChannel('{{$match->id}}');">添加直播地址</button></p>
+                            <p><input placeholder="房间号" value=""/><button onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
                         </td>
                         <td id="td_{{$match->id}}" match_id="{{$match->id}}" lid="{{$match->lid}}" isPri="{{in_array($match->lid, $private_arr)}}">
                             @foreach($channels as $channel)
@@ -457,5 +458,37 @@
             setTypeStyle(thisObj);
         }
 
+        function saveLHChannel(thisBtn, mid) {
+            var $thisBtn = $(thisBtn);
+            var sport = "{{$sport}}";
+            var roomNum = $thisBtn.prev().val();
+            if ($.trim(roomNum) == "") {
+                alert("请填写乐虎房间号");
+                return;
+            }
+            if (!confirm("是否确认自动填写乐虎房间？")) {
+                return;
+            }
+            $thisBtn.button("loading");
+            $.ajax({
+                "url": "/admin/live/matches/channel/save_lehu",
+                "type": "post",
+                "dataType": "json",
+                "data": {"sport": sport, "match_id": mid, "room_num": roomNum},
+                "success": function (data) {
+                    if (data.code == 200) {
+                        alert(data.msg);
+                        location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                    $thisBtn.button("reset");
+                },
+                "error": function () {
+                    alert("自动填写乐虎房间失败");
+                    $thisBtn.button("reset");
+                }
+            });
+        }
     </script>
 @endsection

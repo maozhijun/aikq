@@ -19,6 +19,7 @@
 <div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
+            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
             <?php
             $player = $channel['player'];
             if ($player == 11) {
@@ -40,6 +41,7 @@
 <div class="line mchannel" style="display: none">
     @if(isset($mchannels))
         @foreach($mchannels as $index=>$channel)
+            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
             if (!empty($channel['link']) && stristr($channel['link'], 'leqiuba.cc'))

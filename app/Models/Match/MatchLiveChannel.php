@@ -17,7 +17,8 @@ class MatchLiveChannel extends Model
 //    protected $connection = 'match';
     const SAVE_KEY_PREFIX = "MatchLiveChannel_Save_";
     const kTypeSS365 = 1, kTypeTTZB = 2, kTypeBallBar = 3, kTypeWCJ = 4, kTypeDDK = 5, kTypeKBS = 6,kTypeCCTVAPP = 7, kTypeLZ = 8, kTypeCode = 9, kTypeQQ = 10, kTypeOther = 99;//直播类型，1、ss365，2、天天直播，3、波吧，4、无插件，5、低调看，6、看比赛,7、cctv5app, 8、龙珠直播, 9、高清, 10、腾讯体育。
-    const kPlayerAuto = 1, kPlayerIFrame = 11, kPlayerCk = 12, kPlayerM3u8 = 13, kPlayerFlv = 14, kPlayerRTMP = 15, kPlayerExLink = 16, kPlayerClappr = 17, kPlayerMp4 = 18, kPlayerJSJ = 19, kPlayerQQSport = 100;//播放方式，1、自动播放，11、iFrame嵌入。12、ck播放器播放，13、M3U8，14、FLV，15、RTMP，16、跳转外链,17、Clappr播放器, 18、Mp4，100腾讯体育用
+    const kPlayerAuto = 1, kPlayerIFrame = 11, kPlayerCk = 12, kPlayerM3u8 = 13, kPlayerFlv = 14, kPlayerRTMP = 15, kPlayerExLink = 16;//播放方式 1、自动播放，11、iFrame嵌入。12、ck播放器播放，13、M3U8，14、FLV，15、RTMP，16、跳转外链,
+    const kPlayerClappr = 17, kPlayerMp4 = 18, kPlayerJSJ = 19, kPlayerLH = 20, kPlayerQQSport = 100;//播放方式 17、Clappr播放器, 18、Mp4、20、乐虎 100、腾讯体育用
     const kAutoSpider = 1, kAutoHand = 2;//1、爬虫获取的，2、手动录入的。
     const kShow = 1, kHide = 2;//1、显示该直播链接，0、不显示直播链接
     const kIsPrivate = 2, kIsNotPrivate = 1;//1、无版权，2、有版权
@@ -26,8 +27,8 @@ class MatchLiveChannel extends Model
     const kHasAd = 1, kNoAd = 2;//1：有播放器广告，2：无播放器广告
     const kTypeArray = [self::kTypeSS365, self::kTypeTTZB, self::kTypeBallBar, self::kTypeWCJ, self::kTypeDDK, self::kTypeKBS,self::kTypeCCTVAPP, self::kTypeLZ, self::kTypeCode,self::kTypeQQ, self::kTypeOther];
     const kTypeArrayCn = [self::kTypeSS365=>'ss365', self::kTypeTTZB=>'天天直播', self::kTypeBallBar=>'ballbar', self::kTypeCode=>'高清验证', self::kTypeOther=>'其他'];//self::kTypeWCJ=>'无插件', self::kTypeDDK=>'低调看', self::kTypeKBS=>'看比赛',, self::kTypeCCTVAPP=>'CCTV', self::kTypeLZ=>'龙珠',self::kTypeQQ=>'腾讯体育'
-    const kPlayerArray = [self::kPlayerAuto, self::kPlayerIFrame, self::kPlayerCk, self::kPlayerM3u8, self::kPlayerFlv, self::kPlayerRTMP, self::kPlayerExLink,self::kPlayerClappr, self::kPlayerJSJ];
-    const kPlayerArrayCn = [self::kPlayerAuto=>'自动选择', self::kPlayerIFrame=>'iFrame', self::kPlayerCk=>'ckplayer', self::kPlayerM3u8=>'m3u8', self::kPlayerFlv=>'flv', self::kPlayerRTMP=>'rtmp', self::kPlayerExLink=>'外链',self::kPlayerClappr=>'clappr', self::kPlayerMp4=>'Mp4', self::kPlayerJSJ=>'JSJ'];
+    const kPlayerArray = [self::kPlayerAuto, self::kPlayerIFrame, self::kPlayerCk, self::kPlayerM3u8, self::kPlayerFlv, self::kPlayerRTMP, self::kPlayerExLink,self::kPlayerClappr, self::kPlayerJSJ, self::kPlayerLH];
+    const kPlayerArrayCn = [self::kPlayerAuto=>'自动选择', self::kPlayerIFrame=>'iFrame', self::kPlayerCk=>'ckplayer', self::kPlayerM3u8=>'m3u8', self::kPlayerFlv=>'flv', self::kPlayerRTMP=>'rtmp', self::kPlayerExLink=>'外链',self::kPlayerClappr=>'clappr', self::kPlayerMp4=>'Mp4', self::kPlayerJSJ=>'JSJ', self::kPlayerLH=>'乐虎'];
     const kNotPrivate = 1, kPrivate = 2;
     const kUseAikq = 2, kUseHeitu = 3, kUse310 = 4;//1：全部，2：爱看球，3：黑土，4：310.
 
@@ -249,10 +250,12 @@ class MatchLiveChannel extends Model
      * @param $show
      * @param $isPrivate = 1   是否有版权，1：无版权，2：有版权。配合 $use 使用，一般有版权的 $use 用爱看球。
      * @param $use = 1        网站专用，1：通用，2：爱看球，3：黑土，4：lg310。其他：待添加
+     * @param $auto = 1          是否自动抓取/手动抓取
+     * @param $room_num string  乐虎房间号
      * @return mixed       返回保存是否成功，成功返回 null，失败返回 $exception
      */
-    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1) {
-        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use) {
+    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1, $auto = self::kAutoSpider, $room_num = null) {
+        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use, $auto, $room_num) {
             $live = MatchLive::query()->where('match_id', $matchId)->where('sport', $sport)->first();
             if (isset($live)) {
                 $live_id = $live->id;
@@ -266,10 +269,11 @@ class MatchLiveChannel extends Model
                     $channel->platform = $platform;
                     $channel->player = $player;
                     $channel->od = $od;
-                    $channel->auto = self::kAutoSpider;
+                    $channel->auto = $auto;
                     $channel->show = $show;
                     $channel->isPrivate = $isPrivate;
                     $channel->use = $use;
+                    $channel->room_num = $room_num;
                     $channel->save();
                 }
             } else {
@@ -286,12 +290,14 @@ class MatchLiveChannel extends Model
                 $channel->platform = $platform;
                 $channel->player = $player;
                 $channel->od = $od;
-                $channel->auto = self::kAutoSpider;
+                $channel->auto = $auto;
                 $channel->show = $show;
+                $channel->isPrivate = $isPrivate;
+                $channel->use = $use;
+                $channel->room_num = $room_num;
                 $channel->save();
             }
         });
         return $exception;
     }
-
 }

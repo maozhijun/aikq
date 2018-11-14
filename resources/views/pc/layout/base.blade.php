@@ -81,6 +81,7 @@
         <a target="_blank" href="{{env('WWW_URL')}}">爱看球</a>
         <a target="_blank" href="{{env('WWW_URL')}}">JRS直播</a>
         <a target="_blank" href="{{env('WWW_URL')}}">低调看直播</a>
+        <a target="_blank" href="https://www.lehuzhibo.com">乐虎直播</a>
         <a target="_blank" href="https://leqiuba.com">乐球吧</a>
     </p>
     <p>粤ICP备16108148号-2 | Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>
