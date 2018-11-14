@@ -895,8 +895,7 @@ class LiveController extends Controller
                     $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
 //                    dump($appData['playurl']);
                     $appData['type'] = '98';
-                }
-                else{
+                } else{
                     if (isset($appData['playurl']) && strlen($appData['playurl']) > 5) {
                         $appData['playurl'] = openssl_encrypt($appData['playurl'], "DES", $key, 0, $iv);
                     }
@@ -1215,7 +1214,10 @@ class LiveController extends Controller
                         //130处理抓饭的
                         $channel['link'] = explode('=',$channel['link'])[1];
                         $channel['type'] = '98';
-                    } else if (isset($channel['type']) && $channel['type'] == MatchLiveChannel::kPlayerIFrame) {
+                    } else if ( (isset($channel['type']) && $channel['type'] == MatchLiveChannel::kPlayerIFrame)
+                        ||
+                        (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerExLink)
+                    ) {
                         continue;//iframe的不要
                     }
                     $channel['link'] = openssl_encrypt($channel['link'], "DES", $key, 0, $iv);
