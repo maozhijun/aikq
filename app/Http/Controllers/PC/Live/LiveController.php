@@ -876,6 +876,7 @@ class LiveController extends Controller
             $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.json', $pc_json);
+                Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.js','var a = '. json_encode($pc_json));
                 //每一个channel的player页面生成
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
@@ -909,10 +910,12 @@ class LiveController extends Controller
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($mobile_json));
                 }
             } else {
                 if (!empty($pc_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $pc_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($pc_json));
                 }
             }
         } catch (\Exception $e) {
@@ -938,6 +941,7 @@ class LiveController extends Controller
             $pc_json = json_encode($jsonStr);
             if (!empty($pc_json)) {
                 Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.json', $pc_json);
+                Storage::disk("public")->put("static/json/pc/match/live/url/channel/". $id . '.js','var a = '. json_encode($pc_json));
                 //每一个channel的player页面生成
                 $json = json_decode($pc_json,true);
                 if (strlen($player) > 0 && $json && array_key_exists('code',$json) && $json['code'] == 0) {
@@ -969,10 +973,12 @@ class LiveController extends Controller
                 $mobile_json = $pc_json;
                 if (!empty($mobile_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $mobile_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($mobile_json));
                 }
             } else {
                 if (!empty($pc_json)) {
                     Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.json', $pc_json);
+                    Storage::disk("public")->put("static/json/m/match/live/url/channel/". $id . '.js', 'var a = '.json_encode($pc_json));
                 }
             }
         } catch (\Exception $e) {
