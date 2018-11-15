@@ -45,7 +45,7 @@ class HomeController extends Controller
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
                 'ios_version'=>'1.2.0',
-                'android_version'=>'2.0.0',
+                'android_version'=>'2.0.1',
                 'update_url'=>'https://www.aikanqiu.com/download/index.html#browser',
                 'android_upgrade_url'=>'https://www.aikanqiu.com/download/index.html',
                 'anchor'=>1,
@@ -64,7 +64,7 @@ class HomeController extends Controller
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
                 'ios_version'=>'1.2.0',
-                'android_version'=>'2.0.0',
+                'android_version'=>'2.0.1',
                 'update_url'=>'https://www.aikanqiu.com/download/index.html#browser',
                 'android_upgrade_url'=>'https://www.aikanqiu.com/download/index.html',
                 'android_install_url'=>'https://static.dlfyb.com/download/android.apk',
@@ -85,7 +85,7 @@ class HomeController extends Controller
                 'icon'=>'https://static.dlfyb.com/img/pc/image_qr_868.jpg',
                 'weixin'=>'kanqiu8888',
                 'ios_version'=>'1.2.0',
-                'android_version'=>'2.0.0',
+                'android_version'=>'2.0.1',
                 'update_url'=>'https://www.aikanqiu.com/download/index.html#browser',
                 'android_upgrade_url'=>'https://www.aikanqiu.com/download/index.html',
                 'android_install_url'=>'https://static.dlfyb.com/download/android.apk',
@@ -93,7 +93,8 @@ class HomeController extends Controller
                 'anchor'=>1,
                 'showMore'=>'0',
                 'stream_refers'=>['live.sjmhw.com'=>'https://www.aikanqiu.com'],//添加需要设置refer的播放地址
-                'android_system_browser'=>0//非直播的url跳转方式：0-app，1-系统浏览器
+                'android_system_browser'=>0,//非直播的url跳转方式：0-app，1-系统浏览器
+                'android_upgrade_msg'=>'最新版本v2.0.1，更换了播放器内核，看比赛声音更流畅',//非直播的url跳转方式：0-app，1-系统浏览器
             ]
         );
     }
