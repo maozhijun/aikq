@@ -100,9 +100,10 @@ class LeHuChannelCommand extends BaseCommand
         $key = "LeHuChannelCommand_" . $room_num;
         $infoStr = Redis::get($key);
         $info = json_decode($infoStr, true);
+        $info = null;
         if (is_null($info)) {
-            $url = "http://console.lehuzhibo.com/api/channel/$room_num.json";
-            $out = Controller::execUrl($url, 1, true);
+            $url = "http://console.lehuzhibo.com/api/channel/$room_num.json?time=".time();
+            $out = Controller::execUrl($url, 5, false);
             $json = json_decode($out, true);
             if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
                 //dump("获取观看地址失败");
