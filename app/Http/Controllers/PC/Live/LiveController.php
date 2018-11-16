@@ -1212,7 +1212,7 @@ class LiveController extends Controller
                         //130处理抓饭的
                         $channel['link'] = explode('=',$channel['link'])[1];
                         $channel['type'] = '98';
-                    } else if ( (isset($channel['type']) && $channel['type'] == MatchLiveChannel::kPlayerIFrame)
+                    } else if ( (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerIFrame)
                         ||
                         (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerExLink)
                     ) {

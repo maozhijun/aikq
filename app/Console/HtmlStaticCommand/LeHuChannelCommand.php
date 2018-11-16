@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\Live\LiveController;
 use App\Models\Match\MatchLiveChannel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
@@ -77,7 +78,7 @@ class LeHuChannelCommand extends BaseCommand
                             ) {
                                 continue;
                             }
-
+Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "========");
                             $matchLiveChannel = MatchLiveChannel::query()->find($id);
                             if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num)) continue;
                             $json = self::getLeHuLink($matchLiveChannel->room_num);
