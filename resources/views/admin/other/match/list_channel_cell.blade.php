@@ -1,16 +1,16 @@
 <div>
     <p>
-        <select name="ad">
+        <select name="ad" style="display: none;">
             <option value="1">有广告</option>
             <option value="2" @if(isset($channel) && $channel->ad == 2) selected @endif >无广告</option>
         </select>
-        <select name="type" onclick="selectType(this);" >
+        <select name="type" onclick="selectType(this);" style="display: none;">
             @foreach($types as $id=>$type)
                 <option value="{{$id}}" @if((!isset($channel) && $id == 99) || isset($channel) && $channel->type == $id) selected @endif >{{$type}}</option>
             @endforeach
         </select>
         <input style="width: 80px;" name="name" value="{{$channel->name or ''}}" placeholder="名称">
-        <input style="width: 120px;" name="content" value="{{$channel->content or ''}}" placeholder="内容">
+        <input style="width: 220px;" name="content" value="{{$channel->content or ''}}" placeholder="内容">
         <select name="player" onchange="changePlayer(this);">
             <option value="1">自动选择</option>
             <option value="11" @if(isset($channel) && $channel->player == 11) selected @endif >iFrame</option>
@@ -19,7 +19,7 @@
             <option value="14" @if(isset($channel) && $channel->player == 14) selected @endif >flv</option>
             <option value="15" @if(isset($channel) && $channel->player == 15) selected @endif >rtmp</option>
             <option value="16" @if(isset($channel) && $channel->player == 16) selected @endif >外链</option>
-            <option value="17" @if(isset($channel) && $channel->player == 17) selected @endif >clappr</option>
+            {{--<option value="17" @if(isset($channel) && $channel->player == 17) selected @endif >clappr</option>--}}
         </select>
         <select name="show">
             <option value="1">显示</option>
@@ -40,6 +40,7 @@
             <option value="2" @if(isset($channel) && $channel->isPrivate == 2) selected @endif >有版权</option>
             <option value="1" @if(isset($channel) && $channel->isPrivate == 1) selected @endif >无版权</option>
         </select>
+        <input style="width: 80px;" name="room_num" value="{{$channel->room_num or ''}}" placeholder="乐虎房间号">
         <button class="btn btn-success btn-xs" type="button" onclick="saveChannel(this, '{{$channel->id or ''}}', '{{$sport or 3}}');">保存</button>
         <button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>
     </p>

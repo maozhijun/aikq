@@ -71,7 +71,10 @@ class LeHuChannelCommand extends BaseCommand
                             $id = isset($channel['id']) ? $channel['id'] : '';
                             if (empty($id)) continue;
                             $link = isset($channel['link']) ? $channel['link'] : "";
-                            if (!preg_match("/ws.live.sjmhw.com/", $link)) {
+                            if (!preg_match("/ws.live.sjmhw.com/", $link)
+                                && !preg_match("/ws.live.dlfyb.com/", $link)
+                                && !preg_match("/ws1.live.dlfyb.com/", $link)
+                            ) {
                                 continue;
                             }
 
