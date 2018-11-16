@@ -232,15 +232,17 @@ class MatchController extends Controller
 
         $json = LeHuChannelCommand::getLeHuLink($room_num);
         if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
-            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
+            //return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
         }
         $flv = $json['hls'];
         $m3u8 = $json['m3u8'];
         $lehu_url = env('LH_URL')."/room/".$room_num.".html";
+        $lehu_player = env('LH_URL')."/player/".$room_num.".html";
 
         $channelType = MatchLiveChannel::kTypeOther;
         $flvPlayer = MatchLiveChannel::kPlayerFlv;
         $m3u8Player = MatchLiveChannel::kPlayerM3u8;
+        $iFramePlayer =MatchLiveChannel::kPlayerIFrame;
         $exPlayer = MatchLiveChannel::kPlayerExLink;
         $show = MatchLiveChannel::kShow;
         $isPrivate = MatchLiveChannel::kIsPrivate;
@@ -252,13 +254,25 @@ class MatchController extends Controller
             MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 11,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto, $room_num);
 
-            //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
-                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+            /**
+             * 使用内嵌LH的player方式播放
+             */
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_player, 12,
+                MatchLiveChannel::kPlatformAll, $iFramePlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
 
-            //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
-                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+            /**
+             * 专门给APP用 暂时方案
+             */
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+                MatchLiveChannel::kPlatformApp, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+//
+//            //创建电脑端链接
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+//                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+//
+//            //创建手机端链接
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
+//                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
         }
@@ -288,12 +302,13 @@ class MatchController extends Controller
         $impt = $request->input('impt');//是否重点线路，1：普通，2：重点线路
         $ad = $request->input('ad', 1);//
         $akq_url = $request->input('akq_url', '');//
+        $room_num = $request->input('room_num');//乐虎房间号
 
         //判断参数 开始
         if (!in_array($type, MatchLiveChannel::kTypeArray)) {
             return response()->json(['code'=>401, 'msg'=>'线路类型错误。']);
         }
-        if (!in_array($platform, [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC, MatchLiveChannel::kPlatformWAP])) {
+        if (!in_array($platform, [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC, MatchLiveChannel::kPlatformWAP, MatchLiveChannel::kPlatformApp])) {
             return response()->json(['code'=>401, 'msg'=>'平台参数错误。']);
         }
         if (!in_array($isPrivate, [MatchLiveChannel::kIsPrivate, MatchLiveChannel::kIsNotPrivate])) {
@@ -371,10 +386,11 @@ class MatchController extends Controller
         $channel->ad = $ad;
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
+        $channel->room_num = $room_num;//乐虎房间号
 
         //乐虎线路刷新 开始
-        $room_num = $channel->room_num;
-        if (!empty($room_num) && $player != MatchLiveChannel::kPlayerExLink) {
+        //$room_num = $channel->room_num;
+        if (!empty($room_num) && ($player != MatchLiveChannel::kPlayerExLink && $player != MatchLiveChannel::kPlayerIFrame) ) {
             $lh_line = LeHuChannelCommand::getLeHuLink($room_num);
             if (isset($lh_line)) {
                 if ($player == MatchLiveChannel::kPlayerFlv && isset($lh_line['hls'])) {

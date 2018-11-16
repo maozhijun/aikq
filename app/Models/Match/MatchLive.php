@@ -240,6 +240,7 @@ class MatchLive extends Model
         $query = MatchLiveChannel::query()->where(function ($orQuery) {
             $orQuery->where('platform', MatchLiveChannel::kPlatformAll);
             $orQuery->orWhere('platform', MatchLiveChannel::kPlatformPC);
+            $orQuery->orWhere('platform', MatchLiveChannel::kPlatformApp);
         });
 //        $query->where(function ($orQuery) {
 //            $orQuery->where('use',MatchLiveChannel::kUseAll);

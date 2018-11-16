@@ -153,6 +153,7 @@
             var impt = dataDiv.find('input[name=impt]:checked');
             var type = dataDiv.find("select[name=type]").val();
             var ad = dataDiv.find("select[name=ad]").val();
+            var room_num = dataDiv.find("input[name=room_num]").val();
 
             if ($.trim(name) == "") {
 //                alert("线路名称不能为空。");
@@ -191,6 +192,7 @@
             data['use'] = use;
             data['impt'] = impt.length == 0 ? 1 : 2;{{-- 是否重点线路 --}}
             data['ad'] = ad;
+            data['room_num'] = room_num;
             thisObj.setAttribute('disabled', 'disabled');
             $.ajax({
                 "url": "/admin/live/matches/channel/save",

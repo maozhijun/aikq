@@ -18,11 +18,23 @@ class BasketTeam extends Model
     public static function getIcon($icon) {
         if (isset($icon) && strlen($icon) > 0 && !str_contains($icon, '/files/team/noflag.gif')) {
             if (str_contains($icon, '.gif') && str_contains($icon, 'team/images/2005')) {
-                return env('CDN_URL') . '/img/icon_team_default.png';
+                return env('CDN_URL') . '/img/pc/icon_teamDefault.png';
             }
             return 'http://nba.win007.com'.$icon;
         } else {
-            return env('CDN_URL') . '/img/icon_team_default.png';
+            return env('CDN_URL') . '/img/pc/icon_teamDefault.png';
+        }
+    }
+
+    public function teamIcon() {
+        $icon = $this->icon;
+        if (isset($icon) && strlen($icon) > 0 && !str_contains($icon, '/files/team/noflag.gif')) {
+            if (str_contains($icon, '.gif') && str_contains($icon, 'team/images/2005')) {
+                return env('CDN_URL') . '/img/pc/icon_teamDefault.png';
+            }
+            return 'http://nba.win007.com'.$icon;
+        } else {
+            return env('CDN_URL') . '/img/pc/icon_teamDefault.png';
         }
     }
 

@@ -62,6 +62,7 @@
     <td>
         <?php $index = 0; ?>
         @foreach($channels as $channel)
+            @continue($channel['platform'] == 5){{-- APP链接过滤 --}}
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
                 <a target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
             @else

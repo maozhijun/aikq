@@ -16,6 +16,11 @@ class Team extends Model
         return env('DB_DATABASE_MATCH', 'moro');
     }
 
+    public function teamIcon() {
+        $icon = $this->icon;
+        return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/pc/icon_teamDefault.png');
+    }
+
     public static function getIcon($icon) {
         return (isset($icon) && strlen($icon) > 0) ? $icon : (env('CDN_URL') . '/img/pc/icon_teamDefault.png');
     }

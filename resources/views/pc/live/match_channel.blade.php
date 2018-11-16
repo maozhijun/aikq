@@ -41,7 +41,7 @@
 <div class="line mchannel" style="display: none">
     @if(isset($mchannels))
         @foreach($mchannels as $index=>$channel)
-            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
+            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink || $channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp)
             <?php
             $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
             if (!empty($channel['link']) && stristr($channel['link'], 'leqiuba.cc'))
