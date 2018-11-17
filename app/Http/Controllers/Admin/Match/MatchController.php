@@ -525,7 +525,8 @@ class MatchController extends Controller
 
     public static function flushAikqLive($match_id, $sport, $ch_id) {
         $url = '/live/cache/match/detail_id/' . $match_id . '/' . $sport . '?ch_id=' . $ch_id;
-        $url = asset($url);
+        $url = env('CMS_URL').$url;
+//        Log::info("flushAikqLive url = ".$url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

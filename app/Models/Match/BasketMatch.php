@@ -129,7 +129,7 @@ class BasketMatch extends Model
     //获取球队icon
     public function getTeamIcon($isHome = true) {
         $team = $isHome ? $this->home : $this->away;
-        $icon = $team->icon;
+        $icon = isset($team) ? $team->icon : '';
         return BasketTeam::getIcon($icon);
     }
 

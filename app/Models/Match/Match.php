@@ -449,7 +449,7 @@ class Match extends Model
     //获取球队icon
     public function getTeamIcon($isHome = true) {
         $team = $isHome ? $this->home : $this->away;
-        $icon = $team->icon;
+        $icon = isset($team) ? $team->icon : '';
         return Team::getIcon($icon);
     }
 
