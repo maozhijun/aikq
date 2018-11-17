@@ -19,7 +19,7 @@
 <div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
-            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
+            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink || $channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp)
             <?php
             $player = $channel['player'];
             if ($player == 11) {
