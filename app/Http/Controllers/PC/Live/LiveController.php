@@ -871,7 +871,11 @@ class LiveController extends Controller
 
             $jsonData = json_decode(json_encode($jsonStr), true);
             $playurl = $jsonData['playurl'];
-            $player = $this->player($request, preg_match('/ws.live.sjmhw.com/', $playurl) );
+            //获取player html 开始
+            $nr = preg_match('/ws.live.sjmhw.com/', $playurl) || preg_match('/ws.live.dlfyb.com/', $playurl);
+            $nr = $nr || preg_match('/lehuzhibo.com/', $playurl) || preg_match('/ws1.live.dlfyb.com/', $playurl);
+            $player = $this->player($request, $nr );
+            //获取player html 结束
             $origin_json = $jsonData;
             $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {

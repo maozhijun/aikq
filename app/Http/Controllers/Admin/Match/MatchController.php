@@ -257,22 +257,22 @@ class MatchController extends Controller
             /**
              * 使用内嵌LH的player方式播放
              */
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_player, 12,
-                MatchLiveChannel::kPlatformAll, $iFramePlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_player, 12,
+//                MatchLiveChannel::kPlatformAll, $iFramePlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
 
             /**
              * 专门给APP用 暂时方案
              */
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
-                MatchLiveChannel::kPlatformApp, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
-//
-//            //创建电脑端链接
 //            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
-//                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+//                MatchLiveChannel::kPlatformApp, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
 //
-//            //创建手机端链接
-//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
-//                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+            //创建电脑端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+//
+            //创建手机端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
+                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
         }
