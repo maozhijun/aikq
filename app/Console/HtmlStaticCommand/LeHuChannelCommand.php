@@ -58,7 +58,7 @@ class LeHuChannelCommand extends BaseCommand
                     continue;
                 }
                 $start_time = strtotime($time);//比赛时间
-                $flg_1 = $start_time >= $now && $now + 30 * 60 >= $start_time;//开赛前35分钟
+                $flg_1 = $start_time >= $now && $now + 45 * 60 >= $start_time;//开赛前35分钟
                 $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
                 if ( $flg_1 || $flg_2 ) {
                     try {
@@ -78,19 +78,19 @@ class LeHuChannelCommand extends BaseCommand
                             ) {
                                 continue;
                             }
-//Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "========");
+Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "========");
                             $matchLiveChannel = MatchLiveChannel::query()->find($id);
                             if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num)) continue;
                             $json = self::getLeHuLink($matchLiveChannel->room_num);
                             if (is_null($json)) continue;
                             $player = $matchLiveChannel->player;
-//Log::info("======= json ".json_encode($json)." ==========");
+Log::info("======= 获取 LH 线路信息 json ".json_encode($json)." ==========");
                             if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
-//Log::info("save m3u8");
+Log::info("======= 保存 save m3u8 ==========");
                                 $matchLiveChannel->content = $json['m3u8'];
                                 $matchLiveChannel->save();
                             } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
-//Log::info("save hls");
+Log::info("======= 保存 save hls ==========");
                                 $matchLiveChannel->content = $json['hls'];
                                 $matchLiveChannel->save();
                             }
