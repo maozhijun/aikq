@@ -870,7 +870,11 @@ class LiveController extends Controller
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
 
             $jsonData = json_decode(json_encode($jsonStr), true);
-            $playurl = $jsonData['playurl'];
+            if (isset($jsonData["code"]) && $jsonData['code'] == -1) {
+                Log::info("======= 获取线路内容失败 =======");
+                return;
+            }
+            $playurl = isset($jsonData['playurl']) ? $jsonData['playurl'] : '';
             //获取player html 开始
             $nr = preg_match('/ws.live.sjmhw.com/', $playurl) || preg_match('/ws.live.dlfyb.com/', $playurl);
             $nr = $nr || preg_match('/lehuzhibo.com/', $playurl) || preg_match('/ws1.live.dlfyb.com/', $playurl);
