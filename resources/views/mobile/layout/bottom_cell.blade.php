@@ -38,12 +38,12 @@
             <p>直播</p>
         </a>
     </dd>
-    <dd class="{{$anchorClass}}">
-        <a {{$anchorUrl}}>
-            <img src="{{$anchorIco}}">
-            <p>主播</p>
-        </a>
-    </dd>
+    {{--<dd class="{{$anchorClass}}">--}}
+        {{--<a {{$anchorUrl}}>--}}
+            {{--<img src="{{$anchorIco}}">--}}
+            {{--<p>主播</p>--}}
+        {{--</a>--}}
+    {{--</dd>--}}
     <dd class="{{$newsClass}}">
         <a {{$newsUrl}}>
             <img src="{{$newsIco}}">
