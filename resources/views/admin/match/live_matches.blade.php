@@ -52,6 +52,12 @@
                         <option value="2" @if(request('status') == 2) selected @endif>进行中</option>
                         <option value="3" @if(request('status') == 3) selected @endif>已结束</option>
                     </select>
+                    &nbsp;
+                    <label>开始时间：</label>
+                    <input style="width: 140px;" class="form_datetime" name="start" value="{{request('start', '')}}">
+                    &nbsp;
+                    <label>结束时间：</label>
+                    <input style="width: 140px;" class="form_datetime" name="end" value="{{request('end', '')}}">
                     <button type="submit" class="btn btn-sm btn-primary">搜索</button>
                     @if($sport == 1)
                         {{--<a class="btn btn-sm btn-warning" target="_blank" href="http://match.liaogou168.com/api/spider/ballbar/spiderLiveData">抓取BallBar</a>--}}
@@ -126,7 +132,7 @@
             autoclose: 1,
             todayHighlight: 1,
             startView: 2,
-            minView: 2,
+            minView: 0,
             forceParse: 0
         });
 

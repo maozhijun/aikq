@@ -40,12 +40,11 @@ class MatchController extends Controller
         $has_live = $request->input('has_live');//是否有直播链接
         $status = $request->input('status');//比赛状态
         $type = $request->input('type');//比赛类型 1：竞彩、2：精简
+        $start = $request->input('start');//比赛开始时间
+        $end = $request->input('end');//比赛结束时间
 
         $withSelect = true;
         $isMain = false;
-
-        $startDate = date("Y-m-d", strtotime('-1 days'));
-        $endDate = date('Y-m-d H:i:s', strtotime('3 days'));
 
         $sport = MatchLive::kSportBasketball;
         $match_table = 'basket_matches';
@@ -67,7 +66,14 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
-            $query->where("time", ">=", $startDate)->where("time", "<", $endDate);
+            if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
+            if (empty($end)) $end = date('Y-m-d H:i:s', strtotime('3 days'));
+        }
+        if (!empty($start)) {
+            $query->where($match_table . '.time', '>=', $start);
+        }
+        if (!empty($end)) {
+            $query->where($match_table . '.time', '<=', $end);
         }
 
         if ($withSelect) {
@@ -109,6 +115,7 @@ class MatchController extends Controller
         if (!empty($l_name)) {
             $query->where($match_table . '.win_lname', 'like', '%' . $l_name . '%');
         }
+
         $query->orderBy($match_table. '.status', 'desc');
         $query->orderBy($match_table . '.time', 'asc');
         $query->orderBy($match_table . '.id', 'desc');
@@ -132,6 +139,8 @@ class MatchController extends Controller
         $has_live = $request->input('has_live');//是否有直播链接
         $status = $request->input('status');//比赛状态
         $type = $request->input('type');//比赛类型 1：竞彩、2：精简
+        $start = $request->input('start');
+        $end = $request->input('end');
 
         if (!empty($l_name)) {
             $lid_array = $this->getLeagueIdByName($l_name);
@@ -139,9 +148,6 @@ class MatchController extends Controller
 
         $withSelect = true;
         $isMain = false;
-
-        $startDate = date("Y-m-d", strtotime('-1 days'));
-        $endDate = date('Y-m-d H:i:s', strtotime('3 days'));
 
         if ($has_live == 1) {//有直播链接
             $query = MatchLive::query();
@@ -160,7 +166,14 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
-            $query->where("time", ">=", $startDate)->where("time", "<", $endDate);
+            if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
+            if (empty($end)) $end = date('Y-m-d H:i:s', strtotime('3 days'));
+        }
+        if (!empty($start)) {
+            $query->where("matches.time", ">=", $start);
+        }
+        if (!empty($end)) {
+            $query->where("matches.time", "<", $end);
         }
 
         $query->leftJoin("leagues", "matches.lid", "leagues.id");
