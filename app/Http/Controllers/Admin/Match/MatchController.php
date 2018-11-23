@@ -66,8 +66,14 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
+        }
+        if (!empty($end)) {
+            if (empty($start)) {
+                $start = date("Y-m-d", strtotime('-1 days', strtotime($end)));
+            }
+        } else {
             if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
-            if (empty($end)) $end = date('Y-m-d H:i:s', strtotime('3 days'));
+            $end = date('Y-m-d H:i:s', strtotime('3 days'));
         }
         if (!empty($start)) {
             $query->where($match_table . '.time', '>=', $start);
@@ -166,8 +172,14 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
+        }
+        if (!empty($end)) {
+            if (empty($start)) {
+                $start = date("Y-m-d", strtotime('-1 days', strtotime($end)));
+            }
+        } else {
             if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
-            if (empty($end)) $end = date('Y-m-d H:i:s', strtotime('3 days'));
+            $end = date('Y-m-d H:i:s', strtotime('3 days'));
         }
         if (!empty($start)) {
             $query->where("matches.time", ">=", $start);
