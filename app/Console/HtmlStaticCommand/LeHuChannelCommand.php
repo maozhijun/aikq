@@ -120,7 +120,7 @@ Log::info("======= 保存 save hls ==========");
             $info = $json;
             Redis::setEx($key, 60 * 2, json_encode($json) );
         }
-        Log::info($room_num . " = " . json_encode($info));
+//        Log::info($room_num . " = " . json_encode($info));
         return $info;
     }
 
