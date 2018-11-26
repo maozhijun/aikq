@@ -257,7 +257,7 @@ class MatchController extends Controller
 
         $json = LeHuChannelCommand::getLeHuLink($room_num);
         if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
-            //return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
+            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败，请稍后重试。']);
         }
         $flv = $json['hls'];
         $m3u8 = $json['m3u8'];
@@ -299,6 +299,7 @@ class MatchController extends Controller
             MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
                 MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
         }
         return response()->json(['code'=>200, 'msg'=>'保存成功']);

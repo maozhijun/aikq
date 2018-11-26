@@ -107,19 +107,20 @@ Log::info("======= 保存 save hls ==========");
         $key = "LeHuChannelCommand_" . $room_num;
         $infoStr = Redis::get($key);
         $info = json_decode($infoStr, true);
-        $info = null;
+//        $info = null;
         if (is_null($info)) {
             $url = "http://console.lehuzhibo.com/api/channel/$room_num.json?time=".time();
             $out = Controller::execUrl($url, 5, false);
             $json = json_decode($out, true);
             if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
                 //dump("获取观看地址失败");
+                Log::info("获取观看地址失败 = ".$room_num);
                 return null;
             }
             $info = $json;
-            Redis::setEx($key, 60 * 5, json_encode($json) );
+            Redis::setEx($key, 60 * 2, json_encode($json) );
         }
-//        dump($room_num . " = " . json_encode($info) );
+        Log::info($room_num . " = " . json_encode($info));
         return $info;
     }
 
