@@ -144,7 +144,7 @@ class SpiderTTZBController extends Controller{
                             $isPrivate = in_array($match->lid, self::football_private_array);
                             $show = $isPrivate ? MatchLiveChannel::kHide : MatchLiveChannel::kShow;
                             $private = MatchLiveChannel::kNotPrivate;//$isPrivate ? MatchLiveChannel::kPrivate : MatchLiveChannel::kNotPrivate;
-                            MatchLiveChannel::saveSpiderChannel($match->id,MatchLive::kSportFootball,MatchLiveChannel::kTypeTTZB,$liveStr,12,MatchLiveChannel::kPlatformPC,MatchLiveChannel::kPlayerIFrame,'赛事直播', $show, $private, MatchLiveChannel::kUseAiKQ);
+                            MatchLiveChannel::saveSpiderChannel($match->id,MatchLive::kSportFootball,MatchLiveChannel::kTypeTTZB,$liveStr,22,MatchLiveChannel::kPlatformPC,MatchLiveChannel::kPlayerIFrame,'赛事直播', $show, $private, MatchLiveChannel::kUseAiKQ);
                             echo 'match ' . $host . ' vs ' .$away . ' 频道 '.$liveStr.'</br>';
                         }
                         else{
@@ -308,7 +308,7 @@ class SpiderTTZBController extends Controller{
                             $isPrivate = in_array($match->lid, self::basketball_private_array);
                             $show = $isPrivate ? MatchLiveChannel::kHide : MatchLiveChannel::kShow;
                             $private = MatchLiveChannel::kNotPrivate;//$isPrivate ? MatchLiveChannel::kPrivate : MatchLiveChannel::kNotPrivate;
-                            MatchLiveChannel::saveSpiderChannel($match->id,MatchLive::kSportBasketball,MatchLiveChannel::kTypeTTZB,$liveStr,12,MatchLiveChannel::kPlatformPC,MatchLiveChannel::kPlayerIFrame,'赛事直播', $show, $private, MatchLiveChannel::kUseAiKQ);
+                            MatchLiveChannel::saveSpiderChannel($match->id,MatchLive::kSportBasketball,MatchLiveChannel::kTypeTTZB,$liveStr,22,MatchLiveChannel::kPlatformPC,MatchLiveChannel::kPlayerIFrame,'赛事直播', $show, $private, MatchLiveChannel::kUseAiKQ);
                             echo 'match ' . $host . ' vs ' .$away . ' 频道 '.$liveStr.'</br>';
                         }
                         else{
