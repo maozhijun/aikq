@@ -9,7 +9,7 @@
     <link href="/css/admin/toastr.min.css" rel="stylesheet">
     {{--<link href="//cdn.bootcss.com/toastr.js/latest/css/toastr.css" rel="stylesheet">--}}
     <link href="/bootstrap/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">
-    <link href="{{ asset('/css/admin/dashboard.css') }}" rel="stylesheet">
+    <link href="/css/admin/dashboard.css" rel="stylesheet">
     @yield('css')
 </head>
 <body>
@@ -17,7 +17,7 @@
 @yield('content')
 
 </body>
-<script src="/js/jquery.js"></script>
+<script src="/js/jquery1.11.1.min.js"></script>
 <script src="/bootstrap/js/bootstrap.js"></script>
 <script src="/js/admin/toastr.min.js"></script>
 <script src="/js/sha1.js"></script>
