@@ -73,8 +73,9 @@ class MatchController extends Controller
             }
         } else {
             if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
-            $end = date('Y-m-d H:i:s', strtotime('3 days'));
+            $end = date('Y-m-d H:i:s', strtotime('+7 days'));
         }
+//        dump($start . ' , ' . $end);
         if (!empty($start)) {
             $query->where($match_table . '.time', '>=', $start);
         }
@@ -119,7 +120,11 @@ class MatchController extends Controller
             $query->where('matches.genre', '&', Match::k_genre_yiji);
         }*/
         if (!empty($l_name)) {
-            $query->where($match_table . '.win_lname', 'like', '%' . $l_name . '%');
+            $query->join('basket_leagues', function ($ljQuery) use ($match_table, $l_name) {
+                $ljQuery->on('basket_leagues.id', '=', $match_table.'.lid');
+                $ljQuery->where('basket_leagues.name', 'like', '%' . $l_name . '%');
+            });
+            //$query->where($match_table . '.win_lname', 'like', '%' . $l_name . '%');
         }
 
         $query->orderBy($match_table. '.status', 'desc');
@@ -148,10 +153,6 @@ class MatchController extends Controller
         $start = $request->input('start');
         $end = $request->input('end');
 
-        if (!empty($l_name)) {
-            $lid_array = $this->getLeagueIdByName($l_name);
-        }
-
         $withSelect = true;
         $isMain = false;
 
@@ -179,16 +180,23 @@ class MatchController extends Controller
             }
         } else {
             if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
-            $end = date('Y-m-d H:i:s', strtotime('3 days'));
+            $end = date('Y-m-d H:i:s', strtotime('+7 days'));
         }
+//        dump($start . ' , ' . $end);
+
         if (!empty($start)) {
             $query->where("matches.time", ">=", $start);
         }
         if (!empty($end)) {
             $query->where("matches.time", "<", $end);
         }
-
-        $query->leftJoin("leagues", "matches.lid", "leagues.id");
+        if (!empty($l_name)) {
+            $query->join('leagues', function ($ljQuery) use ($l_name) {
+                $ljQuery->on('leagues.id', '=', 'matches.lid');
+                $ljQuery->where('leagues.name', 'like', '%' . $l_name . '%');
+            });
+        }
+//        $query->leftJoin("leagues", "matches.lid", "leagues.id");
         if ($withSelect) {
             $query->select("matches.*", "matches.id as mid", "leagues.name as league_name");
         }
@@ -219,9 +227,6 @@ class MatchController extends Controller
             $query->whereNotNull('matches.betting_num');
         } elseif ($type == 2) {
             $query->where('matches.genre', '&', Match::k_genre_yiji);
-        }
-        if (isset($lid_array) && count($lid_array) > 0) {
-            $query->whereIn('lid', $lid_array);
         }
         $query->orderBy('status', 'desc');
         $query->orderBy('time', 'asc');
@@ -276,7 +281,7 @@ class MatchController extends Controller
 
         try {
             //创建外链
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 11,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 13,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto, $room_num);
 
             /**
@@ -292,11 +297,11 @@ class MatchController extends Controller
 //                MatchLiveChannel::kPlatformApp, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
 //
             //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 11,
                 MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
 //
             //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 12,
                 MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
             Log::error($exception);
