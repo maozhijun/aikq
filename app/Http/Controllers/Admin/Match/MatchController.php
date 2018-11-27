@@ -190,13 +190,13 @@ class MatchController extends Controller
         if (!empty($end)) {
             $query->where("matches.time", "<", $end);
         }
-        if (!empty($l_name)) {
-            $query->join('leagues', function ($ljQuery) use ($l_name) {
-                $ljQuery->on('leagues.id', '=', 'matches.lid');
+
+        $query->join("leagues", function ($ljQuery) use ($l_name) {
+            $ljQuery->on('leagues.id', '=', 'matches.lid');
+            if (!empty($l_name)) {
                 $ljQuery->where('leagues.name', 'like', '%' . $l_name . '%');
-            });
-        }
-//        $query->leftJoin("leagues", "matches.lid", "leagues.id");
+            }
+        });
         if ($withSelect) {
             $query->select("matches.*", "matches.id as mid", "leagues.name as league_name");
         }
