@@ -124,7 +124,7 @@ class SitemapService
             $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en/"));
             $sitemap->store('xml', "live", storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en"));
 
-            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/$name_en/live.xml", date(self::YMDHI_FORMAT, time()));
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/subject/$name_en/live.xml", date(self::YMDHI_FORMAT, time()));
         }
         return $sitemapIndex;
     }
@@ -156,7 +156,7 @@ class SitemapService
             $info = $sitemap->store('xml', "team", storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en"));
             Log::info($info);
 
-            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/$name_en/team.xml", date(self::YMDHI_FORMAT, time()));
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/subject/$name_en/team.xml", date(self::YMDHI_FORMAT, time()));
         }
         return $sitemapIndex;
     }
