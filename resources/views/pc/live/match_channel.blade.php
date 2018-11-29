@@ -58,9 +58,9 @@
 <iframe width="100%" height="100%" id="MyFrame">
 </iframe>
 </div>
-<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
-    <a target="_top" href="javascript:log(0)"><img id="download_img" src="{{env('CDN_URL')}}/img/pc/image_ad_wap2.jpg" width="100%"></a>
-</div>
+{{--<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>--}}
+    {{--<a target="_top" href="javascript:log(0)"><img id="download_img" src="{{env('CDN_URL')}}/img/pc/image_ad_wap2.jpg" width="100%"></a>--}}
+{{--</div>--}}
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!--[if lte IE 8]>
