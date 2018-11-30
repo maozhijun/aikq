@@ -45,6 +45,9 @@ class LeHuChannelCommand extends BaseCommand
     }
 
     protected function flushChannel($json) {
+        $monolog = Log::getMonolog();
+        $monolog->popHandler();
+        Log::useDailyFiles(storage_path('/logs/console.log'));
         if (is_null($json) || !isset($json['matches'])) {
             echo '获取数据失败';
             return;
