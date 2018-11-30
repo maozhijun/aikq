@@ -48,6 +48,7 @@ trait UploadTrait
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);//8秒超时
         $response = curl_exec($ch);
 //        echo $response;
         $md5 = md5($response);
