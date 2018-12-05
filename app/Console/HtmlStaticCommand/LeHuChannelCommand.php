@@ -48,8 +48,9 @@ class LeHuChannelCommand extends BaseCommand
         $monolog = Log::getMonolog();
         $monolog->popHandler();
         Log::useDailyFiles(storage_path('/logs/console.log'));
+
         if (is_null($json) || !isset($json['matches'])) {
-            echo '获取数据失败';
+            Log::info('获取数据失败');
             return;
         }
         $json = $json['matches'];
@@ -81,24 +82,29 @@ class LeHuChannelCommand extends BaseCommand
                             ) {
                                 continue;
                             }
-Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "========");
                             $matchLiveChannel = MatchLiveChannel::query()->find($id);
                             if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num)) continue;
-                            $json = self::getLeHuLink($matchLiveChannel->room_num);
-                            if (is_null($json)) continue;
+                            $room_num = $matchLiveChannel->room_num;
+Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "，room_num = $room_num ========");
+                            $json = self::getLeHuLink($room_num);
+                            if (is_null($json)) {
+Log::info('请求 乐虎线路接口 失败');
+                                continue;
+                            }
                             $player = $matchLiveChannel->player;
 Log::info("======= 获取 LH 线路信息 json ".json_encode($json)." ==========");
                             if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
-Log::info("======= 保存 save m3u8 ==========");
                                 $matchLiveChannel->content = $json['m3u8'];
                                 $matchLiveChannel->save();
+Log::info("======= 保存 save m3u8 ==========");
                             } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
-Log::info("======= 保存 save hls ==========");
                                 $matchLiveChannel->content = $json['hls'];
                                 $matchLiveChannel->save();
+Log::info("======= 保存 save hls ==========");
                             }
                         }
                     } catch (\Exception $exception) {
+Log::error($exception);
                         dump($exception);
                     }
                 }
