@@ -67,19 +67,11 @@ class LeHuChannelCommand extends BaseCommand
                 if ( $flg_1 || $flg_2 ) {
                     try {
                         $channels = $match['channels'];
-
-                        //dump($channels);
-                        //continue;
                         foreach ($channels as $channel) {
                             $player = isset($channel['player']) ? $channel['player'] : 1;
                             if ($player == MatchLiveChannel::kPlayerExLink) continue;
                             $id = isset($channel['id']) ? $channel['id'] : '';
-                            if (empty($id)) continue;
-                            $link = isset($channel['link']) ? $channel['link'] : "";
-                            if (!preg_match("/ws.live.sjmhw.com/", $link)
-                                && !preg_match("/ws.live.dlfyb.com/", $link)
-                                && !preg_match("/ws1.live.dlfyb.com/", $link)
-                            ) {
+                            if (empty($id) || !isset($channel['room_num']) || empty($channel['room_num'])) {
                                 continue;
                             }
                             $matchLiveChannel = MatchLiveChannel::query()->find($id);
