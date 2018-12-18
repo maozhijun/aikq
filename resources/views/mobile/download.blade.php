@@ -27,7 +27,7 @@
 <h1>爱看球APP下载</h1>
 <img src="{{env('CDN_URL')}}/img/mobile/image_bg_top_n.jpg" class="bg">
 <div class="downbox">
-    <a id="iOS" href="itms-services://?action=download-manifest&url={{env('CDN_URL')}}/download/test.plist" class="down">iOS下载</a>
+    <a id="iOS" href="itms-services://?action=download-manifest&url=https://www.lehuzhibo.com/download/lehuzhibo.plist" class="down">乐虎直播</a>
     <a id="Android" href="{{env('CDN_URL')}}/download/android.apk" class="down" download="{{env('CDN_URL')}}/download/android.apk">安卓下载</a>
     <p class="warm">※安装APP后若无法更新版本，<br/>请先卸载再重新安装</p>
 </div>
@@ -49,7 +49,7 @@
         <p>3.点入【企业级应用】的选项</p>
         <p>4.按下【信任TOP LTD TOV】</p>
         <p>5.按下【信任】APP即完成设定</p>
-        <p>6.点击开启【爱看球 App】，开始享用！</p>
+        <p>6.点击开启【乐虎直播 App】，开始享用！</p>
     </div>
     <div class="title">
         <p><span class="b">A</span><span class="s">ndriod</span>如何安装？</p>
