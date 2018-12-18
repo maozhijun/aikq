@@ -36,5 +36,5 @@ Route::group(["namespace" => 'PC\Article'], function () {
 });
 
 Route::group(["namespace" => 'Sync'], function () {
-    Route::any("/label/sync/article", "LabelController@syncArticleLabel");//
+    Route::any("/label/sync/article", "LabelController@syncArticleLabel");//同步文章
 });

@@ -70,7 +70,7 @@
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
-                            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink)
+                            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink || $channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp)
                             <?php
                             $player = $channel['player'];
                             if ($player == 11) {
@@ -308,6 +308,7 @@
                         <?php
                         $mChannels = $more['channels'];
                         $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($more['sport'], $more['lid'], $more['mid']);
+                        $mIndex = 0;
                         ?>
                     <tr>
                         <td>{{$more['league_name']}}</td>
@@ -315,6 +316,7 @@
                         <td><a target="_blank" href="{{$url}}">{{$more['hname']}}&nbsp;VS&nbsp;{{$more['aname']}}</a></td>
                         <td>
                             @foreach($mChannels as $mch)
+                                @continue(isset($mch['platform']) && $mch['platform'] == 5)
                                 @if(isset($mch['player']) && $mch['player'] == 16){{-- 外链 --}}
                                 <a target="_blank" href="/live/ex-link/{{$mch['id']}}">{{$mch['name']}}</a>
                                 @else
@@ -326,7 +328,7 @@
                                         $tmp_url = $url;
                                     }
                                     ?>
-                                    <a target="_blank" href="{{$tmp_url . '#btn=' . $index}}">{{$mch['name']}}</a>
+                                    <a target="_blank" href="{{$tmp_url . '#btn=' . ($mIndex++)}}">{{$mch['name']}}</a>
                                 @endif
                             @endforeach
                         </td>

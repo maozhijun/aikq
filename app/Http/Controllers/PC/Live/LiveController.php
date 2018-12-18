@@ -870,8 +870,16 @@ class LiveController extends Controller
             $jsonStr = $aiCon->getLiveUrl($request, $id)->getData();
 
             $jsonData = json_decode(json_encode($jsonStr), true);
-            $playurl = $jsonData['playurl'];
-            $player = $this->player($request, preg_match('/ws.live.sjmhw.com/', $playurl) );
+            if (isset($jsonData["code"]) && $jsonData['code'] == -1) {
+                Log::info("======= 获取线路内容失败 =======");
+                return;
+            }
+            $playurl = isset($jsonData['playurl']) ? $jsonData['playurl'] : '';
+            //获取player html 开始
+            $nr = preg_match('/ws.live.sjmhw.com/', $playurl) || preg_match('/ws.live.dlfyb.com/', $playurl);
+            $nr = $nr || preg_match('/lehuzhibo.com/', $playurl) || preg_match('/ws1.live.dlfyb.com/', $playurl);
+            $player = $this->player($request, $nr );
+            //获取player html 结束
             $origin_json = $jsonData;
             $pc_json = json_encode($jsonData);
             if (!empty($pc_json)) {
@@ -1212,7 +1220,7 @@ class LiveController extends Controller
                         //130处理抓饭的
                         $channel['link'] = explode('=',$channel['link'])[1];
                         $channel['type'] = '98';
-                    } else if ( (isset($channel['type']) && $channel['type'] == MatchLiveChannel::kPlayerIFrame)
+                    } else if ( (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerIFrame)
                         ||
                         (isset($channel['player']) && $channel['player'] == MatchLiveChannel::kPlayerExLink)
                     ) {
@@ -1275,7 +1283,7 @@ class LiveController extends Controller
         //重新处理接口内容，以免暴露过多信息
         $pcArray = [];
         foreach ($pcChannels as $ch) {
-            if ($ch['player'] == MatchLiveChannel::kPlayerExLink) continue;
+            if ($ch['player'] == MatchLiveChannel::kPlayerExLink || $ch['platform'] == MatchLiveChannel::kPlatformApp) continue;
             //channelId/player/name/type
             $pcArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
         }

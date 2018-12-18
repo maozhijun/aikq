@@ -86,10 +86,6 @@
 
 @section('js')
     <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
-        });
-
         function delArticle(id) {
             if (!confirm("是否确认删除此文章？")) {
                 return false;

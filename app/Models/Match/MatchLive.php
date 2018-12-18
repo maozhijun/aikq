@@ -240,6 +240,7 @@ class MatchLive extends Model
         $query = MatchLiveChannel::query()->where(function ($orQuery) {
             $orQuery->where('platform', MatchLiveChannel::kPlatformAll);
             $orQuery->orWhere('platform', MatchLiveChannel::kPlatformPC);
+            $orQuery->orWhere('platform', MatchLiveChannel::kPlatformApp);
         });
 //        $query->where(function ($orQuery) {
 //            $orQuery->where('use',MatchLiveChannel::kUseAll);
@@ -265,6 +266,7 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $channel->akq_url;
+            $tmp['room_num'] = $channel->room_num;
             if ($channel->use == MatchLiveChannel::kUseAiKQ) {
                 $tmp['live_url'] = CommonTool::getLiveDetailUrl($this->sport, 0, $this->match_id);
             }
@@ -315,6 +317,7 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $this->akq_url;
+            $tmp['room_num'] = $this->room_num;
             $array[] = $tmp;
             if(isset($this->akq_url) && strlen($this->akq_url) > 0){
                 $params = explode('/',$this->akq_url);

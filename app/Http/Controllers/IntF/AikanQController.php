@@ -173,8 +173,8 @@ class AikanQController extends Controller
 
 
     protected function getLiveMatches($sport, $bet = '') {
-        $start = date('Y-m-d H:i:s', strtotime('-3 hours'));
-        $end = date('Y-m-d H:i:s', strtotime('+5 days'));
+        $start = date('Y-m-d H:i:s', strtotime('-4 hours'));
+        $end = date('Y-m-d H:i:s', strtotime('+7 days'));
         $ch_time = date('Y-m-d H:i:s', strtotime('-10 days'));
         //$ch_table = DB::raw('(SELECT live_id FROM match_live_channels WHERE (isPrivate = ' . MatchLiveChannel::kIsPrivate . ' or `use` = ' . MatchLiveChannel::kUseAiKQ . ') AND created_at >= \'' . $ch_time . '\' AND `show` = ' . MatchLiveChannel::kShow . ' GROUP BY live_id) as match_live_channels');
         $ch_table = DB::raw('(SELECT live_id FROM match_live_channels WHERE isPrivate = ' . MatchLiveChannel::kIsPrivate . ' AND updated_at >= \'' . $ch_time . '\' AND `show` = ' . MatchLiveChannel::kShow . ' GROUP BY live_id) as match_live_channels');

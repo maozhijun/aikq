@@ -29,6 +29,7 @@
             <option value="1">全部</option>
             <option value="2" @if(isset($channel) && $channel->platform == 2) selected @endif >电脑</option>
             <option value="3" @if(isset($channel) && $channel->platform == 3) selected @endif >手机</option>
+            <option value="5" @if(isset($channel) && $channel->platform == 5) selected @endif >APP</option>
         </select>
         <select name="use" style="display: none;">
             {{--<option value="1">通用</option>--}}
@@ -41,6 +42,7 @@
             <option value="1" @if(isset($channel) && $channel->isPrivate == 1) selected @endif >无版权</option>
         </select>
         <input style="width: 280px;" name="akq_url" value="{{$channel->akq_url or ''}}" placeholder="跳转链接">
+        <input style="width: 280px;" name="room_num" value="{{$channel->room_num or ''}}" placeholder="乐虎房间号，除乐虎外其他的不要填这个">
         <button class="btn btn-success btn-xs" type="button" onclick="saveChannel(this, '{{$channel->id or ''}}', '{{$sport or 1}}');">保存</button>
         <button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>
     </p>

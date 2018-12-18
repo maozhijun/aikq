@@ -58,7 +58,7 @@
         <a href="{{env('WWW_URL')}}"><img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
         <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
-        <a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>
+        {{--<a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>--}}
         {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
         <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/">资讯</a>
         {{--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>--}}
@@ -81,7 +81,7 @@
         <a target="_blank" href="{{env('WWW_URL')}}">爱看球</a>
         <a target="_blank" href="{{env('WWW_URL')}}">JRS直播</a>
         <a target="_blank" href="{{env('WWW_URL')}}">低调看直播</a>
-        <a target="_blank" href="https://www.lehuzhibo.com">乐虎直播</a>
+        <a target="_blank" href="https://live.lehuzhibo.com">乐虎直播</a>
         <a target="_blank" href="https://leqiuba.com">乐球吧</a>
     </p>
     <p>粤ICP备16108148号-2 | Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>

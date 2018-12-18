@@ -40,12 +40,11 @@ class MatchController extends Controller
         $has_live = $request->input('has_live');//是否有直播链接
         $status = $request->input('status');//比赛状态
         $type = $request->input('type');//比赛类型 1：竞彩、2：精简
+        $start = $request->input('start');//比赛开始时间
+        $end = $request->input('end');//比赛结束时间
 
         $withSelect = true;
         $isMain = false;
-
-        $startDate = date("Y-m-d", strtotime('-1 days'));
-        $endDate = date('Y-m-d H:i:s', strtotime('3 days'));
 
         $sport = MatchLive::kSportBasketball;
         $match_table = 'basket_matches';
@@ -67,7 +66,21 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
-            $query->where("time", ">=", $startDate)->where("time", "<", $endDate);
+        }
+        if (!empty($end)) {
+            if (empty($start)) {
+                $start = date("Y-m-d", strtotime('-1 days', strtotime($end)));
+            }
+        } else {
+            if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
+            $end = date('Y-m-d H:i:s', strtotime('+7 days'));
+        }
+//        dump($start . ' , ' . $end);
+        if (!empty($start)) {
+            $query->where($match_table . '.time', '>=', $start);
+        }
+        if (!empty($end)) {
+            $query->where($match_table . '.time', '<=', $end);
         }
 
         if ($withSelect) {
@@ -107,8 +120,13 @@ class MatchController extends Controller
             $query->where('matches.genre', '&', Match::k_genre_yiji);
         }*/
         if (!empty($l_name)) {
-            $query->where($match_table . '.win_lname', 'like', '%' . $l_name . '%');
+            $query->join('basket_leagues', function ($ljQuery) use ($match_table, $l_name) {
+                $ljQuery->on('basket_leagues.id', '=', $match_table.'.lid');
+                $ljQuery->where('basket_leagues.name', 'like', '%' . $l_name . '%');
+            });
+            //$query->where($match_table . '.win_lname', 'like', '%' . $l_name . '%');
         }
+
         $query->orderBy($match_table. '.status', 'desc');
         $query->orderBy($match_table . '.time', 'asc');
         $query->orderBy($match_table . '.id', 'desc');
@@ -132,16 +150,11 @@ class MatchController extends Controller
         $has_live = $request->input('has_live');//是否有直播链接
         $status = $request->input('status');//比赛状态
         $type = $request->input('type');//比赛类型 1：竞彩、2：精简
-
-        if (!empty($l_name)) {
-            $lid_array = $this->getLeagueIdByName($l_name);
-        }
+        $start = $request->input('start');
+        $end = $request->input('end');
 
         $withSelect = true;
         $isMain = false;
-
-        $startDate = date("Y-m-d", strtotime('-1 days'));
-        $endDate = date('Y-m-d H:i:s', strtotime('3 days'));
 
         if ($has_live == 1) {//有直播链接
             $query = MatchLive::query();
@@ -160,10 +173,30 @@ class MatchController extends Controller
                 //无直播链接
                 $query->whereNull('match_lives.id');
             }
-            $query->where("time", ">=", $startDate)->where("time", "<", $endDate);
+        }
+        if (!empty($end)) {
+            if (empty($start)) {
+                $start = date("Y-m-d", strtotime('-1 days', strtotime($end)));
+            }
+        } else {
+            if (empty($start)) $start = date("Y-m-d", strtotime('-1 days'));
+            $end = date('Y-m-d H:i:s', strtotime('+7 days'));
+        }
+//        dump($start . ' , ' . $end);
+
+        if (!empty($start)) {
+            $query->where("matches.time", ">=", $start);
+        }
+        if (!empty($end)) {
+            $query->where("matches.time", "<", $end);
         }
 
-        $query->leftJoin("leagues", "matches.lid", "leagues.id");
+        $query->join("leagues", function ($ljQuery) use ($l_name) {
+            $ljQuery->on('leagues.id', '=', 'matches.lid');
+            if (!empty($l_name)) {
+                $ljQuery->where('leagues.name', 'like', '%' . $l_name . '%');
+            }
+        });
         if ($withSelect) {
             $query->select("matches.*", "matches.id as mid", "leagues.name as league_name");
         }
@@ -194,9 +227,6 @@ class MatchController extends Controller
             $query->whereNotNull('matches.betting_num');
         } elseif ($type == 2) {
             $query->where('matches.genre', '&', Match::k_genre_yiji);
-        }
-        if (isset($lid_array) && count($lid_array) > 0) {
-            $query->whereIn('lid', $lid_array);
         }
         $query->orderBy('status', 'desc');
         $query->orderBy('time', 'asc');
@@ -232,15 +262,17 @@ class MatchController extends Controller
 
         $json = LeHuChannelCommand::getLeHuLink($room_num);
         if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
-            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败']);
+            return response()->json(['code'=>500, 'msg'=>'获取观看地址失败，请稍后重试。']);
         }
         $flv = $json['hls'];
         $m3u8 = $json['m3u8'];
-        $lehu_url = "https://www.lehuzhibo.com/room/".$room_num.".html";
+        $lehu_url = env('LH_URL')."/room/".$room_num.".html";
+        $lehu_player = env('LH_URL')."/player/".$room_num.".html";
 
         $channelType = MatchLiveChannel::kTypeOther;
         $flvPlayer = MatchLiveChannel::kPlayerFlv;
         $m3u8Player = MatchLiveChannel::kPlayerM3u8;
+        $iFramePlayer =MatchLiveChannel::kPlayerIFrame;
         $exPlayer = MatchLiveChannel::kPlayerExLink;
         $show = MatchLiveChannel::kShow;
         $isPrivate = MatchLiveChannel::kIsPrivate;
@@ -249,17 +281,30 @@ class MatchController extends Controller
 
         try {
             //创建外链
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 11,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 13,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto, $room_num);
 
-            //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
-                MatchLiveChannel::kPlatformPC, $flvPlayer, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+            /**
+             * 使用内嵌LH的player方式播放
+             */
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_player, 12,
+//                MatchLiveChannel::kPlatformAll, $iFramePlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
 
+            /**
+             * 专门给APP用 暂时方案
+             */
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+//                MatchLiveChannel::kPlatformApp, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
+//
+            //创建电脑端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 11,
+                MatchLiveChannel::kPlatformPC, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
+//
             //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 13,
-                MatchLiveChannel::kPlatformWAP, $m3u8Player, "乐虎高清", $show, $isPrivate, $use, $auto, $room_num);
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 12,
+                MatchLiveChannel::kPlatformWAP, $m3u8Player, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存失败']);
         }
         return response()->json(['code'=>200, 'msg'=>'保存成功']);
@@ -288,12 +333,13 @@ class MatchController extends Controller
         $impt = $request->input('impt');//是否重点线路，1：普通，2：重点线路
         $ad = $request->input('ad', 1);//
         $akq_url = $request->input('akq_url', '');//
+        $room_num = $request->input('room_num');//乐虎房间号
 
         //判断参数 开始
         if (!in_array($type, MatchLiveChannel::kTypeArray)) {
             return response()->json(['code'=>401, 'msg'=>'线路类型错误。']);
         }
-        if (!in_array($platform, [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC, MatchLiveChannel::kPlatformWAP])) {
+        if (!in_array($platform, [MatchLiveChannel::kPlatformAll, MatchLiveChannel::kPlatformPC, MatchLiveChannel::kPlatformWAP, MatchLiveChannel::kPlatformApp])) {
             return response()->json(['code'=>401, 'msg'=>'平台参数错误。']);
         }
         if (!in_array($isPrivate, [MatchLiveChannel::kIsPrivate, MatchLiveChannel::kIsNotPrivate])) {
@@ -371,10 +417,11 @@ class MatchController extends Controller
         $channel->ad = $ad;
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
+        $channel->room_num = $room_num;//乐虎房间号
 
         //乐虎线路刷新 开始
-        $room_num = $channel->room_num;
-        if (!empty($room_num) && $player != MatchLiveChannel::kPlayerExLink) {
+        //$room_num = $channel->room_num;
+        if (!empty($room_num) && ($player != MatchLiveChannel::kPlayerExLink && $player != MatchLiveChannel::kPlayerIFrame) ) {
             $lh_line = LeHuChannelCommand::getLeHuLink($room_num);
             if (isset($lh_line)) {
                 if ($player == MatchLiveChannel::kPlayerFlv && isset($lh_line['hls'])) {
@@ -509,7 +556,8 @@ class MatchController extends Controller
 
     public static function flushAikqLive($match_id, $sport, $ch_id) {
         $url = '/live/cache/match/detail_id/' . $match_id . '/' . $sport . '?ch_id=' . $ch_id;
-        $url = asset($url);
+        $url = env('CMS_URL').$url;
+        Log::info("flushAikqLive url = ".$url);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

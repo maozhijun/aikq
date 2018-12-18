@@ -52,6 +52,12 @@
                         <option value="2" @if(request('status') == 2) selected @endif>进行中</option>
                         <option value="3" @if(request('status') == 3) selected @endif>已结束</option>
                     </select>
+                    &nbsp;
+                    <label>开始时间：</label>
+                    <input style="width: 140px;" class="form_datetime" name="start" value="{{request('start', '')}}">
+                    &nbsp;
+                    <label>结束时间：</label>
+                    <input style="width: 140px;" class="form_datetime" name="end" value="{{request('end', '')}}">
                     <button type="submit" class="btn btn-sm btn-primary">搜索</button>
                     @if($sport == 1)
                         {{--<a class="btn btn-sm btn-warning" target="_blank" href="http://match.liaogou168.com/api/spider/ballbar/spiderLiveData">抓取BallBar</a>--}}
@@ -126,7 +132,7 @@
             autoclose: 1,
             todayHighlight: 1,
             startView: 2,
-            minView: 2,
+            minView: 0,
             forceParse: 0
         });
 
@@ -153,6 +159,7 @@
             var impt = dataDiv.find('input[name=impt]:checked');
             var type = dataDiv.find("select[name=type]").val();
             var ad = dataDiv.find("select[name=ad]").val();
+            var room_num = dataDiv.find("input[name=room_num]").val();
 
             if ($.trim(name) == "") {
 //                alert("线路名称不能为空。");
@@ -191,6 +198,7 @@
             data['use'] = use;
             data['impt'] = impt.length == 0 ? 1 : 2;{{-- 是否重点线路 --}}
             data['ad'] = ad;
+            data['room_num'] = room_num;
             thisObj.setAttribute('disabled', 'disabled');
             $.ajax({
                 "url": "/admin/live/matches/channel/save",

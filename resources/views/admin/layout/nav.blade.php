@@ -7,8 +7,8 @@
     <link href="/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/bootstrap/fonts/glyphicons-halflings-regular.svg" rel="stylesheet">
-    <link href="{{env('CDN_URL')}}/css/admin/toastr.min.css" rel="stylesheet">
-    <link href="{{ asset('/css/admin/dashboard.css') }}" rel="stylesheet">
+    <link href="/css/admin/toastr.min.css" rel="stylesheet">
+    <link href="/css/admin/dashboard.css" rel="stylesheet">
     @yield('css')
     <style>
         .sidebar ul {
@@ -54,10 +54,10 @@
 @yield('extra_content')
 
 </body>
-<script src="/js/jquery.js"></script>
+<script src="/js/jquery1.11.1.min.js"></script>
 <script src="/bootstrap/js/bootstrap.js"></script>
 {{--<script src="//cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>--}}
-<script src="{{env('CDN_URL')}}/js/admin/toastr.min.js"></script>
+<script src="/js/admin/toastr.min.js"></script>
 <script type="text/javascript">
     $(function () {
         var success = '{{ session('success','') }}';

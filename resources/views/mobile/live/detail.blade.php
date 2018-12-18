@@ -41,7 +41,7 @@
         <iframe src="" id="MyIframe"></iframe>
         <div id="Unload">
             <div class="team">
-                <img src="{{$match->home->icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                <img src="{{$host_icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
                 <p>{{$match['hname']}}</p>
             </div>
             <div class="info">
@@ -71,7 +71,7 @@
                 </select>
             </div>
             <div class="team">
-                <img src="{{$match->away->icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                <img src="{{$away_icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
                 <p>{{$match['aname']}}</p>
             </div>
         </div>
