@@ -285,7 +285,7 @@
             "autoclose": 1,
             "todayHighlight": 1,
             "startView": 2,
-            "minView": 2,
+            "minView": 0,
             "forceParse": 0
         });
     </script>
