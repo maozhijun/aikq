@@ -161,8 +161,8 @@ class ArticleController extends Controller
         $article->resource = $resource;
         if (!empty($cover)) {
             if (starts_with($cover, '/')) {
-                $cover = asset($cover);
-            } else if ( !str_contains($cover, env('APP_URL')) ) {
+                $cover = env('CDN_URL') . $cover;
+            } else if ( !str_contains($cover, env('CDN_URL')) ) {
                 $upload = $this->saveUrlFile($cover, 'cover');
                 $cover = $upload->getEvnUrl();
             }
@@ -184,7 +184,7 @@ class ArticleController extends Controller
         if (isset($images)) {
             $images = explode('@@@', $images);
             foreach ($images as $image) {
-                if (!str_contains($image, env('APP_URL'))) {
+                if (!str_contains($image, env('CDN_URL'))) {
                     $upload = $this->saveUrlFile($image, 'uploads');
                     $content = str_replace($image, $upload->getEvnUrl(), $content);
                 }
