@@ -16,7 +16,9 @@
         $subjects = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS;
         $adShow = env("TOUZHU_AD", "false") == "true";
     ?>
-    @if($adShow)<div class="publicAd"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img style="width: 100%" src="{{env('CDN_URL')}}/img/pc/room.gif"></a>@endif
+    @if($adShow)
+        <div class="publicAd"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img style="width: 100%" src="{{env('CDN_URL')}}/img/pc/room.gif"></a></div>
+    @endif
     @if(isset($subjects) && count($subjects) > 0)
         <div id="League" class="hidden">
             <div class="in">
