@@ -626,7 +626,7 @@ class LiveController extends Controller
         } else{
             $mchannels = array();
         }
-        return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels,'cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
+        return view('pc.live.match_channel',array('mchannels'=>$mchannels,'channels'=>$channels, 'match'=>$json['match'], 'cdn'=>env('CDN_URL'),'host'=>'www.aikanqiu.com'));
     }
 
     /**

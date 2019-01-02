@@ -41,7 +41,13 @@ iframe{
 .line button.on, .line button:hover{
 	background: #1267dc;
 }
-
+.line a{
+	width: 120px; height: 24px;
+	margin-left: 10px;
+	border-radius: 4px;
+	font-size: 14px; line-height: 24px; text-align: center;
+	display: block;
+}
 .line + #Framebox{
 	top: 44px;
 }

@@ -5,7 +5,7 @@
     <title>直播终端_免费高清直播_爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201808201153">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201901021247">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
@@ -16,6 +16,18 @@
     </script>
 </head>
 <body scroll="no">
+<?php
+    $adShow = env("TOUZHU_AD", "false") == "true";
+    if (isset($match["lname"]) && !empty($match["lname"])) {
+        $lname = $match["lname"];
+    } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+        $lname = $match["win_lname"];
+    } else {
+        $lname = "体育";
+    }
+    $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+    $adName = $lname."投注";
+?>
 <div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
@@ -35,7 +47,8 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div class="line mchannel" style="display: none">
@@ -51,7 +64,8 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div id="Framebox">

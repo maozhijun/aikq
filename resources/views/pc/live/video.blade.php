@@ -63,8 +63,21 @@
             @endif
         </div>
         <div class="left_part">
-            <!-- <div class="adbanner inner"><a href="https://www.liaogou168.com/merchant/detail/10008" target="_blank"><img src="img/ad_1.jpg"><button class="close"></button></a></div> -->
-            <div id="Info">
+            <?php
+                $adShow = env("TOUZHU_AD", "false") == "true";
+                if (isset($match["lname"]) && !empty($match["lname"])) {
+                    $lname = $match["lname"];
+                } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+                    $lname = $match["win_lname"];
+                } else {
+                    $lname = "体育";
+                }
+                $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+                $adName = $lname."投注";
+                $adUrl = "http://b.aikq.cc/b8888.html";
+            ?>
+                {{--<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>--}}
+                <div id="Info">
                 <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}@endif</h1>
                 <p class="line">
                     <?php $channels = $live['channels']; ?>
@@ -81,6 +94,9 @@
                             ?>
                             <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
                         @endforeach
+                        @if($adShow)
+                        <a href="{{$adUrl}}" target="_blank" style="height: 24px; padding: 0 20px; margin-left: 20px; border-radius: 4px; background: #d24545; font-size: 14px; line-height: 24px;  color: #fff; display: inline-block;">{{$adName}}</a>
+                        @endif
                     @endif
                 </p>
             </div>
@@ -90,6 +106,7 @@
             <div class="share" id="Share">
                 复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>
             </div>
+            @if($adShow)<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>@endif
             <div id="Data">
                 <div class="column">
                     <a href="javascript:void(0)" class="on" value="Analysis">数据分析</a>
@@ -340,7 +357,6 @@
             @endif
         </div>
     </div>
-    <!-- <div class="adbanner inner"><img src="img/banner_pc_n@1x.jpg"><img class="show" src="img/wechat.jpeg"></div> -->
     <div class="clear"></div>
 </div>
 <!-- <div class="adflag left">
@@ -356,12 +372,16 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901021510"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
         setPage();
     }
+    @if($adShow)
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$adName}}", "{{$adUrl}}");
+    @else
     initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime());
+    @endif
 </script>
 @endsection

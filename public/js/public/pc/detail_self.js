@@ -1,4 +1,4 @@
-function initLineChannel(url) {
+function initLineChannel(url, adName, adUrl) {
     var $line = $("#Info p.line");
     $.ajax({
         "url": url,
@@ -20,10 +20,13 @@ function initLineChannel(url) {
                     }
                     var onclick = "onclick=\"ChangeChannel('" + link + "', this)\"";
                     html += "<button id=\"" + chId + "\" " + onclick + " >" + name + "</button>";
-                    if (html != "") {
-                        $line.html(html);
-                    }
                 });
+                if (adName) {
+                    html += "<a href=\"" + adUrl + "\" target=\"_blank\" style=\"height: 24px; padding: 0 20px; margin-left: 20px; border-radius: 4px; background: #d24545; font-size: 14px; line-height: 24px;  color: #fff; display: inline-block;\">" + adName + "</a>";
+                }
+                if (html != "") {
+                    $line.html(html);
+                }
             }
             LoadVideo();
         },
