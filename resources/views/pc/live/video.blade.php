@@ -1,6 +1,11 @@
 @extends('pc.layout.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <style>
+        p.line button a {
+
+        }
+    </style>
 @endsection
 @section("content")
 <div id="Content">
@@ -91,8 +96,10 @@
                             } else {
                                 $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
                             }
+                            $url = env("LHB_URL", "https://lehubo.com").$link;
                             ?>
-                            <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+                            <button><a href="{{$url}}" target="_blank">{{$channel['name']}}</a></button>
+                            {{--<button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>--}}
                         @endforeach
                         @if($adShow)
                         <a href="{{$adUrl}}" target="_blank" style="height: 24px; padding: 0 20px; margin-left: 20px; border-radius: 4px; background: #d24545; font-size: 14px; line-height: 24px;  color: #fff; display: inline-block;">{{$adName}}</a>
@@ -100,12 +107,12 @@
                     @endif
                 </p>
             </div>
-            <div class="iframe" id="Video">
-                <!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->
-            </div>
-            <div class="share" id="Share">
-                复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>
-            </div>
+            {{--<div class="iframe" id="Video">--}}
+                {{--<!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->--}}
+            {{--</div>--}}
+            {{--<div class="share" id="Share">--}}
+                {{--复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>--}}
+            {{--</div>--}}
             @if($adShow)<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>@endif
             <div id="Data">
                 <div class="column">
@@ -372,12 +379,13 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901021510"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901031640"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
         setPage();
     }
+    window.LHB_URL = "{{env("LHB_URL", "https://lehubo.com")}}";
     @if($adShow)
     initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$adName}}", "{{$adUrl}}");
     @else

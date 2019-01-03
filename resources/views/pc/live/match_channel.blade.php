@@ -47,7 +47,7 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
         @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
@@ -64,7 +64,7 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
         @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>

@@ -39,8 +39,9 @@
                 if ($ex) {
                     $url = $content;
                 } else {
-                    $url = env('WWW_URL') . $link;
+                    $url = env('LHB_URL') . $link;
                 }
+                $ex = 1;
                 ?>
             <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
             @endforeach
@@ -74,8 +75,9 @@
                         if ($ex) {
                             $url = $content;
                         } else {
-                            $url = env('WWW_URL') . $link;
+                            $url = env('LHB_URL') . $link;
                         }
+                        $ex = 1;
                         ?>
                         <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
                     @endforeach
