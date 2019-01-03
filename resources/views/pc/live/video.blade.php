@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=201901031800">
     <style>
         p.line button a {
 
