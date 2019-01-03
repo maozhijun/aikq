@@ -1283,9 +1283,9 @@ class LiveController extends Controller
         //重新处理接口内容，以免暴露过多信息
         $pcArray = [];
         foreach ($pcChannels as $ch) {
-            if ($ch['player'] == MatchLiveChannel::kPlayerExLink || $ch['platform'] == MatchLiveChannel::kPlatformApp) continue;
+            if ($ch['platform'] == MatchLiveChannel::kPlatformApp) continue;//$ch['player'] == MatchLiveChannel::kPlayerExLink ||
             //channelId/player/name/type
-            $pcArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type']];
+            $pcArray[] = ['ch_id'=>$ch['id'], 'player'=>$ch['player'], 'name'=>$ch['name'], 'type'=>$ch['type'], "link"=>$ch["link"]];
         }
 
         $mArray = [];
