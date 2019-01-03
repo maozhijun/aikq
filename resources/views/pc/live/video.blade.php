@@ -84,7 +84,22 @@
                 {{--<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>--}}
                 <div id="Info">
                 <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}@endif</h1>
+                <div class="match">
+                    <div class="team">
+                        <img src="{{$host_icon}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                        <p>{{$match['hname']}}</p>
+                    </div>
+                    <div class="info">
+                        <p>{{$match['win_lname']}}</p>
+                        <p>{{substr($match['time'], 0, 16)}}</p>
+                    </div>
+                    <div class="team">
+                        <img src="{{$away_icon}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                        <p>{{$match['aname']}}</p>
+                    </div>
+                </div>
                 <p class="line">
+                    <span>直播线路：</span>
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
@@ -98,11 +113,11 @@
                             }
                             $url = env("LHB_URL", "https://lehubo.com").$link;
                             ?>
-                            <button><a href="{{$url}}" target="_blank">{{$channel['name']}}</a></button>
+                            <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>
                             {{--<button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>--}}
                         @endforeach
                         @if($adShow)
-                        <a href="{{$adUrl}}" target="_blank" style="height: 24px; padding: 0 20px; margin-left: 20px; border-radius: 4px; background: #d24545; font-size: 14px; line-height: 24px;  color: #fff; display: inline-block;">{{$adName}}</a>
+                        <a href="{{$adUrl}}" target="_blank" style="border-color: #d24545; background: #d24545; color: #fff;">{{$adName}}</a>
                         @endif
                     @endif
                 </p>
@@ -379,7 +394,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901031640"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901031749"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
