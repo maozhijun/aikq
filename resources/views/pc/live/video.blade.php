@@ -105,13 +105,17 @@
                         @foreach($channels as $index=>$channel)
                             @continue($channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp) {{-- $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink ||  --}}
                             <?php
-                            $player = $channel['player'];
-                            if ($player == 11) {
-                                $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                            } else {
-                                $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                            }
-                            $url = env("LHB_URL", "https://lehubo.com").$link;
+                                if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
+                                    $url = $channel["link"];
+                                } else {
+                                    $player = $channel['player'];
+                                    if ($player == 11) {
+                                        $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                                    } else {
+                                        $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+                                    }
+                                    $url = env("LHB_URL", "https://lehubo.com").$link;
+                                }
                             ?>
                             <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>
                             {{--<button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>--}}
