@@ -394,7 +394,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901031749"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901031757"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();

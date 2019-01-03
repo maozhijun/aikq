@@ -27,6 +27,7 @@ function initLineChannel(url, adName, adUrl) {
                     html += "<a href=\"" + adUrl + "\" target=\"_blank\" style=\"border-color: #d24545; background: #d24545; color: #fff;\">" + adName + "</a>";
                 }
                 if (html != "") {
+                    html = "<span>直播线路：</span>" + html;
                     $line.html(html);
                 }
             }
