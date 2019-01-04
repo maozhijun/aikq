@@ -114,6 +114,7 @@
                                         <td>
                                             @if($match['status'] >= 0)
                                                 @foreach($match['channels'] as $c_index=>$channel)
+                                                    @continue($c_index)
                                                     <a target="_blank" href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a>
                                                 @endforeach
                                             @elseif(isset($fv))

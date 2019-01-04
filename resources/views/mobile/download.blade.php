@@ -49,7 +49,7 @@
         <p>3.点入【企业级应用】的选项</p>
         <p>4.按下【信任TOP LTD TOV】</p>
         <p>5.按下【信任】APP即完成设定</p>
-        <p>6.点击开启【爱看球 App】，开始享用！</p>
+        <p>6.点击开启【乐虎直播 App】，开始享用！</p>
     </div>
     <div class="title">
         <p><span class="b">A</span><span class="s">ndriod</span>如何安装？</p>

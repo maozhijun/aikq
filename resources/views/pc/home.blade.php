@@ -88,8 +88,9 @@
                     @if($bj == 0 && $loop->index == 0)
                         <?php
                         $bj = 1;
+                        $adShow = env("TOUZHU_AD", "false") == "true";
                         ?>
-                        <tr class="adbanner"><td colspan="10"><a href="/download/index.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/image_ad_pc.jpg"><button class="close"></button></a></td></tr>
+                        @if($adShow)<tr class="adbanner"><td colspan="10"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/main_long.gif"><button class="close"></button></a></td></tr>@endif
                     @endif
                 @endforeach
                 </tbody>

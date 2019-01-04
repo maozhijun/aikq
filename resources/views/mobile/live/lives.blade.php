@@ -12,14 +12,13 @@
     </div>
 @endsection
 @section('content')
-    <div class="publicAd">
-        <a href="{{env('M_URL')}}/download/index.html">
-            <img style="width: 100%" src="{{env('CDN_URL')}}/img/mobile/image_ad_wap.jpg">
-        </a>
-    </div>
     <?php
         $subjects = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS;
+        $adShow = env("TOUZHU_AD", "false") == "true";
     ?>
+    @if($adShow)
+        <div class="publicAd"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img style="width: 100%" src="{{env('CDN_URL')}}/img/pc/room.gif"></a></div>
+    @endif
     @if(isset($subjects) && count($subjects) > 0)
         <div id="League" class="hidden">
             <div class="in">

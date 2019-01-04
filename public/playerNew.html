@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>爱看球</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<meta name="Keywords" content="">
+	<meta name="Description" content="">
+	<meta http-equiv="X-UA-Compatible" content="edge" />
+	<meta name="renderer" content="webkit|ie-stand|ie-comp">
+	<meta name="baidu-site-verification" content="nEdUlBWvbw">
+	<link rel="Shortcut Icon" data-ng-href="https://static.dlfyb.com/img/pc/ico.ico" href="https://static.dlfyb.com/img/pc/ico.ico">
+	<style type="text/css">
+		body,html{ height: 100%; width: 100%; background: #000; margin: 0; padding: 0;}
+		#MyFrame{ height: 100%;}
+	</style>
+</head>
+<body scroll="no">
+	<div id="MyFrame">
+		
+	</div>
+</body>
+<script type="text/javascript" src="https://static.dlfyb.com/js/public/pc/jquery.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="https://static.dlfyb.com/js/public/pc/jquery_191.js"></script>
+<![endif]-->
+<script type="text/javascript" src="https://static.dlfyb.com/js/public/pc/ckplayer/ckplayer.js?timd=2018030300007"></script>
+<script type="text/javascript">
+	function GetQueryString(str,href) {
+	    var Href;
+	    if (href != undefined && href != '') {
+	        Href = href;
+	    }else{
+	        Href = location.href;
+	    };
+	    var rs = new RegExp("([\?&])(" + str + ")=([^&#]*)(&|$|#)", "gi").exec(Href);
+	    if (rs) {
+	        return decodeURI(rs[3]);
+	    } else {
+	        return '';
+	    }
+	}
+
+	//判断手机
+	function isPhone() {
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+</script>
+<script type="text/javascript">
+
+	var host = 'https://static.dlfyb.com';
+if (host) {
+	if (/^\/\//.test(host)) {
+		host = document.location.protocol + host;
+	}
+} else {
+    host = "";
+}
+	var CKHead = host + '/js/public/pc/ckplayer/';
+	function LoadCK (Link){ //m3u8
+		if ((Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) && IsPC() && navigator.userAgent.indexOf('Safari') == -1) {
+			Link = encodeURIComponent(Link)
+		}
+		var flashvars={
+			s:4,
+			f:CKHead + 'm3u8.swf',
+			a:Link,
+			lv:1,
+			c:0,
+			p:1,
+			loaded:'loadHandler'
+		};
+		var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+		var video=[''+Link+'->video/mp4'];
+		CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+
+		if (isPhone()) {
+			$('video').attr('playsinline','true');
+			$('video').attr('x-webkit-airplay','true');
+			$('video').attr('webkit-playsinline','true');
+			$('video').attr('x5-playsinline','true');
+
+			$('video').attr('muted','');
+			$('video').attr('autoplay','autoplay');
+			$('video').attr('x5-autoplay','autoplay');
+			$('video').attr('x-webkit-autoplay','autoplay');
+			$('video').attr('webkit-autoplay','autoplay');
+		}
+	}
+
+	function LoadFlv (Link){ //flv
+		if (Link.indexOf('http://') == 0 || Link.indexOf('https://') == 0) {
+			Link = encodeURIComponent(Link);
+		}
+		var flashvars={
+			f:''+Link+'',
+			lv:1,
+			c:0,
+			p:1,
+			loaded:'loadHandler'
+		}
+		var video=[''+Link+'->video/mp4','http://www.ckplayer.com/webm/0.webm->video/webm','http://www.ckplayer.com/webm/0.ogv->video/ogg']; 
+		CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video)
+	}
+
+	function LoadRtmp (Link){ //rtmp
+	    var flashvars = {
+	        f:Link,
+	        lv:1,
+	        c:0,
+	        p:1,
+			loaded:'loadHandler'
+		};
+		var params = {
+			allowFullScreen: true,
+			allowScriptAccess: "always",
+			bgcolor: "#000000"
+		};
+		var attrs = {
+			name: "ckplayer"
+		};
+		var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+	    var video=[''+Link+'->video/mp4'];
+	    CKobject.embed( CKHead + 'ckplayer.swf','MyFrame','ckplayer_a1','100%','100%',false,flashvars,video,params);
+	}
+</script>
+<script type="text/javascript">
+	(function () {
+		var Link = GetQueryString('playUrl');
+
+		// Link = 'rtmp://202.69.69.180:443/webcast/bshdlive-pc';
+
+        if (Link.indexOf('.flv') != -1) {
+		 	LoadFlv (Link)
+		}else if (Link.indexOf('rtmp') != -1) {
+			LoadRtmp (Link)
+		}else if (Link.indexOf('.m3u8') != -1) {
+			LoadCK (Link)
+		}else{
+			LoadIframe(Link)
+		}
+    })()
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

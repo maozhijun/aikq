@@ -8,6 +8,16 @@
         $btnIndex = request('btn', 0);
         $firstCh = isset($channels[$btnIndex]) ? $channels[$btnIndex] : $channels[0];
     }
+    $adShow = env("TOUZHU_AD", "false") == "true";
+    if (isset($match["lname"]) && !empty($match["lname"])) {
+        $lname = $match["lname"];
+    } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+        $lname = $match["win_lname"];
+    } else {
+        $lname = "体育";
+    }
+    $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+    $adName = $lname."投注";
 ?>
 @section("banner")
     <div id="Navigation">
@@ -29,11 +39,13 @@
                 if ($ex) {
                     $url = $content;
                 } else {
-                    $url = env('WWW_URL') . $link;
+                    $url = env('LHB_URL') . $link;
                 }
+                $ex = 1;
                 ?>
             <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
             @endforeach
+            @if($adShow)<option ex="1" value="http://b.aikq.cc/b8888.html" style="background: #d24545">{{$adName}}</option>@endif
         </select>
         @endif
     </div>
@@ -63,11 +75,13 @@
                         if ($ex) {
                             $url = $content;
                         } else {
-                            $url = env('WWW_URL') . $link;
+                            $url = env('LHB_URL') . $link;
                         }
+                        $ex = 1;
                         ?>
                         <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
                     @endforeach
+                    @if($adShow)<option ex="1" value="http://b.aikq.cc/b8888.html" style="background: #d24545">{{$adName}}</option>@endif
                 </select>
             </div>
             <div class="team">

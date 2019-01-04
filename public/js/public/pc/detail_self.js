@@ -1,4 +1,4 @@
-function initLineChannel(url) {
+function initLineChannel(url, adName, adUrl) {
     var $line = $("#Info p.line");
     $.ajax({
         "url": url,
@@ -13,17 +13,24 @@ function initLineChannel(url) {
                     var type = channel.type;
                     var player = channel.player;
                     var link = "";
-                    if (player == 11) {
-                        link = '/live/iframe/player-' + chId +  '-' + type + '.html';
+                    if (player == 16) {
+                        link = channel.link;
+                    } else if (player == 11) {
+                        link = window.LHB_URL + '/live/iframe/player-' + chId +  '-' + type + '.html';
                     } else {
-                        link = '/live/player/player-' + chId +  '-' + type + '.html';
+                        link = window.LHB_URL + '/live/player/player-' + chId +  '-' + type + '.html';
                     }
-                    var onclick = "onclick=\"ChangeChannel('" + link + "', this)\"";
-                    html += "<button id=\"" + chId + "\" " + onclick + " >" + name + "</button>";
-                    if (html != "") {
-                        $line.html(html);
-                    }
+                    //var onclick = "onclick=\"ChangeChannel('" + link + "', this)\"";
+                    //html += "<button id=\"" + chId + "\" " + onclick + " >" + name + "</button>";
+                    html += "<a href='" + link + "' target='_blank'>" + name + "</a>";
                 });
+                if (adName) {
+                    html += "<a href=\"" + adUrl + "\" target=\"_blank\" style=\"border-color: #d24545; background: #d24545; color: #fff;\">" + adName + "</a>";
+                }
+                if (html != "") {
+                    //html = "<span>直播线路：</span>" + html;
+                    $line.html(html);
+                }
             }
             LoadVideo();
         },

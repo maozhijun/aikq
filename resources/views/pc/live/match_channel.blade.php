@@ -5,7 +5,7 @@
     <title>直播终端_免费高清直播_爱看球</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201808201153">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201901021247">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
@@ -16,6 +16,18 @@
     </script>
 </head>
 <body scroll="no">
+<?php
+    $adShow = env("TOUZHU_AD", "false") == "true";
+    if (isset($match["lname"]) && !empty($match["lname"])) {
+        $lname = $match["lname"];
+    } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+        $lname = $match["win_lname"];
+    } else {
+        $lname = "体育";
+    }
+    $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+    $adName = $lname."投注";
+?>
 <div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
@@ -35,7 +47,8 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div class="line mchannel" style="display: none">
@@ -51,16 +64,17 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div id="Framebox">
 <iframe width="100%" height="100%" id="MyFrame">
 </iframe>
 </div>
-<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>
-    <a target="_top" href="javascript:log(0)"><img id="download_img" src="{{env('CDN_URL')}}/img/pc/image_ad_wap2.jpg" width="100%"></a>
-</div>
+{{--<div class="publicAd" style="position: fixed;bottom: 0;left: 0;right: 0;"><button onclick="closeAD(this)" style="width: 50px; height: 50px; background: url(/img/mobile/icon_close_btn_white.png) no-repeat center rgba(0,0,0,0.3); background-size: 24px;; position: absolute; right: 0; top: 0;"></button>--}}
+    {{--<a target="_top" href="javascript:log(0)"><img id="download_img" src="{{env('CDN_URL')}}/img/pc/image_ad_wap2.jpg" width="100%"></a>--}}
+{{--</div>--}}
 </body>
 <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <!--[if lte IE 8]>
