@@ -174,8 +174,8 @@
 	font-size: 16px; line-height: 24px; text-align: center; color: #fff;
 }
 #Info p.line{
-	height: 36px;
-	padding: 18px 0;
+	/*height: 36px;*/
+	padding: 0 0 18px;
 	background: #fff;
 	text-align: center;
 	position: relative;
@@ -205,7 +205,7 @@
 }*/
 #Info p.line a{
 	height: 34px; min-width: 60px;
-	padding: 0 16px;
+	padding: 0 16px; margin: 18px 10px 0;
 	border: 1px solid #234981; border-radius: 4px;
 	font-size: 14px; line-height: 34px; text-align: center; color: #234981;
 	display: inline-block;
