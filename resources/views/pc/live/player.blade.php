@@ -27,11 +27,13 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.0.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?timd=2018030300007"></script>
-
 <script type="text/javascript">
-    window.jsonHost = '{{env("API_URL")}}';
-
+    function ShareWarm (Text) {
+        var P = document.createElement('p');
+        P.id = 'ShareWarm';
+        P.innerHTML = Text;
+        document.body.appendChild(P)
+    }
     function isMobileWithJS() {
         var u = navigator.userAgent;
         var isAndroid = u.indexOf('Android') > -1; //android终端或者uc浏览器
@@ -39,24 +41,23 @@
         var isiPad = u.indexOf('iPad') > -1; //是否iPad
         return (isAndroid || isiPhone || isiPad) ? '1' : '';
     }
-</script>
-
-<script type="text/javascript">
-    <?php //$host = '//localhost:9090'; $cnd = ''; ?>
-    function ShareWarm (Text) {
-        var P = document.createElement('p');
-        P.id = 'ShareWarm';
-        P.innerHTML = Text;
-        document.body.appendChild(P)
+    function addProtocol(url) {
+        if (url) {
+            if (/^\/\//.test(url)) {
+                url = document.location.protocol + url;
+            }
+        } else {
+            url = "";
+        }
+        return url;
     }
+
+    window.jsonHost = '{{env("API_URL")}}';
     window.host = window.location.host;//'{{$host}}';
     window.isMobile = isMobileWithJS();
-    window.cdn_url = '{{$cdn}}';
-    // if (window.cdn_url && window.cdn_url != "") {
-    //     window.cdn_url = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + window.cdn_url;
-    // }
-    //window.CKHead = (location.href.indexOf('https://') != -1 ? 'https:' : 'http:') + '{{$cdn}}/js/public/pc/ckplayer/';
+    window.cdn_url = addProtocol('{{$cdn}}');
 </script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/ckplayer/ckplayer.js?timd=201901071545"></script>
 <script src="<?php echo env('CDN_URL'); ?>/js/public/pc/socket.io.js"></script>
 <script type="text/javascript" src="<?php echo env('CDN_URL'); ?>/js/public/pc/player3.js?rd=201811141650"></script>
 <script>
