@@ -108,13 +108,14 @@
                                 if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
                                     $url = $channel["link"];
                                 } else {
-                                    $player = $channel['player'];
-                                    if ($player == 11) {
-                                        $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                                    } else {
-                                        $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                                    }
-                                    $url = env("LHB_URL", "https://lehubo.com").$link;
+//                                    $player = $channel['player'];
+//                                    if ($player == 11) {
+//                                        $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                                    } else {
+//                                        $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                                    }
+//                                    $url = env("LHB_URL", "https://lehubo.com").$link;
+                                    $url = env('LHB_URL').'/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html';
                                 }
                             ?>
                             <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>
@@ -398,7 +399,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901040039"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901081909"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
@@ -406,9 +407,9 @@
     }
     window.LHB_URL = "{{env("LHB_URL", "https://lehubo.com")}}";
     @if($adShow)
-    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$adName}}", "{{$adUrl}}");
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}", "{{$adName}}", "{{$adUrl}}");
     @else
-    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime());
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}");
     @endif
 </script>
 @endsection

@@ -62,20 +62,21 @@
                 <button>视频直播</button>
                 <select>
                     <option value="">请选择线路</option>
+                    <?php $btnIndex = 0; ?>
                     @foreach($channels as $channel)
                         <?php
                         $content = $channel['link'];
                         $player = $channel['player'];
-                        if ($player == 11) {
-                            $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                        } else {
-                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                        }
+//                        if ($player == 11) {
+//                            $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                        } else {
+//                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                        }
                         $ex = $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink;
                         if ($ex) {
                             $url = $content;
                         } else {
-                            $url = env('LHB_URL') . $link;
+                            $url = env('LHB_URL') . '/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html?btn='.($btnIndex++);
                         }
                         $ex = 1;
                         ?>

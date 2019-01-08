@@ -47,7 +47,7 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+        <a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;background: #8aacda;">更多直播</a>
         @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
@@ -64,7 +64,7 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;display:flex;">更多直播</a></button>
+            <a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;background: #8aacda;">更多直播</a>
         @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
@@ -128,16 +128,38 @@
         return;
     }
 
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURIComponent(r[2]);
+        return null;
+    }
+
     window.onload = function () { //需要添加的监控放在这里
+        var btn = getQueryString("btn");
+        var btnIndex = 0;
+        if (/\d+/.test(btn)) {
+            btnIndex = parseInt(btn);
+        }
         if (isMobileWithJS()){
             $('div.mchannel')[0].style.display = '';
-            if ($('.mchannel button').length > 0)
-                $($('.mchannel button')[0]).trigger("click");
+            var button = $('.mchannel button');
+            var buttonLen = button.length;
+            if (btnIndex > buttonLen - 1) {
+                btnIndex = 0;
+            }
+            if (buttonLen > 0)
+                $('.mchannel button:eq('+btnIndex+')').trigger("click");
         }
         else {
             $('div.channel')[0].style.display = '';
-            if ($('.channel button').length > 0)
-                $($('.channel button')[0]).trigger("click");
+            var button = $('.channel button');
+            var buttonLen = button.length;
+            if (btnIndex > buttonLen - 1) {
+                btnIndex = 0;
+            }
+            if (buttonLen > 0)
+                $('.channel button:eq('+btnIndex+')').trigger("click");
         }
     }
 
