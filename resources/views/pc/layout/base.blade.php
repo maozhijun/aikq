@@ -85,7 +85,7 @@
         <a target="_blank" href="https://www.lehuzhibo.cc">乐虎直播</a>
         <a target="_blank" href="https://leqiuba.com">乐球吧</a>
     </p>
-    <p>粤ICP备16108148号-2 | Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>
+    <p><a target="_blank" href="http://www.miitbeian.gov.cn">沪ICP备18031952号-11</a> | Copyright 2014-2015 ©aikanqiu.com, All rights reserved.</p>
     <p>免责声明：本站所有直播和视频链接均由网友提供，如有侵权问题，请及时联系，我们将尽快处理。</p>
     <p>业务联系QQ：2080989735（商务合作）</p>
 </div>
