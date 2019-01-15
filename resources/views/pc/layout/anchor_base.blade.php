@@ -46,7 +46,7 @@
         {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
         <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/">资讯</a>
         {{--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>--}}
-        <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/business.html" target="_blank">源调用</a>
+{{--        <a class="column {{isset($check) && $check == 'business' ? ' on' : ''}}" href="/business.html" target="_blank">源调用</a>--}}
         {{--<a class="column{{isset($check) && $check == 'basket' ? ' on' : ''}}" href="/basketball.html">篮球</a>--}}
         <a class="column" href="/download/index.html" target="">下载</a>
         @yield('nav_inner')
