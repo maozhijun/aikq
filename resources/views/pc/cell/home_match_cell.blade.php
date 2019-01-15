@@ -77,6 +77,14 @@
                 <a target="_blank" href="{{$tmp_url . '#btn=' . ($index++)}}">{{$channel['name']}}</a>
             @endif
         @endforeach
+        <?php
+            $adShow = env("TOUZHU_AD", "false") == "true";
+            $league_name = $match['league_name'];
+            $adName = (mb_strlen($league_name) > 3 ? "体育" : $league_name) . "投注";
+        ?>
+        @if($adShow)
+            <a style="color: red" target="_blank" href="http://b.aikq.cc/b8888.html">{{$adName}}</a>
+        @endif
         {{--@if($match['sport'] == 1)--}}
             {{--<a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Article">专家推荐</a>--}}
         {{--@elseif($match['sport'] == 2)--}}

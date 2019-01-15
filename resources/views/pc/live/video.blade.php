@@ -1,6 +1,11 @@
 @extends('pc.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/video.css?time=201901041209">
+    <style>
+        p.line button a {
+
+        }
+    </style>
 @endsection
 @section("content")
 <div id="Content">
@@ -63,33 +68,72 @@
             @endif
         </div>
         <div class="left_part">
-            <!-- <div class="adbanner inner"><a href="https://www.liaogou168.com/merchant/detail/10008" target="_blank"><img src="img/ad_1.jpg"><button class="close"></button></a></div> -->
-            <div id="Info">
+            <?php
+                $adShow = env("TOUZHU_AD", "false") == "true";
+                if (isset($match["lname"]) && !empty($match["lname"])) {
+                    $lname = $match["lname"];
+                } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+                    $lname = $match["win_lname"];
+                } else {
+                    $lname = "体育";
+                }
+                $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+                $adName = $lname."投注";
+                $adUrl = "http://b.aikq.cc/b8888.html";
+            ?>
+                {{--<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>--}}
+                <div id="Info">
                 <h1 class="name">{{$match['lname']}}直播：{{$match['hname']}}@if(!empty($match['aname']))　VS　{{$match['aname']}}@endif</h1>
+                <div class="match">
+                    <div class="team">
+                        <img src="{{$host_icon}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                        <p>{{$match['hname']}}</p>
+                    </div>
+                    <div class="info">
+                        <p>{{$match['win_lname']}}</p>
+                        <p>{{substr($match['time'], 0, 16)}}</p>
+                    </div>
+                    <div class="team">
+                        <img src="{{$away_icon}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
+                        <p>{{$match['aname']}}</p>
+                    </div>
+                </div>
                 <p class="line">
+                    {{--<span>直播线路：</span>--}}
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
                         @foreach($channels as $index=>$channel)
-                            @continue($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink || $channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp)
+                            @continue($channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp) {{-- $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink ||  --}}
                             <?php
-                            $player = $channel['player'];
-                            if ($player == 11) {
-                                $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                            } else {
-                                $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-                            }
+                                if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
+                                    $url = $channel["link"];
+                                } else {
+//                                    $player = $channel['player'];
+//                                    if ($player == 11) {
+//                                        $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                                    } else {
+//                                        $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
+//                                    }
+//                                    $url = env("LHB_URL", "https://lehubo.com").$link;
+                                    $url = env('LHB_URL').'/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html';
+                                }
                             ?>
-                            <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
+                            <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>
+                            {{--<button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>--}}
                         @endforeach
+                        @if($adShow)
+                        <a href="{{$adUrl}}" target="_blank" style="border-color: #d24545; background: #d24545; color: #fff;">{{$adName}}</a>
+                        @endif
                     @endif
                 </p>
             </div>
-            <div class="iframe" id="Video">
-                <!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->
-            </div>
-            <div class="share" id="Share">
-                复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>
-            </div>
+            {{--<div class="iframe" id="Video">--}}
+                {{--<!-- <iframe id="Frame" src="player.html?id=123"></iframe> -->--}}
+            {{--</div>--}}
+            {{--<div class="share" id="Share">--}}
+                {{--复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>--}}
+            {{--</div>--}}
+            @if($adShow)<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>@endif
             <div id="Data">
                 <div class="column">
                     <a href="javascript:void(0)" class="on" value="Analysis">数据分析</a>
@@ -340,7 +384,6 @@
             @endif
         </div>
     </div>
-    <!-- <div class="adbanner inner"><img src="img/banner_pc_n@1x.jpg"><img class="show" src="img/wechat.jpeg"></div> -->
     <div class="clear"></div>
 </div>
 <!-- <div class="adflag left">
@@ -356,12 +399,17 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901081909"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();
         setPage();
     }
-    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime());
+    window.LHB_URL = "{{env("LHB_URL", "https://lehubo.com")}}";
+    @if($adShow)
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}", "{{$adName}}", "{{$adUrl}}");
+    @else
+    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}");
+    @endif
 </script>
 @endsection

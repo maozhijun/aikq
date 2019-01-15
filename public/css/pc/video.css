@@ -106,12 +106,9 @@
 }
 
 #Record{
-	margin-bottom: 20px; padding-bottom: 10px;
+	margin-bottom: 20px; padding: 0 0 10px 4px;
 	background: #fff;
-	font-size: 0; text-align: center;
-}
-#Record .title{
-	text-align: left;
+	font-size: 0; line-height: 0;
 }
 #Record a{
 	width: 100px;
@@ -120,12 +117,15 @@
 	vertical-align: top;
 	display: inline-block;
 }
+#Record .title{
+	margin-left: -4px;
+}
 #Record a .imgbox{
 	height: 55px;
 	position: relative;
 }
 #Record a .imgbox:before{
-	background: url(http://static.dlfyb.com/img/pc/icon_pause_n.png) no-repeat center; background-size: 28px;
+	background: url(//static.dlfyb.com/img/pc/icon_pause_n.png) no-repeat center; background-size: 28px;
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
 	content: '';
 }
@@ -140,18 +140,47 @@
 
 /*左边*/
 #Info{
-	height: 70px;
-	padding: 20px 20px 0;
 	background: #234981;
+	line-height: 0; text-align: center;
 }
 #Info p.name, #Info h1.name{
 	font-size: 18px; line-height: 28px; text-align: center; color: #fff; font-weight: normal;
+	display: none;
+}
+#Info .match{
+	height: 240px;
+	font-size: 0; line-height: 0; text-align: center;
+}
+#Info .match .info{
+	width: 20%; height: 170px;
+	padding-top: 70px;
+	font-size: 16px; line-height: 22px; text-align: center; color: #fff;
+	overflow: hidden;
+	display: inline-block; vertical-align: top;
+}
+#Info .match .info p{
+	margin-bottom: 10px;
+}
+#Info .match .team{
+	width: 40%; height: 240px;
+	display: inline-block; vertical-align: top;
+}
+#Info .match .team img{
+	width: 116px; height: 116px;
+	margin: 40px auto 10px;
+	display: block;
+}
+#Info .match .team p{
+	font-size: 16px; line-height: 24px; text-align: center; color: #fff;
 }
 #Info p.line{
-	height: 32px;
-	padding-top: 5px; margin-left: -2px; text-align: center;
+	/*height: 36px;*/
+	padding: 0 0 18px;
+	background: #fff;
+	text-align: center;
+	position: relative;
 }
-#Info p.line button{
+/*#Info p.line button{
 	height: 24px;
 	padding: 0 20px; margin-top: 4px;
 	border-radius: 4px; border: 1px solid #fff;
@@ -173,11 +202,31 @@
 #Info p.line span a{
 	padding-left: 8px;
 	color: #1267dc;
+}*/
+#Info p.line a{
+	height: 34px; min-width: 60px;
+	padding: 0 16px; margin: 18px 10px 0;
+	border: 1px solid #234981; border-radius: 4px;
+	font-size: 14px; line-height: 34px; text-align: center; color: #234981;
+	display: inline-block;
+}
+#Info p.line a + a{
+	margin-left: 20px;
+}
+#Info p.line a:hover, #Info p.line a.on{
+	background: #234981;
+	color: #fff;
+}
+#Info p.line span{
+	height: 36px;
+	margin-top: -12px;
+	font-size: 14px; line-height: 24px; color: #234981;
+	position: absolute; left: 3%; top: 50%; 
 }
 
 .iframe{
 	height: 500px;
-	background: url(http://static.dlfyb.com/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
+	background: url(//static.dlfyb.com/img/pc/image_video_bg.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 .iframe p.noframe,
@@ -197,7 +246,7 @@
 .iframe .ADWarm_RU{
 	width: 240px; height: 34px;
 	padding-top: 146px;
-	background: url(http://static.dlfyb.com/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
+	background: url(//static.dlfyb.com/img/pc/image_prompt.png) no-repeat center top; background-size: 100% auto;
 	position: absolute; right: -40px; bottom: -100px; z-index: 100;
 }
 .iframe .ADWarm_RU p{
@@ -216,19 +265,20 @@
 #Share{
 	height: 50px;
 	padding: 0 130px;
+	border-top: 1px solid #e1e4e8;
 	background: #fff;
 	font-size: 14px; line-height: 50px; text-align: center;
 	position: relative;
 }
 #Share:before{
 	width: 130px; height: 50px;
-	background: url(http://static.dlfyb.com/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
+	background: url(//static.dlfyb.com/img/pc/image_left_live.png) no-repeat left center; background-size: 130px;
 	position: absolute; top: 0; left: 0;
 	content: '';
 }
 #Share:after{
 	width: 130px; height: 50px;
-	background: url(http://static.dlfyb.com/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
+	background: url(//static.dlfyb.com/img/pc/image_right_live.png) no-repeat right center; background-size: 130px;
 	position: absolute; top: 0; right: 0;
 	content: '';
 }
@@ -450,3 +500,14 @@
 	line-height: 26px; color: #fff;
 	display: inline-block;
 }
+
+
+
+
+
+
+
+
+
+
+

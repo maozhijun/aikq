@@ -29,6 +29,7 @@ function ckcpt() {
 以下是对播放器功能进行配置
 */
 function ckstyle() { //定义总的风格
+    //var cPath = window.cdn_url + "/js/public/pc/ckplayer/style.swf?time=201901071551";
     var ck = {
         cpath: '',
         /*
@@ -118,7 +119,7 @@ function ckstyle() { //定义总的风格
 		4、播放器最小高度
 		这里只是初始化时的设置，最终加载完播放器后显示的效果需要在style.swf/style.xml里设置该参数
 		*/
-        mylogo: 'akq.png',
+        mylogo: null,//'akq.png',
         /*
 		视频加载前显示的logo文件，不使用设置成null，即mylogo='null';
 		*/

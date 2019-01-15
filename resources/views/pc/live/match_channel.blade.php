@@ -2,20 +2,32 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>直播终端_免费高清直播_爱看球</title>
+    <title>直播终端_免费高清直播_乐虎播</title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201808201153">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/player.css?time=201901021247">
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
+    {{--<link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">--}}
     <script type="text/javascript">
         window.jsonHost = '{{env("API_URL")}}';
     </script>
 </head>
 <body scroll="no">
+<?php
+    $adShow = env("TOUZHU_AD", "false") == "true";
+    if (isset($match["lname"]) && !empty($match["lname"])) {
+        $lname = $match["lname"];
+    } else if (isset($match["win_lname"]) && !empty($match["win_lname"])) {
+        $lname = $match["win_lname"];
+    } else {
+        $lname = "体育";
+    }
+    $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
+    $adName = $lname."投注";
+?>
 <div class="line channel" style="display: none">
     @if(isset($channels))
         @foreach($channels as $index=>$channel)
@@ -35,7 +47,8 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+        <a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;background: #8aacda;">更多直播</a>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div class="line mchannel" style="display: none">
@@ -51,7 +64,8 @@
                 <button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>
             @endif
         @endforeach
-        <button><a href="/" target="_blank" style="text-decoration:none;color: #fff;">更多直播</a></button>
+            <a href="https://www.aikanqiu.com/" target="_blank" style="text-decoration:none;color: #fff;background: #8aacda;">更多直播</a>
+        @if($adShow)<a href="http://b.aikq.cc/b8888.html" target="_blank" style="text-decoration:none;color: #fff;background: #d24545;">{{$adName}}</a>@endif
     @endif
 </div>
 <div id="Framebox">
@@ -114,16 +128,38 @@
         return;
     }
 
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURIComponent(r[2]);
+        return null;
+    }
+
     window.onload = function () { //需要添加的监控放在这里
+        var btn = getQueryString("btn");
+        var btnIndex = 0;
+        if (/\d+/.test(btn)) {
+            btnIndex = parseInt(btn);
+        }
         if (isMobileWithJS()){
             $('div.mchannel')[0].style.display = '';
-            if ($('.mchannel button').length > 0)
-                $($('.mchannel button')[0]).trigger("click");
+            var button = $('.mchannel button');
+            var buttonLen = button.length;
+            if (btnIndex > buttonLen - 1) {
+                btnIndex = 0;
+            }
+            if (buttonLen > 0)
+                $('.mchannel button:eq('+btnIndex+')').trigger("click");
         }
         else {
             $('div.channel')[0].style.display = '';
-            if ($('.channel button').length > 0)
-                $($('.channel button')[0]).trigger("click");
+            var button = $('.channel button');
+            var buttonLen = button.length;
+            if (btnIndex > buttonLen - 1) {
+                btnIndex = 0;
+            }
+            if (buttonLen > 0)
+                $('.channel button:eq('+btnIndex+')').trigger("click");
         }
     }
 
