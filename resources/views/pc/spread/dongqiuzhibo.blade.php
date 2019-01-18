@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="edge" />
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
     <meta name="baidu-site-verification" content="nEdUlBWvbw">
-    <link rel="stylesheet" type="text/css" href={{env('CDN_URL') . '/css/db/style.css?201712302000'}}>
+    <link rel="stylesheet" type="text/css" href={{env('CDN_URL') . '/css/db/style.css?201901181541'}}>
     @yield('css')
     <!--[if lte IE 8]>
     <link rel="stylesheet" type="text/css" href={{env('CDN_URL') . '/css/ie.css?201712302000'}}>

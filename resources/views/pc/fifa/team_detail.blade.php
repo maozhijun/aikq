@@ -253,7 +253,7 @@
     </div>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/fifa/team.css?time=20180203030004">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/fifa/team.css?time=201901181541">
     <style>
 
     </style>

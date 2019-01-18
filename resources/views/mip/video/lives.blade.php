@@ -4,7 +4,7 @@
 ?>
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoList.css?rd=201804">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoList.css?rd=201901181541">
 @endsection
 @section('js')
     <script src="https://c.mipcdn.com/static/v1/mip-lightbox/mip-lightbox.js"></script>

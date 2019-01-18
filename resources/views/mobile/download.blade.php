@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201808241105">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/downloadPhone.css?t=201808141550">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201901181541">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/downloadPhone.css?t=201901181541">
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <link href="{{env('CDN_URL')}}/img/pc/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
     <title>爱看球APP下载_爱看球官网软件下载-爱看球直播</title>

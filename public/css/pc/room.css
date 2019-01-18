@@ -17,12 +17,12 @@ body:before, body:after{
 }
 body:before{
 	width: 124px;
-	background: url(http://static.dlfyb.com/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	background: url(/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
 	left: 0;
 }
 body:after{
 	width: 317px;
-	background: url(http://static.dlfyb.com/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	background: url(/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
 	right: 0;
 }
 
@@ -30,7 +30,7 @@ body:after{
 #Content .inner{
 	height: 510px;
 	padding: 72px 24% 10px 20px;
-	background: url(http://static.dlfyb.com/img/pc/image_bg_room.jpg) no-repeat center; background-size: cover;
+	background: url(/img/pc/image_bg_room.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 
@@ -96,7 +96,7 @@ body:after{
 	background: #000;
 }
 .noLive{
-	background: url(http://static.dlfyb.com/img/pc/bg.jpg) no-repeat center; background-size: cover;
+	background: url(/img/pc/bg.jpg) no-repeat center; background-size: cover;
 	position: relative;
 }
 .noLive p{

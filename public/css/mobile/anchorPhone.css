@@ -5,7 +5,7 @@
 #Hot{
 	height: 180px;
 	margin: -88px 0 20px; padding: 116px 0 104px;
-	background: url(http://static.dlfyb.com/img/mobile/image_bg_focus_n.jpg) no-repeat left top; background-size: cover;
+	background: url(/img/mobile/image_bg_focus_n.jpg) no-repeat left top; background-size: cover;
 	position: relative;
 }
 #Hot:after{

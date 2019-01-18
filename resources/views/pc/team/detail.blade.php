@@ -1,7 +1,7 @@
 @extends('pc.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/team.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/team.css?201901181541">
 @stop
 <?php
     $coach = "";

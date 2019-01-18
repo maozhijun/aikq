@@ -19,7 +19,7 @@ img.logo{
 }
 #Video a{
 	width: 100%; height: 210px;
-	background: url(http://static.dlfyb.com/img/pc/icon_pause_n@2x.png) no-repeat center #333; background-size: 70px;
+	background: url(/img/pc/icon_pause_n@2x.png) no-repeat center #333; background-size: 70px;
 	position: absolute; bottom: 44px; left: 0;
 	display: block;
 }
@@ -77,6 +77,6 @@ img.logo{
 
 /*微信*/
 #WX{
-	background: url(http://static.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }

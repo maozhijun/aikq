@@ -272,7 +272,7 @@
 	position: relative;
 }
 #Record a .imgbox:before{
-	background: url(http://static.dlfyb.com/img/pc/icon_pause_n.png) no-repeat center; background-size: 40px;
+	background: url(/img/pc/icon_pause_n.png) no-repeat center; background-size: 40px;
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
 	content: '';
 }

@@ -6,7 +6,7 @@
 #Video{
 	height: 200px;
 	padding-top: 60px;
-	background: url(http://static.dlfyb.com/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	background: url(/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
 	font-size: 14px; line-height: 20px; text-align: center; color: #fff;
 	position: fixed; top: 44px; left: 0; right: 0; z-index: 1;
 	box-sizing: border-box;
@@ -45,7 +45,7 @@
 }
 #Match .vs .time .color{
 	height: 20px;
-	background: url(http://static.dlfyb.com/img/mobile/icon_cloth_n.png) no-repeat; background-size: 18px;
+	background: url(/img/mobile/icon_cloth_n.png) no-repeat; background-size: 18px;
 	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
 }
 #Match .vs .time .color.host{
@@ -168,7 +168,7 @@
 }
 #Anchor .info{
 	padding: 30px 60px 15px 70px;
-	background: url(http://static.dlfyb.com/img/mobile/image_music_n.png) no-repeat right 10px bottom; background-size: 32px;
+	background: url(/img/mobile/image_music_n.png) no-repeat right 10px bottom; background-size: 32px;
 	position: relative;
 }
 #Anchor .info:before{

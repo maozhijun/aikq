@@ -23,7 +23,7 @@ mip-vd-tabs.tab .inner{
 #Live a, #Recording a{
 	height: 60px;
 	padding-right: 36px;
-	background: url(http://static.dlfyb.com/img/pc/icon_right.png) no-repeat right center #fff; background-size: 30px;
+	background: url(/img/pc/icon_right.png) no-repeat right center #fff; background-size: 30px;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
 }
@@ -42,7 +42,7 @@ mip-vd-tabs.tab .inner{
 #Live a p.time, #Recording a p.time{
 	width: 60px;
 	padding-top: 30px;
-	background: url(http://static.dlfyb.com/img/mobile/icon_time_n.png) no-repeat center 10px; background-size: 16px;
+	background: url(/img/mobile/icon_time_n.png) no-repeat center 10px; background-size: 16px;
 	font-size: 14px; line-height: 20px; text-align: center; color: #6a6464;
 }
 #Live a p.match, #Recording a p.match{

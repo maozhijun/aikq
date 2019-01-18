@@ -39,12 +39,12 @@ body:before, body:after{
 }
 body:before{
 	width: 124px;
-	background: url(http://static.dlfyb.com/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
+	background: url(/img/pc/bg_left_n.png) no-repeat left top; background-size: 124px;
 	left: 0;
 }
 body:after{
 	width: 317px;
-	background: url(http://static.dlfyb.com/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
+	background: url(/img/pc/bg_right_n.png) no-repeat right top; background-size: 317px;
 	right: 0;
 }
 
@@ -88,7 +88,7 @@ body:after{
 /*无内容*/
 .noList{
 	padding: 160px 0 40px;
-	background: url(http://static.dlfyb.com/img/pc/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
+	background: url(/img/pc/bg_nolist.png) no-repeat center 40px #fff !important; background-size: 120px !important;
 	font-size: 16px; line-height: 24px; text-align: center; color: #999;
 	display: none;
 }
@@ -112,7 +112,7 @@ body:after{
 }
 #Navigation .inner{
 	height: 58px;
-	/*background: url(http://static.dlfyb.com/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
+	/*background: url(/img/pc/image_slogan.png) no-repeat center; background-size: 120px;*/
 	font-size: 0;
 	position: initial;
 }
@@ -166,7 +166,7 @@ body:after{
 #Link{
 	height: 30px;
 	padding: 0 12%;
-	background: url(http://static.dlfyb.com/img/pc/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
+	background: url(/img/pc/entrance_bg_n.jpg) no-repeat center #4492fd; background-size: auto 30px;
 	text-align: center;
 	position: fixed; top: 60px; left: 0; right: 0; z-index: 9;
 }

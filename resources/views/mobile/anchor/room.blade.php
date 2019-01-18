@@ -24,8 +24,8 @@
     <meta charset="utf-8" />
     <meta content="telephone=no,email=no" name="format-detection" />
     <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201808241135">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/roomPhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/style_phone.css?t=201901181541">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/roomPhone.css?201901181541">
     <link rel="Shortcut Icon" data-ng-href="img/ico.ico" href="{{env('CDN_URL')}}/img/mobile/ico.ico">
     <link href="{{env('CDN_URL')}}/img/mobile/icon_face.png" sizes="100x100" rel="apple-touch-icon-precomposed">
 </head>

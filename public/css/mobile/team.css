@@ -7,7 +7,7 @@
 #Info{
 	height: 420px;
 	padding-left: 290px;
-	background: url(http://static.dlfyb.com/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
+	background: url(/img/mobile/image_bg_play_n.jpg) no-repeat center; background-size: cover;
 	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
 	-webkit-box-align: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center; align-items: center;
 	position: relative;
@@ -267,7 +267,7 @@
 
 /*微信*/
 #WX{
-	background: url(http://static.dlfyb.com/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
+	background: url(/img/mobile/bg_club_share.png) no-repeat right top rgba(0,0,0,0.4); background-size: 640px;
 	position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 999;
 }
 

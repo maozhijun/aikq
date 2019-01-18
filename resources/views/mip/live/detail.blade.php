@@ -4,7 +4,7 @@ $description = "《" . $match['hname'] . ' VS ' . $match['aname'] . "》高清�
 ?>
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoPhone2.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/videoPhone2.css?201901181541">
 @endsection
 @section('banner')
     <div id="Navigation">

@@ -1,6 +1,6 @@
 @extends('pc.layout.base')
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/record.css">
+    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/record.css?201901181541">
 @endsection
 @section("content")
 <div id="Content">

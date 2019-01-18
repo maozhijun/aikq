@@ -1,7 +1,7 @@
 @extends('mobile.layout.base')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/team.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/team.css?201901181541">
 @stop
 <?php
     $coach = "";

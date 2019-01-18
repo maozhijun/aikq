@@ -3,7 +3,7 @@
     <title>美女主播球赛讲解_主播频道-爱看球直播</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/anchorPhone.css?rd=201808141800">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/anchorPhone.css?rd=201901181541">
 @endsection
 @section('banner')
     <div id="Navigation">

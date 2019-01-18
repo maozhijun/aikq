@@ -1,6 +1,6 @@
 @extends('mip.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/articlePhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mip/articlePhone.css?201901181541">
 @endsection
 @section('banner')
     <div id="Navigation">

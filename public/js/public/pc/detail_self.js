@@ -33,6 +33,7 @@ function initLineChannel(url, mid, sport, adName, adUrl) {
                 }
                 if (html != "") {
                     //html = "<span>直播线路：</span>" + html;
+                    html += '<a href="https://xinhi.com/live_detail/' + sport + '_'+ mid + '.html" target="_blank">备用信号</a>';
                     $line.html(html);
                 }
             }

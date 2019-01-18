@@ -108,13 +108,6 @@
                                 if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
                                     $url = $channel["link"];
                                 } else {
-//                                    $player = $channel['player'];
-//                                    if ($player == 11) {
-//                                        $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-//                                    } else {
-//                                        $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-//                                    }
-//                                    $url = env("LHB_URL", "https://lehubo.com").$link;
                                     $url = env('LHB_URL').'/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html';
                                 }
                             ?>
@@ -123,6 +116,7 @@
                         @endforeach
                         @if($adShow)
                         <a href="{{$adUrl}}" target="_blank" style="border-color: #d24545; background: #d24545; color: #fff;">{{$adName}}</a>
+                        <a href="https://xinhi.com/live_detail/{{$match['sport']}}_{{$match['mid']}}.html" target="_blank" >备用信号</a>
                         @endif
                     @endif
                 </p>
@@ -399,7 +393,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901081909"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901181530"></script>
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
         setADClose();

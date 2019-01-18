@@ -121,7 +121,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 #Navigation .banner{
 	height: 88px;
-	background: url(http://static.dlfyb.com/img/mobile/image_bg_focus_n.jpg) no-repeat left top #4492fd; background-size: cover;
+	background: url(/img/mobile/image_bg_focus_n.jpg) no-repeat left top #4492fd; background-size: cover;
 	font-size: 36px; line-height: 88px; text-align: center; color: #fff; font-weight: bold;
 }
 #Navigation .banner h1{
@@ -140,7 +140,7 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 a.home{
 	width: 88px; height: 88px;
-	background: url(http://static.dlfyb.com/img/mobile/icon_home_white.png) no-repeat center; background-size: 54px;
+	background: url(/img/mobile/icon_home_white.png) no-repeat center; background-size: 54px;
 	position: fixed; top: 0; left: 4px; z-index: 52;
 	display: block;
 }

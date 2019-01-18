@@ -8,7 +8,7 @@
     <title>爱看球-爱看球录像|NBA录像|英超录像|意甲录像|西甲录像|全场回放|高清录像</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=2018050001">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoList.css?rd=201901181541">
     <style>
         #Navigation {
             background: #4492fd;

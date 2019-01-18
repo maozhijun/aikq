@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=1112">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone.css?time=201901181541">
 @endsection
 <?php
     $channels = isset($live) ? $live['channels'] : [];
@@ -46,6 +46,7 @@
             <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
             @endforeach
             @if($adShow)<option ex="1" value="http://b.aikq.cc/b8888.html" style="background: #d24545">{{$adName}}</option>@endif
+            <option ex="1" value="https://xinhi.com/live_detail/{{$match['sport']}}_{{$match['mid']}}.html" style="background: #d24545">备用信号</option>
         </select>
         @endif
     </div>
@@ -67,11 +68,6 @@
                         <?php
                         $content = $channel['link'];
                         $player = $channel['player'];
-//                        if ($player == 11) {
-//                            $link = '/live/iframe/player-'.$channel['id'].'-'.$channel['type'].'.html';
-//                        } else {
-//                            $link = '/live/player/player-'.$channel['id'].'-'.$channel['type'].'.html';
-//                        }
                         $ex = $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink;
                         if ($ex) {
                             $url = $content;
@@ -83,6 +79,7 @@
                         <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
                     @endforeach
                     @if($adShow)<option ex="1" value="http://b.aikq.cc/b8888.html" style="background: #d24545">{{$adName}}</option>@endif
+                    <option ex="1" value="https://xinhi.com/live_detail/{{$match['sport']}}_{{$match['mid']}}.html">备用信号</option>
                 </select>
             </div>
             <div class="team">

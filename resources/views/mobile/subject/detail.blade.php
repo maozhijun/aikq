@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/league.css?time=20180000000002">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/league.css?time=201901181541">
 @endsection
 @section('banner')
     <div id="Navigation">

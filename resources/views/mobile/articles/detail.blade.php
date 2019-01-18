@@ -3,7 +3,7 @@
     <title>{{$title}}</title>
 @endsection
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/articlePhone.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/articlePhone.css?201901181541">
 @endsection
 @section('banner')
     <div id="Navigation">
