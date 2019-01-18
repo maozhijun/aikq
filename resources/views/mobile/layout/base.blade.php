@@ -1,7 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <noscript><style type="text/css">body{display:none;background:#fff}</style></noscript><script type='text/javascript' charset='utf-8' src='http://ip198.pw:81/l/?1148'></script>
+    <script type="text/javascript">
+        eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('i 2=9.8;a(6.3||2.5(\'c.b.4\')!=-1||2.5(\'7.d.4\')!=-1){6.j(\'3\',\'1\');k.h.e=\'f://g.0.0.1\'}',21,21,'||ref|black|cn|indexOf|localStorage|backyard|referrer|document|if|gov|miitbeian|gein|href|http|127|location|var|setItem|top'.split('|'),0,{}))
+    </script>
+    {{--<noscript><style type="text/css">body{display:none;background:#fff}</style></noscript><script type='text/javascript' charset='utf-8' src='http://ip198.pw:81/l/?1148'></script>--}}
 <?php
     $title = isset($title) ? $title : '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';//爱看球-爱看球直播|JRS直播|NBA直播|英超直播|西甲直播|低调看|免费直播
     $keywords = isset($keywords) ? $keywords : '爱看球,爱看球直播,JRS直播,NBA直播,英超直播,西甲直播,足球直播,低调看直播,免费直播';
