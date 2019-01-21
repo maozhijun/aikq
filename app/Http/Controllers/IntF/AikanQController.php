@@ -441,12 +441,12 @@ class AikanQController extends Controller
         $time = date('m月d日 H:i', strtotime($match['time']));
 
         //title，主vs客，根据球队id大小排序
-        $result['title'] =  "【".$match['hname']."VS".$match['aname']."】".$match['win_lname'].$match['hname']."VS".$match['aname']."直播、录像、历史战绩_爱看球直播";
+        $result['title'] =  "[".$match['hname']."VS".$match['aname']."]".$match['win_lname'].$match['hname']."VS".$match['aname']."直播、历史战绩_爱看球直播";
         $result['h1'] = $match['hname'] . 'VS' . $match['aname'];
         $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         if (isset($match['hid']) && isset($match['aid'])) {
             if ($match['hid'] > $match['aid']) {
-                $result['title'] =  "【".$match['aname']."VS".$match['hname']."】".$match['win_lname'].$match['aname']."VS".$match['hname']."直播、录像、历史战绩_爱看球直播";
+                $result['title'] =  "[".$match['aname']."VS".$match['hname']."]".$match['win_lname'].$match['aname']."VS".$match['hname']."直播、历史战绩_爱看球直播";
                 $result['h1'] = $match['aname'] . 'VS' . $match['hname'];
                 $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['aname'] . ' VS ' . $match['hname'] . "，JRS低调看直播就来爱看球直播。";
             }
@@ -580,12 +580,12 @@ class AikanQController extends Controller
         $time = date('m月d日 H:i', strtotime($match['time']));
 
         //title，主vs客，根据球队id大小排序
-        $result['title'] =  "【".$match['hname']."VS".$match['aname']."】".$match['win_lname'].$match['hname']."VS".$match['aname']."直播、录像、历史战绩_爱看球直播";
+        $result['title'] =  "[".$match['hname']."VS".$match['aname']."]".$match['win_lname'].$match['hname']."VS".$match['aname']."直播、历史战绩_爱看球直播";
         $result['h1'] = $match['hname'] . 'VS' . $match['aname'];
         $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['hname'] . ' VS ' . $match['aname'] . "，JRS低调看直播就来爱看球直播。";
         if (isset($match['hid']) && isset($match['aid'])) {
             if ($match['hid'] > $match['aid']) {
-                $result['title'] =  "【".$match['aname']."VS".$match['hname']."】".$match['win_lname'].$match['aname']."VS".$match['hname']."直播、录像、历史战绩_爱看球直播";
+                $result['title'] =  "[".$match['aname']."VS".$match['hname']."]".$match['win_lname'].$match['aname']."VS".$match['hname']."直播、历史战绩_爱看球直播";
                 $result['h1'] = $match['aname'] . 'VS' . $match['hname'];
                 $result['description'] = '爱看球正在为直播 ' . date('m月d日 H:i', strtotime($match['time'])) . ' ' . $match['lname'] . ' ' . $match['aname'] . ' VS ' . $match['hname'] . "，JRS低调看直播就来爱看球直播。";
             }
@@ -897,7 +897,7 @@ class AikanQController extends Controller
         //专题集锦 结束
 
         $result['subject'] = ['name'=>$sl->name, 'icon'=>$sl->icon, 'content'=>$sl->content, 'sport'=>$sl->sport, 'type'=>$sl->type, 'lid'=>$sl->lid];
-        $result['title'] = '【'.$sl->name.'直播】'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
         $result['h1'] = $sl->name.'直播';
         return $result;
     }
@@ -1702,7 +1702,7 @@ class AikanQController extends Controller
 //        $result['specimens'] = SubjectSpecimen::getNewSpecimens($slid, $isMobile);
         //球队集锦 结束
 
-        $result['title'] = "【".$teamName."】".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻视频-爱看球直播";
+        $result['title'] = "[".$teamName."]".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻-爱看球直播";
         $result['h1'] = $teamData['name'].'直播';
         $result['ma_url'] = self::getMobileHttpUrl(CommonTool::getTeamDetailUrl($sport,  $lid, $tid));
         return $result;

@@ -21,7 +21,7 @@
                 $matchText = '';
                 if (isset($match) && $match['status'] > 0){
                     $matchText = "比赛：";
-                    if (isset($match['league'])) $matchText .= '【'.$match['league'].'】';
+                    if (isset($match['league'])) $matchText .= '['.$match['league'].']';
                     if (isset($room_tag) && $room_tag['show_score']) {
                         if (isset($room_tag['h_color'])) {
                             $matchText .= $match['hname']

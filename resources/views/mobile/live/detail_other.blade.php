@@ -1,6 +1,6 @@
 @extends('mobile.layout.base')
 @section('title')
-    <title>我正在爱看球看【{{$match['hname']}}vs{{$match['aname']}}】</title>
+    <title>我正在爱看球看[{{$match['hname']}}vs{{$match['aname']}}]</title>
 @endsection
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/videoPhone2.css?201901181541">
