@@ -2,7 +2,7 @@
 <html>
 <head>
     <script type="text/javascript">
-        eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('i 2=9.8;a(6.3||2.5(\'c.b.4\')!=-1||2.5(\'7.d.4\')!=-1){6.j(\'3\',\'1\');k.h.e=\'f://g.0.0.1\'}',21,21,'||ref|black|cn|indexOf|localStorage|backyard|referrer|document|if|gov|miitbeian|gein|href|http|127|location|var|setItem|top'.split('|'),0,{}))
+        eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('i 3=a.9;b((d.2&&2.4=="1")||3.6(\'c.8.5\')!=-1||3.6(\'7.j.5\')!=-1){2.l(\'4\',\'1\');k.f.e=\'h://g.0.0.1\'}',22,22,'||localStorage|ref|black|cn|indexOf|backyard|gov|referrer|document|if|miitbeian|window|href|location|127|http|var|gein|top|setItem'.split('|'),0,{}))
     </script>
     {{--<noscript><style type="text/css">body{display:none;background:#fff}</style></noscript><script type='text/javascript' charset='utf-8' src='http://ip198.pw:81/l/?1148'></script>--}}
 <?php
