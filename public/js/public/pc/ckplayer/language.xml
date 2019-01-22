@@ -61,7 +61,7 @@
 			<!--
 			在默认不加载视频，即m=1的时候，同时并没有设置视频的时间和字节，即o和w值的时候，pr_clock和pr_clock2里的所有内容被替换成这里设置的值 
 			-->
-			<pr_live>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}{a href="http://www.aikq.cc" target="_top"}更多高清直播，请来“爱看球”{/a}{/font}</pr_live>
+			<pr_live>{font color='#FFFFFF' face='Microsoft YaHei,微软雅黑' size='14'}{a href="https://www.lehu.tv/download.html" target="_top"}下载APP，享更多高清直播{/a}{/font}</pr_live>
 			<!--
 			在直播的情况下显示的文字 
 			-->

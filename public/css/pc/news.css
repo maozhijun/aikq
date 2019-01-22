@@ -54,7 +54,7 @@
 	overflow: hidden;
 }
 #Right dd .line{
-	height: 22px;
+	/*height: 22px;*/
 	font-size: 0; text-align: center;
 }
 #Right dd .line a{
