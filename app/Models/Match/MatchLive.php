@@ -305,7 +305,7 @@ class MatchLive extends Model
         });
         $query->selectRaw('*, ifnull(od, 99)');
         $query->orderBy('od');
-        $channels = $query->limit(6)->get();
+        $channels = $query->limit(10)->get();
         $channelsName = ['线路一','线路二','线路三','线路四','线路五','线路六','线路七','线路八','线路九','线路十'];
         for ($index = 0 ; $index < count($channels) ; $index++) {
             $channel = $channels[$index];
@@ -317,7 +317,7 @@ class MatchLive extends Model
             $tmp['sport'] = $this->sport;
             $tmp['impt'] = $this->impt;
             $tmp['akq_url'] = $this->akq_url;
-            $tmp['room_num'] = $this->room_num;
+            $tmp['room_num'] = $channel->room_num;
             $array[] = $tmp;
             if(isset($this->akq_url) && strlen($this->akq_url) > 0){
                 $params = explode('/',$this->akq_url);
