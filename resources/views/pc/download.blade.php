@@ -31,7 +31,7 @@
     <div class="inner">
         <a href="/"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
         <a class="column" href="/">直播</a>
-        <a class="column" href="/anchor/">主播</a>
+        {{--<a class="column" href="/anchor/">主播</a>--}}
         <!--<a class="column" href="/live/subject/videos/all/1.html">录像</a>-->
         <a class="column" href="/news/">资讯</a>
         <!--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>-->
