@@ -31,13 +31,17 @@
     @endif
     @foreach($matches as $time=>$match_array)
         <?php
-        $week = date('w', strtotime($time));
-        $week_array = array('周日','周一','周二','周三','周四','周五','周六');
+            $mt = strtotime($time);
+            $week = date('w', $mt);
+            $week_array = array('周日','周一','周二','周三','周四','周五','周六');
+            $isShowDate = false;
         ?>
         <div class="default">
-            <p class="day">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
+            <p class="day" id="{{$mt}}">{{$time}}&nbsp;&nbsp;{{$week_array[$week]}}</p>
             @foreach($match_array as $match)
+                @continue($match["status"] == -1)
                 <?php
+                $isShowDate = true;
                 $channels = $match['channels'];
                 $firstChannel = isset($channels[0]) ? $channels[0] : [];
                 $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
@@ -46,11 +50,7 @@
                 if ($impt == 2) {
                     $impt_style = 'style="color:#bc1c25;"';
                 }
-//                if (!empty($link) && preg_match('/lehuzhibo\.com/', $link)) {
-//                    $url = $link;
-//                } else {
-                    $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'],$match['mid']);
-//                }
+                $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'],$match['mid']);
                 ?>
                 @if($match['sport'] == 3)
                     <a href="{{$url}}">
@@ -74,6 +74,7 @@
                     </a>
                 @endif
             @endforeach
+            @if(!$isShowDate)<script>document.getElementById("{{$mt}}").style.display= "none";</script>@endif
         </div>
     @endforeach
     <div class="nolist separated">暂时无直播比赛</div>

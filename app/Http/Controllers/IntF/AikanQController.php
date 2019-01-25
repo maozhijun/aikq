@@ -173,7 +173,7 @@ class AikanQController extends Controller
 
 
     protected function getLiveMatches($sport, $bet = '') {
-        $start = date('Y-m-d H:i:s', strtotime('-4 hours'));
+        $start = date('Y-m-d H:i:s', strtotime('-6 hours'));
         $end = date('Y-m-d H:i:s', strtotime('+7 days'));
         $ch_time = date('Y-m-d H:i:s', strtotime('-10 days'));
         //$ch_table = DB::raw('(SELECT live_id FROM match_live_channels WHERE (isPrivate = ' . MatchLiveChannel::kIsPrivate . ' or `use` = ' . MatchLiveChannel::kUseAiKQ . ') AND created_at >= \'' . $ch_time . '\' AND `show` = ' . MatchLiveChannel::kShow . ' GROUP BY live_id) as match_live_channels');
@@ -185,7 +185,7 @@ class AikanQController extends Controller
             //有版权的线路比赛也显示在列表中 开始
             $query->leftjoin($ch_table,'match_lives.id', 'match_live_channels.live_id');
             //有版权的线路比赛也显示在列表中 结束
-            $query->where('matches.status', '>', -1);//已完结或者比赛状态异常的赛事不显示
+            //$query->where('matches.status', '>', -1);//已完结或者比赛状态异常的赛事不显示
             $query->where('match_lives.sport', MatchLive::kSportFootball);
             $query->whereBetween('matches.time', [$start, $end]);
             //爱球只出有版权的赛事。
@@ -212,7 +212,7 @@ class AikanQController extends Controller
             $query->join($ch_table,'match_lives.id', 'match_live_channels.live_id');
             //有版权的线路比赛也显示在列表中 结束
 
-            $query->where($matchTable.'.status', '<>', -1);//已完结的赛事不显示
+            //$query->where($matchTable.'.status', '<>', -1);//已完结的赛事不显示
             $query->where('match_lives.sport', MatchLive::kSportBasketball);
             $query->whereBetween($matchTable.'.time', [$start, $end]);
             $query->where(function ($orQuery) use ($matchTable) {

@@ -77,21 +77,23 @@
                 ?>
                 @foreach($matches as $time=>$match_array)
                     <?php
-                    $week = date('w', strtotime($time));
+                        $mt = strtotime($time);
+                        $week = date('w', $mt);
+                        $isShowDate = false;
                     ?>
-                    <tr class="date">
+                    <tr class="date" id="{{$time}}">
                         <th colspan="10">{{date_format(date_create($time),'Y年m月d日')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$week_array[$week]}}</th>
                     </tr>
                     @foreach($match_array as $match)
+                        @continue($match["status"] == -1) {{-- 完结的赛事不显示 --}}
+                        <?php $isShowDate = true ?>
                         @include('pc.cell.home_match_cell',['match'=>$match])
                     @endforeach
                     @if($bj == 0 && $loop->index == 0)
-                        <?php
-                        $bj = 1;
-                        $adShow = env("TOUZHU_AD", "false") == "true";
-                        ?>
+                        <?php $bj = 1; $adShow = env("TOUZHU_AD", "false") == "true"; ?>
                         @if($adShow)<tr class="adbanner"><td colspan="10"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/main_long.gif"><button class="close"></button></a></td></tr>@endif
                     @endif
+                    @if(!$isShowDate)<script>document.getElementById("{{$mt}}").style.display= "none";</script>@endif
                 @endforeach
                 </tbody>
             </table>

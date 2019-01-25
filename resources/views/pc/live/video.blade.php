@@ -108,11 +108,10 @@
                                 if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
                                     $url = $channel["link"];
                                 } else {
-                                    $url = env('LHB_URL').'/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html';
+                                    $url = env('LHB_URL').'/room/' . $match["sport"] . $match["mid"] . '.html';
                                 }
                             ?>
                             <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>
-                            {{--<button id="{{$channel['channelId']}}"onclick="ChangeChannel('{{$link}}', this)">{{$channel['name']}}</button>--}}
                         @endforeach
                         @if($adShow)
                         <a href="{{$adUrl}}" target="_blank" style="border-color: #d24545; background: #d24545; color: #fff;">{{$adName}}</a>
@@ -401,9 +400,9 @@
     }
     window.LHB_URL = "{{env("LHB_URL", "https://lehubo.com")}}";
     @if($adShow)
-    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}", "{{$adName}}", "{{$adUrl}}");
+    //initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}", "{{$adName}}", "{{$adUrl}}");
     @else
-    initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}");
+    //initLineChannel("{{env('API_URL')}}/json/pc/channels/{{$sport}}/{{$match['mid']}}.json?time="+(new Date()).getTime(), "{{$match["mid"]}}", "{{$match["sport"]}}");
     @endif
 </script>
 @endsection

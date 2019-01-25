@@ -72,7 +72,7 @@
                         if ($ex) {
                             $url = $content;
                         } else {
-                            $url = env('LHB_URL') . '/live/spPlayer/player-' . $match["mid"] . '-' . $match["sport"] . '.html?btn='.($btnIndex++);
+                            $url = env('LHB_URL') . '/room/' . $match["sport"] . $match["mid"] . '.html?btn='.($btnIndex++);
                         }
                         $ex = 1;
                         ?>
