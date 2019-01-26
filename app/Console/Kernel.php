@@ -155,15 +155,15 @@ class Kernel extends ConsoleKernel
 
         //appsocket相关
         //静态化app主播接口  /app/v120/anchor/index.json , /app/v120/anchor/room/url/26.json , /app/v120/anchor/living.json
-        $schedule->command("anchor_living_cache:run")->everyMinute();
+        //$schedule->command("anchor_living_cache:run")->everyMinute();
         
         //主播定时任务
-        $schedule->command("anchor_index_cache:run all")->everyMinute();//每分钟静态化主播主页
+        //$schedule->command("anchor_index_cache:run all")->everyMinute();//每分钟静态化主播主页
 //        $schedule->command("anchor_detail_cache:run all")->everyTenMinutes();//每10分钟静态化主播终端页
-        $schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化队列里面的内容
+        //$schedule->command("anchor_json_cache:run")->everyMinute();//每分钟静态化队列里面的内容
 
 //        $schedule->command("anchor_check_stream:run")->everyMinute();//每分钟检查主播的直播流是断开
-        $schedule->command("anchor_key_frame:run")->everyMinute();//每分钟获取直播的直播流的关键帧并且检测流是否存在
+        //$schedule->command("anchor_key_frame:run")->everyMinute();//每分钟获取直播的直播流的关键帧并且检测流是否存在
 
 
         //文章静态化定时任务
