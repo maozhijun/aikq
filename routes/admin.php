@@ -60,6 +60,7 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
 
 
     Route::post('/live/matches/channel/save_lehu', 'MatchController@saveLHChannel');//抓取乐虎直播房间线路
+    Route::post('/live/matches/channel/save_sy', 'MatchController@saveSYChannel');//抓取鲨鱼直播房间线路
 
     Route::post('/live/matches/live/save-impt', 'MatchController@changeLiveImp');//设置重点赛事
     Route::post('/live/matches/channel/random-code', 'MatchController@randomCode');//生成高清验证码

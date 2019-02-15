@@ -345,6 +345,7 @@
             var type = dataDiv.find("select[name=type]").val();
             var ad = dataDiv.find("select[name=ad]").val();
             var room_num = dataDiv.find("input[name=room_num]").val();
+            var room_num_sy = dataDiv.find("input[name=room_num_sy]").val();
 
             if ($.trim(name) == "") {
 //                alert("线路名称不能为空。");
@@ -364,7 +365,10 @@
                 alert("排序必须为正整数。");
                 return;
             }
-
+            if ($.trim(room_num).length > 0 && $.trim(room_num_sy).length > 0) {
+                alert("不能同时填写乐虎和鲨鱼房间号！");
+                return;
+            }
             var data = {};
             data['channel_id'] = channelId;
             data['match_id'] = matchId;
@@ -383,6 +387,7 @@
             data['impt'] = impt.length == 0 ? 1 : 2;{{-- 是否重点线路 --}}
             data['ad'] = ad;
             data['room_num'] = room_num;
+            data['room_num_sy'] = room_num_sy;
             thisObj.setAttribute('disabled', 'disabled');
             $.ajax({
                 "url": "/admin/live/matches/channel/save",

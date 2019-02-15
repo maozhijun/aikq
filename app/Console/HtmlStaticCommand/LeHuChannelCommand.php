@@ -71,36 +71,69 @@ class LeHuChannelCommand extends BaseCommand
                             $player = isset($channel['player']) ? $channel['player'] : 1;
                             if ($player == MatchLiveChannel::kPlayerExLink) continue;
                             $id = isset($channel['id']) ? $channel['id'] : '';
-                            if (empty($id) || !isset($channel['room_num']) || empty($channel['room_num'])) {
+                            if (empty($id)) {
                                 continue;
                             }
-                            $matchLiveChannel = MatchLiveChannel::query()->find($id);
-                            if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num)) continue;
-                            $room_num = $matchLiveChannel->room_num;
-Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "，room_num = $room_num ========");
-                            $json = self::getLeHuLink($room_num);
-                            if (is_null($json)) {
-Log::info('请求 乐虎线路接口 失败');
-                                continue;
+                            if (!isset($channel['room_num']) && !empty($channel['room_num'])) {
+                                $this->saveLHChannel($id, $match);
                             }
-                            $player = $matchLiveChannel->player;
-Log::info("======= 获取 LH 线路信息 json ".json_encode($json)." ==========");
-                            if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
-                                $matchLiveChannel->content = $json['m3u8'];
-                                $matchLiveChannel->save();
-Log::info("======= 保存 save m3u8 ==========");
-                            } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
-                                $matchLiveChannel->content = $json['hls'];
-                                $matchLiveChannel->save();
-Log::info("======= 保存 save hls ==========");
+                            if (!isset($channel["room_num_sy"]) && !empty($channel["room_num_sy"])) {
+                                $this->saveSYChannel($id, $match);
                             }
                         }
                     } catch (\Exception $exception) {
-Log::error($exception);
+                        Log::error($exception);
                         dump($exception);
                     }
                 }
             }
+        }
+    }
+
+    public static function saveLHChannel($id, $match) {
+        $matchLiveChannel = MatchLiveChannel::query()->find($id);
+        if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num)) return;
+        $room_num = $matchLiveChannel->room_num;
+        Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "，room_num = $room_num ========");
+        $json = self::getLeHuLink($room_num);
+        if (is_null($json)) {
+            Log::info('请求 乐虎线路接口 失败');
+            return;
+        }
+        $player = $matchLiveChannel->player;
+        Log::info("======= 获取 LH 线路信息 json ".json_encode($json)." ==========");
+        if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
+            $matchLiveChannel->content = $json['m3u8'];
+            $matchLiveChannel->save();
+            Log::info("======= 保存 save m3u8 ==========");
+        } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
+            $matchLiveChannel->content = $json['hls'];
+            $matchLiveChannel->save();
+            Log::info("======= 保存 save hls ==========");
+        }
+    }
+
+    public static function saveSYChannel($id, $match) {
+        $matchLiveChannel = MatchLiveChannel::query()->find($id);
+        if (!isset($matchLiveChannel) || empty($matchLiveChannel->room_num_sy)) return;
+
+        $room_num = $matchLiveChannel->room_num_sy;
+        Log::info("======== 比赛信息：" .$match['time'] . ' ' .$match['hname'] . ' VS ' . $match['aname'] . ' ch_id = ' . $id . "，room_num = $room_num ========");
+        $json = self::getShaYuLink($room_num);
+        if (is_null($json)) {
+            Log::info('请求 鲨鱼直播地址接口 失败');
+            return;
+        }
+        $player = $matchLiveChannel->player;
+        Log::info("======= 获取 鲨鱼 线路信息 json ".json_encode($json)." ==========");
+        if ($player == MatchLiveChannel::kPlayerM3u8 && isset($json['m3u8'])) {
+            $matchLiveChannel->content = $json['m3u8'];
+            $matchLiveChannel->save();
+            Log::info("======= 保存 save m3u8 ==========");
+        } else if ($player == MatchLiveChannel::kPlayerFlv && isset($json['hls'])) {
+            $matchLiveChannel->content = $json['hls'];
+            $matchLiveChannel->save();
+            Log::info("======= 保存 save hls ==========");
         }
     }
 
@@ -115,13 +148,34 @@ Log::error($exception);
             $json = json_decode($out, true);
             if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
                 //dump("获取观看地址失败");
-                Log::info("获取观看地址失败 = ".$room_num);
+                Log::info("获取乐虎直播地址失败 = ".$room_num);
                 return null;
             }
             $info = $json;
             Redis::setEx($key, 60 * 2, json_encode($json) );
         }
-//        Log::info($room_num . " = " . json_encode($info));
+//        Log::info("乐虎 " . $room_num . " = " . json_encode($info));
+        return $info;
+    }
+
+    public static function getShaYuLink($room_num) {
+        $key = "ShaYuChannelCommand_" . $room_num;
+        $infoStr = Redis::get($key);
+        $info = json_decode($infoStr, true);
+//        $info = null;
+        if (is_null($info)) {
+            $url = env("SY_API_URL", "http://console.shayuzhibo.com")."/api/channel/$room_num.json?time=".time();
+            $out = Controller::execUrl($url, 5, false);
+            $json = json_decode($out, true);
+            if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
+                //dump("获取观看地址失败");
+                Log::info("获取鲨鱼直播地址失败 = ".$room_num);
+                return null;
+            }
+            $info = $json;
+            Redis::setEx($key, 60 * 2, json_encode($json) );
+        }
+//        Log::info("鲨鱼 " . $room_num . " = " . json_encode($info));
         return $info;
     }
 

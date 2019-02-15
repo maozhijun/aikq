@@ -311,6 +311,76 @@ class MatchController extends Controller
     }
 
     /**
+     * 抓取乐虎直播线路
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveSYChannel(Request $request) {
+        $room_num = $request->input('room_num');
+        $match_id = $request->input('match_id');
+        $sport = $request->input('sport');
+
+        if (empty($room_num)) {
+            return response()->json(['code'=>401, 'msg'=>'房间号码不能为空']);
+        }
+        if (!is_numeric($match_id)) {
+            return response()->json(['code'=>401, 'msg'=>'比赛ID不能为空']);
+        }
+        if (!in_array($sport, [1, 2, 3])) {
+            return response()->json(['code'=>401, 'msg'=>'竞技类型错误']);
+        }
+
+        $json = LeHuChannelCommand::getShaYuLink($room_num);
+        if (!isset($json) || !isset($json['hls']) || !isset($json['m3u8'])) {
+            return response()->json(['code'=>500, 'msg'=>'获取鲨鱼直播地址失败，请稍后重试。']);
+        }
+        $flv = $json['hls'];
+        $m3u8 = $json['m3u8'];
+        $sy_url = env('SY_URL')."/room/".$room_num.".html";
+        $lehu_player = env('SY_URL')."/player/".$room_num.".html";
+
+        $channelType = MatchLiveChannel::kTypeOther;
+        $flvPlayer = MatchLiveChannel::kPlayerFlv;
+        $m3u8Player = MatchLiveChannel::kPlayerM3u8;
+        $iFramePlayer =MatchLiveChannel::kPlayerIFrame;
+        $exPlayer = MatchLiveChannel::kPlayerExLink;
+        $show = MatchLiveChannel::kShow;
+        $isPrivate = MatchLiveChannel::kIsPrivate;
+        $use = MatchLiveChannel::kUseAiKQ;
+        $auto = MatchLiveChannel::kAutoHand;
+        $roomNumType = MatchLiveChannel::kRoomNumTypeSY;
+        try {
+            //创建外链
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $sy_url, 16,
+                MatchLiveChannel::kPlatformAll, $exPlayer, "鲨鱼直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
+
+            /**
+             * 使用内嵌LH的player方式播放
+             */
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_player, 12,
+//                MatchLiveChannel::kPlatformAll, $iFramePlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
+
+            /**
+             * 专门给APP用 暂时方案
+             */
+//            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 12,
+//                MatchLiveChannel::kPlatformApp, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
+//
+            //创建电脑端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 14,
+                MatchLiveChannel::kPlatformPC, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
+//
+            //创建手机端链接
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 15,
+                MatchLiveChannel::kPlatformWAP, $m3u8Player, "高清直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
+        } catch (\Exception $exception) {
+            Log::error($exception);
+            return response()->json(['code'=>500, 'msg'=>'保存失败']);
+        }
+        return response()->json(['code'=>200, 'msg'=>'保存成功']);
+    }
+
+    /**
      * 保存直播线路
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -334,6 +404,7 @@ class MatchController extends Controller
         $ad = $request->input('ad', 1);//
         $akq_url = $request->input('akq_url', '');//
         $room_num = $request->input('room_num');//乐虎房间号
+        $room_num_sy = $request->input('room_num_sy');//鲨鱼房间号
 
         //判断参数 开始
         if (!in_array($type, MatchLiveChannel::kTypeArray)) {
@@ -390,6 +461,9 @@ class MatchController extends Controller
                 return response()->json(['code'=>403, 'msg'=>'比赛不存在。']);
             }
         }
+        if (!empty($room_num) && !empty($room_num_sy)) {
+            return response()->json(['code'=>403, 'msg'=>'乐虎房间和鲨鱼房间只能填写一个！']);
+        }
         //判断参数 结束
 
         if (!isset($channel)) {//新建线路
@@ -418,9 +492,9 @@ class MatchController extends Controller
         $channel->admin_id = $admin_id;//当前登录的管理员ID
         $channel->akq_url = $akq_url;
         $channel->room_num = $room_num;//乐虎房间号
+        $channel->room_num_sy = $room_num_sy;//鲨鱼房间号
 
         //乐虎线路刷新 开始
-        //$room_num = $channel->room_num;
         if (!empty($room_num) && ($player != MatchLiveChannel::kPlayerExLink && $player != MatchLiveChannel::kPlayerIFrame) ) {
             $lh_line = LeHuChannelCommand::getLeHuLink($room_num);
             if (isset($lh_line)) {
@@ -432,6 +506,19 @@ class MatchController extends Controller
             }
         }
         //乐虎线路刷新 结束
+
+        //鲨鱼线路刷新 开始
+        if (!empty($room_num_sy) && ($player != MatchLiveChannel::kPlayerExLink && $player != MatchLiveChannel::kPlayerIFrame) ) {
+            $sy_line = LeHuChannelCommand::getShaYuLink($room_num_sy);
+            if (isset($sy_line)) {
+                if ($player == MatchLiveChannel::kPlayerFlv && isset($sy_line['hls'])) {
+                    $channel->content = $sy_line['hls'];
+                } else {
+                    $channel->content = $sy_line['m3u8'];
+                }
+            }
+        }
+        //鲨鱼线路刷新 结束
 
 
         if (!isset($match)) {

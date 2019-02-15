@@ -100,7 +100,8 @@
                             <p>对阵：{{$match->hname}} VS {{$match->aname}}</p>
                             <p>时间：{{$match->time}}</p>
                             <p><button class="btn btn-sm btn-primary" onclick="addChannel('{{$match->id}}');">添加直播地址</button></p>
-                            <p><input placeholder="房间号" value=""/><button onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
+                            <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-warning" onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
+                            <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-default" onclick="saveSYChannel(this, '{{$match->id}}');">鲨鱼房间填写</button></p>
                         </td>
                         <td id="td_{{$match->id}}" match_id="{{$match->id}}" lid="{{$match->lid}}" isPri="{{in_array($match->lid, $private_arr)}}">
                             @foreach($channels as $channel)
@@ -160,6 +161,7 @@
             var type = dataDiv.find("select[name=type]").val();
             var ad = dataDiv.find("select[name=ad]").val();
             var room_num = dataDiv.find("input[name=room_num]").val();
+            var room_num_sy = dataDiv.find("input[name=room_num_sy]").val();
 
             if ($.trim(name) == "") {
 //                alert("线路名称不能为空。");
@@ -177,6 +179,11 @@
             }
             if (od.length > 0 && !/^\d+$/.test(od)) {
                 alert("排序必须为正整数。");
+                return;
+            }
+
+            if ($.trim(room_num).length > 0 && $.trim(room_num_sy).length > 0) {
+                alert("乐虎房间和鲨鱼房间只能填写一个！");
                 return;
             }
 
@@ -199,6 +206,7 @@
             data['impt'] = impt.length == 0 ? 1 : 2;{{-- 是否重点线路 --}}
             data['ad'] = ad;
             data['room_num'] = room_num;
+            data['room_num_sy'] = room_num_sy;
             thisObj.setAttribute('disabled', 'disabled');
             $.ajax({
                 "url": "/admin/live/matches/channel/save",
@@ -480,6 +488,39 @@
             $thisBtn.button("loading");
             $.ajax({
                 "url": "/admin/live/matches/channel/save_lehu",
+                "type": "post",
+                "dataType": "json",
+                "data": {"sport": sport, "match_id": mid, "room_num": roomNum},
+                "success": function (data) {
+                    if (data.code == 200) {
+                        alert(data.msg);
+                        location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                    $thisBtn.button("reset");
+                },
+                "error": function () {
+                    alert("自动填写乐虎房间失败");
+                    $thisBtn.button("reset");
+                }
+            });
+        }
+
+        function saveSYChannel(thisBtn, mid) {
+            var $thisBtn = $(thisBtn);
+            var sport = "{{$sport}}";
+            var roomNum = $thisBtn.prev().val();
+            if ($.trim(roomNum) == "") {
+                alert("请填写鲨鱼房间号");
+                return;
+            }
+            if (!confirm("是否确认自动填写鲨鱼房间？")) {
+                return;
+            }
+            $thisBtn.button("loading");
+            $.ajax({
+                "url": "/admin/live/matches/channel/save_sy",
                 "type": "post",
                 "dataType": "json",
                 "data": {"sport": sport, "match_id": mid, "room_num": roomNum},

@@ -41,6 +41,7 @@
             <option value="1" @if(isset($channel) && $channel->isPrivate == 1) selected @endif >无版权</option>
         </select>
         <input style="width: 80px;" name="room_num" value="{{$channel->room_num or ''}}" placeholder="乐虎房间号">
+        <input style="width: 80px;" name="room_num_sy" value="{{$channel->room_num_sy or ''}}" placeholder="鲨鱼房间号">
         <button class="btn btn-success btn-xs" type="button" onclick="saveChannel(this, '{{$channel->id or ''}}', '{{$sport or 3}}');">保存</button>
         <button class="btn btn-danger btn-xs" type="button" onclick="delChannel(this, '{{$channel->id or ''}}');">删除</button>
     </p>

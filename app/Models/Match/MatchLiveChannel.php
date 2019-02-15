@@ -31,6 +31,7 @@ class MatchLiveChannel extends Model
     const kPlayerArrayCn = [self::kPlayerAuto=>'自动选择', self::kPlayerIFrame=>'iFrame', self::kPlayerCk=>'ckplayer', self::kPlayerM3u8=>'m3u8', self::kPlayerFlv=>'flv', self::kPlayerRTMP=>'rtmp', self::kPlayerExLink=>'外链',self::kPlayerClappr=>'clappr', self::kPlayerMp4=>'Mp4', self::kPlayerJSJ=>'JSJ', self::kPlayerLH=>'乐虎'];
     const kNotPrivate = 1, kPrivate = 2;
     const kUseAikq = 2, kUseHeitu = 3, kUse310 = 4;//1：全部，2：爱看球，3：黑土，4：310.
+    const kRoomNumTypeLH = 1, kRoomNumTypeSY = 2;//1：乐虎，2：鲨鱼
 
     public function matchLive() {
         return $this->hasOne(MatchLive::class, 'id', 'live_id');
@@ -251,11 +252,12 @@ class MatchLiveChannel extends Model
      * @param $isPrivate = 1   是否有版权，1：无版权，2：有版权。配合 $use 使用，一般有版权的 $use 用爱看球。
      * @param $use = 1        网站专用，1：通用，2：爱看球，3：黑土，4：lg310。其他：待添加
      * @param $auto = 1          是否自动抓取/手动抓取
-     * @param $room_num string  乐虎房间号
+     * @param $room_num string  乐虎、鲨鱼 房间号
+     * @param $room_num_type
      * @return mixed       返回保存是否成功，成功返回 null，失败返回 $exception
      */
-    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1, $auto = self::kAutoSpider, $room_num = null) {
-        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use, $auto, $room_num) {
+    public static function saveSpiderChannel($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show = self::kShow, $isPrivate = 1, $use = 1, $auto = self::kAutoSpider, $room_num = null, $room_num_type = MatchLiveChannel::kRoomNumTypeLH) {
+        $exception = DB::transaction(function () use ($matchId, $sport, $channelType, $content, $od, $platform, $player, $name, $show, $isPrivate, $use, $auto, $room_num, $room_num_type) {
             $live = MatchLive::query()->where('match_id', $matchId)->where('sport', $sport)->first();
             if (isset($live)) {
                 $live_id = $live->id;
@@ -273,7 +275,11 @@ class MatchLiveChannel extends Model
                     $channel->show = $show;
                     $channel->isPrivate = $isPrivate;
                     $channel->use = $use;
-                    $channel->room_num = $room_num;
+                    if ($room_num_type == MatchLiveChannel::kRoomNumTypeLH) {
+                        $channel->room_num = $room_num;
+                    } else if ($room_num_type == MatchLiveChannel::kRoomNumTypeSY) {
+                        $channel->room_num_sy = $room_num;
+                    }
                     $channel->save();
                 }
             } else {
@@ -294,7 +300,11 @@ class MatchLiveChannel extends Model
                 $channel->show = $show;
                 $channel->isPrivate = $isPrivate;
                 $channel->use = $use;
-                $channel->room_num = $room_num;
+                if ($room_num_type == MatchLiveChannel::kRoomNumTypeLH) {
+                    $channel->room_num = $room_num;
+                } else if ($room_num_type == MatchLiveChannel::kRoomNumTypeSY) {
+                    $channel->room_num_sy = $room_num;
+                }
                 $channel->save();
             }
         });
