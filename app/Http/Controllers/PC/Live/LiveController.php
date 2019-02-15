@@ -548,6 +548,11 @@ class LiveController extends Controller
         $con = new AikanQController();
         $json = $con->otherDetailJsonData($id, false);
         $json['articles'] = PcArticle::randArticles(12);
+        $moreLives = $this->moreLives($id, 7);//更多直播
+        $json["sport"] = MatchLive::kSportSelfMatch;
+        $json["hasLineup"] = false;
+        $json["hasTech"] = false;
+        $json["moreLives"] = $moreLives;
         return $this->otherDetailHtml($json, $id);
     }
 
@@ -583,7 +588,7 @@ class LiveController extends Controller
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
-        return view('pc.live.video_backups', $json);
+        return view('pc.live.video', $json);
     }
 
     /**
