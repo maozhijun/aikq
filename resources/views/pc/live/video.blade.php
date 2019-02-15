@@ -123,7 +123,7 @@
                         @if($adShow)
                         <a href="{{$adUrl}}" target="_blank" style="border-color: #d24545; background: #d24545; color: #fff;">{{$adName}}</a>
                         @endif
-                        <a href="https://xinhi.com/live_detail/{{$match['sport']}}_{{$match['mid']}}.html" target="_blank" >备用信号</a>
+                        <a href="https://xinhi.com/live_detail/{{$match['sport']}}_{{$mid}}.html" target="_blank" >备用信号</a>
                     @endif
                 </p>
             </div>

@@ -83,7 +83,7 @@
                         <option ex="{{$ex}}" value="{{$url}}">{{$channel['name']}}</option>
                     @endforeach
                     @if($adShow)<option ex="1" value="http://b.aikq.cc/b8888.html" style="background: #d24545">{{$adName}}</option>@endif
-                    <option ex="1" value="https://xinhi.com/live_detail/{{$match['sport']}}_{{$match['mid']}}.html">备用信号</option>
+                    <option ex="1" value="https://xinhi.com/live_detail/{{$match['sport']}}_{{$mid}}.html">备用信号</option>
                 </select>
             </div>
             <div class="team">
