@@ -102,14 +102,20 @@
                     {{--<span>直播线路：</span>--}}
                     <?php $channels = $live['channels']; ?>
                     @if(isset($channels))
-                        <?php $btnIndex = 0; ?>
+                        <?php
+                            $btnIndex = 0;
+                            $mid = $match["mid"];
+                            while (strlen($mid) < 4) {
+                                $mid = "0" . $mid;
+                            }
+                        ?>
                         @foreach($channels as $index=>$channel)
                             @continue($channel['platform'] == \App\Models\Match\MatchLiveChannel::kPlatformApp) {{-- $channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink ||  --}}
                             <?php
                                 if ($channel['player'] == \App\Models\Match\MatchLiveChannel::kPlayerExLink) {
                                     $url = $channel["link"];
                                 } else {
-                                    $url = env('LHB_URL').'/room/' . $match["sport"] . $match["mid"] . '.html?btn=' . ($btnIndex++);
+                                    $url = env('LHB_URL').'/room/' . $match["sport"] . $mid . '.html?btn=' . ($btnIndex++);
                                 }
                             ?>
                             <a href="{{$url}}" target="_blank">{{$channel['name']}}</a>

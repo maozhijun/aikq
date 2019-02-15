@@ -427,7 +427,9 @@ class LiveController extends Controller
     public function otherDetail(Request $request, $id) {
         $intF = new AikanQController();
         $json = $intF->otherDetailJsonData($id, true);
-
+        $json["hasArticle"] = false;
+        $json["hasVideos"] = false;
+        $json["hasTech"] = false;
         return $this->otherDetailHtml($json, $id);
     }
 
@@ -441,7 +443,7 @@ class LiveController extends Controller
         $sport = 3;
         $date = substr($id,0,2);
         $json['detail_url'] = '/'.$colum.'/live'.$date.$sport. $id . '.html';
-        return view('mobile.live.detail_other', $json);
+        return view('mobile.live.detail', $json);
     }
 
     /////////////////////////////////////  wap终端 结束   /////////////////////////////////////

@@ -547,12 +547,19 @@ class LiveController extends Controller
     public function otherDetail(Request $request, $id, $immediate = false) {
         $con = new AikanQController();
         $json = $con->otherDetailJsonData($id, false);
-        $json['articles'] = PcArticle::randArticles(12);
+        //$json['articles'] = PcArticle::randArticles(12);
+        $match = $json['match'];
+
+        $hname = $match['hname'];
+        $aname = $match['aname'];
+
+        $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
         $moreLives = $this->moreLives($id, 7);//更多直播
         $json["sport"] = MatchLive::kSportSelfMatch;
         $json["hasLineup"] = false;
         $json["hasTech"] = false;
         $json["moreLives"] = $moreLives;
+        $json["articles"] = $articles;
         return $this->otherDetailHtml($json, $id);
     }
 

@@ -18,6 +18,10 @@
     }
     $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
     $adName = $lname."投注";
+    $mid = $match["mid"];
+    while (strlen($mid) < 4) {
+        $mid = "0".$mid;
+    }
 ?>
 @section("banner")
     <div id="Navigation">
@@ -72,7 +76,7 @@
                         if ($ex) {
                             $url = $content;
                         } else {
-                            $url = env('LHB_URL') . '/room/' . $match["sport"] . $match["mid"] . '.html?btn='.($btnIndex++);
+                            $url = env('LHB_URL') . '/room/' . $match["sport"] . $mid . '.html?btn='.($btnIndex++);
                         }
                         $ex = 1;
                         ?>
