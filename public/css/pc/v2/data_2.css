@@ -1,0 +1,186 @@
+﻿
+#Area{
+	height: 42px;
+	border-radius: 6px;
+	background: #004fcf;
+	font-size: 0; line-height: 0;
+}
+#Area p{
+	height: 42px;
+	margin-right: 10px; padding: 0 13px;
+	font-size: 16px; line-height: 42px; text-align: center; color: #fff;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+#Area p.on:after{
+	width: 30px; height: 3px;
+	margin-left: -15px;
+	background: #fff;
+	position: absolute; bottom: 4px; left: 50%;
+	content: '';
+}
+
+
+.rank_list{
+	margin: 0 -12px;
+	font-size: 0; line-height: 0;
+}
+.rank_list .item_box{
+	width: 50%;
+	margin-top: 20px;
+	display: inline-block;
+}
+.rank_list .item_con{
+	margin: 0 12px;
+}
+.rank_list .item_con .header{
+	height: 40px;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #004fcf;
+}
+.rank_list .item_con .header h3{
+	width: 140px; height: 40px;
+	margin: 0 10px;
+	background: #004fcf;
+	position: relative;
+	float: left;
+}
+.rank_list .item_con .header h3:before{
+	border-bottom: 40px solid #004fcf; border-left: 10px solid transparent; 
+	position: absolute; left: -10px; top: 0;
+	content: '';
+}
+.rank_list .item_con .header h3:after{
+	border-top: 40px solid #004fcf; border-right: 10px solid transparent; 
+	position: absolute; right: -10px; top: 0;
+	content: '';
+}
+.rank_list .item_con .header h3 p{
+	width: 120px; height: 40px;
+	margin: 0 10px;
+	background: #0760f0;
+	font-size: 16px; line-height: 40px; text-align: center; color: #fff; font-weight: 600;
+	position: relative;
+}
+.rank_list .item_con .header h3 p:before{
+	border-bottom: 40px solid #0760f0; border-left: 10px solid transparent; 
+	position: absolute; left: -10px; top: 0;
+	content: '';
+}
+.rank_list .item_con .header h3 p:after{
+	border-top: 40px solid #0760f0; border-right: 10px solid transparent; 
+	position: absolute; right: -10px; top: 0;
+	content: '';
+}
+.rank_list .item_con .header .aline{
+	height: 40px;
+	font-size: 13px; line-height: 40px; text-align: right; color: #686868;
+	float: right;
+}
+.rank_list .item_con .header .aline a{
+	margin-left: 20px;
+}
+.rank_list .item_con .tab_con{
+	padding: 20px 0;
+	border-radius: 12px;
+	background: #fff;
+	font-size: 0; line-height: 0; text-align: center;
+}
+.rank_list .item_con .tab_con .left{
+	width: 56%;
+}
+.rank_list .item_con .tab_con .right{
+	width: 44%;
+}
+.rank_list .item_con .tab_con .cup{
+	width: 50%;
+}
+.rank_list .item_con .tab_con .con_in{
+	vertical-align: top;
+	display: inline-block;
+}
+.rank_list .item_con .tab_con .con_in .title{
+	height: 24px;
+	margin-bottom: 10px; padding: 0 12px;
+}
+.rank_list .item_con .tab_con .con_in.left .title{
+	margin-right: 16px;
+}
+.rank_list .item_con .tab_con .con_in .title h4{
+	font-size: 16px; line-height: 24px;
+	float: left;
+}
+.rank_list .item_con .tab_con .con_in .title .tab_item{
+	height: 24px;
+	margin-left: 14px;
+	font-size: 14px; line-height: 24px; text-align: center; color: #686868;
+	cursor: pointer;
+	float: right;
+}
+.rank_list .item_con .tab_con .con_in .title .tab_item:hover{
+	color: #0054dd;
+}
+.rank_list .item_con .tab_con .con_in .title .tab_item.on{
+	color: #0054dd; font-weight: 600;
+}
+.rank_list .item_con .tab_con .con_in .tab_box{
+	padding: 0 12px;
+}
+.rank_list .item_con .tab_con .con_in table{
+	width: 100%;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+.rank_list .item_con .tab_con .con_in table th{
+	height: 30px;
+	font-size: 12px; line-height: 30px; text-align: center; color: #686868;
+}
+.rank_list .item_con .tab_con .con_in table td{
+	height: 32px;
+	border-top: 1px solid #e1e1e1;
+	font-size: 12px; line-height: 20px; text-align: center;
+}
+.rank_list .item_con .tab_con .con_in table td:first-child{
+	padding-left: 10px;
+	text-align: left;
+}
+.rank_list .item_con .tab_con .con_in table tr:nth-child(odd) td{
+	background: #fbfbfb;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

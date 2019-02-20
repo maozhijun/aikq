@@ -1,0 +1,159 @@
+﻿#Content{
+	border-radius: 12px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.league_player{
+	height: 32px;
+	padding: 20px 0 10px 20px;
+	border-bottom: 4px solid #d8d8d8;
+}
+.league_player p{
+	height: 30px; width: 100px;
+	margin-left: -1px;
+	border-radius: 0 16px 16px 0; border: 1px solid #979797;
+	font-size: 14px; line-height: 30px; text-align: center;
+	cursor: pointer;
+	float: left;
+}
+.league_player p:first-child{
+	border-radius: 16px 0 0 16px;
+}
+.league_player p.on{
+	box-shadow: inset 0 1px 3px 0 rgba(21, 7, 87, 0.5);
+	color: #0054dd;
+}
+
+.tab_con{
+	height: 56px;
+	margin-bottom: 20px;
+	border-bottom: 4px solid #d8d8d8;
+	font-size: 0; line-height: 0;
+}
+.tab_con .tab_item{
+	height: 56px; min-width: 32px;
+	padding: 0 9px;
+	font-size: 14px; line-height: 56px; text-align: center; color: #686868;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+.tab_con .tab_item:hover, .tab_con .tab_item.on{
+	color: #f25223;
+}
+.tab_con .tab_item.on:after{
+	width: 26px; height: 4px;
+	margin-left: -13px;
+	background: #f25223;
+	position: absolute; bottom: 0; left: 50%;
+	content: '';
+}
+
+/*内容*/
+.con_inner{
+	padding: 0 112px;
+	font-size: 0; line-height: 0; text-align: center;
+}
+.con_inner h3{
+	height: 24px;
+	padding: 0 0 10px;
+	font-size: 16px; line-height: 24px; text-align: left;
+}
+.con_inner table{
+	width: 100%;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+.con_inner table th{
+	height: 32px;
+	font-size: 12px; line-height: 32px; text-align: center; color: #686868;
+}
+.con_inner table th:first-child + th{
+	padding-left: 25px;
+	text-align: left;
+}
+.con_inner table td{
+	height: 32px;
+	border-top: 1px solid #e1e1e1;
+	font-size: 12px; line-height: 32px; text-align: center;
+	position: relative;
+}
+.con_inner table td:first-child + td{
+	padding-left: 26px;
+	text-align: left;
+}
+.con_inner table tr:nth-child(odd) td{
+	background: #fbfbfb;
+}
+.con_inner table td img{
+	width: 22px; height: 22px;
+	margin-top: -11px;
+	position: absolute; top: 50%; left: 0;
+}
+.con_inner .left_part{
+	width: 42.5%;
+	vertical-align: top;
+	display: inline-block;
+}
+.con_inner .right_part{
+	width: 57.5%;
+	vertical-align: top;
+	display: inline-block;
+}
+.con_inner .player_part{
+	width: 580px;
+	vertical-align: top;
+	display: inline-block;	
+}
+.con_inner .left_part + .right_part th:first-child + th,
+.con_inner .left_part + .right_part th:first-child + th + th,
+.con_inner .player_part th:first-child + th,
+.con_inner .player_part th:first-child + th + th{
+	padding-left: 10px;
+	text-align: left;
+}
+.con_inner .left_part + .right_part td:first-child + td,
+.con_inner .player_part td:first-child + td{
+	padding-left: 10px;
+}
+.con_inner .left_part + .right_part td:first-child + td + td,
+.con_inner .player_part td:first-child + td + td{
+	padding-left: 26px;
+	text-align: left;
+}
+.con_inner .part_inner{
+	padding: 0 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 1300px){
+	.tab_con .tab_item{
+		min-width: 42px;
+	}
+	.con_inner{
+		padding: 0 120px 20px;
+	}
+}
+
+
+
+
+
+

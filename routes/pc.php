@@ -86,6 +86,13 @@ Route::group(["namespace" => 'Live'],function (){
     //Route::get('/invitation/{code}',"HomeController@invitation");
 });
 
+Route::group(["namespace" => 'Data'], function () {
+    Route::get("/data/", "DataController@index");
+    Route::get("/{subject}/data/", "DataController@detail");
+    //静态化
+
+});
+
 Route::group(["namespace" => 'FIFA'], function () {
 //世界杯专题
     Route::get("/worldcup/2018/index.html", "WorldCupController@index");
