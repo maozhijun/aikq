@@ -20,7 +20,7 @@
                                 <h3><p>NBA</p></h3>
                                 <p class="aline">
                                     <a href="/{{$league['subject']}}/data/">详细NBA数据></a>
-                                    <a href="">进入NBA专区></a>
+                                    <a href="/{{$league['subject']}}/">进入NBA专区></a>
                                 </p>
                             </div>
                             <div class="tab_con">
@@ -139,7 +139,7 @@
                                 <h3><p>CBA</p></h3>
                                 <p class="aline">
                                     <a href="/{{$league['subject']}}/data/">详细CBA数据></a>
-                                    <a href="">进入CBA专区></a>
+                                    <a href="/{{$league['subject']}}/">进入CBA专区></a>
                                 </p>
                             </div>
                             <div class="tab_con">

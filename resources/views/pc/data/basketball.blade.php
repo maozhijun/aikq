@@ -76,6 +76,31 @@
                         @endforeach
                     </table>
                 @endif
+                    @if(isset($scores['score']))
+                        <table>
+                            <col width="6.25%"><col width=""><col width="7.5%"><col width="7.5%"><col width="10%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="10%">
+                            <tr><th>排名</th><th>球队</th><th>胜</th><th>负</th><th>胜场差</th><th>胜率</th><th>主场</th><th>客场</th><th>得分</th><th>失分</th><th>净胜</th><th>连胜/负</th></tr>
+                            @foreach($scores['score'] as $item)
+                                <?php
+                                $steam = $teams[$item['tid']];
+                                ?>
+                                <tr>
+                                    <td>{{$item['rank']}}</td>
+                                    <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                    <td>{{$item['win']}}</td>
+                                    <td>{{$item['lose']}}</td>
+                                    <td>{{$item['win_diff']}}</td>
+                                    <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                    <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
+                                    <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
+                                    <td>{{$item['goal']}}</td>
+                                    <td>{{$item['fumble']}}</td>
+                                    <td>{{$item['lose']}}</td>
+                                    <td>{{$item['ten_bat_w']}}连胜</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @endif
             @endif
         </div>
         @foreach($tabs as $item)

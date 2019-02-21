@@ -159,6 +159,32 @@ class DataController extends Controller{
             }
             $scores = array('west'=>$west,'east'=>$east);
         }
+        else if ($subject == 'cba'){
+            if ($season == null){
+                $season = BasketSeason::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+                    ->orderby('name','desc')->first();
+                if (isset($season)){
+                    $kind = $season['kind'];
+                    $season = $season['name'];
+                }
+            }
+            $o_score = BasketScore::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+                ->orderby('rank','asc')
+                ->where('season',$season)
+                ->get();
+            $west = array();
+            $east = array();
+            $tids = array();
+            foreach ($o_score as $item){
+                $tids[] = $item['tid'];
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            $teams = array();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $scores = array('score'=>$o_score);
+        }
         else{
 
         }
