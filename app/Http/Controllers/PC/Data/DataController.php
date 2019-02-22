@@ -168,7 +168,6 @@ class DataController extends Controller{
     }
 
     public function footballDetail(Request $request, $subject, $season = null, $kind = 0){
-        $subject = 'xijia';
         $kind = 0;
         $data = array_key_exists($subject, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$subject] : null;
         if (isset($data)) {
@@ -182,8 +181,9 @@ class DataController extends Controller{
                 $season = $season['name'];
             }
         }
-        $this->html_var['league'] = League::where('id',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+        $league = League::where('id',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
             ->orderby('name','desc')->first();
+        $this->html_var['league'] = $league;
         $o_score = Score::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
             ->where('kind',null)
             ->orderby('rank','asc')
@@ -197,6 +197,19 @@ class DataController extends Controller{
         $teams = array();
         foreach ($o_teams as $item){
             $teams[$item['id']] = $item;
+        }
+
+        //杯赛
+        if ($league['type'] == 2){
+            $tmp = array();
+            foreach ($o_score as $item){
+                if (!array_key_exists($item['group'],$tmp)){
+                    $tmp[$item['group']] = array();
+                }
+                $tmp[$item['group']][] = $item;
+            }
+            ksort($tmp);
+            $o_score = $tmp;
         }
         $scores = array('score'=>$o_score);
 
@@ -343,7 +356,7 @@ class DataController extends Controller{
 
     /********** 静态化 ************/
     /**
-     * 球队列表,只要一次就好,基本上不会变了
+     * data的首页
      * @param Request $request
      */
     public function staticIndex(Request $request){
@@ -362,7 +375,7 @@ class DataController extends Controller{
     }
 
     /**
-     * 数据终端
+     * 专题的data终端
      * @param Request $request
      * @param $league
      * @return html
