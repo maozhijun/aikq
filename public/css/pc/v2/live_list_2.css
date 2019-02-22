@@ -1,0 +1,124 @@
+﻿
+#Content{
+	padding-bottom: 20px;
+}
+
+#Date{
+	margin-bottom: 10px;
+}
+#Date .def_content{
+	height: 30px; width: 976px;
+	padding: 9px 34px 9px 14px;
+	border-radius: 8px;
+	background: #fff;
+}
+#Date a{
+	width: 56px; height: 30px;
+	border-radius: 2px;
+	font-size: 14px; line-height: 30px; text-align: center;
+	display: block;
+}
+#Date a.on{
+	background: #0054dd;
+	color: #fff !important;
+}
+#Date .date_con{
+	float: left;
+}
+#Date .type_con{
+	margin-right: 6px;
+	float: right;
+}
+#Date .separate{
+	height: 30px;
+	margin: 0 10px 0 7px;
+	font-size: 13px; line-height: 30px; text-align: center; color: #e1e1e1;
+	float: left;
+}
+#Date.fix{
+	background: #fff;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+	position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+}
+#Date.fix + #Content{
+	padding-top: 58px;
+}
+
+/*栏目*/
+.el_con{
+	padding-top: 20px; margin-bottom: 0;
+}
+
+.el_con table{
+	width: 100%;
+	border-radius: 12px;
+	background: #fff;
+}
+.el_con table td{
+	height: 50px;
+	border-top: 1px solid #e1e1e1;
+	font-size: 14px; line-height: 20px;
+}
+.el_con table td:first-child{
+	padding-left: 15px;
+}
+.el_con table td:first-child + td{
+	padding-left: 15px;
+	color: #9b9b9b;
+}
+.el_con table td:first-child + td + td{
+	color: #9b9b9b; text-align: center;
+}
+.el_con table td:first-child + td + td + td{
+	text-align: right;
+}
+.el_con table td:first-child + td + td + td + td{
+	font-size: 12px; color: #9b9b9b; text-align: center;
+}
+.el_con table td:first-child + td + td + td + td + td{
+		
+}
+.el_con table td:first-child + td + td + td + td + td + td{
+	height: 38px;
+	padding: 6px 0 6px 20px;
+	line-height: 24px; color: #0054dd;
+}
+.el_con table td:first-child + td + td + td + td + td + td{
+		
+}
+.el_con table td img.icon{
+	width: 24px; height: 24px;
+	margin: 0 auto;
+	display: block;
+}
+.el_con table td img.major{
+	width: 54px; height: 20px;
+	margin: 0 auto;
+	display: block;
+}
+.el_con table td .live{
+	color: #d0021b;
+}
+.el_con table td.channel a{
+	margin-right: 12px;
+	display: inline-block;
+}
+.el_con table td.channel a:hover{
+	text-decoration: underline;
+}
+
+
+
+
+@media screen and (min-width: 1300px){
+	#Date .def_content{
+		width: 1152px;
+	}
+}
+
+
+
+
+
+
+

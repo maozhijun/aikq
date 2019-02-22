@@ -49,6 +49,17 @@ body{
 #Navigation .header{
 	background: #2b2c2d;
 }
+#Navigation .header a.home{
+	width: 98px; height: 32px;
+	margin-top: -16px;
+	background: url(/img/pc/v2/logo_n.png) no-repeat center; background: none\9; background-size: 98px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/logo_n.png',sizingMethod='scale');
+	position: absolute; top: 50%; left: 0;
+}
+:root #Navigation a.logo{
+	filter: none;
+	background: url(/img/pc/v2/logo_n.png) no-repeat center; background-size: 98px;
+}
 #Navigation .header .item_content{
 	height: 44px;
 	margin-left: 158px;
@@ -154,6 +165,58 @@ body{
 	height: 18px;
 	margin-bottom: 20px;
 	font-size: 12px; line-height: 18px; color: #686868;
+}
+
+/*栏目头*/
+.el_con{
+	margin-bottom: 30px;
+}
+.el_con .header{
+	height: 40px;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #004fcf;
+}
+.el_con .header h3{
+	height: 40px;
+	margin: 0 10px;
+	background: #004fcf;
+	position: relative;
+	float: left;
+}
+.el_con .header h3:before{
+	border-bottom: 40px solid #004fcf; border-left: 10px solid transparent; 
+	position: absolute; left: -10px; top: 0;
+	content: '';
+}
+.el_con .header h3:after{
+	border-top: 40px solid #004fcf; border-right: 10px solid transparent; 
+	position: absolute; right: -10px; top: 0;
+	content: '';
+}
+.el_con .header h3 p{
+	min-width: 72px; height: 40px;
+	margin: 0 10px; padding: 0 24px;
+	background: #0760f0;
+	font-size: 16px; line-height: 40px; text-align: center; color: #fff; font-weight: 600;
+	position: relative;
+}
+.el_con .header h3 p:before{
+	border-bottom: 40px solid #0760f0; border-left: 10px solid transparent; 
+	position: absolute; left: -10px; top: 0;
+	content: '';
+}
+.el_con .header h3 p:after{
+	border-top: 40px solid #0760f0; border-right: 10px solid transparent; 
+	position: absolute; right: -10px; top: 0;
+	content: '';
+}
+.el_con .header .aline{
+	height: 40px;
+	font-size: 14px; line-height: 40px; text-align: right; color: #686868;
+	float: right;
+}
+.el_con .header .aline a{
+	margin-left: 30px;
 }
 
 /*翻页*/

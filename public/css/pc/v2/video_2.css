@@ -1,0 +1,56 @@
+﻿
+
+#Video_play_box{
+	background: #2b2c2d;
+	margin-bottom: 20px;
+}
+#Video_play_box h1{
+	padding: 13px 20px;
+	font-size: 16px; line-height: 24px; color: #fff;
+}
+#Video_play_box iframe{
+	height: 380px; width: 100%;
+	background: #000;
+}
+#Video_play_box a{
+	position: relative;
+	display: block;
+}
+#Video_play_box a img{
+	width: 100%;
+	display: block;
+}
+#Video_play_box a:before{
+	background: rgba(0,0,0,0.5);
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	content: '';
+}
+#Video_play_box a:after{
+	width: 60px; height: 60px;
+	margin: -30px 0 0 -30px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_60.png) no-repeat center\9; background-size: 60px;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+:root #Video_play_box a:after{
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 60px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,257 @@
+﻿
+
+#Live_info{
+	padding: 0 60px; margin-bottom: 20px;
+	border-radius: 12px;
+	background: #0054dd;
+	overflow: hidden;
+}
+#Live_info .team_con{
+	width: 100%;
+	display: table;
+}
+#Live_info .team_con .vs{
+	width: 40px;
+	font-size: 16px; line-height: 24px; text-align: center; color: #fff;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#Live_info .team_con .team{
+	width: 45%;
+	padding: 16px 0 14px;
+	font-size: 16px; line-height: 22px; text-align: center; color: #fff;
+	vertical-align: top;
+	display: table-cell;
+}
+#Live_info .team_con .team img{
+	height: 60px;
+	margin: 0 auto 8px;
+	display: block;
+}
+#Live_info .team_con .team a{
+	 color: #fff !important;
+}
+#Live_info .line_list{
+	padding: 5px 10px 15px; margin: 0 -60px;
+	background: #fff;
+	font-size: 0; line-height: 0; text-align: center;
+}
+#Live_info .line_list a{
+	height: 30px; min-width: 65px;
+	margin: 10px 10px 0; padding: 0 15px;
+	border-radius: 2px;
+	background: #87abe6;
+	font-size: 13px; line-height: 30px; text-align: center; color: #fff;
+	display: inline-block;
+}
+#Live_info .line_list a:hover{
+	background: #0054dd;
+	color: #fff !important;
+}
+
+/*数据*/
+#Data{
+	margin-bottom: 20px;
+	border-radius: 12px;
+	background: #fff;
+}
+#Data .column{
+	height: 40px;
+	margin-top: 20px; padding-left: 20px;
+	border-bottom: 1px solid #e1e4e8;
+	font-size: 0;
+}
+#Data .column a{
+	height: 40px;
+	margin-right: 16px;
+	font-size: 14px; line-height: 40px; text-align: center; color: #919191;
+	position: relative;
+	display: inline-block;
+}
+#Data .column a.on, #Data .column a:hover{
+	color: #0054dd;
+}
+#Data .column a.on:after{
+	height: 2px;
+	background: #0054dd;
+	position: absolute; bottom: 0; left: 2px; right: 2px;
+	content: '';
+}
+
+
+#Analysis{
+	padding: 16px 16px 20px;
+}
+#Analysis .title{
+	height: 20px;
+	margin-bottom: 8px;
+	font-size: 14px; line-height: 20px; color: #242526;
+	position: relative;
+}
+#Analysis table + .title{
+	margin-top: 20px;
+}
+#Analysis table{
+	width: 100%;
+	border-radius: 8px;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+#Analysis table th{
+	height: 40px;
+	font-size: 13px; line-height: 20px; text-align: center; color: #9b9b9b;
+}
+#Analysis table td{
+	height: 40px;
+	border-top: 1px solid #e1e1e1;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+
+#Lineup{
+	padding: 20px;
+	font-size: 0; text-align: center;
+}
+#Lineup .team{
+	width: 49%;
+	vertical-align: top;
+	display: inline-block;
+}
+#Lineup .team + .team{
+	margin-left: 1.5%;
+}
+#Lineup .title{
+	height: 16px;
+	padding-left: 12px; margin-bottom: 10px;
+	font-size: 14px; line-height: 16px; text-align: left; color: #242526;
+	position: relative;
+}
+#Lineup .title:before{
+	width: 4px; height: 10px;
+	border-top: 6px solid #4492fd;
+	background: #9fc0ec;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Lineup table{
+	width: 100%;
+	border: 1px solid #e1e4e8;
+}
+#Lineup table th{
+	height: 30px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #919191;
+}
+#Lineup table td{
+	height: 40px;
+	font-size: 12px; line-height: 16px; text-align: center; color: #242526;
+	border-top: 1px solid #e1e4e8;
+}
+
+#Technology{
+	padding: 20px;
+}
+#Technology .title{
+	height: 16px;
+	padding-left: 12px; margin-bottom: 10px;
+	font-size: 14px; line-height: 16px; color: #242526;
+	position: relative;
+}
+#Technology table + .title{
+	margin-top: 30px;
+}
+#Technology .title:before{
+	width: 4px; height: 10px;
+	border-top: 6px solid #4492fd;
+	background: #9fc0ec;
+	position: absolute; top: 0; left: 0;
+	content: '';
+}
+#Technology table{
+	width: 100%;
+	border: 1px solid #e1e4e8;
+}
+#Technology table th{
+	height: 30px;
+	background: #dcdee6;
+	font-size: 12px; line-height: 15px; text-align: center; color: #576880;
+}
+#Technology table td{
+	height: 40px;
+	border-top: 1px solid #e1e4e8;
+	font-size: 12px; line-height: 16px; text-align: center; color: #666;
+}
+#Technology table tr:first-child td{
+	border-top: none;
+}
+#Technology table td p{
+	height: 6px;
+	text-align: left;
+}
+#Technology table td:first-child p{
+	font-size: 0; text-align: right;
+}
+#Technology table td p span{
+	height: 6px;
+	background: #3a6ab1;
+	display: inline-block;
+}
+
+
+/*最近录像*/
+#Left_part table.match th{
+	height: 40px;
+	padding-left: 64px;
+	font-size: 14px; line-height: 20px; text-align: left;
+	position: relative;
+}
+#Left_part table.match th img{
+	width: 32px; height: 32px;
+	margin-top: -16px;
+	position: absolute; top: 50%; left: 16px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

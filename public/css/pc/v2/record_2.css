@@ -1,0 +1,72 @@
+﻿
+
+#Video_play_box{
+	background: #fff;
+	margin-bottom: 20px;
+}
+#Video_play_box h1{
+	padding: 13px 20px;
+	background: #2b2c2d;
+	font-size: 16px; line-height: 24px; color: #fff;
+}
+#Video_play_box ul{
+
+}
+#Video_play_box ul li{
+	height: 56px;
+	padding: 0 30px;
+	font-size: 15px; line-height: 56px;
+	position: relative;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#Video_play_box ul li + li{
+	border-top: 1px solid #e1e1e1;
+}
+#Video_play_box ul li:before{
+	width: 0; height: 0;
+	margin-top: -6px;
+	border-left: 8px solid #d8d8d8; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+	position: absolute; top: 50%; left: 16px;
+	content: '';
+}
+#Video_play_box ul li .go_play{
+	margin-left: 20px;
+	color: #0054dd;
+	float: right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Left_part table.match td.vs{
+	font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

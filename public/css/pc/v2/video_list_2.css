@@ -75,8 +75,22 @@
 .video_con .player_con button.left{
 	left: 15px;
 }
+.video_con .player_con button.left:before{
+	width: 0; height: 0;
+	margin: -6px 0 0 -3px;
+	border-right: 6px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
 .video_con .player_con button.right{
 	right: 15px;
+}
+.video_con .player_con button.right:before{
+	width: 0; height: 0;
+	margin: -6px 0 0 -3px;
+	border-left: 6px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
 }
 .video_con .player_con button:disabled{
 	opacity: 0.5;

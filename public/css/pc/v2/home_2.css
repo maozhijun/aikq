@@ -1,4 +1,8 @@
 ﻿
+.el_con .header{
+	margin-bottom: 20px;
+}
+
 /*赛程*/
 #Schedule{
 	height: 120px;
@@ -40,17 +44,51 @@
 	position: absolute; top: 0; bottom: 0; right: 0;
 	content: '';
 }
+#Schedule .right_con img{
+	width: 30px; height: 30px;
+	margin-left: -17px;
+	position: absolute; top: 32px; left: 50%;
+}
 #Schedule button{
-	width: 24px; height: 24px;
+	width: 16px; height: 24px;
 	margin-top: -12px;
-	background: #000;
 	position: absolute; top: 50%;
 }
 #Schedule button.left_btn{
+	margin-left: 4px;
+	background: url(/img/pc/v2/icon_left_h.png) no-repeat center; background: none\9; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_left_h.png',sizingMethod='scale');
 	left: 64px;
 }
+#Schedule button.left_btn:disabled{
+	background: url(/img/pc/v2/icon_left_n.png) no-repeat center; background: none\9; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_left_n.png',sizingMethod='scale');
+}
+:root #Schedule button.left_btn{
+	filter: none;
+	background: url(/img/pc/v2/icon_left_h.png) no-repeat center; background-size: 16px;
+}
+:root #Schedule button.left_btn:disabled{
+	filter: none;
+	background: url(/img/pc/v2/icon_left_n.png) no-repeat center; background-size: 16px;
+}
 #Schedule button.right_btn{
+	margin-right: 4px;
+	background: url(/img/pc/v2/icon_right_h.png) no-repeat center; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_right_h.png',sizingMethod='scale');
 	right: 64px;
+}
+#Schedule button.right_btn:disabled{
+	background: url(/img/pc/v2/icon_right_n.png) no-repeat center; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_right_n.png',sizingMethod='scale');
+}
+:root #Schedule button.right_btn{
+	filter: none;
+	background: url(/img/pc/v2/icon_right_h.png) no-repeat center; background-size: 16px;
+}
+:root #Schedule button.right_btn:disabled{
+	filter: none;
+	background: url(/img/pc/v2/icon_right_n.png) no-repeat center; background-size: 16px;
 }
 #Schedule .inbox{
 	height: 120px;
@@ -80,10 +118,28 @@
 	content: '';
 }
 #Schedule .inbox ul li .inner.football{
-
+	background: url(/img/pc/v2/icon_foot_light.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_foot_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+}
+#Schedule .inbox ul li .inner.football.end{
+	background: url(/img/pc/v2/icon_foot_n.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_foot_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+}
+:root #Schedule .inbox ul li .inner.football{
+	background: url(/img/pc/v2/icon_foot_light.png) no-repeat 1px 4px #fff; background-size: 115px;
+}
+:root #Schedule .inbox ul li .inner.football.end{
+	background: url(/img/pc/v2/icon_foot_n.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.basketball{
-	
+	background: url(/img/pc/v2/icon_basket_light.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_basket_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+}
+#Schedule .inbox ul li .inner.basketball.end{
+	background: url(/img/pc/v2/icon_basket_n.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_basket_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+}
+:root #Schedule .inbox ul li .inner.basketball{
+	background: url(/img/pc/v2/icon_basket_light.png) no-repeat 1px 4px #fff; background-size: 115px;
+}
+:root #Schedule .inbox ul li .inner.basketball.end{
+	background: url(/img/pc/v2/icon_basket_n.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.football:before{
 	background: #4391fd;
@@ -132,6 +188,7 @@
 #Schedule .inbox ul li .inner .more_info{
 	height: 28px; width: 100%;
 	border-top: 1px solid #e1e1e1;
+	background: #fff;
 	position: absolute; bottom: 0; left: 0; right: 0;
 }
 #Schedule .inbox ul li .inner .more_info td{
@@ -199,7 +256,7 @@
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;
 }
-#Focus .focus .first_con img:hover{
+#Focus .focus .first_con:hover img{
 	transform: scale(1.1); -ms-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -moz-transform: scale(1.1);
 }
 #Focus .focus .first_con p{
@@ -218,9 +275,12 @@
 }
 #Focus .focus .second_con:before{
 	width: 36px; height: 36px;
-	background: #000;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
 	position: absolute; left: 14px; bottom: 61px; z-index: 1;
 	content: '';
+}
+:root #Focus .focus .second_con:before{
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 36px;
 }
 #Focus .focus .second_con img{
 	min-width: 440px; min-height: 166px;
@@ -228,7 +288,7 @@
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;
 }
-#Focus .focus .second_con img:hover{
+#Focus .focus .second_con:hover img{
 	transform: scale(1.1); -ms-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -moz-transform: scale(1.1);
 }
 #Focus .focus .second_con p{
@@ -251,16 +311,22 @@
 	display: block;
 }
 #Focus .video a:before{
-	background: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.3);
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 1;
 	content: '';
+}
+#Focus .video a:hover:before{
+	display: none;
 }
 #Focus .video a:after{
 	width: 28px; height: 28px;
 	margin-left: -14px;
-	background: #000;
-	position: absolute; top: 39px; left: 50%;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
+	position: absolute; top: 39px; left: 50%; z-index: 1;
 	content: '';
+}
+:root #Focus .video a:after{
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 28px;
 }
 #Focus .video a img{
 	min-width: 280px; min-height: 106px;
@@ -280,56 +346,6 @@
 
 
 /*栏目*/
-.el_con{
-	margin-bottom: 30px;
-}
-.el_con .header{
-	height: 40px;
-	margin-bottom: 20px;
-	border-bottom: 2px solid #004fcf;
-}
-.el_con .header h3{
-	width: 140px; height: 40px;
-	margin: 0 10px;
-	background: #004fcf;
-	position: relative;
-	float: left;
-}
-.el_con .header h3:before{
-	border-bottom: 40px solid #004fcf; border-left: 10px solid transparent; 
-	position: absolute; left: -10px; top: 0;
-	content: '';
-}
-.el_con .header h3:after{
-	border-top: 40px solid #004fcf; border-right: 10px solid transparent; 
-	position: absolute; right: -10px; top: 0;
-	content: '';
-}
-.el_con .header h3 p{
-	width: 120px; height: 40px;
-	margin: 0 10px;
-	background: #0760f0;
-	font-size: 16px; line-height: 40px; text-align: center; color: #fff; font-weight: 600;
-	position: relative;
-}
-.el_con .header h3 p:before{
-	border-bottom: 40px solid #0760f0; border-left: 10px solid transparent; 
-	position: absolute; left: -10px; top: 0;
-	content: '';
-}
-.el_con .header h3 p:after{
-	border-top: 40px solid #0760f0; border-right: 10px solid transparent; 
-	position: absolute; right: -10px; top: 0;
-	content: '';
-}
-.el_con .header .aline{
-	height: 40px;
-	font-size: 14px; line-height: 40px; text-align: right;
-	float: right;
-}
-.el_con .header .aline a{
-	margin-left: 30px;
-}
 .el_con .img{
 	height: 340px; width: 380px;
 	margin-right: 20px;
@@ -345,9 +361,12 @@
 }
 .el_con .img .first_con:before{
 	width: 36px; height: 36px;
-	background: #000;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
 	position: absolute; left: 14px; bottom: 61px; z-index: 1;
 	content: '';
+}
+:root .el_con .img .first_con:before{
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 36px;
 }
 .el_con .img .first_con a{
 	width: 440px; height: 214px;
@@ -359,7 +378,7 @@
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;
 }
-.el_con .img .first_con img:hover{
+.el_con .img .first_con:hover img{
 	transform: scale(1.1); -ms-transform: scale(1.1); -webkit-transform: scale(1.1); -o-transform: scale(1.1); -moz-transform: scale(1.1);
 }
 .el_con .img .first_con p{
@@ -386,16 +405,22 @@
 	display: block;
 }
 .el_con .img .second_con .item a:before{
-	background: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.3);
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; z-index: 1;
 	content: '';
+}
+.el_con .img .second_con .item a:hover:before{
+	display: none;
 }
 .el_con .img .second_con .item a:after{
 	width: 28px; height: 28px;
 	margin-left: -14px;
-	background: #000;
-	position: absolute; top: 39px; left: 50%;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
+	position: absolute; top: 39px; left: 50%; z-index: 2;
 	content: '';
+}
+:root .el_con .img .second_con .item a:after{
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 28px;
 }
 .el_con .img .second_con .item a img{
 	min-width: 220px; min-height: 106px;
@@ -420,7 +445,7 @@
 	background: #fff;
 	float: left;
 }
-.el_con .news h2{
+.el_con .news h3{
 	height: 24px;
 	margin-top: 20px;
 	font-size: 18px; line-height: 24px; font-weight: 600px;

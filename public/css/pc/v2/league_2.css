@@ -1,0 +1,271 @@
+﻿
+
+.el_con{
+	margin-bottom: 20px;
+}
+
+/*日期*/
+.date{
+	height: 26px;
+	margin: 7px 0;
+	border: 1px solid #538ce9; border-radius: 14px;
+	background: #fff;
+	overflow: hidden;
+	float: right;
+}
+.date .con_text{
+	width: 100px; height: 26px;
+	border-left: 1px solid #538ce9; border-right: 1px solid #538ce9;
+	font-size: 12px; line-height: 26px; text-align: center;
+	vertical-align: top;
+	display: inline-block;
+}
+.date button{
+	width: 56px; height: 26px;
+	font-size: 12px; text-align: center; line-height: 26px; color: #0054dd;
+	vertical-align: top;
+	display: inline-block;
+}
+.date button:hover{
+	background: #538ce9;
+	color: #fff;
+}
+
+/*赛程*/
+#Left_part .schedule_con{
+	border-radius: 12px;
+	background: #fff;
+}
+#Left_part .schedule_con .round_con{
+	padding: 20px 20px 10px;
+	border-bottom: 1px solid #e1e1e1;
+}
+#Left_part .schedule_con .round_con .item_box{
+	border-radius: 12px;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+	font-size: 0; line-height: 0;
+	overflow: hidden;
+}
+#Left_part .schedule_con .round_con .item_box p{
+	width: 5%; height: 32px;
+	margin-bottom: -1px;
+	border-bottom: 1px solid #e1e1e1; border-radius: 12px 0 0 0;
+	font-size: 15px; line-height: 32px; text-align: center;
+	vertical-align: top;
+	display: inline-block;
+	cursor: pointer;
+}
+#Left_part .schedule_con .round_con .item_box.cup p{
+	width: auto;
+	padding: 0 6px;
+	font-size: 12px;
+}
+#Left_part .schedule_con .round_con .item_box p:hover{
+	background: #f0b3a1;
+	color: #fff;
+}
+#Left_part .schedule_con .round_con .item_box p.on{
+	background: #f25223;
+	color: #fff;
+}
+#Left_part .schedule_con .round_con .item_box.cup p span:hover{
+	color: #f25223; font-weight: bold;
+}
+#Left_part .schedule_con .round_con .item_box.cup p.on span:hover{
+	color: #d0021b;
+}
+#Left_part .schedule_con .round_con .item_box.cup p span:after{
+	display: none;
+	content: '组';
+}
+#Left_part .schedule_con .round_con .item_box.cup p span.on:after{
+	display: inline;
+}
+#Left_part .schedule_con table.match{
+	margin-bottom: 0;
+}
+
+/*排名*/
+#Left_part .rank_con{
+	padding: 20px 16px;
+	border-radius: 12px;
+	background: #fff;
+}
+#Left_part .rank_con .date_text{
+	padding: 20px 0 10px;
+	font-size: 16px; line-height: 20px; font-weight: bold;
+}
+#Left_part .rank_con table.rank{
+	margin-bottom: 0;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+#Left_part .rank_con .date_text:first-child{
+	padding-top: 0;
+}
+
+/*信息*/
+#League_info{
+	margin-bottom: 20px;
+	border-radius: 12px;
+	background: #fff;
+}
+#League_info .info_con{
+	padding-top: 20px;
+}
+#League_info .info_con img{
+	height: 100px;
+	margin: 0 auto;
+	display: block;
+}
+#League_info .info_con h1{
+	padding: 10px 0;
+	font-size: 16px; line-height: 24px; text-align: center;
+}
+#League_info .season_con{
+	height: 40px;
+	padding: 0 20px;
+	border-top: 1px solid #e1e1e1;
+	font-size: 13px; line-height: 40px;
+	position: relative;
+}
+#League_info .season_con dl{
+	height: 40px; 
+	position: absolute; top: 0; right: 0; z-index: 1;
+}
+#League_info .season_con dl dt{
+	padding: 0 20px;
+	font-size: 13px; line-height: 40px; text-align: right; color: #0054dd;
+	cursor: pointer;
+}
+#League_info .season_con dl dd{
+	width: 160px;
+	padding: 10px 0;
+	border: solid 1px #ccc; border-radius: 12px;
+	background: #f2f1f2;
+	box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.2);
+	position: absolute; top: 40px; right: 0;
+}
+#League_info .season_con dl dd a{
+	height: 24px;
+	font-size: 13px; line-height: 24px; text-align: center;
+	display: block;
+}
+#League_info .season_con dl dd a + a{
+	margin-top: 4px;
+}
+#League_info .season_con dl dd a.on{
+	color: #0054dd; font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 1300px){
+	#Left_part .schedule_con .round_con .item_box.cup p{
+		padding: 0 12px;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
