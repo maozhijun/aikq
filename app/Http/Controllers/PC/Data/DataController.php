@@ -11,8 +11,10 @@ namespace App\Http\Controllers\PC\Data;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\League;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
+use App\Models\LgMatch\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -121,7 +123,77 @@ class DataController extends Controller{
         return view('pc.data.index',$this->html_var);
     }
 
-    public function detail(Request $request,$subject,$season = null,$kind = null){
+    public function detail(Request $request, $subject, $season = null, $kind = null){
+        if ($subject == 'nba' || $subject == 'cba'){
+            return $this->basketDetail($request,$subject,$season,$kind);
+        }
+        else{
+            return $this->footballDetail($request,$subject,$season,$kind);
+        }
+    }
+
+    public function footballDetail(Request $request, $subject, $season = null, $kind = 0){
+        $subject = 'xijia';
+        $kind = 0;
+        $data = array_key_exists($subject, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$subject] : null;
+        if (isset($data)) {
+            $data['name_en'] = $subject;
+            $this->html_var['zhuanti'] = $data;
+        }
+        if ($season == null){
+            $season = Season::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+                ->orderby('name','desc')->first();
+            if (isset($season)){
+                $season = $season['name'];
+            }
+        }
+        $this->html_var['league'] = League::where('id',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+            ->orderby('name','desc')->first();
+        $o_score = Score::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+            ->where('kind',null)
+            ->orderby('rank','asc')
+            ->where('season',$season)
+            ->get();
+        $tids = array();
+        foreach ($o_score as $item){
+            $tids[] = $item['tid'];
+        }
+        $o_teams = Team::whereIn('id',$tids)->get();
+        $teams = array();
+        foreach ($o_teams as $item){
+            $teams[$item['id']] = $item;
+        }
+        $scores = array('score'=>$o_score);
+
+        if (!isset($scores)){
+            return null;
+        }
+
+        $teamTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
+        $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+        $this->html_var['scores'] = $scores;
+//        dump($teamTech['goal']);
+//        dump($playerTech);
+        $this->html_var['playerTech'] = $playerTech;
+        $this->html_var['teamTech'] = $teamTech;
+        $this->html_var['teams'] = $teams;
+        $this->html_var['teamTabs'] = array(
+            array('name'=>'进球','key'=>'goal'),
+            array('name'=>'失球','key'=>'fumble'),
+            array('name'=>'黄牌','key'=>'yellow'),
+            array('name'=>'红牌','key'=>'red'),
+        );
+        $this->html_var['playerTabs'] = array(
+            array('name'=>'进球','key'=>'goal'),
+            array('name'=>'失球','key'=>'fumble'),
+            array('name'=>'黄牌','key'=>'yellow'),
+            array('name'=>'红牌','key'=>'red'),
+        );
+//        dump($this->html_var['teams']);
+        return view('pc.data.football',$this->html_var);
+    }
+
+    public function basketDetail(Request $request,$subject,$season = null,$kind = null){
         $data = array_key_exists($subject, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$subject] : null;
         if (isset($data)) {
             $data['name_en'] = $subject;
@@ -186,7 +258,10 @@ class DataController extends Controller{
             $scores = array('score'=>$o_score);
         }
         else{
+        }
 
+        if (!isset($scores)){
+            return null;
         }
 
         $teamTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
@@ -240,7 +315,7 @@ class DataController extends Controller{
         $html = $this->index($request);
         if (!is_null($html) && strlen($html) > 0){
             try {
-                Storage::disk("public")->put("/static/worldcup/2018/index.html", $html);
+                Storage::disk("public")->put("/static/data/index.html", $html);
             }
             catch (\Exception $exception){
                 echo $exception;
@@ -252,14 +327,16 @@ class DataController extends Controller{
     }
 
     /**
-     * 球队终端
+     * 数据终端
      * @param Request $request
-     * @param $tid
+     * @param $league
+     * @return html
      */
-    public function staticTeamDetail(Request $request,$tid){
-        $html = $this->teamDetail($request,$tid);
+    public function dataDetailHtml(Request $request,$league){
+        $html = $this->detail($request,$league->name_en);
         if (!is_null($html) && strlen($html) > 0){
-            Storage::disk("public")->put("/static/worldcup/2018/team/".$tid.".html", $html);
+            return $html;
         }
+        return null;
     }
 }
