@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DataCommand extends Command
 {
+    protected $type = "";
     /**
      * The name and signature of the console command.
      *
@@ -39,6 +40,7 @@ class DataCommand extends Command
      */
     public function __construct()
     {
+        $this->signature = 'data_cache:run {type}';
         parent::__construct();
     }
 
@@ -49,12 +51,18 @@ class DataCommand extends Command
      */
     public function handle()
     {
-        $leagues = SubjectLeague::getAllLeagues();
+        $type = $this->argument('type');
+        $this->type = $type;
         $aiCon = new DataController();
-        foreach ($leagues as $league) {
-            $this->staticSubjectHtml($aiCon, $league);
+        if ($this->type == 'index' || $this->type == 'all'){
+            $aiCon->staticIndex(new Request());
         }
-        $aiCon->staticIndex(new Request());
+        if ($this->type == 'league' || $this->type == 'all'){
+            $leagues = SubjectLeague::getAllLeagues();
+            foreach ($leagues as $league) {
+                $this->staticSubjectHtml($aiCon, $league);
+            }
+        }
     }
 
     public function staticSubjectHtml(DataController $aiCon, SubjectLeague $sl) {
