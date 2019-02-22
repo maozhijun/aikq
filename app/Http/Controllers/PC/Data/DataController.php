@@ -115,7 +115,42 @@ class DataController extends Controller{
                 $subData[] = $scores;
             }
             else{
+                if ($subject != 'xijia')
+                    continue;
+                $season = Season::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+                    ->orderby('name','desc')->first();
+                if (isset($season)){
+                    $season = $season['name'];
+                }
+                $kind = 0;
+                //球队积分
+                $o_score = Score::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
+                    ->orderby('rank','asc')
+                    ->where('kind',null)
+                    ->where('season',$season)
+                    ->get();
 
+                $tids = array();
+                foreach ($o_score as $item){
+                    $tids[] = $item['tid'];
+
+                }
+                $scores = array('score'=>$o_score);
+                $o_teams = Team::whereIn('id',$tids)->get();
+                $teams = array();
+                foreach ($o_teams as $item){
+                    $teams[$item['id']] = $item;
+                }
+                $league = League::where('id',Controller::SUBJECT_NAME_IDS[$subject]['lid'])->first();
+                $scores['league'] = $league;
+                $scores['subject'] = $subject;
+                $scores['teams'] = $teams;
+                $scores['tabs'] = array(
+                );
+                //球员
+                $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+                $scores['playerTech'] = $playerTech;
+                $subData[] = $scores;
             }
         }
 
