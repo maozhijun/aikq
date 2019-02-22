@@ -9,6 +9,7 @@ use App\Console\Article\ArticleLiveCellCommands;
 //use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
+use App\Console\Data\DataCommand;
 use App\Console\Download\DownloadCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
@@ -119,6 +120,8 @@ class Kernel extends ConsoleKernel
         JustFunStreamStaticCommand::class,//抓饭流静态化
 
         TeamDetailCommand::class, //球队终端静态化
+
+        DataCommand::class,
     ];
 
     /**
