@@ -25,6 +25,21 @@ class RecordController extends Controller
     //=====================================页面内容 开始=====================================//
 
     /**
+     * 首页
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request){
+        $start = date('Y-m-d',date_create('-7 day')->getTimestamp());
+        $end = date('Y-m-d',date_create()->getTimestamp());
+        $start = date_create('2018-07-20');
+        $end = date_create('2018-08-20');
+        $this->html_var['datas'] = $this->getRecordByDate($start,$end);
+//        dump($this->html_var['datas']);
+        return view('pc.record.index',$this->html_var);
+    }
+
+    /**
      * 录像列表
      * @param Request $request
      * @param $name_en
@@ -59,6 +74,11 @@ class RecordController extends Controller
         return view('pc.record.detail',$this->html_var);
     }
 
+    /**
+     * 获取专题相关录像
+     * @param $name_en
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
     public function getSubjectRecord($name_en){
         $sid = null;
         if ($name_en != 'other'){
@@ -72,5 +92,47 @@ class RecordController extends Controller
             ->take(10)
             ->get();
         return $records;
+    }
+
+    /**
+     * 返回接口
+     * @param Request $request
+     * @return string
+     */
+    public function getRecordByDateJson(Request $request){
+        $start = $request->input('date');
+        $end = date_create($start)->modify("+1 day")->format("Y-m-d");
+        $json = $this->getRecordByDate($start,$end);
+        $result = array();
+        foreach ($json as $data){
+            $result['data'] = $data;
+        }
+        $result['code'] = 0;
+        $result['msg'] = 'success';
+        return json_encode($result);
+    }
+
+    /**
+     * 根据日期获取录像列表
+     * @param $start
+     * @param $end
+     * @return array
+     */
+    public function getRecordByDate($start, $end){
+        $query = SubjectVideo::query();
+        $query->where('time','>=', $start);
+        $query->where('time','<', $end);
+        $query->orderby('time','desc');
+        $list = $query->get();
+        $result = array();
+        foreach ($list as $item){
+            $timeStr = date('Y-m-d',date_create($item['time'])->getTimestamp());
+            if (!array_key_exists($timeStr,$result)){
+                $result[$timeStr]['records'] = array();
+                $result[$timeStr]['date'] = $timeStr;
+            }
+            $result[$timeStr]['records'][] = $item;
+        }
+        return $result;
     }
 }

@@ -35,6 +35,10 @@ Route::group(["namespace" => 'PC\Article'], function () {
     Route::any("/spider/article/{id}", "ArticleController@logBaiduSpider");//记录百度爬虫进入文章
 });
 
+Route::group(["namespace" => 'PC\Record'], function (){
+    Route::get("/recordByDate", "RecordController@getRecordByDateJson");
+});
+
 Route::group(["namespace" => 'Sync'], function () {
     Route::any("/label/sync/article", "LabelController@syncArticleLabel");//同步文章
 });

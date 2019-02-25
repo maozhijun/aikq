@@ -185,5 +185,6 @@ Route::group(["namespace" => 'Live'], function () {
 
 //录像 2.0版本
 Route::group(["namespace" => 'Record'], function () {
-    Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//player播放页面
+    Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//终端
+    Route::get('/record/index.html', 'RecordController@index');//首页
 });
