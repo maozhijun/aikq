@@ -124,6 +124,43 @@
                 </div>
             </div>
         @endforeach
+        @foreach($playerTabs as $item)
+            @if($item['key'] == 'goal')
+                <div class="con_inner" style="display: none;">
+                    <div class="player_part">
+                        <div class="part_inner">
+                            <table>
+                                <col width="12%"><col width=""><col width="24%"><col width="18%"><col width="18%">
+                                <tr><th>排名</th><th>球员</th><th>球队</th><th>进球</th><th>点球</th></tr>
+                                @foreach($playerTech[$item['key']] as $index=>$d)
+                                    <?php
+                                    $steam = $playerTech['teams'][$d['tid']];
+                                    ?>
+                                    <tr><td>{{$index+1}}</td><td>{{$d['pname']}}</td><td><img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}</td><td>{{$d['value']}}</td><td>{{$d['penalty']}}</td></tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="con_inner" style="display: none;">
+                    <div class="player_part">
+                        <div class="part_inner">
+                            <table>
+                                <col width="12%"><col width=""><col width="28%"><col width="24%">
+                                <tr><th>排名</th><th>球员</th><th>球队</th><th>{{$item['name']}}</th></tr>
+                                @foreach($playerTech[$item['key']] as $index=>$d)
+                                    <?php
+                                    $steam = $playerTech['teams'][$d['tid']];
+                                    ?>
+                                    <tr><td>{{$index+1}}</td><td>{{$d['pname']}}</td><td><img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}</td><td>{{$d['value']}}</td></tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        @endforeach
     </div>
 @endsection
 @section('js')

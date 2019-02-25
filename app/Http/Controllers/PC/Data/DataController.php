@@ -220,9 +220,11 @@ class DataController extends Controller{
         $teamTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
         $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
         $this->html_var['scores'] = $scores;
-//        dump($teamTech['goal']);
+//        dump('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json');
+//        dump($teamTech);
 //        dump($playerTech);
         $this->html_var['playerTech'] = $playerTech;
+//        dump($playerTech);
         $this->html_var['teamTech'] = $teamTech;
         $this->html_var['teams'] = $teams;
         $this->html_var['teamTabs'] = array(
@@ -233,7 +235,7 @@ class DataController extends Controller{
         );
         $this->html_var['playerTabs'] = array(
             array('name'=>'进球','key'=>'goal'),
-            array('name'=>'失球','key'=>'fumble'),
+            array('name'=>'助攻','key'=>'assist'),
             array('name'=>'黄牌','key'=>'yellow'),
             array('name'=>'红牌','key'=>'red'),
         );

@@ -182,3 +182,8 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
     //========================================================热门录像 结束========================================================//
 });
+
+//录像 2.0版本
+Route::group(["namespace" => 'Record'], function () {
+    Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//player播放页面
+});
