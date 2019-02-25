@@ -187,4 +187,6 @@ Route::group(["namespace" => 'Live'], function () {
 Route::group(["namespace" => 'Record'], function () {
     Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//终端
     Route::get('/record/index.html', 'RecordController@index');//首页
+    Route::get('/record/{name_en}/index{pageNo}.html', 'RecordController@subject');//专题录像
+    Route::get('/record/{name_en}/index.html', 'RecordController@subject');//专题录像
 });

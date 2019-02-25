@@ -36,7 +36,7 @@ Route::group(["namespace" => 'PC\Article'], function () {
 });
 
 Route::group(["namespace" => 'PC\Record'], function (){
-    Route::get("/recordByDate", "RecordController@getRecordByDateJson");
+    Route::get("/recordByDate.json", "RecordController@getRecordByDateJson");
 });
 
 Route::group(["namespace" => 'Sync'], function () {

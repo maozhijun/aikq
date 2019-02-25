@@ -12,7 +12,13 @@ namespace App\Http\Controllers\PC\Record;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\LgMatch\BasketMatch;
+use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketSeason;
+use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\Match;
+use App\Models\LgMatch\Score;
+use App\Models\LgMatch\Season;
+use App\Models\LgMatch\Team;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
 use App\Models\Subject\SubjectVideo;
@@ -40,6 +46,105 @@ class RecordController extends Controller
     }
 
     /**
+     * 专题录像列表 nba cba终端那些
+     * @param Request $request
+     * @param $name_en
+     * @param int $pageNo
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function subject(Request $request, $name_en, $pageNo = 1){
+        $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        if (isset($data)) {
+            $data['name_en'] = $name_en;
+            $this->html_var['zhuanti'] = $data;
+        }
+        //录像
+        $records = $this->getRecordBySid($data['id'],$pageNo);
+        $this->html_var['records'] = $records['data'];
+        $this->html_var['page'] = $records['page'];
+        $this->html_var['pageNo'] = $pageNo;
+        //球队
+        if ($name_en == 'nba'){
+            $season = BasketSeason::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->orderby('name','desc')->first();
+            if (isset($season)){
+                $season = $season['name'];
+            }
+            $o_score = BasketScore::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->orderby('rank','asc')
+                ->where('season',$season)
+                ->get();
+            $west = array();
+            $east = array();
+            $tids = array();
+            foreach ($o_score as $item){
+                $tids[] = $item['tid'];
+                if ($item['zone'] == 0){
+                    $west[] = $item['tid'];
+                }
+                else{
+                    $east[] = $item['tid'];
+                }
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            $teams = array();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $this->html_var['teamsData'] = $teams;
+            $this->html_var['teams'] = array('west'=>$west,'east'=>$east);
+        }
+        else if ($name_en == 'cba'){
+            $season = BasketSeason::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->orderby('name','desc')->first();
+            if (isset($season)){
+                $season = $season['name'];
+            }
+            $o_score = BasketScore::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->orderby('rank','asc')
+                ->where('season',$season)
+                ->get();
+            $tids = array();
+            foreach ($o_score as $item){
+                $tids[] = $item['tid'];
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            $teams = array();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $this->html_var['teamsData'] = $teams;
+            $this->html_var['teams'] = $tids;
+        }
+        else{
+            $season = Season::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->orderby('name','desc')->first();
+            if (isset($season)){
+                $season = $season['name'];
+            }
+            $o_score = Score::where('lid',Controller::SUBJECT_NAME_IDS[$name_en]['lid'])
+                ->where('kind',null)
+                ->where('season',$season)
+                ->orderby('score','desc')
+                ->get();
+            $tids = array();
+            foreach ($o_score as $item){
+                $tids[] = $item['tid'];
+            }
+            $o_teams = Team::whereIn('id',$tids)->get();
+            $teams = array();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $this->html_var['teamsData'] = $teams;
+            $this->html_var['teams'] = $tids;
+        }
+//        dump($this->html_var['teamsData'][206]);
+        return view('pc.record.subject',$this->html_var);
+    }
+
+    /**
      * 录像列表
      * @param Request $request
      * @param $name_en
@@ -47,6 +152,12 @@ class RecordController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $name_en, $mid) {
+        $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        if (isset($data)) {
+            $data['name_en'] = $name_en;
+            $this->html_var['zhuanti'] = $data;
+        }
         if ($name_en == 'nba' || $name_en == 'cba'){
             $sv = SubjectVideo::where('sport',2)
                 ->where('mid',$mid)
@@ -134,5 +245,25 @@ class RecordController extends Controller
             $result[$timeStr]['records'][] = $item;
         }
         return $result;
+    }
+
+    /**
+     * 翻页获取录像记录
+     * @param $sid
+     * @param $pageNo
+     * @param int $pageSize
+     * @return array
+     */
+    public function getRecordBySid($sid,$pageNo,$pageSize = 20){
+        $query = SubjectVideo::query();
+        if (!is_null($sid)){
+            $query->where('s_lid',$sid);
+        }
+        $query->orderby('time','desc');
+        $result = $query->paginate($pageSize, ['*'], '', $pageNo);
+        return array(
+            'page'=>$result->lastPage(),
+            'data'=>$result
+        );
     }
 }
