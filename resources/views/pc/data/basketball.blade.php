@@ -147,7 +147,7 @@
                                     $steam = $teams[$value['tid']];
                                     ?>
                                     <tr>
-                                        <td>{{$key}}</td>
+                                        <td>{{$key+1}}</td>
                                         <td>{{$value['name']}}</td>
                                         <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
                                         <td>{{$value[$bj]}}</td>
