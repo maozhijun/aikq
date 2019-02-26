@@ -103,7 +103,7 @@
         </div>
         @foreach($teamTabs as $item)
             <?php
-            $t = ($item['key'] == 'yellow' || $item['key'] == 'red') ? '场均' : '总数';
+            $t = ($item['key'] == 'yellow') ? '场均' : '总数';
             ?>
             <div class="con_inner" style="display: none;">
                 <div class="right_part">
@@ -120,8 +120,8 @@
                                         <?php
                                         $steam = $teams[$value['id']];
                                         $v = $value['value'];
-                                        if ($t == '场均' && isset($value['total']) && $value['total'] > 0){
-                                            $v = $value['value']/$value['total'];
+                                        if ($t == '场均' && isset($value['count']) && $value['count'] > 0){
+                                            $v = number_format($value['value']/$value['count'],1);
                                         }
                                         ?>
                                         <tr>
