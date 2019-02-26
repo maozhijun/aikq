@@ -144,7 +144,7 @@
                                     ?>
                                     <tr>
                                         <td>{{$key}}</td>
-                                        <td>{{$value['name_short']}}</td>
+                                        <td>{{$value['name']}}</td>
                                         <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
                                         <td>{{$value[$bj]}}</td>
                                     </tr>
