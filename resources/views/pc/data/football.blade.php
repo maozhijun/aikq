@@ -49,31 +49,7 @@
                             <col width="6.25%"><col width=""><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%">
                             <tr><th>排名</th><th>球队</th><th>场次</th><th>胜</th><th>平</th><th>负</th><th>进球</th><th>失球</th><th>净胜球</th><th>积分</th></tr>
                             @foreach($scores['score'] as $item)
-                                <?php
-                                $steam = $teams[$item['tid']];
-                                ?>
-                                <tr>
-                                    <td>{{$item['rank']}}</td>
-                                    <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
-                                    <td>{{$item['count']}}</td>
-                                    <td>{{$item['win']}}</td>
-                                    <td>{{$item['draw']}}</td>
-                                    <td>{{$item['lose']}}</td>
-                                    <td>{{$item['goal']}}</td>
-                                    <td>{{$item['fumble']}}</td>
-                                    <td>{{$item['goal'] - $item['fumble']}}</td>
-                                    <td>{{$item['score']}}</td>
-                                    {{--<td>{{$item['ten_bat_w']}}连胜</td>--}}
-                                </tr>
-                            @endforeach
-                        </table>
-                    @elseif($league['type'] == 2)
-                        @foreach($scores['score'] as $groupKey=>$group)
-                            <h3>{{$groupKey}}组</h3>
-                            <table>
-                                <col width="6.25%"><col width=""><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%">
-                                <tr><th>排名</th><th>球队</th><th>场次</th><th>胜</th><th>平</th><th>负</th><th>进球</th><th>失球</th><th>净胜球</th><th>积分</th></tr>
-                                @foreach($group as $item)
+                                @if(isset($teams[$item['tid']]))
                                     <?php
                                     $steam = $teams[$item['tid']];
                                     ?>
@@ -90,6 +66,34 @@
                                         <td>{{$item['score']}}</td>
                                         {{--<td>{{$item['ten_bat_w']}}连胜</td>--}}
                                     </tr>
+                                @endif
+                            @endforeach
+                        </table>
+                    @elseif($league['type'] == 2)
+                        @foreach($scores['score'] as $groupKey=>$group)
+                            <h3>{{$groupKey}}组</h3>
+                            <table>
+                                <col width="6.25%"><col width=""><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%"><col width="7.5%">
+                                <tr><th>排名</th><th>球队</th><th>场次</th><th>胜</th><th>平</th><th>负</th><th>进球</th><th>失球</th><th>净胜球</th><th>积分</th></tr>
+                                @foreach($group as $item)
+                                    @if(isset($teams[$item['tid']]))
+                                        <?php
+                                        $steam = $teams[$item['tid']];
+                                        ?>
+                                        <tr>
+                                            <td>{{$item['rank']}}</td>
+                                            <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
+                                            <td>{{$item['count']}}</td>
+                                            <td>{{$item['win']}}</td>
+                                            <td>{{$item['draw']}}</td>
+                                            <td>{{$item['lose']}}</td>
+                                            <td>{{$item['goal']}}</td>
+                                            <td>{{$item['fumble']}}</td>
+                                            <td>{{$item['goal'] - $item['fumble']}}</td>
+                                            <td>{{$item['score']}}</td>
+                                            {{--<td>{{$item['ten_bat_w']}}连胜</td>--}}
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </table>
                         @endforeach
@@ -109,14 +113,16 @@
                                 <?php $index = 1;
                                 ?>
                                 @foreach($teamTech[$item['key']] as $key=>$value)
-                                    <?php
-                                    $steam = $teams[$value['id']];
-                                    ?>
-                                    <tr>
-                                        <td>{{$index++}}</td>
-                                        <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
-                                        <td>{{$value['value']}}</td>
-                                    </tr>
+                                    @if(isset($teams[$value['id']]))
+                                        <?php
+                                        $steam = $teams[$value['id']];
+                                        ?>
+                                        <tr>
+                                            <td>{{$index++}}</td>
+                                            <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
+                                            <td>{{$value['value']}}</td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             @endif
                         </table>
