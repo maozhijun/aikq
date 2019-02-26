@@ -174,6 +174,9 @@ class DataController extends Controller{
             $data['name_en'] = $subject;
             $this->html_var['zhuanti'] = $data;
         }
+        else{
+            return null;
+        }
         if ($season == null){
             $season = Season::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
                 ->orderby('name','desc')->first();
@@ -221,7 +224,6 @@ class DataController extends Controller{
         $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
         $this->html_var['scores'] = $scores;
 //        dump('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json');
-//        dump($teamTech);
 //        dump($playerTech);
         $this->html_var['playerTech'] = $playerTech;
 //        dump($playerTech);
@@ -239,7 +241,7 @@ class DataController extends Controller{
             array('name'=>'黄牌','key'=>'yellow'),
             array('name'=>'红牌','key'=>'red'),
         );
-//        dump($this->html_var['teams']);
+//        dump($this->html_var['teamTech']);
         return view('pc.data.football',$this->html_var);
     }
 
