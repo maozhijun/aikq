@@ -35,7 +35,7 @@
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
-                                <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                 <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
@@ -65,7 +65,7 @@
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
-                                <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                 <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
@@ -94,7 +94,7 @@
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>
-                                    <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                    <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                     <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                     <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                     <td>{{$item['goal']}}</td>

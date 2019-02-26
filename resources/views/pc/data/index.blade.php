@@ -278,7 +278,7 @@
                                         <div class="tab_box">
                                             <table class="score">
                                                 <col><col width="35%">
-                                                <tr><th>球员</th><th>场均得分</th></tr>
+                                                <tr><th>球员</th><th>进球</th></tr>
                                                 <?php
                                                 $pindex = 0;
                                                 $p = 'goal';
