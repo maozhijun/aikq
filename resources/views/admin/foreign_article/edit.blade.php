@@ -15,7 +15,7 @@
 @endsection
 @section('content')
     <h1 class="page-header">新建文章</h1>
-    <div style="float: left;width: 60%">
+    <div style="float: left;width: 55%">
         <div class="row">
             <div class="col-lg-12">
                 <form class="form" method="post" action="/admin/article/save/">
@@ -47,8 +47,6 @@
                                required>
                         <span class="input-group-addon">{{isset($article) ? mb_strlen($article->digest) : 0}}字</span>
                     </div>
-
-                    @include("admin.tag.add_tag_cell")
 
                     <div class="input-group form-group">
                         <span class="input-group-addon">标签</span>
@@ -85,6 +83,9 @@
                             @endforeach
                         </select>
                     </div>
+
+                    @include("admin.tag.add_tag_cell")
+
                     <div class="form-check">
                         <label class="form-check-label">
                             <input @if(isset($article) && $article->original == 1) checked @endif value="1" name="original" type="checkbox" class="form-check-input">
@@ -127,7 +128,7 @@
             <input type="file" id="ImageBrowse" name="cover" onchange="changeCoverImage()" style="position:absolute;clip:rect(0 0 0 0);"/>
         </form>
     </div>
-    <div style="float: right;width: 40%;padding-left: 80px">
+    <div style="float: right;width: 45%;padding-left: 80px">
         <strong>原文</strong>
         <a target="_blank" href="//{{$f_article['url']}}">点击去原文</a>
         <h1>{{$f_article['title_en']}}</h1>

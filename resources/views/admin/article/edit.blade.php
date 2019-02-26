@@ -46,8 +46,6 @@
                     <span class="input-group-addon">{{isset($article) ? mb_strlen($article->digest) : 0}}字</span>
                 </div>
 
-                @include("admin.tag.add_tag_cell")
-
                 <div class="input-group form-group">
                     <span class="input-group-addon">关键字</span>
                     <input type="text"
@@ -84,6 +82,9 @@
                         @endforeach
                     </select>
                 </div>
+
+                @include("admin.tag.add_tag_cell")
+
                 <div class="form-check">
                     <label class="form-check-label">
                         <input @if(isset($article) && $article->original == 1) checked @endif value="1" name="original" type="checkbox" class="form-check-input">
