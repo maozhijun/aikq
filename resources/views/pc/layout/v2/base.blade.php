@@ -45,10 +45,10 @@
                 var url = window.location.href;
                 if (url.indexOf("mp.dlfyb.com") != -1) {
                     url = url.replace(/(https?:\/\/)(mp\.)?/, "$1m.");
-                    window.location.href = url;
+//                    window.location.href = url;
                 } else {
                     url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
-                    window.location.href = url;
+//                    window.location.href = url;
                 }
             }
         }
@@ -77,7 +77,8 @@
             </div>
         </div>
     </div>
-    <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
+    <?php
+    if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
     @if(isset($subjects) && count($subjects) > 0)
         <div class="league">
             @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}/">{{$su_obj['name']}}</a> @endforeach
