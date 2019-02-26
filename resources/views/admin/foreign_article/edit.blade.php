@@ -1,7 +1,21 @@
 @extends('admin.layout.base')
+@section("css")
+    <style>
+        .highlight {
+            padding: 9px 14px;
+            margin-bottom: 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            border-radius: 4px;
+        }
+        .tagBtn {
+            cursor: pointer;color: white;background-color: rgb(92, 184, 92);
+        }
+    </style>
+@endsection
 @section('content')
     <h1 class="page-header">新建文章</h1>
-    <div style="float: left;width: 600px">
+    <div style="float: left;width: 60%">
         <div class="row">
             <div class="col-lg-12">
                 <form class="form" method="post" action="/admin/article/save/">
@@ -11,6 +25,7 @@
                     <input type="hidden" name="action">
                     <input type="hidden" name="content">
                     <input type="hidden" name="images">
+                    <input type="hidden" name="tags">
 
                     <div class="input-group form-group">
                         <span class="input-group-addon">标题</span>
@@ -32,6 +47,9 @@
                                required>
                         <span class="input-group-addon">{{isset($article) ? mb_strlen($article->digest) : 0}}字</span>
                     </div>
+
+                    @include("admin.tag.add_tag_cell")
+
                     <div class="input-group form-group">
                         <span class="input-group-addon">标签</span>
                         <input type="text"
@@ -109,7 +127,7 @@
             <input type="file" id="ImageBrowse" name="cover" onchange="changeCoverImage()" style="position:absolute;clip:rect(0 0 0 0);"/>
         </form>
     </div>
-    <div style="float: right;width: 50%;padding-left: 100px">
+    <div style="float: right;width: 40%;padding-left: 80px">
         <strong>原文</strong>
         <a target="_blank" href="//{{$f_article['url']}}">点击去原文</a>
         <h1>{{$f_article['title_en']}}</h1>
@@ -121,6 +139,7 @@
 
 @section('js')
     @include('vendor.ueditor.assets')
+    <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     <script type="text/html" id="article_content">
     {!! (isset($article) && strlen($article->getContent())>0)?$article->getContent():$f_article['content_ch'] !!}
     </script>
@@ -247,6 +266,7 @@
             imgs = imgs.join('@@@');
             form.images.value = imgs;
             if (formVerify(form)) {
+                form.tags.value = formatTags("match_tag", "team_tag", "player_tag");
                 postForm(form);
             }
         }

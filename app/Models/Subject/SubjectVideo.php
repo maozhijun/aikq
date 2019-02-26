@@ -11,6 +11,7 @@ namespace App\Models\Subject;
 
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
+use App\Models\Tag\TagRelation;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -213,6 +214,10 @@ class SubjectVideo extends Model
         } else {
             return $season . "" . $lname . "" .$round . "轮 " . $hname." VS ".$aname . ($showTime ? (' ' . $time ) : '' );
         }
+    }
+
+    public function tagRelations() {
+        return TagRelation::getTagRelations(TagRelation::kTypePlayBack, $this->id);
     }
 
     public function getVideoTitle($type = '', $showTime = false) {

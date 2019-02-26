@@ -221,3 +221,14 @@ Route::group(['namespace'=>'Article','middleware' => 'admin_auth'], function () 
     Route::any('/foreign/detail', 'ForeignArticleController@detail');//新增
     Route::any('/foreign/update', 'ForeignArticleController@update');//修改
 });
+
+
+Route::group(['namespace'=>'Tag','middleware' => 'admin_auth'], function () {
+    //标签相关操作
+    Route::get('/tags/', 'TagController@tags');//列表
+    Route::any("/tags/save", "TagController@saveTag");//保存标签
+    Route::any("/tags/del", "TagController@delTag");//删除标签
+    Route::any("/tags/find", "TagController@findTag");//查找标签
+    Route::any("/tags/teams/find", "TagController@findTeams");//获取球队列表
+    Route::any("/tags/relation/del", "TagController@delTagRelation");//删除标签关系
+});

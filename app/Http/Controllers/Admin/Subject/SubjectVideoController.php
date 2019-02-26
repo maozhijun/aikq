@@ -18,8 +18,10 @@ use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -89,10 +91,12 @@ class SubjectVideoController extends Controller
         $s_lid = $request->input('s_lid');//sport
         $mid = $request->input('mid');
         $cover = $request->input('cover');//封面图
+        $tags = $request->input("tags");//标签
 
         if (!is_numeric($mid)) {
             return back()->with('error', '请选择比赛');
         }
+
         if ($s_lid == SubjectVideo::kOther . '-1' || $s_lid == SubjectVideo::kOther . '-2') {
             if ($s_lid == SubjectVideo::kOther . '-1') {
                 $sport = MatchLive::kSportFootball;
@@ -155,8 +159,12 @@ class SubjectVideoController extends Controller
                     $s_video->stage_cn = $stage->name;
                 }
             }
-
-            $s_video->save();
+            DB::transaction(function () use ($s_video, $tags) {
+                $s_video->save();
+                $tagArray = json_decode($tags, true);
+                $tagArray = is_null($tagArray) ? [] : $tagArray;
+                TagRelation::savePlayBackTagRelation($s_video->sport, $s_video->id, $tagArray);
+            });
             $this->flushVideo($s_video->id);
         } catch (\Exception $exception) {
             Log::error($exception);
