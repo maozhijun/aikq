@@ -102,13 +102,16 @@
             @endif
         </div>
         @foreach($teamTabs as $item)
+            <?php
+            $t = ($item['key'] == 'yellow' || $item['key'] == 'red') ? '场均' : '总数';
+            ?>
             <div class="con_inner" style="display: none;">
                 <div class="right_part">
                     <div class="part_inner">
                         <h3>球队</h3>
                         <table>
                             <col width="23%"><col width=""><col width="30%">
-                            <tr><th>排名</th><th>球队</th><th>场均</th></tr>
+                            <tr><th>排名</th><th>球队</th><th>{{$t}}</th></tr>
                             @if(isset($teamTech[$item['key']]))
                                 <?php $index = 1;
                                 ?>
@@ -116,11 +119,15 @@
                                     @if(isset($teams[$value['id']]))
                                         <?php
                                         $steam = $teams[$value['id']];
+                                        $v = $value['value'];
+                                        if ($t == '场均' && isset($value['total']) && $value['total'] > 0){
+                                            $v = $value['value']/$value['total'];
+                                        }
                                         ?>
                                         <tr>
                                             <td>{{$index++}}</td>
                                             <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
-                                            <td>{{$value['value']}}</td>
+                                            <td>{{$v}}</td>
                                         </tr>
                                     @endif
                                 @endforeach
