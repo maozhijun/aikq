@@ -40,7 +40,7 @@
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
                                 <td>{{$item['fumble']}}</td>
-                                <td>{{$item['lose']}}</td>
+                                <td>{{$item['win'] - $item['lose']}}</td>
                                 @if($item['win_status'] >= 0)
                                 <td>{{$item['win_status']}}连胜</td>
                                     @else
@@ -70,8 +70,12 @@
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
                                 <td>{{$item['fumble']}}</td>
-                                <td>{{$item['lose']}}</td>
-                                <td>{{$item['ten_bat_w']}}连胜</td>
+                                <td>{{$item['win']-$item['lose']}}</td>
+                                @if($item['win_status'] >= 0)
+                                    <td>{{$item['win_status']}}连胜</td>
+                                @else
+                                    <td>{{-$item['win_status']}}连败</td>
+                                @endif
                             </tr>
                         @endforeach
                     </table>
