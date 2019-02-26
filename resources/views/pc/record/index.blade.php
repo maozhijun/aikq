@@ -17,10 +17,10 @@
             <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
             @if(isset($subjects) && count($subjects) > 0)
                 @foreach($subjects as $id=>$su_obj)
-                    <a href="/record/{{$su_obj['name_en']}}/" class="date_con">{{$su_obj['name']}}</a>
+                    <a href="/{{$su_obj['name_en']}}/record/index.html" class="date_con">{{$su_obj['name']}}</a>
                 @endforeach
             @endif
-            <div class="date"><input type="text" name="date" placeholder="选择日期"></div>
+            <div style="display: none" class="date"><input type="text" name="date" placeholder="选择日期"></div>
         </div>
     </div>
     <div class="def_content" id="Content">

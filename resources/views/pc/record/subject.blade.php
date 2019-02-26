@@ -8,14 +8,14 @@
     @if(isset($zhuanti))
         <div id="Crumbs">
             <div class="def_content">
-                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}数据
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}录像
             </div>
         </div>
     @endif
     <div class="def_content" id="Content">
         <div id="01_24" class="el_con">
             <div class="header">
-                <h3><p>NBA录像</p></h3>
+                <h3><p>{{$zhuanti['name']}}录像</p></h3>
             </div>
             <div class="team_con">
                 @if($zhuanti['name_en'] == 'nba')
@@ -26,7 +26,7 @@
                             $team = $teamsData[$tid];
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href="team_record.html"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -37,7 +37,7 @@
                             $team = $teamsData[$tid];
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href="team_record.html"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -48,7 +48,7 @@
                             $team = $teamsData[$tid];
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href="team_record.html"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -59,7 +59,7 @@
                             $team = $teamsData[$tid];
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href="team_record.html"><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
+                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -86,7 +86,7 @@
                 @endforeach
             </table>
             @if($page > 1)
-                @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/record/'.$zhuanti['name_en'].'/index']) @endcomponent
+                @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/'.$zhuanti['name_en'].'/record/index']) @endcomponent
             @endif
         </div>
     </div>

@@ -7,7 +7,7 @@
     @if(isset($zhuanti))
         <div id="Crumbs">
             <div class="def_content">
-                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}数据
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}录像
             </div>
         </div>
     @endif
@@ -24,6 +24,13 @@
         $mTitle = '';
         $sTitle = '';
     }
+    if (isset($zhuanti))
+        {
+            $zt = '/'.$zhuanti['name_en'].'/record/index.html';
+        }
+        else{
+            $zt = '/record/index.html';
+        }
     ?>
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
@@ -39,7 +46,7 @@
                 <div class="header">
                     <h3><p>{{$sTitle}}录像</p></h3>
                     <p class="aline">
-                        <a href="live_list.html">全部{{$sTitle}}录像 ></a>
+                        <a href="{{$zt}}">全部{{$sTitle}}录像 ></a>
                     </p>
                 </div>
                 <table class="match">
@@ -59,7 +66,7 @@
                     @endforeach
                 </table>
             </div>
-            <div class="el_con">
+            <div style="display: none" class="el_con">
                 <div class="header">
                     <h3><p>NBA视频</p></h3>
                     <p class="aline">
@@ -142,7 +149,7 @@
                 </div>
             </div>
         </div>
-        <div id="Right_part">
+        <div id="Right_part" style="display: none">
             <a class="banner_entra" href="league_nba.html">
                 <img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=c95a12f874f0f736d8fe4b07326ed424/3801213fb80e7bec36d92766232eb9389b506b31.jpg">
                 <h3>美国男子职业篮球联赛</h3>
