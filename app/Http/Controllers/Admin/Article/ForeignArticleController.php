@@ -72,7 +72,7 @@ class ForeignArticleController extends Controller
             $aid = $result['f_article']['aid'];
             $article = PcArticle::query()->find($aid);
             $tags = TagRelation::getTagRelations(TagRelation::kTypeArticle, $aid);
-            
+
             $result["tags"] = $tags;
             $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
             $result['article'] = $article;

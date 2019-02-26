@@ -150,7 +150,7 @@
         }
         var isContentChange = false;
         var ue = UE.getEditor('ueditor_container',{
-            initialFrameWidth: 600
+            initialFrameWidth: "100%"
         });
         ue.ready(function () {
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
