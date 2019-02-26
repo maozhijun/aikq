@@ -61,16 +61,25 @@ class RecordCommand extends Command
         if ($this->type == 'league' || $this->type == 'all'){
             $leagues = SubjectLeague::getAllLeagues();
             foreach ($leagues as $league) {
+                if ($league->name_en == 'worldcup')
+                    continue;
                 $this->staticSubjectHtml($aiCon, $league);
             }
         }
     }
 
     public function staticSubjectHtml(RecordController $aiCon, SubjectLeague $sl) {
-        $html = $aiCon->dataDetailHtml(new Request(), $sl);
-        if (!empty($html)) {
-            $name_en = $sl->name_en;
-            Storage::disk("public")->put("/www/$name_en/record/index.html", $html);
+        for ($i = 1 ; $i < 4; $i++){
+            $html = $aiCon->subjectDetailHtml(new Request(), $sl,$i);
+            if (!empty($html)) {
+                $name_en = $sl->name_en;
+                if ($i == 1){
+                    Storage::disk("public")->put("/www/$name_en/record/index.html", $html);
+                }
+                else{
+                    Storage::disk("public")->put("/www/$name_en/record/index$i.html", $html);
+                }
+            }
         }
 
         //手机

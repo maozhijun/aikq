@@ -10,6 +10,7 @@ namespace App\Http\Controllers\PC\Record;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\LgMatch\BasketMatch;
 use App\Models\LgMatch\BasketScore;
@@ -21,6 +22,7 @@ use App\Models\LgMatch\Season;
 use App\Models\LgMatch\Team;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
@@ -196,7 +198,7 @@ class RecordController extends Controller
      */
     public function getSubjectRecord($name_en){
         $sid = null;
-        if ($name_en != 'other'){
+        if ($name_en != 'record' && $name_en != 'other'){
             $sid = Controller::SUBJECT_NAME_IDS[$name_en]['id'];
         }
         $query = SubjectVideo::query();
@@ -272,6 +274,10 @@ class RecordController extends Controller
     }
 
     /****** 静态化 ******/
+    /**
+     * 静态化录像首页
+     * @param Request $request
+     */
     public function staticIndex(Request $request){
         $html = $this->index($request);
         if (!is_null($html) && strlen($html) > 0){
@@ -286,11 +292,49 @@ class RecordController extends Controller
             echo 'html为空';
         }
     }
-    public function dataDetailHtml(Request $request,$league){
-        $html = $this->subject($request,$league->name_en);
+
+    /**
+     * 静态化专题录像首页
+     * @param Request $request
+     * @param $league
+     * @param int $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|null
+     */
+    public function subjectDetailHtml(Request $request,$league,$page = 1){
+        $html = $this->subject($request,$league->name_en,$page);
         if (!is_null($html) && strlen($html) > 0){
             return $html;
         }
         return null;
+    }
+
+
+    public function recordDetailHtml(Request $request,$id){
+        $record = SubjectVideo::find($id);
+        if (is_null($record)){
+            return null;
+        }
+        $s = SubjectLeague::find($record->s_lid);
+        if (is_null($s)){
+            return null;
+        }
+        $name_en = $s->name_en;
+        $html = $this->detail($request,$name_en,$record->mid);
+        if (!is_null($html) && strlen($html) > 0){
+            $path = CommonTool::getArticleDetailPath($name_en, $record->id);
+            $record->path = $path;
+            $record->url = CommonTool::getArticleDetailUrl($name_en, $record->id);
+            $record->save();
+
+            Storage::disk("public")->put('/www'.$path, $html);
+
+//            $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
+//            $wapHtml = $mobileCon->detailHtml($article);
+//            Storage::disk("public")->put('/m'.$path, $wapHtml);
+//
+//            $mipCon = new \App\Http\Controllers\Mip\Article\ArticleController();
+//            $mipHtml = $mipCon->detailHtml($article);
+//            Storage::disk("public")->put('/mip'.$path, $mipHtml);
+        }
     }
 }

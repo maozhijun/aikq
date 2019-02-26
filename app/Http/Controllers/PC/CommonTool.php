@@ -410,4 +410,42 @@ class CommonTool
         }
         return $mid;
     }
+
+    /**
+     * 获取录像终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getRecordDetailPath($name_en, $id) {
+        $len = strlen($id);
+        if ($len < 4) {
+            return "";
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 3);
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/record/".$first."/".$second."/".$id.".html";
+        } else {
+            $path = "/record/".$name_en."/".$first."/".$second."/".$id.".html";
+        }
+        return $path;
+    }
+
+    /**
+     * 获取录像终端静态化页面路径
+     * @param $name_en
+     * @param $id
+     * @return string
+     */
+    public static function getRecordDetailUrl($name_en, $id) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (isset($sl)) {
+            $path = "/".$name_en."/record".$id.".html";
+        } else {
+            $path = "/record/".$name_en.$id.".html";
+        }
+        return $path;
+    }
 }
