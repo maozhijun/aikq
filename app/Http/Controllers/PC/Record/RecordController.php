@@ -36,10 +36,14 @@ class RecordController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request){
-        $start = date('Y-m-d',date_create('-7 day')->getTimestamp());
-        $end = date('Y-m-d',date_create()->getTimestamp());
-        $start = date_create('2018-07-20');
-        $end = date_create('2018-08-20');
+        //最后一条录像
+        $v = SubjectVideo::orderby('time','desc')->first();
+//        $start = date('Y-m-d',date_create('-7 day')->getTimestamp());
+//        $end = date('Y-m-d',date_create()->getTimestamp());
+//        $start = date_create('2018-07-20');
+//        $end = date_create('2018-08-20');
+        $start = date_create($v->time)->modify("-6 day")->format("Y-m-d");
+        $end = date_create($start)->modify("+7 day")->format("Y-m-d");
         $this->html_var['datas'] = $this->getRecordByDate($start,$end);
 //        dump($this->html_var['datas']);
         return view('pc.record.index',$this->html_var);
@@ -265,5 +269,28 @@ class RecordController extends Controller
             'page'=>$result->lastPage(),
             'data'=>$result
         );
+    }
+
+    /****** 静态化 ******/
+    public function staticIndex(Request $request){
+        $html = $this->index($request);
+        if (!is_null($html) && strlen($html) > 0){
+            try {
+                Storage::disk("public")->put("/www/record/index.html", $html);
+            }
+            catch (\Exception $exception){
+                echo $exception;
+            }
+        }
+        else{
+            echo 'html为空';
+        }
+    }
+    public function dataDetailHtml(Request $request,$league){
+        $html = $this->subject($request,$league->name_en);
+        if (!is_null($html) && strlen($html) > 0){
+            return $html;
+        }
+        return null;
     }
 }

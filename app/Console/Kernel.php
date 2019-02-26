@@ -10,6 +10,7 @@ use App\Console\Article\ArticleLiveCellCommands;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
 use App\Console\Data\DataCommand;
+use App\Console\Record\RecordCommand;
 use App\Console\Download\DownloadCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorIndexCommand;
@@ -121,7 +122,9 @@ class Kernel extends ConsoleKernel
 
         TeamDetailCommand::class, //球队终端静态化
 
-        DataCommand::class,
+        DataCommand::class,//数据静态化
+
+        RecordCommand::class,//录像静态化
     ];
 
     /**
