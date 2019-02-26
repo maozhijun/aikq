@@ -35,7 +35,7 @@
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
-                                <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                 <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
@@ -65,7 +65,7 @@
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
-                                <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                 <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                 <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                 <td>{{$item['goal']}}</td>
@@ -94,7 +94,7 @@
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>
-                                    <td>{{number_format($item['win']/$item['count'],1)}}%</td>
+                                    <td>{{number_format($item['win']*100/$item['count'],1)}}%</td>
                                     <td>{{$item['home_bat_w']}}-{{$item['home_bat_l']}}</td>
                                     <td>{{$item['away_bat_w']}}-{{$item['away_bat_l']}}</td>
                                     <td>{{$item['goal']}}</td>
@@ -147,8 +147,8 @@
                                     $steam = $teams[$value['tid']];
                                     ?>
                                     <tr>
-                                        <td>{{$key}}</td>
-                                        <td>{{$value['name_short']}}</td>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$value['name']}}</td>
                                         <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
                                         <td>{{$value[$bj]}}</td>
                                     </tr>
