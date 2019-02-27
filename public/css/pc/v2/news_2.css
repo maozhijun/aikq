@@ -28,7 +28,13 @@
 	font-size: 14px; line-height: 22px;
 }
 
+#News_Con .text_con img {
+	max-width: 100%;
+}
 
+#News_Con .auto_link{
+	color: #0054dd; text-decoration: underline;
+}
 
 
 

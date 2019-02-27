@@ -677,7 +677,7 @@
 #Right_part .record td.time{
 	color: #9b9b9b;
 }
-#Right_part .record td a{
+#Right_part .record td:last-child a{
 	color: #0054dd;
 }
 #Right_part .record td p{

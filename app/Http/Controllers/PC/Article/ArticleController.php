@@ -131,7 +131,13 @@ class ArticleController extends Controller
         $res = PcArticle::relationsArticle($detail->id, $detail->type, 10,$isBaidu);
         $result['res'] = $res;
         $result['ma_url'] = self::getMobileHttpUrl($detail->url);
-        return view('pc.article.article', $result);
+
+        $result = array_merge($result, $this->html_var);
+
+//        dump($detail->getContent());
+
+//        return view('pc.article.article', $result);
+        return view('pc.article.v2.article', $result);
     }
 
     /**
