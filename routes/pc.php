@@ -185,6 +185,7 @@ Route::group(["namespace" => 'Live'], function () {
 
 //录像 2.0版本
 Route::group(["namespace" => 'Record'], function () {
+    Route::get('/record/other{id}.html', 'RecordController@detail2');//终端
     Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//终端
     Route::get('/record/index.html', 'RecordController@index');//首页
     Route::get('/{name_en}/record/index{pageNo}.html', 'RecordController@subject');//专题录像

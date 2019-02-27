@@ -12,6 +12,7 @@ namespace App\Http\Controllers\PC\Record;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketMatch;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\BasketSeason;
@@ -150,6 +151,10 @@ class RecordController extends Controller
         return view('pc.record.subject',$this->html_var);
     }
 
+    public function detail2(Request $request, $mid) {
+        return $this->detail($request,'other',$mid);
+    }
+
     /**
      * 录像列表
      * @param Request $request
@@ -188,6 +193,32 @@ class RecordController extends Controller
         $this->html_var['match'] = $match;
         $this->html_var['hotRecords'] = $this->getSubjectRecord($name_en);
 //        dump($this->html_var);
+        //资讯
+        //专题资讯 开始
+        $articles = PcArticle::articlesByType($name_en);
+        if (count($articles) < 10){
+            $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+            $query->orderByDesc('publish_at');
+            $query->take(10 - count($articles));
+            $tmp = $query->get();
+        }
+        $article_array = [];
+        foreach ($articles as $article) {
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+        }
+        foreach ($tmp as $article) {
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+        }
+        $this->html_var['articles'] = $article_array;
+        //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
     }
 
