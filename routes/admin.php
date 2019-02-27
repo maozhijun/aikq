@@ -87,12 +87,14 @@ Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
 });
 
 /**
- * 相关视频
+ * 视频
  */
-Route::group(['namespace'=>'Match', 'middleware' => 'admin_auth'], function () {
-    Route::get('/live/relation/videos', 'RelationVideoController@videos');//相关视频列表
-    Route::post('/live/relation/videos/save', 'RelationVideoController@saveVideo');//相关视频列表 保存
-    Route::post('/live/relation/videos/del', 'RelationVideoController@delVideo');//相关视频列表 删除
+Route::group(['namespace'=>'Video', 'middleware' => 'admin_auth'], function () {
+    Route::get('/live/videos', 'HotVideoController@hotVideos');//视频列表
+    Route::get("/live/videos/edit", "HotVideoController@videoEditPage");//编辑页面
+    Route::post('/live/videos/save', 'HotVideoController@saveHotVideo');//相关视频列表 保存
+    Route::post("/live/videos/del", "HotVideoController@delHotVideo");//删除视频
+    Route::post("/live/videos/display", "HotVideoController@displayVideo");//删除视频
 });
 
 /**

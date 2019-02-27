@@ -75,17 +75,17 @@ class Tag extends Model
                 } else {
                     $query = BasketLeague::query();
                 }
+                $obj = $query->where("name", $name)->first();
                 break;
             case self::kLevelThree:
                 if ($sport == self::kSportFootball) {
                     $query = Team::query();
+                    $obj = $query->where("name", $name)->first();
                 } else {
                     $query = BasketTeam::query();
+                    $obj = $query->where("name_china", $name)->first();
                 }
                 break;
-        }
-        if (isset($query)) {
-            $obj = $query->where("name", $name)->first();
         }
 
         if (!isset($obj)) {
