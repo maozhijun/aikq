@@ -73,9 +73,19 @@ class PcArticle extends Model
         return $query;
     }
 
-    public static function getPublishQuery() {
-        $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
-        $query->orderByDesc('publish_at');
+    public static function getPublishQuery($name_en = "") {
+        $query = null;
+        if (isset($name_en) && strlen($name_en) > 0) {
+            $type = PcArticleType::getTypeByTypeEn($name_en);
+            if(isset($type)){
+                $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+                $query->where('type',$type->id);
+                $query->orderByDesc('publish_at');
+            }
+        } else {
+            $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+            $query->orderByDesc('publish_at');
+        }
         return $query;
     }
 

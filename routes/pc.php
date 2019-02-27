@@ -123,6 +123,10 @@ Route::group(["namespace" => 'Article'], function () {
     Route::get("/news/{param}.html", "ArticleController@detail");//文章终端
     Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端 和上面的文章终端一样，适配不同的URL
 
+    Route::get("/{name_en}/news", "ArticleController@subjectNews");//专题文章列表
+    Route::get("/{name_en}/news/index.html", "ArticleController@subjectNews");//专题文章列表
+    Route::get("/{name_en}/news/index{page}.html", "ArticleController@subjectNews");//专题文章列表
+
     Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
 });
 
