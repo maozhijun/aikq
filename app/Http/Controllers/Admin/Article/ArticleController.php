@@ -17,6 +17,8 @@ use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
 use App\Models\Article\PcArticleType;
 use App\Models\HCT\ForeignArticle;
+use App\Models\Tag\Tag;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -74,7 +76,10 @@ class ArticleController extends Controller
         $id = $request->input("id");
         if (isset($id)) {
             $article = PcArticle::query()->find($id);
+            $tags = TagRelation::getTagRelations(TagRelation::kTypeArticle, $id);
             $result['article'] = $article;
+            $result["tags"] = $tags;
+            $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
         }
 
         $types = PcArticleType::allTypes();
@@ -104,6 +109,8 @@ class ArticleController extends Controller
         $content = $request->input('content', '');//内容
         $images = $request->input('images');//图片
         $action = $request->input('action', '');
+        $tags = $request->input("tags");//2019-02-20 标签
+        $sport = $request->input("sport");//足球、篮球标签
 
         $user = $request->_account;//当前登录用户。
 
@@ -125,7 +132,9 @@ class ArticleController extends Controller
                 return response()->json(['code' => 403, 'error' => '摘要必须不少于30字符，不能多于100字符']);
             }
         }
-
+        if (!in_array($sport, Tag::kSportArray)) {
+            return response()->json(['code' => 403, 'error' => '请选择竞技']);
+        }
         if (mb_strlen($content) < 10 || mb_strlen($content) > 100000) {
             return response()->json(['code' => 403, 'error' => '内容必须大于100字符，小于100000']);
         }
@@ -191,7 +200,7 @@ class ArticleController extends Controller
             }
         }
 
-        $exception = DB::transaction(function () use ($article, $controller, $hasId, $content, $labels) {
+        $exception = DB::transaction(function () use ($article, $controller, $hasId, $content, $labels, $tags, $sport) {
             if ($article->status == 1) {
                 $article->url = $article->getUrl();
             }
@@ -209,11 +218,14 @@ class ArticleController extends Controller
             $detail->save();
 
             //保存文章标签关系
-            $list = explode(",", $labels);
-            foreach ($list as $label) {
-                $labelEntity = LabelController::saveLabel($label);
-                LabelController::saveLabelArticle($labelEntity, $article->id, $article->publish_at);
-            }
+//            $list = explode(",", $labels);
+//            foreach ($list as $label) {
+//                $labelEntity = LabelController::saveLabel($label);
+//                LabelController::saveLabelArticle($labelEntity, $article->id, $article->publish_at);
+//            }
+            $tagArray = json_decode($tags, true);
+            $tagArray = is_null($tagArray) ? [] : $tagArray;
+            TagRelation::saveArticleTagRelation($sport, $article->id, $tagArray);
         });
 
         if (isset($exception)) {

@@ -59,8 +59,8 @@
     <div class="header">
         <h1>爱看球</h1>
         <div class="def_content">
+            <a href="/" class="home"></a>
             <div class="item_content">
-                <a href="/" class="home"></a>
                 {{--<a href="{{env('WWW_URL')}}">--}}
                     {{--<img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png">--}}
                 {{--</a>--}}
