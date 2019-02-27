@@ -55,13 +55,19 @@
                         <?php
                         $time = date('Y年m月d日 H:m', date_create($hotRecord['time'])->getTimestamp());
                             $subject = isset($subjects[$hotRecord['s_lid']])? $subjects[$hotRecord['s_lid']]['name_en'] : 'other';
+                            if (!is_null($hotRecord->url)){
+                                $url = $hotRecord->url;
+                            }
+                            else{
+                                $url = \App\Http\Controllers\PC\CommonTool::getRecordDetailUrl($subject,$hotRecord['mid']);
+                            }
                         ?>
                         <tr>
                             <td><span>{{$time}}</span></td>
                             <td class="host">{{$hotRecord['hname']}}</td>
                             <td class="vs">{{$hotRecord['hscore']}} - {{$hotRecord['ascore']}}</td>
                             <td class="away">{{$hotRecord['aname']}}</td>
-                            <td class="line"><a href="/{{$subject}}/record{{$hotRecord['mid']}}.html" class="live">观看录像</a></td>
+                            <td class="line"><a href="{{$url}}" class="live">观看录像</a></td>
                         </tr>
                     @endforeach
                 </table>

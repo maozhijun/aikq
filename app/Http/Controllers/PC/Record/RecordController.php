@@ -323,13 +323,13 @@ class RecordController extends Controller
         }
         $html = $this->detail($request,$name_en,$record->mid);
         if (!is_null($html) && strlen($html) > 0){
-            $path = CommonTool::getRecordDetailPath($name_en, $record->id);
+            $path = CommonTool::getRecordDetailPath($name_en, $record->mid);
             $record->path = $path;
-            $record->url = CommonTool::getRecordDetailUrl($name_en, $record->id);
+            $record->url = CommonTool::getRecordDetailUrl($name_en, $record->mid);
             $record->save();
 
             Storage::disk("public")->put('/www'.$path, $html);
-
+            echo 'success';
 //            $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
 //            $wapHtml = $mobileCon->detailHtml($article);
 //            Storage::disk("public")->put('/m'.$path, $wapHtml);

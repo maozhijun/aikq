@@ -423,7 +423,7 @@ class CommonTool
             return "";
         }
         $first = substr($id, 0, 2);
-        $second = substr($id, 2, 3);
+        $second = substr($id, 2, 2);
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($sl)) {
             $path = "/".$name_en."/record/".$first."/".$second."/".$id.".html";
