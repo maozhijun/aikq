@@ -202,6 +202,9 @@ class RecordController extends Controller
             $query->take(10 - count($articles));
             $tmp = $query->get();
         }
+        else{
+            $tmp = array();
+        }
         $article_array = [];
         foreach ($articles as $article) {
             $url = $article->url;
@@ -368,6 +371,9 @@ class RecordController extends Controller
 //            $mipCon = new \App\Http\Controllers\Mip\Article\ArticleController();
 //            $mipHtml = $mipCon->detailHtml($article);
 //            Storage::disk("public")->put('/mip'.$path, $mipHtml);
+        }
+        else{
+            echo 'fail ' . $id;
         }
     }
 }
