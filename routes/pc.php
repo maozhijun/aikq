@@ -189,4 +189,6 @@ Route::group(["namespace" => 'Record'], function () {
     Route::get('/record/index.html', 'RecordController@index');//首页
     Route::get('/{name_en}/record/index{pageNo}.html', 'RecordController@subject');//专题录像
     Route::get('/{name_en}/record/index.html', 'RecordController@subject');//专题录像
+
+    Route::get("/static/record/{id}", "RecordController@recordDetailHtml");//静态化终端
 });

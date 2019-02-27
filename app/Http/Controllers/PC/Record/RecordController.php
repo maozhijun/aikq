@@ -316,14 +316,16 @@ class RecordController extends Controller
         }
         $s = SubjectLeague::find($record->s_lid);
         if (is_null($s)){
-            return null;
+            $name_en = 'other';
         }
-        $name_en = $s->name_en;
+        else{
+            $name_en = $s->name_en;
+        }
         $html = $this->detail($request,$name_en,$record->mid);
         if (!is_null($html) && strlen($html) > 0){
-            $path = CommonTool::getArticleDetailPath($name_en, $record->id);
+            $path = CommonTool::getRecordDetailPath($name_en, $record->id);
             $record->path = $path;
-            $record->url = CommonTool::getArticleDetailUrl($name_en, $record->id);
+            $record->url = CommonTool::getRecordDetailUrl($name_en, $record->id);
             $record->save();
 
             Storage::disk("public")->put('/www'.$path, $html);

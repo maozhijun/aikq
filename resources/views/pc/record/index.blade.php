@@ -39,7 +39,7 @@
                         <?php
                         $type = $record['sport'] == 1 ? 'foot' : 'basket';
                         $timeStr = date('H:i',date_create($record['time'])->getTimestamp());
-                        $subject = isset($subjects[$record['s_lid']])? $subjects[$record['s_lid']]['name_en'] : 'record';
+                        $subject = isset($subjects[$record['s_lid']])? $subjects[$record['s_lid']]['name_en'] : 'other';
                         ?>
                         <tr type="{{$type}}ball">
                             <td><img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png"></td>

@@ -14,6 +14,7 @@ use App\Http\Controllers\PC\Data\DataController;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Http\Controllers\PC\Record\RecordController;
 use App\Models\Subject\SubjectLeague;
+use App\Models\Subject\SubjectVideo;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -64,6 +65,21 @@ class RecordCommand extends Command
                 if ($league->name_en == 'worldcup')
                     continue;
                 $this->staticSubjectHtml($aiCon, $league);
+            }
+        }
+        if ($this->type == 'detail'){
+            $datas = SubjectVideo::whereNull('url')
+                ->orderby('updated_at','desc')
+                ->take(10)->get();
+            foreach ($datas as $data){
+                $ch = curl_init();
+                $url = env('CMS_URL').'/static/record/'.$data->id;
+                echo "$url <br>";
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 2);//8秒超时
+                curl_exec ($ch);
+                curl_close ($ch);
             }
         }
     }
