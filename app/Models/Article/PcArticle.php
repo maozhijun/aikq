@@ -199,6 +199,50 @@ class PcArticle extends Model
         return array();
     }
 
+    /**
+     * v2版本右侧资讯列表用
+     * @param null $name_en
+     * @param int $size
+     * @return array
+     */
+    public static function getLastArticle($name_en = null,$size = 10){
+        if (is_null($name_en)){
+            $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+            $query->orderByDesc('publish_at');
+            $query->take($size);
+            $tmp = $query->get();
+            $articles = array();
+        }
+        else{
+            $articles = PcArticle::articlesByType($name_en);
+            if (count($articles) < $size){
+                $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+                $query->orderByDesc('publish_at');
+                $query->take($size - count($articles));
+                $tmp = $query->get();
+            }
+            else{
+                $tmp = array();
+            }
+        }
+        $article_array = [];
+        foreach ($articles as $article) {
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+        }
+        foreach ($tmp as $article) {
+            $url = $article->url;
+            if (is_null($url)){
+                $url = $article->getUrl();
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+        }
+        return $article_array;
+    }
+
     public static function relationsArticle($curAid, $type, $count = 10,$isBaidu = false) {
         if($isBaidu){
             if (is_numeric($curAid)) {
