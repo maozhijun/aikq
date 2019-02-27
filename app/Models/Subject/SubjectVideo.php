@@ -97,7 +97,7 @@ class SubjectVideo extends Model
         }
 
         $obj = ['id'=>$video->id, 'mid'=>$video->mid, 'lname'=>$lname,  'hname'=>$video->hname, 'aname'=>$video->aname, 'hscore'=>$video->hscore, 'round'=>$video->round,
-                    'ascore'=>$video->ascore, 'time'=>$time, 'season'=>$video->season, 'group'=>$video->group, 'sport'=>$video->sport, 's_lid'=>$video->s_lid];
+            'ascore'=>$video->ascore, 'time'=>$time, 'season'=>$video->season, 'group'=>$video->group, 'sport'=>$video->sport, 's_lid'=>$video->s_lid];
         $obj['hid'] = $video->hid;
         $obj['aid'] = $video->aid;
         $match = Match::query()->find($video->mid);
@@ -225,4 +225,71 @@ class SubjectVideo extends Model
         return ($type == 1 ? $this->getMatchInfo($showTime) . ' ' : '') . $this->title;
     }
 
+    public static function getRecordsByName($name_en = null,$size = 10){
+        if (is_null($name_en)){
+            $query = SubjectVideo::query();
+            $query->whereNotNull('url');
+            $query->orderByDesc('time');
+            $query->take($size);
+            $tmp = $query->get();
+            $records = array();
+        }
+        else{
+            $sl = SubjectLeague::where('name_en',$name_en)->first();
+            if(is_null($sl)){
+                $records = array();
+            }
+            else{
+                $query = SubjectVideo::query();
+                $query->where('s_lid',$sl->id);
+                $query->whereNotNull('url');
+                $query->orderByDesc('time');
+                $query->take($size);
+                $records = $query->get();
+            }
+            if (count($records) < $size){
+                $query = SubjectVideo::query();
+                $query->whereNotNull('url');
+                $query->orderByDesc('time');
+                $query->take($size);
+                $tmp = $query->get();
+                $records = array();
+            }
+            else{
+                $tmp = array();
+            }
+        }
+        $article_array = [];
+        foreach ($records as $record) {
+            $article_array[] = [
+                'match'=>array(
+                    'lname'=>$record->lname,
+                    'hname'=>$record->hname,
+                    'aname'=>$record->aname,
+                    'season'=>$record->season,
+                    'round'=>$record->round,
+                    'stage_cn'=>$record->stage_cn,
+                    'season'=>$record->season,
+                    'group'=>$record->group,
+                    'season'=>$record->season,
+                    'time'=>$record->time,
+            ), 'link'=>$record->url];
+        }
+        foreach ($tmp as $record) {
+            $article_array[] = [
+                'match'=>array(
+                    'lname'=>$record->lname,
+                    'hname'=>$record->hname,
+                    'aname'=>$record->aname,
+                    'season'=>$record->season,
+                    'round'=>$record->round,
+                    'stage_cn'=>$record->stage_cn,
+                    'season'=>$record->season,
+                    'group'=>$record->group,
+                    'season'=>$record->season,
+                    'time'=>$record->time,
+                ), 'link'=>$record->url];
+        }
+        return $article_array;
+    }
 }

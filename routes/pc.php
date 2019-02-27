@@ -108,6 +108,8 @@ Route::group([], function () {
     Route::get("/app/v101/config.json", "HomeController@appConfig");
     Route::get("/app/v101/config.json", "HomeController@appConfig");
     Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
+
+    Route::get("/app/comboData/{name_en}.json", 'HomeController@updateComboData');
 });
 
 /**
