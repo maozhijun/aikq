@@ -55,6 +55,40 @@ class ArticleController extends Controller
     }
 
     /**
+     * 专题文章列表页
+    */
+    public function subjectNews(Request $request, $name_en, $page = 1) {
+        if (!is_numeric($page) || $page < 1) {
+            return abort(404);
+        }
+        $query = PcArticle::getPublishQuery($name_en);
+        if (isset($query)) {
+            $articles = $query->paginate(self::PageSize, ['*'], '', $page);
+            return $this->subjectNewsHtml($name_en, $articles);
+        } else {
+            return abort(404);
+        }
+    }
+
+    public function subjectNewsHtml($name_en, $articles) {
+        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        if (isset($data)) {
+            $data['name_en'] = $name_en;
+            $result['zhuanti'] = $data;
+        }
+
+        $result['articles'] = $articles;
+        $result['articles'] = $articles;
+
+        $result['title'] = '体育新闻资讯-爱看球直播';
+        $result['keywords'] = '体育,资讯';
+        $result['description'] = '最新最全的体育资讯';
+        $result['check'] = "news";
+        $result['ma_url'] = self::getMobileHttpUrl("/$name_en/news/");
+        return view('pc.article.v2.subject_news', $result);
+    }
+
+    /**
      * 文章终端
      * @param Request $request
      * @param $param
