@@ -23,6 +23,7 @@ class ArticleDetailCommand extends BaseCommand
     protected function onCommonHandler(Request $request)
     {
         $articles = PcArticle::query()->where('status', PcArticle::kStatusPublish)->get();
+
         foreach ($articles as $article){
             $ch = curl_init();
             $url = env('CMS_URL').'/static/article/'.$article->id;
