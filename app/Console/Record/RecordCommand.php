@@ -69,8 +69,9 @@ class RecordCommand extends Command
         }
         if ($this->type == 'detail'){
             $datas = SubjectVideo::whereNull('url')
-                ->orderby('updated_at','desc')
-                ->take(10)->get();
+                ->where('s_lid','<>',1008)
+                ->orderby('time','desc')
+                ->take(5)->get();
             foreach ($datas as $data){
                 $ch = curl_init();
                 $url = env('CMS_URL').'/static/record/'.$data->id;
