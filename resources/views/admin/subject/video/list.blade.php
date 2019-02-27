@@ -42,6 +42,16 @@
             height: 33px;
             vertical-align: bottom;
         }
+        .highlight {
+            padding: 9px 14px;
+            margin-bottom: 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            border-radius: 4px;
+        }
+        .tagBtn {
+            cursor: pointer;color: white;background-color: rgb(92, 184, 92);
+        }
     </style>
 @endsection
 @section('content')
@@ -69,20 +79,24 @@
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <input type="hidden" name="mid" value="">
             <input type="hidden" name="cover" value="">
+            <input type="hidden" name="tags" value="">
             {{--<button onmouseover="showCover(this);" onmouseout="hideCover();" style="float: left;margin-right: 5px;" type="button" class="btn btn-default" onclick="uploadCover(this)">--}}
                 {{--<span class="glyphicon glyphicon-upload"></span>封面图--}}
             {{--</button>--}}
             <select id="s_lid" name="s_lid" style="width: 130px;" class="form-control input-form">
                 <option value="">联赛专题</option>
                 @foreach($leagues as $league)
-                    <option value="{{$league->id}}">{{$league->name}}</option>
+                    <option value="{{$league->id}}" sport="{{$league->sport}}">{{$league->name}}</option>
                 @endforeach
-                <option value="999-1">其他(足球)</option>
-                <option value="999-2">其他(篮球)</option>
+                <option value="999-1" sport="1">其他(足球)</option>
+                <option value="999-2" sport="2">其他(篮球)</option>
             </select>
             <input id="name" style="width: 400px; margin-left: 10px;" class="form-control input-form" placeholder="球队名称">
             <button type="button" style="margin-left: 10px;" class="btn btn-default" onclick="findMatches('');">获取比赛</button>
-            <button style="margin-left: 10px;" class="btn btn-success">保存</button>
+            <button style="margin-left: 10px;" class="btn btn-warning">保存</button>
+            <div style="margin-top: 10px;">
+                @include("admin.tag.add_tag_cell")
+            </div>
         </form>
         <div style="clear: both"></div>
     </div>
@@ -103,12 +117,13 @@
                 @foreach($page as $index=>$video)
                     <?php
                         $channels = $video->getChannels();
-                        $tr_color = ($index + 1) % 2 == 0 ? 'background-color: #FFFFFF;' : 'background-color: #f9f9f9;';
+                        $tr_color = ($index + 1) % 3 == 0 ? 'background-color: #FFFFFF;' : 'background-color: #f9f9f9;';
                     ?>
-                    <form action="/admin/subject/videos/save" id="save_form{{$video->id}}" method="post" onsubmit="return checkForm(this);">
+                    <form action="/admin/subject/videos/save" id="save_form{{$video->id}}" method="post" onsubmit="return checkForm(this, '{{$video->id}}');">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" name="id" value="{{$video->id}}">
                         <input type="hidden" name="mid" value="{{$video->mid}}">
+                        <input type="hidden" name="tags" value="">
                         <tr style="{!! $tr_color !!}">
                             <td><h5>{{$video->id}}</h5></td>
                             {{--<td>--}}
@@ -140,6 +155,11 @@
                                 <a type="button" class="btn btn-info btn-sm" onclick="addVideoChannel(this, '{{$video->id}}');">加录像</a>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="5">
+                                @component("admin.tag.add_tag_cell", ["mul_id"=>$video->id, "sport"=>["tag_id"=>$video->sport], "tags"=>$video->tagRelations() ]) @endcomponent
+                            </td>
+                        </tr>
                     </form>
                     <tr sv_id="{{$video->id}}" style="{!! $tr_color !!} @if(count($channels) == 0) display:none; @endif" >
                         <td colspan="5">
@@ -167,6 +187,7 @@
     <div id="cover_show" style="display: none; position:absolute;z-index:1000;"><img src="" style="max-width: 300px;max-height: 300px;" ></div>
 @endsection
 @section('js')
+    <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     <script type="text/javascript">
         var upBtn;
         /**
@@ -311,7 +332,7 @@
         /**
          * 检查录像参数
          **/
-        function checkForm(thisObj) {
+        function checkForm(thisObj, mul_id) {
             var mid = thisObj.mid.value;
             var s_lid = thisObj.s_lid.value;
             if (s_lid == "") {
@@ -322,6 +343,9 @@
                 alert("请选择比赛");
                 return false;
             }
+            if (!mul_id) mul_id = "";
+            var tags = formatTags("match_tag" + mul_id, "team_tag" + mul_id, "player_tag" + mul_id);
+            thisObj.tags.value = tags;
             return true;
         }
 
@@ -340,12 +364,15 @@
     </script>
 
     <script>
-        function changePlayer(thisObj) {
-            // var player = thisObj.value;
-            // if (player == 19) {
-            //     $(thisObj).parent().find('select[name=platform]').val('2');
-            // }
-        }
+        $(function () {
+           $("#s_lid").change(function () {
+               var sport = $(this).find("option:selected").attr("sport");
+               var sportObj = $("#save_form").find("#sport");
+               if (sport != sportObj.val()) {
+                   sportObj.val(sport).trigger("change");
+               }
+           });
+        });
 
         function showCover(thisObj) {
             var $btn = $(thisObj);

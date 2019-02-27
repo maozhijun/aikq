@@ -102,6 +102,7 @@
                             <p><button class="btn btn-sm btn-primary" onclick="addChannel('{{$match->id}}');">添加直播地址</button></p>
                             <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-warning" onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
                             <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-default" onclick="saveSYChannel(this, '{{$match->id}}');">鲨鱼房间填写</button></p>
+                            <p><a class="btn btn-sm" style="color: white;background-color: rgb(135, 81, 231)" target="_blank" href="http://match.liaogou168.com/api/spider{{$sport == 1 ? "/spiderMatchDetailById?mid=" : "/basket/spiderMatchById?id="}}{{$match->id}}">刷新数据</a></p>
                         </td>
                         <td id="td_{{$match->id}}" match_id="{{$match->id}}" lid="{{$match->lid}}" isPri="{{in_array($match->lid, $private_arr)}}">
                             @foreach($channels as $channel)

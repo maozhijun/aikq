@@ -1,6 +1,20 @@
 @extends('admin.layout.nav')
+@section("css")
+    <style>
+        .highlight {
+            padding: 9px 14px;
+            margin-bottom: 14px;
+            background-color: #f7f7f9;
+            border: 1px solid #e1e1e8;
+            border-radius: 4px;
+        }
+        .tagBtn {
+            cursor: pointer;color: white;background-color: rgb(92, 184, 92);
+        }
+    </style>
+@endsection
 @section('content')
-    <h1 class="page-header">新建文章</h1>
+    <h1 class="page-header">{{isset($article) ? "修改文章" : "新建文章"}}</h1>
     <div class="row">
         <div class="col-lg-12">
             <form class="form" method="post" action="/admin/article/save/">
@@ -9,6 +23,7 @@
                 <input type="hidden" name="action">
                 <input type="hidden" name="content">
                 <input type="hidden" name="images">
+                <input type="hidden" name="tags">
 
                 <div class="input-group form-group">
                     <span class="input-group-addon">标题</span>
@@ -30,14 +45,16 @@
                            required>
                     <span class="input-group-addon">{{isset($article) ? mb_strlen($article->digest) : 0}}字</span>
                 </div>
+
                 <div class="input-group form-group">
-                    <span class="input-group-addon">标签</span>
+                    <span class="input-group-addon">关键字</span>
                     <input type="text"
-                           value="{{ session('labels',isset($article)?$article->labels:'') }}"
+                           value="{{ session('labels', isset($article) ? $article->labels : '') }}"
                            name="labels"
                            class="form-control"
-                           placeholder="标签">
+                           placeholder="关键字（标签）">
                 </div>
+
                 <div class="input-group form-group">
                     <span class="input-group-addon">作者</span>
                     <input type="text"
@@ -65,6 +82,9 @@
                         @endforeach
                     </select>
                 </div>
+
+                @include("admin.tag.add_tag_cell")
+
                 <div class="form-check">
                     <label class="form-check-label">
                         <input @if(isset($article) && $article->original == 1) checked @endif value="1" name="original" type="checkbox" class="form-check-input">
@@ -112,6 +132,7 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     @include('vendor.ueditor.assets')
     <script type="text/html" id="article_content">
     {!! isset($article)?$article->getContent():'' !!}
@@ -235,9 +256,11 @@
             imgs = imgs.join('@@@');
             form.images.value = imgs;
             if (formVerify(form)) {
+                form.tags.value = formatTags("match_tag", "team_tag", "player_tag");
                 postForm(form);
             }
         }
+
         function preview() {
             console.info('preview...');
             form = $('form')[0];
@@ -362,5 +385,9 @@
                 }
             });
         });
+
+        @if(isset($tags["sport"]))
+            findLeagueTag($("#sport").val(), "league");//获取赛事、联赛标签
+        @endif
     </script>
 @endsection

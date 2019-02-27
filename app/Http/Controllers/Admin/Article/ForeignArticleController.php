@@ -15,6 +15,7 @@ use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
 use App\Models\Article\PcArticleType;
 use App\Models\HCT\ForeignArticle;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +69,12 @@ class ForeignArticleController extends Controller
         else
             $result['f_article'] = null;
         if (isset($result['f_article']['aid'])) {
-            $article = PcArticle::query()->find($result['f_article']['aid']);
+            $aid = $result['f_article']['aid'];
+            $article = PcArticle::query()->find($aid);
+            $tags = TagRelation::getTagRelations(TagRelation::kTypeArticle, $aid);
+
+            $result["tags"] = $tags;
+            $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
             $result['article'] = $article;
         }
         $types = PcArticleType::allTypes();
