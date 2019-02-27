@@ -37,7 +37,7 @@ class ResourceController extends Controller
         if (in_array($isMenu, [1, 2])) {
             $query->where("is_menu", "like", "%$isMenu%");
         }
-
+        $query->orderBy("is_menu")->orderBy("od");
         $resources = $query->paginate(20);
         $resources->appends($request->all());
         $result['resources'] = $resources;
