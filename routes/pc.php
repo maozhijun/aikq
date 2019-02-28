@@ -116,9 +116,11 @@ Route::group([], function () {
  * 文章
  */
 Route::group(["namespace" => 'Article'], function () {
-    Route::get("/news", "ArticleController@news");//文章列表
-    Route::get("/news/index.html", "ArticleController@news");//文章列表
-    Route::get("/news/index{page}.html", "ArticleController@news");//文章列表 分页
+//    Route::get("/news", "ArticleController@news");//文章列表
+//    Route::get("/news/index.html", "ArticleController@news");//文章列表
+//    Route::get("/news/index{page}.html", "ArticleController@news");//文章列表 分页
+    Route::get("/news", "ArticleController@newsHome");//文章首页
+    Route::get("/news/index.html", "ArticleController@newsHome");//文章首页
 
     Route::get("/news/lives.html", "ArticleController@detailLives");//终端页直播栏
 

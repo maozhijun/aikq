@@ -29,6 +29,47 @@ class ArticleController extends Controller
      * @param $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+    public function newsHome(Request $request) {
+        $lastArticles = $query = PcArticle::getPublishQuery()->take(12)->get()->toArray();
+        $lastArticles = collect($lastArticles)->chunk(6)->all();
+
+        $allLeagues = SubjectLeague::query()->where('status', 1)->orderBy('od')->get();
+        $leagues = array();
+        foreach ($allLeagues as $league) {
+            $query = PcArticle::getPublishQuery($league['name_en']);
+            if (isset($query)) {
+                $articles = $query->take(6)->get();
+                if (isset($articles) && count($articles) > 0) {
+                    $league['articles'] = $articles;
+                    $leagues[] = $league;
+                }
+            }
+        }
+        return $this->newsHomeHtml($lastArticles, $leagues);
+    }
+
+    /**
+     * @param $articles
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function newsHomeHtml($lastArticles, $leagues) {
+        $result['lastArticles'] = $lastArticles;
+        $result['leagues'] = $leagues;
+
+        $result['title'] = '体育新闻资讯-爱看球直播';
+        $result['keywords'] = '体育,资讯';
+        $result['description'] = '最新最全的体育资讯';
+        $result['check'] = "news";
+        $result['ma_url'] = self::getMobileHttpUrl("/news/");
+        return view('pc.article.v2.news_home', $result);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function news(Request $request, $page = 1) {
         if (!is_numeric($page) || $page < 1) {
             return abort(404);
@@ -84,6 +125,7 @@ class ArticleController extends Controller
         $result['description'] = '最新最全的体育资讯';
         $result['check'] = "news";
         $result['ma_url'] = self::getMobileHttpUrl("/$name_en/news/");
+
         return view('pc.article.v2.subject_news', $result);
     }
 
@@ -164,10 +206,7 @@ class ArticleController extends Controller
         $res = PcArticle::relationsArticle($detail->id, $detail->type, 10,$isBaidu);
         $result['res'] = $res;
         $result['ma_url'] = self::getMobileHttpUrl($detail->url);
-
-        $result = array_merge($result, $this->html_var);
-
-//        dump($detail->getContent());
+        $result['check'] = "news";
 
 //        return view('pc.article.article', $result);
         return view('pc.article.v2.article', $result);
@@ -186,6 +225,7 @@ class ArticleController extends Controller
         }
         $matches = $json['matches'];
         $array = [];
+
         foreach ($matches as $time=>$mArray) {
             foreach ($mArray as $match) {
                 if (count($array) > 15) break;

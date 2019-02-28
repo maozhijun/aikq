@@ -121,18 +121,37 @@ class HomeController extends Controller
     }
 
     public function updateComboData(Request $request,$name_en = null){
+        return HomeController::updateFileComboData($name_en);
+    }
+
+    public static function updateFileComboData($name_en){
         //录像
         $records = SubjectVideo::getRecordsByName($name_en);
         //资讯
         $articles = PcArticle::getLastArticle($name_en);
+
+        //赛程
+        $matches = array();
+        $cache = Storage::get('/public/static/json/pc/lives/'.$name_en.'.json');
+        $json = json_decode($cache, true);
+        if (isset($json) && count($json) > 0){
+            foreach ($json as $time=>$mArray) {
+                foreach ($mArray as $match) {
+                    if (count($matches) >= 10) break;
+                    $matches[] = $match;
+                }
+            }
+        }
+
         //视频
-        $result = array('records'=>$records,'articles'=>$articles);
+        $result = array('records'=>$records,'articles'=>$articles, 'matches'=>$matches);
+
         //保存一次文件
         $appData = json_encode($result);
         if (is_null($name_en)){
             $name_en = 'all';
         }
-        Storage::disk("public")->put("static/json/www/comboData/". $name_en . '.json', $appData);
+        Storage::disk("public")->put("/static/json/pc/comboData/". $name_en . '.json', $appData);
         return $result;
     }
 }

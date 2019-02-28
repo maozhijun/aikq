@@ -224,7 +224,16 @@ class PcArticle extends Model
             $articles = array();
         }
         else{
-            $articles = PcArticle::articlesByType($name_en);
+            $type = PcArticleType::getTypeByTypeEn($name_en);
+            if(isset($type)){
+                $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
+                $query->where('type',$type->id);
+                $query->orderByDesc('publish_at');
+                $articles = $query->take(10)->get();
+            }
+            else{
+                $articles = array();
+            }
             if (count($articles) < $size){
                 $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
                 $query->orderByDesc('publish_at');
