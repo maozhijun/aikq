@@ -71,9 +71,8 @@ class ArticleController extends Controller
     }
 
     public function subjectNewsHtml($name_en, $articles) {
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = SubjectLeague::query()->where('name_en', $name_en)->first();
         if (isset($data)) {
-            $data['name_en'] = $name_en;
             $result['zhuanti'] = $data;
         }
 

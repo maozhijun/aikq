@@ -1,6 +1,9 @@
 <?php
 $leagueName = isset($zhuanti) ? $zhuanti['name'] : "其他";
+$leagueNameLong = isset($zhuanti) ? $zhuanti['name_long'] : "其他";
 $leaguePath = isset($zhuanti) ? '/'.$zhuanti['name_en'].'/' : "/";
+$leagueIcon = isset($zhuanti) ? $zhuanti['icon'] : "";
+$leagueTeamCount= isset($zhuanti) ? $zhuanti['team_count'] : 0;
 ?>
 @extends("pc.layout.v2.base")
 @section("css")
@@ -49,9 +52,9 @@ $leaguePath = isset($zhuanti) ? '/'.$zhuanti['name_en'].'/' : "/";
 		</div>
 		<div id="Right_part">
 			<a class="banner_entra" href="{{$leaguePath}}">
-				<img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=c95a12f874f0f736d8fe4b07326ed424/3801213fb80e7bec36d92766232eb9389b506b31.jpg">
-				<h3>美国男子职业篮球联赛</h3>
-				<p>球队：<span>30支</span></p>
+				<img src="{{$leagueIcon}}">
+				<h3>{{$leagueNameLong}}</h3>
+				<p>球队：<span>{{$leagueTeamCount}}支</span></p>
 			</a>
 			<div class="con_box" style="display: none">
 				<div class="header_con">

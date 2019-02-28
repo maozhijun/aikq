@@ -8,7 +8,7 @@
     <div id="Crumbs">
         <div class="def_content">
             @if(isset($zhuanti))
-                <a href="/">爱看球</a> - <a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a> - {{$article->title}}
+                <a href="/">爱看球</a> - <a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a> - <a href="/{{$zhuanti['name_en']}}/news/">{{$zhuanti['name']}}资讯</a> - {{$article->title}}
             @else
                 <a href="/">爱看球</a> - <a href="/news/">资讯</a> - {{$article->title}}
             @endif
@@ -30,7 +30,7 @@
                         <h3><p>相关资讯</p></h3>
                         <p class="aline">
                             @if(isset($zhuanti))
-                                <a href="/{{$zhuanti['name_en']}}/">全部{{$zhuanti['name']}}资讯 ></a>
+                                <a href="/{{$zhuanti['name_en']}}/news/">全部{{$zhuanti['name']}}资讯 ></a>
                             @else
                                 <a href="/news/">全部资讯 ></a>
                             @endif
