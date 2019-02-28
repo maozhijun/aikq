@@ -1711,7 +1711,7 @@ class AikanQController extends Controller
     /**
      * 球队终端数据
      */
-    protected static function teamData($sport, $tid) {
+    public static function teamData($sport, $tid) {
         //通过数据库请求
 //        return self::getTeamDataByDB($sport, $tid);
 
