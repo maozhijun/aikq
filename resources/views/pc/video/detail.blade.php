@@ -62,7 +62,7 @@
                         <td class="away"><a href="team.html">{{$cMatch["aname"]}}</a></td>
                         <td class="line">
                             @foreach($cMatch["channels"] as $channel)
-                                <?php $liveUrl = $channel["player"] == 16 ? $liveUrl["link"] : $liveUrl["live_url"]; ?>
+                                <?php $liveUrl = $channel["player"] == 16 ? $channel["link"] : $channel["live_url"]; ?>
                                 <a target="_blank" href="{{$liveUrl}}" class="live">{{$channel["name"]}}</a>
                             @endforeach
                         </td>
