@@ -121,6 +121,10 @@ class HomeController extends Controller
     }
 
     public function updateComboData(Request $request,$name_en = null){
+        return HomeController::updateFileComboData($name_en);
+    }
+
+    public static function updateFileComboData($name_en){
         //录像
         $records = SubjectVideo::getRecordsByName($name_en);
         //资讯
@@ -132,7 +136,7 @@ class HomeController extends Controller
         if (is_null($name_en)){
             $name_en = 'all';
         }
-        Storage::disk("public")->put("static/json/www/comboData/". $name_en . '.json', $appData);
+        Storage::disk("public")->put("/static/json/www/comboData/". $name_en . '.json', $appData);
         return $result;
     }
 }
