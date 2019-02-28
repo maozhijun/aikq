@@ -160,8 +160,18 @@ class LiveController extends Controller
             //赛事专题
             foreach ($leagueMatches as $name_en => $matches) {
                 Storage::disk("public")->put("static/json/pc/lives/$name_en.json", json_encode($matches));
-            }
 
+                //同时把前十条数据保存到combData里
+                $tempMatches = collect($matches)->collapse()->take(10)->all();
+                try {
+                    $cache = Storage::get("/public/static/json/pc/comboData/$name_en.json");
+                    $combData = json_decode($cache, true);
+                } catch (\Exception $e) {
+                    $combData = array();
+                }
+                $combData['matches'] = $tempMatches;
+                Storage::disk("public")->put("static/json/pc/comboData/$name_en.json", json_encode($combData));
+            }
         } catch (\Exception $exception) {
             Log::error($exception);
         }
