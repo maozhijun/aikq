@@ -450,11 +450,16 @@ class CommonTool
     }
 
     public static function getComboData($name_en = 'all'){
-        $jsonStr = Storage::disk("public")->get("/static/json/pc/comboData/". $name_en . '.json');
+        if (!Storage::disk("public")->exists("/static/json/pc/comboData/". $name_en . '.json')){
+            $jsonStr = null;
+        }
+        else{
+            $jsonStr = Storage::disk("public")->get("/static/json/pc/comboData/". $name_en . '.json');
+        }
         if (is_null($jsonStr)){
             return HomeController::updateFileComboData($name_en);
         }
-        $json = json_decode($jsonStr);
+        $json = json_decode($jsonStr,true);
         if (is_null($json)){
             return HomeController::updateFileComboData($name_en);
         }
