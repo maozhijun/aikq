@@ -124,9 +124,9 @@
             var link = $.trim(form.link.value);
             var image = form.image.value;
             var sport = form.sport.value;
-            var match = $("match_tag li:gt(0)");
-            var team = $("team_tag li:gt(0)");
-            var player = $("player_tag li:gt(0)");
+            var match = $("#match_tag li:gt(0)");
+            var team = $("#team_tag li:gt(0)");
+            var player = $("#player_tag li:gt(0)");
 
             if (title.length == 0) {
                 toastr.error('必须填写标题');
@@ -185,17 +185,16 @@
                 processData: false,
                 success: function (data) {
                     if (data.code == 200) {
-                        if (data.action == 'save') {
-                            form.id.value = data.id;
-                            toastr.success('保存成功！');
-                        }
+                        form.id.value = data.id;
+                        alert("保存成功！");
+                        location.href = "/admin/live/videos/edit?id=" + data.id;
                     } else {
                         toastr.error(data.message);
                     }
                     $('.btn').button('reset');
                 },
                 error: function (data) {
-                    toastr.error('网络异常');
+                    alert('保存失败');
                     $('.btn').button('reset');
                 }
             });

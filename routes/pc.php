@@ -166,34 +166,34 @@ Route::group(["namespace" => 'Team'], function () {
 });
 
 Route::group(["namespace" => 'Live'], function () {
+    //========================================================视频2.0route 开始========================================================//
+    Route::get('/video/{id}.html', 'VideoController@videoDetail');//录像终端
+
+    Route::get('/video', 'VideoController@videos');//录像列表
+    Route::get('/video_{page}.html', 'VideoController@videos');//录像列表
+
+    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//录像列表
+    Route::get('/video/{type}', 'VideoController@videos');//录像列表
+    //========================================================视频2.0route 结束========================================================//
+
     //========================================================专题页面========================================================//
     Route::get('/live/subject/player.html', 'SubjectController@subjectPlayer');//player播放页面
 
     Route::get('/{name_en}', 'SubjectController@detail');//专题终端页 英超、中超、等等
-    Route::get('/{name_en}/video{vid}.html', 'SubjectController@subjectVideo');//专题录像终端页
-//    Route::get('/{name_en}/specimen{sid}.html', 'SubjectController@subjectSpecimen');//专题集锦播放终端页面
+    //Route::get('/{name_en}/video{vid}.html', 'SubjectController@subjectVideo');//专题录像终端页
+    //Route::get('/{name_en}/specimen{sid}.html', 'SubjectController@subjectSpecimen');//专题集锦播放终端页面
 
-    Route::get('/live/subject/video/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
-    Route::get('/live/subject/video/channel/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+    //Route::get('/live/subject/video/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
+    //Route::get('/live/subject/video/channel/{first}/{second}/{id}.json', 'SubjectController@subjectVideoChannelJson');
 
-    Route::get('/live/subject/specimen/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
-    Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    //Route::get('/live/subject/specimen/channel/mobile/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
+    //Route::get('/live/subject/specimen/channel/{first}/{second}/{id}.json', 'SubjectController@subjectSpecimenChannelJson');
     //========================================================专题页面========================================================//
 
     //========================================================专题热门录像 开始========================================================//
-    Route::get('/video/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
-    Route::get('/live/subject/videos/detail.html', 'SubjectVideoController@videoDetail');//录像终端
+    //Route::get('/video/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
+    //Route::get('/live/subject/videos/detail.html', 'SubjectVideoController@videoDetail');//录像终端
     //========================================================专题热门录像 结束========================================================//
-
-    //========================================================视频2.0route 开始========================================================//
-    Route::get('/video.html', 'VideoController@videos');//录像列表
-    Route::get('/video_{page}.html', 'VideoController@videos');//录像列表
-
-    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//录像列表
-    Route::get('/video/{type}.html', 'VideoController@videos');//录像列表
-
-    Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
-    //========================================================视频2.0route 结束========================================================//
 });
 
 //录像 2.0版本

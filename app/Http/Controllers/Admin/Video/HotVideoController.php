@@ -147,13 +147,11 @@ class HotVideoController extends Controller
                 $tagArray = is_null($tagArray) ? [] : $tagArray;
                 TagRelation::saveVideoTagRelation($sport, $video->id, $tagArray);
             });
-
+            return response()->json(["code"=>200, "message"=>"保存成功", "id"=>$video->id]);
         } catch (\Exception $exception) {
             Log::error($exception);
             return response()->json(["code"=>500, "message"=>"系统错误"]);
         }
-
-        return response()->json(["code"=>200, "message"=>"保存成功"]);
     }
 
     /**

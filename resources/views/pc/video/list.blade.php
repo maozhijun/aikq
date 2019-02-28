@@ -6,7 +6,7 @@
     <div class="def_content">
         <div class="tab_con">
             @foreach($types as $key=>$name)
-            <a @if($key == $type) href="#"  class="on" @else href="/video/{{$key}}.html" @endif >{{$name}}</a>
+            <a @if($key == $type) href="#"  class="on" @else href="/video/{{$key == "new" ? "" : $key}}" @endif >{{$name}}</a>
             @endforeach
         </div>
         <div class="video_con">
@@ -38,7 +38,7 @@
             </div>
             @foreach($videos as $video)
             <div class="item_con">
-                <a href="">
+                <a target="_blank" href="{{\App\Models\Match\HotVideo::getVideoDetailUrl($video["id"])}}">
                     <img src="{{$video["cover"]}}">
                     <p>{{$video["title"]}}</p>
                 </a>

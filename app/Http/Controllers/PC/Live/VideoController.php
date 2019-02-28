@@ -12,6 +12,9 @@ namespace App\Http\Controllers\PC\Live;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
+use App\Models\Subject\SubjectLeague;
+use App\Models\Tag\Tag;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +33,7 @@ class VideoController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function videos(Request $request, $type = "new", $page = 1) {
-        $types = ["new"=>"最新", "basket"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstart"=>"足球球星", "other"=>"其他"];
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
         $videos = $this->getVideos($type, $page);
         return $this->videosHtml($type, $types, $videos);
     }
@@ -58,11 +61,40 @@ class VideoController extends Controller
     /**
      * 录像终端
      * @param Request $request
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function videoDetail(Request $request) {
+    public function videoDetail(Request $request, $id) {
+        $video = HotVideo::query()->find($id);
+        if (!isset($video)) return "";
 
-        return view('pc.video.detail');
+        $result["video"] = $video;
+        //根据视频ID获取 赛事
+        $tagQuery = TagRelation::query()->where("tag_relations.type", TagRelation::kTypeVideo);
+        $tagQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $tagQuery->where("tags.level", Tag::kLevelTwo);
+        $tagQuery->where("tag_relations.source_id", $id);
+        $matchTags = $tagQuery->get();
+
+        $name_en = "all";
+        if (count($matchTags) > 0) {
+            $tag = $matchTags[0];
+            $sport = $tag["sport"];
+            $lid = $tag["tid"];
+            $sl = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+            if (isset($sl)) {
+                $name_en = $sl["name_en"];
+                $result["def"] = ["name"=>$tag["name"], "name_en"=>$name_en ];
+            }
+        }
+
+        try {
+            $json = Storage::get("/public/static/json/pc/comboData/".$name_en.".json");
+            $comboData = json_decode($json, true);
+            $result["comboData"] = $comboData;
+        } catch (\Exception $exception) {
+        }
+        return view('pc.video.detail', $result);
     }
 
     //=====================================页面内容 结束=====================================//
@@ -94,9 +126,41 @@ class VideoController extends Controller
      */
     public function getVideos($type, $pageNo) {
         $pageSize = self::page_size;
+        $query = HotVideo::query();
         switch ($type) {
+            case "basketball":
+            case "football":
+                $tag_id = $type == "basketball" ? Tag::kSportBasketball : Tag::kSportFootball;
+                $query->whereExists(function ($existsQuery) use ($tag_id) {
+                    $existsQuery->selectRaw("1");
+                    $existsQuery->from("tag_relations");
+                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+                    $existsQuery->where("tag_relations.tag_id", $tag_id);
+                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+                });
+                break;
+            case "basketballstar":
+            case "footballstar":
+                $tag_id = $type == "basketballstar" ? Tag::kSportBasketball : Tag::kSportFootball;
+                $query->whereExists(function ($existsQuery) use ($tag_id) {
+                    $existsQuery->selectRaw("1");
+                    $existsQuery->from("tag_relations");
+                    $existsQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+                    $existsQuery->where("tags.level", Tag::kLevelFour);
+                    $existsQuery->where("tags.sport", $tag_id);
+                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+                });
+                break;
+            case "other":
+                $query->whereNotExists(function ($notExistsQuery) {
+                    $notExistsQuery->selectRaw("1");
+                    $notExistsQuery->from("tag_relations");
+                    $notExistsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+                    $notExistsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+                });
+                break;
             default:
-                $query = HotVideo::query();
         }
 
         $query->where("hot_videos.show", HotVideo::kShow);

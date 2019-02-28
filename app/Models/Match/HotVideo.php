@@ -9,6 +9,7 @@
 namespace App\Models\Match;
 
 
+use App\Models\Subject\SubjectLeague;
 use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Database\Eloquent\Model;
@@ -88,9 +89,42 @@ class HotVideo extends Model
     }
 
 
-    public function getVideoDetailUrl() {
+    public static function getVideoDetailUrl($id) {
 
-        return "";
+        return "/video/".$id.".html";
+    }
+
+    public static function getVideosByName($name_en = null, $size = 12) {
+        if (isset($name_en)) {
+            $sl = SubjectLeague::query()->where('name_en',$name_en)->first();
+        }
+        if (!isset($sl)) {
+            $query = self::query();
+            $query->where('hot_videos.show', self::kShow);
+            $query->orderByDesc('hot_videos.created_at');
+            $link = "/video/";
+        } else {
+            $query = self::query();
+            $sport = $sl->sport;
+            $lid = $sl->lid;
+            $query->whereExists(function ($existsQuery) use ($sport, $lid) {
+                $existsQuery->selectRaw("1");
+                $existsQuery->from("tag_relations");
+                $existsQuery->join("tags", "tag_relations.tag_id", "=", "tags.id");
+                $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+                $existsQuery->where("tags.sport", $sport);
+                $existsQuery->where("tags.tid", $lid);
+                $existsQuery->whereRaw("hot_videos.id = tag_relations.source_id");
+            });
+            $link = "/" . $name_en . "/video";
+        }
+        $videos = $query->take($size)->get();
+        $videoArray = [];
+        foreach ($videos as $video) {
+            $videoArray[] = ["link"=>$link . $video->id . ".html", "title"=>$video->title, "image"=>$video->image, "id"=>$video->id];
+        }
+        return $videoArray;
+
     }
 
 }
