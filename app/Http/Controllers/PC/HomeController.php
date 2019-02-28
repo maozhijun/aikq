@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
-use App\Models\PcArticle;
+use App\Models\Article\PcArticle;
+use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -100,8 +102,8 @@ class HomeController extends Controller
     }
 
     public function index(Request $request){
-       return view('pc.home');
-   }
+        return view('pc.home');
+    }
 
     /**
      * 邀请
@@ -109,12 +111,28 @@ class HomeController extends Controller
      * @param $code
      * @return $this
      */
-   public function invitation(Request $request,$code){
-       if (self::isMobile($request)){
-           return response()->redirectTo('/m')->withCookie(cookie('LIAOGOU_INVITATION_CODE', $code));
-       }
-       else{
-           return response()->redirectTo('/')->withCookie(cookie('LIAOGOU_INVITATION_CODE', $code));
-       }
-   }
+    public function invitation(Request $request,$code){
+        if (self::isMobile($request)){
+            return response()->redirectTo('/m')->withCookie(cookie('LIAOGOU_INVITATION_CODE', $code));
+        }
+        else{
+            return response()->redirectTo('/')->withCookie(cookie('LIAOGOU_INVITATION_CODE', $code));
+        }
+    }
+
+    public function updateComboData(Request $request,$name_en = null){
+        //录像
+        $records = SubjectVideo::getRecordsByName($name_en);
+        //资讯
+        $articles = PcArticle::getLastArticle($name_en);
+        //视频
+        $result = array('records'=>$records,'articles'=>$articles);
+        //保存一次文件
+        $appData = json_encode($result);
+        if (is_null($name_en)){
+            $name_en = 'all';
+        }
+        Storage::disk("public")->put("static/json/www/comboData/". $name_en . '.json', $appData);
+        return $result;
+    }
 }

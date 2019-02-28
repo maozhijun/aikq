@@ -195,31 +195,7 @@ class RecordController extends Controller
 //        dump($this->html_var);
         //资讯
         //专题资讯 开始
-        $articles = PcArticle::articlesByType($name_en);
-        if (count($articles) < 10){
-            $query = PcArticle::query()->where('status', PcArticle::kStatusPublish);
-            $query->orderByDesc('publish_at');
-            $query->take(10 - count($articles));
-            $tmp = $query->get();
-        }
-        else{
-            $tmp = array();
-        }
-        $article_array = [];
-        foreach ($articles as $article) {
-            $url = $article->url;
-            if (is_null($url)){
-                $url = $article->getUrl();
-            }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
-        }
-        foreach ($tmp as $article) {
-            $url = $article->url;
-            if (is_null($url)){
-                $url = $article->getUrl();
-            }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
-        }
+        $article_array = PcArticle::getLastArticle($name_en);
         $this->html_var['articles'] = $article_array;
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
