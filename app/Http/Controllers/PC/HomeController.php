@@ -136,7 +136,7 @@ class HomeController extends Controller
         if (is_null($name_en)){
             $name_en = 'all';
         }
-        Storage::disk("public")->put("/static/json/www/comboData/". $name_en . '.json', $appData);
+        Storage::disk("public")->put("/static/json/pc/comboData/". $name_en . '.json', $appData);
         return $result;
     }
 }

@@ -450,7 +450,7 @@ class CommonTool
     }
 
     public static function getComboData($name_en = 'all'){
-        $jsonStr = Storage::disk("public")->get("/static/json/www/comboData/". $name_en . '.json');
+        $jsonStr = Storage::disk("public")->get("/static/json/pc/comboData/". $name_en . '.json');
         if (is_null($jsonStr)){
             return HomeController::updateFileComboData($name_en);
         }
