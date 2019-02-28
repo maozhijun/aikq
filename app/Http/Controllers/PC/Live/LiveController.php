@@ -21,6 +21,7 @@ use App\Models\LgMatch\MatchLive;
 use App\Models\Match\BasketMatch;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\RelationVideo;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -102,6 +103,12 @@ class LiveController extends Controller
 
             $newMatches = [];
 
+            //专题赛程
+            $leagues = SubjectLeague::getAllLeagues()->mapWithKeys(function ($item){
+                return [$item['sport'].'-'.$item['lid']=>$item];
+            })->all();
+            $leagueMatches = array();
+
             if (isset($matchArray['matches'])) {
                 $matches = $matchArray['matches'];
 
@@ -130,6 +137,12 @@ class LiveController extends Controller
                                 $newArray[$id] = $newMatch;
                             }
                         }
+
+                        $leagueKey = $match['sport'].'-'.$match['lid'];
+                        if (isset($leagues[$leagueKey])) {
+                            $name_en = $leagues[$leagueKey]['name_en'];
+                            $leagueMatches[$name_en][$time][$id] = $match;
+                        }
                     }
 
                     if (count($newArray) > 0) {
@@ -143,6 +156,12 @@ class LiveController extends Controller
             Storage::disk("public")->put("app/v101/lives.json", $app_output);
             Storage::disk("public")->put("app/v110/lives.json", $app_output);
             Storage::disk("public")->put("app/v130/lives.json", $app_output);
+
+            //赛事专题
+            foreach ($leagueMatches as $name_en => $matches) {
+                Storage::disk("public")->put("static/json/pc/lives/$name_en.json", json_encode($matches));
+            }
+
         } catch (\Exception $exception) {
             Log::error($exception);
         }

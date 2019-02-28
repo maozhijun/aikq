@@ -225,6 +225,7 @@ class ArticleController extends Controller
         }
         $matches = $json['matches'];
         $array = [];
+
         foreach ($matches as $time=>$mArray) {
             foreach ($mArray as $match) {
                 if (count($array) > 15) break;
