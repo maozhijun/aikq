@@ -56,11 +56,16 @@
                     <col width="11%"><col><col width="11%"><col><col width="40%">
                     @foreach($comboData["matches"] as $cMatch)
                     <tr>
-                        <td>01-25<br/><span>14:50</span></td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs"><span class="living">直播中</span></td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="#" class="live">高清直播</a><a href="#" class="live">主播剧本球童</a><a href="#" class="live">高清直播2</a></td>
+                        <td>{{substr($cMatch["time"], 5, 5)}}<br/><span>{{substr($cMatch["time"], 11, 5)}}</span></td>
+                        <td class="host"><a href="team.html">{{$cMatch["hname"]}}</a></td>
+                        <td class="vs">@if($cMatch["isMatching"])<span class="living">直播中</span>@else vs @endif</td>
+                        <td class="away"><a href="team.html">{{$cMatch["aname"]}}</a></td>
+                        <td class="line">
+                            @foreach($cMatch["channels"] as $channel)
+                                <?php $liveUrl = $channel["player"] == 16 ? $liveUrl["link"] : $liveUrl["live_url"]; ?>
+                                <a target="_blank" href="{{$liveUrl}}" class="live">{{$channel["name"]}}</a>
+                            @endforeach
+                        </td>
                     </tr>
                     @endforeach
                 </table>

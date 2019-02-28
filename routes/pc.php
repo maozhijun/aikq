@@ -160,14 +160,16 @@ Route::group(["namespace" => 'Live'], function () {
  * 球队终端
  */
 Route::group(["namespace" => 'Team'], function () {
-    Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
+    //v2
+    Route::get('/{name_en}/team{id}_record_{page}.html',"TeamController@recordDetail");//球队终端 录像
 
+    Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
     Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分
 });
 
 Route::group(["namespace" => 'Live'], function () {
     //========================================================视频2.0route 开始========================================================//
-    Route::get('/video/{id}.html', 'VideoController@videoDetail');//录像终端
+    Route::get('/video{id}.html', 'VideoController@videoDetail');//录像终端
 
     Route::get('/video', 'VideoController@videos');//录像列表
     Route::get('/video_{page}.html', 'VideoController@videos');//录像列表

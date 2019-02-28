@@ -256,6 +256,15 @@ class SubjectVideoController extends Controller
         } catch (\Exception $exception) {
             return response()->json(['code'=>500, 'msg'=>'保存录像线路失败']);
         }
+
+        $ch = curl_init();
+        $url = env('CMS_URL').'/static/record/'.$sv_id;
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2);//8秒超时
+        curl_exec ($ch);
+        curl_close ($ch);
+
         return response()->json(['code'=>200, 'msg'=>'保存录像线路成功']);
     }
 

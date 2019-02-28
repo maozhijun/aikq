@@ -91,7 +91,7 @@ class HotVideo extends Model
 
     public static function getVideoDetailUrl($id) {
 
-        return "/video/".$id.".html";
+        return "/video".$id.".html";
     }
 
     public static function getVideosByName($name_en = null, $size = 12) {
@@ -102,7 +102,7 @@ class HotVideo extends Model
             $query = self::query();
             $query->where('hot_videos.show', self::kShow);
             $query->orderByDesc('hot_videos.created_at');
-            $link = "/video/";
+            $link = "/video";
         } else {
             $query = self::query();
             $sport = $sl->sport;
