@@ -44,7 +44,7 @@
         }
         .highlight {
             padding: 9px 14px;
-            margin-bottom: 14px;
+            /*margin-bottom: 14px;*/
             background-color: #f7f7f9;
             border: 1px solid #e1e1e8;
             border-radius: 4px;
@@ -117,7 +117,7 @@
                 @foreach($page as $index=>$video)
                     <?php
                         $channels = $video->getChannels();
-                        $tr_color = ($index + 1) % 3 == 0 ? 'background-color: #FFFFFF;' : 'background-color: #f9f9f9;';
+                        $tr_color = $index % 2 == 0 ? 'background-color: #FFFFFF;' : 'background-color: #f9f9f9;';
                     ?>
                     <form action="/admin/subject/videos/save" id="save_form{{$video->id}}" method="post" onsubmit="return checkForm(this, '{{$video->id}}');">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
@@ -155,13 +155,13 @@
                                 <a type="button" class="btn btn-info btn-sm" onclick="addVideoChannel(this, '{{$video->id}}');">加录像</a>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{!! $tr_color !!}" >
                             <td colspan="5">
                                 @component("admin.tag.add_tag_cell", ["mul_id"=>$video->id, "sport"=>["tag_id"=>$video->sport], "tags"=>$video->tagRelations() ]) @endcomponent
                             </td>
                         </tr>
                     </form>
-                    <tr sv_id="{{$video->id}}" style="{!! $tr_color !!} @if(count($channels) == 0) display:none; @endif" >
+                    <tr sv_id="{{$video->id}}" style="margin-bottom: 15px;{!! $tr_color !!} @if(count($channels) == 0) display:none; @endif" >
                         <td colspan="5">
                         @foreach($channels as $channel)
                             @component('admin.subject.video.channel_cell', ['channel'=>$channel, 'players'=>$players]) @endcomponent
@@ -243,7 +243,7 @@
          * 添加线路
          **/
         function addVideoChannel(thisObj, vid) {
-            var channelTr = $(thisObj).parent().parent().next();
+            var channelTr = $(thisObj).parent().parent().next().next();
             var channelHtml = $("#channel_div").html();
             channelTr.find('td').append(channelHtml);
             channelTr.show();

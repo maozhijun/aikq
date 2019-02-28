@@ -1,42 +1,58 @@
-@extends('pc.layout.base')
+@extends('pc.layout.v2.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/recording.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/video_list_2.css">
 @endsection
 @section('content')
-    <div id="Content">
-        <div class="inner">
-            <div class="moreVideo default">
-                <div class="labelbox">
-                    @foreach($types as $tid=>$t_name) <button id="{{$tid}}" class="{{$tid == $type ? 'on' : ''}}">{{$t_name}}</button> @endforeach
-                </div>
-                @if(isset($videos) && count($videos) > 0)
-                <div class="list">
-                    @foreach($videos as $video)
-                        <?php
-                            $cover = $video['cover'];
-                            $cover = str_replace('https://www.liaogou168.com', '', $cover);
-                            $cover = str_replace('http://www.liaogou168.com', '', $cover);
-                            $cover = env('CDN_URL') . '/live/videos' . $cover;
-                        ?>
-                        <a class="big" href="/live/videos/detail.html?id={{$video['id']}}" target="_blank"><img src="{{$cover}}"><p>{{$video['hname']}}</p></a>
-                    @endforeach
-                    <div class="clear"></div>
-                </div>
-                @endif
-                <div id="Page" curPage="{{$page['curPage']}}" lastPage="{{$page['lastPage']}}" style="display: none;"></div>
+    <div class="def_content">
+        <div class="tab_con">
+            @foreach($types as $key=>$name)
+            <a @if($key == $type) href="#"  class="on" @else href="/video/{{$key}}.html" @endif >{{$name}}</a>
+            @endforeach
+        </div>
+        <div class="video_con">
+            <div class="tag_con" style="display: ;">
+                <a href="video_league.html">英超视频 ></a>
+                <a href="video_league.html">西甲视频 ></a>
+                <a href="video_league.html">德甲视频 ></a>
+                <a href="video_league.html">意甲视频 ></a>
+                <a href="video_league.html">法甲视频 ></a>
+                <a href="video_league.html">中超视频 ></a>
+                <a href="video_league.html">欧冠视频 ></a>
+                <a href="video_league.html">欧联视频 ></a>
             </div>
+            <div class="tag_con player_con" style="display: none;">
+                <button class="left" disabled></button>
+                <button class="right"></button>
+                <div class="player_list">
+                    <p class="item"><a href="#" class="on">詹姆斯·哈登</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                </div>
+            </div>
+            @foreach($videos as $video)
+            <div class="item_con">
+                <a href="">
+                    <img src="{{$video["cover"]}}">
+                    <p>{{$video["title"]}}</p>
+                </a>
+            </div>
+            @endforeach
+            @component("pc.video.page_cell", ["page"=>$page, "pageUrl"=>$pageUrl]) @endcomponent
         </div>
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js"></script>
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/recording.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/video_list_2.js"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
-            setADClose();
-            createPageHtml('Page');
-            bindPageA("Page");
-            bindType();
+            setPage();
         }
     </script>
 @endsection

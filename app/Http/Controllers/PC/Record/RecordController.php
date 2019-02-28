@@ -195,8 +195,9 @@ class RecordController extends Controller
 //        dump($this->html_var);
         //资讯
         //专题资讯 开始
-        $article_array = PcArticle::getLastArticle($name_en);
-        $this->html_var['articles'] = $article_array;
+//        $article_array = PcArticle::getLastArticle($name_en);
+//        dump(CommonTool::getComboData($name_en));
+        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
     }
