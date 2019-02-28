@@ -133,13 +133,20 @@ class HomeController extends Controller
         //赛程
         $matches = array();
         try { //防止报file not found异常
-            $cache = Storage::get('/public/static/json/pc/lives/' . $name_en . '.json');
-            $json = json_decode($cache, true);
+            if ($name_en == "all") {
+                $cache = Storage::get('/public/static/json/pc/lives.json');
+                $json = json_decode($cache, true);
+                if (isset($json)) {
+                    $json = $json['matches'];
+                }
+            } else {
+                $cache = Storage::get('/public/static/json/pc/lives/' . $name_en . '.json');
+                $json = json_decode($cache, true);
+            }
             if (isset($json) && count($json) > 0) {
                 $matches = collect($json)->collapse()->take(10)->all();
             }
         } catch (\Exception $e) {
-
         }
 
         //视频
