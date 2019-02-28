@@ -45,16 +45,21 @@ class ArticleController extends Controller
                 }
             }
         }
-        return $this->newsHomeHtml($lastArticles, $leagues);
+
+        //其他数据
+        $combData = CommonTool::getComboData();
+
+        return $this->newsHomeHtml($lastArticles, $leagues, $combData);
     }
 
     /**
      * @param $articles
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function newsHomeHtml($lastArticles, $leagues) {
+    public function newsHomeHtml($lastArticles, $leagues, $combData) {
         $result['lastArticles'] = $lastArticles;
         $result['leagues'] = $leagues;
+        $result['combData'] = $combData;
 
         $result['title'] = '体育新闻资讯-爱看球直播';
         $result['keywords'] = '体育,资讯';
@@ -116,6 +121,9 @@ class ArticleController extends Controller
         if (isset($data)) {
             $result['zhuanti'] = $data;
         }
+
+        //其他数据
+        $result['combData'] = CommonTool::getComboData($name_en);
 
         $result['articles'] = $articles;
         $result['articles'] = $articles;
@@ -198,8 +206,10 @@ class ArticleController extends Controller
         $result['keywords'] = str_replace('，', ',', $detail->labels);
         $result['description'] = $detail->digest;
         $data = array_key_exists($type->name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$type->name_en] : null;
+        $name_en = 'all';
         if (isset($data)) {
-            $data['name_en'] = $type->name_en;
+            $name_en = $type->name_en;
+            $data['name_en'] = $name_en;
             $result['zhuanti'] = $data;
         }
         //相关文章
@@ -207,6 +217,8 @@ class ArticleController extends Controller
         $result['res'] = $res;
         $result['ma_url'] = self::getMobileHttpUrl($detail->url);
         $result['check'] = "news";
+
+        $result['combData'] = CommonTool::getComboData($name_en);
 
 //        return view('pc.article.article', $result);
         return view('pc.article.v2.article', $result);

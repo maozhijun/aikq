@@ -157,14 +157,30 @@ class LiveController extends Controller
             Storage::disk("public")->put("app/v110/lives.json", $app_output);
             Storage::disk("public")->put("app/v130/lives.json", $app_output);
 
+            //全部的赛程取10个
+            $this->onCombMatchesDataDave("all", $newMatches);
+
             //赛事专题
             foreach ($leagueMatches as $name_en => $matches) {
                 Storage::disk("public")->put("static/json/pc/lives/$name_en.json", json_encode($matches));
+                $this->onCombMatchesDataDave($name_en, $matches);
             }
-
         } catch (\Exception $exception) {
             Log::error($exception);
         }
+    }
+
+    private function onCombMatchesDataDave($name_en, $matches) {
+        //同时把前十条数据保存到combData里
+        $tempMatches = collect($matches)->collapse()->take(10)->all();
+        try {
+            $cache = Storage::get("/public/static/json/pc/comboData/$name_en.json");
+            $combData = json_decode($cache, true);
+        } catch (\Exception $e) {
+            $combData = array();
+        }
+        $combData['matches'] = $tempMatches;
+        Storage::disk("public")->put("static/json/pc/comboData/$name_en.json", json_encode($combData));
     }
 
     /**
