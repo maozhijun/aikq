@@ -68,11 +68,11 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/static/subject-videos/detail/{type}/{page}', 'SubjectVideoController@staticSubjectVideosHtml');//静态化热门录像类型json
     //专题录像静态化 结束
 
-    //热门录像静态化 开始
+    //视频 静态化 开始
     Route::get('/static/videos/types', 'VideoController@staticVideoTypesJson');//静态化热门录像类型json
     Route::get('/static/videos/detail', 'VideoController@staticVideoDetail');//静态化热门录像类型json
     Route::get('/static/videos/page/{type}/{page}', 'VideoController@staticVideosHtml');//静态化热门录像 分页列表/终端json
-    //热门录像静态化 结束
+    //视频 静态化 结束
 
 });
 
@@ -179,14 +179,19 @@ Route::group(["namespace" => 'Live'], function () {
     //========================================================专题页面========================================================//
 
     //========================================================专题热门录像 开始========================================================//
-    Route::get('/live/subject/videos/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
+    Route::get('/video/{type}/{page}.html', 'SubjectVideoController@videos');//录像列表
     Route::get('/live/subject/videos/detail.html', 'SubjectVideoController@videoDetail');//录像终端
     //========================================================专题热门录像 结束========================================================//
 
-    //========================================================热门录像 开始========================================================//
-    Route::get('/live/videos/{type}/{page}.html', 'VideoController@videos');//录像列表
+    //========================================================视频2.0route 开始========================================================//
+    Route::get('/video.html', 'VideoController@videos');//录像列表
+    Route::get('/video_{page}.html', 'VideoController@videos');//录像列表
+
+    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//录像列表
+    Route::get('/video/{type}.html', 'VideoController@videos');//录像列表
+
     Route::get('/live/videos/detail.html', 'VideoController@videoDetail');//录像终端
-    //========================================================热门录像 结束========================================================//
+    //========================================================视频2.0route 结束========================================================//
 });
 
 //录像 2.0版本

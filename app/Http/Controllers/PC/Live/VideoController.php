@@ -19,18 +19,18 @@ use Illuminate\Support\Facades\Storage;
 class VideoController extends Controller
 {
 
-    const page_size = 30;
+    const page_size = 20;
     //=====================================页面内容 开始=====================================//
 
     /**
-     * 录像列表
+     * 视频 列表
      * @param Request $request
      * @param $type
      * @param $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function videos(Request $request, $type, $page = 1) {
-        $types = $this->getTypes();
+    public function videos(Request $request, $type = "new", $page = 1) {
+        $types = ["new"=>"最新", "basket"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstart"=>"足球球星", "other"=>"其他"];
         $videos = $this->getVideos($type, $page);
         return $this->videosHtml($type, $types, $videos);
     }
@@ -48,6 +48,7 @@ class VideoController extends Controller
         }
         $result['types'] = $types;
         $result['page'] = $videos['page'];
+        $result["pageUrl"] = $this->pageUrl($type);
         $result['videos'] = $videos['videos'];
         $result['type'] = $type;
         $result['check'] = 'videos';
@@ -87,32 +88,28 @@ class VideoController extends Controller
 
     /**
      * 获取录像列表
-     * @param $tid
+     * @param $type
      * @param $pageNo
      * @return array|mixed
      */
-    public function getVideos($tid, $pageNo) {
+    public function getVideos($type, $pageNo) {
         $pageSize = self::page_size;
-        if ($tid != 'all') {
-            $type = HotVideoType::query()->find($tid);
-            if (!isset($type)) {
-                return response()->json([]);
-            }
+        switch ($type) {
+            default:
+                $query = HotVideo::query();
         }
-        $query = HotVideo::query();
-        if (isset($type)) {
-            $query->where('type_id', $tid);
-        }
-        $query->orderByDesc('updated_at');
-        $page = $query->paginate($pageSize, ['*'], '', $pageNo);
-        $videos = $page->items();
 
+        $query->where("hot_videos.show", HotVideo::kShow);
+        $query->orderByDesc('updated_at');
+        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+
+        $videos = $page->items();
         $array = [];
         $array['page'] = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
         }
-        return $videos;
+        return $array;
     }
 
     /**
@@ -261,12 +258,19 @@ class VideoController extends Controller
      * @return array
      */
     public static function hotVideo2Array($video) {
-        $array = ['id'=>$video->id, 'hname'=>$video->title, 'aname'=>'', 'lname'=>'录像', 'cover'=>$video->image];
+        $array = ['id'=>$video->id, 'title'=>$video->title, 'aname'=>'', 'lname'=>'录像', 'cover'=>$video->image];
         $array['platform'] = $video->platform;
         $array['player'] = $video->player;
         $array['playurl'] = $video->link;
         $array['code'] = 0;
         return $array;
+    }
+
+    protected function pageUrl($type) {
+//        if ($type == "new") {
+//            return "/video_page.html";
+//        }
+        return "/video/".$type."_page.html";
     }
 
 }

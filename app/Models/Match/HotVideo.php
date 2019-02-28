@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class HotVideo extends Model
 {
 //    protected $connection = "cms";
-    const kShow = 1, kHide = 0;
+    const kShow = 1, kHide = 2;
 
     const kPlayerArrayCn = [MatchLiveChannel::kPlayerAuto=>'自动选择', MatchLiveChannel::kPlayerIFrame=>'iFrame', MatchLiveChannel::kPlayerM3u8=>'m3u8',
         MatchLiveChannel::kPlayerFlv=>'flv', MatchLiveChannel::kPlayerRTMP=>'rtmp', MatchLiveChannel::kPlayerExLink=>'外链', MatchLiveChannel::kPlayerMp4=>'Mp4'];
@@ -85,6 +85,12 @@ class HotVideo extends Model
                 $cn .= "，" . $tag->name;
             }
         }
+    }
+
+
+    public function getVideoDetailUrl() {
+
+        return "";
     }
 
 }
