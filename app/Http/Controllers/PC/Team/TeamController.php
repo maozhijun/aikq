@@ -45,7 +45,7 @@ class TeamController extends Controller
     private static function detailHtml($data)
     {
         if ($data == null) return abort(404);
-        return view('pc.team.v2.detail', $data);
+        return view('pc.team.detail', $data);
     }
 
     public static function detailStatic($data, $path)
