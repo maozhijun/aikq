@@ -117,4 +117,14 @@ class Tag extends Model
         return $tag;
     }
 
+
+    public static function leagueTags($sport, $size = 9) {
+        $query = Tag::query();
+        $query->where("subject_leagues", "subject_leagues.lid", "=", "tags.tid");
+        $query->where("tags.sport", $sport);
+        $query->where("tags.level", self::kLevelTwo);
+        $query->select(["subject_leagues.name", "subject_leagues.name_en", "subject_leagues.lid"]);
+        return $query->get();
+    }
+
 }

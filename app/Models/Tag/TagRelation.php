@@ -9,6 +9,9 @@
 namespace App\Models\Tag;
 
 
+use App\Models\Article\PcArticle;
+use App\Models\Match\HotVideo;
+use App\Models\Subject\SubjectVideo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -197,5 +200,39 @@ class TagRelation extends Model
         $matchTag = $query->first();
         return $matchTag;
     }
+
+
+    public static function getRelationsByTag($type, $sport, $level, $tagName, $pageNo = 1, $pageSize = 12) {
+        if ($type == self::kTypeArticle) {
+            $query = PcArticle::query();
+            $tName = "pc_articles";
+        } else if ($type == self::kTypeVideo) {
+            $query = HotVideo::query();
+            $tName = "hot_videos";
+        } else if ($type == self::kTypePlayBack) {
+            $query = SubjectVideo::query();
+            $tName = "subject_videos";
+        } else {
+            return null;
+        }
+
+        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+            $eQuery->selectRaw("1");
+            $eQuery->from("tag_relations");
+            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+            $eQuery->where("tags.sport", $sport);
+            if (is_numeric($level)) {
+                $eQuery->where("tags.level", $level);
+            }
+            if (!empty($tagName)) {
+                $eQuery->where("tags.name", "like", "%$tagName%");
+            }
+            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+        });
+
+        $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
+        return $pages->items();
+    }
+
 
 }
