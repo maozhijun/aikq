@@ -34,7 +34,7 @@
 			@endforeach
 		</div>
 		<div id="Right_part">
-			<div class="con_box">
+			<div class="con_box" style="display: none">
 				<div class="header_con">
 					<h4>最近直播</h4>
 					<a href="/">全部直播</a>
@@ -57,17 +57,27 @@
 			</div>
 			<div class="con_box">
 				<div class="header_con">
-					<h4>最新视频</h4>
-					<a href="video_list.html">视频集锦</a>
-					<a href="record_list.html">比赛录像</a>
+					@if(isset($zhuanti))
+						<h4>最新{{$zhuanti['name']}}视频</h4>
+						<a href="/{{$zhuanti['name_en']}}/video/">{{$zhuanti['name']}}视频集锦</a>
+						<a href="/{{$zhuanti['name_en']}}/record/">{{$zhuanti['name']}}比赛录像</a>
+					@else
+						<h4>最新视频</h4>
+						<a href="/video/">视频集锦</a>
+						<a href="/record/">比赛录像</a>
+					@endif
 				</div>
 				<div class="video">
-					<div class="video_item">
-						<a href="video.html">
-							<p class="img_box"><img src="https://puui.qpic.cn/vpic/0/j0839gwmhv0.png/0"></p>
-							<p class="text_box">直击-哈登赛后采访挤爆</p>
-						</a>
-					</div>
+					@if(isset($combData['videos']))
+						@foreach($combData['videos'] as $video)
+							<div class="video_item">
+								<a href="{{$video['link']}}">
+									<p class="img_box"><img src="{{$video['image']}}"></p>
+									<p class="text_box">{{$video['title']}}</p>
+								</a>
+							</div>
+						@endforeach
+					@endif
 				</div>
 			</div>
 		</div>
