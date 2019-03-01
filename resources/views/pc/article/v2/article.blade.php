@@ -13,7 +13,7 @@
                 <a href="/">爱看球</a> - <a href="/news/">资讯</a> - {{$article->title}}
             @endif
         </div>
-</div>
+    </div>
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
             <div id="News_Con">
@@ -82,25 +82,29 @@
                     </div>
                 </div>
             </div>
-            <div class="con_box" style="display: none">
+            <div class="con_box" style="">
                 <div class="header_con">
                     @if(isset($zhuanti))
                         <h4>最新{{$zhuanti['name']}}视频</h4>
-                        <a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}视频集锦</a>
-                        <a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}比赛录像</a>
+                        <a href="/{{$zhuanti['name_en']}}/video/">{{$zhuanti['name']}}视频集锦</a>
+                        <a href="/{{$zhuanti['name_en']}}/record/">{{$zhuanti['name']}}比赛录像</a>
                     @else
                         <h4>最新视频</h4>
-                        <a href="/">视频集锦</a>
-                        <a href="/">比赛录像</a>
+                        <a href="/video/">视频集锦</a>
+                        <a href="/record/">比赛录像</a>
                     @endif
                 </div>
                 <div class="video">
-                    <div class="video_item">
-                        <a href="video.html">
-                            <p class="img_box"><img src="https://puui.qpic.cn/vpic/0/j0839gwmhv0.png/0"></p>
-                            <p class="text_box">直击-哈登赛后采访挤爆</p>
-                        </a>
-                    </div>
+                    @if(isset($combData['videos']))
+                        @foreach($combData['videos'] as $video)
+                            <div class="video_item">
+                                <a href="{{$video['link']}}">
+                                    <p class="img_box"><img src="{{$video['image']}}"></p>
+                                    <p class="text_box">{{$video['title']}}</p>
+                                </a>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
