@@ -176,6 +176,8 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/video', 'VideoController@videos');//录像列表
     Route::get('/video_{page}.html', 'VideoController@videos');//录像列表
 
+    Route::get("/{name_en}/video", "VideoController@videosByNameEn");
+    Route::get("/{name_en}/video_{page}.html", "VideoController@videosByNameEn");
     Route::get('/video/{type}_{page}.html', 'VideoController@videos');//录像列表
     Route::get('/video/{type}', 'VideoController@videos');//录像列表
     //========================================================视频2.0route 结束========================================================//
