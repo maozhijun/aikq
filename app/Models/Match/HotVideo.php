@@ -88,12 +88,26 @@ class HotVideo extends Model
         }
     }
 
-
+    /**
+     * 视频终端链接
+     * @param $id  视频ID
+     * @return string
+     */
     public static function getVideoDetailUrl($id) {
-
+        //获取赛事标签
+        $tag = TagRelation::getFirstMatchTag4SL(TagRelation::kTypeVideo, $id);
+        if (isset($tag)) {
+            return "/".$tag["name_en"]."/video".$id.".html";
+        }
         return "/video".$id.".html";
     }
 
+    /**
+     * 相关视频列表
+     * @param null $name_en
+     * @param int $size
+     * @return array
+     */
     public static function getVideosByName($name_en = null, $size = 12) {
         if (isset($name_en)) {
             $sl = SubjectLeague::query()->where('name_en',$name_en)->first();
