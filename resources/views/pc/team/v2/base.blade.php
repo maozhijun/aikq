@@ -29,12 +29,12 @@
                     {{--<p>所属联赛：英超（英格兰超级联赛）</p>--}}
                 </div>
             </div>
-            <div id="Tab_con">
-                <p><a href="/{{$name_en}}/team{{$tid}}_index.html">综合</a></p>
-                <p><a href="/{{$name_en}}/team{{$tid}}_news.html">资讯</a></p>
-                <p><a href="/{{$name_en}}/team{{$tid}}_videos.html">视频</a></p>
-                <p class="on"><a href="#">录像</a></p>
-            </div>
+            {{--<div id="Tab_con">--}}
+                {{--<p><a href="/{{$name_en}}/team{{$tid}}_index.html">综合</a></p>--}}
+                {{--<p><a href="/{{$name_en}}/team{{$tid}}_news.html">资讯</a></p>--}}
+                {{--<p><a href="/{{$name_en}}/team{{$tid}}_videos.html">视频</a></p>--}}
+                {{--<p class="on"><a href="#">录像</a></p>--}}
+            {{--</div>--}}
             @yield('detail')
         </div>
         <div id="Right_part">
