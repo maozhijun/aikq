@@ -58,6 +58,10 @@ class VideoController extends Controller
         return view('pc.video.list', $result);
     }
 
+    public function videoDetailByNameEn(Request $request, $name_en, $id) {
+        return $this->videoDetail($request, $id);
+    }
+
     /**
      * 录像终端
      * @param Request $request

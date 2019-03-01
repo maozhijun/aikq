@@ -21,7 +21,7 @@
         <div id="Left_part">
             <div id="Video_play_box">
                 <h1>{{$video["title"]}}</h1>
-                <a href="{{$video["link"]}}"><img src="{{$video["image"]}}"></a>
+                <a target="_blank" href="{{$video["link"]}}"><img src="{{$video["image"]}}"></a>
                 {{-- <iframe src="" scrolling="no" allowfullscreen="true"></iframe> --><!-- 直接播放视频 --}}
             </div>
             @if(isset($comboData["videos"]))
@@ -29,7 +29,11 @@
                 <div class="header">
                     <h3><p>{{isset($def) ? $def["name"] : "最新"}}视频</p></h3>
                     <p class="aline">
-                        <a href="video_league.html">全部{{isset($def) ? $def["name"] : "最新"}}视频 ></a>
+                        @if(isset($def))
+                            <a target="_blank" href="/{{$def["name_en"]}}/video/">全部{{$def["name"]}}视频 ></a>
+                        @else
+                            <a target="_blank" href="/video/">全部视频 ></a>
+                        @endif
                     </p>
                 </div>
                 <div class="video_list">
@@ -49,7 +53,7 @@
                 <div class="header">
                     <h3><p>{{isset($def) ? $def["name"] : "最新"}}直播</p></h3>
                     <p class="aline">
-                        <a href="live_list.html">全部直播 ></a>
+                        <a target="_blank" href="/">全部直播></a>
                     </p>
                 </div>
                 <table class="match">
@@ -57,9 +61,9 @@
                     @foreach($comboData["matches"] as $cMatch)
                     <tr>
                         <td>{{substr($cMatch["time"], 5, 5)}}<br/><span>{{substr($cMatch["time"], 11, 5)}}</span></td>
-                        <td class="host"><a href="team.html">{{$cMatch["hname"]}}</a></td>
+                        <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid'])}}">{{$cMatch["hname"]}}</a></td>
                         <td class="vs">@if($cMatch["isMatching"])<span class="living">直播中</span>@else vs @endif</td>
-                        <td class="away"><a href="team.html">{{$cMatch["aname"]}}</a></td>
+                        <td class="away"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid'])}}">{{$cMatch["aname"]}}</a></td>
                         <td class="line">
                             @foreach($cMatch["channels"] as $channel)
                                 <?php $liveUrl = $channel["player"] == 16 ? $channel["link"] : $channel["live_url"]; ?>
@@ -87,7 +91,11 @@
             <div class="con_box">
                 <div class="header_con">
                     <h4>{{isset($def) ? $def["name"] : "最新"}}资讯</h4>
-                    <a href="news_league.html">全部{{isset($def) ? $def["name"] : ""}}资讯</a>
+                    @if(isset($def))
+                        <a target="_blank" href="/{{$def["name_en"]}}/news/">全部{{$def["name"]}}资讯</a>
+                    @else
+                        <a target="_blank" href="/news/">全部资讯</a>
+                    @endif
                 </div>
                 <div class="news">
                     @foreach($comboData["articles"] as $index=>$cArticle)
@@ -107,16 +115,29 @@
             <div class="con_box">
                 <div class="header_con">
                     <h4>{{isset($def) ? $def["name"] : "最新"}}录像</h4>
-                    <a href="video_league.html">全部{{isset($def) ? $def["name"] : ""}}录像</a>
+                    @if(isset($def))
+                        <a target="_blank" href="/{{$def["name_en"]}}/record/">全部{{isset($def) ? $def["name"] : ""}}录像</a>
+                    @else
+                        <a target="_blank" href="/record/">全部{{isset($def) ? $def["name"] : ""}}录像</a>
+                    @endif
                 </div>
                 <table class="record">
                     <col width="25%"><col><col width="25%">
                     @foreach($comboData["records"] as $vRecord)
+                    <?php
+                        $vTime = $vRecord["match"]["time"];
+                        $sport = $vRecord["match"]['sport'];
+                        $lid = $vRecord["match"]['lid'];
+                        $hid = $vRecord["match"]['hid'];
+                        $aid = $vRecord["match"]['aid'];
+                        $hname = $vRecord["match"]["hname"];
+                        $aname = $vRecord["match"]["aname"];
+                    ?>
                     <tr>
-                        <td class="time">{{substr($vRecord["match"]["time"], 5, 5)}}<br/>{{substr($vRecord["match"]["time"], 11, 5)}}</td>
+                        <td class="time">{{substr($vTime, 5, 5)}}<br/>{{substr($vTime, 11, 5)}}</td>
                         <td>
-                            <p><a href="team.html">{{$vRecord["match"]["hname"]}}</a><span>{{$vRecord["match"]["hscore"]}}</span></p>
-                            <p><a href="team.html">{{$vRecord["match"]["aname"]}}</a><span>{{$vRecord["match"]["ascore"]}}</span></p>
+                            <p><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $hid)}}">{{$hname}}</a><span>{{$vRecord["match"]["hscore"]}}</span></p>
+                            <p><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $aid)}}">{{$aname}}</a><span>{{$vRecord["match"]["ascore"]}}</span></p>
                         </td>
                         <td><a target="_blank" href="{{$vRecord["link"]}}">观看录像</a></td>
                     </tr>

@@ -181,4 +181,21 @@ class TagRelation extends Model
         return $array;
     }
 
+    public static function getFirstMatchTag4SL($type, $id) {
+        $query = self::query();
+        $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $query->join("subject_leagues", function ($join) {
+            $join->on(function ($on) {
+                $on->whereRaw("subject_leagues.sport = tags.sport");
+                $on->whereRaw("subject_leagues.lid = tags.tid");
+            });
+        });
+        $query->where("tag_relations.type", $type);
+        $query->where("tag_relations.source_id", $id);
+        $query->where("tags.level", Tag::kLevelTwo);
+        $query->select(["tags.sport", "tags.tid", "tags.name", "subject_leagues.name_en"]);
+        $matchTag = $query->first();
+        return $matchTag;
+    }
+
 }

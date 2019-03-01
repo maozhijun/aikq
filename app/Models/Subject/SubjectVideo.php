@@ -228,8 +228,10 @@ class SubjectVideo extends Model
     public static function getRecordsByName($name_en = null,$size = 10){
         if (is_null($name_en)){
             $query = SubjectVideo::query();
-            $query->whereNotNull('url');
-            $query->orderByDesc('time');
+            $query->join("subject_leagues", "subject_leagues.id", "=", "subject_videos.s_lid");
+            $query->whereNotNull('subject_videos.url');
+            $query->orderByDesc('subject_videos.time');
+            $query->select(["subject_videos.*", "subject_leagues.lid"]);
             $query->take($size);
             $tmp = $query->get();
             $records = array();
@@ -241,16 +243,20 @@ class SubjectVideo extends Model
             }
             else{
                 $query = SubjectVideo::query();
+                $query->join("subject_leagues", "subject_leagues.id", "=", "subject_videos.s_lid");
                 $query->where('s_lid',$sl->id);
                 $query->whereNotNull('url');
                 $query->orderByDesc('time');
+                $query->select(["subject_videos.*", "subject_leagues.lid"]);
                 $query->take($size);
                 $records = $query->get();
             }
             if (count($records) < $size){
                 $query = SubjectVideo::query();
+                $query->join("subject_leagues", "subject_leagues.id", "=", "subject_videos.s_lid");
                 $query->whereNotNull('url');
                 $query->orderByDesc('time');
+                $query->select(["subject_videos.*", "subject_leagues.lid"]);
                 $query->take($size);
                 $tmp = $query->get();
                 $records = array();
@@ -263,6 +269,10 @@ class SubjectVideo extends Model
         foreach ($records as $record) {
             $article_array[] = [
                 'match'=>array(
+                    'sport'=>$record->sport,
+                    'lid'=>$record->lid,
+                    'hid'=>$record->hid,
+                    'aid'=>$record->aid,
                     'lname'=>$record->lname,
                     'hname'=>$record->hname,
                     'aname'=>$record->aname,
@@ -279,6 +289,10 @@ class SubjectVideo extends Model
         foreach ($tmp as $record) {
             $article_array[] = [
                 'match'=>array(
+                    'sport'=>$record->sport,
+                    'lid'=>$record->lid,
+                    'hid'=>$record->hid,
+                    'aid'=>$record->aid,
                     'lname'=>$record->lname,
                     'hname'=>$record->hname,
                     'aname'=>$record->aname,
