@@ -6,36 +6,29 @@
     <div class="def_content">
         <div class="tab_con">
             @foreach($types as $key=>$name)
-            <a @if($key == $type) href="#"  class="on" @else href="/video/{{$key == "new" ? "" : $key}}" @endif >{{$name}}</a>
+            <a @if($key == $type || ( isset($stars) && ( ($sport == 2 && $key == "basketballstar") || ($sport == 1 && $key == "footballstar") ) )
+             || (isset($tags) && ( ($sport == 2 && $key == "basketball") || ($sport == 1 && $key == "football") ) ) ) href="#"  class="on" @else href="/video/{{$key == "new" ? "" : $key}}" @endif >{{$name}}</a>
             @endforeach
         </div>
         <div class="video_con">
-            <div class="tag_con" style="display: ;">
-                <a href="video_league.html">英超视频 ></a>
-                <a href="video_league.html">西甲视频 ></a>
-                <a href="video_league.html">德甲视频 ></a>
-                <a href="video_league.html">意甲视频 ></a>
-                <a href="video_league.html">法甲视频 ></a>
-                <a href="video_league.html">中超视频 ></a>
-                <a href="video_league.html">欧冠视频 ></a>
-                <a href="video_league.html">欧联视频 ></a>
-            </div>
-            <div class="tag_con player_con" style="display: none;">
+            @if(isset($tags))
+                <div class="tag_con">
+                    @foreach($tags as $tag)
+                    <a @if($type == $tag["name_en"]) class="on" @endif href="/{{$tag["name_en"]."/video/"}}">{{$tag["name"]}} ></a>
+                    @endforeach
+                </div>
+            @endif
+            @if(isset($stars))
+            <div class="tag_con player_con">
                 <button class="left" disabled></button>
                 <button class="right"></button>
                 <div class="player_list">
-                    <p class="item"><a href="#" class="on">詹姆斯·哈登</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
-                    <p class="item"><a href="">勒布朗·詹姆斯</a></p>
+                    @foreach($stars as $star)
+                    <p class="item"><a href="/video/{{($sport == 1 ? "footballstar" : "basketballstar") . "_".$star["id"]}}/" @if($star["id"] == $type) class="on" @endif >{{$star["name"]}}</a></p>
+                    @endforeach
                 </div>
             </div>
+            @endif
             @foreach($videos as $video)
             <div class="item_con">
                 <a target="_blank" href="{{\App\Models\Match\HotVideo::getVideoDetailUrl($video["id"])}}">
