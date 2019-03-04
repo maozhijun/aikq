@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
+use App\Models\Match\HotVideo;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
@@ -27,16 +28,20 @@ class StaticServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        AnchorRoom::saved(function ($room){
-            //终端静态化
-            $url = env('CMS_URL') . '/api/static/anchor/room/'.$room->id;
-            $this->pushStaticUrl($url);
-        });
+//        AnchorRoom::saved(function ($room){
+//            //终端静态化
+//            $url = env('CMS_URL') . '/api/static/anchor/room/'.$room->id;
+//            $this->pushStaticUrl($url);
+//        });
 
-        Anchor::updated(function ($anchor){
-            //终端静态化
-            $url = env('CMS_URL') . '/api/static/anchor/room/'.$anchor->room->id;
-            $this->pushStaticUrl($url);
+//        Anchor::updated(function ($anchor){
+//            //终端静态化
+//            $url = env('CMS_URL') . '/api/static/anchor/room/'.$anchor->room->id;
+//            $this->pushStaticUrl($url);
+//        });
+
+        HotVideo::saved(function ($hotVideo) {
+            HotVideo::staticHotVideoDetailHtml($hotVideo->id);//静态化录像终端
         });
 
         //线路日志记录  开始

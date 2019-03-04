@@ -6,10 +6,10 @@ use App\Console\Anchor\AnchorJsonCommand;
 use App\Console\Anchor\CheckStreamCommand;
 use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
-//use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
 use App\Console\Data\DataCommand;
+use App\Console\HotVideo\VideoPageCommand;
 use App\Console\Record\RecordCommand;
 use App\Console\Download\DownloadCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
@@ -69,8 +69,7 @@ class Kernel extends ConsoleKernel
         DetailCommand::class,//subject 专题终端静态化           DB
         LeaguesJsonCommand::class,//subject 专题列表json静态化  DB
 
-        //VideoPageCommand::class,//热门录像分页列表静态化        DB
-        //VideoCoverCommand::class,//热门录像封面图同步
+        VideoPageCommand::class,//视频列表分页列表静态化        DB
 
         //CoverCommand::class,//专题封面同步
         //SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机

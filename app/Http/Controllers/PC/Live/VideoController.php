@@ -314,6 +314,11 @@ class VideoController extends Controller
 
     //=====================================静态化 开始=====================================//
 
+    /**
+     * 静态化单个录像终端
+     * @param Request $request
+     * @param $id
+     */
     public function staticVideoDetail(Request $request, $id) {
         $video = HotVideo::query()->find($id);
         if (isset($video)) {
@@ -328,37 +333,106 @@ class VideoController extends Controller
     }
 
     /**
-     * 静态化录像列表
+     * 批量静态化录像终端
      * @param Request $request
-     * @param $type
-     * @param $page
+     * @param int $page
      */
-    public function staticVideosHtml(Request $request, $type, $page) {
-        $data = $this->getVideos($type, $page);
-        $patch = '/live/videos/' . $type . '/' . $page . '.html';
-        if (!isset($data['videos']) || !isset($data['page'])) {
-            Storage::delete('public/' . $patch);
-            return;
-        }
-        $types = $this->getTypes();
-        $html = $this->videosHtml($type, $types, $data);
-        if (!empty($html)) {
-            Storage::disk("public")->put($patch, $html);//静态化热门录像分页列表
-        }
-        $videos = $data['videos'];
+    public function staticAllVideoDetail(Request $request, $page = 1) {
+        $query = HotVideo::query()->where("show", HotVideo::kShow);
+        $videos = $query->paginate(20, ["*"], null, $page);
         foreach ($videos as $video) {
-            $vid = $video['id'];
-            $cover = $video['cover'];
-            $cover = str_replace('https://www.liaogou168.com', '', $cover);
-            $cover = str_replace('http://www.liaogou168.com', '', $cover);
-            $video['cover'] = $cover;
-            $vJsonStr = json_encode($video);
-            if (!empty($vJsonStr)) {
-                $patch = MatchTool::hotVideoJsonLink($vid);
-                Storage::disk("public")->put($patch, $vJsonStr);//静态化热门录像终端json
+            $html = $this->videoDetailHtml($video);
+            if (!empty($html)) {
+                $path = "www" . HotVideo::getVideoDetailPath($video->id);
+                Storage::disk("public")->put($path, $html);
             }
         }
+        echo "curPage = " . $videos->currentPage() . " ， lastPage = " . $videos->lastPage();
     }
+
+    /**
+     * 静态化视频列表
+     * @param Request $request
+     * @param $tab
+     * @param $page
+     * @return array
+     */
+    public function staticVideosTabHtml(Request $request, $tab = "", $page = 1) {
+        $tabs = HotVideo::getVideoTabs();
+        $array = [];
+        if (in_array($tab, $tabs)) {
+            $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+            $videos = $this->getVideos($tab, $page);
+            $html = $this->videosHtml($tab, $types, $videos);
+            if (!empty($html)) {
+                $path = "www" . HotVideo::getVideoListTabPath($tab, $page);
+                $array["path"] = $path;
+                Storage::disk("public")->put($path, $html);
+            }
+            if (isset($videos["page"])) {
+                $videoPage = $videos["page"];
+                $array["curPage"] = $videoPage["curPage"];
+                $array["lastPage"] = $videoPage["lastPage"];
+            }
+        }
+        return $array;
+    }
+
+    /**
+     * 静态化视频
+     * @param Request $request
+     * @param $name_en  专题英文缩写
+     * @param $page = 1 页码
+     * @return array
+     */
+    public function staticVideosLeagueHtml(Request $request, $name_en, $page = 1) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        $array = [];
+        if (isset($sl)) {
+            $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+            $videos = $this->getVideosByLeague($sl->sport, $sl->lid, $page);
+            $html = $this->videosHtml($name_en, $types, $videos);
+            if (!empty($html)) {
+                $path = "www" . HotVideo::getVideoListLeaguePath($name_en, $page);
+                $array["path"] = $path;
+                Storage::disk("public")->put($path, $html);
+            }
+            if (isset($videos["page"])) {
+                $videoPage = $videos["page"];
+                $array["curPage"] = $videoPage["curPage"];
+                $array["lastPage"] = $videoPage["lastPage"];
+            }
+        }
+        return $array;
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @param $tagId
+     * @param $sport
+     * @param int $page
+     * @return array
+     */
+    public function staticVideosTagHtml(Request $request, $tagId, $sport, $page = 1) {
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+        $videos = $this->getVideosByTag($sport, $tagId, $page);
+        $html = $this->videosHtml($tagId, $types, $videos);
+        $array = [];
+        if (!empty($html)) {
+            $path = "www" . HotVideo::getVideoListTagPath($sport, $page);
+            $array["path"] = $path;
+            Storage::disk("public")->put($path, $html);
+        }
+        if (isset($videos["page"])) {
+            $videoPage = $videos["page"];
+            $array["curPage"] = $videoPage["curPage"];
+            $array["lastPage"] = $videoPage["lastPage"];
+        }
+        return $array;
+    }
+
+
 
     //=====================================静态化 结束=====================================//
 
