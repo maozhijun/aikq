@@ -15,6 +15,7 @@ use App\Models\Admin\Account;
 use App\Models\Label\Label;
 use App\Models\Label\LabelGroup;
 use App\Models\Subject\SubjectLeague;
+use App\Models\Tag\TagRelation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -250,14 +251,24 @@ class PcArticle extends Model
             if (is_null($url)){
                 $url = $article->getUrl();
             }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+            $tags = TagRelation::getTagWithSids(TagRelation::kTypeArticle,$article['id']);
+            $t = array();
+            foreach ($tags as $tag) {
+                $t[] = $tag['name'];
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover, 'tags'=>$t];
         }
         foreach ($tmp as $article) {
             $url = $article->url;
             if (is_null($url)){
                 $url = $article->getUrl();
             }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+            $t = array();
+            $tags = TagRelation::getTagWithSids(TagRelation::kTypeArticle,$article['id']);
+            foreach ($tags as $tag) {
+                $t[] = $tag['name'];
+            }
+            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover, 'tags'=>$t];
         }
         return $article_array;
     }

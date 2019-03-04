@@ -68,6 +68,8 @@ class RecordController extends Controller
         }
         //录像
         $records = $this->getRecordBySid($data['id'],$pageNo);
+        if (count($records['data']) == 0)
+            return null;
         $this->html_var['records'] = $records['data'];
         $this->html_var['page'] = $records['page'];
         $this->html_var['pageNo'] = $pageNo;
@@ -197,8 +199,9 @@ class RecordController extends Controller
         //专题资讯 开始
 //        $article_array = PcArticle::getLastArticle($name_en);
 //        dump(CommonTool::getComboData($name_en));
-        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
-        $this->html_var['videos'] = CommonTool::getComboData($name_en)['videos'];
+        $cd = CommonTool::getComboData($name_en);
+        $this->html_var['articles'] = array_key_exists("articles",$cd) ? $cd['articles']:array();
+        $this->html_var['videos'] = array_key_exists("videos",$cd) ? $cd['videos']:array();
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
     }
