@@ -103,6 +103,27 @@ class HotVideo extends Model
     }
 
     /**
+     * 视频终端静态化 路径
+     * @param $id     视频ID
+     * @return string 静态化路径 （/public/www|m/后的路径）
+     */
+    public static function getVideoDetailPath($id) {
+        //获取赛事标签
+        while (strlen($id) < 4) {
+            $id = "0" . $id;
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 2);
+        $last = $first . "/" . $second . "/" . $id . ".html";
+
+        $tag = TagRelation::getFirstMatchTag4SL(TagRelation::kTypeVideo, $id);
+        if (isset($tag)) {
+            return "/".$tag["name_en"]."/video/".$last;
+        }
+        return "/video/".$last;
+    }
+
+    /**
      * 相关视频列表
      * @param null $name_en
      * @param int $size

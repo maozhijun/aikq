@@ -39,6 +39,13 @@ class VideoController extends Controller
     }
 
 
+    /**
+     * 专题视频列表
+     * @param Request $request
+     * @param $name_en
+     * @param int $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
+     */
     public function videosByNameEn(Request $request, $name_en, $page = 1) {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($sl)) {
@@ -47,6 +54,34 @@ class VideoController extends Controller
             return $this->videosHtml($name_en, $types, $videos);
         }
         return $this->videos($request, $page);
+    }
+
+    /**
+     * 篮球球星 视频列表
+     * @param Request $request
+     * @param $id    标签ID
+     * @param $page  = 1 页码
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function videosByFootballStar(Request $request, $id, $page = 1) {
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+        $videos = $this->getVideosByTag(Tag::kSportFootball, $id, $page);
+        return $this->videosHtml($id, $types, $videos);
+    }
+
+    /**
+     * 足球球星 视频列表
+     * @param Request $request
+     * @param $id    标签ID
+     * @param $page  = 1 页码
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function videosByBasketballStar(Request $request, $id, $page = 1) {
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+        $videos = $this->getVideosByTag(Tag::kSportBasketball, $id, $page);
+        return $this->videosHtml($id, $types, $videos);
     }
 
     /**
@@ -64,6 +99,9 @@ class VideoController extends Controller
         $result['page'] = $videos['page'];
         $result["pageUrl"] = $this->pageUrl($type);
         $result['videos'] = $videos['videos'];
+        $result["tags"] = isset($videos["tags"]) ? $videos["tags"] : null;
+        $result["stars"] = isset($videos["stars"]) ? $videos["stars"] : null;
+        $result["sport"] = isset($videos["sport"]) ? $videos["sport"] : null;
         $result['type'] = $type;
         $result['check'] = 'videos';
         return view('pc.video.list', $result);
@@ -80,10 +118,21 @@ class VideoController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function videoDetail(Request $request, $id) {
+        $id = intval($id);
         $video = HotVideo::query()->find($id);
         if (!isset($video)) return "";
+        return $this->videoDetailHtml($video);
+    }
 
+    /**
+     * 录像终端 html
+     * @param HotVideo $video
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function videoDetailHtml(HotVideo $video) {
         $result["video"] = $video;
+        $id = $video["id"];
+
         //根据视频ID获取 赛事
         $tagQuery = TagRelation::query()->where("tag_relations.type", TagRelation::kTypeVideo);
         $tagQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
@@ -117,22 +166,6 @@ class VideoController extends Controller
 
     //=====================================数据接口 开始=====================================//
 
-
-    /**
-     * 获取录像类型
-     * @return array|mixed
-     */
-    public function getTypes() {
-        try {
-            $types = Storage::get('public/static/json/pc/live/videos/types.json');
-        } catch (\Exception $exception) {
-            $types = "[]";
-        }
-        $json = json_decode($types, true);
-        $json = isset($json) ? $json : [];
-        return $json;
-    }
-
     /**
      * 获取录像列表
      * @param $type
@@ -152,7 +185,7 @@ class VideoController extends Controller
                 } else {
                     $tag_id = Tag::kSportFootball;
                 }
-                $tags = Tag::leagueTags($tag_id);///获取篮球、足球 赛事视频 列表
+                $tags = Tag::leagueTags(TagRelation::kTypeVideo, $tag_id);///获取篮球、足球 赛事视频 列表
                 $array["tags"] = $tags;
                 $query->whereExists(function ($existsQuery) use ($tag_id) {
                     $existsQuery->selectRaw("1");
@@ -169,7 +202,8 @@ class VideoController extends Controller
                 } else {
                     $tag_id = Tag::kSportFootball;
                 }
-
+                $array["stars"] = Tag::starTags(TagRelation::kTypeVideo, $tag_id);
+                $array["sport"] = $tag_id;
                 $query->whereExists(function ($existsQuery) use ($tag_id) {
                     $existsQuery->selectRaw("1");
                     $existsQuery->from("tag_relations");
@@ -233,6 +267,8 @@ class VideoController extends Controller
 
         $videos = $page->items();
         $array = [];
+        $array["sport"] = $sport;
+        $array["tags"] = Tag::leagueTags(TagRelation::kTypeVideo, $sport);
         $array['page'] = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
@@ -241,94 +277,54 @@ class VideoController extends Controller
     }
 
     /**
-     * 获取录像终端json
-     * @param $id
-     * @param $isMobile
+     * 获取录像列表
+     * @param $sport
+     * @param $tag_id
+     * @param $pageNo
      * @return array|mixed
      */
-    public function getVideoDetailJsonStr($id, $isMobile = false) {
-        $url = env('LIAOGOU_URL')."aik/videos/" . $id . ($isMobile ? '?isMobile=1' : '');
-        $server_output = SubjectController::execUrl($url);
-        return $server_output;
-    }
-
-
-    /**
-     * 获取热门录像分类的分页信息
-     * @param $id
-     * @param $isMobile
-     * @return array|mixed
-     */
-    public function getVideoPageMsg($id, $isMobile = false) {
+    protected function getVideosByTag($sport, $tag_id, $pageNo) {
         $pageSize = self::page_size;
-        if ($id != 'all') {
-            $type = HotVideoType::query()->find($id);
-            if (!isset($type)) {
-                return response()->json([]);
-            }
-        }
+
         $query = HotVideo::query();
-        if (isset($type)) {
-            $query->where('type_id', $id);
+        $query->whereExists(function ($existsQuery) use ($tag_id) {
+            $existsQuery->selectRaw("1");
+            $existsQuery->from("tag_relations");
+            $existsQuery->where("tag_relations.tag_id", $tag_id);
+            $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+            $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+        });
+        $query->where("hot_videos.show", HotVideo::kShow);
+        $query->orderByDesc('updated_at');
+        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+        $videos = $page->items();
+        $array = [];
+        $array["sport"] = $sport;
+        $array["stars"] = Tag::starTags(TagRelation::kTypeVideo, $sport);
+        $array['page'] = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
+        foreach ($videos as $video) {
+            $array['videos'][] = self::hotVideo2Array($video);
         }
-        $page = $query->paginate($pageSize);
-        $array = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
         return $array;
     }
+
     //=====================================数据接口 结束=====================================//
 
 
 
     //=====================================静态化 开始=====================================//
 
-    /**
-     * 静态化类型列表json
-     * @param Request $request
-     */
-    public function staticVideoTypesJson(Request $request) {
-        $types = HotVideoType::allTypes();
-        $array = ['all'=>'全部'];
-        foreach ($types as $type) {
-            $array[$type->id] = $type->name;
+    public function staticVideoDetail(Request $request, $id) {
+        $video = HotVideo::query()->find($id);
+        if (isset($video)) {
+            $html = $this->videoDetailHtml($video);
+            if (!empty($html)) {
+                $path = "www" . HotVideo::getVideoDetailPath($id);
+                Storage::disk("public")->put($path, $html);
+            }
+        } else {
+            echo "视频不存在<br/>";
         }
-        $typesStr = json_encode($array);
-        Storage::disk("public")->put('/static/json/pc/live/videos/types.json', $typesStr);
-    }
-
-    /**
-     * 静态化类型列表json
-     * @param Request $request
-     */
-    public function staticVideoDetail(Request $request) {
-        $html = $this->videoDetail($request);
-        Storage::disk("public")->put('/live/videos/detail.html', $html);
-    }
-
-
-    public function syncVideoImages(Request $request) {
-        $save_patch = '/live/videos/cover';
-        $url = '';
-        $ch = curl_init();
-        $timeout = 3;
-        curl_setopt($ch,CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $img = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        echo "http_code: " . $http_code . "\n";
-        curl_close($ch);
-        if ($http_code >= 400) {
-            echo "获取链接内容失败";
-            return;
-        }
-        $list = explode("/", $url);
-        $ext = $list[count($list) - 1];
-        $list = explode('?', $ext);
-        $fileName = $list[0];
-        $file_patch = $save_patch . $fileName;
-        Storage::disk('public')->put($file_patch, $img);
-
     }
 
     /**
@@ -364,19 +360,6 @@ class VideoController extends Controller
         }
     }
 
-    /**
-     * 静态化录像终端/线路 信息
-     * @param Request $request
-     * @param $id
-     */
-    public function staticVideoJson(Request $request, $id) {
-        //live/videos/channel/index/id.json
-        $jsonStr = $this->getVideoDetailJsonStr($id);
-        if (!empty($jsonStr)) {
-            $patch = MatchTool::hotVideoJsonLink($id);
-            Storage::disk("public")->put($patch, $jsonStr);
-        }
-    }
     //=====================================静态化 结束=====================================//
 
 
@@ -395,9 +378,6 @@ class VideoController extends Controller
     }
 
     protected function pageUrl($type) {
-//        if ($type == "new") {
-//            return "/video_page.html";
-//        }
         return "/video/".$type."_page.html";
     }
 
