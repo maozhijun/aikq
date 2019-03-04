@@ -86,8 +86,11 @@ class RecordCommand extends Command
     }
 
     public function staticSubjectHtml(RecordController $aiCon, SubjectLeague $sl) {
-        for ($i = 1 ; $i < 4; $i++){
+        for ($i = 1 ; $i < 99; $i++){
             $html = $aiCon->subjectDetailHtml(new Request(), $sl,$i);
+            if (is_null($html)){
+                break;
+            }
             if (!empty($html)) {
                 $name_en = $sl->name_en;
                 if ($i == 1){
