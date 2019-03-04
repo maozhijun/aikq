@@ -307,15 +307,18 @@ function _playerShareCallback(data) {
 function playVideo (cid){
     var isPhone = window.isMobile;
     var mobil = isPhone ? '/mobile' : '';
-    var url = '/json/video/player/' + cid + '.json';
-    url = GetHttp() + host + url + '?time=' + (new Date()).getTime();
+    cid = cid + "";
+    while (cid.length < 4) {
+        cid = "0" + cid;
+    }
+    var url = window.jsonHost + '/json/video/player/' + cid + '.json?time=' + (new Date()).getTime();
 
     $.ajax({
         url: url,
         type:'GET',
         dataType:'json',
         success:function(data) {
-            if (data.code == 0){
+            if (data){
                 var link = getLink(data);
                 var PlayType = data.player;
 

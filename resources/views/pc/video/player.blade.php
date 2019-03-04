@@ -56,7 +56,7 @@
     window.cdn_url = addProtocol('{{env('CDN_URL')}}');
 </script>
 <script charset="utf-8" type="text/javascript" src="{{env('CDN_URL')}}/js/ckplayerX/ckplayer.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/videoPlayer.js?rd=201811141650"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/videoPlayer.js?rd=201903041950"></script>
 <script>
     var _hmt = _hmt || [];
     (function() {

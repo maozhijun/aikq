@@ -28,6 +28,19 @@ class VideoController extends Controller
     /**
      * 视频 列表
      * @param Request $request
+     * @param $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function videosDefault(Request $request, $page = 1) {
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+        $type = "new";
+        $videos = $this->getVideos($type, $page);
+        return $this->videosHtml($type, $types, $videos);
+    }
+
+    /**
+     * 视频 列表
+     * @param Request $request
      * @param $type
      * @param $page
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -37,6 +50,8 @@ class VideoController extends Controller
         $videos = $this->getVideos($type, $page);
         return $this->videosHtml($type, $types, $videos);
     }
+
+
 
 
     /**
@@ -357,7 +372,7 @@ class VideoController extends Controller
      * @param Request $request
      */
     public function staticVideoPlayer(Request $request) {
-        $html = $request->player($request);
+        $html = $this->player($request);
         if (!empty($html)) {
             Storage::disk("public")->put("www/video/player.html", $html);
         }
@@ -374,8 +389,13 @@ class VideoController extends Controller
         foreach ($videos as $video) {
             $html = $this->videoDetailHtml($video);
             if (!empty($html)) {
-                $path = "www" . HotVideo::getVideoDetailPath($video->id);
+                $id = $video->id;
+                $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
+
+                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $jsonPath = HotVideo::getVideoDetailJsonPath($id);
+                Storage::disk("public")->put($jsonPath, json_encode($json));
             }
         }
         echo "curPage = " . $videos->currentPage() . " ， lastPage = " . $videos->lastPage();
@@ -483,6 +503,9 @@ class VideoController extends Controller
     }
 
     protected function pageUrl($type) {
+        if ($type == "new" || $type == "") {
+            return "/video_page.html";
+        }
         return "/video/".$type."_page.html";
     }
 

@@ -213,7 +213,6 @@ class HotVideo extends Model
             $query = self::query();
             $query->where('hot_videos.show', self::kShow);
             $query->orderByDesc('hot_videos.created_at');
-            $link = "/video";
         } else {
             $query = self::query();
             $sport = $sl->sport;
@@ -233,10 +232,16 @@ class HotVideo extends Model
         $videoArray = [];
         foreach ($videos as $video) {
             $link_id = $video->id;
-            while (strlen($link_id) < 4) {
-                $link_id = "0" . $link_id;
+            if (isset($sl)) {
+                while (strlen($link_id) < 4) {
+                    $link_id = "0" . $link_id;
+                }
+                $link = $link . $link_id . ".html";
+            } else {
+                $link = HotVideo::getVideoDetailUrl($link_id);
             }
-            $videoArray[] = ["link"=>$link . $link_id . ".html", "title"=>$video->title, "image"=>$video->image, "id"=>$video->id];
+            $videoArray[] = ["link"=>$link, "title"=>$video->title, "image"=>$video->image, "id"=>$video->id];
+
         }
         return $videoArray;
     }

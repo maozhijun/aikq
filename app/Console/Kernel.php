@@ -198,13 +198,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
 
-        //热门录像静态化
-        //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
-        //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
-
-        //专题录像静态化
-        //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
-        //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
+        //视频 静态化
+        $schedule->command('hot_video_page_cache:run tab')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  右侧tab栏分页
+        $schedule->command('hot_video_page_cache:run league')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  左侧 赛事、联赛
+        $schedule->command('hot_video_page_cache:run tags')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
 
         //百度sitemap生成器，一天两次
         $schedule->command('generate:sitemap')->twiceDaily(1, 18);

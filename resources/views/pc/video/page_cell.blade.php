@@ -4,10 +4,11 @@
 <?php
     $showPage = 7; $currPage = $page["curPage"]; $lastPage = $page["lastPage"];
     $startPage = $currPage - intval($showPage / 2);
+    if ($startPage >= $lastPage - $showPage) {
+        $startPage = $lastPage - $showPage;
+    }
     if ($startPage < 2) {
         $startPage = 2;
-    } else if ($startPage >= $lastPage - $showPage) {
-        $startPage = $lastPage - $showPage;
     }
 ?>
     <div class="page">
