@@ -188,7 +188,12 @@ Route::group(["namespace" => 'Live'], function () {
     //----------------------------------------------------------------------------------------------------------------------------------
 
     //静态化开始
+    Route::get("/static/video/list/{tab}/{page?}", "VideoController@staticVideosTabHtml");//静态化 视频 tab（最新、篮球、足球等） 列表页面
+    Route::get("/static/video/list-leg/{name_en}/{page?}", "VideoController@staticVideosLeagueHtml");//静态化 视频 专题列表页
+    Route::get("/static/video/list-tag/{tagId}-{sport}/{page?}", "VideoController@staticVideosTagHtml");//静态化 视频 球星列表页
+
     Route::get("/static/video/detail/{id}", "VideoController@staticVideoDetail");//静态化录像终端
+    Route::get("/static/video/detail-all/{page?}", "VideoController@staticAllVideoDetail");//评论静态化视频终端页
     //静态化列表页、分页
 
     //========================================================视频2.0route 结束========================================================//
