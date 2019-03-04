@@ -128,6 +128,22 @@ class HotVideo extends Model
     }
 
     /**
+     * 视频终端静态化 路径
+     * @param $id     视频ID
+     * @return string 静态化路径 （/public/www|m/后的路径）
+     */
+    public static function getVideoDetailJsonPath($id) {
+        //获取赛事标签
+        while (strlen($id) < 4) {
+            $id = "0" . $id;
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 2);
+        $last = $first . "/" . $second . "/" . $id . ".json";
+        return "/static/json/pc/video/player/".$last;
+    }
+
+    /**
      * 专题视频静态化路径
      * @param $name_en
      * @param $page

@@ -163,6 +163,9 @@ Route::group(["namespace" => 'Team'], function () {
 
 Route::group(["namespace" => 'Live'], function () {
     //========================================================视频2.0route 开始========================================================//
+    Route::get("/video/player.html", "VideoController@player");
+    //Route::any("/json/video/player/{id}.json", "VideoController@playerJson");
+
     Route::get('{name_en}/video{id}.html', 'VideoController@videoDetailByNameEn');//专题 视频终端
     Route::get('/video{id}.html', 'VideoController@videoDetail');//视频终端
 

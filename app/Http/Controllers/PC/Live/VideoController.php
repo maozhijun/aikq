@@ -161,6 +161,22 @@ class VideoController extends Controller
         return view('pc.video.detail', $result);
     }
 
+
+    public function player(Request $request) {
+
+        return view("pc.video.player");
+    }
+
+    public function playerJson(Request $request, $id) {
+        $array = "";
+        $video = HotVideo::query()->find($id);
+        if (!isset($video)) {
+            return response()->json(["code"=>-1]);
+        }
+        $array = ["code"=>0, "id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
+        return response()->json($array);
+    }
+
     //=====================================页面内容 结束=====================================//
 
 
@@ -326,9 +342,24 @@ class VideoController extends Controller
             if (!empty($html)) {
                 $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
+
+                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $jsonPath = HotVideo::getVideoDetailJsonPath($id);
+                Storage::disk("public")->put($jsonPath, json_encode($json));
             }
         } else {
             echo "视频不存在<br/>";
+        }
+    }
+
+    /**
+     * 静态化视频播放页面
+     * @param Request $request
+     */
+    public function staticVideoPlayer(Request $request) {
+        $html = $request->player($request);
+        if (!empty($html)) {
+            Storage::disk("public")->put("www/video/player.html", $html);
         }
     }
 
