@@ -158,7 +158,6 @@ class TagRelation extends Model
         self::saveTagRelation($sport,self::kTypeVideo, $source_id, $tags);
     }
 
-
     public static function getTagRelations($type, $source_id) {
         $query = self::query();
         $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
@@ -182,6 +181,18 @@ class TagRelation extends Model
             }
         }
         return $array;
+    }
+
+    public static function getTagWithSids($type, $source_id) {
+        $query = self::query();
+        $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $query->where("type", $type);
+        $query->where("source_id", $source_id);
+        $query->orderBy("tags.level");
+        $query->selectRaw("tag_relations.id");
+        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid"]);
+        $tags = $query->get();
+        return $tags;
     }
 
     public static function getFirstMatchTag4SL($type, $id) {
