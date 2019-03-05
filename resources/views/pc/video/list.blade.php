@@ -8,7 +8,7 @@
             @foreach($types as $key=>$name)
                 @if($key == $type || ( isset($stars) && ( ($sport == 2 && $key == "basketballstar") || ($sport == 1 && $key == "footballstar") ) )
                     || (isset($tags) && ( ($sport == 2 && $key == "basketball") || ($sport == 1 && $key == "football") ) ) )
-                <?php $pageUrl = "/video/" . ($key == "new" ? "" : $key) ?>
+                <?php $pageUrl = "/video" . ($key == "new" ? "" : ("/" . $key) ) ?>
                     <a href="#"  class="on">{{$name}}</a>
                 @else
                     <a href="/video/{{$key == "new" ? "" : $key}}">{{$name}}</a>
