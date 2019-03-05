@@ -63,12 +63,20 @@ class TeamController extends Controller
         return view('pc.team.v2.index', $data);
     }
 
-    public static function detailStatic($data, $path)
+    public static function detailStatic($name_en, $tid, $sport)
     {
-        $html = self::detailHtml($data);
-
-        Storage::disk('public')->put("www/$path", $html);
+//        $html = self::detailHtml($data);
+//
+//        Storage::disk('public')->put("www/$path", $html);
 //        echo "pc: $path </br>";
+        $path = CommonTool::getTeamDetailPathWithType($sport, $name_en, $tid,'index',1);
+
+        //pc站综合页
+        $con = new TeamController();
+        $html = $con->detail(new Request(), $name_en, $tid);
+        if (isset($html) && strlen($html) > 0){
+            Storage::disk('public')->put("www/$path", $html);
+        }
     }
 
     /***** 录像 *****/
