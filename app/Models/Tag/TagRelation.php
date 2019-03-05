@@ -245,5 +245,69 @@ class TagRelation extends Model
         return $pages->items();
     }
 
+    public static function getRelationsPageByTag($type, $sport, $level, $tagName, $pageNo = 1, $pageSize = 12) {
+        if ($type == self::kTypeArticle) {
+            $query = PcArticle::query();
+            $tName = "pc_articles";
+        } else if ($type == self::kTypeVideo) {
+            $query = HotVideo::query();
+            $tName = "hot_videos";
+        } else if ($type == self::kTypePlayBack) {
+            $query = SubjectVideo::query();
+            $tName = "subject_videos";
+        } else {
+            return null;
+        }
 
+        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+            $eQuery->selectRaw("1");
+            $eQuery->from("tag_relations");
+            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+            $eQuery->where("tags.sport", $sport);
+            if (is_numeric($level)) {
+                $eQuery->where("tags.level", $level);
+            }
+            if (!empty($tagName)) {
+                $eQuery->where("tags.name", "like", "%$tagName%");
+            }
+            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+        });
+
+        $query->orderby('updated_at','desc');
+        $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
+        return $pages;
+    }
+
+    public static function getRelationsPageByTagId($type, $sport, $level, $tag_tId, $pageNo = 1, $pageSize = 12) {
+        if ($type == self::kTypeArticle) {
+            $query = PcArticle::query();
+            $tName = "pc_articles";
+        } else if ($type == self::kTypeVideo) {
+            $query = HotVideo::query();
+            $tName = "hot_videos";
+        } else if ($type == self::kTypePlayBack) {
+            $query = SubjectVideo::query();
+            $tName = "subject_videos";
+        } else {
+            return null;
+        }
+
+        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tag_tId) {
+            $eQuery->selectRaw("1");
+            $eQuery->from("tag_relations");
+            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+            $eQuery->where("tags.sport", $sport);
+            if (is_numeric($level)) {
+                $eQuery->where("tags.level", $level);
+            }
+            if (!empty($tag_tId)) {
+                $eQuery->where("tags.tid", "=", $tag_tId);
+            }
+            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+        });
+
+        $query->orderby('updated_at','desc');
+        $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
+        return $pages;
+    }
 }

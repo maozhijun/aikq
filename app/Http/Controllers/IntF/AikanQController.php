@@ -28,6 +28,7 @@ use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectSpecimen;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -1674,7 +1675,8 @@ class AikanQController extends Controller
         }
 
         //专题资讯 开始
-        $articles = PcArticle::liveRelationArticle([$teamName]);
+//        $articles = PcArticle::liveRelationArticle([$teamName]);
+        $articles = TagRelation::getRelationsByTag(TagRelation::kTypeArticle,$sport,3,$teamName,1,6);
         $article_array = [];
         foreach ($articles as $article) {
             $url = $article->url;
@@ -1695,11 +1697,12 @@ class AikanQController extends Controller
         //球队直播 结束
 
         //球队录像 开始
-        $result['videos'] = SubjectVideo::relationVideos($teamName, "");
+        $trs = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,$sport,3,$teamName,1,20);
+        $result['records'] = $trs;//SubjectVideo::relationVideos($teamName, "");
         //球队录像 结束
 
         //球队集锦 开始
-//        $result['specimens'] = SubjectSpecimen::getNewSpecimens($slid, $isMobile);
+        $result['videos'] = TagRelation::getRelationsByTag(TagRelation::kTypeVideo,$sport,3,$teamName,1,6);
         //球队集锦 结束
 
         $result['title'] = "[".$teamName."]".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻-爱看球直播";

@@ -69,7 +69,7 @@ class RecordController extends Controller
             $this->html_var['zhuanti'] = $data;
         }
         //录像
-        $records = $this->getRecordBySid($data['id'],$pageNo);
+        $records = RecordController::getRecordBySid($data['id'],$pageNo);
         if (count($records['data']) == 0)
             return null;
         $this->html_var['records'] = $records['data'];
@@ -279,7 +279,7 @@ class RecordController extends Controller
      * @param int $pageSize
      * @return array
      */
-    public function getRecordBySid($sid,$pageNo,$pageSize = 20){
+    public static function getRecordBySid($sid,$pageNo,$pageSize = 20){
         $query = SubjectVideo::query();
         if (!is_null($sid)){
             $query->where('s_lid',$sid);
@@ -320,11 +320,19 @@ class RecordController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|null
      */
     public function subjectDetailHtml(Request $request,$league,$page = 1){
-        $html = $this->subject($request,$league->name_en,$page);
-        if (!is_null($html) && strlen($html) > 0){
-            return $html;
+        $html = $this->subject($request,$league,$page);
+        if (is_null($html)){
+            echo 'RecordController subjectDetailHtml error ' . $league . ' ' . $page;
         }
-        return null;
+        if (!empty($html)) {
+            if ($page == 1){
+                Storage::disk("public")->put("/www/$league/record/index.html", $html);
+            }
+            else{
+                Storage::disk("public")->put("/www/$league/record/index$page.html", $html);
+            }
+        }
+        echo 'success';
     }
 
 

@@ -11,9 +11,12 @@ namespace App\Http\Controllers\PC\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\CommonTool;
+use App\Http\Controllers\PC\StaticController;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleType;
 use App\Models\Subject\SubjectLeague;
+use App\Models\Tag\Tag;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,6 +69,7 @@ class ArticleController extends Controller
         $result['description'] = '最新最全的体育资讯';
         $result['check'] = "news";
         $result['ma_url'] = self::getMobileHttpUrl("/news/");
+        $result['comboData'] = self::getMobileHttpUrl("/news/");
         return view('pc.article.v2.news_home', $result);
     }
 

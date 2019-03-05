@@ -38,7 +38,7 @@
                 <h1>{{$time}} {{$mTitle}}</h1>
                 <ul>
                     @foreach($records as $record)
-                        <li><a target="_blank" href="{{$record['content']}}" class="go_play">【立即播放】</a><a target="_blank" href="{{$record['content']}}">【{{$record['title']}}】{{$time}} {{$mTitle}}</a></li>
+                        <li><a target="_blank" href="{{$record['content']}}" class="go_play">【立即播放】</a><a target="_blank" href="{{$record['content']}}">{{$record['title']}}</a></li>
                     @endforeach
                 </ul>
             </div>

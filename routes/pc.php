@@ -158,6 +158,8 @@ Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}_index_{page}.html',"TeamController@detail");//球队终端 首页
     Route::get('/{name_en}/team{id}_news_{page}.html',"TeamController@newsDetail");//球队终端 资讯
 
+    Route::get("/static/team_record/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
+
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
     Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分
 });
@@ -222,4 +224,5 @@ Route::group(["namespace" => 'Record'], function () {
     Route::get('/{name_en}/record/index.html', 'RecordController@subject');//专题录像
 
     Route::get("/static/record/{id}", "RecordController@recordDetailHtml");//静态化终端
+    Route::get("/static/record_subject/{league}/{page}", "RecordController@subjectDetailHtml");//静态化专题列表
 });

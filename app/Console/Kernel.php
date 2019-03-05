@@ -10,6 +10,7 @@ use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
 use App\Console\Data\DataCommand;
 use App\Console\HotVideo\VideoPageCommand;
+use App\Console\HtmlStaticCommand\TagCommand;
 use App\Console\Record\RecordCommand;
 use App\Console\Download\DownloadCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
@@ -124,6 +125,8 @@ class Kernel extends ConsoleKernel
         DataCommand::class,//数据静态化
 
         RecordCommand::class,//录像静态化
+
+        TagCommand::class,//tag更新 ,对应静态化
     ];
 
     /**
@@ -134,9 +137,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('record_cache:run index')->everyFiveMinutes();
-        $schedule->command('record_cache:run league')->everyThirtyMinutes();
-        $schedule->command('record_cache:run detail')->everyFiveMinutes();//录像终端静态化,静态化完他就不会执行逻辑了
+//        $schedule->command('record_cache:run index')->everyFiveMinutes();
+//        $schedule->command('record_cache:run league')->everyThirtyMinutes();
+//        $schedule->command('record_cache:run detail')->everyFiveMinutes();//录像终端静态化,静态化完他就不会执行逻辑了
 
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
