@@ -23,6 +23,7 @@ class VideoController extends Controller
 {
 
     const page_size = 20;
+    const TYPES = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
     //=====================================页面内容 开始=====================================//
 
     /**
@@ -112,7 +113,7 @@ class VideoController extends Controller
         }
         $result['types'] = $types;
         $result['page'] = $videos['page'];
-        $result["pageUrl"] = $this->pageUrl($type);
+        //$result["pageUrl"] = $this->pageUrl($type);
         $result['videos'] = $videos['videos'];
         $result["tags"] = isset($videos["tags"]) ? $videos["tags"] : null;
         $result["stars"] = isset($videos["stars"]) ? $videos["stars"] : null;
@@ -505,6 +506,9 @@ class VideoController extends Controller
     protected function pageUrl($type) {
         if ($type == "new" || $type == "") {
             return "/video_page.html";
+        }
+        if (!in_array($type, self::TYPES)) {
+
         }
         return "/video/".$type."_page.html";
     }

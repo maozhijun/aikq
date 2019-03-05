@@ -170,6 +170,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/video', 'VideoController@videosDefault');//最新 视频终端列表
     Route::get('/video_{page}.html', 'VideoController@videosDefault');//最新视频 分页
 
+    Route::get("/{name_en}/video_{page}.html", "VideoController@videosByNameEn");//专题 视频列表 分页
     Route::get('{name_en}/video{id}.html', 'VideoController@videoDetailByNameEn');//专题 视频终端
     Route::get('/video{id}.html', 'VideoController@videoDetail');//视频终端
 
@@ -179,13 +180,13 @@ Route::group(["namespace" => 'Live'], function () {
 
 
     Route::get('/video/footballstar_{id}_{page}.html', 'VideoController@videosByFootballStar');//足球球星 视频列表 分页
+    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）
     Route::get('/video/footballstar_{id}', 'VideoController@videosByFootballStar');//足球球星 视频列表
 
 
     Route::get("/{name_en}/video", "VideoController@videosByNameEn");//专题 视频列表
-    Route::get("/{name_en}/video_{page}.html", "VideoController@videosByNameEn");//专题 视频列表 分页
 
-    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）
+
     Route::get('/video/{type}', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）分页
 
     //----------------------------------------------------------------------------------------------------------------------------------
