@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\Subject;
 
 
 use App\Http\Controllers\PC\StaticController;
+use App\Jobs\TagStatic;
 use App\Models\LgMatch\BasketStage;
 use App\Models\LgMatch\Stage;
 use App\Models\Subject\SubjectLeague;
@@ -167,6 +168,7 @@ class SubjectVideoController extends Controller
                 TagRelation::savePlayBackTagRelation($s_video->sport, $s_video->id, $tagArray);
             });
             $this->flushVideo($s_video->id);
+            dispatch(new TagStatic(TagRelation::kTypePlayBack, $s_video->id));
         } catch (\Exception $exception) {
             Log::error($exception);
             return back()->with('error', '保存失败');
@@ -258,7 +260,7 @@ class SubjectVideoController extends Controller
             return response()->json(['code'=>500, 'msg'=>'保存录像线路失败']);
         }
 
-        StaticController::staticDetail(TagRelation::kTypePlayBack,$sv_id);
+        dispatch(new TagStatic(TagRelation::kTypePlayBack, $sv_id));
 
         return response()->json(['code'=>200, 'msg'=>'保存录像线路成功']);
     }

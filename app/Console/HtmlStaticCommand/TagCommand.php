@@ -91,7 +91,7 @@ class TagCommand extends BaseCommand
             }
             echo $name_en . ' ' .$stype . ' ' .$sport .' '. $tid;
             //静态化
-            if (1 || $page <= 0 ||
+            if ($page <= 0 ||
                 is_null($name_en) || is_null($sport) || is_null($tid) || is_null($stype) ||
                 strlen($name_en) == 0 || strlen($sport) == 0 || strlen($tid) == 0 || strlen($stype) == 0){
                 //没有就不静态化了
