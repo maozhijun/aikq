@@ -49,7 +49,7 @@ class RecordController extends Controller
         $end = date_create($start)->modify("+7 day")->format("Y-m-d");
         $this->html_var['datas'] = $this->getRecordByDate($start,$end);
 //        dump($this->html_var['datas']);
-        $this->html_var['check'] = 'data';
+        $this->html_var['check'] = 'record';
         return view('pc.record.index',$this->html_var);
     }
 
@@ -62,7 +62,7 @@ class RecordController extends Controller
      */
     public function subject(Request $request, $name_en, $pageNo = 1){
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $this->html_var['check'] = 'data';
+        $this->html_var['check'] = 'record';
         $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
         if (isset($data)) {
             $data['name_en'] = $name_en;
@@ -205,7 +205,7 @@ class RecordController extends Controller
         $cd = CommonTool::getComboData($name_en);
         $this->html_var['articles'] = array_key_exists("articles",$cd) ? $cd['articles']:array();
         $this->html_var['videos'] = array_key_exists("videos",$cd) ? $cd['videos']:array();
-        $this->html_var['check'] = 'data';
+        $this->html_var['check'] = 'record';
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
     }
