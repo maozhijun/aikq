@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 class DataController extends Controller{
     public function index(Request $request){
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $this->html_var['check'] = 'data';
         $subjects = Controller::SUBJECT_NAME_IDS;
         $subData = array();
         foreach ($subjects as $subject=>$data){
@@ -167,6 +168,7 @@ class DataController extends Controller{
     }
 
     public function footballDetail(Request $request, $subject, $season = null, $kind = 0){
+        $this->html_var['check'] = 'data';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
         $kind = 0;
         $data = array_key_exists($subject, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$subject] : null;
@@ -246,6 +248,7 @@ class DataController extends Controller{
     }
 
     public function basketDetail(Request $request,$subject,$season = null,$kind = null){
+        $this->html_var['check'] = 'data';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
         $data = array_key_exists($subject, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$subject] : null;
         if (isset($data)) {

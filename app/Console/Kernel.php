@@ -6,10 +6,11 @@ use App\Console\Anchor\AnchorJsonCommand;
 use App\Console\Anchor\CheckStreamCommand;
 use App\Console\Anchor\StreamKeyFrameCommand;
 use App\Console\Article\ArticleLiveCellCommands;
-//use App\Console\HotVideo\VideoCoverCommand;
 use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
 use App\Console\Data\DataCommand;
+use App\Console\HotVideo\VideoPageCommand;
+use App\Console\HtmlStaticCommand\TagCommand;
 use App\Console\Record\RecordCommand;
 use App\Console\Download\DownloadCommand;
 use App\Console\HtmlStaticCommand\Anchor\AnchorDetailCommand;
@@ -69,8 +70,7 @@ class Kernel extends ConsoleKernel
         DetailCommand::class,//subject 专题终端静态化           DB
         LeaguesJsonCommand::class,//subject 专题列表json静态化  DB
 
-        //VideoPageCommand::class,//热门录像分页列表静态化        DB
-        //VideoCoverCommand::class,//热门录像封面图同步
+        VideoPageCommand::class,//视频列表分页列表静态化        DB
 
         //CoverCommand::class,//专题封面同步
         //SubjectVideoCoverCommand::class,//专题录像 封面图同步到本机
@@ -125,6 +125,8 @@ class Kernel extends ConsoleKernel
         DataCommand::class,//数据静态化
 
         RecordCommand::class,//录像静态化
+
+        TagCommand::class,//tag更新 ,对应静态化
     ];
 
     /**
@@ -135,7 +137,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('record_cache:run detail')->everyFiveMinutes();//录像终端静态化,静态化完他就不会执行逻辑了
+        $schedule->command('tag_static:run team')->everyFiveMinutes();
+        $schedule->command('tag_static:run league')->everyFiveMinutes();
+//        $schedule->command('record_cache:run detail')->everyFiveMinutes();//录像终端静态化,静态化完他就不会执行逻辑了
 
         //足球、篮球比赛 数据同步 开始
         $schedule->command('sync_update_football_matches:run')->everyMinute();
@@ -197,13 +201,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
         $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
 
-        //热门录像静态化
-        //$schedule->command('hot_video_cover_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频封面同步
-        //$schedule->command('hot_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次热门视频分页静态化
-
-        //专题录像静态化
-        //$schedule->command('subject_video_page_cache:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题视频分页列表
-        //$schedule->command('mobile_subject_video_page_cache:run')->everyFiveMinutes();//wap5分钟刷新一次专题视频分页列表
+        //视频 静态化
+        $schedule->command('hot_video_page_cache:run tab')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  右侧tab栏分页
+        $schedule->command('hot_video_page_cache:run league')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  左侧 赛事、联赛
+        $schedule->command('hot_video_page_cache:run tags')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
 
         //百度sitemap生成器，一天两次
         $schedule->command('generate:sitemap')->twiceDaily(1, 18);

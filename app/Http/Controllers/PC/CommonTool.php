@@ -274,6 +274,17 @@ class CommonTool
     }
 
     /**
+     * 球队终端静态path
+     */
+    public static function getTeamDetailPathWithType($sport, $name_en, $tid, $type, $page) {
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        return "/$name_en/team/$type/$sport/".substr($tempTid, 0, 2). "/". $tempTid."_". $page . ".html";
+    }
+
+    /**
      * 球队终端url
      */
     public static function getTeamDetailUrl($sport, $lid, $tid) {
@@ -288,6 +299,10 @@ class CommonTool
             $tempTid = "0".$tempTid;
         }
         return "/$name_en/team$sport$tempTid.html";
+        if ($name_en == 'other'){
+            return "javascript:void(0)";
+        }
+        return "/$name_en/team$sport$tempTid"."_index_1.html";
     }
 
     public static function getLiveDetailStaticPath($mid, $sport) {

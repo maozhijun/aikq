@@ -4,6 +4,7 @@ namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article\PcArticle;
+use App\Models\Match\HotVideo;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Score;
@@ -153,10 +154,14 @@ class HomeController extends Controller
                 $matches = collect($json)->collapse()->take(10)->all();
             }
         } catch (\Exception $e) {
+
         }
 
+
         //视频
-        $result = array('records'=>$records,'articles'=>$articles, 'matches'=>$matches);
+        $videos = HotVideo::getVideosByName($name_en);
+
+        $result = array('records'=>$records,'articles'=>$articles, 'matches'=>$matches, "videos"=>$videos);
 
         //保存一次文件
         $appData = json_encode($result);

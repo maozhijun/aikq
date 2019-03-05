@@ -3,6 +3,7 @@
 namespace App\Console\HtmlStaticCommand\Article;
 
 use App\Console\HtmlStaticCommand\BaseCommand;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\PC\Article\ArticleController;
 use App\Models\Article\PcArticle;
 use Illuminate\Http\Request;
@@ -32,13 +33,26 @@ class ArticlePageCommand extends BaseCommand
 
         //静态化资讯第一页
         $query = PcArticle::getPublishQuery();
-        $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
         $con = new ArticleController();
-        $html = $con->newsHtml($articles);
+        $html = $con->newsHome(new Request());
         if (!empty($html)) {
             Storage::disk("public")->put("/www/news/index.html", $html);
         }
+        //专题第一页
+        $name_ens = Controller::SUBJECT_NAME_IDS;
+        foreach ($name_ens as $name_en=>$data){
+            $page = 1;
+            $query = PcArticle::getPublishQuery($name_en);
+            if (isset($query)) {
+                $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
+                $html = $con->subjectNewsHtml($name_en, $articles);
+                if (!empty($html)) {
+                    Storage::disk("public")->put("/www/" . $name_en . "/news/index.html", $html);
+                }
+            }
+        }
 
+        $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
         //mobile只静态化首页
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapIndex = $wapCon->articlesHtml($articles);
@@ -53,6 +67,7 @@ class ArticlePageCommand extends BaseCommand
             Storage::disk("public")->put(\App\Http\Controllers\Mip\UrlCommonTool::MIP_STATIC_PATH."/news/index.html", $mipIndex);
         }
 
+        //旧的 都做完之后这个去掉
         $lastPage = $articles->lastPage();
         $staticPage = 6;//每次静态化的文章列表数量
         if ($lastPage > 1) {
@@ -65,6 +80,30 @@ class ArticlePageCommand extends BaseCommand
             }
             $this->setCachePage(self::ARTICLE_PAGE_KEY, $page);
         }
+
+        //新的 pc
+        $staticPage = 3;
+        $name_ens = Controller::SUBJECT_NAME_IDS;
+        foreach ($name_ens as $name_en=>$data){
+            $page = $this->getCachePageSub(self::ARTICLE_PAGE_KEY,$name_en);
+            $query = PcArticle::getPublishQuery($name_en);
+            if (isset($query)) {
+                $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
+                $lastPage = $articles->lastPage();
+                if ($lastPage > 1) {
+                    $page = $page >= $lastPage ? 2 : $page;
+                    $forPage = ($page + $staticPage) >= $lastPage ? $lastPage : $page + $staticPage;
+                    for (; $page <= $forPage; $page++) {
+                        $html = $con->subjectNewsHtml($name_en, $articles);
+                        if (!empty($html)) {
+                            Storage::disk("public")->put("/www/" . $name_en . "/news/index" . $page . ".html", $html);
+                        }
+
+                    }
+                    $this->setCachePageSub(self::ARTICLE_PAGE_KEY, $page, $name_en);
+                }
+            }
+        }
     }
 
     /**
@@ -74,11 +113,11 @@ class ArticlePageCommand extends BaseCommand
     public function staticNewsHtml($page) {
         $query = PcArticle::getPublishQuery();
         $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
-        $con = new ArticleController();
-        $html = $con->newsHtml($articles);
-        if (!empty($html)) {
-            Storage::disk("public")->put("/www/news/index" . $page . ".html", $html);
-        }
+//        $con = new ArticleController();
+//        $html = $con->newsHtml($articles);
+//        if (!empty($html)) {
+//            Storage::disk("public")->put("/www/news/index" . $page . ".html", $html);
+//        }
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
         $wapPageHtml = $wapCon->articlesCell($articles);
         if (!empty($wapPageHtml)) {
@@ -101,5 +140,18 @@ class ArticlePageCommand extends BaseCommand
 
     public function setCachePage($key, $page) {
         Redis::set($key, $page);
+    }
+
+    //新版 专题翻页用
+    public function getCachePageSub($key,$sub) {
+        $page = Redis::get($key.'_'.$sub);
+        if (empty($page)) {
+            $page = 2;
+        }
+        return $page;
+    }
+
+    public function setCachePageSub($key, $page,$sub) {
+        Redis::set($key.'_'.$sub, $page);
     }
 }

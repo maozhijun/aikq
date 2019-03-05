@@ -117,4 +117,44 @@ class Tag extends Model
         return $tag;
     }
 
+
+    public static function leagueTags($type, $sport, $size = 9) {
+        $query = Tag::query();
+        $query->join("subject_leagues", function ($join) {
+            $join->on(function ($on) {
+                $on->whereRaw("subject_leagues.sport = tags.sport");
+                $on->whereRaw("subject_leagues.lid = tags.tid");
+            });
+        });
+        $query->whereExists(function ($eQuery) use ($type) {
+            $eQuery->selectRaw("1");
+            $eQuery->from("tag_relations");
+            $eQuery->where("tag_relations.type", $type);
+            $eQuery->whereRaw("tag_relations.tag_id = tags.id");
+        });
+
+        $query->where("tags.sport", $sport);
+        $query->where("tags.level", self::kLevelTwo);
+        $query->orderBy("subject_leagues.od")->orderBy("subject_leagues.id");
+        $query->select(["subject_leagues.name", "subject_leagues.name_en", "subject_leagues.lid"]);
+        $query->take($size);
+        return $query->get();
+    }
+
+    public static function starTags($type, $sport, $size = 9) {
+        $query = Tag::query();
+        $query->whereExists(function ($eQuery) use ($type) {
+            $eQuery->selectRaw("1");
+            $eQuery->from("tag_relations");
+            $eQuery->where("tag_relations.type", $type);
+            $eQuery->whereRaw("tag_relations.tag_id = tags.id");
+        });
+
+        $query->where("tags.sport", $sport);
+        $query->where("tags.level", self::kLevelFour);
+        $query->select(["tags.name", "tags.id"]);
+        $query->take($size);
+        return $query->get();
+    }
+
 }

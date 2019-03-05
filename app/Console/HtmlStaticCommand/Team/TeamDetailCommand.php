@@ -147,12 +147,16 @@ class TeamDetailCommand extends Command
     public static function onTeamDetailStaticByTid($sport, $lid, $tid)
     {
         if (isset($tid) && strlen($tid) > 0) {
-            $pcData = AikanQController::teamDetailData($sport, $lid, $tid);
+//            $pcData = AikanQController::teamDetailData($sport, $lid, $tid);
             $webData = AikanQController::teamDetailData($sport, $lid, $tid, true);
             $path = CommonTool::getTeamDetailPath($sport, $lid, $tid);
 
-            //pc站
-            TeamController::detailStatic($pcData, $path);
+            $sl = SubjectLeague::where('lid',$lid)->first();
+            if (isset($sl)){
+                $name_en = $sl->name_en;
+                //pc站
+                TeamController::detailStatic($name_en, $tid, $sport);
+            }
             //web站
             \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($webData, $path);
             //mip站

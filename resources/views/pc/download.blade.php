@@ -34,6 +34,8 @@
         {{--<a class="column" href="/anchor/">主播</a>--}}
         <!--<a class="column" href="/live/subject/videos/all/1.html">录像</a>-->
         <a class="column" href="/news/">资讯</a>
+        <a class="column" href="/record/">录像</a>
+        <a class="column" href="/data/">数据</a>
         <!--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>-->
         {{--<a class="column" href="/business.html" target="_blank">源调用</a>--}}
         <a class="column on" href="/download/index.html" target="">下载</a>

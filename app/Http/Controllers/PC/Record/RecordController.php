@@ -49,6 +49,7 @@ class RecordController extends Controller
         $end = date_create($start)->modify("+7 day")->format("Y-m-d");
         $this->html_var['datas'] = $this->getRecordByDate($start,$end);
 //        dump($this->html_var['datas']);
+        $this->html_var['check'] = 'record';
         return view('pc.record.index',$this->html_var);
     }
 
@@ -61,13 +62,16 @@ class RecordController extends Controller
      */
     public function subject(Request $request, $name_en, $pageNo = 1){
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $this->html_var['check'] = 'record';
         $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
         }
         //录像
-        $records = $this->getRecordBySid($data['id'],$pageNo);
+        $records = RecordController::getRecordBySid($data['id'],$pageNo);
+        if (count($records['data']) == 0)
+            return null;
         $this->html_var['records'] = $records['data'];
         $this->html_var['page'] = $records['page'];
         $this->html_var['pageNo'] = $pageNo;
@@ -163,6 +167,7 @@ class RecordController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detail(Request $request, $name_en, $mid) {
+        $this->html_var['check'] = 'record';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
         $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
         if (isset($data)) {
@@ -197,7 +202,10 @@ class RecordController extends Controller
         //专题资讯 开始
 //        $article_array = PcArticle::getLastArticle($name_en);
 //        dump(CommonTool::getComboData($name_en));
-        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
+        $cd = CommonTool::getComboData($name_en);
+        $this->html_var['articles'] = array_key_exists("articles",$cd) ? $cd['articles']:array();
+        $this->html_var['videos'] = array_key_exists("videos",$cd) ? $cd['videos']:array();
+        $this->html_var['check'] = 'record';
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
     }
@@ -271,7 +279,7 @@ class RecordController extends Controller
      * @param int $pageSize
      * @return array
      */
-    public function getRecordBySid($sid,$pageNo,$pageSize = 20){
+    public static function getRecordBySid($sid,$pageNo,$pageSize = 20){
         $query = SubjectVideo::query();
         if (!is_null($sid)){
             $query->where('s_lid',$sid);
@@ -312,11 +320,19 @@ class RecordController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|null
      */
     public function subjectDetailHtml(Request $request,$league,$page = 1){
-        $html = $this->subject($request,$league->name_en,$page);
-        if (!is_null($html) && strlen($html) > 0){
-            return $html;
+        $html = $this->subject($request,$league,$page);
+        if (is_null($html)){
+            echo 'RecordController subjectDetailHtml error ' . $league . ' ' . $page;
         }
-        return null;
+        if (!empty($html)) {
+            if ($page == 1){
+                Storage::disk("public")->put("/www/$league/record/index.html", $html);
+            }
+            else{
+                Storage::disk("public")->put("/www/$league/record/index$page.html", $html);
+            }
+        }
+        echo 'success';
     }
 
 
