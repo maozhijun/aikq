@@ -12,7 +12,7 @@
     <select class="form-control" name="league" id="league{{isset($mul_id) ? $mul_id : ''}}" onchange="findTeam(this.value, 'sport', 'teams{{isset($mul_id) ? $mul_id : ''}}');">
         <option value="">请选择</option>
     </select>
-    <span class="input-group-addon tagBtn" onclick="addTag(this, 2, 'match_tag')">加标签</span>
+    <span class="input-group-addon tagBtn" onclick="addTag(this, 2, 'match_tag{{isset($mul_id) ? $mul_id : ''}}')">加标签</span>
 </div>
 
 <div class="input-group form-group col-lg-3" style="float: left;margin-right: 10px;">

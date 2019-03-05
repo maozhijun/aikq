@@ -6,14 +6,20 @@
     <div class="def_content">
         <div class="tab_con">
             @foreach($types as $key=>$name)
-            <a @if($key == $type || ( isset($stars) && ( ($sport == 2 && $key == "basketballstar") || ($sport == 1 && $key == "footballstar") ) )
-             || (isset($tags) && ( ($sport == 2 && $key == "basketball") || ($sport == 1 && $key == "football") ) ) ) href="#"  class="on" @else href="/video/{{$key == "new" ? "" : $key}}" @endif >{{$name}}</a>
+                @if($key == $type || ( isset($stars) && ( ($sport == 2 && $key == "basketballstar") || ($sport == 1 && $key == "footballstar") ) )
+                    || (isset($tags) && ( ($sport == 2 && $key == "basketball") || ($sport == 1 && $key == "football") ) ) )
+                <?php $pageUrl = "/video" . ($key == "new" ? "" : ("/" . $key) ) ?>
+                    <a href="#"  class="on">{{$name}}</a>
+                @else
+                    <a href="/video/{{$key == "new" ? "" : $key}}">{{$name}}</a>
+                @endif
             @endforeach
         </div>
         <div class="video_con">
             @if(isset($tags))
                 <div class="tag_con">
                     @foreach($tags as $tag)
+                    @if($type == $tag["name_en"]) <?php $pageUrl = "/" . $tag["name_en"]."/video" ?> @endif
                     <a @if($type == $tag["name_en"]) class="on" @endif href="/{{$tag["name_en"]."/video/"}}">{{$tag["name"]}} ></a>
                     @endforeach
                 </div>
@@ -24,6 +30,7 @@
                 <button class="right"></button>
                 <div class="player_list">
                     @foreach($stars as $star)
+                        @if($star["id"] == $type) <?php $pageUrl = "/video/" . ($sport == 1 ? "footballstar" : "basketballstar") . "_".$star["id"] ?>  @endif
                     <p class="item"><a href="/video/{{($sport == 1 ? "footballstar" : "basketballstar") . "_".$star["id"]}}/" @if($star["id"] == $type) class="on" @endif >{{$star["name"]}}</a></p>
                     @endforeach
                 </div>

@@ -128,6 +128,22 @@ class HotVideo extends Model
     }
 
     /**
+     * 视频终端静态化 路径
+     * @param $id     视频ID
+     * @return string 静态化路径 （/public/www|m/后的路径）
+     */
+    public static function getVideoDetailJsonPath($id) {
+        //获取赛事标签
+        while (strlen($id) < 4) {
+            $id = "0" . $id;
+        }
+        $first = substr($id, 0, 2);
+        $second = substr($id, 2, 2);
+        $last = $first . "/" . $second . "/" . $id . ".json";
+        return "/static/json/pc/video/player/".$last;
+    }
+
+    /**
      * 专题视频静态化路径
      * @param $name_en
      * @param $page
@@ -197,7 +213,6 @@ class HotVideo extends Model
             $query = self::query();
             $query->where('hot_videos.show', self::kShow);
             $query->orderByDesc('hot_videos.created_at');
-            $link = "/video";
         } else {
             $query = self::query();
             $sport = $sl->sport;
@@ -211,16 +226,21 @@ class HotVideo extends Model
                 $existsQuery->where("tags.tid", $lid);
                 $existsQuery->whereRaw("hot_videos.id = tag_relations.source_id");
             });
-            $link = "/" . $name_en . "/video";
         }
         $videos = $query->take($size)->get();
         $videoArray = [];
         foreach ($videos as $video) {
             $link_id = $video->id;
-            while (strlen($link_id) < 4) {
-                $link_id = "0" . $link_id;
+            if (isset($sl)) {
+                while (strlen($link_id) < 4) {
+                    $link_id = "0" . $link_id;
+                }
+                $link = "/" . $name_en . "/video" . $link_id . ".html";
+            } else {
+                $link = HotVideo::getVideoDetailUrl($link_id);
             }
-            $videoArray[] = ["link"=>$link . $link_id . ".html", "title"=>$video->title, "image"=>$video->image, "id"=>$video->id];
+            $videoArray[] = ["link"=>$link, "title"=>$video->title, "image"=>$video->image, "id"=>$video->id];
+
         }
         return $videoArray;
     }

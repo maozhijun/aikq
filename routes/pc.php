@@ -166,6 +166,13 @@ Route::group(["namespace" => 'Team'], function () {
 
 Route::group(["namespace" => 'Live'], function () {
     //========================================================视频2.0route 开始========================================================//
+    Route::get("/video/player.html", "VideoController@player");
+    //Route::any("/json/video/player/{id}.json", "VideoController@playerJson");
+
+    Route::get('/video', 'VideoController@videosDefault');//最新 视频终端列表
+    Route::get('/video_{page}.html', 'VideoController@videosDefault');//最新视频 分页
+
+    Route::get("/{name_en}/video_{page}.html", "VideoController@videosByNameEn");//专题 视频列表 分页
     Route::get('{name_en}/video{id}.html', 'VideoController@videoDetailByNameEn');//专题 视频终端
     Route::get('/video{id}.html', 'VideoController@videoDetail');//视频终端
 
@@ -175,21 +182,19 @@ Route::group(["namespace" => 'Live'], function () {
 
 
     Route::get('/video/footballstar_{id}_{page}.html', 'VideoController@videosByFootballStar');//足球球星 视频列表 分页
+    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）
     Route::get('/video/footballstar_{id}', 'VideoController@videosByFootballStar');//足球球星 视频列表
-
-    Route::get('/video', 'VideoController@videos');//最新 视频终端列表
-    Route::get('/video_{page}.html', 'VideoController@videos');//最新视频 分页
 
 
     Route::get("/{name_en}/video", "VideoController@videosByNameEn");//专题 视频列表
-    Route::get("/{name_en}/video_{page}.html", "VideoController@videosByNameEn");//专题 视频列表 分页
 
-    Route::get('/video/{type}_{page}.html', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）
+
     Route::get('/video/{type}', 'VideoController@videos');//视频列表 （足球、篮球、球星、其他）分页
 
     //----------------------------------------------------------------------------------------------------------------------------------
 
     //静态化开始
+    Route::get("/static/video/player", "VideoController@staticVideoPlayer");//静态化 视频player
     Route::get("/static/video/list/{tab}/{page?}", "VideoController@staticVideosTabHtml");//静态化 视频 tab（最新、篮球、足球等） 列表页面
     Route::get("/static/video/list-leg/{name_en}/{page?}", "VideoController@staticVideosLeagueHtml");//静态化 视频 专题列表页
     Route::get("/static/video/list-tag/{tagId}-{sport}/{page?}", "VideoController@staticVideosTagHtml");//静态化 视频 球星列表页

@@ -23,7 +23,21 @@ class VideoController extends Controller
 {
 
     const page_size = 20;
+    const TYPES = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
     //=====================================页面内容 开始=====================================//
+
+    /**
+     * 视频 列表
+     * @param Request $request
+     * @param $page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function videosDefault(Request $request, $page = 1) {
+        $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+        $type = "new";
+        $videos = $this->getVideos($type, $page);
+        return $this->videosHtml($type, $types, $videos);
+    }
 
     /**
      * 视频 列表
@@ -37,6 +51,8 @@ class VideoController extends Controller
         $videos = $this->getVideos($type, $page);
         return $this->videosHtml($type, $types, $videos);
     }
+
+
 
 
     /**
@@ -97,7 +113,7 @@ class VideoController extends Controller
         }
         $result['types'] = $types;
         $result['page'] = $videos['page'];
-        $result["pageUrl"] = $this->pageUrl($type);
+        //$result["pageUrl"] = $this->pageUrl($type);
         $result['videos'] = $videos['videos'];
         $result["tags"] = isset($videos["tags"]) ? $videos["tags"] : null;
         $result["stars"] = isset($videos["stars"]) ? $videos["stars"] : null;
@@ -159,6 +175,22 @@ class VideoController extends Controller
         } catch (\Exception $exception) {
         }
         return view('pc.video.detail', $result);
+    }
+
+
+    public function player(Request $request) {
+
+        return view("pc.video.player");
+    }
+
+    public function playerJson(Request $request, $id) {
+        $array = "";
+        $video = HotVideo::query()->find($id);
+        if (!isset($video)) {
+            return response()->json(["code"=>-1]);
+        }
+        $array = ["code"=>0, "id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
+        return response()->json($array);
     }
 
     //=====================================页面内容 结束=====================================//
@@ -326,9 +358,24 @@ class VideoController extends Controller
             if (!empty($html)) {
                 $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
+
+                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $jsonPath = HotVideo::getVideoDetailJsonPath($id);
+                Storage::disk("public")->put($jsonPath, json_encode($json));
             }
         } else {
             echo "视频不存在<br/>";
+        }
+    }
+
+    /**
+     * 静态化视频播放页面
+     * @param Request $request
+     */
+    public function staticVideoPlayer(Request $request) {
+        $html = $this->player($request);
+        if (!empty($html)) {
+            Storage::disk("public")->put("www/video/player.html", $html);
         }
     }
 
@@ -343,8 +390,13 @@ class VideoController extends Controller
         foreach ($videos as $video) {
             $html = $this->videoDetailHtml($video);
             if (!empty($html)) {
-                $path = "www" . HotVideo::getVideoDetailPath($video->id);
+                $id = $video->id;
+                $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
+
+                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $jsonPath = HotVideo::getVideoDetailJsonPath($id);
+                Storage::disk("public")->put($jsonPath, json_encode($json));
             }
         }
         echo "curPage = " . $videos->currentPage() . " ， lastPage = " . $videos->lastPage();
@@ -452,6 +504,12 @@ class VideoController extends Controller
     }
 
     protected function pageUrl($type) {
+        if ($type == "new" || $type == "") {
+            return "/video_page.html";
+        }
+        if (!in_array($type, self::TYPES)) {
+
+        }
         return "/video/".$type."_page.html";
     }
 

@@ -21,8 +21,18 @@
         <div id="Left_part">
             <div id="Video_play_box">
                 <h1>{{$video["title"]}}</h1>
-                <a target="_blank" href="{{$video["link"]}}"><img src="{{$video["image"]}}"></a>
-                {{-- <iframe src="" scrolling="no" allowfullscreen="true"></iframe> --><!-- 直接播放视频 --}}
+                @if($video["player" == 16])
+                    <a target="_blank" href="{{$video["link"]}}"><img src="{{$video["image"]}}"></a>
+                @else
+                    <?php
+                        if ($video["player"] == 11) {
+                            $iLink = $video["link"];
+                        } else {
+                            $iLink = "/video/player.html?id=" . $video["id"];
+                        }
+                    ?>
+                    <iframe src="{{$iLink}}" scrolling="no" allowfullscreen="true"></iframe>{-- 直接播放视频  --}}
+                @endif
             </div>
             @if(isset($comboData["videos"]))
             <div class="el_con">
@@ -164,7 +174,7 @@
 <!-- <script type="text/javascript" src="js/team.js"></script> -->
 <script type="text/javascript">
     window.onload = function () { //需要添加的监控放在这里
-        setADClose();
+
     }
 </script>
 </html>
