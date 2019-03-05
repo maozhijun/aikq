@@ -226,7 +226,6 @@ class HotVideo extends Model
                 $existsQuery->where("tags.tid", $lid);
                 $existsQuery->whereRaw("hot_videos.id = tag_relations.source_id");
             });
-            $link = "/" . $name_en . "/video";
         }
         $videos = $query->take($size)->get();
         $videoArray = [];
@@ -236,7 +235,7 @@ class HotVideo extends Model
                 while (strlen($link_id) < 4) {
                     $link_id = "0" . $link_id;
                 }
-                $link = $link . $link_id . ".html";
+                $link = "/" . $name_en . "/video" . $link_id . ".html";
             } else {
                 $link = HotVideo::getVideoDetailUrl($link_id);
             }
