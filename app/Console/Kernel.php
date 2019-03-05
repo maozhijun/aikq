@@ -137,8 +137,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('record_cache:run index')->everyFiveMinutes();
-//        $schedule->command('record_cache:run league')->everyThirtyMinutes();
+        $schedule->command('tag_static:run team')->everyFiveMinutes();
+        $schedule->command('tag_static:run league')->everyFiveMinutes();
 //        $schedule->command('record_cache:run detail')->everyFiveMinutes();//录像终端静态化,静态化完他就不会执行逻辑了
 
         //足球、篮球比赛 数据同步 开始
