@@ -359,7 +359,7 @@ class VideoController extends Controller
                 $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
 
-                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $json = ["id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
                 $jsonPath = HotVideo::getVideoDetailJsonPath($id);
                 Storage::disk("public")->put($jsonPath, json_encode($json));
             }
@@ -394,7 +394,7 @@ class VideoController extends Controller
                 $path = "www" . HotVideo::getVideoDetailPath($id);
                 Storage::disk("public")->put($path, $html);
 
-                $json = ["id"=>$id, "link"=>$video->link, "playurl"=>$video->player, "platform"=>$video->platform];
+                $json = ["id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
                 $jsonPath = HotVideo::getVideoDetailJsonPath($id);
                 Storage::disk("public")->put($jsonPath, json_encode($json));
             }
