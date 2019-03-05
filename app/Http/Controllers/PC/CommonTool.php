@@ -358,6 +358,22 @@ class CommonTool
             $aid = $match->aid;
         }
 
+        $name = self::getMatchVsByTid($hid, $aid, $tempMid);
+
+        //赛事专题名字
+        $lid = $match->lid;
+        $mls = Controller::MATCH_LEAGUE_IDS;
+        if (isset($mls[$sport.'-'.$lid])) {
+            $name_en = $mls[$sport . '-' . $lid]['name_en'];
+        }
+
+        return ['name'=>$name, 'name_en'=>$name_en, 'hid'=>$hid, 'aid'=>$aid];
+    }
+
+    /**
+     * 根据输入的球队id，组装出比赛终端，对阵id
+     */
+    public static function getMatchVsByTid($hid, $aid, $tempMid = "") {
         //统一让更小的tid放在前面
         if ($hid > $aid) {
             $tempTid = $hid;
@@ -377,15 +393,7 @@ class CommonTool
             }
             $name = $tempHid.$aid;
         }
-
-        //赛事专题名字
-        $lid = $match->lid;
-        $mls = Controller::MATCH_LEAGUE_IDS;
-        if (isset($mls[$sport.'-'.$lid])) {
-            $name_en = $mls[$sport . '-' . $lid]['name_en'];
-        }
-
-        return ['name'=>$name, 'name_en'=>$name_en, 'hid'=>$hid, 'aid'=>$aid];
+        return $name;
     }
 
     /**

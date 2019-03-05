@@ -4,6 +4,12 @@ namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketSeason;
+use App\Models\LgMatch\Score;
+use App\Models\LgMatch\Season;
+use App\Models\Match\MatchLive;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -159,5 +165,49 @@ class HomeController extends Controller
         }
         Storage::disk("public")->put("/static/json/pc/comboData/". $name_en . '.json', $appData);
         return $result;
+    }
+
+    /**
+     * 生成所有赛事专题的 对阵url
+     */
+    public function genAllSubjectMatchVs() {
+        $leagues = SubjectLeague::query()->where('status', SubjectLeague::kStatusShow)->where('type', 1)->get();
+
+        $array = [];
+        foreach ($leagues as $league) {
+            $urls = $this->getSubjectTeamVsDetails($league['name_en'], $league['sport'], $league['lid']);
+            $array = array_merge($array, $urls);
+        }
+        $str = implode("<br>", $array);
+        return "$str";
+    }
+    /**
+     * 专题球队比赛对阵
+     */
+    private function getSubjectTeamVsDetails($name_en, $sport, $lid) {
+        if ($sport == MatchLive::kSportBasketball) {
+            $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = BasketScore::query();
+        } else {
+            $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = Score::query();
+        }
+        $urls = array();
+        if (isset($season)) {
+            $scores = $query->select('tid')->where('lid', $lid)->where('season', $season->name)->get()->unique('tid');
+
+            foreach ($scores as $score) {
+                $tid = $score['tid'];
+                foreach ($scores as $innerScore) {
+                    $vs_tid = $innerScore['tid'];
+                    if ($vs_tid <= $tid) continue;
+
+                    $matchVs = CommonTool::getMatchVsByTid($tid, $vs_tid);
+                    $matchDetailUrl = "https://www.aikanqiu.com/".$name_en."/live".$sport.$matchVs.".html";
+                    $urls[] = $matchDetailUrl;
+                }
+            }
+        }
+        return $urls;
     }
 }

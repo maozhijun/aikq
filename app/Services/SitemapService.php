@@ -161,6 +161,44 @@ class SitemapService
         return $sitemapIndex;
     }
 
+    /**
+     * 专题球队比赛对阵
+     */
+    public function buildSubjectTeamVsDetails($sitemapIndex, $name_en, $sport, $lid) {
+        if ($sport == MatchLive::kSportBasketball) {
+            $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = BasketScore::query();
+        } else {
+            $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $query = Score::query();
+        }
+        if (isset($season)) {
+            AikanQController::leagueRankStatic($sport, $lid);
+            $scores = $query->select('tid')->where('lid', $lid)->where('season', $season->name)->get()->unique('tid');
+
+            $sitemap = App::make("sitemap");
+            foreach ($scores as $score) {
+                $tid = $score['tid'];
+                foreach ($scores as $innerScore) {
+                    $vs_tid = $innerScore['tid'];
+                    if ($vs_tid < $tid) continue;
+
+                    $matchVs = CommonTool::getMatchVsByTid($tid, $vs_tid);
+                    $matchDetailUrl = "/".$name_en."/live".$sport.$matchVs.".html";
+
+                    $sitemap->add($this->getHostByOffset(self::WWW_OFFSET).$matchDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                    $sitemap->add($this->getHostByOffset(self::M_OFFSET).$matchDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                    $sitemap->add($this->getHostByOffset(self::MIP_OFFSET).$matchDetailUrl, date(self::YMDHI_FORMAT, time()), '0.8', 'daily');
+                }
+            }
+            $this->fileOnCreate(storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en/"));
+            $info = $sitemap->store('xml', "match_vs", storage_path(self::SITEMAP_STORAGE_PATH."/subject/$name_en"));
+            Log::info($info);
+
+            $sitemapIndex->addSitemap($this->getHostByOffset(self::WWW_OFFSET) . "/sitemap/subject/$name_en/match_vs.xml", date(self::YMDHI_FORMAT, time()));
+        }
+        return $sitemapIndex;
+    }
 
     /**
      * 资讯终端
