@@ -263,7 +263,7 @@ class SubjectVideoController extends Controller
         }
 
 //        dispatch(new TagStatic(TagRelation::kTypePlayBack, $sv_id));
-        StaticController::staticDetail(TagRelation::kTypePlayBack,$sv_id);
+//        StaticController::staticDetail(TagRelation::kTypePlayBack,$sv_id);
         return response()->json(['code'=>200, 'msg'=>'保存录像线路成功']);
     }
 

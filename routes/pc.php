@@ -152,6 +152,9 @@ Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}_video_{page}.html',"TeamController@videoDetail");//球队终端 视频
 
     Route::get("/static/team_record/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
+    Route::get("/static/team_index/{sport}/{name_en}/{tid}/{page}", "TeamController@staticIndexHtml");//球队录像终端静态化
+    Route::get("/static/team_news/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
+    Route::get("/static/team_video/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
 
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
     Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分

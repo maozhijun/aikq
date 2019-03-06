@@ -63,6 +63,10 @@ class TeamController extends Controller
         return view('pc.team.v2.index', $data);
     }
 
+    public function staticIndexHtml(Request $request, $sport, $name_en, $tid, $page){
+        TeamController::detailStatic($name_en,$tid,$sport);
+    }
+
     public static function detailStatic($name_en, $tid, $sport)
     {
 //        $html = self::detailHtml($data);
@@ -73,7 +77,12 @@ class TeamController extends Controller
 
         //pc站综合页
         $con = new TeamController();
-        $html = $con->detail(new Request(), $name_en, $tid);
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        $tempTid = $sport.$tempTid;
+        $html = $con->detail(new Request(), $name_en, $tempTid);
         if (isset($html) && strlen($html) > 0){
             Storage::disk('public')->put("www/$path", $html);
         }
