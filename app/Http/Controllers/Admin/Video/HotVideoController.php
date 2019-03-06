@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin\Video;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\StaticController;
 use App\Models\Match\HotVideo;
 use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
@@ -147,6 +148,7 @@ class HotVideoController extends Controller
                 $tagArray = is_null($tagArray) ? [] : $tagArray;
                 TagRelation::saveVideoTagRelation($sport, $video->id, $tagArray);
             });
+            StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);
             return response()->json(["code"=>200, "message"=>"保存成功", "id"=>$video->id]);
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -197,6 +199,7 @@ class HotVideoController extends Controller
             Log::error($exception);
             return response()->json(["code"=>500, "message"=>"服务器错误"]);
         }
+        StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);
         return response()->json(["code"=>200, "message"=>"操作成功"]);
     }
 

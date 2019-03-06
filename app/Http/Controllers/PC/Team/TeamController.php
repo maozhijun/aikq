@@ -63,6 +63,10 @@ class TeamController extends Controller
         return view('pc.team.v2.index', $data);
     }
 
+    public function staticIndexHtml(Request $request, $sport, $name_en, $tid, $page){
+        TeamController::detailStatic($name_en,$tid,$sport);
+    }
+
     public static function detailStatic($name_en, $tid, $sport)
     {
 //        $html = self::detailHtml($data);

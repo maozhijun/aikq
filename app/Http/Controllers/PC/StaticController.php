@@ -113,7 +113,86 @@ class StaticController extends Controller
                     }
                 }
             }
-            case TagRelation::kTypeVideo:
+                break;
+            case TagRelation::kTypeVideo:{
+                //终端静态化 本来有了
+                //找到对应的tags
+                $trs = TagRelation::where('type',$type)
+                    ->join('tags','tags.id','=','tag_relations.tag_id')
+                    ->orderby('tags.level','asc')
+                    ->where('tag_relations.source_id',$id)
+                    ->where('tag_relations.type',TagRelation::kTypeVideo)
+                    ->select('tags.*')->get();
+                $name_en = null;
+                $lid = null;
+                foreach ($trs as $tr){
+                    //没错了,就是这么蛋疼,tag和以前的subject_leagues不通,但是又有更新关系,这里做个对应
+                    switch ($tr->level){
+                        case Tag::kLevelTwo:{
+                            //更新赛事combodata
+                            $sl = SubjectLeague::where('lid','=',$tr->tid)->first();
+                            if (isset($sl)) {
+                                $name_en = $sl->name_en;
+                                $lid = $sl->lid;
+                                HomeController::updateFileComboData($name_en);
+                                //赛事终端(录像、资讯、视频)加入更新列表,并且触发page为4,首页直接刷新
+                                //录像 只有一页
+//                                $rcon = new RecordController();
+//                                $rcon->staticIndex(new Request());
+
+                                //资讯 只有一页
+//                                $con = new ArticleController();
+//                                $html = $con->newsHome(new Request());
+//                                if (!empty($html)) {
+//                                    Storage::disk("public")->put("/www/news/index.html", $html);
+//                                }
+                                //视频
+
+                                //资讯专题更新2页,重置page
+                                for ($i = 1 ; $i < 3 ; $i++){
+//                                    StaticController::loadUrl('/static/record_subject/'.$name_en.'/'.$i);
+//                                    $con->subjectDetailHtml(new Request(),$name_en,$i);
+                                }
+//                                StaticController::pushStaticLeague($name_en,"news",3);
+                            }
+                        }
+                            break;
+                        case Tag::kLevelThree:{
+                            //视频对应球队综合页与视频页(更新2页
+                            if (isset($name_en) && isset($lid)) {
+                                $tid = $tr->tid;
+                                $sport = $tr->sport;
+                                $path = CommonTool::getTeamDetailPathWithType($sport, $name_en, $tid,'index',1);
+
+                                //pc站综合页
+                                $con = new TeamController();
+                                $tempTid = $tid;
+                                while (strlen($tempTid) < 4) {
+                                    $tempTid = "0".$tempTid;
+                                }
+                                $tempTid = $sport.$tempTid;
+                                $html = $con->detail(new Request(), $name_en, $tempTid);
+                                if (isset($html) && strlen($html) > 0){
+                                    Storage::disk('public')->put("www/$path", $html);
+                                }
+
+                                //视频
+                                $tcon = new TeamController();
+                                for($i = 1 ; $i < 3 ; $i++){
+//                                    StaticController::loadUrl('/static/team_record/'.$sport.'/'.$name_en.'/'.$tid.'/'.$i);
+                                    $tcon->staticVideoHtml(new Request(),$sport,$name_en,$tid,$i);
+                                }
+                                //球队加入更新队列
+                                StaticController::pushStaticTeam($name_en,$sport,$tid,"video",3);
+                            }
+                        }
+                            break;
+                        case Tag::kLevelFour:
+                        case Tag::kLevelOne:
+                            break;
+                    }
+                }
+            }
                 break;
             case TagRelation::kTypePlayBack:{
                 //终端静态化

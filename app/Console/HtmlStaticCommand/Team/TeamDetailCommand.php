@@ -11,6 +11,7 @@ use App\Models\LgMatch\Season;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
@@ -156,6 +157,10 @@ class TeamDetailCommand extends Command
                 $name_en = $sl->name_en;
                 //pc站
                 TeamController::detailStatic($name_en, $tid, $sport);
+                $con = new TeamController();
+                $con->staticVideoHtml(new Request(),$sport,$name_en,$tid,1);
+                $con->staticRecordHtml(new Request(),$sport,$name_en,$tid,1);
+                $con->staticNewsHtml(new Request(),$sport,$name_en,$tid,1);
             }
             //web站
             \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($webData, $path);
