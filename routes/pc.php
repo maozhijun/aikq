@@ -161,6 +161,7 @@ Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}_record_{page}.html',"TeamController@recordDetail");//球队终端 录像
     Route::get('/{name_en}/team{id}_index_{page}.html',"TeamController@detail");//球队终端 首页
     Route::get('/{name_en}/team{id}_news_{page}.html',"TeamController@newsDetail");//球队终端 资讯
+    Route::get('/{name_en}/team{id}_video_{page}.html',"TeamController@videoDetail");//球队终端 视频
 
     Route::get("/static/team_record/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
 

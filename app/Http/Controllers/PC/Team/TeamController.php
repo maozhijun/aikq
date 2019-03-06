@@ -242,4 +242,92 @@ class TeamController extends Controller
             echo 'TeamController staticNewsHtml ' . $name_en . ' ' . $tid .' ' .$page;
         }
     }
+
+    /***** 视频 *****/
+    public function videoDetail(Request $request, $name_en, $tid, $page)
+    {
+        $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
+        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        if (isset($data)) {
+            $data['name_en'] = $name_en;
+            $this->html_var['zhuanti'] = $data;
+        }
+        $this->html_var['tid'] = $tid;
+        $lid = $data['lid'];
+        $sport = substr($tid, 0, 1);
+        $tid = substr($tid, 1);
+
+        $rdata = TeamController::videoData($name_en,$sport, $tid, $lid);
+        $this->html_var['team'] = $rdata['team'];
+        $this->html_var['title'] = $rdata['title'];
+        $this->html_var['league'] = $rdata['league'];
+        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
+        $this->html_var['name_en'] = $name_en;
+
+        //录像
+        $videos = TagRelation::getRelationsPageByTagId(TagRelation::kTypeVideo,$sport,3,$tid,$page,20);
+
+        $this->html_var['videos'] = $videos;
+
+        $this->html_var['page'] = $videos->lastPage();
+        $this->html_var['pageNo'] = $page;
+        return view('pc.team.v2.video', $this->html_var);
+    }
+
+    /**
+     * 静态化调用
+     * @param Request $request
+     * @param $sport
+     * @param $name_en
+     * @param $tid
+     * @param $page
+     */
+    public function staticVideoHtml(Request $request, $sport, $name_en, $tid, $page)
+    {
+        $path = CommonTool::getTeamDetailPathWithType($sport,$name_en,$tid,'video',$page);
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        $tempTid = $sport.$tempTid;
+        $html = $this->videoDetail(new Request(),$name_en,$tempTid,$page);
+        if (isset($html) && strlen($html) > 0){
+            Storage::disk('public')->put("www/$path", $html);
+        }
+        else{
+            echo 'TeamController staticvideoHtml ' . $name_en . ' ' . $tid .' ' .$page;
+        }
+    }
+
+    /**
+     * 获取数据
+     * @param $name_en
+     * @param $sport
+     * @param $tid
+     * @param $lid
+     * @return array|null
+     */
+    public static function videoData($name_en,$sport, $tid, $lid){
+        $teamData = AikanQController::teamData($sport, $tid);
+        $result = [];
+        if (!isset($teamData)) {
+            return null;
+        }
+
+        $teamName = isset($teamData['shortName']) ? $teamData['shortName'] : $teamData['name'];
+        if (!isset($lid) || strlen($lid) <= 0) {
+            $lid = AikanQController::getLeagueByTid($sport, $tid);
+        }
+
+        $result['team'] = $teamData;
+        $leagueData = AikanQController::getLeagueDataByLid($sport, $lid);
+        $leagueName = "";
+        if (count($leagueData) > 0) {
+            $result['league'] = $leagueData;
+            $leagueName = isset($leagueData['name']) ? $leagueData['name'] : "";
+        }
+        $result['title'] = "[".$teamName."]".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻-爱看球直播";
+        $result['h1'] = $teamData['name'].'直播';
+        return $result;
+    }
 }
