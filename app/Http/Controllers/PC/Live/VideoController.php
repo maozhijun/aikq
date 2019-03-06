@@ -174,6 +174,9 @@ class VideoController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {
         }
+        $keywords = $video->tagsCn();
+        $result["title"] = $video["title"];
+        $result["keywords"] = str_replace("，", ",", $keywords);
         return view('pc.video.detail', $result);
     }
 
