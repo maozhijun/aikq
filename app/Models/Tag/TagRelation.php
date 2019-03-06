@@ -72,7 +72,6 @@ class TagRelation extends Model
             || !isset($tags) || count($tags) == 0 || !isset($sport) ) {
             return;
         }
-        Log::info($tags);
         //竞技标签
         self::saveFirstRelation($type, $source_id, $sport);
 
@@ -181,6 +180,19 @@ class TagRelation extends Model
             }
         }
         return $array;
+    }
+
+    public static function getLeagueTagRelations($type, $source_id) {
+        $query = self::query();
+        $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $query->where("type", $type);
+        $query->where("source_id", $source_id);
+        $query->where("tags.level", Tag::kLevelTwo);
+        $query->orderBy("tags.level");
+        $query->selectRaw("tag_relations.id");
+        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid", "tags.sport"]);
+        $tags = $query->get()->toArray();
+        return $tags;
     }
 
     public static function getTagWithSids($type, $source_id) {

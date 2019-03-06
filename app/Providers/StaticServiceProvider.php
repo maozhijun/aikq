@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Http\Controllers\Admin\Match\MatchController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
@@ -12,8 +13,11 @@ use App\Models\Match\HotVideo;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectSpecimen;
 use App\Models\Subject\SubjectVideoChannels;
+use App\Models\Tag\Tag;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +46,17 @@ class StaticServiceProvider extends ServiceProvider
 
         HotVideo::saved(function ($hotVideo) {
             HotVideo::staticHotVideoDetailHtml($hotVideo->id);//静态化录像终端
+            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $hotVideo->id);
+            if (isset($array) && count($array) > 0) {
+                foreach ($array as $item) {
+                    $sport = $item["sport"];
+                    $tid = $item["tid"];
+                    $sl = SubjectLeague::getSubjectLeagueByLid($sport, $tid);
+                    if (isset($sl)) {
+                        HomeController::updateFileComboData($sl["name_en"]);
+                    }
+                }
+            }
         });
 
         //线路日志记录  开始

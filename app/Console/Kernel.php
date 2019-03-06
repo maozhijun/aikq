@@ -195,16 +195,15 @@ class Kernel extends ConsoleKernel
 
         //$schedule->command('ttzb_player_json_cache:run')->cron('*/2 * * * *');//2分钟刷新一次天天直播的线路。
 
-        //专题静态化
-        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
-        //$schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
-        $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
-        $schedule->command('subject_player_cache:run')->everyFiveMinutes();//5分钟刷新一次专题列表player.html                      待优化
-
         //视频 静态化
         $schedule->command('hot_video_page_cache:run tab')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  右侧tab栏分页
         $schedule->command('hot_video_page_cache:run league')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  左侧 赛事、联赛
         $schedule->command('hot_video_page_cache:run tags')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
+
+        //专题静态化
+        //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化
+        //$schedule->command('subject_leagues_json:run')->everyFiveMinutes();//->everyMinute();//5分钟刷新一次专题列表json           待优化
+        $schedule->command('subject_detail_cache:run all')->everyFiveMinutes();//->everyMinute();//10分钟刷新一次专题终端              待优化
 
         //百度sitemap生成器，一天两次
         $schedule->command('generate:sitemap')->twiceDaily(1, 18);

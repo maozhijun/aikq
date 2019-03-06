@@ -77,7 +77,9 @@
                     @foreach($scores as $score)
                     <tr>
                         <td>{{$score["rank"]}}</td>
-                        <td class="team"><a href="team.html"><img src="{{\App\Models\Match\Team::getIcon($score["ticon"])}}">{{$score["tname"]}}</a></td>
+                        <td class="team">
+                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sl["sport"], $sl["lid"], $score["tid"])}}"><img src="{{\App\Models\Match\Team::getIcon($score["ticon"])}}">{{$score["tname"]}}</a>
+                        </td>
                         <td>{{$score["count"]}}</td>
                         <td>{{$score["win"]}}</td>
                         <td>{{$score["draw"]}}</td>
@@ -95,7 +97,7 @@
             <div class="header">
                 <h3><p>数据榜单</p></h3>
                 <p class="aline">
-                    <a href="data_league.html">详细{{$sl["name"]}}数据 ></a>
+                    <a target="_blank" href="/{{$sl["name_en"]}}/data/">详细{{$sl["name"]}}数据 ></a>
                 </p>
             </div>
             <div class="data_con">

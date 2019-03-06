@@ -20,6 +20,7 @@ use App\Models\Article\PcArticleType;
 use App\Models\HCT\ForeignArticle;
 use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
+use EasyWeChat\Support\Log;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -230,6 +231,7 @@ class ArticleController extends Controller
         });
 
         if (isset($exception)) {
+            Log::error($exception);
             return response()->json(['code' => 403, 'error' => '数据库异常']);
         }
 

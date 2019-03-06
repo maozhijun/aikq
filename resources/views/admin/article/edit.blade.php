@@ -289,6 +289,7 @@
             imgs = imgs.join('@@@');
             form.images.value = imgs;
             if (formVerify(form)) {
+                form.tags.value = formatTags("match_tag", "team_tag", "player_tag");
                 postForm(form);
             }
         }
