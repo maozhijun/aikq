@@ -102,7 +102,6 @@ class ArticleController extends Controller
                 Storage::disk("public")->put("/www/$name_en/news/index$page.html", $html);
             }
         }
-        echo 'success';
     }
 
     public function subjectNewsHtml($name_en, $articles) {

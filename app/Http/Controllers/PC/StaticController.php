@@ -37,7 +37,6 @@ class StaticController extends Controller
                     ->select('tags.*')->get();
                 $name_en = null;
                 $lid = null;
-                dump($trs);
                 foreach ($trs as $tr){
                     //没错了,就是这么蛋疼,tag和以前的subject_leagues不通,但是又有更新关系,这里做个对应
                     switch ($tr->level){
@@ -79,7 +78,12 @@ class StaticController extends Controller
 
                                 //pc站综合页
                                 $con = new TeamController();
-                                $html = $con->detail(new Request(), $name_en, $tid);
+                                $tempTid = $tid;
+                                while (strlen($tempTid) < 4) {
+                                    $tempTid = "0".$tempTid;
+                                }
+                                $tempTid = $sport.$tempTid;
+                                $html = $con->detail(new Request(), $name_en, $tempTid);
                                 if (isset($html) && strlen($html) > 0){
                                     Storage::disk('public')->put("www/$path", $html);
                                 }
@@ -171,7 +175,12 @@ class StaticController extends Controller
 
                                 //pc站综合页
                                 $con = new TeamController();
-                                $html = $con->detail(new Request(), $name_en, $tid);
+                                $tempTid = $tid;
+                                while (strlen($tempTid) < 4) {
+                                    $tempTid = "0".$tempTid;
+                                }
+                                $tempTid = $sport.$tempTid;
+                                $html = $con->detail(new Request(), $name_en, $tempTid);
                                 if (isset($html) && strlen($html) > 0){
                                     Storage::disk('public')->put("www/$path", $html);
                                 }

@@ -332,7 +332,6 @@ class RecordController extends Controller
                 Storage::disk("public")->put("/www/$league/record/index$page.html", $html);
             }
         }
-        echo 'success';
     }
 
 
@@ -356,7 +355,6 @@ class RecordController extends Controller
             $record->save();
 
             Storage::disk("public")->put('/www'.$path, $html);
-            echo 'success';
 //            $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
 //            $wapHtml = $mobileCon->detailHtml($article);
 //            Storage::disk("public")->put('/m'.$path, $wapHtml);

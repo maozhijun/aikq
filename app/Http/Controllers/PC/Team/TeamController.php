@@ -133,7 +133,6 @@ class TeamController extends Controller
         else{
             echo 'TeamController staticRecordHtml ' . $name_en . ' ' . $tid .' ' .$page;
         }
-        echo 'success';
     }
 
     /**
@@ -242,6 +241,5 @@ class TeamController extends Controller
         else{
             echo 'TeamController staticNewsHtml ' . $name_en . ' ' . $tid .' ' .$page;
         }
-        echo 'success';
     }
 }
