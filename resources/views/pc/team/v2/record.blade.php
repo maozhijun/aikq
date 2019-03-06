@@ -3,7 +3,7 @@
     <div id="Tab_con">
         <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_news_1.html">资讯</a></p>
-{{--        <p><a href="/{{$name_en}}/team{{$tid}}_videos.html">视频</a></p>--}}
+        <p><a href="/{{$name_en}}/team{{$tid}}_video_1.html">视频</a></p>
         <p class="on"><a href="#">录像</a></p>
     </div>
     <table class="match">
@@ -11,7 +11,7 @@
         @foreach($records as $record)
             <?php
             $type = $record['sport'] == 1 ? 'foot' : 'basket';
-            $timeStr = date('Y:m:d H:i',date_create($record['time'])->getTimestamp());
+            $timeStr = date('Y-m-d H:i',date_create($record['time'])->getTimestamp());
             $subject = isset($subjects[$record['s_lid']])? $subjects[$record['s_lid']]['name_en'] : 'other';
             if (!is_null($record->url)){
                 $url = $record->url;
@@ -31,9 +31,9 @@
         @endforeach
         <tr>
             <td colspan="6">
-                @if($page > 1)
+                {{--@if($page >= 1)--}}
                     @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/'.$name_en.'/team'.$tid.'_record_']) @endcomponent
-                @endif
+                {{--@endif--}}
             </td>
         </tr>
     </table>

@@ -30,4 +30,8 @@
         {{--<p><span>{{$curPage}}</span>/{{$lastPage}}</p>--}}
         @if ($lastPage > 7 && $curPage != $lastPage) <a class="down" href="{{$href}}{{$curPage + 1}}.html" >下一页</a> @endif
     </div>
+@else
+    <div class="page">
+    <a class="on" href="{{$href}}1.html">1</a>
+    </div>
 @endif

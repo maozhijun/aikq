@@ -6,7 +6,7 @@
     <div id="Tab_con">
         <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
         <p class="on"><a href="#">资讯</a></p>
-{{--        <p><a href="/{{$name_en}}/team{{$tid}}_videos.html">视频</a></p>--}}
+        <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_video_1.html">视频</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
     </div>
     <div class="list_con">
@@ -30,9 +30,9 @@
                 </div>
             </a>
         @endforeach
-        @if($page > 1)
+        {{--@if($page > 1)--}}
             @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/'.$name_en.'/team'.$tid.'_news_']) @endcomponent
-        @endif
+        {{--@endif--}}
     </div>
 @endsection
 @section('right')

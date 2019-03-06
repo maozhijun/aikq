@@ -8,7 +8,11 @@
     @if(isset($zhuanti))
         <div id="Crumbs">
             <div class="def_content">
-                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}球队
+                <?php
+                $sport = ($zhuanti['name_en'] == 'nba' || $zhuanti['name_en'] == 'cba')?2:1;
+                    $teamIndex = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport,$zhuanti['lid'],$team['id']);
+                ?>
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="{{$teamIndex}}">{{$team['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$team['name']}}资讯
             </div>
         </div>
     @endif
