@@ -32,7 +32,7 @@
             </div>
         </div>
         @endif
-        @if(count($videos) > 0)
+        @if(isset($videos) && count($videos) > 0)
             <div class="video_con">
                 @foreach($videos as $video)
                     <div class="item_con">
