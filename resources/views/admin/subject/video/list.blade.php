@@ -292,8 +292,8 @@
                 //alert("请先上传封面图片");
                 //return;
             }
-            if (title == "" || title.length > 32) {
-                alert("录像线路标题不能为空或者标题不大于32字符");
+            if (title == "" || title.length > 128) {
+                alert("录像线路标题不能为空或者标题不大于128字符");
                 return;
             }
             if (content == "") {

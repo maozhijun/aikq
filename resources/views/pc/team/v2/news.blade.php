@@ -5,7 +5,7 @@
 @section('detail')
     <div id="Tab_con">
         <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
-        <p><a class="on" href="#">资讯</a></p>
+        <p class="on"><a href="#">资讯</a></p>
 {{--        <p><a href="/{{$name_en}}/team{{$tid}}_videos.html">视频</a></p>--}}
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
     </div>

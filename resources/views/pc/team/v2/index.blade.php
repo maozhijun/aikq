@@ -7,7 +7,7 @@
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
     </div>
     <div id="News_Video">
-        @if(count($articles) > 0)
+        @if(isset($articles) && count($articles) > 0)
         <div class="news_con">
             @for($i = 0 ; $i < min(1,count($articles)) ; $i++)
                 <?php

@@ -74,37 +74,6 @@ class ArticleController extends Controller
     }
 
     /**
-     *
-     * @param Request $request
-     * @param $page
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function news(Request $request, $page = 1) {
-        if (!is_numeric($page) || $page < 1) {
-            return abort(404);
-        }
-        $query = PcArticle::getPublishQuery();
-        $articles = $query->paginate(self::PageSize, ['*'], '', $page);
-
-        return $this->newsHtml($articles);
-    }
-
-    /**
-     * @param $articles
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function newsHtml($articles) {
-        $result['articles'] = $articles;
-
-        $result['title'] = '体育新闻资讯-爱看球直播';
-        $result['keywords'] = '体育,资讯';
-        $result['description'] = '最新最全的体育资讯';
-        $result['check'] = "news";
-        $result['ma_url'] = self::getMobileHttpUrl("/news/");
-        return view('pc.article.news', $result);
-    }
-
-    /**
      * 专题文章列表页
     */
     public function subjectNews(Request $request, $name_en, $page = 1) {
@@ -117,6 +86,21 @@ class ArticleController extends Controller
             return $this->subjectNewsHtml($name_en, $articles);
         } else {
             return abort(404);
+        }
+    }
+
+    public function subjectDetailHtml(Request $request, $name_en ,$page = 1){
+        $html = $this->subjectNews($request,$name_en,$page);
+        if (is_null($html)){
+            echo 'ArticleController subjectDetailHtml error ' . $name_en . ' ' . $page;
+        }
+        if (!empty($html)) {
+            if ($page == 1){
+                Storage::disk("public")->put("/www/$name_en/news/index.html", $html);
+            }
+            else{
+                Storage::disk("public")->put("/www/$name_en/news/index$page.html", $html);
+            }
         }
     }
 
@@ -295,6 +279,22 @@ class ArticleController extends Controller
             return;
         }
         $this->generateHtml($detail);
+    }
+
+    /*** 静态化 ***/
+    public function staticIndex(Request $request){
+        $html = $this->newsHome($request);
+        if (!is_null($html) && strlen($html) > 0){
+            try {
+                Storage::disk("public")->put("/www/news/index.html", $html);
+            }
+            catch (\Exception $exception){
+                echo $exception;
+            }
+        }
+        else{
+            echo 'html为空';
+        }
     }
 
     //=================================================================//
