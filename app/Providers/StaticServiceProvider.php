@@ -45,18 +45,7 @@ class StaticServiceProvider extends ServiceProvider
 //        });
 
         HotVideo::saved(function ($hotVideo) {
-            HotVideo::staticHotVideoDetailHtml($hotVideo->id);//静态化录像终端
-            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $hotVideo->id);
-            if (isset($array) && count($array) > 0) {
-                foreach ($array as $item) {
-                    $sport = $item["sport"];
-                    $tid = $item["tid"];
-                    $sl = SubjectLeague::getSubjectLeagueByLid($sport, $tid);
-                    if (isset($sl)) {
-                        HomeController::updateFileComboData($sl["name_en"]);
-                    }
-                }
-            }
+
         });
 
         //线路日志记录  开始

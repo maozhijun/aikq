@@ -18,6 +18,7 @@ use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
