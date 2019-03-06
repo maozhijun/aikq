@@ -168,7 +168,8 @@ class SubjectVideoController extends Controller
                 TagRelation::savePlayBackTagRelation($s_video->sport, $s_video->id, $tagArray);
             });
             $this->flushVideo($s_video->id);
-            dispatch(new TagStatic(TagRelation::kTypePlayBack, $s_video->id));
+//            dispatch(new TagStatic(TagRelation::kTypePlayBack, $s_video->id));
+            StaticController::staticDetail(TagRelation::kTypePlayBack,$s_video->id);
         } catch (\Exception $exception) {
             Log::error($exception);
             return back()->with('error', '保存失败');
@@ -216,8 +217,8 @@ class SubjectVideoController extends Controller
         if (!is_numeric($sv_id)) {
             return response()->json(['code'=>401, 'msg'=>'参数错误']);
         }
-        if (empty($title) || mb_strlen($title) > 32) {
-            return response()->json(['code'=>401, 'msg'=>'录像标题不能为空或者多于32字符']);
+        if (empty($title) || mb_strlen($title) > 128) {
+            return response()->json(['code'=>401, 'msg'=>'录像标题不能为空或者多于128字符']);
         }
 //        if (empty($cover)) {
 //            return response()->json(['code'=>401, 'msg'=>'请上传录像封面']);
@@ -260,8 +261,8 @@ class SubjectVideoController extends Controller
             return response()->json(['code'=>500, 'msg'=>'保存录像线路失败']);
         }
 
-        dispatch(new TagStatic(TagRelation::kTypePlayBack, $sv_id));
-
+//        dispatch(new TagStatic(TagRelation::kTypePlayBack, $sv_id));
+        StaticController::staticDetail(TagRelation::kTypePlayBack,$sv_id);
         return response()->json(['code'=>200, 'msg'=>'保存录像线路成功']);
     }
 

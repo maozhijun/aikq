@@ -125,6 +125,10 @@ Route::group(["namespace" => 'Article'], function () {
     Route::get("/{name_en}/news/index{page}.html", "ArticleController@subjectNews");//专题文章列表
 
     Route::get("/static/article/{id}", "ArticleController@staticDetailHtml");//静态化文章终端
+
+    //2.0
+    Route::get("/static/news/", "ArticleController@recordDetailHtml");//静态化首页
+    Route::get("/static/news_subject/{league}/{page}", "ArticleController@subjectDetailHtml");//静态化专题列表
 });
 
 //主播
