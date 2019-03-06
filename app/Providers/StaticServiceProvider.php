@@ -93,21 +93,12 @@ class StaticServiceProvider extends ServiceProvider
 
         //录像终端静态化
         SubjectVideoChannels::saved(function($videoChannel) {
-            $subCon = new SubjectController();
-            $subCon->staticSubjectVideoNew($videoChannel);
-
-            $video = $videoChannel->video;
-            if (isset($video)) {
-                $sport = $video->sport;
-                $mid = $video->mid;
-                TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
-            }
-        });
-
-        //集锦终端静态化
-        SubjectSpecimen::saved(function ($specimen) {
-            $subCon = new SubjectController();
-            $subCon->staticSubjectSpecimenNew($specimen, false);//静态化pc终端
+//            $video = $videoChannel->video;
+//            if (isset($video)) {
+//                $sport = $video->sport;
+//                $mid = $video->mid;
+//                TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
+//            }
         });
 
         //赛事排名json、球队终端静态化
