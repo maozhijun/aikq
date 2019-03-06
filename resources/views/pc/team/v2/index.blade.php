@@ -6,54 +6,56 @@
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_video_1.html">视频</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
     </div>
-    <div id="News_Video">
-        @if(isset($articles) && count($articles) > 0)
-        <div class="news_con">
-            @for($i = 0 ; $i < min(1,count($articles)) ; $i++)
-                <?php
-                $article = $articles[$i];
-                ?>
-                <a href="{{$article['link']}}" class="img_con">
-                    <img src="{{$article['cover']}}">
-                    <p>{{$article['title']}}</p>
-                </a>
-            @endfor
-            <div class="list_con">
-                @for($i = 1 ; $i < count($articles) ; $i++)
-                    <?php
-                    $article = $articles[$i];
-                    ?>
-                    @if($i == 1)
-                        <a href="{{$article['link']}}" class="h3"><h3>{{$article['title']}}</h3></a>
-                    @else
-                        <a href="{{$article['link']}}">{{$article['title']}}</a>
-                    @endif
-                @endfor
-            </div>
-        </div>
-        @endif
-        @if(isset($videos) && count($videos) > 0)
-            <div class="video_con">
-                @foreach($videos as $video)
-                    <div class="item_con">
-                        <a href="{{\App\Models\Match\HotVideo::getVideoDetailUrl($video->id)}}">
-                            <p class="img_box"><img src="{{$video['image']}}"></p>
-                            <p class="title_con">{{$video['title']}}</p>
-                            <p class="other_info">{{date('m-d', date_create($video['time'])->getTimestamp())}}</p>
-                            <p class="tag_list">
-                                <?php
-                                $tags = \App\Models\Tag\TagRelation::getTagWithSids(\App\Models\Tag\TagRelation::kTypeVideo,$video['id']);
-                                ?>
-                                @foreach($tags as $key=>$tag)
-                                    <span>{{$tag['name']}}</span>
-                                @endforeach
-                            </p>
+    @if((isset($articles) && count($articles) > 0) || (isset($videos) && count($videos) > 0))
+        <div id="News_Video">
+            @if(isset($articles) && count($articles) > 0)
+                <div class="news_con">
+                    @for($i = 0 ; $i < min(1,count($articles)) ; $i++)
+                        <?php
+                        $article = $articles[$i];
+                        ?>
+                        <a href="{{$article['link']}}" class="img_con">
+                            <img src="{{$article['cover']}}">
+                            <p>{{$article['title']}}</p>
                         </a>
+                    @endfor
+                    <div class="list_con">
+                        @for($i = 1 ; $i < count($articles) ; $i++)
+                            <?php
+                            $article = $articles[$i];
+                            ?>
+                            @if($i == 1)
+                                <a href="{{$article['link']}}" class="h3"><h3>{{$article['title']}}</h3></a>
+                            @else
+                                <a href="{{$article['link']}}">{{$article['title']}}</a>
+                            @endif
+                        @endfor
                     </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
+                </div>
+            @endif
+            @if(isset($videos) && count($videos) > 0)
+                <div class="video_con">
+                    @foreach($videos as $video)
+                        <div class="item_con">
+                            <a href="{{\App\Models\Match\HotVideo::getVideoDetailUrl($video->id)}}">
+                                <p class="img_box"><img src="{{$video['image']}}"></p>
+                                <p class="title_con">{{$video['title']}}</p>
+                                <p class="other_info">{{date('m-d', date_create($video['time'])->getTimestamp())}}</p>
+                                <p class="tag_list">
+                                    <?php
+                                    $tags = \App\Models\Tag\TagRelation::getTagWithSids(\App\Models\Tag\TagRelation::kTypeVideo,$video['id']);
+                                    ?>
+                                    @foreach($tags as $key=>$tag)
+                                        <span>{{$tag['name']}}</span>
+                                    @endforeach
+                                </p>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    @endif
     <div class="el_con">
         <div class="header">
             <h3><p>历史战绩</p></h3>
