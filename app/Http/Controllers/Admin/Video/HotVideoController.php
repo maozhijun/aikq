@@ -92,6 +92,7 @@ class HotVideoController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function saveHotVideo(Request $request) {
+        $adAccount = $request->_account;
 
         $id = $request->input("id");
         $title = $request->input("title");
@@ -140,6 +141,7 @@ class HotVideoController extends Controller
             $video->player = $player;
             $video->platform = $platform;
             $video->image = $image;
+            $video->ad_id = $adAccount->id;
 
             DB::transaction(function () use ($video, $tags, $sport) {
                 $video->save();

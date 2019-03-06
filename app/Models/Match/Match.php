@@ -573,4 +573,21 @@ class Match extends Model
         return $query->get();
     }
 
+    public static function scheduleNearMatch($lid) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $query->where("time", ">=", date('Y-m-d H:i:s', strtotime('-3 hours')));
+        $query->where("status", ">=", 0);
+        $query->orderBy("time");
+        return $query->first();
+    }
+
+    public static function getScheduleMatchLive($lid, $round) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $query->where("round", $round);
+        $query->orderBy("time")->orderBy("id");
+        return $query->get();
+    }
+
 }

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
@@ -169,8 +170,7 @@ class VideoController extends Controller
         }
 
         try {
-            $json = Storage::get("/public/static/json/pc/comboData/".$name_en.".json");
-            $comboData = json_decode($json, true);
+            $comboData = CommonTool::getComboData($name_en);//Storage::get("/public/static/json/pc/comboData/".$name_en.".json");
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {
         }

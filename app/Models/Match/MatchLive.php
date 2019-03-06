@@ -467,4 +467,11 @@ class MatchLive extends Model
         return true;
     }
 
+    public static function getMatchLiveByMid($sport, $mid) {
+        $query = self::query();
+        $query->where("sport", $sport);
+        $query->where("match_id", $mid);
+        return $query->first();
+    }
+
 }

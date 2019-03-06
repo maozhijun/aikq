@@ -187,6 +187,7 @@
     <div id="cover_show" style="display: none; position:absolute;z-index:1000;"><img src="" style="max-width: 300px;max-height: 300px;" ></div>
 @endsection
 @section('js')
+    <script type="text/javascript" src="/js/json2.js"></script>
     <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     <script type="text/javascript">
         var upBtn;
