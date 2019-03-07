@@ -178,6 +178,7 @@ class VideoController extends Controller
         $keywords = $video->tagsCn();
         $result["title"] = $video["title"];
         $result["keywords"] = str_replace("，", ",", $keywords);
+        $result['check'] = 'videos';
         return view('pc.video.detail', $result);
     }
 

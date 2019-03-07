@@ -80,6 +80,7 @@ class RecordController extends Controller
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
+            $this->html_var['keywords'] = $data['name'].','.'比赛录像';
         }
         //录像
         $records = RecordController::getRecordBySid($data['id'],$pageNo);
@@ -218,6 +219,9 @@ class RecordController extends Controller
         $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['check'] = 'record';
         //专题资讯 结束
+        $this->html_var["title"] = '['.$sv["hname"].'VS'.$sv["aname"].']'.$sv["lname"].$sv["hname"].'VS'.$sv["aname"].'比赛录像_爱看球直播';
+        $keywords = $sv->tagsCn();
+        $this->html_var["keywords"] = str_replace("，", ",", $keywords);
         return view('pc.record.detail',$this->html_var);
     }
 
