@@ -487,4 +487,13 @@ class CommonTool
         }
         return $json;
     }
+
+
+    public static function getPlayerData($sport, $lid, $season, $kind) {
+        $url = "/static/technical/".$sport."/" . $lid . "/player/" . $season . '_' . $kind . ".json";
+        $url = "http://match.liaogou168.com" . $url;
+        $playerTech = Controller::execUrl($url, 5);
+        return $playerTech;
+    }
+
 }

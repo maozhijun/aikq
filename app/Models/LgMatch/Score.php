@@ -85,11 +85,11 @@ class Score extends Model
             $query->where('season', $year);
             $query->orderBy('group')->orderByDesc('score');
             $query->orderByRaw('(goal - fumble) desc');
-            $query->selectRaw('teams.name as tname, scores.*');
+            $query->selectRaw('teams.name as tname, teams.icon, scores.*');
             $scores = $query->get();
             foreach ($scores as $score) {
                 $g = $score->group;
-                $array[$g][] = ['tid' => $score->tid, 'lid' => $score->lid, 'sport' => 1,
+                $array[$g][] = ['tid' => $score->tid, 'lid' => $score->lid, 'sport' => 1, "icon"=>$score->icon,
                     'group' => $g, 'score' => $score->score, 'win' => $score->win, 'draw' => $score->draw, 'name' => $score->tname,
                     'lose' => $score->lose, 'count' => $score->count, 'goal' => $score->goal, 'fumble' => $score->fumble];
             }

@@ -16,6 +16,7 @@ use App\Http\Controllers\PC\MatchTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
+use App\Models\LgMatch\Stage;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
@@ -101,6 +102,12 @@ class SubjectController extends Controller
         $lid = $sl->lid;
         //赛季
         $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        //判断是否杯赛
+        $total_round = $season["total_round"];
+        if (is_null($total_round)) {//无轮次则是 杯赛
+            return $this->footballCupDetailHtml($sl, $season);
+        }
+
         //赛季
         $year = $season["name"];
         //积分
@@ -112,6 +119,8 @@ class SubjectController extends Controller
         $rounds = Match::getScheduleMatchLive($lid, $round);
         //数据榜单
         //右侧内容（球员信息）
+        $playerString = CommonTool::getPlayerData($sport, $lid, $year, 0);
+        $data = json_decode($playerString, true);
 
         try {
             $comboData = CommonTool::getComboData($name_en);
@@ -124,7 +133,46 @@ class SubjectController extends Controller
         $result["round"] = $round;
         $result["scores"] = $scores;
         $result["rounds"] = $rounds;
+        $result["data"] = $data;
         return view("pc.subject.v2.football_detail", $result);
+    }
+
+    /**
+     * 杯赛终端
+     * @param SubjectLeague $sl
+     * @param Season $season
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function footballCupDetailHtml(SubjectLeague $sl, Season $season) {
+        $sport = $sl["sport"];
+        $name_en = $sl["name_en"];
+        $lid = $sl["lid"];
+        //欧冠阶段
+        $stages = Stage::getStages($lid, $season["name"]);
+        $curStage = 0;
+        foreach ($stages as $stage) {
+            if ($stage["status"] == 1) {
+                $curStage = $stage["id"];
+                break;
+            }
+        }
+        $schedules = Match::getScheduleCup($lid, $curStage);//赛程
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season["name"], 0);
+        $data = json_decode($playerString, true);
+
+        try {
+            $comboData = CommonTool::getComboData($name_en);
+            $result["comboData"] = $comboData;
+        } catch (\Exception $exception) {}
+
+        $result['ranks'] = Score::footballCupScores($lid);//杯赛小组排名
+        $result["sl"] = $sl;
+        $result["season"] = $season;
+        $result["stages"] = $stages;
+        $result["schedules"] = $schedules;
+        $result["data"] = $data;
+
+        return view("pc.subject.v2.football_detail_cup", $result);
     }
 
     //=====================================================//
