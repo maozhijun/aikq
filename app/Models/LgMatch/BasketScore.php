@@ -39,7 +39,7 @@ class BasketScore extends Model
             $query->where('basket_scores.zone', $zone);
             $query->where('basket_scores.season', $season->name);
             $query->orderBy('basket_scores.rank');
-            $query->selectRaw("basket_teams.name_china, basket_scores.*");
+            $query->selectRaw("basket_teams.name_china, basket_teams.icon, basket_scores.*");
             $scores = $query->get();
 
             foreach ($scores as $score) {
@@ -47,7 +47,9 @@ class BasketScore extends Model
                 $lose = $score->lose;
                 $total = $win + $lose;
                 $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
-                $array[] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>2,
+                $array[] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>2, "icon"=>BasketTeam::getIcon($score->icon), "win_diff"=>$score["win_diff"],
+                    "home_bat_w"=>$score->home_bat_w, "home_bat_l"=>$score->home_bat_l, "away_bat_w"=>$score->away_bat_w, "away_bat_l"=>$score->away_bat_l,
+                    "goal"=>$score->goal, "fumble"=>$score->fumble, "win_status"=>$score->win_status,
                     'name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p];
             }
         }
