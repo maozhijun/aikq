@@ -57,6 +57,12 @@ class RecordController extends Controller
         $start = date_create($date)->format("Y-m-d");
         $end = date_create($start)->modify("+1 day")->format("Y-m-d");
         $data = $this->getRecordByDate($start,$end);
+        if (count($data) == 0){
+            $data = array($start=>array(
+                'records'=>array(),
+                'date'=>$start
+            ));
+        }
         return response()->json($data);
     }
 
