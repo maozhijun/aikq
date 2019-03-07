@@ -54,8 +54,8 @@ class RecordController extends Controller
     }
 
     public function getMatchWithDate(Request $request, $date){
-        $start = date_create($date)->modify("-6 day")->format("Y-m-d");
-        $end = date_create($start)->modify("+7 day")->format("Y-m-d");
+        $start = date_create($date)->format("Y-m-d");
+        $end = date_create($start)->modify("+1 day")->format("Y-m-d");
         $data = $this->getRecordByDate($start,$end);
         return response()->json($data);
     }
