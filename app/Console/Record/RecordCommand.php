@@ -87,19 +87,7 @@ class RecordCommand extends Command
 
     public function staticSubjectHtml(RecordController $aiCon, SubjectLeague $sl) {
         for ($i = 1 ; $i < 99; $i++){
-            $html = $aiCon->subjectDetailHtml(new Request(), $sl->name_en,$i);
-            if (is_null($html)){
-                break;
-            }
-            if (!empty($html)) {
-                $name_en = $sl->name_en;
-                if ($i == 1){
-                    Storage::disk("public")->put("/www/$name_en/record/index.html", $html);
-                }
-                else{
-                    Storage::disk("public")->put("/www/$name_en/record/index$i.html", $html);
-                }
-            }
+            $aiCon->subjectDetailHtml(new Request(), $sl->name_en,$i);
         }
 
         //手机

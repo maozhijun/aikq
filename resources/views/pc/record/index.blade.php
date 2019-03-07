@@ -17,7 +17,7 @@
             <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
             @if(isset($subjects) && count($subjects) > 0)
                 @foreach($subjects as $id=>$su_obj)
-                    <a href="/{{$su_obj['name_en']}}/record/index.html" class="date_con">{{$su_obj['name']}}</a>
+                    <a href="/{{$su_obj['name_en']}}/record/" class="date_con">{{$su_obj['name']}}</a>
                 @endforeach
             @endif
             <div style="display: none" class="date"><input type="text" name="date" placeholder="选择日期"></div>
@@ -46,14 +46,16 @@
                         else{
                             $url = \App\Http\Controllers\PC\CommonTool::getRecordDetailUrl($subject,$record['mid']);
                         }
+                        $hurl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'],$record['s_lid'],$record['hid']);
+                        $aurl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'],$record['s_lid'],$record['aid']);
                         ?>
                         <tr type="{{$type}}ball">
                             <td><img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png"></td>
                             <td>{{$record['lname']}}</td>
                             <td>{{$timeStr}}</td>
-                            <td>{{$record['hname']}}</td>
+                            <td><a href="{{$hurl}}">{{$record['hname']}}</a></td>
                             <td>{{$record['hscore']}} - {{$record['ascore']}}</td>
-                            <td>{{$record['aname']}}</td>
+                            <td><a href="{{$aurl}}">{{$record['aname']}}</a></td>
                             <td class="channel"><a target="_blank" href="{{$url}}">观看录像</a></td>
                         </tr>
                     @endforeach

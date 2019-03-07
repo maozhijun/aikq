@@ -168,8 +168,8 @@ class SubjectVideoController extends Controller
                 TagRelation::savePlayBackTagRelation($s_video->sport, $s_video->id, $tagArray);
             });
             $this->flushVideo($s_video->id);
-//            dispatch(new TagStatic(TagRelation::kTypePlayBack, $s_video->id));
-            StaticController::staticDetail(TagRelation::kTypePlayBack,$s_video->id);
+            dispatch(new TagStatic(TagRelation::kTypePlayBack, $s_video->id));
+//            StaticController::staticDetail(TagRelation::kTypePlayBack,$s_video->id);
         } catch (\Exception $exception) {
             Log::error($exception);
             return back()->with('error', '保存失败');

@@ -304,6 +304,23 @@ class CommonTool
         return "/$name_en/team$sport$tempTid"."_index_1.html";
     }
 
+    public static function getTeamDetailUrl2($sport, $s_lid, $tid) {
+        $subject = SubjectLeague::find($s_lid);
+        if (isset($subject)) {
+            $name_en = $subject->name_en;
+        } else {
+            $name_en = "other";
+        }
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        if ($name_en == 'other'){
+            return "javascript:void(0)";
+        }
+        return "/$name_en/team$sport$tempTid"."_index_1.html";
+    }
+
     public static function getTeamRecordUrl($sport, $lid, $tid) {
         $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
         if (isset($subject)) {
