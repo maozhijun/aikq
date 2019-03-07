@@ -100,7 +100,9 @@
                     <a target="_blank" href="/{{$sl["name_en"]}}/data/">详细{{$sl["name"]}}数据 ></a>
                 </p>
             </div>
+            @if(isset($data))
             <div class="data_con">
+                @if(isset($data["goal"]))
                 <div class="con_in" style="width: 40%;">
                     <div class="title">
                         <h4>射手榜</h4>
@@ -109,17 +111,14 @@
                         <table>
                             <col><col width="22%"><col width="22%">
                             <tr><th>球员</th><th>进球</th><th>点球</th></tr>
-                            <tr><td><a href="">1 阿扎尔</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">2 梅西</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">3 阿扎尔</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">4 梅西</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">5 阿扎尔</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">6 梅西</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">7 阿扎尔</a></td><td>34</td><td>12</td></tr>
-                            <tr><td><a href="">8 梅西</a></td><td>34</td><td>12</td></tr>
+                            @foreach($data["goal"] as $index=>$goal)
+                            <tr><td><a href="">{{$index + 1}} {{$goal["pname"]}}</a></td><td>{{$goal["value"]}}</td><td>{{$goal["penalty"]}}</td></tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
+                @endif
+                @if(isset($data["assist"]))
                 <div class="con_in" style="width: 30%;">
                     <div class="title">
                         <h4>助攻榜</h4>
@@ -128,17 +127,14 @@
                         <table class="score">
                             <col><col width="35%">
                             <tr><th>球员</th><th>助攻</th></tr>
-                            <tr><td>1 詹姆斯哈登</td><td>10</td></tr>
-                            <tr><td>2 斯蒂芬·库里</td><td>10</td></tr>
-                            <tr><td>3 安东尼·戴维斯</td><td>10</td></tr>
-                            <tr><td>4 费得了</td><td>10</td></tr>
-                            <tr><td>5 波士顿人</td><td>10</td></tr>
-                            <tr><td>6 布鲁</td><td>10</td></tr>
-                            <tr><td>7 夏洛特</td><td>10</td></tr>
-                            <tr><td>8 阿密热</td><td>10</td></tr>
+                            @foreach($data["assist"] as $index=>$assist)
+                            <tr><td>{{$index + 1}} {{$assist["pname"]}}</td><td>{{$assist["value"]}}</td></tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
+                @endif
+                @if(isset($data["red"]) && isset($data["yellow"]))
                 <div class="con_in" style="width: 30%;">
                     <div class="title">
                         <h4>红黄牌</h4>
@@ -149,30 +145,22 @@
                         <table class="yellow">
                             <col><col width="35%">
                             <tr><th>球员</th><th>黄牌</th></tr>
-                            <tr><td>1 詹姆斯哈登</td><td>10</td></tr>
-                            <tr><td>2 斯蒂芬·库里</td><td>10</td></tr>
-                            <tr><td>3 安东尼·戴维斯</td><td>10</td></tr>
-                            <tr><td>4 费得了</td><td>10</td></tr>
-                            <tr><td>5 波士顿人</td><td>10</td></tr>
-                            <tr><td>6 布鲁</td><td>10</td></tr>
-                            <tr><td>7 夏洛特</td><td>10</td></tr>
-                            <tr><td>8 阿密热</td><td>10</td></tr>
+                            @foreach($data["yellow"] as $index=>$yellow)
+                            <tr><td>{{$index+1}} {{$yellow["pname"]}}</td><td>{{$yellow["value"]}}</td></tr>
+                            @endforeach
                         </table>
                         <table class="red" style="display: none;">
                             <col><col width="35%">
                             <tr><th>球员</th><th>红牌</th></tr>
-                            <tr><td>1 詹姆斯哈登</td><td>10</td></tr>
-                            <tr><td>2 斯蒂芬·库里</td><td>10</td></tr>
-                            <tr><td>3 安东尼·戴维斯</td><td>10</td></tr>
-                            <tr><td>4 费得了</td><td>10</td></tr>
-                            <tr><td>5 波士顿人</td><td>10</td></tr>
-                            <tr><td>6 布鲁</td><td>10</td></tr>
-                            <tr><td>7 夏洛特</td><td>10</td></tr>
-                            <tr><td>8 阿密热</td><td>10</td></tr>
+                            @foreach($data["red"] as $index=>$red)
+                            <tr><td>{{$index+1}} {{$red["pname"]}}</td><td>{{$red["value"]}}</td></tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
+                @endif
             </div>
+            @endif
         </div>
     </div>
     <div id="Right_part">
@@ -241,8 +229,9 @@
 </div>
 @endsection
 @section("js")
-<script type="text/javascript">
-    var LeagueKeyword = 'yingchao';
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_2.js"></script>
+    <script type="text/javascript">
+    var LeagueKeyword = '{{$sl["name_en"]}}';
     window.onload = function () { //需要添加的监控放在这里
         setPage();
     }

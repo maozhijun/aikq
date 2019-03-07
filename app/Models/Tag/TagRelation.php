@@ -108,7 +108,7 @@ class TagRelation extends Model
         //球员标签
         $players = isset($tags["player"]) ? $tags["player"] : [];
         foreach ($players as $player) {
-            $tag_id = $team["tag_id"];
+            $tag_id = $player["tag_id"];
             if (empty($tag_id)) {
                 $player_name = $player["name"];
 

@@ -590,4 +590,12 @@ class Match extends Model
         return $query->get();
     }
 
+    public static function getScheduleCup($lid, $stage) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $query->where("stage", $stage);
+        $query->orderBy("time")->orderBy("id");
+        return $query->get();
+    }
+
 }

@@ -114,7 +114,6 @@ class ArticleController extends Controller
         $result['combData'] = CommonTool::getComboData($name_en);
 
         $result['articles'] = $articles;
-        $result['articles'] = $articles;
 
         $result['title'] = '体育新闻资讯-爱看球直播';
         $result['keywords'] = '体育,资讯';
