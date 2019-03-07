@@ -55,7 +55,11 @@
                                     ?>
                                     <tr>
                                         <td>{{$item['rank']}}</td>
-                                        <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
+                                        <td>
+                                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$zhuanti['lid'],$item['tid'])}}">
+                                            <img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}
+                                        </a>
+                                        </td>
                                         <td>{{$item['count']}}</td>
                                         <td>{{$item['win']}}</td>
                                         <td>{{$item['draw']}}</td>
@@ -82,7 +86,11 @@
                                         ?>
                                         <tr>
                                             <td>{{$item['rank']}}</td>
-                                            <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
+                                            <td>
+                                                <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$zhuanti['lid'],$steam['id'])}}">
+                                                    <img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}
+                                                </a>
+                                            </td>
                                             <td>{{$item['count']}}</td>
                                             <td>{{$item['win']}}</td>
                                             <td>{{$item['draw']}}</td>
@@ -126,7 +134,11 @@
                                         ?>
                                         <tr>
                                             <td>{{$index++}}</td>
-                                            <td><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}</td>
+                                            <td>
+                                                <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$zhuanti['lid'],$steam['id'])}}">
+                                                <img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$steam['name']}}
+                                                </a>
+                                            </td>
                                             <td>{{$v}}</td>
                                         </tr>
                                     @endif
@@ -149,7 +161,14 @@
                                     <?php
                                     $steam = $playerTech['teams'][$d['tid']];
                                     ?>
-                                    <tr><td>{{$index+1}}</td><td>{{$d['pname']}}</td><td><img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}</td><td>{{$d['value']}}</td><td>{{$d['penalty']}}</td></tr>
+                                    <tr>
+                                        <td>{{$index+1}}</td><td>{{$d['pname']}}</td>
+                                        <td>
+                                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$zhuanti['lid'],$d['tid'])}}">
+                                            <img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}
+                                            </a>
+                                        </td>
+                                        <td>{{$d['value']}}</td><td>{{$d['penalty']}}</td></tr>
                                 @endforeach
                             </table>
                         </div>
@@ -166,7 +185,10 @@
                                     <?php
                                     $steam = $playerTech['teams'][$d['tid']];
                                     ?>
-                                    <tr><td>{{$index+1}}</td><td>{{$d['pname']}}</td><td><img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}</td><td>{{$d['value']}}</td></tr>
+                                    <tr><td>{{$index+1}}</td><td>{{$d['pname']}}</td><td>
+                                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$zhuanti['lid'],$d['tid'])}}">
+                                            <img onerror="this.src ='{{$steam['w_icon']}}'" src="{{\App\Models\LgMatch\Team::getLgIcon($steam['icon'])}}">{{$steam['name']}}
+                                        </a></td><td>{{$d['value']}}</td></tr>
                                 @endforeach
                             </table>
                         </div>

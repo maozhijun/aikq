@@ -24,9 +24,10 @@
                         @foreach($teams['west'] as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                                $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,1,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -35,9 +36,10 @@
                         @foreach($teams['east'] as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,1,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -46,9 +48,10 @@
                         @foreach($teams as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,2,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -57,9 +60,10 @@
                         @foreach($teams as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(1,$zhuanti['lid'],$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
                             @endif
                         @endforeach
                     </div>

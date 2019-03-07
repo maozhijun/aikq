@@ -31,7 +31,11 @@
                             ?>
                             <tr>
                                 <td>{{$item['rank']}}</td>
-                                <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                <td>
+                                    <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
+                                    <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
+                                    </a>
+                                </td>
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
@@ -61,7 +65,10 @@
                             ?>
                             <tr>
                                 <td>{{$item['rank']}}</td>
-                                <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                <td>
+                                    <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
+                                    <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
+                                </a></td>
                                 <td>{{$item['win']}}</td>
                                 <td>{{$item['lose']}}</td>
                                 <td>{{$item['win_diff']}}</td>
@@ -90,7 +97,10 @@
                                 ?>
                                 <tr>
                                     <td>{{$item['rank']}}</td>
-                                    <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                    <td>
+                                        <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
+                                        <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
+                                    </a></td>
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>
@@ -124,7 +134,10 @@
                                     ?>
                                     <tr>
                                         <td>{{$index++}}</td>
-                                        <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                        <td>
+                                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
+                                            <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
+                                        </a></td>
                                         <td>{{$value['value']}}</td>
                                     </tr>
                                 @endforeach
@@ -149,7 +162,10 @@
                                     <tr>
                                         <td>{{$key+1}}</td>
                                         <td>{{$value['name']}}</td>
-                                        <td><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}</td>
+                                        <td>
+                                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
+                                            <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
+                                        </a></td>
                                         <td>{{$value[$bj]}}</td>
                                     </tr>
                                 @endforeach
