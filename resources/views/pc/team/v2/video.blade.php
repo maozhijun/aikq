@@ -39,7 +39,7 @@
         </div>
         <div class="news">
             @if(isset($comboData) && isset($comboData['articles']))
-                @foreach($articles as $index=>$article)
+                @foreach($comboData['articles'] as $index=>$article)
                     @if($index < 2)
                         <a href="{{$article['link']}}" class="img_news">
                             <p class="img_box"><img src="{{$article['cover']}}"></p>
