@@ -29,6 +29,7 @@ use App\Models\Subject\SubjectSpecimen;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use App\Models\Tag\TagRelation;
+use EasyWeChat\Support\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -1658,6 +1659,7 @@ class AikanQController extends Controller
         $teamData = self::teamData($sport, $tid);
         $result = [];
         if (!isset($teamData)) {
+            Log::info("teamDetailData sport = $sport; lid = $lid; tid = $tid is null");
             return null;
         }
 
