@@ -208,6 +208,7 @@ class ArticleController extends Controller
 
         $result['combData'] = CommonTool::getComboData($name_en);
 
+//        dump($result);
 //        return view('pc.article.article', $result);
         return view('pc.article.v2.article', $result);
     }

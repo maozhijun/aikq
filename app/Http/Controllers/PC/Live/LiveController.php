@@ -172,7 +172,7 @@ class LiveController extends Controller
 
     private function onCombMatchesDataDave($name_en, $matches) {
         //同时把前十条数据保存到combData里
-        $tempMatches = collect($matches)->collapse()->take(10)->all();
+        $tempMatches = collect($matches)->collapse()->where("status", ">=", 0)->take(10)->all();
         try {
             $cache = Storage::get("/public/static/json/pc/comboData/$name_en.json");
             $combData = json_decode($cache, true);
