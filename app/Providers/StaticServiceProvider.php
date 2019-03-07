@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Console\HtmlStaticCommand\Team\TeamDetailCommand;
 use App\Http\Controllers\Admin\Match\MatchController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\Live\SubjectController;
 use App\Models\Anchor\Anchor;
 use App\Models\Anchor\AnchorRoom;
@@ -12,8 +13,11 @@ use App\Models\Match\HotVideo;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\MatchLiveChannelLog;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectSpecimen;
 use App\Models\Subject\SubjectVideoChannels;
+use App\Models\Tag\Tag;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
@@ -41,7 +45,7 @@ class StaticServiceProvider extends ServiceProvider
 //        });
 
         HotVideo::saved(function ($hotVideo) {
-            HotVideo::staticHotVideoDetailHtml($hotVideo->id);//静态化录像终端
+
         });
 
         //线路日志记录  开始
@@ -93,21 +97,12 @@ class StaticServiceProvider extends ServiceProvider
 
         //录像终端静态化
         SubjectVideoChannels::saved(function($videoChannel) {
-            $subCon = new SubjectController();
-            $subCon->staticSubjectVideoNew($videoChannel);
-
-            $video = $videoChannel->video;
-            if (isset($video)) {
-                $sport = $video->sport;
-                $mid = $video->mid;
-                TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
-            }
-        });
-
-        //集锦终端静态化
-        SubjectSpecimen::saved(function ($specimen) {
-            $subCon = new SubjectController();
-            $subCon->staticSubjectSpecimenNew($specimen, false);//静态化pc终端
+//            $video = $videoChannel->video;
+//            if (isset($video)) {
+//                $sport = $video->sport;
+//                $mid = $video->mid;
+//                TeamDetailCommand::onTeamDetailStaticByMid($sport, $mid);
+//            }
         });
 
         //赛事排名json、球队终端静态化

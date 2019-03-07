@@ -140,6 +140,7 @@
 
 @section('js')
     @include('vendor.ueditor.assets')
+    <script type="text/javascript" src="/js/json2.js"></script>
     <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     <script type="text/html" id="article_content">
     {!! (isset($article) && strlen($article->getContent())>0)?$article->getContent():$f_article['content_ch'] !!}
@@ -298,6 +299,7 @@
             imgs = imgs.join('@@@');
             form.images.value = imgs;
             if (formVerify(form)) {
+                form.tags.value = formatTags("match_tag", "team_tag", "player_tag");
                 postForm(form);
             }
         }

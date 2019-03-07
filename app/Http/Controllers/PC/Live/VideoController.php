@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\PC\Live;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
@@ -17,6 +18,7 @@ use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -169,11 +171,13 @@ class VideoController extends Controller
         }
 
         try {
-            $json = Storage::get("/public/static/json/pc/comboData/".$name_en.".json");
-            $comboData = json_decode($json, true);
+            $comboData = CommonTool::getComboData($name_en);//Storage::get("/public/static/json/pc/comboData/".$name_en.".json");
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {
         }
+        $keywords = $video->tagsCn();
+        $result["title"] = $video["title"];
+        $result["keywords"] = str_replace("，", ",", $keywords);
         return view('pc.video.detail', $result);
     }
 

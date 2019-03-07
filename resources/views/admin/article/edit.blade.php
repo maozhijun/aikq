@@ -132,6 +132,7 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript" src="/js/json2.js"></script>
     <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     @include('vendor.ueditor.assets')
     <script type="text/html" id="article_content">
@@ -288,6 +289,7 @@
             imgs = imgs.join('@@@');
             form.images.value = imgs;
             if (formVerify(form)) {
+                form.tags.value = formatTags("match_tag", "team_tag", "player_tag");
                 postForm(form);
             }
         }

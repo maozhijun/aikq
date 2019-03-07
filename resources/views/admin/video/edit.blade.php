@@ -85,6 +85,7 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript" src="/js/json2.js"></script>
     <script type="text/javascript" src="/js/admin/articleTag.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">

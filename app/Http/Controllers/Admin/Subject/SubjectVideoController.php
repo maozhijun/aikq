@@ -258,6 +258,7 @@ class SubjectVideoController extends Controller
             $sv_ch->save();
             $this->flushVideo($sv_id, $sv_ch->id);
         } catch (\Exception $exception) {
+            Log::error($exception);
             return response()->json(['code'=>500, 'msg'=>'保存录像线路失败']);
         }
 

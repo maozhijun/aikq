@@ -10,8 +10,10 @@ namespace App\Http\Controllers\Admin\Video;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\StaticController;
 use App\Models\Match\HotVideo;
+use App\Models\Subject\SubjectLeague;
 use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
@@ -93,6 +95,7 @@ class HotVideoController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function saveHotVideo(Request $request) {
+        $adAccount = $request->_account;
 
         $id = $request->input("id");
         $title = $request->input("title");
@@ -141,7 +144,7 @@ class HotVideoController extends Controller
             $video->player = $player;
             $video->platform = $platform;
             $video->image = $image;
-
+            $video->ad_id = $adAccount->id;
             DB::transaction(function () use ($video, $tags, $sport) {
                 $video->save();
                 $tagArray = json_decode($tags, true);
@@ -149,6 +152,21 @@ class HotVideoController extends Controller
                 TagRelation::saveVideoTagRelation($sport, $video->id, $tagArray);
             });
             StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);
+
+
+            HotVideo::staticHotVideoDetailHtml($video->id);//静态化录像终端
+            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $video->id);
+            if (isset($array) && count($array) > 0) {
+                foreach ($array as $item) {
+                    $sport = $item["sport"];
+                    $tid = $item["tid"];
+                    $sl = SubjectLeague::getSubjectLeagueByLid($sport, $tid);
+                    if (isset($sl)) {
+                        HomeController::updateFileComboData($sl["name_en"]);
+                    }
+                }
+            }
+
             return response()->json(["code"=>200, "message"=>"保存成功", "id"=>$video->id]);
         } catch (\Exception $exception) {
             Log::error($exception);
