@@ -38,17 +38,18 @@
             <a href="/news/">全部资讯</a>
         </div>
         <div class="news">
-            @foreach($articles as $index=>$article)
-                @if($index < 2)
-                    <a href="{{$article['link']}}" class="img_news">
-                        <p class="img_box"><img src="{{$article['cover']}}"></p>
-                        <h3>{{$article['title']}}</h3>
-                    </a>
-                @else
-                    <a href="{{$article['link']}}" class="text_new"><h4>{{$article['title']}}</h4></a>
-                @endif
-            @endforeach
-
+            @if(isset($comboData) && isset($comboData['articles']))
+                @foreach($articles as $index=>$article)
+                    @if($index < 2)
+                        <a href="{{$article['link']}}" class="img_news">
+                            <p class="img_box"><img src="{{$article['cover']}}"></p>
+                            <h3>{{$article['title']}}</h3>
+                        </a>
+                    @else
+                        <a href="{{$article['link']}}" class="text_new"><h4>{{$article['title']}}</h4></a>
+                    @endif
+                @endforeach
+            @endif
         </div>
     </div>
 @endsection

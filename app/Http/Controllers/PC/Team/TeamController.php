@@ -32,6 +32,7 @@ class TeamController extends Controller
     public function detail(Request $request, $name_en, $tid)
     {
         $lid = "";
+        $subjectLeague = null;
         if ($name_en != 'other') {
             $subjectLeague = SubjectLeague::getSubjectLeagueByEn($name_en);
             if (isset($subjectLeague)) {
@@ -41,19 +42,16 @@ class TeamController extends Controller
         $sport = substr($tid, 0, 1);
         $teamId = substr($tid, 1);
 
-        $data = $this->detailDetail($sport, $lid, $teamId,$name_en,$tid);
+        $data = $this->detailDetail($sport, $lid, $teamId,$name_en,$tid,$subjectLeague);
         return self::detailHtml($data);
     }
 
-    public function detailDetail($sport, $lid, $teamId,$name_en,$tid){
+    public function detailDetail($sport, $lid, $teamId,$name_en,$tid,$subj){
         $data = AikanQController::teamDetailData($sport, $lid, $teamId);
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $tmp = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
-        if (isset($tmp)) {
-            $tmp['name_en'] = $name_en;
-        }
-        $data['zhuanti'] = $tmp;
+        $data['zhuanti'] = $this->getSujectLeagueData($name_en, $subj);
         $data['tid'] = explode('_',$tid)[0];
+        $data['show_right'] = false;
         return $data;
     }
 
@@ -92,7 +90,7 @@ class TeamController extends Controller
     public function recordDetail(Request $request, $name_en, $tid, $page)
     {
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = $this->getSujectLeagueData($name_en);
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
@@ -106,7 +104,7 @@ class TeamController extends Controller
         $this->html_var['team'] = $rdata['team'];
         $this->html_var['title'] = $rdata['title'];
         $this->html_var['league'] = $rdata['league'];
-        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
+        $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['name_en'] = $name_en;
 
         //录像
@@ -180,7 +178,7 @@ class TeamController extends Controller
     public function newsDetail(Request $request, $name_en, $tid, $page)
     {
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = $this->getSujectLeagueData($name_en);
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
@@ -194,8 +192,7 @@ class TeamController extends Controller
         $this->html_var['team'] = $rdata['team'];
         $this->html_var['title'] = $rdata['title'];
         $this->html_var['league'] = $rdata['league'];
-        $cd = CommonTool::getComboData($name_en);
-        $this->html_var['videos'] = array_key_exists('videos',$cd) ? $cd['videos'] : array();
+        $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['name_en'] = $name_en;
 
         //资讯翻页
@@ -256,7 +253,7 @@ class TeamController extends Controller
     public function videoDetail(Request $request, $name_en, $tid, $page)
     {
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = $this->getSujectLeagueData($name_en);
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
@@ -270,7 +267,7 @@ class TeamController extends Controller
         $this->html_var['team'] = $rdata['team'];
         $this->html_var['title'] = $rdata['title'];
         $this->html_var['league'] = $rdata['league'];
-        $this->html_var['articles'] = CommonTool::getComboData($name_en)['articles'];
+        $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['name_en'] = $name_en;
 
         //录像
@@ -338,5 +335,20 @@ class TeamController extends Controller
         $result['title'] = "[".$teamName."]".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻-爱看球直播";
         $result['h1'] = $teamData['name'].'直播';
         return $result;
+    }
+
+    /**
+     * 获取专题数据
+     */
+    private function getSujectLeagueData($name_en, $subj = null) {
+        if (isset($subj)) {
+            return $subj;
+        }
+        if ($name_en != 'other') {
+            $subj = SubjectLeague::getSubjectLeagueByEn($name_en);
+        } else {
+            $subj = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        }
+        return $subj;
     }
 }

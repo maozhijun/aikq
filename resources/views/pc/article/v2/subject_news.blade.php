@@ -1,9 +1,6 @@
 <?php
 $leagueName = isset($zhuanti) ? $zhuanti['name'] : "其他";
-$leagueNameLong = isset($zhuanti) ? $zhuanti['name_long'] : "其他";
 $leaguePath = isset($zhuanti) ? '/'.$zhuanti['name_en'].'/' : "/";
-$leagueIcon = isset($zhuanti) ? $zhuanti['icon'] : "";
-$leagueTeamCount= isset($zhuanti) ? $zhuanti['team_count'] : 0;
 ?>
 @extends("pc.layout.v2.base")
 @section("css")
@@ -51,11 +48,7 @@ $leagueTeamCount= isset($zhuanti) ? $zhuanti['team_count'] : 0;
 			</div>
 		</div>
 		<div id="Right_part">
-			<a class="banner_entra" href="{{$leaguePath}}">
-				<img src="{{$leagueIcon}}">
-				<h3>{{$leagueNameLong}}</h3>
-				<p>球队：<span>{{$leagueTeamCount}}支</span></p>
-			</a>
+			@include('pc.cell.v2.right_league_cell', ['zhuanti'=>$zhuanti])
 			<div class="con_box">
 				<div class="header_con">
 					<h4>最近{{$leagueName}}直播</h4>
@@ -69,7 +62,7 @@ $leagueTeamCount= isset($zhuanti) ? $zhuanti['team_count'] : 0;
 					@endif
 				</div>
 			</div>
-			<div class="con_box" style="">
+			<div class="con_box" style="display: none">
 				<div class="header_con">
 					<h4>最新{{$leagueName}}视频</h4>
 					<a href="{{$leaguePath}}">{{$leagueName}}视频集锦</a>

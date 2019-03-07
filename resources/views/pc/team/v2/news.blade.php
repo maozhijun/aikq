@@ -46,8 +46,8 @@
             <a href="{{is_null($zhuanti) ? '/record/':'/'.$zhuanti['name_en'].'/record/'}}">{{$sTitle}}比赛录像</a>
         </div>
         <div class="video">
-            @if(isset($videos))
-                @foreach($videos as $video)
+            @if(isset($comboData) && isset($comboData['videos']))
+                @foreach($comboData['videos'] as $video)
                     <div class="video_item">
                         <a href="{{$video['link']}}">
                             <p class="img_box"><img src="{{$video['image']}}"></p>

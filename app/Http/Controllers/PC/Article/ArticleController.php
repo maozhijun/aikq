@@ -105,7 +105,7 @@ class ArticleController extends Controller
     }
 
     public function subjectNewsHtml($name_en, $articles) {
-        $data = SubjectLeague::query()->where('name_en', $name_en)->first();
+        $data = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($data)) {
             $result['zhuanti'] = $data;
         }

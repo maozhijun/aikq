@@ -37,33 +37,23 @@
             @yield('detail')
         </div>
         <div id="Right_part">
+            @if(isset($comboData) && isset($zhuanti))
+                @include('pc.cell.v2.right_league_cell', ['zhuanti'=>$zhuanti])
+                <div class="con_box">
+                    <div class="header_con">
+                        <h4>最近直播</h4>
+                        <a href="/">全部直播</a>
+                    </div>
+                    <div class="live">
+                        @if(isset($comboData['matches']))
+                            @foreach($comboData['matches'] as $match)
+                                @include('pc.cell.v2.right_match_cell', ['match'=>$match])
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+            @endif
             @yield('right')
-            {{--<a class="banner_entra" href="">--}}
-                {{--<img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=c95a12f874f0f736d8fe4b07326ed424/3801213fb80e7bec36d92766232eb9389b506b31.jpg">--}}
-                {{--<h3>美国男子职业篮球联赛</h3>--}}
-                {{--<p>球队：<span>30支</span></p>--}}
-            {{--</a>--}}
-            {{--<div class="con_box">--}}
-                {{--<div class="header_con">--}}
-                    {{--<h4>最近直播</h4>--}}
-                    {{--<a href="live_list.html">全部直播</a>--}}
-                {{--</div>--}}
-                {{--<div class="live">--}}
-                    {{--<div class="live_item">--}}
-                        {{--<p class="live_match_info">NBA<span>01-24 16:20</span></p>--}}
-                        {{--<div class="live_match_team">--}}
-                            {{--<p class="team"><span><a href="team.html">达拉斯独行侠</a></span></p>--}}
-                            {{--<p class="vs"><span>直播中</span></p>--}}
-                            {{--<p class="team"><span><a href="team.html">多伦多猛龙</a></span></p>--}}
-                        {{--</div>--}}
-                        {{--<div class="live_match_line">--}}
-                            {{--<a href="live.html">高清直播</a>--}}
-                            {{--<a href="live.html">主播剧本球童</a>--}}
-                            {{--<a href="live.html">体育直播</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
         </div>
     </div>
 @endsection
