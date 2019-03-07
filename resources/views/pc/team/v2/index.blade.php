@@ -56,14 +56,14 @@
             @endif
         </div>
     @endif
-    <div class="el_con">
-        <div class="header">
-            <h3><p>历史战绩</p></h3>
-        </div>
-        <div class="schedule_con">
-            <table class="match">
-                <col width="12%"><col width="16.6%"><col><col width="12%"><col><col width="16%">
-                @if(isset($lives['recent']) && count($lives['recent']) > 0)
+    @if(isset($lives['recent']) && count($lives['recent']) > 0)
+        <div class="el_con">
+            <div class="header">
+                <h3><p>历史战绩</p></h3>
+            </div>
+            <div class="schedule_con">
+                <table class="match">
+                    <col width="12%"><col width="16.6%"><col><col width="12%"><col><col width="16%">
                     @foreach($lives['recent'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
@@ -99,18 +99,18 @@
                             @endif
                         </tr>
                     @endforeach
-                @endif
-            </table>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="el_con">
-        <div class="header">
-            <h3><p>未来赛程</p></h3>
-        </div>
-        <div class="schedule_con">
-            <table class="match">
-                <col width="10%"><col width="10%"><col><col width="11%"><col><col width="40%">
-                @if(isset($lives['schedule']) && count($lives['schedule']) > 0)
+    @endif
+    @if(isset($lives['schedule']) && count($lives['schedule']) > 0)
+        <div class="el_con">
+            <div class="header">
+                <h3><p>未来赛程</p></h3>
+            </div>
+            <div class="schedule_con">
+                <table class="match">
+                    <col width="10%"><col width="10%"><col><col width="11%"><col><col width="40%">
                     @foreach($lives['schedule'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
@@ -149,10 +149,10 @@
                             @endif
                         </tr>
                     @endforeach
-                @endif
-            </table>
+                </table>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 @section('right')
     <div class="con_box">
