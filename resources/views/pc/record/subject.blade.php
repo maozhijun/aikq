@@ -1,7 +1,7 @@
 @extends('pc.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/record_list_2.css?time=20192191536">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/record_list_2.css?201903071908">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/record_league_2.css?time=20192191536">
 @endsection
 @section('content')
@@ -99,7 +99,7 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js?201903071908"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
 //            setPage();

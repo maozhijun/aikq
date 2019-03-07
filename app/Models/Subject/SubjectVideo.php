@@ -308,4 +308,34 @@ class SubjectVideo extends Model
         }
         return $article_array;
     }
+
+    public function tagsCn() {
+        $id = $this->id;
+        $tags = TagRelation::getTagRelations(TagRelation::kTypePlayBack, $id);
+        $tagCn = "";
+        if (isset($tags["sport"])) {
+            $tagCn .= $tags["sport"]["name"];
+        }
+        if (isset($tags["match"])) {
+            $this->appendTagCn($tags["match"], $tagCn);
+        }
+        if (isset($tags["team"])) {
+            $this->appendTagCn($tags["team"], $tagCn);
+        }
+        if (isset($tags["player"])) {
+            $this->appendTagCn($tags["player"], $tagCn);
+        }
+        return $tagCn;
+    }
+
+
+    protected function appendTagCn($array, &$cn) {
+        foreach ($array as $tag) {
+            if (empty($cn)) {
+                $cn .= $tag->name;
+            } else {
+                $cn .= "，" . $tag->name;
+            }
+        }
+    }
 }

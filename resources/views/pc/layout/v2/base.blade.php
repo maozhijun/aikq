@@ -69,6 +69,7 @@
                 {{--<a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>--}}
                 {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
                 <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/">资讯</a>
+                <a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/video/">视频</a>
                 <a class="column{{isset($check) && $check == 'record' ? ' on' : ''}}" href="/record/">录像</a>
                 <a class="column{{isset($check) && $check == 'data' ? ' on' : ''}}" href="/data/">数据</a>
                 {{--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>--}}
@@ -110,6 +111,7 @@
 <!--[if lte IE 8]>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/id_2_league_name.js"></script>
 @yield('js')
 <script>
     var _hmt = _hmt || [];

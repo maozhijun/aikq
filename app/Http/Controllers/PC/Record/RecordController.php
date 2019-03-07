@@ -57,6 +57,12 @@ class RecordController extends Controller
         $start = date_create($date)->format("Y-m-d");
         $end = date_create($start)->modify("+1 day")->format("Y-m-d");
         $data = $this->getRecordByDate($start,$end);
+        if (count($data) == 0){
+            $data = array($start=>array(
+                'records'=>array(),
+                'date'=>$start
+            ));
+        }
         return response()->json($data);
     }
 
@@ -74,6 +80,7 @@ class RecordController extends Controller
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
+            $this->html_var['keywords'] = $data['name'].','.'比赛录像';
         }
         //录像
         $records = RecordController::getRecordBySid($data['id'],$pageNo);
@@ -176,7 +183,7 @@ class RecordController extends Controller
     public function detail(Request $request, $name_en, $mid) {
         $this->html_var['check'] = 'record';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
@@ -209,11 +216,12 @@ class RecordController extends Controller
         //专题资讯 开始
 //        $article_array = PcArticle::getLastArticle($name_en);
 //        dump(CommonTool::getComboData($name_en));
-        $cd = CommonTool::getComboData($name_en);
-        $this->html_var['articles'] = array_key_exists("articles",$cd) ? $cd['articles']:array();
-        $this->html_var['videos'] = array_key_exists("videos",$cd) ? $cd['videos']:array();
+        $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['check'] = 'record';
         //专题资讯 结束
+        $this->html_var["title"] = '['.$sv["hname"].'VS'.$sv["aname"].']'.$sv["lname"].$sv["hname"].'VS'.$sv["aname"].'比赛录像_爱看球直播';
+        $keywords = $sv->tagsCn();
+        $this->html_var["keywords"] = str_replace("，", ",", $keywords);
         return view('pc.record.detail',$this->html_var);
     }
 
@@ -274,6 +282,8 @@ class RecordController extends Controller
                 $result[$timeStr]['records'] = array();
                 $result[$timeStr]['date'] = $timeStr;
             }
+            $item['hurl'] = CommonTool::getTeamDetailUrl2($item['sport'],$item['s_lid'],$item['hid']);
+            $item['aurl'] = CommonTool::getTeamDetailUrl2($item['sport'],$item['s_lid'],$item['hid']);
             $result[$timeStr]['records'][] = $item;
         }
         return $result;
