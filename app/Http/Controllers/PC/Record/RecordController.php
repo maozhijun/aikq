@@ -182,7 +182,7 @@ class RecordController extends Controller
     public function detail(Request $request, $name_en, $mid) {
         $this->html_var['check'] = 'record';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
-        $data = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
+        $data = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($data)) {
             $data['name_en'] = $name_en;
             $this->html_var['zhuanti'] = $data;
@@ -215,9 +215,7 @@ class RecordController extends Controller
         //专题资讯 开始
 //        $article_array = PcArticle::getLastArticle($name_en);
 //        dump(CommonTool::getComboData($name_en));
-        $cd = CommonTool::getComboData($name_en);
-        $this->html_var['articles'] = array_key_exists("articles",$cd) ? $cd['articles']:array();
-        $this->html_var['videos'] = array_key_exists("videos",$cd) ? $cd['videos']:array();
+        $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['check'] = 'record';
         //专题资讯 结束
         return view('pc.record.detail',$this->html_var);
