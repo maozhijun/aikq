@@ -282,6 +282,8 @@ class RecordController extends Controller
                 $result[$timeStr]['records'] = array();
                 $result[$timeStr]['date'] = $timeStr;
             }
+            $item['hurl'] = CommonTool::getTeamDetailUrl2($item['sport'],$item['s_lid'],$item['hid']);
+            $item['aurl'] = CommonTool::getTeamDetailUrl2($item['sport'],$item['s_lid'],$item['hid']);
             $result[$timeStr]['records'][] = $item;
         }
         return $result;

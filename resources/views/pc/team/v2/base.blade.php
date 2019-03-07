@@ -1,6 +1,6 @@
 @extends('pc.layout.v2.base')
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?time=20192191536">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=20192191536">
     @yield('teamCss')
 @endsection

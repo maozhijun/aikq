@@ -462,6 +462,16 @@
 	vertical-align: top;
 }
 
+/*公众号*/
+#Right_part .app_banner{
+	margin-bottom: 20px;
+	border-radius: 12px;
+	overflow: hidden;
+}
+#Right_part .app_banner img{
+	width: 100%;
+}
+
 /*右侧banner入口*/
 #Right_part .banner_entra{
 	height: 86px;
@@ -516,10 +526,40 @@
 
 /*右侧直播*/
 #Right_part .live{
-
+	min-height: 100px;
+	position: relative;
+}
+#Right_part .live:before{
+	width: 37px; height: 24px;
+	margin: -30px 0 0 -18px; padding-top: 37px;
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background: url(/img/pc/v2/loading_bg_s.png) no-repeat center\9; background-size: 37px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #9b9b9b;
+	position: absolute; top: 50%; left: 50%;
+	content: '加载中';
+}
+:root #Right_part .live:before{
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background-size: 37px;
+}
+#Right_part .live:after{
+	width: 37px; height: 37px;
+	margin: -30px 0 0 -18px;
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background: url(/img/pc/v2/loading_cover_s.png) no-repeat center\9; background-size: 37px;
+	animation: loadingAnt 3s linear infinite; -moz-animation: loadingAnt 3s linear infinite; -webkit-animation: loadingAnt 3s linear infinite; -o-animation: loadingAnt 3s linear infinite; -ms-animation: loadingAnt 3s linear infinite;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+:root #Right_part .live:after{
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background-size: 37px;
+}
+#Right_part .live.show:before, #Right_part .live.show:after{
+	display: none;
 }
 #Right_part .live .live_item{
 	padding: 8px 16px 13px;
+	display: none;
+}
+#Right_part .live.show .live_item{
+	display: block;
 }
 #Right_part .live .live_item + .live_item{
 	border-top: 1px solid #e1e1e1;
@@ -557,24 +597,54 @@
 	color: #d0021b;
 }
 #Right_part .live .live_item .live_match_line{
-	padding: 0 10px; margin-bottom: -10px;
+	/*padding: 0 10px;*/ margin-bottom: -10px;
 	text-align: center;
 }
 #Right_part .live .live_item .live_match_line a{
 	height: 24px;
-	margin: 0 6px 10px; padding: 0 12px;
+	margin: 0 6px 10px; padding: 0 6px;
 	font-size: 12px; line-height: 24px; color: #0054dd;
 	display: inline-block;
 }
 
 /*右侧视频*/
 #Right_part .video{
+	min-height: 100px;
 	margin-top: -4px; padding: 0 6px 10px;
 	font-size: 0; line-height: 0;
+	position: relative;
+}
+#Right_part .video:before{
+	width: 37px; height: 24px;
+	margin: -30px 0 0 -18px; padding-top: 37px;
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background: url(/img/pc/v2/loading_bg_s.png) no-repeat center\9; background-size: 37px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #9b9b9b;
+	position: absolute; top: 50%; left: 50%;
+	content: '加载中';
+}
+:root #Right_part .video:before{
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background-size: 37px;
+}
+#Right_part .video:after{
+	width: 37px; height: 37px;
+	margin: -30px 0 0 -18px;
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background: url(/img/pc/v2/loading_cover_s.png) no-repeat center\9; background-size: 37px;
+	animation: loadingAnt 3s linear infinite; -moz-animation: loadingAnt 3s linear infinite; -webkit-animation: loadingAnt 3s linear infinite; -o-animation: loadingAnt 3s linear infinite; -ms-animation: loadingAnt 3s linear infinite;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+:root #Right_part .video:after{
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background-size: 37px;
+}
+#Right_part .video.show:before, #Right_part .video.show:after{
+	display: none;
 }
 #Right_part .video .video_item{
 	width: 50%;
 	vertical-align: top;
+	display: none;
+}
+#Right_part .video.show .video_item{
 	display: inline-block;
 }
 #Right_part .video .video_item a{
@@ -606,7 +676,34 @@
 
 /*右侧新闻*/
 #Right_part .news{
+	min-height: 100px;
 	padding: 0 16px 18px;
+	position: relative;
+}
+#Right_part .news:before{
+	width: 37px; height: 24px;
+	margin: -30px 0 0 -18px; padding-top: 37px;
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background: url(/img/pc/v2/loading_bg_s.png) no-repeat center\9; background-size: 37px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #9b9b9b;
+	position: absolute; top: 50%; left: 50%;
+	content: '加载中';
+}
+:root #Right_part .news:before{
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background-size: 37px;
+}
+#Right_part .news:after{
+	width: 37px; height: 37px;
+	margin: -30px 0 0 -18px;
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background: url(/img/pc/v2/loading_cover_s.png) no-repeat center\9; background-size: 37px;
+	animation: loadingAnt 3s linear infinite; -moz-animation: loadingAnt 3s linear infinite; -webkit-animation: loadingAnt 3s linear infinite; -o-animation: loadingAnt 3s linear infinite; -ms-animation: loadingAnt 3s linear infinite;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+:root #Right_part .news:after{
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background-size: 37px;
+}
+#Right_part .news.show:before, #Right_part .news.show:after{
+	display: none;
 }
 #Right_part .news .img_news{
 	height: 80px; width: 100%;
@@ -615,7 +712,10 @@
 	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 	position: relative;
 	overflow: hidden;
-	display: table;
+	display: none;
+}
+#Right_part .news.show .img_news{
+	display: table;	
 }
 #Right_part .news .img_news .img_box{
 	width: 120px; height: 80px;
@@ -644,6 +744,9 @@
 	font-size: 12px; line-height: 18px;
 	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 	position: relative;
+	display: none;
+}
+#Right_part .news.show .text_new{
 	display: block;
 }
 #Right_part .news .img_news + .text_new{
@@ -664,8 +767,44 @@
 
 /*右侧录像*/
 #Right_part .record{
-	width: 100%;
+	width: 100%; min-height: 100px;
 	font-size: 12px; line-height: 18px;
+	position: relative;
+	display: block;
+}
+#Right_part .record.show{
+	display: table;
+}
+#Right_part .record:before{
+	width: 37px; height: 24px;
+	margin: -30px 0 0 -18px; padding-top: 37px;
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background: url(/img/pc/v2/loading_bg_s.png) no-repeat center\9; background-size: 37px;
+	font-size: 12px; line-height: 24px; text-align: center; color: #9b9b9b;
+	position: absolute; top: 50%; left: 50%;
+	content: '加载中';
+}
+:root #Right_part .record:before{
+	background: url(/img/pc/v2/loading_bg_s.png) no-repeat center top; background-size: 37px;
+}
+#Right_part .record:after{
+	width: 37px; height: 37px;
+	margin: -30px 0 0 -18px;
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background: url(/img/pc/v2/loading_cover_s.png) no-repeat center\9; background-size: 37px;
+	animation: loadingAnt 3s linear infinite; -moz-animation: loadingAnt 3s linear infinite; -webkit-animation: loadingAnt 3s linear infinite; -o-animation: loadingAnt 3s linear infinite; -ms-animation: loadingAnt 3s linear infinite;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+:root #Right_part .record:after{
+	background: url(/img/pc/v2/loading_cover_s.png) no-repeat center; background-size: 37px;
+}
+#Right_part .record.show:before, #Right_part .record.show:after{
+	display: none;
+}
+#Right_part .record tr{
+	display: none;
+}
+#Right_part .record.show tr{
+	display: table-row;
 }
 #Right_part .record td{
 	height: 56px;
@@ -768,6 +907,21 @@
 	font-size: 12px; color: #9b9b9b;
 }
 
+/*无内容*/
+#Right_part .noList_con{
+	height: 30px;
+	padding: 90px 0 0;
+	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 15px; background: url(/img/pc/v2/bg_vip_nolist_80.png) no-repeat center 15px\9; background-size: auto 70px;
+	font-size: 12px; line-height: 30px; text-align: center; color: #9b9b9b;
+	display: none;
+}
+:root #Right_part .noList_con{
+	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 15px; background-size: auto 70px;
+}
+#Right_part .noList_con:first-child{
+	display: block;
+}
+
 
 @media screen and (min-width: 1300px){
 	#Left_part{
@@ -785,5 +939,24 @@
 
 
 
-
-
+/*loading动画*/
+@keyframes loadingAnt
+{
+from {transform: rotate(0deg); -ms-transform: rotate(0deg);}
+to {transform: rotate(360deg); -ms-transform: rotate(360deg);}
+}
+@-moz-keyframes loadingAnt /* Firefox */
+{
+from {-moz-transform: rotate(0deg);}
+to {-moz-transform: rotate(360deg);}
+}
+@-webkit-keyframes loadingAnt /* Safari 和 Chrome */
+{
+from {-webkit-transform: rotate(0deg);}
+to {-webkit-transform: rotate(360deg);}
+}
+@-o-keyframes loadingAnt /* Opera */
+{
+from {-o-transform: rotate(0deg);}
+to {-o-transform: rotate(360deg);}
+}

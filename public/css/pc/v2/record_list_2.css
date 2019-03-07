@@ -111,6 +111,16 @@
 	text-decoration: underline;
 }
 
+.el_con table tfoot td{
+	height: 60px;
+	padding: 140px 0 0 0 !important;
+	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 30px; background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 30px\9; background-size: 120px;
+	vertical-align: top;
+	font-size: 14px; line-height: 24px; text-align: center; color: #9b9b9b;
+}
+:root .el_con table tfoot td{
+	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 20px; background-size: 120px;
+}
 
 
 
