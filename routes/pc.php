@@ -72,6 +72,8 @@ Route::group(["namespace" => 'Data'], function () {
     Route::get("/{subject}/data/", "DataController@detail");
     //静态化
 
+    Route::get("/static/data_index/", "DataController@staticIndex");
+    Route::get("/static/data_subject/{subject}", "DataController@staticSubject");
 });
 
 Route::group(["namespace" => 'FIFA'], function () {
