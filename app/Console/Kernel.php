@@ -207,6 +207,10 @@ class Kernel extends ConsoleKernel
 
         //百度sitemap生成器，一天两次
         $schedule->command('generate:sitemap')->twiceDaily(1, 18);
+
+        //数据,一天一次
+        $schedule->command('data_cache:run index')->dailyAt("7:20");
+        $schedule->command('data_cache:run league')->dailyAt("7:20");
     }
 
     /**

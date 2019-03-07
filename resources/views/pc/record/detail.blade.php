@@ -26,10 +26,10 @@
     }
     if (isset($zhuanti))
     {
-        $zt = '/'.$zhuanti['name_en'].'/record/index.html';
+        $zt = '/'.$zhuanti['name_en'].'/record/';
     }
     else{
-        $zt = '/record/index.html';
+        $zt = '/record/';
     }
     ?>
     <div class="def_content" id="Part_parent">

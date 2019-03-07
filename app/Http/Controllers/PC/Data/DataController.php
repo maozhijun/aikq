@@ -395,4 +395,11 @@ class DataController extends Controller{
         }
         return null;
     }
+
+    public function staticSubject(Request $request, $name_en){
+        $html = $this->detail($request,$name_en);
+        if (!empty($html)) {
+            Storage::disk("public")->put("/www/$name_en/data/index.html", $html);
+        }
+    }
 }

@@ -2,11 +2,14 @@
 
 namespace App\Console\HtmlStaticCommand;
 
+use App\Http\Controllers\PC\Article\ArticleController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\LiveController;
 use App\Http\Controllers\PC\Record\RecordController;
 use App\Http\Controllers\PC\StaticController;
 use App\Http\Controllers\PC\Team\TeamController;
+use App\Models\Article\PcArticle;
+use App\Models\Article\PcArticleType;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Tag\TagRelation;
@@ -54,19 +57,42 @@ class TagCommand extends BaseCommand
                 $sl = SubjectLeague::where('name_en',$name_en)->first();
                 if (is_null($sl))
                     return;
-                //拿这页的数据
-                $records = RecordController::getRecordBySid($sl->id,$page);
-                //一共有多少页
-                $lastPage = $records['page'];
-                //一次2页
-                for ($i = $page ; $i < min($lastPage + 1,$page + 2) ; $i++){
-                    $this->loadUrl('/static/record_subject/'.$name_en.'/'.$page);
+                if ($stype == 'record'){
+                    //拿这页的数据
+                    $datas = RecordController::getRecordBySid($sl->id,$page);
+                    //一共有多少页
+                    $lastPage = $datas['page'];
+                    //一次2页
+                    for ($i = $page ; $i < min($lastPage + 1,$page + 2) ; $i++){
+                        $this->loadUrl('/static/record_subject/'.$name_en.'/'.$i);
+                    }
                 }
-                if ($page + 2 >= $lastPage){
-                    StaticController::delStaticLeague($name_en,"record");
+                else if ($stype == 'news'){
+                    //拿这页的数据
+                    $typeId = -1;
+                    $typeObj = PcArticleType::getTypeByTypeEn($name_en);
+                    if ($typeObj != null) {
+                        $typeId = $typeObj->id;
+                    }
+
+                    $query = PcArticle::getPublishQuery();
+                    if ($typeId > 0) {
+                        $query->where('type', $typeId);
+                    }
+                    $datas = $query->paginate(ArticleController::APP_PAGE_SIZE, ['*'], '', $page);
+                    $lastPage = $datas->lastPage();
+                    //一次2页
+                    for ($i = $page ; $i < min($lastPage + 1,$page + 2) ; $i++){
+                        $this->loadUrl('/static/news_subject/'.$name_en.'/'.$i);
+                    }
+                }
+                //清空
+                if ($page + 2 > $lastPage){
+                    StaticController::delStaticLeague($name_en,$stype);
                 }
                 else{
-                    StaticController::pushStaticLeague($name_en,"record",($page + 2));
+                    dump('here');
+                    StaticController::pushStaticLeague($name_en,$stype,($page + 2));
                 }
             }
         }
@@ -102,13 +128,13 @@ class TagCommand extends BaseCommand
                 //一共有多少页
                 $lastPage = $records['page'];
                 for ($i = $page ; $i < min($lastPage + 1,$page + 2) ; $i++){
-                    $this->loadUrl('/static/team_record/'.$sport.'/'.$name_en.'/'.$tid.'/'.$page);
+                    $this->loadUrl('/static/team_record/'.$sport.'/'.$name_en.'/'.$tid.'/'.$i);
                 }
                 if ($page + 2 >= $lastPage){
-                    StaticController::delStaticTeam($name_en,$sport,$tid,"record");
+                    StaticController::delStaticTeam($name_en,$sport,$tid,$stype);
                 }
                 else{
-                    StaticController::pushStaticTeam($name_en,$sport,$tid,"record",($page + 2));
+                    StaticController::pushStaticTeam($name_en,$sport,$tid,$stype,($page + 2));
                 }
             }
         }

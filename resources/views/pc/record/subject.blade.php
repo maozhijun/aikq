@@ -24,9 +24,10 @@
                         @foreach($teams['west'] as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                                $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,1,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -35,9 +36,10 @@
                         @foreach($teams['east'] as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,1,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -46,9 +48,10 @@
                         @foreach($teams as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(2,2,$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -57,9 +60,10 @@
                         @foreach($teams as $tid)
                             <?php
                             $team = $teamsData[$tid];
+                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamRecordUrl(1,$zhuanti['lid'],$tid);
                             ?>
                             @if(isset($team))
-                                <p class="team_box"><a href=""><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
+                                <p class="team_box"><a href="{{$turl}}"><img src="{{\App\Models\LgMatch\Team::getIcon($team['icon'])}}">{{$team['name']}}</a></p>
                             @endif
                         @endforeach
                     </div>
@@ -73,14 +77,17 @@
                     $timeStr = date('Y-m-d H:i',date_create($record['time'])->getTimestamp());
                     $subject = isset($subjects[$record['s_lid']])? $subjects[$record['s_lid']]['name_en'] : 'other';
                     $subjectCN = isset($subjects[$record['s_lid']])? $subjects[$record['s_lid']]['name'] : $record['lname'];
+
+                    $hurl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'],$record['s_lid'],$record['hid']);
+                    $aurl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'],$record['s_lid'],$record['aid']);
                     ?>
                     <tr type="{{$type}}ball">
                         <td><img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png"></td>
                         <td>{{$subjectCN}}</td>
                         <td>{{$timeStr}}</td>
-                        <td>{{$record['hname']}}</td>
+                        <td><a href="{{$hurl}}">{{$record['hname']}}</a></td>
                         <td>{{$record['hscore']}} - {{$record['ascore']}}</td>
-                        <td>{{$record['aname']}}</td>
+                        <td><a href="{{$aurl}}">{{$record['aname']}}</a></td>
                         <td class="channel"><a target="_blank" href="/{{$subject}}/record{{$record['mid']}}.html">观看录像</a></td>
                     </tr>
                 @endforeach
@@ -92,6 +99,7 @@
     </div>
 @endsection
 @section('js')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
 //            setPage();

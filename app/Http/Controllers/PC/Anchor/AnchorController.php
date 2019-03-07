@@ -261,7 +261,6 @@ class AnchorController extends Controller
             Storage::disk('public')->put('log/www/history/' .$request->input('mid').'.json', $history);
         }
 
-        broadcast(new ChatPushNotification($data));
         return response()->json(['code' => '0','msg'=>'成功'], 200);
     }
 

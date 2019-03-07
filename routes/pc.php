@@ -72,6 +72,8 @@ Route::group(["namespace" => 'Data'], function () {
     Route::get("/{subject}/data/", "DataController@detail");
     //静态化
 
+    Route::get("/static/data_index/", "DataController@staticIndex");
+    Route::get("/static/data_subject/{subject}", "DataController@staticSubject");
 });
 
 Route::group(["namespace" => 'FIFA'], function () {
@@ -153,8 +155,8 @@ Route::group(["namespace" => 'Team'], function () {
 
     Route::get("/static/team_record/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
     Route::get("/static/team_index/{sport}/{name_en}/{tid}/{page}", "TeamController@staticIndexHtml");//球队录像终端静态化
-    Route::get("/static/team_news/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
-    Route::get("/static/team_video/{sport}/{name_en}/{tid}/{page}", "TeamController@staticRecordHtml");//球队录像终端静态化
+    Route::get("/static/team_news/{sport}/{name_en}/{tid}/{page}", "TeamController@staticNewsHtml");//球队录像终端静态化
+    Route::get("/static/team_video/{sport}/{name_en}/{tid}/{page}", "TeamController@staticVideoHtml");//球队录像终端静态化
 
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
     Route::get('/json/rank/{sport}/{lid}.html',"TeamController@rank");//球队积分
@@ -215,6 +217,8 @@ Route::group(["namespace" => 'Record'], function () {
     Route::get('/record/index.html', 'RecordController@index');//首页
     Route::get('/{name_en}/record/index{pageNo}.html', 'RecordController@subject');//专题录像
     Route::get('/{name_en}/record/index.html', 'RecordController@subject');//专题录像
+
+    Route::get('/api/recordData/{date}', 'RecordController@getMatchWithDate');//接口
 
     Route::get("/static/record/{id}", "RecordController@recordDetailHtml");//静态化终端
     Route::get("/static/record_subject/{league}/{page}", "RecordController@subjectDetailHtml");//静态化专题列表

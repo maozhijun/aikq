@@ -56,30 +56,41 @@ $leagueTeamCount= isset($zhuanti) ? $zhuanti['team_count'] : 0;
 				<h3>{{$leagueNameLong}}</h3>
 				<p>球队：<span>{{$leagueTeamCount}}支</span></p>
 			</a>
-			<div class="con_box" style="display: none">
+			<div class="con_box">
 				<div class="header_con">
 					<h4>最近{{$leagueName}}直播</h4>
 					<a href="/">全部直播</a>
 				</div>
-				<div class="live"></div>
+				<div class="live">
+					@if(isset($combData['matches']))
+						@foreach($combData['matches'] as $match)
+							@include('pc.cell.v2.right_match_cell', ['match'=>$match])
+						@endforeach
+					@endif
+				</div>
 			</div>
-			<div class="con_box" style="display: none">
+			<div class="con_box" style="">
 				<div class="header_con">
 					<h4>最新{{$leagueName}}视频</h4>
 					<a href="{{$leaguePath}}">{{$leagueName}}视频集锦</a>
 					<a href="{{$leaguePath}}">{{$leagueName}}比赛录像</a>
 				</div>
+				<div class="video">
+					@if(isset($combData['videos']))
+						@foreach($combData['videos'] as $video)
+							<div class="video_item">
+								<a href="{{$video['link']}}">
+									<p class="img_box"><img src="{{$video['image']}}"></p>
+									<p class="text_box">{{$video['title']}}</p>
+								</a>
+							</div>
+						@endforeach
+					@endif
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-@endsection
-@section("js")
-	<script type="text/javascript">
-        $.get("/news/lives.html", function (html) {
-            $("#Right").html(html);
-        });
-	</script>
 @endsection
 
 

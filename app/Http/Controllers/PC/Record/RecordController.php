@@ -53,6 +53,13 @@ class RecordController extends Controller
         return view('pc.record.index',$this->html_var);
     }
 
+    public function getMatchWithDate(Request $request, $date){
+        $start = date_create($date)->format("Y-m-d");
+        $end = date_create($start)->modify("+1 day")->format("Y-m-d");
+        $data = $this->getRecordByDate($start,$end);
+        return response()->json($data);
+    }
+
     /**
      * 专题录像列表 nba cba终端那些
      * @param Request $request

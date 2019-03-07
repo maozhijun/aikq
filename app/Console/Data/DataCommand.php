@@ -66,12 +66,7 @@ class DataCommand extends Command
     }
 
     public function staticSubjectHtml(DataController $aiCon, SubjectLeague $sl) {
-        $html = $aiCon->dataDetailHtml(new Request(), $sl);
-        if (!empty($html)) {
-            $name_en = $sl->name_en;
-            Storage::disk("public")->put("/www/$name_en/data/index.html", $html);
-        }
-
+        $aiCon->staticSubject(new Request(), $sl->name_en);
         //手机
 //        $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
 //        echo $sl->name_en;

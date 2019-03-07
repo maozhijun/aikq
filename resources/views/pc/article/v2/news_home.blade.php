@@ -34,25 +34,17 @@
 			@endforeach
 		</div>
 		<div id="Right_part">
-			<div class="con_box" style="display: none">
+			<div class="con_box" style="">
 				<div class="header_con">
 					<h4>最近直播</h4>
 					<a href="/">全部直播</a>
 				</div>
 				<div class="live">
-					<div class="live_item">
-						<p class="live_match_info">NBA<span>01-24 16:20</span></p>
-						<div class="live_match_team">
-							<p class="team"><span><a href="team.html">达拉斯独行侠</a></span></p>
-							<p class="vs"><span>直播中</span></p>
-							<p class="team"><span><a href="team.html">多伦多猛龙</a></span></p>
-						</div>
-						<div class="live_match_line">
-							<a href="live.html">高清直播</a>
-							<a href="live.html">主播剧本球童</a>
-							<a href="live.html">体育直播</a>
-						</div>
-					</div>
+					@if(isset($combData['matches']))
+						@foreach($combData['matches'] as $match)
+							@include('pc.cell.v2.right_match_cell', ['match'=>$match])
+						@endforeach
+					@endif
 				</div>
 			</div>
 			<div class="con_box">
@@ -82,13 +74,6 @@
 			</div>
 		</div>
 	</div>
-@endsection
-@section("js")
-	<script type="text/javascript">
-        $.get("/news/lives.html", function (html) {
-            $("#Right").html(html);
-        });
-	</script>
 @endsection
 
 
