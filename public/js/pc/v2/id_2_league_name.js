@@ -62,9 +62,9 @@ function FindLeagueName(typeId,leagueID) {
 	var findID = '' + typeId + '-' + leagueID + '';
 
 	if(MATCH_LEAGUE_IDS[findID]){
-		return MATCH_LEAGUE_IDS[findID];
+		return MATCH_LEAGUE_IDS[findID]
 	}else{
-		return false;
+		return false
 	}
 }
 

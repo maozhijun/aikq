@@ -49,7 +49,7 @@
                         <a href="{{$zt}}">全部{{$sTitle}}录像 ></a>
                     </p>
                 </div>
-                <table class="match">
+                <table class="match record_list">
                     <col width="25%"><col><col width="15%"><col><col width="20%">
                     @foreach($hotRecords as $hotRecord)
                         <?php
@@ -146,8 +146,9 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_2.js"></script>
     <script type="text/javascript">
+        var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en'] : 'all'}}';
         window.onload = function () { //需要添加的监控放在这里
             setPage();
         }

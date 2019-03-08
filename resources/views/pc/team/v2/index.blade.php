@@ -1,7 +1,4 @@
 @extends('pc.team.v2.base')
-@section('teamJs')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js"></script>
-@endsection
 @section('detail')
     <div id="Tab_con">
         <p class="on"><a href="#">综合</a></p>
@@ -66,7 +63,7 @@
             </div>
             <div class="schedule_con">
                 <table class="match">
-                    <col width="12%"><col width="20%"><col><col width="12%"><col><col width="16%">
+                    <col width="12%"><col width="16.6%"><col><col width="12%"><col><col width="16%">
                     @foreach($lives['recent'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
@@ -74,7 +71,7 @@
                         ?>
                         <tr>
                             <td><span>{{$match['lname']}}</span></td>
-                            <td><span>{{date('m-d', $match['time'])}}&nbsp;&nbsp;&nbsp;{{date('H:i', $match['time'])}}</span></td>
+                            <td><span>{{date('Y-m-d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
                             @if(isset($match['hid']) && $match['hid'] != $team['id'])
                                 <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
                             @else
@@ -113,7 +110,7 @@
             </div>
             <div class="schedule_con">
                 <table class="match">
-                    <col width="12%"><col width="20%"><col><col width="12%"><col><col width="16%">
+                    <col width="12%"><col width="16.6%"><col><col width="11%"><col><col width="16%">
                     @foreach($lives['schedule'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);

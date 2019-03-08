@@ -572,7 +572,7 @@
 }
 #Right_part .live .live_item .live_match_team{
 	height: 50px; width: 100%;
-	margin-bottom: 2px; padding: 0 4px;
+	margin-bottom: 2px;
 	display: table;
 }
 #Right_part .live .live_item .live_match_team p{

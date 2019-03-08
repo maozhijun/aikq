@@ -87,17 +87,12 @@
             @endif
         </div>
         <div id="Right_part">
-            {{--<a class="banner_entra" href="league_nba.html">--}}
-                {{--<img src="https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=c95a12f874f0f736d8fe4b07326ed424/3801213fb80e7bec36d92766232eb9389b506b31.jpg">--}}
-                {{--<h3>美国男子职业篮球联赛</h3>--}}
-                {{--<p>球队：<span>30支</span></p>--}}
-            {{--</a>--}}
+            @include("pc.cell.v2.right_league_cell", ['zhuanti'=>$def])
             {{--<a class="banner_entra" href="team.html">--}}
                 {{--<img src="http://img1.gtimg.com/sports/pics/hv1/231/116/2220/144385311.png">--}}
                 {{--<h3>圣安东尼奥马刺</h3>--}}
                 {{--<p>赛事：<span>NBA</span>排名：<span>东部第1名</span></p>--}}
             {{--</a>--}}
-            @if(isset($comboData["articles"]) && count($comboData["articles"]) > 0)
             <div class="con_box">
                 <div class="header_con">
                     <h4>{{isset($def) ? $def["name"] : "最新"}}资讯</h4>
@@ -108,20 +103,20 @@
                     @endif
                 </div>
                 <div class="news">
-                    @foreach($comboData["articles"] as $index=>$cArticle)
-                        @if($index < 2)
-                            <a target="_blank" href="{{$cArticle["link"]}}" class="img_news">
-                                <p class="img_box"><img src="{{$cArticle["cover"]}}"></p>
-                                <h3>{{$cArticle["title"]}}</h3>
-                            </a>
-                        @else
-                            <a target="_blank" href="{{$cArticle["link"]}}" class="text_new"><h4>{{$cArticle["title"]}}</h4></a>
-                        @endif
-                    @endforeach
+                    @if(isset($comboData["articles"]) && count($comboData["articles"]) > 0)
+                        @foreach($comboData["articles"] as $index=>$cArticle)
+                            @if($index < 2)
+                                <a target="_blank" href="{{$cArticle["link"]}}" class="img_news">
+                                    <p class="img_box"><img src="{{$cArticle["cover"]}}"></p>
+                                    <h3>{{$cArticle["title"]}}</h3>
+                                </a>
+                            @else
+                                <a target="_blank" href="{{$cArticle["link"]}}" class="text_new"><h4>{{$cArticle["title"]}}</h4></a>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
-            @endif
-            @if(isset($comboData["records"]) && count($comboData["records"]) > 0)
             <div class="con_box">
                 <div class="header_con">
                     <h4>{{isset($def) ? $def["name"] : "最新"}}录像</h4>
@@ -132,6 +127,7 @@
                     @endif
                 </div>
                 <table class="record">
+                 @if(isset($comboData["records"]) && count($comboData["records"]) > 0)
                     <col width="25%"><col><col width="25%">
                     @foreach($comboData["records"] as $vRecord)
                     <?php
@@ -152,29 +148,20 @@
                         <td><a target="_blank" href="{{$vRecord["link"]}}">观看录像</a></td>
                     </tr>
                     @endforeach
+                @endif
                 </table>
             </div>
-            @endif
         </div>
     </div>
 
 @endsection
 
-<!-- <div class="adflag left">
-    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
-</div>
-<div class="adflag right">
-    <a href="http://91889188.87.cn" target="_blank"><img src="img/ad.jpg"><button class="close"></button></a>
-</div> -->
-</body>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery.js"></script>
-<!--[if lte IE 8]>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
-<![endif]-->
-<!-- <script type="text/javascript" src="js/team.js"></script> -->
-<script type="text/javascript">
-    window.onload = function () { //需要添加的监控放在这里
-
-    }
-</script>
-</html>
+@section('js')
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/video_2.js"></script>
+    <script type="text/javascript">
+        var LeagueKeyword = '{{isset($def) ? $def["name_en"] : "all"}}';
+        window.onload = function () { //需要添加的监控放在这里
+            setPage();
+        }
+    </script>
+@endsection

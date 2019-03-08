@@ -181,10 +181,11 @@ class HotVideo extends Model
     /**
      * 篮球、足球 球星视频
      * @param $sport
+     * @param $tagId
      * @param $page
      * @return string /video/index.html || /video/basketball/index.html
      */
-    public static function getVideoListTagPath($sport, $page) {
+    public static function getVideoListTagPath($sport, $tagId, $page) {
         $page = $page <= 0 ? 1 : $page;
         if ($page > 1) {
             $suffix = $page . '.html';
@@ -192,9 +193,9 @@ class HotVideo extends Model
             $suffix = "index.html";
         }
         if ($sport == Tag::kSportFootball) {
-            return "/video/basketballstar/" . $suffix;
+            return "/video/footballstar/" . $tagId . "/" . $suffix;
         } else {
-            return "/video/footballstar/" . $suffix;
+            return "/video/basketballstar/" . $tagId . "/" . $suffix;
         }
     }
 

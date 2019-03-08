@@ -163,69 +163,7 @@
             @endif
         </div>
     </div>
-    <div id="Right_part">
-        <div id="League_info">
-            <div class="info_con">
-                <img src="{{$sl["icon"]}}">
-                <h1>{{$sl["name"]}}（{{$sl["name_long"]}}）</h1>
-            </div>
-            <div class="season_con">
-                <p>{{$season["name"]}} 赛季</p>
-                {{--<dl>--}}
-                    {{--<dt>切换赛季</dt>--}}
-                    {{--<dd style="display: none;">--}}
-                        {{--<a href="#" class="on">2018 - 2019赛季</a>--}}
-                        {{--<a href="#">2017 - 2018赛季</a>--}}
-                        {{--<a href="#">2016 - 2017赛季</a>--}}
-                        {{--<a href="#">2015 - 2016赛季</a>--}}
-                        {{--<a href="#">2014 - 2015赛季</a>--}}
-                        {{--<a href="#">2013 - 2014赛季</a>--}}
-                        {{--<a href="#">2012 - 2013赛季</a>--}}
-                        {{--<a href="#">2011 - 2012赛季</a>--}}
-                    {{--</dd>--}}
-                {{--</dl>--}}
-            </div>
-        </div>
-        @if(isset($comboData["articles"]) && count($comboData["articles"]) > 0 )
-        <div class="con_box">
-            <div class="header_con">
-                <h4>{{$sl["name"]}}资讯</h4>
-                <a href="news_league.html">全部{{$sl["name"]}}资讯</a>
-            </div>
-            <div class="news">
-                @foreach($comboData["articles"] as $index=>$article)
-                    @if($index < 2)
-                        <a target="_blank" href="{{$article["link"]}}" class="img_news">
-                            <p class="img_box"><img src="{{$article["cover"]}}"></p>
-                            <h3>{{$article["title"]}}</h3>
-                        </a>
-                    @else
-                        <a target="_blank" href="{{$article["link"]}}" class="text_new"><h4>{{$article["title"]}}</h4></a>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-        @endif
-        @if(isset($comboData["videos"]) && count($comboData["videos"]) > 0)
-        <div class="con_box">
-            <div class="header_con">
-                <h4>{{$sl["name"]}}视频</h4>
-                <a href="/{{$sl["name_en"]}}/video">{{$sl["name"]}}视频集锦</a>
-                <a href="/{{$sl["name_en"]}}/record">{{$sl["name"]}}比赛录像</a>
-            </div>
-            <div class="video">
-                @foreach($comboData["videos"] as $video)
-                <div class="video_item">
-                    <a target="_blank" href="{{$video["link"]}}">
-                        <p class="img_box"><img src="{{$video["image"]}}"></p>
-                        <p class="text_box">{{$video["title"]}}</p>
-                    </a>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-    </div>
+    @component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season]) @endcomponent
 </div>
 @endsection
 @section("js")

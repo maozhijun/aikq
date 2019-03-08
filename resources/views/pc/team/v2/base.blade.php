@@ -1,7 +1,7 @@
 @extends('pc.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=201903081255">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=20192191536">
     @yield('teamCss')
 @endsection
 @section('content')
@@ -58,8 +58,10 @@
     </div>
 @endsection
 @section('js')
-    @yield('teamJs')
+    {{--<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>--}}
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
     <script type="text/javascript">
+        var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en'] : 'all'}}';
         window.onload = function () { //需要添加的监控放在这里
             setPage();
         }

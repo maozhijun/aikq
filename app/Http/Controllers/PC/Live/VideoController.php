@@ -166,7 +166,7 @@ class VideoController extends Controller
             $sl = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
             if (isset($sl)) {
                 $name_en = $sl["name_en"];
-                $result["def"] = ["name"=>$tag["name"], "name_en"=>$name_en ];
+                $result["def"] = $sl;
             }
         }
 
@@ -477,7 +477,7 @@ class VideoController extends Controller
         $html = $this->videosHtml($tagId, $types, $videos);
         $array = [];
         if (!empty($html)) {
-            $path = "www" . HotVideo::getVideoListTagPath($sport, $page);
+            $path = "www" . HotVideo::getVideoListTagPath($sport, $tagId, $page);
             $array["path"] = $path;
             Storage::disk("public")->put($path, $html);
         }

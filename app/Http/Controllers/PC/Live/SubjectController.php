@@ -14,6 +14,8 @@ use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
 use App\Models\LgMatch\Stage;
@@ -100,6 +102,12 @@ class SubjectController extends Controller
         }
         $sport = $sl->sport;
         $lid = $sl->lid;
+
+        if ($sport == SubjectLeague::kSportBasketball) {
+            //篮球
+            return $this->basketDetailHtml($sl);
+        }
+
         //赛季
         $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
         //判断是否杯赛
@@ -143,18 +151,67 @@ class SubjectController extends Controller
      * @param Season $season
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function footballCupDetailHtml(SubjectLeague $sl, Season $season) {
+    public function footballCupDetailHtml(SubjectLeague $sl, Season $season) {
         $sport = $sl["sport"];
         $name_en = $sl["name_en"];
         $lid = $sl["lid"];
-        //欧冠阶段
-        $stages = Stage::getStages($lid, $season["name"]);
+
+        $stages = Stage::getStages($lid, $season["name"]);//杯赛阶段
         $curStage = 0;
+        $knockoutStages = [];
         foreach ($stages as $stage) {
             if ($stage["status"] == 1) {
                 $curStage = $stage["id"];
+                if (preg_match("#强#", $stage["name"])) {
+                    $knockoutStages[] = $stage;
+                }
                 break;
             }
+        }
+
+        $knockouts = null;
+        if (count($knockoutStages) > 0) {//淘汰赛阶段
+            $knockouts = [];
+            $count = 16;//默认16支球队
+            foreach ($knockoutStages as $index=>$ks) {
+                $kkSchedules = Match::getScheduleCup($lid, $curStage);//淘汰赛 赛程
+                $teams = [];
+                foreach ($kkSchedules as $kMatch) {
+                    $hid = $kMatch["hid"];
+                    $aid = $kMatch["aid"];
+                    $mid = $kMatch["mid"];
+                    if ($hid > $aid) {
+                        $tKey = $hid . "_" . $aid;
+                    } else {
+                        $tKey = $aid . "_" . $hid;
+                    }
+                    if (!isset($teams[$tKey])) {
+                        $teams[$tKey]["host"] = ["name"=>$kMatch["hname"], "score"=>$kMatch["hscore"], "id"=>$hid, "mid"=>$mid];
+                        $teams[$tKey]["away"] = ["name"=>$kMatch["aname"], "score"=>$kMatch["ascore"], "id"=>$aid, "mid"=>$mid];
+                    } else {
+                        if ($teams[$tKey]["host"]["id"] == $hid) {
+                            $teams[$tKey]["host"]["score"] = $teams[$tKey]["host"]["score"] + $kMatch["hscore"];
+                            $teams[$tKey]["away"]["score"] = $teams[$tKey]["away"]["score"] + $kMatch["ascore"];
+                        } else {
+                            $teams[$tKey]["host"]["score"] = $teams[$tKey]["host"]["score"] + $kMatch["ascore"];
+                            $teams[$tKey]["away"]["score"] = $teams[$tKey]["away"]["score"] + $kMatch["hscore"];
+                        }
+                    }
+                }
+                $knockouts[$count] = $teams;
+                $count = $count / 2;
+            }
+            //补充没有的淘汰赛阶段
+            foreach ([8, 4, 2, 1] as $count) {
+                if (!isset($knockouts[$count])) {
+                    for ($index = 0; $index <$count / 2; $index++) {
+                        $knockouts[$count][$index]["host"] = ["name"=>"", "score"=>"", "id"=>"", "mid"=>""];
+                        $knockouts[$count][$index]["away"] = ["name"=>"", "score"=>"", "id"=>"", "mid"=>""];
+                    }
+                }
+            }
+            //$knockouts[1][0]["host"] = ["name"=>"皇家马德里", "score"=>"3", "id"=>"70", "mid"=>"1110352"];
+            //$knockouts[1][0]["away"] = ["name"=>"利物浦", "score"=>"1", "id"=>"16", "mid"=>"1110352"];
         }
         $schedules = Match::getScheduleCup($lid, $curStage);//赛程
         $playerString = CommonTool::getPlayerData($sport, $lid, $season["name"], 0);
@@ -171,8 +228,45 @@ class SubjectController extends Controller
         $result["stages"] = $stages;
         $result["schedules"] = $schedules;
         $result["data"] = $data;
+        $result["knockouts"] = $knockouts;
 
         return view("pc.subject.v2.football_detail_cup", $result);
+    }
+
+    /**
+     * 篮球专题终端页
+     * @param SubjectLeague $sl
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function basketDetailHtml(SubjectLeague $sl) {
+        $sport = $sl["sport"];
+        $lid = $sl["lid"];
+        $name_en = $sl["name_en"];
+
+        $season = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
+        $kind = 0;$year = '';
+        if (isset($season)){
+            $kind = $season['kind'];
+            $year = $season['name'];
+        }
+
+        $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest);
+        $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast);
+
+        try {
+            $comboData = CommonTool::getComboData($name_en);
+            $result["comboData"] = $comboData;
+        } catch (\Exception $exception) {}
+
+        $playerString = CommonTool::getPlayerData($sport, $lid, $year, $kind);
+        $data = json_decode($playerString, true);
+
+        $result["sl"] = $sl;
+        $result["data"] = $data;
+        $result["westRanks"] = $westRanks;
+        $result["eastRanks"] = $eastRanks;
+        $result["season"] = $season;
+        return view("pc.subject.v2.basketball_detail", $result);
     }
 
     //=====================================================//
