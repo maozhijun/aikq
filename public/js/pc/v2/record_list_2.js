@@ -57,7 +57,8 @@ function reloadList (Time) {
         $('#' + TargetDate).css('display','');
     }else{
         $.ajax({
-            url: 'http://cms.aikanqiu.com/api/recordData/' + TargetDate,
+            'dataType':'jsonp',
+            url: 'http://api.aikanqiu.com/api/recordData.json?date=' + TargetDate,
             success: function(res){
                 // console.log(res[TargetDate])
 

@@ -93,7 +93,7 @@ Route::group([], function () {
     Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 
     Route::get("/app/comboData/{name_en}.json", 'HomeController@updateComboData');
-    Route::get('/api/recordData/{date}', 'Record\RecordController@getMatchWithDate');//接口
+    Route::get('/api/recordData.json', 'Record\RecordController@getMatchWithDate');//接口
 });
 
 /**

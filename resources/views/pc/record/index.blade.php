@@ -66,7 +66,7 @@
 @endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/jquery-ui.js"></script>
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js?201903071948"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js?201903081718"></script>
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903071918"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
