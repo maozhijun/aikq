@@ -52,7 +52,7 @@
                     <col width="25%"><col><col width="15%"><col><col width="20%">
                     @foreach($hotRecords as $hotRecord)
                         <?php
-                        $time = date('Y年m月d日 H:m', date_create($hotRecord['time'])->getTimestamp());
+                        $time = date('Y-m-d H:m', date_create($hotRecord['time'])->getTimestamp());
                         $subject = isset($subjects[$hotRecord['s_lid']])? $subjects[$hotRecord['s_lid']]['name_en'] : 'other';
                         if (!is_null($hotRecord->url)){
                             $url = $hotRecord->url;

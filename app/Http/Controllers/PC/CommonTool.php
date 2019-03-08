@@ -338,6 +338,23 @@ class CommonTool
         return "/$name_en/team$sport$tempTid"."_record_1.html";
     }
 
+    public static function getTeamVideoUrl($sport, $lid, $tid) {
+        $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+        if (isset($subject)) {
+            $name_en = $subject->name_en;
+        } else {
+            $name_en = "other";
+        }
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        if ($name_en == 'other'){
+            return "javascript:void(0)";
+        }
+        return "/$name_en/team$sport$tempTid"."_video_1.html";
+    }
+
     public static function getLiveDetailStaticPath($mid, $sport) {
         $tempData = self::getDetailNameDataByMid($mid, $sport);
         //只有满足，mid等于比赛两队最近的比赛才返回保存路径

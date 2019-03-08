@@ -11,6 +11,12 @@ namespace App\Http\Controllers\PC\Live;
 
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\LgMatch\BasketScore;
+use App\Models\LgMatch\BasketSeason;
+use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\Score;
+use App\Models\LgMatch\Season;
+use App\Models\LgMatch\Team;
 use App\Models\Match\HotVideo;
 use App\Models\Match\HotVideoType;
 use App\Models\Subject\SubjectLeague;
@@ -122,7 +128,92 @@ class VideoController extends Controller
         $result["sport"] = isset($videos["sport"]) ? $videos["sport"] : null;
         $result['type'] = $type;
         $result['check'] = 'videos';
-        return view('pc.video.list', $result);
+        if (array_key_exists($type,\App\Http\Controllers\Controller::SUBJECT_NAME_IDS)){
+            $bj = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$type];
+            $bj['name_en'] = $type;
+            $result['zhuanti'] = $bj;
+            //球队
+            //球队
+            if ($type == 'nba'){
+                $season = BasketSeason::where('lid',$bj['lid'])
+                    ->orderby('name','desc')->first();
+                if (isset($season)){
+                    $season = $season['name'];
+                }
+                $o_score = BasketScore::where('lid',$bj['lid'])
+                    ->orderby('rank','asc')
+                    ->where('season',$season)
+                    ->get();
+                $west = array();
+                $east = array();
+                $tids = array();
+                foreach ($o_score as $item){
+                    $tids[] = $item['tid'];
+                    if ($item['zone'] == 0){
+                        $west[] = $item['tid'];
+                    }
+                    else{
+                        $east[] = $item['tid'];
+                    }
+                }
+                $o_teams = BasketTeam::whereIn('id',$tids)->get();
+                $teams = array();
+                foreach ($o_teams as $item){
+                    $teams[$item['id']] = $item;
+                }
+                $result['teamsData'] = $teams;
+                $result['teams'] = array('west'=>$west,'east'=>$east);
+            }
+            else if ($type == 'cba'){
+                $season = BasketSeason::where('lid',$bj['lid'])
+                    ->orderby('name','desc')->first();
+                if (isset($season)){
+                    $season = $season['name'];
+                }
+                $o_score = BasketScore::where('lid',$bj['lid'])
+                    ->orderby('rank','asc')
+                    ->where('season',$season)
+                    ->get();
+                $tids = array();
+                foreach ($o_score as $item){
+                    $tids[] = $item['tid'];
+                }
+                $o_teams = BasketTeam::whereIn('id',$tids)->get();
+                $teams = array();
+                foreach ($o_teams as $item){
+                    $teams[$item['id']] = $item;
+                }
+                $result['teamsData'] = $teams;
+                $result['teams'] = $tids;
+            }
+            else{
+                $season = Season::where('lid',$bj['lid'])
+                    ->orderby('name','desc')->first();
+                if (isset($season)){
+                    $season = $season['name'];
+                }
+                $o_score = Score::where('lid',$bj['lid'])
+                    ->where('kind',null)
+                    ->where('season',$season)
+                    ->orderby('score','desc')
+                    ->get();
+                $tids = array();
+                foreach ($o_score as $item){
+                    $tids[] = $item['tid'];
+                }
+                $o_teams = Team::whereIn('id',$tids)->get();
+                $teams = array();
+                foreach ($o_teams as $item){
+                    $teams[$item['id']] = $item;
+                }
+                $result['teamsData'] = $teams;
+                $result['teams'] = $tids;
+            }
+            return view('pc.video.league_list', $result);
+        }
+        else{
+            return view('pc.video.list', $result);
+        }
     }
 
     public function videoDetailByNameEn(Request $request, $name_en, $id) {

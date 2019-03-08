@@ -74,7 +74,7 @@
                         ?>
                         <tr>
                             <td><span>{{$match['lname']}}</span></td>
-                            <td><span>{{date('Y-m-d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
+                            <td><span>{{date('Y-m-d', $match['time'])}}&nbsp;&nbsp;&nbsp;{{date('H:i', $match['time'])}}</td>
                             @if(isset($match['hid']) && $match['hid'] != $team['id'])
                                 <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
                             @else
