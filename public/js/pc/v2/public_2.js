@@ -1,7 +1,7 @@
 
 //公共传参头部
-var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
-// var PubHeader = 'http://cms.aikanqiu.com/json/pc/comboData/';
+// var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
+var PubHeader = '//cms.aikanqiu.com/json/pc/comboData/';
 
 //获取联赛名2皆匹配规则
 var CanGetTeamLink = false;
