@@ -6,19 +6,14 @@
         </div>
         <div class="season_con">
             <p>{{$season["name"]}} 赛季</p>
-            {{--<dl>--}}
-            {{--<dt>切换赛季</dt>--}}
-            {{--<dd style="display: none;">--}}
-            {{--<a href="#" class="on">2018 - 2019赛季</a>--}}
-            {{--<a href="#">2017 - 2018赛季</a>--}}
-            {{--<a href="#">2016 - 2017赛季</a>--}}
-            {{--<a href="#">2015 - 2016赛季</a>--}}
-            {{--<a href="#">2014 - 2015赛季</a>--}}
-            {{--<a href="#">2013 - 2014赛季</a>--}}
-            {{--<a href="#">2012 - 2013赛季</a>--}}
-            {{--<a href="#">2011 - 2012赛季</a>--}}
-            {{--</dd>--}}
-            {{--</dl>--}}
+            <dl>
+            <dt>切换赛季</dt>
+            <dd style="display: none;">
+            @foreach($seasons as $sea)
+                <a @if($sea == $season["name"]) href="#"  class="on" @else href="/{{$sl["name_en"] . "/"  . $sea}}/" @endif >{{$sea}}赛季</a>
+            @endforeach
+            </dd>
+            </dl>
         </div>
     </div>
     @if(isset($articles) && count($articles) > 0 )

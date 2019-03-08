@@ -386,4 +386,28 @@ class BasketMatch extends Model
         return $query->get();
     }
 
+    /**
+     * 获取赛程 默认拿当前日期 到 三天后的比赛
+     * @param $lid 联赛ID
+     * @param sting $startTime 2019-03-08 12:00
+     * @param string $endTime  2019-03-10 12:00
+     * @return array 按时间分组的比赛赛程 [2019-03-08=>[match, match1, ...]]
+     */
+    public static function scheduleMatchesByLidAndTime($lid, $startTime = null, $endTime = null) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $startTime = is_null($startTime) ? date('Y-m-d 00:00') : $startTime;
+        $endTime = is_null($endTime) ? date('Y-m-d 23:59', strtotime('+2 days')) : $endTime;
+        $query->where("time", ">=", $startTime);
+        $query->where("time", "<=", $endTime);
+        $query->select(["basket_matches.*", "basket_matches.id as mid"]);
+        $matches = $query->get();
+        $array = [];
+        foreach ($matches as $match) {
+            $date = substr($match["time"], 0, 10);
+            $array[$date][] = $match;
+        }
+        return $array;
+    }
+
 }
