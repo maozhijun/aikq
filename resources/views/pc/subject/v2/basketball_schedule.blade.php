@@ -15,16 +15,18 @@
         @foreach($matchArray as $match)
         <?php
             $sport = $sl["sport"];
+            $lid = $sl["lid"];
             $mid = $match["mid"];
             $status = $match["status"];
             $time = $match["time"];//date('Y-m-d H:i', $match["time"]);
+            $hid = $match["hid"];
+            $aid = $match["aid"];
+            $name_en = $sl["name_en"];
             $statusCn = \App\Models\Match\BasketMatch::getStatusTextCn($status);
-            $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $sl["lid"], $match["hid"]);
-            $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $sl["lid"], $match["aid"]);
-            $detailUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sl["sport"], $sl["lid"], $mid);
-            $matchLive = \App\Models\Match\MatchLive::getMatchLiveByMid($sport, $mid);
-            $channels = isset($matchLive) ? $matchLive->kAiKqChannels() : null;
-            $living = isset($channels) && ($status > 0 || (strtotime($time) + 20 * 60 > time()) );
+            $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $hid);
+            $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $aid);
+            $detailUrl = "/".$name_en."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid).".html";
+            $living = ($status > 0 || (time() + 20 * 60 > strtotime($time) && $status == 0) );
         ?>
         <tr>
             <td>{{substr($time, 11, 5)}}</td>
@@ -40,17 +42,7 @@
             </td>
             <td class="away"><a target="_blank" href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
             <td class="line">
-                @if(isset($channels))
-                    <?php $btnIndex = 0; ?>
-                    @foreach($channels as $channel)
-                        @continue($channel["platform"] == 5) {{-- 过滤app --}}
-                        @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                            <a class="live" target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
-                        @else
-                            <a class="live" target="_blank" href="{{$detailUrl . '#btn=' . ($btnIndex++)}}">{{$channel['name']}}</a>
-                        @endif
-                    @endforeach
-                @endif
+                <a class="live" target="_blank" href="{{$detailUrl}}">观看直播</a>
             </td>
         </tr>
         @endforeach
