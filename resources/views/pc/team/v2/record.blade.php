@@ -1,4 +1,7 @@
 @extends('pc.team.v2.base')
+@section('teamJs')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
+@endsection
 @section('detail')
     <div id="Tab_con">
         <p><a href="/{{$name_en}}/team{{$tid}}.html">综合</a></p>

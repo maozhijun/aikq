@@ -1,8 +1,11 @@
 @extends('pc.team.v2.base')
+@section('teamJs')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
+@endsection
 @section('teamCss')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/video_list_2.css?time=20192191536">
     <style type="text/css">
-        .video_con{ padding-left: 10px; }
+        .video_con{ padding-left: 10px; min-height: auto;}
         .video_con .item_con{ width: 33.333%; }
     </style>
 @section('detail')
