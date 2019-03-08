@@ -93,6 +93,7 @@ Route::group([], function () {
     Route::get("/app/v101/lives/{sport}/{mid}.json", 'Live\LiveController@appLiveDetail');
 
     Route::get("/app/comboData/{name_en}.json", 'HomeController@updateComboData');
+    Route::get('/api/recordData/{date}', 'Record\RecordController@getMatchWithDate');//接口
 });
 
 /**
@@ -218,8 +219,7 @@ Route::group(["namespace" => 'Record'], function () {
     Route::get('/{name_en}/record/index{pageNo}.html', 'RecordController@subject');//专题录像
     Route::get('/{name_en}/record/index.html', 'RecordController@subject');//专题录像
 
-    Route::get('/api/recordData/{date}', 'RecordController@getMatchWithDate');//接口
-
     Route::get("/static/record/{id}", "RecordController@recordDetailHtml");//静态化终端
+    Route::get("/static/record_index", "RecordController@staticIndex");//静态化首页
     Route::get("/static/record_subject/{league}/{page}", "RecordController@subjectDetailHtml");//静态化专题列表
 });

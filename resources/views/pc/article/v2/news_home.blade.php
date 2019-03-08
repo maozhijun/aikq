@@ -20,6 +20,7 @@
 				</div>
 			</div>
 			@foreach($leagues as $league)
+				@if(count($league['articles']) > 3)
 				<div class="el_con">
 					<div class="header">
 						<h3><p>{{$league['name']}}</p></h3>
@@ -31,6 +32,7 @@
 						@include('pc.article.v2.news_home_item_cell', ['articles'=>$league['articles']])
 					</div>
 				</div>
+				@endif
 			@endforeach
 		</div>
 		<div id="Right_part">

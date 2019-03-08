@@ -189,6 +189,16 @@
 }
 
 /*球员列表*/ /*积分列表*/
+#Right_part .con_box .header_con a.nba_part.on{
+	position: relative;
+}
+#Right_part .con_box .header_con a.nba_part.on:after{
+	height: 3px;
+	background: #004fcf;
+	position: absolute; bottom: 5px; left: 3px; right: 3px;
+	content: '';
+}
+
 table.right_table{
 	width: 100%;
 }

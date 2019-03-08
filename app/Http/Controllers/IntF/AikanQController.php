@@ -1566,7 +1566,7 @@ class AikanQController extends Controller
                 foreach ($ranks as $rank) {
                     $rank_array[] = ['tid'=>$rank->tid, 'lid'=>$lid, 'sport'=>$sport,
                         'name'=>$rank->tname, 'win'=>$rank->win, 'draw'=>$rank->draw, 'lose'=>$rank->lose
-                        , 'score'=>$rank->score, 'rank'=>$rank->rank];
+                        , 'score'=>$rank->score, 'rank'=>$rank->rank,'goal'=>$rank->goal,'fumble'=>$rank->fumble];
                 }
                 $ranks = $rank_array;//排名
             } else {//杯赛积分
@@ -1595,7 +1595,39 @@ class AikanQController extends Controller
 
         //同时把rank的html也静态化了
         $leagueData = self::getLeagueDataByLid($sport, $lid);
-        $html = view('pc.team.detail_rank_cell', ['ranks'=>$rankData, 'subject'=>$leagueData]);
+        if ($sport == 2){
+            $tids = array();
+            $teams = array();
+            if ($lid == 1){
+                foreach ($rankData['west'] as $item){
+                    $tids[] = $item['tid'];
+                }
+                foreach ($rankData['east'] as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            else{
+                foreach ($rankData as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+        }
+        else{
+            $tids = array();
+            $teams = array();
+            foreach ($rankData as $item){
+                $tids[] = $item['tid'];
+            }
+            $o_teams = Team::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+        }
+        $html = view('pc.team.detail_rank_cell', ['teams'=>$teams,'ranks'=>$rankData, 'subject'=>$leagueData]);
         Storage::disk("public")->put("/static/json/pc/rank/$sport/$lid.html", $html);
     }
 
