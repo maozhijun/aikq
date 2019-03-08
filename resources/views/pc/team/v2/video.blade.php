@@ -7,7 +7,7 @@
     </style>
 @section('detail')
     <div id="Tab_con">
-        <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
+        <p><a href="/{{$name_en}}/team{{$tid}}.html">综合</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_news_1.html">资讯</a></p>
         <p class="on"><a href="">视频</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_record_1.html">录像</a></p>

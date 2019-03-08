@@ -126,7 +126,6 @@ class TeamController extends Controller
     private static function detailHtml($data)
     {
         if ($data == null) return abort(404);
-        $data['title'] = $data['team']['name'].'_'.$data['team']['name'].'综合-爱看球直播';
         $data['keywords'] = '';
         $data['description'] = '';
         return view('pc.team.v2.index', $data);
