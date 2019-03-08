@@ -1,7 +1,7 @@
 @extends('pc.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=20192191536">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=201903081255">
     @yield('teamCss')
 @endsection
 @section('content')
@@ -58,7 +58,7 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>
+    @yield('teamJs')
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();

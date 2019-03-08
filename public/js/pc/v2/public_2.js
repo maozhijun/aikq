@@ -5,7 +5,7 @@ var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
 
 //获取联赛名2皆匹配规则
 var CanGetTeamLink = false;
-$.getScript("js/id_2_league_name.js",function(){CanGetTeamLink = true});
+$.getScript("https://static.dlfyb.com/js/pc/v2/id_2_league_name.js",function(){CanGetTeamLink = true});
 
 //获取链点参数
 function GetQueryString(str,href) {

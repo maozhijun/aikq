@@ -48,7 +48,7 @@ class BasketScore extends Model
                 $total = $win + $lose;
                 $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
                 $array[] = ['tid'=>$score->tid, 'lid'=>$score->lid, 'sport'=>2,
-                    'name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p];
+                    'name' => $score->name_china, 'win' => $win, 'lose' => $lose, 'rank' => $score->rank, 'win_p' => $win_p,'goal'=>$score->goal,'fumble'=>$score->fumble,'win_diff'=>$score->win_diff];
             }
         }
         return $array;
