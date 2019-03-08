@@ -6,14 +6,16 @@
         </div>
         <div class="season_con">
             <p>{{$season["name"]}} 赛季</p>
+            @if(isset($seasons))
             <dl>
-            <dt>切换赛季</dt>
-            <dd style="display: none;">
-            @foreach($seasons as $sea)
-                <a @if($sea == $season["name"]) href="#"  class="on" @else href="/{{$sl["name_en"] . "/"  . $sea}}/" @endif >{{$sea}}赛季</a>
-            @endforeach
-            </dd>
+                <dt>切换赛季</dt>
+                <dd style="display: none;">
+                @foreach($seasons as $sea)
+                    <a @if($sea == $season["name"]) href="#"  class="on" @else href="/{{$sl["name_en"] . "/"  . $sea}}/" @endif >{{$sea}}赛季</a>
+                @endforeach
+                </dd>
             </dl>
+            @endif
         </div>
     </div>
     @if(isset($articles) && count($articles) > 0 )

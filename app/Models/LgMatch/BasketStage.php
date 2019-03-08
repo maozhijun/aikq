@@ -14,4 +14,13 @@ use Illuminate\Database\Eloquent\Model;
 class BasketStage extends Model
 {
     protected $connection = 'match';
+
+    public static function getFinal($lid, $season) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $query->where("season", $season);
+        $query->where("name", "总决赛");
+        return $query->first();
+    }
+
 }

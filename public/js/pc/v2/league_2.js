@@ -12,9 +12,7 @@ function setPage () {
 	$('#Left_part .schedule_con .round_con p').click(function(){
 		if (!$(this).hasClass('on')) {
 			$(this).addClass('on').siblings('.on').removeClass('on');
-
 			$('#Left_part .schedule_con table').css('display','none').filter('[round=' + $(this).attr('forItem') + ']').css('display','');
-
 		}
 	})
 
@@ -37,8 +35,6 @@ function Refresh () {
     	}
     });
 }
-
-
 
 
 

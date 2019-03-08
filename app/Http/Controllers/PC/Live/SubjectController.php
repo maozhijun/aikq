@@ -17,6 +17,7 @@ use App\Http\Controllers\PC\MatchTool;
 use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketScore;
 use App\Models\LgMatch\BasketSeason;
+use App\Models\LgMatch\BasketStage;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
 use App\Models\LgMatch\Stage;
@@ -98,7 +99,7 @@ class SubjectController extends Controller
     }
 
 
-    public function detailV2(Request $request, $name_en) {
+    public function detailV2(Request $request, $name_en, $season = "") {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl)) {
             return "";
@@ -107,30 +108,42 @@ class SubjectController extends Controller
         $lid = $sl->lid;
 
         if ($sport == SubjectLeague::kSportBasketball) {
-            //篮球
-            return $this->basketDetailHtml($sl);
+            return $this->basketDetailHtml($sl, $season);//篮球
         }
 
         //赛季
-        $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        if (!empty($season)) {
+            $footballSeason = Season::query()->where("lid", $lid)->where("name", $season)->first();
+        } else {
+            $footballSeason = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $season = $footballSeason["name"];
+        }
         //判断是否杯赛
-        $total_round = $season["total_round"];
-        if (is_null($total_round)) {//无轮次则是 杯赛
-            return $this->footballCupDetailHtml($sl, $season);
+        $total_round = $footballSeason["total_round"];
+        if (is_null($total_round)) {
+            return $this->footballCupDetailHtml($sl, $footballSeason);//无轮次则是 杯赛
         }
 
         //赛季
-        $year = $season["name"];
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season);
+        $schedule = isset($leagueData["schedule"]) ? $leagueData["schedule"] : [];//所有赛程
+        $leagueSeason = isset($leagueData["season"]) ? $leagueData["season"] : [];//赛程信息
+
         //积分
         $scores = Score::getFootballScores($lid);
         //赛程
-        //1.获取当前轮次
-        $fMatch = Match::scheduleNearMatch($lid);
-        $round = $fMatch["round"];
-        $rounds = Match::getScheduleMatchLive($lid, $round);
+        if (!isset($leagueSeason["curr_round"])) {
+            $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
+            $curr_round = $fMatch["round"];
+        } else {
+            $curr_round = $leagueSeason["curr_round"];//当前轮次
+        }
+
+        //$rounds = Match::getScheduleMatchLive($lid, $round); //数据库获取当前轮的赛程
+
         //数据榜单
         //右侧内容（球员信息）
-        $playerString = CommonTool::getPlayerData($sport, $lid, $year, 0);
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
         $data = json_decode($playerString, true);
 
         try {
@@ -140,11 +153,12 @@ class SubjectController extends Controller
         }
 
         $result["sl"] = $sl;
-        $result["season"] = $season;
-        $result["round"] = $round;
+        $result["season"] = $footballSeason;
+        $result["curRound"] = $curr_round;
         $result["scores"] = $scores;
-        $result["rounds"] = $rounds;
+        $result["schedule"] = $schedule;
         $result["data"] = $data;
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
         return view("pc.subject.v2.football_detail", $result);
     }
 
@@ -232,14 +246,14 @@ class SubjectController extends Controller
         $result["schedules"] = $schedules;
         $result["data"] = $data;
         $result["knockouts"] = $knockouts;
-
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
         return view("pc.subject.v2.football_detail_cup", $result);
     }
 
     /**
      * 篮球专题终端页
      * @param SubjectLeague $sl
-     * @param $season 赛季 例：18-19
+     * @param $season = ""  赛季 例：18-19
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function basketDetailHtml(SubjectLeague $sl, $season = "") {
@@ -249,13 +263,15 @@ class SubjectController extends Controller
 
         if (!empty($season)) {
             $basketSeason = BasketSeason::query()->where('lid', $lid)->where('name', $season)->first();
-        } else {
+        }
+        if (!isset($basketSeason)){
             $basketSeason = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
         }
+
         $kind = 0;$year = '';
         if (isset($basketSeason)){
             $kind = $basketSeason['kind'];
-            $year = $basketSeason['name'];
+            $season = $basketSeason['name'];
         }
 
         $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
@@ -266,16 +282,35 @@ class SubjectController extends Controller
         //三天 赛程
         $schedule = $leagueData["schedule"];//从接口获取赛程
         $scheduleMatches = [];
+
+        $curYear = substr(date('Y'), 2, 2);
         $startTime = strtotime(date('Y-m-d 00:00'));
-        $endTime = strtotime(date('Y-m-d 23:59', strtotime('+2 days')));
-        foreach ($schedule as $match) {
-            $time = $match["time"];
-            if ($time >= $startTime && $time <= $endTime) {
-                $date = date('Y-m-d', $time);
-                $scheduleMatches[$date][] = $match;
+        $endTime = date('Y-m-d 23:59', strtotime('+2 day', $startTime));
+        $endTime = strtotime($endTime);
+        if (preg_match("#".$curYear."#", $season)) {//当前赛季
+            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
+        } else {//非当前赛季
+            //获取总决赛比赛场次
+            $bs = BasketStage::getFinal($lid, $season);
+            if (isset($bs)) {
+                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
+                $index = 0;
+                foreach ($scheduleMatches as $date=>$sm) {
+                    if ($index++ == 0) {
+                        $startTime = strtotime($date . " 00:00");
+                    }
+                    $endTime = strtotime($date . " 23:59");
+                }
             }
         }
 
+//        foreach ($schedule as $match) {
+//            $time = $match["time"];
+//            if ($time >= $startTime && $time <= $endTime) {
+//                $date = date('Y-m-d', $time);
+//                $scheduleMatches[$date][] = $match;
+//            }
+//        }
         //$scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid);//从数据库获取 赛程
 
         try {
@@ -283,7 +318,7 @@ class SubjectController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {}
 
-        $playerString = CommonTool::getPlayerData($sport, $lid, $year, $kind);
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, $kind);
         $data = json_decode($playerString, true);
 
         $result["sl"] = $sl;
@@ -293,6 +328,9 @@ class SubjectController extends Controller
         $result["season"] = $basketSeason;
         $result["seasons"] = $leagueData["seasons"];
         $result["scheduleMatches"] = $scheduleMatches;
+        $result["start"] = date("m-d", $startTime);
+        $result["end"] = date("m-d", $endTime);
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
         return view("pc.subject.v2.basketball_detail", $result);
     }
 
