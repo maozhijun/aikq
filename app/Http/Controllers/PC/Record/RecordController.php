@@ -50,6 +50,9 @@ class RecordController extends Controller
         $this->html_var['datas'] = $this->getRecordByDate($start,$end);
 //        dump($this->html_var['datas']);
         $this->html_var['check'] = 'record';
+        $this->html_var['title'] = '国内外篮球、足球赛事录像大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.record.index',$this->html_var);
     }
 
@@ -166,6 +169,9 @@ class RecordController extends Controller
             $this->html_var['teams'] = $tids;
         }
 //        dump($this->html_var['teamsData'][206]);
+        $this->html_var['title'] = $this->html_var['zhuanti']['name'].'比赛录像回放_'.$this->html_var['zhuanti']['name'].'比赛视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.record.subject',$this->html_var);
     }
 

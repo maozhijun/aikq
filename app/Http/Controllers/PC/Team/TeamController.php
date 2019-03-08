@@ -126,6 +126,9 @@ class TeamController extends Controller
     private static function detailHtml($data)
     {
         if ($data == null) return abort(404);
+        $data['title'] = $data['team']['name'].'_'.$data['team']['name'].'综合-爱看球直播';
+        $data['keywords'] = '';
+        $data['description'] = '';
         return view('pc.team.v2.index', $data);
     }
 
@@ -182,6 +185,9 @@ class TeamController extends Controller
 
         $this->html_var['page'] = $records->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'比赛录像_'.$rdata['team']['name'].'比赛视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.team.v2.record', $this->html_var);
     }
 
@@ -268,6 +274,9 @@ class TeamController extends Controller
         $this->html_var['articles'] = $articles;
         $this->html_var['page'] = $articles->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'最新资讯_'.$rdata['team']['name'].'新闻-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return self::newsHtml($this->html_var);
     }
     private static function newsHtml($data)
@@ -345,6 +354,9 @@ class TeamController extends Controller
 
         $this->html_var['page'] = $videos->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'精彩集锦_'.$rdata['team']['name'].'视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.team.v2.video', $this->html_var);
     }
 
