@@ -27,6 +27,7 @@ use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class RecordController extends Controller
@@ -66,7 +67,13 @@ class RecordController extends Controller
                 'date'=>$start
             ));
         }
-        return response()->json($data);
+        $callback = $request->input('callback');
+        if (isset($callback)) {
+            return response($callback . '(' . json_encode($data) . ')');
+        }
+        else{
+            return response()->json($data);
+        }
     }
 
     /**
@@ -266,7 +273,13 @@ class RecordController extends Controller
         }
         $result['code'] = 0;
         $result['msg'] = 'success';
-        return json_encode($result);
+        $callback = $request->input('callback');
+        if (isset($callback)) {
+            return response($callback . '(' . json_encode($result) . ')');
+        }
+        else{
+            return response()->json($result);
+        }
     }
 
     /**
