@@ -477,7 +477,7 @@ class VideoController extends Controller
         $html = $this->videosHtml($tagId, $types, $videos);
         $array = [];
         if (!empty($html)) {
-            $path = "www" . HotVideo::getVideoListTagPath($sport, $page);
+            $path = "www" . HotVideo::getVideoListTagPath($sport, $tagId, $page);
             $array["path"] = $path;
             Storage::disk("public")->put($path, $html);
         }
