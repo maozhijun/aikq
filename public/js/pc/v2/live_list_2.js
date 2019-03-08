@@ -3,7 +3,7 @@ var DateArr = [];
 var DateTop = 0;
 
 function setPage () {
-	$('.type_con').click(function(){
+	$('.type_con[forItem]').click(function(){
 		if (!$(this).hasClass('on')) {
 			$(this).addClass('on').siblings('.type_con').removeClass('on');
 			if ($(this).attr('forItem') == 'all') {

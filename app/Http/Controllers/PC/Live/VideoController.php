@@ -166,7 +166,7 @@ class VideoController extends Controller
             $sl = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
             if (isset($sl)) {
                 $name_en = $sl["name_en"];
-                $result["def"] = ["name"=>$tag["name"], "name_en"=>$name_en ];
+                $result["def"] = $sl;
             }
         }
 

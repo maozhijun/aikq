@@ -58,8 +58,10 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>
+    {{--<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>--}}
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
     <script type="text/javascript">
+        var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en'] : 'all'}}';
         window.onload = function () { //需要添加的监控放在这里
             setPage();
         }
