@@ -173,7 +173,7 @@
             </div>
         </div>
         @endif
-        @component("pc.subject.v2.basketball_schedule", ["scheduleMatches"=>$scheduleMatches, "sl"=>$sl]) @endcomponent
+        @component("pc.subject.v2.basketball_schedule", ["scheduleMatches"=>$scheduleMatches, "sl"=>$sl, "start"=>$start, "end"=>$end]) @endcomponent
         <div class="el_con">
             <div class="header">
                 <h3><p>{{$sl["name"]}}排名</p></h3>

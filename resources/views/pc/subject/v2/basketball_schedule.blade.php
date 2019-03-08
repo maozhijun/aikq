@@ -1,15 +1,9 @@
-<?php
-    $dateArray = [];
-    foreach($scheduleMatches as $date=>$matchArray) {
-        $dateArray[] = $date;
-    }
-?>
 <div class="el_con">
     <div class="header">
         <h3><p>{{$sl["name"]}}赛程</p></h3>
         <div class="date">
             <button class="left">前三天</button>
-            <p class="con_text">{{substr($dateArray[0], 5, 5)}}至{{substr($dateArray[count($dateArray) - 1], 5, 5)}}</p>
+            <p class="con_text">{{$start}}至{{$end}}</p>
             <button class="right">后三天</button>
         </div>
     </div>
@@ -23,7 +17,7 @@
             $sport = $sl["sport"];
             $mid = $match["mid"];
             $status = $match["status"];
-            $time = date('Y-m-d H:i', $match["time"]);
+            $time = $match["time"];//date('Y-m-d H:i', $match["time"]);
             $statusCn = \App\Models\Match\BasketMatch::getStatusTextCn($status);
             $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $sl["lid"], $match["hid"]);
             $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $sl["lid"], $match["aid"]);

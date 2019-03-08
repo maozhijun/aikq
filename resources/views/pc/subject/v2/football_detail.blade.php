@@ -20,36 +20,65 @@
                 <div class="round_con">
                     <div class="item_box">
                         <?php
-                            for ($index = 1; $index < $season["total_round"]; $index++) {
-                                echo "<p" . ($index == $round ? " class=\"on\" " : "") . ">".$index."</p>";
+                            for ($index = 1; $index <= $season["total_round"]; $index++) {
+                                echo "<p forItem='".$index."'" . ($index == $curRound ? " class=\"on\" " : "") . ">".$index."</p>";
                             }
                         ?>
                     </div>
                 </div>
-                <table class="match">
-                    <col width="11%"><col><col width="12%"><col><col width="42.5%">
-                    @foreach($rounds as $round)
+                @if(isset($schedule))
+                <?php
+                    $sport = $sl["sport"];
+                    $lid = $sl["lid"];
+                    $teamUrlArray = [];
+                    $detailArray = [];
+                ?>
+                @foreach($schedule as $round=>$matches)
+                    <table class="match" round="{{$round}}" @if($round != $curRound) style="display: none;" @endif >
+                        <col width="11%"><col><col width="12%"><col><col width="42.5%">
+                        @foreach($matches as $match)
                         <?php
-                            $mid = $round["id"];
-                            $matchLive = \App\Models\Match\MatchLive::getMatchLiveByMid($sl["sport"], $mid);
+                            $mid = $match["mid"];
+                            $time = date("Y-m-d H:i", $match["time"]);
+                            $hid = $match["hid"];
+                            $aid = $match["aid"];
+                            $detailKey = $hid > $aid ? ($hid . "_" . $aid) : ($aid . "_" . $hid);
+
+                            if (!isset($teamUrlArray[$hid])) {
+                                $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $hid);
+                                $teamUrlArray[$hid] = $hTeamUrl;
+                            } else {
+                                $hTeamUrl = $teamUrlArray[$hid];
+                            }
+                            if (!isset($teamUrlArray[$aid])) {
+                                $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $aid);
+                                $teamUrlArray[$aid] = $aTeamUrl;
+                            } else {
+                                $aTeamUrl = $teamUrlArray[$aid];
+                            }
+                            if (isset($detailArray[$detailKey])) {
+                                $detailUrl = $detailArray[$detailKey];
+                            } else {
+                                $detailUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
+                            }
                         ?>
-                    <tr>
-                        <td><span>{{substr($round["time"], 5, 5)}}</span><br/>{{substr($round["time"], 11, 5)}}</td>
-                        <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sl["sport"], $round["lid"], $round["hid"])}}">{{$round["hname"]}}</a></td>
-                        <td class="vs">
-                            @if($round["status"] == -1 || $round["status"] > 0)
-                                @if(isset($matchLive) && $round["status"] > 0) <span class="living">直播中</span> @else {{$round["hscore"] . " - " . $round["ascore"]}} @endif
-                            @else vs  @endif
-                        </td>
-                        <td class="away"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sl["sport"], $round["lid"], $round["aid"])}}">{{$round["aname"]}}</a></td>
-                        <td class="line">
-                            @if(isset($matchLive))
-                                <a href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sl["sport"], $sl["lid"], $mid)}}" class="live">观看直播</a>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </table>
+                        <tr>
+                            <td><span>{{substr($time, 5, 5)}}</span><br/>{{substr($time, 11, 5)}}</td>
+                            <td class="host"><a href="{{$hTeamUrl}}">{{$match["hname"]}}</a></td>
+                            <td class="vs">
+                                @if($match["status"] == -1 || $match["status"] > 0)
+                                    @if($match["status"] > 0) <span class="living">直播中</span> @else {{$match["hscore"] . " - " . $match["ascore"]}} @endif
+                                @else vs  @endif
+                            </td>
+                            <td class="away"><a href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
+                            <td class="line">
+                                <a href="{{$detailUrl}}" class="live">观看直播</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                @endforeach
+                @endif
             </div>
         </div>
         <div class="el_con">
