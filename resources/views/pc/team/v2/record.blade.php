@@ -1,7 +1,10 @@
 @extends('pc.team.v2.base')
+@section('teamJs')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
+@endsection
 @section('detail')
     <div id="Tab_con">
-        <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
+        <p><a href="/{{$name_en}}/team{{$tid}}.html">综合</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_news_1.html">资讯</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_video_1.html">视频</a></p>
         <p class="on"><a href="#">录像</a></p>

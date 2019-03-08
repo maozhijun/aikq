@@ -1,13 +1,16 @@
 @extends('pc.team.v2.base')
+@section('teamJs')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
+@endsection
 @section('teamCss')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/video_list_2.css?time=20192191536">
     <style type="text/css">
-        .video_con{ padding-left: 10px; }
+        .video_con{ padding-left: 10px; min-height: auto;}
         .video_con .item_con{ width: 33.333%; }
     </style>
 @section('detail')
     <div id="Tab_con">
-        <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
+        <p><a href="/{{$name_en}}/team{{$tid}}.html">综合</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_news_1.html">资讯</a></p>
         <p class="on"><a href="">视频</a></p>
         <p><a href="/{{$name_en}}/team{{$tid}}_record_1.html">录像</a></p>

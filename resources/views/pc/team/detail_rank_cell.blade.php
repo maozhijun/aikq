@@ -32,7 +32,7 @@
                                 <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                             @endif
                             <td>{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</td>
-                            <td>{{$rank['goal']}}/{{$rank['fumble']}}</td>
+                            <td>{{isset($rank['goal'])?$rank['goal']:'-'}}/{{isset($rank['fumble']) ? $rank['fumble'] : '-'}}</td>
                             <td>{{$rank['score']}}</td>
                         </tr>
                     @endforeach

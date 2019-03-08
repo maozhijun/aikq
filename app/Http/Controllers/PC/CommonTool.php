@@ -301,7 +301,7 @@ class CommonTool
         if ($name_en == 'other'){
             return "javascript:void(0)";
         }
-        return "/$name_en/team$sport$tempTid"."_index_1.html";
+        return "/$name_en/team$sport$tempTid".".html";
     }
 
     public static function getTeamDetailUrl2($sport, $s_lid, $tid) {
@@ -318,7 +318,7 @@ class CommonTool
         if ($name_en == 'other'){
             return "javascript:void(0)";
         }
-        return "/$name_en/team$sport$tempTid"."_index_1.html";
+        return "/$name_en/team$sport$tempTid".".html";
     }
 
     public static function getTeamRecordUrl($sport, $lid, $tid) {
