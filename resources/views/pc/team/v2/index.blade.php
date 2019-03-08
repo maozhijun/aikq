@@ -110,7 +110,7 @@
             </div>
             <div class="schedule_con">
                 <table class="match">
-                    <col width="10%"><col width="10%"><col><col width="11%"><col><col width="40%">
+                    <col width="12%"><col width="16.6%"><col><col width="11%"><col><col width="16%">
                     @foreach($lives['schedule'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
@@ -118,7 +118,7 @@
                         ?>
                         <tr>
                             <td><span>{{$match['lname']}}</span></td>
-                            <td><span>{{date('Y-m-d', $match['time'])}}</span><br/>{{date('H:i', $match['time'])}}</td>
+                            <td><span>{{date('m-d', $match['time'])}}&nbsp;&nbsp;&nbsp;{{date('H:i', $match['time'])}}</span></td>
                             @if(isset($match['hid']) && $match['hid'] != $team['id'])
                                 <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
                             @else

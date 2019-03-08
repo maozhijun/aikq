@@ -61,18 +61,18 @@ function reloadList (Time) {
             success: function(res){
                 // console.log(res[TargetDate])
 
-                var newList = $('<div id="' + TargetDate + '" class="el_con add_con"><div class="header"><h3><p>' + TargetDate.split('-')[0] + '年' + TargetDate.split('-')[1] + '月' + TargetDate.split('-')[2] + '日</p></h3></div>' +
-                    '<table><col width="8.2%"><col width="16.6%"><col width="9.8%"><col><col width="15%"><col><col width="20%"></table></div>');
+                var newList = $('<div id="' + TargetDate + '" class="el_con add_con"><div class="header"><h3><p>' + TargetDate.split('-')[0] + '年' + TargetDate.split('-')[1] + '月' + TargetDate.split('-')[2] + '日</p></h3></div>' + 
+                              '<table><col width="8.2%"><col width="16.6%"><col width="9.8%"><col><col width="15%"><col><col width="20%"></table></div>');
 
                 if (res[TargetDate].records.length > 0) {
                     for (var i = 0; i < res[TargetDate].records.length; i++) {
                         var obj = res[TargetDate].records[i],
-                            newRecord = $('<tr type="' + (obj.sport == '1' ? 'football' : (obj.sport == '2' ? 'basketball' : '')) + '">' +
-                                '<td><img class="icon" src="' + (obj.sport == '1' ? 'https://static.dlfyb.com/img/pc/v2/icon_foot_light_opaque.png' : (obj.sport == '2' ? 'https://static.dlfyb.com/img/pc/v2/icon_basket_light_opaque.png' : '')) + '"></td>' +
-                                '<td>' + obj.lname + '</td><td>' + setMyTime (obj.time,'time') + '</td>' +
-                                '<td><a href="' + obj.hurl + '">' + obj.hname + '</a></td>' +
-                                '<td>' + obj.hscore + ' - ' + obj.ascore + '</td>' +
-                                '<td><a href="' + obj.aurl +  '">' + obj.aname + '</a></td><td class="channel"><a href="' + obj.url + '">观看录像</a></td></tr>')
+                        newRecord = $('<tr type="' + (obj.sport == '1' ? 'football' : (obj.sport == '2' ? 'basketball' : '')) + '">' + 
+                                      '<td><img class="icon" src="' + (obj.sport == '1' ? 'https://static.dlfyb.com/img/pc/v2/icon_foot_light_opaque.png' : (obj.sport == '2' ? 'https://static.dlfyb.com/img/pc/v2/icon_basket_light_opaque.png' : '')) + '"></td>' +
+                                      '<td>' + obj.lname + '</td><td>' + setMyTime (obj.time,'time') + '</td>' +
+                                      '<td><a href="/' + (FindLeagueName(obj.sport,obj.lid) ? FindLeagueName(obj.sport,obj.lid).name_en : 'other') + '/team' + obj.hid + '.html">' + obj.hname + '</a></td>' + 
+                                      '<td>' + obj.hscore + ' - ' + obj.ascore + '</td>' + 
+                                      '<td><a href="/' + (FindLeagueName(obj.sport,obj.lid) ? FindLeagueName(obj.sport,obj.lid).name_en : 'other') + '/team' + obj.aid + '.html">' + obj.aname + '</a></td><td class="channel"><a href="' + obj.url + '">观看录像</a></td></tr>')
 
                         newList.find('table').append(newRecord)
                     }
@@ -87,3 +87,44 @@ function reloadList (Time) {
         });
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

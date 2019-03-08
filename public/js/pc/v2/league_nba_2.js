@@ -19,6 +19,8 @@ function setPage () {
 			$('.player_rank table').css('display','none').filter('.' + $(this).attr('forItem')).css('display','');
 		}
 	})
+
+	Refresh()
 }
 
 function changeDate (obj) {
@@ -31,7 +33,20 @@ function changeDate (obj) {
 	console.log(NowDate)
 }
 
+/*用户加载，刷新最新列表*/
+function Refresh () {
+	// LeagueKeyword
 
+	$.ajax({
+		url: PubHeader + LeagueKeyword + '.json',
+		success: function(res){
+        	console.log(res)
+
+        	ResetRightNews(res.articles)
+        	ResetRightVideo(res.videos)
+    	}
+    });
+}
 
 
 

@@ -85,6 +85,15 @@ $leaguePath = isset($zhuanti) ? '/'.$zhuanti['name_en'].'/' : "/";
 	</div>
 </div>
 @endsection
+@section('js')
+	<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/news_list_2.js"></script>
+	<script type="text/javascript">
+		var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en'] : 'all'}}';
+        window.onload = function () { //需要添加的监控放在这里
+            setPage();
+        }
+	</script>
+@endsection
 
 
 
