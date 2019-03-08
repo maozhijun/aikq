@@ -111,6 +111,7 @@
 <!--[if lte IE 8]>
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/id_2_league_name.js"></script>
 @yield('js')
 <script>
     var _hmt = _hmt || [];

@@ -20,7 +20,7 @@
                     <a href="/{{$su_obj['name_en']}}/record/" class="date_con">{{$su_obj['name']}}</a>
                 @endforeach
             @endif
-            <div style="display: none" class="date"><input type="text" name="date" placeholder="选择日期"></div>
+            <div style="" class="date"><input type="text" name="date" placeholder="选择日期"></div>
         </div>
     </div>
     <div class="def_content" id="Content">
@@ -66,7 +66,8 @@
 @endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/jquery-ui.js"></script>
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js?201903071908"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903071908"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();
