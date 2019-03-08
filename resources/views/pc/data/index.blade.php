@@ -41,7 +41,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -57,7 +57,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -158,7 +158,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -258,9 +258,10 @@
                                                         <?php
                                                         $item = $league['score'][$i];
                                                         $steam = $league['teams'][$item['tid']];
+                                                            $turl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$league['league']['id'],$item['tid']);
                                                         ?>
                                                         <tr>
-                                                            <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name']}}</a></td>
+                                                            <td><a href="{{$turl}}">{{$item['rank']}} {{$steam['name']}}</a></td>
                                                             <td>{{$item['win']}}</td>
                                                             <td>{{$item['draw']}}</td>
                                                             <td>{{$item['lose']}}</td>
