@@ -1,11 +1,10 @@
 
 //公共传参头部
-// var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
-var PubHeader = '//cms.aikanqiu.com/json/pc/comboData/';
+var PubHeader = '//api.dlfyb.com/json/pc/comboData/';
 
 //获取联赛名2皆匹配规则
 var CanGetTeamLink = false;
-$.getScript("js/id_2_league_name.js",function(){CanGetTeamLink = true});
+$.getScript("//static.dlfyb.com/js/pc/v2/id_2_league_name.js",function(){CanGetTeamLink = true});
 
 //获取链点参数
 function GetQueryString(str,href) {
