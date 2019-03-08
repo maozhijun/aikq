@@ -11,6 +11,7 @@ namespace App\Http\Controllers\PC\Live;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\Common\LeagueDataTool;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\MatchTool;
 use App\Models\Article\PcArticle;
@@ -19,11 +20,13 @@ use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Score;
 use App\Models\LgMatch\Season;
 use App\Models\LgMatch\Stage;
+use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -236,22 +239,44 @@ class SubjectController extends Controller
     /**
      * 篮球专题终端页
      * @param SubjectLeague $sl
+     * @param $season 赛季 例：18-19
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function basketDetailHtml(SubjectLeague $sl) {
+    public function basketDetailHtml(SubjectLeague $sl, $season = "") {
         $sport = $sl["sport"];
         $lid = $sl["lid"];
         $name_en = $sl["name_en"];
 
-        $season = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
-        $kind = 0;$year = '';
-        if (isset($season)){
-            $kind = $season['kind'];
-            $year = $season['name'];
+        if (!empty($season)) {
+            $basketSeason = BasketSeason::query()->where('lid', $lid)->where('name', $season)->first();
+        } else {
+            $basketSeason = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
         }
+        $kind = 0;$year = '';
+        if (isset($basketSeason)){
+            $kind = $basketSeason['kind'];
+            $year = $basketSeason['name'];
+        }
+
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
 
         $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest);
         $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast);
+
+        //三天 赛程
+        $schedule = $leagueData["schedule"];//从接口获取赛程
+        $scheduleMatches = [];
+        $startTime = strtotime(date('Y-m-d 00:00'));
+        $endTime = strtotime(date('Y-m-d 23:59', strtotime('+2 days')));
+        foreach ($schedule as $match) {
+            $time = $match["time"];
+            if ($time >= $startTime && $time <= $endTime) {
+                $date = date('Y-m-d', $time);
+                $scheduleMatches[$date][] = $match;
+            }
+        }
+
+        //$scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid);//从数据库获取 赛程
 
         try {
             $comboData = CommonTool::getComboData($name_en);
@@ -265,7 +290,9 @@ class SubjectController extends Controller
         $result["data"] = $data;
         $result["westRanks"] = $westRanks;
         $result["eastRanks"] = $eastRanks;
-        $result["season"] = $season;
+        $result["season"] = $basketSeason;
+        $result["seasons"] = $leagueData["seasons"];
+        $result["scheduleMatches"] = $scheduleMatches;
         return view("pc.subject.v2.basketball_detail", $result);
     }
 
