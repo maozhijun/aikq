@@ -10,7 +10,7 @@ namespace App\Http\Controllers\IntF\Common;
 class LeagueDataTool
 {
     public static function getLeagueDataBySeason($sport, $lid, $season = "") {
-        if (strlen($season) <= 0) {
+        if (strlen($season) > 0) {
             $url = "http://match.liaogou168.com/static/league/$sport/$lid/$season/detail.json";
         } else {
             $url = "http://match.liaogou168.com/static/league/$sport/$lid.json";
