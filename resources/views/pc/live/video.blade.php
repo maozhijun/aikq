@@ -91,7 +91,7 @@
                     <div class="header">
                         <h3><p>两队最近比赛录像</p></h3>
                         <p class="aline">
-                            <a href="/{{$zhuanti['name_en']}}/record/">更多{{$lname}}录像 ></a>
+                            <a href="{{isset($zhuanti) ? '/'.$zhuanti['name_en']:''}}/record/">更多{{$lname}}录像 ></a>
                         </p>
                     </div>
                     @if(isset($hRecords) && count($hRecords) > 0)
@@ -447,8 +447,8 @@
             <div class="con_box">
                 <div class="header_con">
                     <h4>最新{{$sTitle}}视频</h4>
-                    <a href="{{is_null($zhuanti) ? '/video/':'/'.$zhuanti['name_en'].'/video/'}}">{{$sTitle}}视频集锦</a>
-                    <a href="{{is_null($zhuanti) ? '/record/':'/'.$zhuanti['name_en'].'/record/'}}">{{$sTitle}}比赛录像</a>
+                    <a href="{{!isset($zhuanti) ? '/video/':'/'.$zhuanti['name_en'].'/video/'}}">{{$sTitle}}视频集锦</a>
+                    <a href="{{!isset($zhuanti) ? '/record/':'/'.$zhuanti['name_en'].'/record/'}}">{{$sTitle}}比赛录像</a>
                 </div>
                 <div class="video">
                     @if(isset($comboData) && isset($comboData['videos']))
