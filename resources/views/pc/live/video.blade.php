@@ -403,7 +403,7 @@
     <!--[if lte IE 8]>
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js?201903111814"></script>
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/detail_self.js?time=201901181530"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en']:'all'}}';
