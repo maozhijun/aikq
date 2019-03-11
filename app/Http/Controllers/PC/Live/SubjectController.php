@@ -339,6 +339,9 @@ class SubjectController extends Controller
         $result["eastRanks"] = $eastRanks;
         $result["season"] = $basketSeason;
         $result["seasons"] = $leagueData["seasons"];
+        if (isset($leagueData["playoff"])) {
+            $result["playoff"] = $leagueData["playoff"];
+        }
         $result["scheduleMatches"] = $scheduleMatches;
         $result["start"] = date("m-d", $startTime);
         $result["end"] = date("m-d", $endTime);
