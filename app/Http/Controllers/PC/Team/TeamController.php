@@ -111,8 +111,12 @@ class TeamController extends Controller
         else{
             $tids = array();
             $teams = array();
-            foreach ($data['rank'] as $item){
-                $tids[] = $item['tid'];
+            if (isset($data['rank'])) {
+                foreach ($data['rank'] as $item){
+                    if (isset($item['tid'])) {
+                        $tids[] = $item['tid'];
+                    }
+                }
             }
             $o_teams = Team::whereIn('id',$tids)->get();
             foreach ($o_teams as $item){

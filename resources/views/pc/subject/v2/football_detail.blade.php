@@ -192,7 +192,7 @@
             @endif
         </div>
     </div>
-    @component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season]) @endcomponent
+    @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(), "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season])
 </div>
 @endsection
 @section("js")

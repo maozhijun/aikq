@@ -22,7 +22,7 @@
         <div class="con_box">
             <div class="header_con">
                 <h4>{{$sl["name"]}}资讯</h4>
-                <a href="/{{$sl["name_en"]}}/news/">全部{{$sl["name"]}}资讯</a>
+                <a target="_blank" href="/{{$sl["name_en"]}}/news/">全部{{$sl["name"]}}资讯</a>
             </div>
             <div class="news">
                 @foreach($articles as $index=>$article)
@@ -42,8 +42,8 @@
         <div class="con_box">
             <div class="header_con">
                 <h4>{{$sl["name"]}}视频</h4>
-                <a href="/{{$sl["name_en"]}}/video">{{$sl["name"]}}视频集锦</a>
-                <a href="/{{$sl["name_en"]}}/record">{{$sl["name"]}}比赛录像</a>
+                <a target="_blank" href="/{{$sl["name_en"]}}/video">{{$sl["name"]}}视频集锦</a>
+                <a target="_blank" href="/{{$sl["name_en"]}}/record">{{$sl["name"]}}比赛录像</a>
             </div>
             <div class="video">
                 @foreach($videos as $video)
@@ -62,7 +62,7 @@
         <div class="con_box">
             <div class="header_con">
                 <h4>球员数据</h4>
-                <a href="/{{$sl["name_en"]}}/data/">{{$sl["name"]}}详细数据</a>
+                <a target="_blank" href="/{{$sl["name_en"]}}/data/">{{$sl["name"]}}详细数据</a>
             </div>
             <div class="player_rank">
                 <div class="rank_tab_box">
@@ -141,7 +141,7 @@
             <div class="con_box">
                 <div class="header_con">
                     <h4>球员数据</h4>
-                    <a href="/{{$sl["name_en"]}}/data/">{{$sl["name"]}}详细数据</a>
+                    <a target="_blank" href="/{{$sl["name_en"]}}/data/">{{$sl["name"]}}详细数据</a>
                 </div>
                 <div class="player_rank">
                     <div class="rank_tab_box">

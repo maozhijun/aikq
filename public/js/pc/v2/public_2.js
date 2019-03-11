@@ -266,7 +266,9 @@ function ResetRightRecord (recordArr) {
     $('#Right_part .con_box .record').addClass('show')
 }
 
-
+function GetTeamDetailUrl(Sport, Lid, Tid) {
+    return '/' + (FindLeagueName(Sport,Lid) ? FindLeagueName(Sport,Lid).name_en : 'other') + '/team' + Sport + reTurnTeamId(Tid) + '_index_1.html';
+}
 
 
 
