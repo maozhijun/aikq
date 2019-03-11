@@ -349,6 +349,50 @@ class SubjectController extends Controller
         return view("pc.subject.v2.basketball_detail", $result);
     }
 
+
+    //=========================== 专题赛程 逻辑 开始 ===========================//
+
+
+    /**
+     * 篮球赛程接口
+     * @param Request $request
+     * @param $name_en
+     * @param $season
+     * @param $start
+     * @param $end
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function basketballSchedule(Request $request, $name_en, $season, $start, $end) {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (!isset($sl) || $sl["sport"] != SubjectLeague::kSportBasketball) {
+            return response()->json(["code"=>403]);
+        }
+        $schedule = BasketMatch::scheduleMatchesByLidAndTime($sl["lid"], $season, $start, $end);
+        return response()->json(["code"=>200, "schedule"=>$schedule]);
+    }
+
+    /**
+     * 足球杯赛赛程接口
+     * @param Request $request
+     * @param $name_en 专题英文简写
+     * @param $stage   杯赛阶段ID
+     * @param $group = ""   分组赛专用
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function footballCupSchedule(Request $request, $name_en, $stage, $group = "") {
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (!isset($sl) || $sl["sport"] != SubjectLeague::kSportFootball) {
+            return response()->json(["code"=>403]);
+        }
+        $schedule = Match::getScheduleCup($sl["lid"], $stage, $group);
+        return response()->json(["code"=>200, "schedule"=>$schedule]);
+    }
+    //=========================== 专题赛程 逻辑 结束 ===========================//
+
+
+
+
+
     //=====================================================//
 
     /**
