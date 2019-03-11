@@ -174,7 +174,7 @@
             </div>
             @endif
         </div>
-        @component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season, "data"=>$data]) @endcomponent
+        @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(), "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season, "data"=>$data])
     </div>
 @endsection
 @section("js")
