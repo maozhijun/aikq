@@ -10,9 +10,9 @@
             <a href="/">爱看球</a> - {{$sl["name"]}}
         </div>
     </div>
-    @if(isset($knockouts))
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
+            @if(isset($knockouts))
             <div class="knockout_con football">
                 <div class="round_con">
                     @component("pc.subject.v2.football_detail_cup_kk", ["knockouts"=>$knockouts, "count"=>16, "sl"=>$sl, "p"=>"before"]) @endcomponent
@@ -63,7 +63,7 @@
                 </a>
                 @endif
             </div>
-
+            @endif
             <div class="el_con">
                 <div class="header">
                     <h3><p>{{$sl["name"]}}赛程</p></h3>
@@ -72,7 +72,19 @@
                     <div class="round_con">
                         <div class="item_box cup">
                             @foreach($stages as $stage)
-                                <p @if($stage["status"] == 1) class="on" @endif >{{$stage["name"]}}</p>
+                                <?php $on = $stage["status"] == 1; ?>
+                                <p @if($on) class="on" @endif >
+                                    {{$stage["name"]}}
+                                    @if($stage["name"] == "分组赛")
+                                    <?php
+                                        $group = $stage["group"];
+                                        $gLen = strlen($group);
+                                        for ($gIndex = 0; $gIndex < $gLen; $gIndex++) {
+                                            echo "<span ". ($gIndex == 0 && $on ? "class=\"on\"" : "") ." >".substr($group, $gIndex, 1)."</span>" . ($gIndex + 1 == $gLen ? "" : "/");
+                                        }
+                                    ?>
+                                    @endif
+                                </p>
                             @endforeach
                         </div>
                     </div>
@@ -164,7 +176,6 @@
         </div>
         @component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season, "data"=>$data]) @endcomponent
     </div>
-    @endif
 @endsection
 @section("js")
     <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_cup_2.js"></script>

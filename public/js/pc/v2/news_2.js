@@ -1,7 +1,6 @@
 
 function setPage () {
 	$('#Left_part .text_con img').height('auto')
-
 	Refresh()
 }
 

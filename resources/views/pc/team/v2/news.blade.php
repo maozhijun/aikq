@@ -1,10 +1,13 @@
 @extends('pc.team.v2.base')
 @section('teamCss')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_list_2.css?time=20192191536">
-    @endsection
+@endsection
+@section('teamJs')
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
+@endsection
 @section('detail')
     <div id="Tab_con">
-        <p><a href="/{{$name_en}}/team{{$tid}}_index_1.html">综合</a></p>
+        <p><a href="/{{$name_en}}/team{{$tid}}.html">综合</a></p>
         <p class="on"><a href="#">资讯</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_video_1.html">视频</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
@@ -21,17 +24,17 @@
                 <div class="info_text">
                     {{date('Y-m-d', date_create($article['publish_at'])->getTimestamp())}}
                     @if(count($tags) > 0)
-                    <p class="tag">
-                        @foreach($tags as $key=>$tag)
-                            <span>{{$tag['name']}}</span>
-                        @endforeach
-                    </p>
-                        @endif
+                        <p class="tag">
+                            @foreach($tags as $key=>$tag)
+                                <span>{{$tag['name']}}</span>
+                            @endforeach
+                        </p>
+                    @endif
                 </div>
             </a>
         @endforeach
         {{--@if($page > 1)--}}
-            @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/'.$name_en.'/team'.$tid.'_news_']) @endcomponent
+        @component("pc.layout.v2.page_cell", ['lastPage'=>$page, "curPage"=>$pageNo,'href'=>'/'.$name_en.'/team'.$tid.'_news_']) @endcomponent
         {{--@endif--}}
     </div>
 @endsection

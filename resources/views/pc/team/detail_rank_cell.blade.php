@@ -12,34 +12,30 @@
                     <h4>{{$subject["name"]}}积分榜</h4>
                 </div>
                 <table class="right_table integral">
-                    <colgroup>
-                        <col width="34px">
-                        <col width="">
-                        <col width="54px">
-                        <col width="48px">
-                    </colgroup>
-                    <thead>
+                    <col width="14.6%"><col><col width="18%"><col width="15%"><col width="15%">
                     <tr>
                         <th>排名</th>
                         <th>球队</th>
                         <th>胜/平/负</th>
+                        <th>得/失</th>
                         <th>积分</th>
                     </tr>
-                    </thead>
-                    <tbody>
                     @foreach($ranks as $rank)
+                        <?php
+                        $steam = $teams[$rank['tid']];
+                        ?>
                         <tr>
-                            <td><span>{{$rank['rank']}}</span></td>
+                            <td>{{$rank['rank']}}</td>
                             @if(isset($rank['tid']))
-                                <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
                             @else
-                                <td>{{$rank['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                             @endif
                             <td>{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</td>
+                            <td>{{isset($rank['goal'])?$rank['goal']:'-'}}/{{isset($rank['fumble']) ? $rank['fumble'] : '-'}}</td>
                             <td>{{$rank['score']}}</td>
                         </tr>
                     @endforeach
-                    </tbody>
                 </table>
             </div>
         @else
@@ -49,70 +45,60 @@
         <div class="con_box">
             <div class="header_con">
                 <h4>{{$subject["name"]}}积分榜</h4>
+                <a href="javascript:void(0)" class="nba_part on" forItem="west">西部</a>
+                <a href="javascript:void(0)" class="nba_part" forItem="east">东部</a>
             </div>
-            <table class="right_table integral" id="East" style="display: none;">
-                <colgroup>
-                    <col width="34px">
-                    <col width="">
-                    <col width="54px">
-                    <col width="48px">
-                </colgroup>
-                <thead>
+            <table class="right_table integral east" id="East" style="display: none;">
+                <col width="14.6%"><col><col width="18%"><col width="15%">
                 <tr>
-                    <th>排名</th>
-                    <th>球队</th>
+                    <th></th>
+                    <th class="name">球队</th>
                     <th>胜/负</th>
                     <th>胜率</th>
                 </tr>
-                </thead>
-                <tbody>
                 @if(isset($ranks['east']))
                     @foreach($ranks['east'] as $east)
+                        <?php
+                        $steam = $teams[$east['tid']];
+                        ?>
                         <tr>
-                            <td><span>{{$east['rank']}}</span></td>
+                            <td>{{$east['rank']}}</td>
                             @if(isset($east['tid']))
-                                <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($east['sport'], $east['lid'], $east['tid'])}}">{{$east['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($east['sport'], $east['lid'], $east['tid'])}}">{{$east['name']}}</a></td>
                             @else
-                                <td>{{$east['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$east['name']}}</td>
                             @endif
                             <td>{{$east['win']}}/{{$east['lose']}}</td>
                             <td>{{$east['win_p']}}%</td>
                         </tr>
                     @endforeach
                 @endif
-                </tbody>
             </table>
-            <table class="right_table integral" id="West">
-                <colgroup>
-                    <col width="34px">
-                    <col width="">
-                    <col width="54px">
-                    <col width="48px">
-                </colgroup>
-                <thead>
+            <table class="right_table integral west" id="West">
+                <col width="14.6%"><col><col width="18%"><col width="15%">
                 <tr>
-                    <th>排名</th>
-                    <th>球队</th>
+                    <th></th>
+                    <th class="name">球队</th>
                     <th>胜/负</th>
                     <th>胜率</th>
                 </tr>
-                </thead>
-                <tbody>
                 @if(isset($ranks['west']))
                     @foreach($ranks['west'] as $west)
+                        <?php
+                        $steam = $teams[$west['tid']];
+                        ?>
                         <tr>
-                            <td><span>{{$west['rank']}}</span></td>
+                            <td>{{$west['rank']}}</td>
                             @if(isset($west['tid']))
-                                <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($west['sport'], $west['lid'], $west['tid'])}}">{{$west['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($west['sport'], $west['lid'], $west['tid'])}}">{{$west['name']}}</a></td>
                             @else
-                                <td>{{$west['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$west['name']}}</td>
                             @endif
                             <td>{{$west['win']}}/{{$west['lose']}}</td>
                             <td>{{$west['win_p']}}%</td>
                         </tr>
                     @endforeach
                 @endif
-                </tbody>
             </table>
         </div>
     @elseif($subject['sport'] == 2)
@@ -121,34 +107,28 @@
                 <h4>{{$subject["name"]}}排名</h4>
             </div>
             <table class="right_table integral">
-                <colgroup>
-                    <col width="34px">
-                    <col width="">
-                    <col width="54px">
-                    <col width="48px">
-                </colgroup>
-                <thead>
+                <col width="14.6%"><col><col width="18%"><col width="15%">
                 <tr>
                     <th>排名</th>
                     <th>球队</th>
                     <th>胜/负</th>
                     <th>胜率</th>
                 </tr>
-                </thead>
-                <tbody>
                 @foreach($ranks as $rank)
+                    <?php
+                    $steam = $teams[$rank['tid']];
+                    ?>
                     <tr>
-                        <td><span>{{$rank['rank']}}</span></td>
+                        <td>{{$rank['rank']}}</td>
                         @if(isset($rank['tid']))
-                            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
                         @else
-                            <td>{{$rank['name']}}</td>
+                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                         @endif
                         <td>{{$rank['win']}}/{{$rank['lose']}}</td>
                         <td>{{$rank['win_p']}}%</td>
                     </tr>
                 @endforeach
-                </tbody>
             </table>
         </div>
     @endif

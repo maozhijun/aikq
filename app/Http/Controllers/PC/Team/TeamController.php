@@ -14,6 +14,8 @@ use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\StaticController;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\Team;
 use App\Models\Match\HotVideo;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
@@ -26,7 +28,39 @@ class TeamController extends Controller
     public function rank(Request $request, $sport, $lid) {
         $rankData = AikanQController::leagueRankData($sport, $lid);
         $leagueData = AikanQController::getLeagueDataByLid($sport, $lid);
-        return view('pc.team.detail_rank_cell', ['ranks'=>$rankData, 'subject'=>$leagueData]);
+        if ($sport == 2){
+            $tids = array();
+            $teams = array();
+            if ($lid == 1){
+                foreach ($rankData['west'] as $item){
+                    $tids[] = $item['tid'];
+                }
+                foreach ($rankData['east'] as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            else{
+                foreach ($rankData as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+        }
+        else{
+            $tids = array();
+            $teams = array();
+            foreach ($rankData as $item){
+                $tids[] = $item['tid'];
+            }
+            $o_teams = Team::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+        }
+        return view('pc.team.detail_rank_cell', ['teams'=>$teams,'ranks'=>$rankData, 'subject'=>$leagueData]);
     }
 
     public function detail(Request $request, $name_en, $tid)
@@ -52,12 +86,52 @@ class TeamController extends Controller
         $data['zhuanti'] = $this->getSujectLeagueData($name_en, $subj);
         $data['tid'] = explode('_',$tid)[0];
         $data['show_right'] = false;
+        if ($sport == 2){
+            $tids = array();
+            $teams = array();
+            if ($lid == 1){
+                foreach ($data['rank']['west'] as $item){
+                    $tids[] = $item['tid'];
+                }
+                foreach ($data['rank']['east'] as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            else{
+                foreach ($data['rank'] as $item){
+                    $tids[] = $item['tid'];
+                }
+            }
+            $o_teams = BasketTeam::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $data['teams'] = $teams;
+        }
+        else{
+            $tids = array();
+            $teams = array();
+            if (isset($data['rank'])) {
+                foreach ($data['rank'] as $item){
+                    if (isset($item['tid'])) {
+                        $tids[] = $item['tid'];
+                    }
+                }
+            }
+            $o_teams = Team::whereIn('id',$tids)->get();
+            foreach ($o_teams as $item){
+                $teams[$item['id']] = $item;
+            }
+            $data['teams'] = $teams;
+        }
         return $data;
     }
 
     private static function detailHtml($data)
     {
         if ($data == null) return abort(404);
+        $data['keywords'] = '';
+        $data['description'] = '';
         return view('pc.team.v2.index', $data);
     }
 
@@ -114,6 +188,9 @@ class TeamController extends Controller
 
         $this->html_var['page'] = $records->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'比赛录像_'.$rdata['team']['name'].'比赛视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.team.v2.record', $this->html_var);
     }
 
@@ -200,6 +277,9 @@ class TeamController extends Controller
         $this->html_var['articles'] = $articles;
         $this->html_var['page'] = $articles->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'最新资讯_'.$rdata['team']['name'].'新闻-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return self::newsHtml($this->html_var);
     }
     private static function newsHtml($data)
@@ -277,6 +357,9 @@ class TeamController extends Controller
 
         $this->html_var['page'] = $videos->lastPage();
         $this->html_var['pageNo'] = $page;
+        $this->html_var['title'] = $rdata['team']['name'].'精彩集锦_'.$rdata['team']['name'].'视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.team.v2.video', $this->html_var);
     }
 

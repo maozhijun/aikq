@@ -155,6 +155,9 @@ class DataController extends Controller{
         }
 
         $this->html_var['leagues'] = $subData;
+        $this->html_var['title'] = '足球篮球赛事数据_国内外足球篮球赛事排行榜-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.data.index',$this->html_var);
     }
 
@@ -244,6 +247,9 @@ class DataController extends Controller{
             array('name'=>'红牌','key'=>'red'),
         );
 //        dump($this->html_var['teamTech']);
+        $this->html_var['title'] = $this->html_var['zhuanti']['name'].'数据_'.$this->html_var['zhuanti']['name'].'球队排行榜、'.$this->html_var['zhuanti']['name'].'球员数据-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.data.football',$this->html_var);
     }
 

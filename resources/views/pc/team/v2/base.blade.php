@@ -1,7 +1,7 @@
 @extends('pc.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?time=20192191536">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/team_2.css?201903081743">
     @yield('teamCss')
 @endsection
 @section('content')
@@ -12,7 +12,7 @@
                 $sport = ($zhuanti['name_en'] == 'nba' || $zhuanti['name_en'] == 'cba')?2:1;
                     $teamIndex = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport,$zhuanti['lid'],$team['id']);
                 ?>
-                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="{{$teamIndex}}">{{$team['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$team['name']}}资讯
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="{{$teamIndex}}">{{$team['name']}}</a>
             </div>
         </div>
     @endif
@@ -58,8 +58,8 @@
     </div>
 @endsection
 @section('js')
+    @yield('teamJs')
     {{--<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_2.js"></script>--}}
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{isset($zhuanti) ? $zhuanti['name_en'] : 'all'}}';
         window.onload = function () { //需要添加的监控放在这里

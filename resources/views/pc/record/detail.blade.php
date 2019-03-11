@@ -4,16 +4,8 @@
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/record_2.css?time=20192191536">
 @endsection
 @section('content')
-    @if(isset($zhuanti))
-        <div id="Crumbs">
-            <div class="def_content">
-                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$zhuanti['name']}}录像
-            </div>
-        </div>
-    @endif
     <?php
     if (!is_null($match) && !is_null($sv)){
-        $time = date('m月d日', $match['time']);
         $time = date('m月d日', $match['time']);
         $mTitle = $sv['lname'] . ' ' . $sv['hname']. ' VS '.$sv['aname'];
         $sTitle = isset($subjects[$sv['s_lid']])? $subjects[$sv['s_lid']]['name'] : '';
@@ -32,6 +24,13 @@
         $zt = '/record/';
     }
     ?>
+    @if(isset($zhuanti))
+        <div id="Crumbs">
+            <div class="def_content">
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/record/">{{$zhuanti['name']}}录像</a>&nbsp;&nbsp;-&nbsp;&nbsp;{{$time}}{{$mTitle}}
+            </div>
+        </div>
+    @endif
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
             <div id="Video_play_box">
@@ -53,7 +52,7 @@
                     <col width="25%"><col><col width="15%"><col><col width="20%">
                     @foreach($hotRecords as $hotRecord)
                         <?php
-                        $time = date('Y年m月d日 H:m', date_create($hotRecord['time'])->getTimestamp());
+                        $time = date('Y-m-d H:m', date_create($hotRecord['time'])->getTimestamp());
                         $subject = isset($subjects[$hotRecord['s_lid']])? $subjects[$hotRecord['s_lid']]['name_en'] : 'other';
                         if (!is_null($hotRecord->url)){
                             $url = $hotRecord->url;

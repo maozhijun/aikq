@@ -27,6 +27,7 @@ use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
 use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class RecordController extends Controller
@@ -50,10 +51,14 @@ class RecordController extends Controller
         $this->html_var['datas'] = $this->getRecordByDate($start,$end);
 //        dump($this->html_var['datas']);
         $this->html_var['check'] = 'record';
+        $this->html_var['title'] = '国内外篮球、足球赛事录像大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.record.index',$this->html_var);
     }
 
-    public function getMatchWithDate(Request $request, $date){
+    public function getMatchWithDate(Request $request){
+        $date = $request->input('date');
         $start = date_create($date)->format("Y-m-d");
         $end = date_create($start)->modify("+1 day")->format("Y-m-d");
         $data = $this->getRecordByDate($start,$end);
@@ -63,7 +68,13 @@ class RecordController extends Controller
                 'date'=>$start
             ));
         }
-        return response()->json($data);
+        $callback = $request->input('callback');
+        if (isset($callback)) {
+            return response($callback . '(' . json_encode($data) . ')');
+        }
+        else{
+            return response()->json($data);
+        }
     }
 
     /**
@@ -166,6 +177,9 @@ class RecordController extends Controller
             $this->html_var['teams'] = $tids;
         }
 //        dump($this->html_var['teamsData'][206]);
+        $this->html_var['title'] = $this->html_var['zhuanti']['name'].'比赛录像回放_'.$this->html_var['zhuanti']['name'].'比赛视频大全-爱看球直播';
+        $this->html_var['keywords'] = '';
+        $this->html_var['description'] = '';
         return view('pc.record.subject',$this->html_var);
     }
 
@@ -260,7 +274,13 @@ class RecordController extends Controller
         }
         $result['code'] = 0;
         $result['msg'] = 'success';
-        return json_encode($result);
+        $callback = $request->input('callback');
+        if (isset($callback)) {
+            return response($callback . '(' . json_encode($result) . ')');
+        }
+        else{
+            return response()->json($result);
+        }
     }
 
     /**

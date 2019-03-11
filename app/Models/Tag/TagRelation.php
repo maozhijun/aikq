@@ -252,6 +252,9 @@ class TagRelation extends Model
             }
             $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
         });
+        if ($type == self::kTypeArticle) {
+            $query->orderby('publish_at','desc');
+        }
 
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
         return $pages->items();

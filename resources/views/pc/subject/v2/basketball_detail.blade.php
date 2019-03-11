@@ -12,157 +12,174 @@
 </div>
 <div class="def_content" id="Part_parent">
     <div id="Left_part">
-        @if(isset($datas) && isset($datas['playoff']) && count($datas['playoff']) > 0)
-            @include('pc.subject.v2.basketball_playoff_cell', ['playoff'=>$datas['playoff'], 'lid'=>$sl['lid']]);
-        @endif
-        <div class="el_con">
-            <div class="header">
-                <h3><p>NBA赛程</p></h3>
-                <div class="date">
-                    <button class="left">前三天</button>
-                    <p class="con_text">01-25至01-27</p>
-                    <button class="right">后三天</button>
+        @if(isset($season["kind"]) && $season["kind"] ==  2)
+        <div class="knockout_con basketball">
+            <div class="round_con" style="display: ">
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html"><a href="team.html">凯尔特人</a></a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
                 </div>
+                <div class="line_left_con" style="height: 41px; top: 32px; left: 10px; border-bottom: none;"></div>
             </div>
-            <div class="schedule_con">
-                <p class="date_text">01月25日（今天）</p>
-                <table class="match">
-                    <col width="11%"><col><col width="12%"><col><col width="42.5%">
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">已结束</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">已结束</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a><a href="live.html" class="live">主播Sam哥</a><a href="live.html" class="live">粤语高清</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs"><span class="living">直播中</span></td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs"><span class="living">直播中</span></td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a><a href="live.html" class="live">主播Sam哥</a><a href="live.html" class="live">粤语高清</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                </table>
-                <p class="date_text">01月26日</p>
-                <table class="match">
-                    <col width="11%"><col><col width="9.3%"><col><col width="42.5%">
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a><a href="live.html" class="live">主播Sam哥</a><a href="live.html" class="live">粤语高清</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                </table>
-                <p class="date_text">01月27日</p>
-                <table class="match">
-                    <col width="11%"><col><col width="9.3%"><col><col width="42.5%">
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a><a href="live.html" class="live">主播Sam哥</a><a href="live.html" class="live">粤语高清</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">立陶宛U17</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">乌克兰U17</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a></td>
-                    </tr>
-                    <tr>
-                        <td>14:50</td>
-                        <td class="host"><a href="team.html">新西兰破坏者</a></td>
-                        <td class="vs">vs</td>
-                        <td class="away"><a href="team.html">坎斯大班</a></td>
-                        <td class="line"><a href="live.html" class="live">高清直播</a><a href="live.html" class="live">主播剧本球童</a><a href="live.html" class="live">高清直播2</a></td>
-                    </tr>
-                </table>
+            <div class="round_con" style="display: none;">
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
+                </div>
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">开拓者</a></p>
+                    <p><b>0</b><a href="team.html">灰熊</a></p>
+                </div>
+                <div class="match_con" style="margin-top: 30px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
+                </div>
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">开拓者</a></p>
+                    <p><b>0</b><a href="team.html">灰熊</a></p>
+                </div>
+                <div class="line_left_con" style="height: 82px; top: 32px; left: 10px;"></div>
+                <div class="line_left_con" style="height: 82px; top: 210px; left: 10px;"></div>
+            </div>
+            <div class="round_con">
+                <div class="match_con" style="margin-top: 42px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="match_con" style="margin-top: 114px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="line_left_con" style="height: 176px; top: 74px; left: 0;"></div>
+            </div>
+            <div class="round_con">
+                <div class="match_con" style="margin-top: 188px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="line_con" style="height: 0; top: 219px; left: 0;"></div>
+            </div>
+            <div class="round_con">
+                <div class="match_con" style="margin-top: 188px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="line_con" style="height: 0; top: 219px; left: 0;"></div>
+            </div>
+            <div class="round_con">
+                <div class="match_con" style="margin-top: 42px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="match_con" style="margin-top: 114px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">开拓者</a></p>
+                </div>
+                <div class="line_right_con" style="height: 176px; top: 74px; right: 0;"></div>
+            </div>
+            <div class="round_con" style="display: none;">
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
+                </div>
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">开拓者</a></p>
+                    <p><b>0</b><a href="team.html">灰熊</a></p>
+                </div>
+                <div class="match_con" style="margin-top: 30px;">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
+                </div>
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">开拓者</a></p>
+                    <p><b>0</b><a href="team.html">灰熊</a></p>
+                </div>
+                <div class="line_right_con" style="height: 82px; top: 32px; right: 10px;"></div>
+                <div class="line_right_con" style="height: 82px; top: 210px; right: 10px;"></div>
+            </div>
+            <div class="round_con" style="display: ">
+                <div class="match_con">
+                    <p><b class="win">4</b><a href="team.html">凯尔特人</a></p>
+                    <p><b>2</b><a href="team.html">勇士</a></p>
+                </div>
+                <div class="line_right_con" style="height: 41px; top: 32px; right: 10px; border-bottom: none;"></div>
+            </div>
+            <div class="finals_match">
+                <img src="img/image_basketball_n.png" class="cup">
+                <div class="team_con">
+                    <p class="team"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/15.png"><span>湖人</span></p>
+                    <p class="score">3&nbsp;&nbsp;&nbsp;2</p>
+                    <p class="team"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/15.png"><span>凯尔特人</span></p>
+                </div>
+                <ul>
+                    <li>
+                        <a href="live.html">
+                            <p class="icon"><img src="img/image_basketball_n.png"></p>
+                            <p class="host">湖人</p>
+                            <p class="score">104</p>
+                            <p class="vs">-</p>
+                            <p class="score">102</p>
+                            <p class="away">凯尔特人</p>
+                            <p class="icon"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="live.html">
+                            <p class="icon"></p>
+                            <p class="host">湖人</p>
+                            <p class="score">98</p>
+                            <p class="vs">-</p>
+                            <p class="score">102</p>
+                            <p class="away">凯尔特人</p>
+                            <p class="icon"><img src="img/image_basketball_n.png"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="live.html">
+                            <p class="icon"><img src="img/image_basketball_n.png"></p>
+                            <p class="host">湖人</p>
+                            <p class="score">98</p>
+                            <p class="vs">-</p>
+                            <p class="score">102</p>
+                            <p class="away">凯尔特人</p>
+                            <p class="icon"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="live.html">
+                            <p class="icon"></p>
+                            <p class="host">湖人</p>
+                            <p class="score">98</p>
+                            <p class="vs">-</p>
+                            <p class="score">102</p>
+                            <p class="away">凯尔特人</p>
+                            <p class="icon"><img src="img/image_basketball_n.png"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="live.html">
+                            <p class="icon"><img src="img/image_basketball_n.png"></p>
+                            <p class="host">湖人</p>
+                            <p class="score">98</p>
+                            <p class="vs">-</p>
+                            <p class="score">102</p>
+                            <p class="away">凯尔特人</p>
+                            <p class="icon"></p>
+                        </a>
+                    </li>
+                    <li><p>-</p></li>
+                    <li><p>-</p></li>
+                </ul>
             </div>
         </div>
+        @endif
+        @component("pc.subject.v2.basketball_schedule", ["scheduleMatches"=>$scheduleMatches, "sl"=>$sl, "start"=>$start, "end"=>$end]) @endcomponent
         <div class="el_con">
             <div class="header">
-                <h3><p>NBA排名</p></h3>
+                <h3><p>{{$sl["name"]}}排名</p></h3>
             </div>
             <div class="rank_con">
+                @if(isset($eastRanks) && count($eastRanks) > 0)
                 <p class="date_text">东部</p>
                 <table class="rank">
                     <col width="7.8%"><col><col width="7%"><col width="7%"><col width="9.6%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="9.6%">
@@ -197,7 +214,8 @@
                         </tr>
                     @endforeach
                 </table>
-                <p class="date_text">西部</p>
+                @endif
+                <p class="date_text">@if($sl["name"] == "NBA")西部@endif</p>
                 <table class="rank">
                     <col width="7.8%"><col><col width="7%"><col width="7%"><col width="9.6%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="7%"><col width="9.6%">
                     <tr>
@@ -234,7 +252,7 @@
             </div>
         </div>
     </div>
-    {{--@component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season, "data"=>$data]) @endcomponent--}}
+    @component("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>$comboData["articles"], "videos"=>$comboData["videos"], "season"=>$season, "data"=>$data, "seasons"=>$seasons]) @endcomponent
 </div>
 @endsection
 @section("js")
