@@ -40,17 +40,18 @@ class MatchLiveCountController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function matchLiveCountByDate(Request $request, $sport) {
-        $startDate = $request->input("startDate");
-        $endDate = $request->input("endDate");
-        $startDate2 = $request->input("startDate2");
-        $isForPc = $request->input("isForPc", 0) == 1;
-        $platform = $request->input("platform", MatchLiveChannel::kUseAll);
+        return response()->json(["code"=>500]);
+//        $startDate = $request->input("startDate");
+//        $endDate = $request->input("endDate");
+//        $startDate2 = $request->input("startDate2");
+//        $isForPc = $request->input("isForPc", 0) == 1;
+//        $platform = $request->input("platform", MatchLiveChannel::kUseAll);
+//
+//        $dateArray['startDate'] = $startDate;
+//        $dateArray['startDate2'] = $startDate2;
+//        $dateArray['endDate'] = $endDate;
 
-        $dateArray['startDate'] = $startDate;
-        $dateArray['startDate2'] = $startDate2;
-        $dateArray['endDate'] = $endDate;
-
-        return response()->json(self::getMatchLiveCountByDate($dateArray, $isForPc, $sport, $platform));
+//        return response()->json(self::getMatchLiveCountByDate($dateArray, $isForPc, $sport, $platform));
     }
 
 

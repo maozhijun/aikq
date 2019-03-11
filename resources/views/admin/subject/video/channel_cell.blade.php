@@ -14,13 +14,13 @@
         <option value="3" @if(isset($channel) && $channel->platform == 3) selected @endif >手机</option>
     </select>
     <select class="form-control input-form" name="type" style="width: 80px;" >
-        <option value="0">全部</option>
+        {{--<option value="0">全部</option>--}}
         <option value="1" @if(isset($channel) && $channel->type == 1) selected @endif >录像</option>
-        <option value="2" @if(isset($channel) && $channel->type == 2) selected @endif >集锦</option>
+        {{--<option value="2" @if(isset($channel) && $channel->type == 2) selected @endif >集锦</option>--}}
     </select>
     <select class="form-control input-form" name="player" style="width: 120px;" onchange="changePlayer(this);" >
         @foreach($players as $p_id=>$p_name)
-            <option value="{{$p_id}}" @if(isset($channel) && $channel->player == $p_id) selected @endif >{{$p_name}}</option>
+            <option value="{{$p_id}}" @if( (isset($channel) && $channel->player == $p_id) || (!isset($channel) && $p_id == 16) ) selected @endif >{{$p_name}}</option>
         @endforeach
     </select>
     <input class="form-control input-form" style="width: 300px;" name="content" placeholder="内容" value="{{$channel->content or ''}}" >

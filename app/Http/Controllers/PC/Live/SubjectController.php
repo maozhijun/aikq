@@ -118,6 +118,7 @@ class SubjectController extends Controller
             $footballSeason = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
             $season = $footballSeason["name"];
         }
+
         //判断是否杯赛
         $total_round = $footballSeason["total_round"];
         if (is_null($total_round)) {
@@ -174,15 +175,14 @@ class SubjectController extends Controller
         $lid = $sl["lid"];
 
         $stages = Stage::getStages($lid, $season["name"]);//杯赛阶段
-        $curStage = 0;
+        $curStage = null;
         $knockoutStages = [];
         foreach ($stages as $stage) {
             if ($stage["status"] == 1) {
-                $curStage = $stage["id"];
-                if (preg_match("#强#", $stage["name"])) {
-                    $knockoutStages[] = $stage;
-                }
-                break;
+                $curStage = $stage;
+            }
+            if (preg_match("#强#", $stage["name"])) {
+                $knockoutStages[] = $stage;
             }
         }
 
@@ -191,7 +191,10 @@ class SubjectController extends Controller
             $knockouts = [];
             $count = 16;//默认16支球队
             foreach ($knockoutStages as $index=>$ks) {
-                $kkSchedules = Match::getScheduleCup($lid, $curStage);//淘汰赛 赛程
+                $kkStage = $ks["id"];
+                $kkName = $ks["name"];
+                if ($kkName == "三十二强") continue;
+                $kkSchedules = Match::getScheduleCup($lid, $kkStage);//淘汰赛 赛程
                 $teams = [];
                 foreach ($kkSchedules as $kMatch) {
                     $hid = $kMatch["hid"];
@@ -230,7 +233,16 @@ class SubjectController extends Controller
             //$knockouts[1][0]["host"] = ["name"=>"皇家马德里", "score"=>"3", "id"=>"70", "mid"=>"1110352"];
             //$knockouts[1][0]["away"] = ["name"=>"利物浦", "score"=>"1", "id"=>"16", "mid"=>"1110352"];
         }
-        $schedules = Match::getScheduleCup($lid, $curStage);//赛程
+
+        $schedules = null;
+        if (isset($curStage)) {
+            $group = null;
+            if ($curStage["name"] == "分组赛") {
+                $group = substr($curStage["group"], 0, 1);
+            }
+            $schedules = Match::getScheduleCup($lid, $curStage["id"], $group);//赛程
+        }
+
         $playerString = CommonTool::getPlayerData($sport, $lid, $season["name"], 0);
         $data = json_decode($playerString, true);
 
