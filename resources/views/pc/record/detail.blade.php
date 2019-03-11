@@ -53,11 +53,11 @@
                     @foreach($hotRecords as $hotRecord)
                         <?php
                         $time = date('Y-m-d H:m', date_create($hotRecord['time'])->getTimestamp());
-                        $subject = isset($subjects[$hotRecord['s_lid']])? $subjects[$hotRecord['s_lid']]['name_en'] : 'other';
                         if (!is_null($hotRecord->url)){
                             $url = $hotRecord->url;
                         }
                         else{
+                            $subject = isset($subjects[$hotRecord['s_lid']])? $subjects[$hotRecord['s_lid']]['name_en'] : 'other';
                             $url = \App\Http\Controllers\PC\CommonTool::getRecordDetailUrl($subject,$hotRecord['mid']);
                         }
                         ?>

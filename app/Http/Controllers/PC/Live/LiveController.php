@@ -23,6 +23,7 @@ use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\RelationVideo;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -464,6 +465,19 @@ class LiveController extends Controller
             $data['name_en'] = $zhuangti;
             $json['zhuanti'] = $data;
         }
+        //录像
+        $hRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],4,1);
+        foreach ($records as $record){
+            $hRecord[] = $record;
+        }
+        $json['hRecords'] = $hRecord;
+        $aRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],4,1);
+        foreach ($records as $record){
+            $aRecord[] = $record;
+        }
+        $json['aRecords'] = $aRecord;
         return $this->detailHtml($json, $id);
     }
 
@@ -548,6 +562,19 @@ class LiveController extends Controller
             $name_en = $zhuangti;
             $json['comboData'] = CommonTool::getComboData($name_en);
         }
+        //录像
+        $hRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],4,1);
+        foreach ($records as $record){
+            $hRecord[] = $record;
+        }
+        $json['hRecords'] = $hRecord;
+        $aRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],4,1);
+        foreach ($records as $record){
+            $aRecord[] = $record;
+        }
+        $json['aRecords'] = $aRecord;
         return $this->basketDetailHtml($json, $id);
     }
 

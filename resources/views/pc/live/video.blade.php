@@ -82,6 +82,80 @@
             {{--<div class="share" id="Share">--}}
             {{--复制此地址分享：<input type="text" name="share" value="{{$ma_url}}" onclick="Copy()"><span></span>--}}
             {{--</div>--}}
+            @if((isset($hRecords) && count($hRecords) > 0) || (isset($aRecords) && count($aRecords) > 0))
+                <?php
+                $hteamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid']);
+                $ateamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid']);
+                ?>
+                <div class="el_con">
+                    <div class="header">
+                        <h3><p>两队最近比赛录像</p></h3>
+                        <p class="aline">
+                            <a href="/{{$zhuanti['name_en']}}/record/">更多{{$lname}}录像 ></a>
+                        </p>
+                    </div>
+                    @if(isset($hRecords) && count($hRecords) > 0)
+                        <table class="match">
+                            <col width="8.5%"><col width="19%"><col><col width="15%"><col><col width="15%">
+                            <tr>
+                                <th colspan="6"><img src="{{$host_icon}}"><h4><a href="{{$hteamUrl}}">{{$match['hname']}}</a></h4></th>
+                            </tr>
+                            @foreach($hRecords as $record)
+                                <?php
+                                $time = date('Y-m-d H:m', date_create($record['time'])->getTimestamp());
+                                $r_lid = $record['s_lid'];
+                                if (!is_null($record->url)){
+                                    $url = $record->url;
+                                }
+                                else{
+                                    $url = '/record/';
+                                }
+                                $r_hteamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'], $r_lid, $record['hid']);
+                                $r_ateamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'], $r_lid, $record['aid']);
+                                ?>
+                                <tr>
+                                    <td><span>{{$record['lname']}}</span></td>
+                                    <td><span>{{$time}}</span></td>
+                                    <td class="host"><a href="{{$r_hteamUrl}}">{{$record['hname']}}</a></td>
+                                    <td class="vs">{{$record['hscore']}} - {{$record['ascore']}}</td>
+                                    <td class="away"><a href="{{$r_ateamUrl}}">{{$record['aname']}}</a></td>
+                                    <td><a href="{{$url}}" class="record">[比赛录像]</a></td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @endif
+                    @if(isset($aRecords) && count($aRecords) > 0)
+                        <table class="match">
+                            <col width="8.5%"><col width="19%"><col><col width="15%"><col><col width="15%">
+                            <tr>
+                                <th colspan="6"><img src="{{$away_icon}}"><h4><a href="{{$ateamUrl}}">{{$match['aname']}}</a></h4></th>
+                            </tr>
+                            @foreach($aRecords as $record)
+                                <?php
+                                $time = date('Y-m-d H:m', date_create($record['time'])->getTimestamp());
+                                $r_lid = $record['s_lid'];
+                                if (!is_null($record->url)){
+                                    $url = $record->url;
+                                }
+                                else{
+                                    $url = '/record/';
+                                }
+                                $r_hteamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'], $r_lid, $record['hid']);
+                                $r_ateamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl2($record['sport'], $r_lid, $record['aid']);
+                                ?>
+                                <tr>
+                                    <td><span>{{$record['lname']}}</span></td>
+                                    <td><span>{{$time}}</span></td>
+                                    <td class="host"><a href="{{$r_hteamUrl}}">{{$record['hname']}}</a></td>
+                                    <td class="vs">{{$record['hscore']}} - {{$record['ascore']}}</td>
+                                    <td class="away"><a href="{{$r_ateamUrl}}">{{$record['aname']}}</a></td>
+                                    <td><a href="{{$url}}" class="record">[比赛录像]</a></td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    @endif
+                </div>
+            @endif
             @if($adShow)<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>@endif
             <div id="Data">
                 <div class="column">
@@ -300,8 +374,8 @@
                         <tr>
                             <td>
                                 @if($more['sport'] == 2)
-                                <img src="{{env('CDN_URL')}}/img/pc/v2/icon_basket_light_opaque.png" class="type">
-                                    @else
+                                    <img src="{{env('CDN_URL')}}/img/pc/v2/icon_basket_light_opaque.png" class="type">
+                                @else
                                     <img src="{{env('CDN_URL')}}/img/pc/v2/icon_foot_light_opaque.png" class="type">
                                 @endif
                             </td>
