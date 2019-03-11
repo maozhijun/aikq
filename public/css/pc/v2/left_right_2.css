@@ -511,6 +511,7 @@
 	height: 40px;
 	padding: 0 16px;
 	border-bottom: 1px solid #e1e1e1;
+	overflow: hidden;
 }
 #Right_part .con_box .header_con h4{
 	font-size: 14px; line-height: 40px;

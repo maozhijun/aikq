@@ -73,12 +73,12 @@ function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
 
             var Target = MatchObj[Key[i]],
 
-            newLive = $('<tr><td><img src="img/' + (Target.sport == 1 ? 'icon_foot_light_opaque.png' : 'icon_basket_light_opaque.png') + '" class="type"></td>' + 
+            newLive = $('<tr><td><img src="//static.dlfyb.com/img/pc/v2/' + (Target.sport == 1 ? 'icon_foot_light_opaque.png' : 'icon_basket_light_opaque.png') + '" class="type"></td>' +
                           '<td><span>' + Target.league_name + '</span></td>' + 
                           '<td><span>' + setMyTime(Target.time,'date') + '<br/>' + setMyTime(Target.time,'time') + '</span></td>' + 
-                          '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '_index_1.html">' + Target.hname + '</a></td>' + 
+                          '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></td>' +
                           '<td class="vs">' + (Target.isMatching ? '<span class="living">直播中</span>' : (Target.status == '-1' ? '已结束' : 'vs')) + '</td>' + 
-                          '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '_index_1.html">' + Target.aname + '</a></td>' + 
+                          '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '.html">' + Target.aname + '</a></td>' +
                           '<td class="line"></td></tr>')
 
             for (var j = 0; j < Target.channels.length; j++) {
