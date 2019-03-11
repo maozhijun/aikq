@@ -41,7 +41,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -57,7 +57,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -158,7 +158,7 @@
                                                     $steam = $league['teams'][$item['tid']];
                                                     ?>
                                                     <tr>
-                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
+                                                        <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['lid'],$item['tid'])}}">{{$item['rank']}} {{$steam['name_china_short']}}</a></td>
                                                         <td>{{$item['win']}}</td>
                                                         <td>{{$item['lose']}}</td>
                                                         <td>{{$item['win_diff']}}</td>
@@ -337,17 +337,18 @@
                                             </p>
                                         </div>
                                         <div class="tab_con">
-                                            <div class="con_in right cup">
+                                            <div class="con_in left cup">
                                                 <div class="title">
-                                                    <h4>助攻榜</h4>
+                                                    <h4>射手榜</h4>
+                                                    <p class="tab_item" forItem="score"></p>
                                                 </div>
                                                 <div class="tab_box">
-                                                    <table class="assist" style="">
+                                                    <table class="score">
                                                         <col><col width="35%">
-                                                        <tr><th>球员</th><th>助攻</th></tr>
+                                                        <tr><th>球员</th><th>进球</th></tr>
                                                         <?php
                                                         $pindex = 0;
-                                                        $p = 'assist';
+                                                        $p = 'goal';
                                                         ?>
                                                         @foreach($league['playerTech'][$p] as $pkey =>$player)
                                                             @if($pindex < 8)
@@ -365,18 +366,18 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                            <div class="con_in left cup">
+                                            <div class="con_in right cup">
                                                 <div class="title">
-                                                    <h4>射手榜</h4>
+                                                    <h4>助攻榜</h4>
                                                     <p class="tab_item" forItem="assist"></p>
                                                 </div>
                                                 <div class="tab_box">
-                                                    <table class="score">
+                                                    <table class="assist" style="">
                                                         <col><col width="35%">
-                                                        <tr><th>球员</th><th>进球</th></tr>
+                                                        <tr><th>球员</th><th>助攻</th></tr>
                                                         <?php
                                                         $pindex = 0;
-                                                        $p = 'goal';
+                                                        $p = 'assist';
                                                         ?>
                                                         @foreach($league['playerTech'][$p] as $pkey =>$player)
                                                             @if($pindex < 8)

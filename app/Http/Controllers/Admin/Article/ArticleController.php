@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UploadTrait;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\StaticController;
 use App\Http\Controllers\Sync\LabelController;
+use App\Jobs\TagStatic;
 use App\Models\Article\Author;
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleDetail;
@@ -255,7 +256,7 @@ class ArticleController extends Controller
         $type_name_en = isset($type_obj) ? $type_obj->name_en : 'other';
         $tmp = CommonTool::getArticleDetailUrl($type_name_en, $article->id);
 
-        StaticController::staticDetail(TagRelation::kTypeArticle,$article->id);
+        dispatch(new TagStatic(TagRelation::kTypeArticle, $article->id));
 
         return response()->json(['code' => 0, 'id' => $article->id, 'action' => $action, 'url' => $tmp]);
     }
@@ -316,7 +317,7 @@ class ArticleController extends Controller
                     $con = new \App\Http\Controllers\PC\Article\ArticleController();
                     $con->generateHtml($article);//生成静态文件
                 }
-                StaticController::staticDetail(TagRelation::kTypeArticle,$article->id);
+                dispatch(new TagStatic(TagRelation::kTypeArticle, $article->id));
                 return back()->with('success', '发布成功');
             } else {
                 return back()->with('success', '数据错错，发布失败');
@@ -344,7 +345,7 @@ class ArticleController extends Controller
         if ($article->status == 1) {
             $article->status = 2;
             $article->save();
-            StaticController::staticDetail(TagRelation::kTypeArticle,$article->id);
+            dispatch(new TagStatic(TagRelation::kTypeArticle, $article->id));
             return back()->with('success', '隐藏成功');
         } else {
             return back()->with('error', '无效的文章状态');
@@ -369,7 +370,7 @@ class ArticleController extends Controller
         if ($article->status == 2) {
             $article->status = 1;
             $article->save();
-            StaticController::staticDetail(TagRelation::kTypeArticle,$article->id);
+            dispatch(new TagStatic(TagRelation::kTypeArticle, $article->id));
             return back()->with('success', '显示成功');
         } else {
             return back()->with('error', '无效的文章状态');
