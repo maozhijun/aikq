@@ -3,12 +3,14 @@
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js"></script>
 @endsection
 @section('detail')
+    @if(isset($zhuanti))
     <div id="Tab_con">
         <p class="on"><a href="#">综合</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_news_1.html">资讯</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_video_1.html">视频</a></p>
         <p><a href="/{{$zhuanti['name_en']}}/team{{$tid}}_record_1.html">录像</a></p>
     </div>
+    @endif
     @if((isset($articles) && count($articles) > 0) || (isset($videos) && count($videos) > 0))
         <div id="News_Video">
             @if(isset($articles) && count($articles) > 0)
