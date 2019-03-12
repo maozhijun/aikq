@@ -9,6 +9,8 @@
 namespace App\Models\Subject;
 
 
+use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\Team;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Tag\TagRelation;
@@ -267,6 +269,8 @@ class SubjectVideo extends Model
         }
         $article_array = [];
         foreach ($records as $record) {
+            $hicon = $record->sport == 1 ? Team::getIconById($record->hid) : BasketTeam::getIconByTid($record->hid);
+            $aicon = $record->sport == 1 ? Team::getIconById($record->aid) : BasketTeam::getIconByTid($record->aid);
             $article_array[] = [
                 'match'=>array(
                     'sport'=>$record->sport,
@@ -282,11 +286,14 @@ class SubjectVideo extends Model
                     'hscore'=>$record->hscore,
                     'ascore'=>$record->ascore,
                     'group'=>$record->group,
-                    'season'=>$record->season,
+                    'hicon'=>$hicon,
+                    'aicon'=>$aicon,
                     'time'=>$record->time,
             ), 'link'=>$record->url];
         }
         foreach ($tmp as $record) {
+            $hicon = $record->sport == 1 ? Team::getIconById($record->hid) : BasketTeam::getIconByTid($record->hid);
+            $aicon = $record->sport == 1 ? Team::getIconById($record->aid) : BasketTeam::getIconByTid($record->aid);
             $article_array[] = [
                 'match'=>array(
                     'sport'=>$record->sport,
@@ -304,6 +311,8 @@ class SubjectVideo extends Model
                     'group'=>$record->group,
                     'season'=>$record->season,
                     'time'=>$record->time,
+                    'hicon'=>$hicon,
+                    'aicon'=>$aicon,
                 ), 'link'=>$record->url];
         }
         return $article_array;
