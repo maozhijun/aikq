@@ -15,6 +15,12 @@
                 <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="/{{$zhuanti['name_en']}}/">{{$zhuanti['name']}}</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="{{$teamIndex}}">{{$team['name']}}</a>
             </div>
         </div>
+        @else
+        <div id="Crumbs">
+            <div class="def_content">
+                <a href="/">爱看球</a>&nbsp;&nbsp;-&nbsp;&nbsp;球队&nbsp;&nbsp;-&nbsp;&nbsp;{{$team['name']}}
+            </div>
+        </div>
     @endif
     <?php
     $coach = "-";

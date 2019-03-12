@@ -162,9 +162,11 @@ class TeamDetailCommand extends Command
             //pc站
             TeamController::detailStatic($name_en, $tid, $sport);
             $con = new TeamController();
-            $con->staticVideoHtml(new Request(),$sport,$name_en,$tid,1);
-            $con->staticRecordHtml(new Request(),$sport,$name_en,$tid,1);
-            $con->staticNewsHtml(new Request(),$sport,$name_en,$tid,1);
+            if (isset($sl)) {
+                $con->staticVideoHtml(new Request(), $sport, $name_en, $tid, 1);
+                $con->staticRecordHtml(new Request(), $sport, $name_en, $tid, 1);
+                $con->staticNewsHtml(new Request(), $sport, $name_en, $tid, 1);
+            }
             //web站
             \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($webData, $path);
             //mip站
