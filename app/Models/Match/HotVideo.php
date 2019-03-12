@@ -45,7 +45,7 @@ class HotVideo extends Model
     }
 
     public function playerCn() {
-        if (isset(self::kPlayerArrayCn[$this->player])) {
+        if (array_key_exists($this->player,self::kPlayerArrayCn)) {
             return self::kPlayerArrayCn[$this->player];
         } else {
             return "";
@@ -53,7 +53,7 @@ class HotVideo extends Model
     }
 
     public function platformCn() {
-        if (isset(self::kPlatformArray[$this->player])) {
+        if (array_key_exists($this->player,self::kPlatformArray)) {
             return self::kPlatformArray[$this->player];
         } else {
             return "";

@@ -389,4 +389,25 @@ class ArticleController extends Controller
         }
         return response()->json(array('code'=>0));
     }
+
+    public function staticTest(Request $request,$date){
+        $start = $request->input('date');
+        $end = date_create($start)->modify("+1 day")->format("Y-m-d");
+        $articles = PcArticle::query()
+            ->where('status', PcArticle::kStatusPublish)
+            ->where('publish_at','>=',$start)
+            ->where('publish_at','<',$end)
+            ->get();
+
+        foreach ($articles as $article){
+            $ch = curl_init();
+            $url = env('CMS_URL').'/static/article/'.$article->id;
+            echo "$url <br>";
+            curl_setopt($ch, CURLOPT_URL,$url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 2);//8秒超时
+            curl_exec ($ch);
+            curl_close ($ch);
+        }
+    }
 }

@@ -120,6 +120,7 @@ Route::group(["namespace" => 'Article'], function () {
     //2.0
     Route::get("/static/news/", "ArticleController@recordDetailHtml");//静态化首页
     Route::get("/static/news_subject/{league}/{page}", "ArticleController@subjectDetailHtml");//静态化专题列表
+    Route::get("/static/news_bydate/{date}", "ArticleController@staticTest");//静态化日期文章
 });
 
 //主播
