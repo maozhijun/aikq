@@ -40,12 +40,15 @@
                     <div class="line_right_con" style="height: 82px; top: 32px; right: 10px;"></div>
                     <div class="line_right_con" style="height: 82px; top: 210px; right: 10px;"></div>
                 </div>
-                @if(isset($knockouts[1]))
+                @if(isset($knockouts[2]))
                 <?php
-                    foreach ($knockouts[1] as $final) { break; }
-                    $mid = $final["host"]["mid"];
-                    $hid = $final["host"]["id"];
-                    $aid = $final["away"]["id"];
+                    $mid = "";$hid = "";$aid = "";
+                    foreach ($knockouts[2] as $final) {
+                        $mid = $final["host"]["mid"];
+                        $hid = $final["host"]["id"];
+                        $aid = $final["away"]["id"];
+                        break;
+                    }
                 ?>
                 <a class="finals_match" @if(!empty($hid)) href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sl["sport"], $sl["lid"], $mid)}}" @endif >
                     <img src="{{$cdnUrl}}/img/pc/image_football_n.png" class="cup">
@@ -73,7 +76,7 @@
                         <div class="item_box cup">
                             @foreach($stages as $stage)
                                 <?php $on = $stage["status"] == 1; ?>
-                                <p @if($on) class="on" @endif >
+                                <p @if($on) class="on" @endif id="{{$stage["id"]}}" >
                                     {{$stage["name"]}}
                                     @if($stage["name"] == "分组赛")
                                     <?php

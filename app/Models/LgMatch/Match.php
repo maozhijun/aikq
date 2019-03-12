@@ -577,4 +577,16 @@ class Match extends Model
         }
         return $matchTime;
     }
+
+    public static function getScheduleCup($lid, $stage, $group = null) {
+        $query = self::query();
+        $query->where("lid", $lid);
+        $query->where("stage", $stage);
+        if (!empty($group)) {
+            $query->where("group", $group);
+        }
+        $query->orderBy("time")->orderBy("id");
+        return $query->get();
+    }
+
 }
