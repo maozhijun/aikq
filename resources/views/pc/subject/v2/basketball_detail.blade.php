@@ -15,7 +15,7 @@
         @if(isset($playoff) && count($playoff) > 0)
             @include('pc.subject.v2.basketball_playoff_cell', ['playoff'=>$playoff, 'lid'=>$sl['lid']])
         @endif
-        @include("pc.subject.v2.basketball_schedule", ["scheduleMatches"=>$scheduleMatches, "sl"=>$sl, "start"=>$start, "end"=>$end])
+        @include("pc.subject.v2.basketball_schedule", ["scheduleMatches"=>$scheduleMatches, "sl"=>$sl, "start"=>$start, "end"=>$end, "season"=>$season])
         <div class="el_con">
             <div class="header">
                 <h3><p>{{$sl["name"]}}排名</p></h3>
@@ -98,7 +98,7 @@
 </div>
 @endsection
 @section("js")
-    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js"></script>
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903121744"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{$sl["name_en"]}}';
         var NowDate = '{{date('Y-m-d')}}';//'2019-02-21';

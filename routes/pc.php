@@ -211,7 +211,7 @@ Route::group(["namespace" => 'Live'], function () {
     Route::get('/v2/{name_en}/{season?}', 'SubjectController@detailV2');//专题终端页 英超、中超、等等
     Route::get('/{name_en}', 'SubjectController@detail');//专题终端页 英超、中超、等等
 
-    Route::get("/{name_en}/fc/schedule/{param}.json", "SubjectController@footballCupSchedule");
+    Route::get("/{name_en}/basketball/schedule/{param}.json", "SubjectController@basketballSchedule");//篮球赛程接口
     //========================================================专题页面========================================================//
 });
 

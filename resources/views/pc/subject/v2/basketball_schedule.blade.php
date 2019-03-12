@@ -2,9 +2,9 @@
     <div class="header">
         <h3><p>{{$sl["name"]}}赛程</p></h3>
         <div class="date">
-            <button class="left">前三天</button>
-            <p class="con_text">{{$start}}至{{$end}}</p>
-            <button class="right">后三天</button>
+            <button class="left" name="{{$sl["name_en"]}}" season="{{$season["name"]}}" time="{{$start}}">前三天</button>
+            <p class="con_text">{{date('m-d', $start)}}至{{date('m-d', $end)}}</p>
+            <button class="right" name="{{$sl["name_en"]}}" season="{{$season["name"]}}" time="{{$end + 60}}">后三天</button>
         </div>
     </div>
     <div class="schedule_con">

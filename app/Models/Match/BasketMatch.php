@@ -9,7 +9,9 @@
 namespace App\Models\Match;
 
 
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Match\BasketTeam;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -395,18 +397,34 @@ class BasketMatch extends Model
      * @return array 按时间分组的比赛赛程 [2019-03-08=>[match, match1, ...]]
      */
     public static function scheduleMatchesByLidAndTime($lid, $season, $startTime = null, $endTime = null) {
+        $sport = SubjectLeague::kSportBasketball;
+        $sl = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+        $name_en = isset($sl["name_en"]) ? $sl["name_en"] : "";
+
         $query = self::query();
         $query->where("lid", $lid);
         $startTime = is_null($startTime) ? date('Y-m-d 00:00') : $startTime;
         $endTime = is_null($endTime) ? date('Y-m-d 23:59', strtotime('+2 days')) : $endTime;
+
         $query->where("season", $season);
         $query->where("time", ">=", $startTime);
         $query->where("time", "<=", $endTime);
         $query->select(["basket_matches.*", "basket_matches.id as mid"]);
         $matches = $query->get();
         $array = [];
+
         foreach ($matches as $match) {
             $date = substr($match["time"], 0, 10);
+            $hid = $match["hid"];
+            $aid = $match["aid"];
+
+            $hTeamUrl = CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
+            $aTeamUrl = CommonTool::getTeamDetailUrl($name_en, $sport, $aid);
+            $detailUrl = "/".$name_en."/live".$sport.CommonTool::getMatchVsByTid($hid, $aid).".html";
+
+            $match["hUrl"] = $hTeamUrl;
+            $match["aUrl"] = $aTeamUrl;
+            $match["detailUrl"] = $detailUrl;
             $array[$date][] = $match;
         }
         return $array;
