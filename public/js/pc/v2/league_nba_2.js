@@ -42,13 +42,13 @@ function changeDate (obj) {
         end = getYmd(cDate);
 	}
 
-	var url = window.jsonHost +"/"+name+"/basketball/schedule/"+season+"_"+start+"_"+end+".json";//
+	var url = window.jsonHostNew +"/"+name+"/basketball/schedule/"+season+"_"+start+"_"+end+".json";//
     var $obj = $("#Left_part .date button");
     $obj.attr("disabled", "disabled");
 
 	$.ajax({
 		"url": url,
-		"dataType": "json",
+		"dataType": "jsonp",
 		"success": function (data) {
 			if (data && data.schedule) {
 				var dataStart = data.start;

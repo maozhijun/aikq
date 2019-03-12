@@ -396,6 +396,7 @@ class SubjectController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function basketballSchedule(Request $request, $name_en, $param) {
+        $callback = $request->input("callback");
         $params = explode("_", $param);
         $season = $params[0];
         $start = isset($params[1]) ? $params[1] : date("Y-m-d 00:00");
@@ -421,7 +422,11 @@ class SubjectController extends Controller
 
         $start = date("m-d", $startTime);
         $end = date("m-d", $endTime);
-        return response()->json(["code"=>200, "schedule"=>$schedule, "start"=>$startTime, "end"=>$endTime, "startCn"=>$start, "endCn"=>$end]);
+        if (!empty($callback)) {
+            return response()->jsonp($callback, ["code"=>200, "schedule"=>$schedule, "start"=>$startTime, "end"=>$endTime, "startCn"=>$start, "endCn"=>$end]);
+        } else {
+            return response()->json(["code"=>200, "schedule"=>$schedule, "start"=>$startTime, "end"=>$endTime, "startCn"=>$start, "endCn"=>$end]);
+        }
     }
 
     //=========================== 专题赛程 逻辑 结束 ===========================//

@@ -34,24 +34,28 @@ class DetailCommand extends BaseCommand
     }
 
     public function staticSubjectHtml(Request $request, AikanQController $aiCon, SubjectLeague $sl) {
+
+        $name_en = $sl["name_en"];
+        $subjectCon = new SubjectController();
+        $html = $subjectCon->detailV2($request, $name_en);//SubjectController::subjectDetailHtml($result, $sl);
+        echo "pc : " . $sl->name_en . " ";
+        if (!empty($html)) {
+            Storage::disk("public")->put("/www/$name_en/index.html", $html);
+        }
+
         $result = $aiCon->subjectDetailData(false, $sl);
         if (!isset($result) || !isset($result['subject'])) {
             return;
         }
-        $html = SubjectController::subjectDetailHtml($result, $sl);
-        if (!empty($html)) {
-            $name_en = $sl->name_en;
-            Storage::disk("public")->put("/www/$name_en/index.html", $html);
-        }
 
         //手机
         $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
-        echo $sl->name_en;
+        echo "mobile : " . $sl->name_en . " ";
         $con->staticSubjectHtml($request,$sl->name_en);
 
         //mip
         $mipCon = new \App\Http\Controllers\Mip\Subject\SubjectController();
-        echo $sl->name_en;
+        echo "mip ：" . $sl->name_en . "\n";
         $mipCon->staticSubjectHtml($request,$sl->name_en);
     }
 }

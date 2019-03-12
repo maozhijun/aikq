@@ -419,7 +419,7 @@ class BasketMatch extends Model
             $aid = $match["aid"];
 
             $hTeamUrl = CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
-            $aTeamUrl = CommonTool::getTeamDetailUrl($name_en, $sport, $aid);
+            $aTeamUrl = CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
             $detailUrl = "/".$name_en."/live".$sport.CommonTool::getMatchVsByTid($hid, $aid).".html";
 
             $match["hUrl"] = $hTeamUrl;
