@@ -71,9 +71,9 @@ function reloadList (Time) {
                         newRecord = $('<tr type="' + (obj.sport == '1' ? 'football' : (obj.sport == '2' ? 'basketball' : '')) + '">' + 
                                       '<td><img class="icon" src="' + (obj.sport == '1' ? 'https://static.dlfyb.com/img/pc/v2/icon_foot_light_opaque.png' : (obj.sport == '2' ? 'https://static.dlfyb.com/img/pc/v2/icon_basket_light_opaque.png' : '')) + '"></td>' +
                                       '<td>' + obj.lname + '</td><td>' + setMyTime (obj.time,'time') + '</td>' +
-                                      '<td><a href="/' + (FindLeagueName(obj.sport,obj.lid) ? FindLeagueName(obj.sport,obj.lid).name_en : 'other') + '/team' + obj.hid + '.html">' + obj.hname + '</a></td>' + 
-                                      '<td>' + obj.hscore + ' - ' + obj.ascore + '</td>' + 
-                                      '<td><a href="/' + (FindLeagueName(obj.sport,obj.lid) ? FindLeagueName(obj.sport,obj.lid).name_en : 'other') + '/team' + obj.aid + '.html">' + obj.aname + '</a></td><td class="channel"><a href="' + obj.url + '">观看录像</a></td></tr>')
+                                      '<td><a href="' + obj.hurl + '">' + obj.hname + '</a></td>' +
+                                      '<td>' + obj.hscore + ' - ' + obj.ascore + '</td>' +
+                                      '<td><a href="' + obj.aurl + '">' + obj.aname + '</a></td><td class="channel"><a href="' + obj.url + '">观看录像</a></td></tr>')
 
                         newList.find('table').append(newRecord)
                     }

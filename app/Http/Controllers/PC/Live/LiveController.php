@@ -23,6 +23,7 @@ use App\Models\Match\MatchLiveChannel;
 use App\Models\Match\RelationVideo;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
+use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -457,7 +458,26 @@ class LiveController extends Controller
 
         $json['sport'] = $sport;
         $json['lid'] = $lid;
-
+        $json['subjects'] = $this->html_var['subjects'];
+        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
+            $zhuangti = Match::path_league_football_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+        }
+        //录像
+        $hRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],4,1);
+        foreach ($records as $record){
+            $hRecord[] = $record;
+        }
+        $json['hRecords'] = $hRecord;
+        $aRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],4,1);
+        foreach ($records as $record){
+            $aRecord[] = $record;
+        }
+        $json['aRecords'] = $aRecord;
         return $this->detailHtml($json, $id);
     }
 
@@ -475,18 +495,6 @@ class LiveController extends Controller
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,1, $id);
         $json['live']['channels'] = $channels;
-        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
-            $zhuangti = Match::path_league_football_arrays[$match['lid']];
-            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
-            $data['name_en'] = $zhuangti;
-            $json['zhuanti'] = $data;
-        }
-        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
-            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
-            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
-            $data['name_en'] = $zhuangti;
-            $json['zhuanti'] = $data;
-        }
         return view('pc.live.video', $json);
     }
 
@@ -544,7 +552,29 @@ class LiveController extends Controller
 
         $json['sport'] = $sport;
         $json['lid'] = $lid;
+        $json['subjects'] = $this->html_var['subjects'];
 
+        if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $json['zhuanti'] = $data;
+            $name_en = $zhuangti;
+            $json['comboData'] = CommonTool::getComboData($name_en);
+        }
+        //录像
+        $hRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],4,1);
+        foreach ($records as $record){
+            $hRecord[] = $record;
+        }
+        $json['hRecords'] = $hRecord;
+        $aRecord = array();
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],4,1);
+        foreach ($records as $record){
+            $aRecord[] = $record;
+        }
+        $json['aRecords'] = $aRecord;
         return $this->basketDetailHtml($json, $id);
     }
 
@@ -556,18 +586,6 @@ class LiveController extends Controller
         $channels = $json['live']['channels'];
         $this->_saveAppData($json,2,$id);
         $json['live']['channels'] = $channels;
-        if ($match['sport'] == 1 && array_key_exists($match['lid'],Match::path_league_football_arrays)){
-            $zhuangti = Match::path_league_football_arrays[$match['lid']];
-            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
-            $data['name_en'] = $zhuangti;
-            $json['zhuanti'] = $data;
-        }
-        else if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
-            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
-            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
-            $data['name_en'] = $zhuangti;
-            $json['zhuanti'] = $data;
-        }
         $json['channels'] = $channels;
         return view('pc.live.video', $json);
     }
