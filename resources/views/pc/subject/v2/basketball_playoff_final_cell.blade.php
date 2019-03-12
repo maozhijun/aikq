@@ -28,7 +28,7 @@
         <ul>
             @foreach($item['matches'] as $match)
                 <li>
-                    <a href="live.html">
+                    <a href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid'])}}">
                         @if($match['hscore'] > $match['ascore'])
                             <p class="icon"><img src="/img/pc/v2/image_basketball_n.png"></p>
                         @else
