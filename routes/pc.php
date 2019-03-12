@@ -54,7 +54,7 @@ Route::group(["namespace" => 'Live'], function () {
 
     //专题静态化
     Route::get('/static/subject/leagues', 'SubjectController@staticSubjectLeagues');//静态化专题列表json
-    Route::get('/static/subject/detail/{slid}', 'SubjectController@staticSubjectHtml');//静态化专题终端
+    Route::get('/static/subject/detail/{name_en}/{season?}', 'SubjectController@staticSubjectHtml');//静态化专题终端
 });
 
 //邀请注册
