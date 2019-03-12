@@ -42,7 +42,7 @@ function changeDate (obj) {
         end = getYmd(cDate);
 	}
 
-	var url = window.jsonHost + "/"+name+"/basketball/schedule/"+season+"_"+start+"_"+end+".json";//
+	var url = window.jsonHost +"/"+name+"/basketball/schedule/"+season+"_"+start+"_"+end+".json";//
     var $obj = $("#Left_part .date button");
     $obj.attr("disabled", "disabled");
 
@@ -67,10 +67,10 @@ function changeDate (obj) {
 				});
 				if (html != "") {
                     $("div.schedule_con").html(html);
-                    $("#Left_part .date button.left").attr("time", dataStart);
-                    $("#Left_part .date button.right").attr("time", dataEnd);
-					$("#Left_part .date p.con_text").html(startCn+"至"+endCn);
 				}
+                $("#Left_part .date button.left").attr("time", dataStart);
+                $("#Left_part .date button.right").attr("time", dataEnd);
+                $("#Left_part .date p.con_text").html(startCn+"至"+endCn);
 			} else {
 				alert("请求数据失败");
 			}
