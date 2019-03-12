@@ -26,10 +26,15 @@ class BasketScore extends Model
      * 获取篮球排名数组
      * @param $lid
      * @param int $zone
+     * @param $year
      * @return array
      */
-    public static function getScoresByLid($lid, $zone = 0) {
-        $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+    public static function getScoresByLid($lid, $zone = 0, $year = "") {
+        if (!empty($year)) {
+            $season = BasketSeason::query()->where("lid", $lid)->where("name", $year)->first();
+        } else {
+            $season = BasketSeason::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        }
 
         $array = [];
         if(isset($season)) {
