@@ -132,7 +132,7 @@ class SubjectController extends Controller
         $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
-        $scores = Score::getFootballScores($lid);
+        $scores = Score::getFootballScores($lid, $season);
         //赛程
         if (!isset($leagueSeason["curr_round"])) {
             $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
@@ -378,8 +378,8 @@ class SubjectController extends Controller
             $result["playoff"] = $leagueData["playoff"];
         }
         $result["scheduleMatches"] = $scheduleMatches;
-        $result["start"] = date("m-d", $startTime);
-        $result["end"] = date("m-d", $endTime);
+        $result["start"] = $startTime;
+        $result["end"] = $endTime;
         $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
         return view("pc.subject.v2.basketball_detail", $result);
     }
@@ -392,38 +392,38 @@ class SubjectController extends Controller
      * 篮球赛程接口
      * @param Request $request
      * @param $name_en
-     * @param $season
-     * @param $start
-     * @param $end
+     * @param $param
      * @return \Illuminate\Http\JsonResponse
      */
-    public function basketballSchedule(Request $request, $name_en, $season, $start, $end) {
+    public function basketballSchedule(Request $request, $name_en, $param) {
+        $params = explode("_", $param);
+        $season = $params[0];
+        $start = isset($params[1]) ? $params[1] : date("Y-m-d 00:00");
+        $end = isset($params[2]) ? $params[2] : date("Y-m-d 23:59", strtotime("+2 days"));
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl) || $sl["sport"] != SubjectLeague::kSportBasketball) {
             return response()->json(["code"=>403]);
         }
+
+        $startTime = strtotime($start);
+        $endTime = strtotime($end);
+
+        //判断接口天数是否大于N天
+        $day = 7;
+        if ($endTime - $startTime > (24 * 60 * 60 * $day) ) {
+            $end = date("Y-m-d 23:59", strtotime("+$day days", $startTime));
+        }
+
         $schedule = BasketMatch::scheduleMatchesByLidAndTime($sl["lid"], $season, $start, $end);
-        return response()->json(["code"=>200, "schedule"=>$schedule]);
+
+        $startTime = strtotime($start);
+        $endTime = strtotime($end) + 60;
+
+        $start = date("m-d", $startTime);
+        $end = date("m-d", $endTime);
+        return response()->json(["code"=>200, "schedule"=>$schedule, "start"=>$startTime, "end"=>$endTime, "startCn"=>$start, "endCn"=>$end]);
     }
 
-    /**
-     * 足球杯赛赛程接口
-     * @param Request $request
-     * @param $name_en 专题英文简写
-     * @param $param   stage-group 杯赛阶段ID 、分组赛专用
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function footballCupSchedule(Request $request, $name_en, $param) {
-        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
-        if (!isset($sl) || $sl["sport"] != SubjectLeague::kSportFootball) {
-            return response()->json(["code"=>403]);
-        }
-        $params = explode("-", $param);
-        $stage = $params[0];
-        $group = isset($params[1]) ? $params[1] : "";
-        $schedule = Match::getScheduleCup($sl["lid"], $stage, $group);
-        return response()->json(["code"=>200, "schedule"=>$schedule]);
-    }
     //=========================== 专题赛程 逻辑 结束 ===========================//
 
 

@@ -45,9 +45,18 @@ class Score extends Model
 
     /**
      * 足球积分榜
+     * @param $lid
+     * @param string $season
+     * @param null $kind
+     * @param int $count
+     * @return array|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
-    public static function getFootballScores($lid, $kind = null, $count = -1) {
-        $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+    public static function getFootballScores($lid, $season = "", $kind = null, $count = -1) {
+        if (empty($season)) {
+            $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        } else {
+            $season = Season::query()->where("lid", $lid)->where("name", $season)->first();
+        }
 
         $scores = array();
         if (isset($season)) {
