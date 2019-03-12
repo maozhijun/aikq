@@ -126,14 +126,12 @@
                             <col width="23%"><col width=""><col width="30%">
                             <tr><th>排名</th><th>球队</th><th>场均</th></tr>
                             @if(isset($teamTech[$item['key']]))
-                                <?php $index = 1;
-                                ?>
                                 @foreach($teamTech[$item['key']] as $key=>$value)
                                     <?php
-                                    $steam = $teams[$key];
+                                    $steam = $teams[$value['tid']];
                                     ?>
                                     <tr>
-                                        <td>{{$index++}}</td>
+                                        <td>{{$key+1}}</td>
                                         <td>
                                             <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$zhuanti['lid'],$steam['id'])}}">
                                             <img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$steam['name_china_short']}}
