@@ -497,12 +497,13 @@ class SubjectController extends Controller
     /**
      * 静态化专题终端页
      * @param Request $request
-     * @param $slid
+     * @param $name_en
+     * @param $season
      */
-    public function staticSubjectHtml(Request $request, $slid) {
-        $html = $this->detail($request, $slid);
+    public function staticSubjectHtml(Request $request, $name_en, $season = "") {
+        $html = $this->detailV2($request, $name_en, $season);
         if (!empty($html)) {
-            Storage::disk("public")->put("/live/subject/" . $slid . ".html", $html);
+            Storage::disk("public")->put("/www/$name_en/index.html", $html);
         }
     }
 
