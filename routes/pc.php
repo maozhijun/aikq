@@ -94,6 +94,8 @@ Route::group([], function () {
 
     Route::get("/app/comboData/{name_en}.json", 'HomeController@updateComboData');
     Route::get('/api/recordData.json', 'Record\RecordController@getMatchWithDate');//接口
+    Route::get("/app/teamRecentMatch/{sport}/{tid}.json", 'Team\TeamController@getRecentMatches');
+    Route::get("/app/teamHistoryMatch/{sport}/{tid}.json", 'Team\TeamController@getHistoryMatches');
 });
 
 /**

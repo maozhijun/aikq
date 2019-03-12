@@ -1884,13 +1884,17 @@ class AikanQController extends Controller
         $query->where('time', '>=', date('Y-m-d H:i', strtotime('-3 hours')));
         $query->where('status', '>=', 0);
         $query->orderBy('time');
-        $matches = $query->take($count)->get();
+        $matches = $query->paginate($count, ["*"], null, 1);
 
         //历史比赛
         $recentMatches = $tempQuery->where('status', '-1')
-            ->take($count)->orderBy('time', 'desc')->get();
+            ->where('time','>=',date_create('-1 year'))
+            ->orderBy('time', 'desc')
+            ->paginate($count, ["*"], null, 1);
 
         $array = [];
+        $array['recentPage'] = $recentMatches->lastPage();
+        $array['schedulePage'] = $matches->lastPage();
         foreach ($recentMatches as $match) {
             $array['recent'][] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
         }
@@ -1900,7 +1904,7 @@ class AikanQController extends Controller
         return $array;
     }
 
-    private static function onMatchItemConvert($sport, $match, $lname, $isMobile) {
+    public static function onMatchItemConvert($sport, $match, $lname, $isMobile) {
         $mid = $match->mid;
 
         $obj = ['time'=>strtotime($match->time), 'lid'=>$match->lid,

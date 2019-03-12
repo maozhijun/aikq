@@ -14,7 +14,10 @@ use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\StaticController;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketMatch;
 use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\Match;
+use App\Models\LgMatch\MatchLive;
 use App\Models\LgMatch\Team;
 use App\Models\Match\HotVideo;
 use App\Models\Subject\SubjectLeague;
@@ -433,5 +436,59 @@ class TeamController extends Controller
             $subj = array_key_exists($name_en, Controller::SUBJECT_NAME_IDS) ? Controller::SUBJECT_NAME_IDS[$name_en] : null;
         }
         return $subj;
+    }
+
+    /******** 接口类 *********/
+
+    public function getRecentMatches(Request $request,$sport,$tid){
+        $page = $request->input('page',1);
+        if ($sport == MatchLive::kSportFootball) {
+            $query = Match::query();
+        } else {
+            $query = BasketMatch::query();
+        }
+        $query->where(function ($q) use ($tid){
+            $q->where('hid', $tid)
+                ->orWhere('aid', $tid);
+        });
+        $query->selectRaw('*, id as mid');
+        $query->where('time', '>=', date('Y-m-d H:i', strtotime('-3 hours')));
+        $query->where('status', '>=', 0);
+        $query->orderBy('time');
+        $matches = $query->paginate(10, ["*"], null, $page);
+
+        $array = array();
+        foreach ($matches as $match){
+            $array[] = AikanQController::onMatchItemConvert($sport, $match, "", false);
+        }
+        return response()->json(array('code'=>0,'data'=>$array));
+    }
+
+    public function getHistoryMatches(Request $request,$sport,$tid){
+        $page = $request->input('page',1);
+        if ($sport == MatchLive::kSportFootball) {
+            $query = Match::query();
+        } else {
+            $query = BasketMatch::query();
+        }
+        $query->where(function ($q) use ($tid){
+            $q->where('hid', $tid)
+                ->orWhere('aid', $tid);
+        });
+        $query->selectRaw('*, id as mid');
+
+        $tempQuery = clone $query;
+
+        //历史比赛
+        $matches = $tempQuery->where('status', '-1')
+            ->where('time','>=',date_create('-1 year'))
+            ->orderBy('time', 'desc')
+            ->paginate(10, ["*"], null, $page);
+
+        $array = array();
+        foreach ($matches as $match){
+            $array[] = AikanQController::onMatchItemConvert($sport, $match, "", false);
+        }
+        return response()->json(array('code'=>0,'data'=>$array));
     }
 }
