@@ -1,6 +1,7 @@
+<?php $cdnUrl = env("CDN_URL"); ?>
 @if(isset($item))
     <div class="finals_match">
-        <img src="/img/pc/v2/image_basketball_n.png" class="cup">
+        <img src="{{$cdnUrl}}/img/pc/v2/image_basketball_n.png" class="cup">
         @if(isset($item['info']))
             <?php
             //东部在左，西部在右，需要调节一下顺序
@@ -30,7 +31,7 @@
                 <li>
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid'])}}">
                         @if($match['hscore'] > $match['ascore'])
-                            <p class="icon"><img src="/img/pc/v2/image_basketball_n.png"></p>
+                            <p class="icon"><img src="{{$cdnUrl}}/img/pc/v2/image_basketball_n.png"></p>
                         @else
                             <p class="icon"></p>
                         @endif
@@ -40,7 +41,7 @@
                         <p class="score">{{$match['ascore']}}</p>
                         <p class="away">{{$match['aid'] == $aid ? $aname : $hname}}</p>
                         @if($match['hscore'] < $match['ascore'])
-                            <p class="icon"><img src="/img/pc/v2/image_basketball_n.png"></p>
+                            <p class="icon"><img src="{{$cdnUrl}}/img/pc/v2/image_basketball_n.png"></p>
                         @else
                             <p class="icon"></p>
                         @endif
@@ -52,6 +53,6 @@
     </div>
 @else
     <div class="finals_match">
-        <img src="/img/pc/v2/image_basketball_n.png" class="cup">
+        <img src="{{$cdnUrl}}/img/pc/v2/image_basketball_n.png" class="cup">
     </div>
 @endif
