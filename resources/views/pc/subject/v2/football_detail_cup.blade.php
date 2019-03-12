@@ -67,6 +67,7 @@
                 @endif
             </div>
             @endif
+            @if(isset($schedules))
             <div class="el_con">
                 <div class="header">
                     <h3><p>{{$sl["name"]}}赛程</p></h3>
@@ -75,15 +76,20 @@
                     <div class="round_con">
                         <div class="item_box cup">
                             @foreach($stages as $stage)
-                                <?php $on = $stage["status"] == 1; ?>
-                                <p @if($on) class="on" @endif id="{{$stage["id"]}}" >
+                                <?php
+                                    $on = $stage["status"] == 1;
+                                    $forItem = $stage["id"] . ($stage["name"] == "分组赛" ? "-A" : "");
+                                ?>
+                                <p @if($on) class="on" @endif forItem="{{$forItem}}" >
                                     {{$stage["name"]}}
                                     @if($stage["name"] == "分组赛")
                                     <?php
+                                        $sId = $stage["id"];
                                         $group = $stage["group"];
                                         $gLen = strlen($group);
                                         for ($gIndex = 0; $gIndex < $gLen; $gIndex++) {
-                                            echo "<span ". ($gIndex == 0 && $on ? "class=\"on\"" : "") ." >".substr($group, $gIndex, 1)."</span>" . ($gIndex + 1 == $gLen ? "" : "/");
+                                            $g = substr($group, $gIndex, 1);
+                                            echo "<span forItem=\"".($sId."-".$g)."\" ". ($gIndex == 0 && $on ? "class=\"on\"" : "") ." >".$g."</span>" . ($gIndex + 1 == $gLen ? "" : "/");
                                         }
                                     ?>
                                     @endif
@@ -91,38 +97,19 @@
                             @endforeach
                         </div>
                     </div>
-                    <table class="match">
-                        <colgroup>
-                            <col width="11%"><col><col width="12%"><col><col width="42.5%">
-                        </colgroup>
-                        <tbody>
-                        @foreach($schedules as $match)
-                        <?php
-                            $status = $match["status"]; $sport = $sl["sport"]; $lid = $sl["lid"];
-                            $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $match["hid"]);
-                            $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $match["aid"]);
-                            $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $match["id"]);
-                            $matchLive = \App\Models\Match\MatchLive::getMatchLiveByMid($sport, $match["id"]);
-                        ?>
-                        <tr>
-                            <td>{{substr($match["time"], 5, 11)}}</td>
-                            <td class="host"><a target="_blank" href="{{$hTeamUrl}}">{{$match["hname"]}}</a></td>
-                            <td class="vs">
-                                @if($status > 0 && isset($matchLive)) <span class="living">直播中</span>
-                                @elseif($status == -1 || $status > 0) {{$match["hscore"] . " - " . $match["ascore"]}}
-                                @else vs
-                                @endif
-                            </td>
-                            <td class="away"><a target="_blank" href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
-                            <td class="line">
-                                @if(isset($matchLive))<a target="_blank" href="{{$liveUrl}}" class="live">观看直播</a>@endif
-                            </td>
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    @foreach($schedules as $stageId=>$schedule)
+                    <?php $hasGroup = isset($schedule["groupMatches"]) && count($schedule["groupMatches"]) > 0;?>
+                        @if($hasGroup)
+                            @foreach($schedule["groupMatches"] as $g=>$groupMatch)
+                                @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId."-".$g, "schMatches"=>$groupMatch["matches"], "status"=>$schedule["status"]]) @endcomponent
+                            @endforeach
+                        @else
+                            @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId, "schMatches"=>$schedule["matches"], "status"=>$schedule["status"]]) @endcomponent
+                        @endif
+                    @endforeach
                 </div>
             </div>
+            @endif
             @if(isset($ranks) && count($ranks) > 0)
             <div class="el_con">
                 <div class="header">
@@ -177,7 +164,7 @@
             </div>
             @endif
         </div>
-        @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(), "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season, "data"=>$data])
+        @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(), "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season, "data"=>$data, "seasons"=>$seasons])
     </div>
 @endsection
 @section("js")
@@ -186,6 +173,15 @@
         var LeagueKeyword = '{{$sl["name_en"]}}';
         window.onload = function () { //需要添加的监控放在这里
             setPage();
+            $("div.season_con dt").click(function () {
+                var $next = $(this).next();
+                if ($next.css("display") != "none") {
+                    $next.css("display", "none");
+                } else {
+                    $next.css("display", "");
+                }
+
+            });
         }
     </script>
 @endsection

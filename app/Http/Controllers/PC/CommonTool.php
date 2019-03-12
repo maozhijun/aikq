@@ -294,6 +294,17 @@ class CommonTool
         } else {
             $name_en = "other";
         }
+        return self::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
+    }
+
+    /**
+     * 根据name_en 获取球队终端路径
+     * @param $name_en
+     * @param $sport
+     * @param $tid
+     * @return string
+     */
+    public static function getTeamDetailUrlByNameEn($name_en, $sport, $tid) {
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;

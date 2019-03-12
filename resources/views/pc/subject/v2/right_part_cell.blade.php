@@ -57,7 +57,7 @@
             </div>
         </div>
     @endif
-    @if(isset($data))
+    @if(!isset($isLeague) && isset($data))
         @if($sl["sport"] == 1)
         <div class="con_box">
             <div class="header_con">

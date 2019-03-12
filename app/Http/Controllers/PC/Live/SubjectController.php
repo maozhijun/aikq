@@ -129,6 +129,7 @@ class SubjectController extends Controller
         $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season);
         $schedule = isset($leagueData["schedule"]) ? $leagueData["schedule"] : [];//所有赛程
         $leagueSeason = isset($leagueData["season"]) ? $leagueData["season"] : [];//赛程信息
+        $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
         $scores = Score::getFootballScores($lid);
@@ -155,6 +156,7 @@ class SubjectController extends Controller
 
         $result["sl"] = $sl;
         $result["season"] = $footballSeason;
+        $result["seasons"] = $seasons;
         $result["curRound"] = $curr_round;
         $result["scores"] = $scores;
         $result["schedule"] = $schedule;
@@ -191,7 +193,34 @@ class SubjectController extends Controller
             }
         }
         $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season["name"]);
-        dump($leagueData);
+//        dump($leagueData);
+        $schedules = null;
+        if (isset($leagueData["stages"])) {//全部赛程 组装成简单的数组
+            $leagueStages = $leagueData["stages"];
+            foreach ($leagueStages as $leagueStage) {
+                $id = $leagueStage["id"];
+                $name = $leagueStage["name"];
+                $status = $leagueStage["status"];
+
+                $matches = [];
+                $groupMatches = null;
+                if (isset($leagueStage["matches"])) {
+                    $matches = $leagueStage["matches"];
+                } else if (isset($leagueStage["combo"])){
+                    foreach ($leagueStage["combo"] as $key=>$combo) {//淘汰赛
+                        foreach ($combo["matches"] as $m) {
+                            $matches[] = $m;
+                        }
+                    }
+                } else if (isset($leagueStage["groupMatch"])) {//分组赛
+                    $groupMatches = $leagueStage["groupMatch"];
+                }
+                usort($matches, function ($a, $b) {
+                    return $a["time"] - $b["time"];
+                });
+                $schedules[$id] = ["id"=>$id, "name"=>$name, "status"=>$status, "matches"=>$matches, "groupMatches"=>$groupMatches];
+            }
+        }
 
         $knockouts = null;
         if (count($knockoutStages) > 0) {//淘汰赛阶段
@@ -239,14 +268,14 @@ class SubjectController extends Controller
             }
         }
 
-        $schedules = null;
-        if (isset($curStage)) {
-            $group = null;
-            if ($curStage["name"] == "分组赛") {
-                $group = substr($curStage["group"], 0, 1);
-            }
-            $schedules = Match::getScheduleCup($lid, $curStage["id"], $group);//赛程
-        }
+//        $schedules = null;
+//        if (isset($curStage)) {
+//            $group = null;
+//            if ($curStage["name"] == "分组赛") {
+//                $group = substr($curStage["group"], 0, 1);
+//            }
+//            $schedules = Match::getScheduleCup($lid, $curStage["id"], $group);//赛程
+//        }
 
         $playerString = CommonTool::getPlayerData($sport, $lid, $season["name"], 0);
         $data = json_decode($playerString, true);
@@ -259,6 +288,7 @@ class SubjectController extends Controller
         $result['ranks'] = Score::footballCupScores($lid);//杯赛小组排名
         $result["sl"] = $sl;
         $result["season"] = $season;
+        $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
         $result["stages"] = $stages;
         $result["schedules"] = $schedules;
         $result["data"] = $data;

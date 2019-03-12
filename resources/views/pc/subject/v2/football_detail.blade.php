@@ -42,16 +42,17 @@
                             $time = date("Y-m-d H:i", $match["time"]);
                             $hid = $match["hid"];
                             $aid = $match["aid"];
+                            $name_en = $sl["name_en"];
                             $detailKey = $hid > $aid ? ($hid . "_" . $aid) : ($aid . "_" . $hid);
 
                             if (!isset($teamUrlArray[$hid])) {
-                                $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $hid);
+                                $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
                                 $teamUrlArray[$hid] = $hTeamUrl;
                             } else {
                                 $hTeamUrl = $teamUrlArray[$hid];
                             }
                             if (!isset($teamUrlArray[$aid])) {
-                                $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sport, $lid, $aid);
+                                $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
                                 $teamUrlArray[$aid] = $aTeamUrl;
                             } else {
                                 $aTeamUrl = $teamUrlArray[$aid];
@@ -59,7 +60,11 @@
                             if (isset($detailArray[$detailKey])) {
                                 $detailUrl = $detailArray[$detailKey];
                             } else {
-                                $detailUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
+                                $detailUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid, $mid).".html";
+                            }
+                            if (empty($hid)) {
+                                $hTeamUrl = "#";
+                                $detailUrl = "";
                             }
                         ?>
                         <tr>
@@ -72,7 +77,7 @@
                             </td>
                             <td class="away"><a href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
                             <td class="line">
-                                <a href="{{$detailUrl}}" class="live">观看直播</a>
+                                @if(!empty($detailUrl))<a href="{{$detailUrl}}" class="live">观看直播</a>@endif
                             </td>
                         </tr>
                         @endforeach
@@ -192,7 +197,8 @@
             @endif
         </div>
     </div>
-    @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(), "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season])
+    @include("pc.subject.v2.right_part_cell", ["sl"=>$sl, "articles"=>isset($comboData["articles"])?$comboData["articles"]:array(),
+        "videos"=>isset($comboData["videos"])?$comboData["videos"]:array(), "season"=>$season, "isLeague"=>true])
 </div>
 @endsection
 @section("js")
@@ -201,6 +207,15 @@
     var LeagueKeyword = '{{$sl["name_en"]}}';
     window.onload = function () { //需要添加的监控放在这里
         setPage();
+        $("div.season_con dt").click(function () {
+            var $next = $(this).next();
+            if ($next.css("display") != "none") {
+                $next.css("display", "none");
+            } else {
+                $next.css("display", "");
+            }
+
+        });
     }
 </script>
 @endsection
