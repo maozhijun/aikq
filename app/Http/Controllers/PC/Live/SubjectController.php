@@ -503,7 +503,11 @@ class SubjectController extends Controller
     public function staticSubjectHtml(Request $request, $name_en, $season = "") {
         $html = $this->detailV2($request, $name_en, $season);
         if (!empty($html)) {
-            Storage::disk("public")->put("/www/$name_en/index.html", $html);
+            if (empty($season)) {
+                Storage::disk("public")->put("/www/$name_en/index.html", $html);
+            } else {
+                Storage::disk("public")->put("/www/$name_en/".$season."/index.html", $html);
+            }
         }
     }
 

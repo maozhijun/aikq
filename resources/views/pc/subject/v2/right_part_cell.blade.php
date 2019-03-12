@@ -10,8 +10,8 @@
             <dl>
                 <dt>切换赛季</dt>
                 <dd style="display: none;">
-                @foreach($seasons as $sea)
-                    <a @if($sea == $season["name"]) href="#"  class="on" @else href="/{{$sl["name_en"] . "/"  . $sea}}/" @endif >{{$sea}}赛季</a>
+                @foreach($seasons as $index=>$sea)
+                    <a @if($sea == $season["name"]) href="#"  class="on" @else href="/{{$sl["name_en"] . "/"  . ($index > 0 ? ($sea."/") : "")}}" @endif >{{$sea}}赛季</a>
                 @endforeach
                 </dd>
             </dl>
