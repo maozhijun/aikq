@@ -177,14 +177,21 @@ class SubjectController extends Controller
         $stages = Stage::getStages($lid, $season["name"]);//杯赛阶段
         $curStage = null;
         $knockoutStages = [];
+        $groupId = -1;
         foreach ($stages as $stage) {
+            $stageId = $stage["id"];
             if ($stage["status"] == 1) {
                 $curStage = $stage;
             }
-            if (preg_match("#强#", $stage["name"])) {
+            if ($stage["name"] == "分组赛") {
+                $groupId = $stageId;
+            }
+            if ($groupId > -1 && $stageId > $groupId) {
                 $knockoutStages[] = $stage;
             }
         }
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season["name"]);
+        dump($leagueData);
 
         $knockouts = null;
         if (count($knockoutStages) > 0) {//淘汰赛阶段
@@ -194,7 +201,7 @@ class SubjectController extends Controller
                 $kkStage = $ks["id"];
                 $kkName = $ks["name"];
                 if ($kkName == "三十二强") continue;
-                $kkSchedules = Match::getScheduleCup($lid, $kkStage);//淘汰赛 赛程
+                $kkSchedules = \App\Models\LgMatch\Match::getScheduleCup($lid, $kkStage);//淘汰赛 赛程
                 $teams = [];
                 foreach ($kkSchedules as $kMatch) {
                     $hid = $kMatch["hid"];
@@ -222,7 +229,7 @@ class SubjectController extends Controller
                 $count = $count / 2;
             }
             //补充没有的淘汰赛阶段
-            foreach ([8, 4, 2, 1] as $count) {
+            foreach ([8, 4, 2] as $count) {
                 if (!isset($knockouts[$count])) {
                     for ($index = 0; $index <$count / 2; $index++) {
                         $knockouts[$count][$index]["host"] = ["name"=>"", "score"=>"", "id"=>"", "mid"=>""];
@@ -230,8 +237,6 @@ class SubjectController extends Controller
                     }
                 }
             }
-            //$knockouts[1][0]["host"] = ["name"=>"皇家马德里", "score"=>"3", "id"=>"70", "mid"=>"1110352"];
-            //$knockouts[1][0]["away"] = ["name"=>"利物浦", "score"=>"1", "id"=>"16", "mid"=>"1110352"];
         }
 
         $schedules = null;
@@ -258,7 +263,7 @@ class SubjectController extends Controller
         $result["schedules"] = $schedules;
         $result["data"] = $data;
         $result["knockouts"] = $knockouts;
-        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        $result['title'] = '['.$sl["name"].'直播]'.$sl["name"].'免费在线直播观看_哪里可以看'.$sl["name"].'直播网址-爱看球直播';
         return view("pc.subject.v2.football_detail_cup", $result);
     }
 
@@ -288,8 +293,8 @@ class SubjectController extends Controller
 
         $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
 
-        $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest);
-        $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast);
+        $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
+        $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
 
         //三天 赛程
         $schedule = $leagueData["schedule"];//从接口获取赛程
@@ -375,15 +380,17 @@ class SubjectController extends Controller
      * 足球杯赛赛程接口
      * @param Request $request
      * @param $name_en 专题英文简写
-     * @param $stage   杯赛阶段ID
-     * @param $group = ""   分组赛专用
+     * @param $param   stage-group 杯赛阶段ID 、分组赛专用
      * @return \Illuminate\Http\JsonResponse
      */
-    public function footballCupSchedule(Request $request, $name_en, $stage, $group = "") {
+    public function footballCupSchedule(Request $request, $name_en, $param) {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl) || $sl["sport"] != SubjectLeague::kSportFootball) {
             return response()->json(["code"=>403]);
         }
+        $params = explode("-", $param);
+        $stage = $params[0];
+        $group = isset($params[1]) ? $params[1] : "";
         $schedule = Match::getScheduleCup($sl["lid"], $stage, $group);
         return response()->json(["code"=>200, "schedule"=>$schedule]);
     }
