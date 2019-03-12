@@ -53,16 +53,5 @@
 @else
     <div class="finals_match">
         <img src="/img/pc/v2/image_basketball_n.png" class="cup">
-        <div class="team_con">
-            <p class="team"><img src=""><span>-</span></p>
-            <p class="score">-&nbsp;&nbsp;&nbsp;-</p>
-            <p class="team"><img src=""><span>-</span></p>
-        </div>
-        <ul>
-            <li><p>-</p></li>
-            <li><p>-</p></li>
-            <li><p>-</p></li>
-            <li><p>-</p></li>
-        </ul>
     </div>
 @endif

@@ -35,35 +35,18 @@ class DataController extends Controller{
                     $season = $season['name'];
                 }
                 //球队积分
-                $o_score = BasketScore::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
-                    ->orderby('rank','asc')
-                    ->where('season',$season)
-                    ->get();
-                $west = array();
-                $east = array();
-                $tids = array();
-                foreach ($o_score as $item){
-                    $tids[] = $item['tid'];
-                    if ($item['zone'] == 0){
-                        $west[] = $item;
-                    }
-                    else{
-                        $east[] = $item;
-                    }
+                $leagueData = self::curlData('http://match.liaogou168.com/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                if (isset($leagueData['scores']) && isset($leagueData['scores']['east'])) {
+                    $scores['east'] = $leagueData['scores']['east'];
                 }
-                $o_teams = BasketTeam::whereIn('id',$tids)->get();
-                $teams = array();
-                foreach ($o_teams as $item){
-                    $teams[$item['id']] = $item;
+                if (isset($leagueData['scores']) && isset($leagueData['scores']['west'])) {
+                    $scores['west'] = $leagueData['scores']['west'];
                 }
-                $scores = array('west'=>$west,'east'=>$east);
-                $scores['league'] = $data;
+                $scores['league'] = $leagueData['league'];
 
                 //球员
                 $playerTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
                 $scores['playerTech'] = $playerTech;
-//                dump($playerTech);
-                $scores['teams'] = $teams;
                 $scores['subject'] = $subject;
                 $scores['tabs'] = array(
                     array('name'=>'得分','key'=>'ppg'),
@@ -83,29 +66,15 @@ class DataController extends Controller{
                     $season = $season['name'];
                 }
                 //球队积分
-                $o_score = BasketScore::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
-                    ->orderby('rank','asc')
-                    ->where('season',$season)
-                    ->get();
-
-                $tids = array();
-                foreach ($o_score as $item){
-                    $tids[] = $item['tid'];
-
+                $leagueData = self::curlData('http://match.liaogou168.com/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                if (isset($leagueData['scores']) && isset($leagueData['scores']['west'])) {
+                    $scores['score'] = $leagueData['scores']['west'];
                 }
-                $o_teams = BasketTeam::whereIn('id',$tids)->get();
-                $teams = array();
-                foreach ($o_teams as $item){
-                    $teams[$item['id']] = $item;
-                }
-                $scores = array('score'=>$o_score);
-                $scores['league'] = $data;
+                $scores['league'] = $leagueData['league'];
 
                 //球员
                 $playerTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
                 $scores['playerTech'] = $playerTech;
-//                dump($playerTech);
-                $scores['teams'] = $teams;
                 $scores['subject'] = $subject;
                 $scores['tabs'] = array(
                     array('name'=>'得分','key'=>'ppg'),
@@ -124,27 +93,11 @@ class DataController extends Controller{
                 }
                 $kind = 0;
                 //球队积分
-                $o_score = Score::where('lid',Controller::SUBJECT_NAME_IDS[$subject]['lid'])
-                    ->orderby('rank','asc')
-                    ->where('kind',null)
-                    ->where('season',$season)
-                    ->get();
+                $leagueData = self::curlData('http://match.liaogou168.com/static/league/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                $scores['score'] = isset($leagueData['score'])?$leagueData['score']:array();
+                $scores['league'] = $leagueData['league'];
 
-                $tids = array();
-                foreach ($o_score as $item){
-                    $tids[] = $item['tid'];
-
-                }
-                $scores = array('score'=>$o_score);
-                $o_teams = Team::whereIn('id',$tids)->get();
-                $teams = array();
-                foreach ($o_teams as $item){
-                    $teams[$item['id']] = $item;
-                }
-                $league = League::where('id',Controller::SUBJECT_NAME_IDS[$subject]['lid'])->first();
-                $scores['league'] = $league;
                 $scores['subject'] = $subject;
-                $scores['teams'] = $teams;
                 $scores['tabs'] = array(
                 );
                 //球员
