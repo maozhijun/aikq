@@ -27,10 +27,14 @@
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
-        window.jsonHost = '{{env("API_URL")}}';
-        var protocol = location.protocol;
-        window.jsonHost = window.jsonHost.replace("https:", "").replace("http:", "");
-        window.jsonHost = protocol + window.jsonHost;
+        window.jsonHost = addProtocol('{{env("API_URL")}}');
+        window.jsonHostNew = addProtocol('{{env("API_URL_NEW")}}');
+
+        function addProtocol(host) {
+            var protocol = location.protocol;
+            host = host.replace("https:", "").replace("http:", "");
+            return protocol + host;
+        }
 
         var curUrl = location.href;
         var reg = /#(\/live\/spPlayer\/player-(\d+)-[1-3].html)/;
