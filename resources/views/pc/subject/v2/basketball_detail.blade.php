@@ -40,9 +40,10 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($eastRanks as $rank)
+                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
                         <tr>
                             <td>{{$rank["rank"]}}</td>
-                            <td class="team"><a href="team.html"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                            <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
                             <td>{{$rank["win"]}}</td>
                             <td>{{$rank["lose"]}}</td>
                             <td>{{$rank["win_diff"]}}</td>
@@ -75,9 +76,10 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($westRanks as $rank)
+                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
                     <tr>
                         <td>{{$rank["rank"]}}</td>
-                        <td class="team"><a href="team.html"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                        <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
                         <td>{{$rank["win"]}}</td>
                         <td>{{$rank["lose"]}}</td>
                         <td>{{$rank["win_diff"]}}</td>
