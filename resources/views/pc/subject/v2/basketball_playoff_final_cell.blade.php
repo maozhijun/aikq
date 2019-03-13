@@ -9,8 +9,8 @@
             $aicon = isset($item['info']['aicon']) ? $item['info']['aicon'] : "";
             $hid = $item['info']['hid'];
             $aid = $item['info']['aid'];
-            $hname = $item['info']['hname_short'];
-            $aname = $item['info']['aname_short'];
+            $hname = strlen($item['info']['hname_short']) > 0 ? $item['info']['hname_short'] : $item['info']['hname'];
+            $aname = strlen($item['info']['aname_short']) > 0 ? $item['info']['aname_short'] : $item['info']['aname'];
             $hscore = $item['info']['hscore'];
             $ascore = $item['info']['ascore'];
             if ($item['info']['hzone'] == 0) {

@@ -113,6 +113,19 @@
                     <div class="line_right_con" style="height: 41px; top: 32px; right: 10px; border-bottom: none;"></div>
                 </div>
             @endif
+            <?php
+                if (isset($playoff['west']['up']['half'])) {
+                    $hid = $playoff['west']['up']['half']['info']['hid'];
+                    $aid = $playoff['west']['up']['half']['info']['aid'];
+                    $tempIds = [$hid, $aid];
+                    if (isset($playoff['west']['final'])) {
+                        $f_hid = $playoff['west']['final']['info']['hid'];
+                        if (in_array($f_hid, $tempIds)) {
+                            $playoff['west']['final']['info']['hzone'] = 1;
+                        }
+                    }
+                }
+            ?>
             @include('pc.subject.v2.basketball_playoff_final_cell', ['item'=>isset($playoff['west']['final']) ? $playoff['west']['final'] : null])
         </div>
     @endif
