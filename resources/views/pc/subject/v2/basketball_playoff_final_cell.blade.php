@@ -26,7 +26,8 @@
                 <p class="team"><img src="{{$aicon}}"><span>{{$aname}}</span></p>
             </div>
         @endif
-        <ul>
+        @if(isset($item['matches']))
+            <ul>
             @foreach($item['matches'] as $match)
                 <li>
                     <a href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid'])}}">
@@ -49,7 +50,8 @@
                 </li>
                 {{--<li><p>-</p></li>--}}
             @endforeach
-        </ul>
+            </ul>
+        @endif
     </div>
 @else
     <div class="finals_match">
