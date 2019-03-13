@@ -72,7 +72,7 @@
                     @foreach($lives['recent'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
-                        $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                        $fv = count($match['channels']) > 0 ? $match['channels'][0]:null;
                         ?>
                         <tr>
                             <td><span>{{$match['lname']}}</span></td>
@@ -98,7 +98,7 @@
                                     <td class="line"><a class="live" target="_blank" href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a></td>
                                 @endforeach
                             @elseif(isset($fv))
-                                <td class="line"><a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getRecordDetailUrl('nba',$match['mid'])}}">全场录像</a></td>
+                                <td class="line"><a class="live" target="_blank" href="{{$fv}}">全场录像</a></td>
                             @else
                                 <td class="line"></td>
                             @endif

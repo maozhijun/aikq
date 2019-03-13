@@ -55,6 +55,14 @@ function reTurnTeamId (ID) {
     }
 }
 
+//球队图片设置
+function reTurnTeamIcon (img) {
+    if (img && img != '') {
+        return img
+    }else{
+        return 'https://static.dlfyb.com/img/pc/v2/icon_teamDefault.png'
+    }
+}
 
 /*共用重置左边part内容*/
 function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
@@ -256,8 +264,8 @@ function ResetRightRecord (recordArr) {
 
     for (var i = 0; i < (recordArr.length < 10 ? recordArr.length : 10); i++) {
         var newRecord = '<tr><td class="time">' + setMyTime(recordArr[i].match.time,'date') + '<br/>' + setMyTime(recordArr[i].match.time,'time') + '</td><td>' + 
-                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '.html"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/30.png">' + recordArr[i].match.hname + '</a><span>' + recordArr[i].match.hscore + '</span></p>' +
-                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '.html"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/30.png">' + recordArr[i].match.aname + '</a><span>' + recordArr[i].match.ascore + '</span></p></td>' +
+                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '.html"><img src="'+reTurnTeamIcon(recordArr[i].match.hicon)+'">' + recordArr[i].match.hname + '</a><span>' + recordArr[i].match.hscore + '</span></p>' +
+                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '.html"><img src="'+reTurnTeamIcon(recordArr[i].match.aicon)+'">' + recordArr[i].match.aname + '</a><span>' + recordArr[i].match.ascore + '</span></p></td>' +
                        '<td><a href="' + recordArr[i].link + '">观看录像</a></td></tr>';
 
         $('#Right_part .con_box .record').append(newRecord)

@@ -481,7 +481,13 @@ class TeamController extends Controller
 
         $array = array();
         foreach ($matches as $match){
-            $array[] = AikanQController::onMatchItemConvert($sport, $match, "", false);
+            if (array_key_exists($sport.'-'.$match['lid'],Controller::MATCH_LEAGUE_IDS)){
+                $lname = Controller::MATCH_LEAGUE_IDS[$sport.'-'.$match['lid']]['name_en'];
+            }
+            else{
+                $lname = 'other';
+            }
+            $array[] = AikanQController::onMatchItemConvert2($sport, $match, $lname, false);
         }
         return response()->json(array('code'=>0,'data'=>$array));
     }

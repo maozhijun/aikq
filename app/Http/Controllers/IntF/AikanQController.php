@@ -1896,7 +1896,7 @@ class AikanQController extends Controller
         $array['recentPage'] = $recentMatches->lastPage();
         $array['schedulePage'] = $matches->lastPage();
         foreach ($recentMatches as $match) {
-            $array['recent'][] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
+            $array['recent'][] = self::onMatchItemConvert2($sport, $match, $lname, $isMobile);
         }
         foreach ($matches as $match) {
            $array['schedule'][] = self::onMatchItemConvert($sport, $match, $lname, $isMobile);
@@ -1920,6 +1920,31 @@ class AikanQController extends Controller
             $channels = $isMobile ? $live->mAiKqChannels() : $live->kAiKqChannels();
         }
         $obj['channels'] = $channels;
+        return $obj;
+    }
+
+    public static function onMatchItemConvert2($sport, $match, $lname, $isMobile) {
+        $mid = $match->mid;
+
+        $obj = ['time'=>strtotime($match->time), 'lid'=>$match->lid,
+            'lname'=>isset($match->lname) ? $match->lname : (isset($match['win_lname']) ? $match['win_lname'] : $lname),
+            'hname'=>$match->hname, 'aname'=>$match->aname, 'status'=>$match->status,
+            'hid'=>$match->hid, 'aid'=>$match->aid,
+            'hscore'=>$match->hscore, 'ascore'=>$match->ascore, 'mid'=>$mid, 'sport'=>$sport];
+        $fv = SubjectVideo::firstVideo($match['mid']);
+        $obj['channels'] = array();
+        if ($fv){
+            if (array_key_exists($sport.'-'.$match['lid'],Controller::MATCH_LEAGUE_IDS)){
+                $lname_en = Controller::MATCH_LEAGUE_IDS[$sport.'-'.$match['lid']]['name_en'];
+            }
+            else{
+                $lname_en = 'other';
+            }
+            $obj['channels'][] = CommonTool::getRecordDetailUrl($lname_en,$match['mid']);
+        }
+        else{
+            $obj['channels'] = array();
+        }
         return $obj;
     }
 }
