@@ -310,7 +310,7 @@ class CommonTool
             $tempTid = "0".$tempTid;
         }
         if ($name_en == 'other'){
-            return "javascript:void(0)";
+//            return "javascript:void(0)";
         }
         return "/$name_en/team$sport$tempTid".".html";
     }

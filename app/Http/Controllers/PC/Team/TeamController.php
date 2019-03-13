@@ -12,16 +12,12 @@ namespace App\Http\Controllers\PC\Team;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
-use App\Http\Controllers\PC\StaticController;
-use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketMatch;
-use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
-use App\Models\LgMatch\Team;
-use App\Models\Match\HotVideo;
+use App\Models\Match\Team;
+use App\Models\Match\BasketTeam;
 use App\Models\Subject\SubjectLeague;
-use App\Models\Subject\SubjectVideo;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -176,14 +172,12 @@ class TeamController extends Controller
         $lid = $data['lid'];
         $sport = substr($tid, 0, 1);
         $tid = substr($tid, 1);
-
         $rdata = TeamController::recordData($name_en,$sport, $tid, $lid);
         $this->html_var['team'] = $rdata['team'];
         $this->html_var['title'] = $rdata['title'];
         $this->html_var['league'] = $rdata['league'];
         $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['name_en'] = $name_en;
-
         //录像
         $records = TagRelation::getRelationsPageByTagId(TagRelation::kTypePlayBack,$sport,3,$tid,$page,20);
 

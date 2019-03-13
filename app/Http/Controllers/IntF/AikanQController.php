@@ -1548,9 +1548,9 @@ class AikanQController extends Controller
     public static function getLeagueBySport($sport, $lid) {
         $league = null;
         if ($sport == MatchLive::kSportFootball) {
-            $league = \App\Models\LgMatch\League::find($lid);
+            $league = League::find($lid);
         } else if ($sport == MatchLive::kSportBasketball) {
-            $league = \App\Models\LgMatch\BasketLeague::find($lid);
+            $league = BasketLeague::find($lid);
         }
         return $league;
     }
@@ -1654,9 +1654,9 @@ class AikanQController extends Controller
             $leagueData['type'] = $league->type;
             $leagueData['sport'] = $sport;
             $leagueData['name'] = $league->name;
-            $subject = SubjectLeague::getSubjectLeagueByLid($sport, $lid);
+            $subject = array_key_exists($sport.'-'.$lid, Controller::MATCH_LEAGUE_IDS) ? Controller::MATCH_LEAGUE_IDS[$sport.'-'.$lid]:null;
             if (isset($subject)) {
-                $leagueData['name_en'] = $subject->name_en;
+                $leagueData['name_en'] = $subject['name_en'];
             }
         }
         return $leagueData;
