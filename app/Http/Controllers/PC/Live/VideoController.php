@@ -117,7 +117,7 @@ class VideoController extends Controller
      */
     protected function videosHtml($type, $types, $videos) {
         if (!isset($videos['videos'])) {
-            return "";
+            $videos["videos"] = [];
         }
         $result['types'] = $types;
         $result['page'] = $videos['page'];

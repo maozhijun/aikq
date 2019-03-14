@@ -11,7 +11,7 @@
                 <?php $pageUrl = "/video" . ($key == "new" ? "" : ("/" . $key) ) ?>
                     <a href="#"  class="on">{{$name}}</a>
                 @else
-                    <a href="/video/{{$key == "new" ? "" : $key}}">{{$name}}</a>
+                    <a href="/video/{{$key == "new" ? "" : $key}}/">{{$name}}</a>
                 @endif
             @endforeach
         </div>

@@ -42,6 +42,7 @@
                             $time = date("Y-m-d H:i", $match["time"]);
                             $hid = $match["hid"];
                             $aid = $match["aid"];
+                            $status = $match["status"];
                             $name_en = $sl["name_en"];
                             $detailKey = $hid > $aid ? ($hid . "_" . $aid) : ($aid . "_" . $hid);
 
@@ -64,6 +65,9 @@
                             }
                             if (empty($hid)) {
                                 $hTeamUrl = "#";
+                                $detailUrl = "";
+                            }
+                            if ($status < 0) {
                                 $detailUrl = "";
                             }
                         ?>
