@@ -1,6 +1,9 @@
 @extends('pc.team.v2.base')
 @section('teamJs')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js"></script>
+    <script type="text/javascript">
+        var TeamId = '{{$tid}}', SportId = '{{$match['sport']}}';
+    </script>
 @endsection
 @section('detail')
     @if(isset($zhuanti))
@@ -62,7 +65,7 @@
         </div>
     @endif
     @if(isset($lives['recent']) && count($lives['recent']) > 0)
-        <div class="el_con">
+        <div class="el_con history">
             <div class="header">
                 <h3><p>历史战绩</p></h3>
             </div>
@@ -109,7 +112,7 @@
         </div>
     @endif
     @if(isset($lives['schedule']) && count($lives['schedule']) > 0)
-        <div class="el_con">
+        <div class="el_con schedule">
             <div class="header">
                 <h3><p>未来赛程</p></h3>
             </div>

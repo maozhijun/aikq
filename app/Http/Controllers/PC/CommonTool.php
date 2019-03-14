@@ -281,7 +281,12 @@ class CommonTool
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
         }
-        return "/$name_en/team/$type/$sport/".substr($tempTid, 0, 2). "/". $tempTid."_". $page . ".html";
+        if ($type == 'index'){
+            return "/$name_en/team/$sport/".substr($tempTid, 0, 2). "/". $tempTid . ".html";
+        }
+        else{
+            return "/$name_en/team/$type/$sport/".substr($tempTid, 0, 2). "/". $tempTid."_". $page . ".html";
+        }
     }
 
     /**
@@ -327,7 +332,7 @@ class CommonTool
             $tempTid = "0".$tempTid;
         }
         if ($name_en == 'other'){
-            return "javascript:void(0)";
+//            return "javascript:void(0)";
         }
         return "/$name_en/team$sport$tempTid".".html";
     }
