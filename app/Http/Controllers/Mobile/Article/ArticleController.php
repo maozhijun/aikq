@@ -11,8 +11,9 @@ namespace App\Http\Controllers\Mobile\Article;
 
 use App\Models\Article\PcArticle;
 use App\Models\Article\PcArticleType;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -97,11 +98,16 @@ class ArticleController extends Controller
         $result['description'] = '最新最全的体育资讯';
         $result['h1'] = '体育新闻资讯';
 //        return view('mobile.articles.news', $result);
+
+        $subjects = SubjectLeague::getAllLeagues();
+        $result['subjects'] = $subjects;
+
         return view('mobile.articles.v2.news', $result);
     }
 
     public function articlesCell($articles) {
-        return view('mobile.articles.news_cell', ['page'=>$articles]);
+//        return view('mobile.articles.news_cell', ['page'=>$articles]);
+        return view('mobile.articles.v2.news_cell', ['page'=>$articles]);
     }
 
     /**
@@ -122,7 +128,8 @@ class ArticleController extends Controller
         $result['keywords'] = str_replace('，', ',', $article->labels);
         $result['description'] = $article->digest;
 
-        return view("mobile.articles.detail", $result);
+//        return view("mobile.articles.detail", $result);
+        return view("mobile.articles.v2.detail", $result);
     }
 
 }

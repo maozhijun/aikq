@@ -27,7 +27,7 @@
         $videoClass = 'on';
     } else {
         $videoIco = $cdn . "/img/mobile/v2/icon_ship_n.png";
-        $videoUrl = 'href=/anchor/';
+        $videoUrl = 'href=/video/';
         $videoClass = '';
     }
 
@@ -37,7 +37,7 @@
         $recordClass = 'on';
     } else {
         $recordIco = $cdn . "/img/mobile/v2/icon_video_n.png";
-        $recordUrl = 'href=/anchor/';
+        $recordUrl = 'href=/record/';
         $recordClass = '';
     }
 
@@ -47,7 +47,7 @@
         $dataClass = 'on';
     } else {
         $dataIco = $cdn . "/img/mobile/v2/icon_date_n.png";
-        $dataUrl = 'href=/anchor/';
+        $dataUrl = 'href=/data/';
         $dataClass = '';
     }
 ?>
