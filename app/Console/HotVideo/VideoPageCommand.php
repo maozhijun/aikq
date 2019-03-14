@@ -90,22 +90,19 @@ class VideoPageCommand extends Command
                 $leagues = HotVideo::getVideoLeagues();
                 foreach ($leagues as $league) {
                     $name_en = $league["name_en"];
-                    echo " league name_en ：" . $name_en . "\n";
                     $json = HotVideo::staticHotVideosLeagueHtml($name_en, 1);
 
                     $array = json_decode($json, true);
                     if (is_null($array) || !isset($array["curPage"]) || !isset($array["lastPage"])) {
-                        return;
+                        continue;
                     }
                     $lastPage = $array["lastPage"];
                     $curPage = $this->getCurPage($name_en);
                     $forPage = self::STATIC_PAGE_SIZE + $curPage;
-
                     for (; $curPage <= $forPage; $curPage++) {
                         if ($curPage > $lastPage) continue;
                         HotVideo::staticHotVideosLeagueHtml($league["name_en"], $curPage);
                     }
-
                     if ($curPage > $lastPage) {
                         $this->setCurPage($name_en, 2);
                     } else {

@@ -320,7 +320,7 @@ class HotVideo extends Model
      */
     public static function staticHotVideosLeagueHtml($name_en, $page) {
         $url = env('CMS_URL') . "/static/video/list-leg/" . $name_en . "/" . $page;
-        return Controller::execUrl($url, 3);
+        return Controller::execUrl($url, 10);
     }
 
     /**

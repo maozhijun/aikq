@@ -178,7 +178,7 @@ class VideoController extends Controller
                 foreach ($o_score as $item){
                     $tids[] = $item['tid'];
                 }
-                $o_teams = BasketTeam::whereIn('id',$tids)->get();
+                $o_teams = \App\Models\Match\BasketTeam::whereIn('id',$tids)->get();
                 $teams = array();
                 foreach ($o_teams as $item){
                     $teams[$item['id']] = $item;
@@ -201,7 +201,7 @@ class VideoController extends Controller
                 foreach ($o_score as $item){
                     $tids[] = $item['tid'];
                 }
-                $o_teams = Team::whereIn('id',$tids)->get();
+                $o_teams = \App\Models\Match\Team::whereIn('id',$tids)->get();
                 $teams = array();
                 foreach ($o_teams as $item){
                     $teams[$item['id']] = $item;

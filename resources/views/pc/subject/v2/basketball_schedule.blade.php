@@ -11,7 +11,7 @@
     @foreach($scheduleMatches as $date=>$matchArray)
     <p class="date_text">{{date('m月d日', strtotime($date))}}@if($date == date('Y-m-d'))（今天）@endif</p>
     <table class="match">
-        <col width="11%"><col><col width="12%"><col><col width="42.5%">
+        <colgroup><col width="20%"><col><col width="15%"><col><col width="20%"></colgroup>
         @foreach($matchArray as $match)
         <?php
             $sport = $sl["sport"];
@@ -42,7 +42,7 @@
             </td>
             <td class="away"><a target="_blank" href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
             <td class="line">
-                <a class="live" target="_blank" href="{{$detailUrl}}">观看直播</a>
+                @if($status >= 0)<a class="live" target="_blank" href="{{$detailUrl}}">观看直播</a>@endif
             </td>
         </tr>
         @endforeach

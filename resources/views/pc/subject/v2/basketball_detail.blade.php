@@ -100,7 +100,7 @@
 </div>
 @endsection
 @section("js")
-    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903121821"></script>
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903141726"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{$sl["name_en"]}}';
         var NowDate = '{{date('Y-m-d')}}';//'2019-02-21';

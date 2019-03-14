@@ -21,7 +21,7 @@
                         <?php
                         $team = $teamsData[$item];
                         ?>
-                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrl(2,1,$team['id'])}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrlByNameEn(2, $team['id'], "nba")}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                     @endforeach
                 </div>
                 <div class="team_part" style="display: ;">
@@ -30,7 +30,7 @@
                         <?php
                         $team = $teamsData[$item];
                         ?>
-                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrl(2,1,$team['id'])}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
+                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrlByNameEn(2, $team['id'], "nba")}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($team['icon'])}}">{{$team['name_china_short']}}</a></p>
                     @endforeach
                 </div>
             @else
@@ -48,7 +48,7 @@
                             $teamName = $team['name'];
                         }
                         ?>
-                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrl($sport,$zhuanti['lid'],$team['id'])}}"><img src="{{$icon}}">{{$teamName}}</a></p>
+                        <p class="team_box"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamVideoUrlByNameEn($sport, $team['id'], $zhuanti['name_en'])}}"><img src="{{$icon}}">{{$teamName}}</a></p>
                     @endforeach
                 </div>
             @endif

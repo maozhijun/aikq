@@ -361,6 +361,10 @@ class CommonTool
         } else {
             $name_en = "other";
         }
+        return self::getTeamVideoUrlByNameEn($sport, $tid, $name_en);
+    }
+
+    public static function getTeamVideoUrlByNameEn($sport, $tid, $name_en = "other") {
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
