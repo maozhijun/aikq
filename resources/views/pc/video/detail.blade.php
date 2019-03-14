@@ -87,7 +87,7 @@
             @endif
         </div>
         <div id="Right_part">
-            @include("pc.cell.v2.right_league_cell", ['zhuanti'=>$def])
+            @if(isset($def)) @include("pc.cell.v2.right_league_cell", ['zhuanti'=>$def]) @endif
             {{--<a class="banner_entra" href="team.html">--}}
                 {{--<img src="http://img1.gtimg.com/sports/pics/hv1/231/116/2220/144385311.png">--}}
                 {{--<h3>圣安东尼奥马刺</h3>--}}

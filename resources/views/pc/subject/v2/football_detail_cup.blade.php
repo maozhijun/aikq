@@ -2,7 +2,7 @@
 <?php $cdnUrl = env("CDN_URL"); ?>
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css?201903141016">
 @endsection
 @section("content")
     <div id="Crumbs">
@@ -59,7 +59,7 @@
                     @else
                         <div class="team_con">
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($hid)}}"><span>{{$final["host"]["name"]}}</span></p>
-                            <p class="score">@if(!empty($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
+                            <p class="score">@if(isset($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($aid)}}"><span>{{$final["away"]["name"]}}</span></p>
                         </div>
                     @endif
@@ -100,8 +100,9 @@
                     @foreach($schedules as $stageId=>$schedule)
                     <?php $hasGroup = isset($schedule["groupMatches"]) && count($schedule["groupMatches"]) > 0;?>
                         @if($hasGroup)
+                            <?php $gIndex = 0; ?>
                             @foreach($schedule["groupMatches"] as $g=>$groupMatch)
-                                @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId."-".$g, "schMatches"=>$groupMatch["matches"], "status"=>$schedule["status"]]) @endcomponent
+                                @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId."-".$g, "schMatches"=>$groupMatch["matches"], "status"=>($schedule["status"] == 1 && $gIndex++ == 0) ? 1 : 0]) @endcomponent
                             @endforeach
                         @else
                             @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId, "schMatches"=>$schedule["matches"], "status"=>$schedule["status"]]) @endcomponent
