@@ -1,0 +1,68 @@
+﻿
+body{
+	padding: 142px 0 49px; 
+}
+
+/*日期*/
+#Navigation .date_con{
+	height: 52px;
+	margin-top: -1px;
+	border-top: 1px solid #cacaca;
+	background: #fff;
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Navigation .date_con .date_item{
+	height: 42px;
+	padding-top: 10px;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Navigation .date_con .date_item p.week{
+	height: 18px;
+	margin-bottom: 3px;
+	font-size: 13px; line-height: 18px; text-align: center; color: #a3a3a3;
+}
+#Navigation .date_con .date_item p.date{
+	height: 18px;
+	font-size: 12px; line-height: 18px; text-align: center; color: #a3a3a3;
+}
+#Navigation .date_con .date_item.on p.week{
+	color: #282828; font-weight: 600;
+}
+#Navigation .date_con .date_item.on p.date{
+	color: #282828;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

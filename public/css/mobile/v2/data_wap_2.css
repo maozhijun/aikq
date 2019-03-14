@@ -1,0 +1,163 @@
+﻿
+.data_list_con{
+	padding: 16px 12px;
+}
+
+/*tab*/
+.data_list_con .data_tab_con{
+	height: 36px;
+	margin-bottom: 6px;
+	border-radius: 2px;
+	background: #fff;
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+}
+.data_list_con .data_tab_con.fixed{
+	margin: 0;
+	border: 0;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 24;
+}
+.data_list_con .data_tab_con.fixed ~ *{
+	margin-top: 42px;
+}
+.data_list_con .data_tab_con:before{
+	width: 10px;
+	background: #fff;
+	box-shadow: 5px 0 5px 0 #fff;
+	position: absolute; top: 0; bottom: 0; left: 0; z-index: 10;
+	content: '';
+}
+.data_list_con .data_tab_con:after{
+	width: 10px;
+	background: #fff;
+	box-shadow: -5px 0 5px 0 #fff;
+	position: absolute; top: 0; bottom: 0; right: 0; z-index: 10;
+	content: '';
+}
+.data_list_con .data_tab_con .run_line{
+	height: 36px;
+	padding: 0 8px;
+	font-size: 0; line-height: 0;
+	overflow-y: hidden; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;
+}
+.data_list_con .data_tab_con.fixed .run_line{
+	padding: 0 20px;
+}
+.data_list_con .data_tab_con .run_line span{
+	height: 36px;
+	padding: 0 8px;
+	font-size: 14px; line-height: 36px; color: #a3a3a3;
+	display: inline-block;
+}
+.data_list_con .data_tab_con .run_line span.on{
+	font-size: 16px; color: #282828; font-weight: 600;
+}
+.data_list_con .data_tab_con .run_line a{
+	height: 36px;
+	margin-right: 12px;
+	font-size: 14px; line-height: 36px; text-align: right; color: #1970ff;
+	display: block;
+	float: right;
+}
+
+/*table*/
+.data_list_con .table_con{
+	margin: 16px -12px 0;
+}
+.data_list_con .data_tab_con.fixed ~ .table_con{
+	margin-top: 52px;
+}
+.data_list_con .table_con table{
+	width: 100%;
+	border-radius: 12px;
+	background: #fff;
+}
+.data_list_con .table_con table th{
+	height: 34px;
+	border-bottom: 1px solid #cacaca;
+	font-size: 14px; line-height: 20px; text-align: center; color: #a3a3a3;
+}
+.data_list_con .table_con table th:nth-child(2){
+	padding-left: 30px;
+	text-align: left;
+}
+.data_list_con .table_con table td{
+	height: 30px;
+	padding-top: 1px;
+	font-size: 14px; line-height: 20px; text-align: center;
+	position: relative;
+}
+.data_list_con .table_con table td:nth-child(1){
+	padding-left: 12px;
+}
+.data_list_con .table_con table td:nth-child(2){
+	padding-left: 30px;
+	text-align: left;
+}
+.data_list_con .table_con table tr:nth-child(2) ~ tr td:before{
+	height: 0;
+	border-top: 1px dashed #cacaca;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+.data_list_con .table_con table td:first-child:before{
+	left: 12px !important;
+}
+.data_list_con .table_con table td:last-child:before{
+	right: 12px !important;
+}
+.data_list_con .table_con table td img{
+	width: 20px; height: 20px;
+	margin-top: -10px;
+	position: absolute; top: 50%; left: 5px;
+	display: block;
+}
+
+.data_list_con .table_con.player table th:nth-child(2), .data_list_con .table_con.player table td:nth-child(2){
+	padding-left: 10px;
+}
+.data_list_con .table_con.player table th:nth-child(3), .data_list_con .table_con.player table td:nth-child(3){
+	padding-left: 30px;
+	text-align: left;
+}
+
+
+/*赛程*/
+.match_list{
+	margin: 0 -12px;
+}
+.match_list_date{
+	top: 80px;
+}
+.rank .match_list_date:first-child{
+	margin-top: -10px;
+}
+.matchend .match_list_con .status_con{
+	width: 20%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

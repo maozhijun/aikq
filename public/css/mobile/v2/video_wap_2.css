@@ -1,0 +1,101 @@
+﻿
+body{
+	padding: 308px 0 0 0;
+	background: #1d1e1f;
+}
+
+h1{
+	height: 44px;
+	padding: 0 12px;
+	background: #1d1e1f;
+	font-size: 16px; line-height: 44px; color: #fff;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 10;
+	overflow: hidden;
+}
+
+.play_con{
+	height: 210px; width: 100%;
+	background-repeat: no-repeat; background-size: cover; background-position: center;
+	position: fixed; top: 88px; left: 0; right: 0; z-index: 10;
+	display: block;
+}
+.play_con:before{
+	width: 44px; height: 44px;
+	margin: -22px 0 0 -22px;
+	border-radius: 50%;
+	background: url(/img/mobile/v2/icon_pause_n.png) no-repeat center; background-size: 44px;
+	position: absolute; top: 50%; left: 50%;
+	content: '';
+}
+
+.title_con{
+	height: 23px;
+	padding: 10px 12px; margin-bottom: -16px;
+	background: #1d1e1f;
+	font-size: 16px; line-height: 23px; color: #acacac;
+	position: sticky; position: -webkit-sticky; top: 298px; left: 0; right: 0; z-index: 10;
+}
+
+.video_list_con .video_item a{
+	background: #000;
+}
+.video_list_con .video_item a h3{
+	background: #000;
+	color: #676767;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

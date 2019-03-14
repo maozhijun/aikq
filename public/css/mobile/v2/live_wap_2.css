@@ -1,0 +1,206 @@
+﻿body{
+	padding: 174px 0 0 0;
+}
+
+#Match_info{
+	height: 130px;
+	background: #fff;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 20;
+}
+#Match_info .info_con{
+	height: 100px;
+	padding: 0 15px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Match_info .info_con .vs_con{
+	width: 94px;
+	padding-top: 10px;
+}
+#Match_info .info_con .vs_con p{
+	margin-bottom: 1px;
+	font-size: 12px; line-height: 18px; text-align: center; color: #a3a3a3;
+}
+#Match_info .info_con .vs_con .forselect{
+	height: 26px; width: 76px;
+	margin: 13px auto 0;
+	background: #fff;
+	border: 1px solid #1970ff; border-radius: 14px;
+	font-size: 13px; line-height: 26px; text-align: center; color: #1970ff;
+	display: block;
+}
+#Match_info .info_con .vs_con select{
+	width: 78px; height: 28px;
+	margin-left: -39px;
+	position: absolute; top: 60px; left: 50%; z-index: 10;
+	opacity: 0;
+}
+#Match_info .info_con .team_con{
+	padding-top: 10px;
+	display: block;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match_info .info_con .team_con img{
+	width: 50px; height: 50px;
+	margin: 0 auto 8px;
+	display: block;
+}
+#Match_info .info_con .team_con p{
+	height: 22px;
+	font-size: 14px; line-height: 22px; text-align: center; color: #a3a3a3; font-weight: bold;
+	overflow: hidden;
+}
+
+#Match_info .tab_con{
+	height: 30px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Match_info .tab_con .tab_item{
+	height: 30px;
+	font-size: 14px; line-height: 30px; text-align: center; color: #48494d;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Match_info .tab_con .tab_item.on{
+	color: #282828; font-weight: bold;
+}
+#Match_info .tab_con .tab_item.on:before{
+	height: 3px; width: 60px;
+	margin-left: -30px;
+	background: #1970ff;
+	position: absolute; bottom: 0; left: 50%;
+	content: '';
+}
+
+/*数据分析*/
+#Data{
+	padding: 6px 0 10px;
+}
+#Data .title_text{
+	height: 23px;
+	padding: 10px 12px;
+	background: #f1f2f2;
+	font-size: 16px; line-height: 23px; color: #48494d;
+	position: sticky; position: -webkit-sticky; top: 174px; z-index: 10;
+}
+#Data table{
+	width: 100%;
+	margin-bottom: 6px;
+	border-radius: 12px;
+	background: #fff;
+}
+#Data table th{
+	height: 34px;
+	border-bottom: 1px solid #cacaca;
+	font-size: 14px; line-height: 20px; text-align: center; color: #a3a3a3;
+}
+#Data table th:nth-child(1){
+	width: 18%;
+}
+#Data table th:nth-child(2){
+	width: 16%;	
+}
+#Data table th:nth-child(3){
+	
+}
+#Data table th:nth-child(4){
+	width: 20%;
+}
+#Data table td{
+	height: 70px;
+	font-size: 14px; line-height: 20px; text-align: center;
+	position: relative;
+}
+#Data table td:before{
+	height: 0;
+	border-top: 1px dashed #cacaca;
+	position: absolute; top: -1px; left: 0; right: 0;
+	content: '';
+}
+#Data table td:nth-child(1){
+
+}
+#Data table td:nth-child(1):before{
+	left: 12px;
+}
+#Data table td:nth-child(2){
+
+}
+#Data table td:nth-child(3){
+	padding: 0 12px;
+	line-height: 24px; text-align: left; font-weight: bold;	
+}
+#Data table td:nth-child(4){
+	
+}
+#Data table td:nth-child(4):before{
+	right: 12px;
+}
+#Data table td p{
+	color: #a3a3a3;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#Data table td p.win{
+	color: #282828;
+}
+#Data table td p span{
+	min-width: 12px;
+	margin-left: 10px;
+	text-align: center;
+	float: right;
+}
+#Data table td a{
+	height: 30px;
+	border-left: 1px solid #ddd;
+	line-height: 30px; color: #1970ff;
+	display: block;
+}
+
+/*资讯*/
+#News{
+	margin: 10px 0;
+}
+
+/*视频*/
+#Video{
+	margin: 10px 0;
+	background: #fff !important;
+}
+
+
+
+/*广告*/
+.app_full_con{
+	position: fixed; bottom: 0; left: 0; right: 0; z-index: 12;
+}
+.app_full_con ~ #Data, .app_full_con ~ #News, .app_full_con ~ #Video{
+	padding-bottom: 120px;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

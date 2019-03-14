@@ -1,0 +1,110 @@
+﻿
+.video_tab_con{
+	height: 36px;
+	margin: 0 4px 6px;
+	border-radius: 2px;
+	background: #fff;
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+}
+.video_tab_con.fixed{
+	margin: 0;
+	border: 0;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 20;
+}
+.video_tab_con:before{
+	width: 10px;
+	background: #fff;
+	box-shadow: 5px 0 5px 0 #fff;
+	position: absolute; top: 0; bottom: 0; left: 0; z-index: 10;
+	content: '';
+}
+.video_tab_con:after{
+	width: 10px;
+	background: #fff;
+	box-shadow: -5px 0 5px 0 #fff;
+	position: absolute; top: 0; bottom: 0; right: 0; z-index: 10;
+	content: '';
+}
+.video_tab_con .run_line{
+	height: 36px;
+	padding: 0 8px;
+	font-size: 0; line-height: 0;
+	overflow-y: hidden; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;
+}
+.video_tab_con.fixed .run_line{
+	padding: 0 20px;
+}
+.video_tab_con .run_line a{
+	height: 36px;
+	padding: 0 8px;
+	font-size: 14px; line-height: 36px; color: #a3a3a3;
+	display: inline-block;
+}
+.video_tab_con .run_line a.on{
+	font-size: 16px; color: #282828; font-weight: 600;
+}
+
+.video_list_con{
+	padding: 16px 8px;
+	border-radius: 12px;
+	background: #fff;
+	font-size: 0; line-height: 0;
+}
+#Navigation ~ .video_list_con{
+	background: none;
+}
+.video_list_con .video_item{
+	width: 50%;
+	vertical-align: top;
+	display: inline-block;
+}
+.video_list_con .video_item:nth-child(n + 3), .video_list_con .video_tab_con + .video_item{
+	margin-top: 10px;
+}
+.video_list_con .video_tab_con.fixed + .video_item, .video_list_con .video_tab_con.fixed + .video_item + .video_item{
+	margin-top: 40px;
+}
+.video_list_con .video_item a{
+	height: 35px;
+	padding-top: 95px; margin: 0 4px;
+	border-radius: 5px;
+	background: #fff;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+.video_list_con .video_item a .img_box{
+	height: 95px;
+	background-repeat: no-repeat; background-position: center; background-size: cover; 
+	position: absolute; top: 0; left: 0; right: 0;
+}
+.video_list_con .video_item a h3{
+	height: 35px;
+	background: #fff;
+	font-size: 14px; line-height: 35px; text-align: center; font-weight: normal;
+	position: relative; z-index: 2;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

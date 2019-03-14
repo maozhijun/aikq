@@ -96,7 +96,8 @@ class ArticleController extends Controller
         $result['keywords'] = '体育,资讯';
         $result['description'] = '最新最全的体育资讯';
         $result['h1'] = '体育新闻资讯';
-        return view('mobile.articles.news', $result);
+//        return view('mobile.articles.news', $result);
+        return view('mobile.articles.v2.news', $result);
     }
 
     public function articlesCell($articles) {

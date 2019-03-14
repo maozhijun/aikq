@@ -1,0 +1,141 @@
+﻿
+
+.match_list_date{
+	height: 23px;
+	padding: 10px 0 10px 12px;
+	background: #f1f2f2;
+	font-size: 16px; line-height: 23px; color: #48494d; 
+	position: sticky; position: -webkit-sticky; left: 0; right: 0; z-index: 20;
+}
+
+
+.match_list_con{
+	margin-bottom: 10px;
+	border-radius: 12px;
+	background: #fff;
+	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+}
+.match_list_con a{
+	height: 70px;
+	padding: 0 0 0 12px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+	position: relative;
+}
+.match_list_con a + a{
+	padding-bottom: 1px;
+}
+.match_list_con a + a:before{
+	height: 0;
+	border-top: 1px dashed #cacaca;
+	position: absolute; top: -1px; left: 12px; right: 12px;
+	content: '';
+}
+.match_list_con .team_con{
+	height: 48px;
+	padding: 11px 1px 11px 0;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+.match_list_con a.good .team_con{
+	padding-left: 33px;
+	background: url(/img/mobile/v2/icon_hot_n.png) no-repeat left center; background-size: 21px;
+}
+.match_list_con .team_con:before{
+	width: 1px; height: 30px;
+	margin-top: -15px;
+	background: #ddd;
+	position: absolute; top: 50%; right: 0;
+	content: '';
+}
+.match_list_con .team_con p{
+	height: 23px;
+	font-size: 16px; line-height: 23px; font-weight: 600;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.match_list_con .team_con p + p{
+	margin-top: 2px;
+}
+.match_list_con .team_con p:only-child{
+	height: 48px;
+	line-height: 48px;
+}
+.match_list_con .team_con p.lose{
+	color: #a3a3a3;
+}
+.match_list_con .team_con p span{
+	width: 40px;
+	padding-right: 12px;
+	font-size: 20px; text-align: center;
+	float: right;
+}
+.match_list_con .info_con{
+	width: 80px; height: 48px;
+	padding: 11px 0;
+}
+.match_list_con .info_con p{
+	height: 23px;
+	font-size: 14px; line-height: 23px; text-align: center; color: #48494d;
+	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;	
+}
+.match_list_con .info_con p + p{
+	margin-top: 2px;
+}
+.match_list_con .info_con p:only-child{
+	height: 48px;
+	line-height: 48px;
+}
+.match_list_con .status_con{
+	width: 26%; min-width: 75px; height: 70px;
+	background: url(/img/mobile/v2/icon_toward_n.png) no-repeat right 18px center; background-size: 15px;
+	font-size: 14px; line-height: 70px; text-align: center; color: #d0021b;
+}
+.match_list_con a.live .status_con, .match_list_con a.end .status_con{
+	background: none;
+}
+.match_list_con a.live .status_con:before{
+	content: '直播中';
+}
+.match_list_con a.end .status_con:before{
+	color: #a3a3a3;
+	content: '已结束';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

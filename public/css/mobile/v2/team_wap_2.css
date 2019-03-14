@@ -1,0 +1,167 @@
+﻿
+body{
+	padding: 198px 0 0 0;
+}
+
+#Info_con{
+	height: 154px;
+	background: #fff;
+	position: fixed; top: 44px; left: 0; right: 0; z-index: 10;
+}
+#Info_con .name_con{
+	height: 117px;
+	padding: 7px 0 0 114px;
+	position: relative;
+}
+#Info_con .name_con img{
+	width: 60px; height: 60px;
+	position: absolute; top: 7px; left: 27px;
+}
+#Info_con .name_con h1{
+	height: 22px; width: 110px;
+	font-size: 16px; line-height: 22px; text-align: center;
+	position: absolute; top: 72px; left: 2px;
+	overflow: hidden;
+}
+#Info_con .name_con p{
+	height: 22px;
+	font-size: 14px; line-height: 22px; color: #a3a3a3;
+	overflow: hidden;
+}
+#Info_con .tab_con{
+	height: 30px;
+	display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: -webkit-flex; display: flex;
+}
+#Info_con .tab_con .tab_item{
+	height: 30px;
+	font-size: 14px; line-height: 30px; text-align: center;
+	position: relative;
+	-webkit-box-flex: 1; -moz-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;
+}
+#Info_con .tab_con .tab_item.on:before{
+	height: 3px; width: 40px;
+	margin-left: -20px;
+	background: #1970ff;
+	position: absolute; bottom: 0; left: 50%;
+	content: '';
+}
+
+/*阵容*/
+.player_con{
+	padding: 16px 0;
+}
+.player_con table{
+	width: 100%;
+	border-radius: 12px;
+	background: #fff;
+}
+.player_con table th{
+	height: 34px; 
+	border-bottom: 1px solid #cacaca;
+	font-size: 14px; line-height: 20px; text-align: center; color: #a3a3a3;
+}
+.player_con table th:nth-child(3){
+	padding-left: 30px;
+	text-align: left;
+}
+.player_con table td{
+	height: 30px;
+	padding-top: 1px;
+	font-size: 14px; line-height: 20px; text-align: center;
+	position: relative;
+}
+.player_con table td:nth-child(1){
+	
+}
+.player_con table td:nth-child(3){
+	padding-left: 30px;
+	text-align: left;
+}
+.player_con table tr:nth-child(2) ~ tr td:before{
+	height: 0;
+	border-top: 1px dashed #cacaca;
+	position: absolute; top: 0; left: 0; right: 0;
+	content: '';
+}
+.player_con table td:first-child:before{
+	left: 12px !important;
+}
+.player_con table td:last-child:before{
+	right: 12px !important;
+}
+.player_con table td img{
+	width: 20px; height: 20px;
+	margin-top: -10px;
+	position: absolute; top: 50%; left: 5px;
+	display: block;
+}
+
+/*赛程*/
+.match_con{
+	padding: 16px 0 10px 0;
+}
+.match_con .match_list_date{
+	top: 154px;
+}
+
+/*资讯*/
+.news_list_con{
+	margin: 16px 0;
+}
+
+/*视频*/
+.video_list_con{
+	margin: 16px 0;
+	background: #fff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

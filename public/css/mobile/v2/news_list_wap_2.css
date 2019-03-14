@@ -1,0 +1,74 @@
+﻿
+.news_list_con{
+	padding: 10px 12px 2px;
+	border-radius: 12px;
+	background: #fff;
+}
+#Navigation + .news_list_con{
+	padding: 16px 12px 8px;
+	background: none;
+}
+.news_list_con a{
+	height: 84px;
+	margin-bottom: 8px; padding-left: 36%;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+.news_list_con a .img_box{
+	width: 36%;
+	background-repeat: no-repeat; background-position: center; background-size: cover;
+	position: absolute; top: 0; left: 0; bottom: 0;
+}
+.news_list_con a h3{
+	height: 44px;
+	padding: 8px 6px 8px 8px;
+	font-size: 15px; line-height: 22px; color: #48494d;
+	overflow: hidden;
+}
+.news_list_con a .date_con{
+	padding-left: 8px;
+	font-size: 12px; line-height: 18px; color: #a3a3a3;
+	position: absolute; bottom: 6px; left: 36%;
+}
+.news_list_con a .tag_con{
+	height: 18px;
+	padding-left: 75px;
+	background: url(/img/mobile/v2/icon_tag_n.png) no-repeat 58px center; background-size: 12px;
+	font-size: 12px; line-height: 18px; color: #a3a3a3;
+	position: absolute; bottom: 6px; right: 8px; left: 36%;
+	overflow: hidden;
+}
+.news_list_con a .tag_con span{
+	display: inline-block;
+}
+.news_list_con a .tag_con span + span{
+	margin-left: 6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
