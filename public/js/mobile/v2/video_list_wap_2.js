@@ -1,5 +1,3 @@
-var PageHeight = document.documentElement.clientHeight || document.body.clientHeight;
-var BodyHeight = $('body').height();
 var CanNextPage = true;
 
 function setPage() {
@@ -30,7 +28,7 @@ $(window).scroll(function(){
 		$('.video_tab_con').removeClass('fixed');
 	}
 
-	if ($(this).scrollTop() + PageHeight >= BodyHeight && CanNextPage) {
+	if (checkToBottom()) {
 		LoadNextPage()
 	}
 })

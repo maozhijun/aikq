@@ -132,4 +132,20 @@ class ArticleController extends Controller
         return view("mobile.articles.v2.detail", $result);
     }
 
+
+    /**
+     * 专题文章列表页
+     */
+    public function subjectNews(Request $request, $name_en, $page = 1) {
+        if (!is_numeric($page) || $page < 1) {
+            return abort(404);
+        }
+        $query = PcArticle::getPublishQuery($name_en);
+        if (isset($query)) {
+            $articles = $query->paginate(self::PageSize, ['*'], '', $page);
+            return view('mobile.articles.v2.news_cell', $articles);
+        } else {
+            return '';
+        }
+    }
 }

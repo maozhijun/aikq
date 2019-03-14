@@ -1,6 +1,6 @@
 <?php
     $cdn = env('CDN_URL');
-    $cur = empty($cur) ? 'live' : $cur;
+    $cur = isset($cur) ? $cur : '';
 
     if ($cur == "live") {
         $liveClass = 'on';

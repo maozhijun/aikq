@@ -11,8 +11,17 @@ namespace App\Http\Controllers\Mobile\Subject;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\Common\LeagueDataTool;
+use App\Http\Controllers\PC\CommonTool;
+use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Http\Controllers\PC\MatchTool;
+use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Match;
+use App\Models\LgMatch\Season;
+use App\Models\LgMatch\Stage;
+use App\Models\Subject\SubjectLeague;
+use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -86,6 +95,7 @@ class SubjectController extends Controller
         $result['hasRound'] = $hasRound;
         $result['slid'] = $s_lid;
         $result['lid'] = self::SUBJECT_NAME_IDS[$name]['lid'];
+
         return view('mobile.subject.detail', $result);
     }
 
@@ -188,6 +198,162 @@ class SubjectController extends Controller
         return view('pc.subject.player', ['cdn'=>env('CDN_URL')]);
     }
     //=====================================================//
+
+    //===============aikq2.0===================================//
+
+    public function detailV2(Request $request, $season = "") {
+        $path = $request->path();
+        $name_en = str_replace("m/v2/", "", $path);
+        if (!array_key_exists($name_en, self::SUBJECT_NAME_IDS)) {
+            return abort(404);
+        }
+
+        $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+        if (!isset($sl)) {
+            return "";
+        }
+        $sport = $sl->sport;
+        $lid = $sl->lid;
+
+        //专题资讯 开始
+        $query = PcArticle::getPublishQuery($name_en);
+        $articles = array();
+        if (isset($query)) {
+            $articles = $query->take(20)->get();
+        }
+        $result['articles'] = $articles;
+
+        //专题录像 开始
+        $result['videos'] = SubjectVideo::newVideos($lid, true);
+
+        if ($sport == SubjectLeague::kSportBasketball) {
+            return $this->basketDetailHtml($sl, $season, $result);//篮球
+        }
+
+        //赛季
+        if (!empty($season)) {
+            $footballSeason = Season::query()->where("lid", $lid)->where("name", $season)->first();
+        } else {
+            $footballSeason = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+            $season = $footballSeason["name"];
+        }
+
+        //判断是否杯赛
+        $total_round = $footballSeason["total_round"];
+        if (is_null($total_round)) {
+            return $this->footballCupDetailHtml($sl, $footballSeason, $result);//无轮次则是 杯赛
+        }
+
+        //赛季
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season);
+        $schedule = isset($leagueData["schedule"]) ? $leagueData["schedule"] : [];//所有赛程
+        $leagueSeason = isset($leagueData["season"]) ? $leagueData["season"] : [];//赛程信息
+        $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
+
+        //积分
+        $scores = $leagueData['scores'];
+        //赛程
+        if (!isset($leagueSeason["curr_round"])) {
+            $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
+            $curr_round = $fMatch["round"];
+        } else {
+            $curr_round = $leagueSeason["curr_round"];//当前轮次
+        }
+
+        //数据榜单
+        //右侧内容（球员信息）
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
+        $data = json_decode($playerString, true);
+
+        $result["sl"] = $sl;
+        $result["season"] = $footballSeason;
+        $result["seasons"] = $seasons;
+        $result["curRound"] = $curr_round;
+        $result["ranks"] = $scores;
+        $result["schedule"] = $schedule;
+        $result["data"] = $data;
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        return view("mobile.subject.v2.football_detail", $result);
+    }
+
+    /**
+     * 杯赛终端
+     */
+    public function footballCupDetailHtml(SubjectLeague $sl, Season $season, $result = array()) {
+        $sport = $sl["sport"];
+        $lid = $sl["lid"];
+
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sport, $lid, $season["name"]);
+        $stageDatas = $leagueData['stages'];
+
+        $ranks = array();
+        foreach ($stageDatas as $stageData) {
+            if ($stageData['name'] == "分组赛") {
+                $ranks = collect($stageData['groupMatch'])->map(function ($item){
+                    return $item['scores'];
+                })->all();
+                break;
+            }
+        }
+
+        $result['ranks'] = $ranks;//杯赛小组排名
+        $result["sl"] = $sl;
+        $result["season"] = $season;
+        $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
+        $result["stages"] = $stageDatas;
+        $result['title'] = '['.$sl["name"].'直播]'.$sl["name"].'免费在线直播观看_哪里可以看'.$sl["name"].'直播网址-爱看球直播';
+        return view("mobile.subject.v2.football_detail_cup", $result);
+    }
+
+    /**
+     * 篮球专题终端页
+     * @param SubjectLeague $sl
+     * @param $season = ""  赛季 例：18-19
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function basketDetailHtml(SubjectLeague $sl, $season = "", $result = array()) {
+        $sport = $sl["sport"];
+        $lid = $sl["lid"];
+
+        if (!empty($season)) {
+            $basketSeason = BasketSeason::query()->where('lid', $lid)->where('name', $season)->first();
+        }
+        if (!isset($basketSeason)){
+            $basketSeason = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
+        }
+
+        $kind = 0;$year = '';
+        if (isset($basketSeason)){
+            $kind = $basketSeason['kind'];
+            $season = $basketSeason['name'];
+        }
+
+        $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
+
+        $westRanks = isset($leagueData['scores']['west']) ? $leagueData['scores']['west'] : array();
+        $eastRanks = isset($leagueData['scores']['east']) ? $leagueData['scores']['east'] : array();
+
+        //三天 赛程
+        $scheduleMatches = $leagueData["schedule"];//从接口获取赛程
+
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, $kind == 2 ? 1 : $kind);
+        $data = json_decode($playerString, true);
+
+        $result["sl"] = $sl;
+        $result["data"] = $data;
+        $result["ranks"] = ['西部'=>$westRanks, '东部'=>$eastRanks];
+        $result["season"] = $basketSeason;
+        $result["seasons"] = $leagueData["seasons"];
+        if (isset($leagueData["playoff"])) {
+            $result["playoff"] = $leagueData["playoff"];
+        }
+        $result["scheduleMatches"] = $scheduleMatches;
+        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+
+        return view("mobile.subject.v2.basketball_detail", $result);
+    }
+
+    //==================================================//
 
     /**
      * 通过接口获取专题列表内容

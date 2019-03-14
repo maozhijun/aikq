@@ -4,7 +4,7 @@ function setPage() {
 		var that = $(this)
 		if (!$(this).hasClass('on')) {
 			$(this).addClass('on').siblings('.on').removeClass('on');
-			$('.rank_con, .match_con, .player_con, .news_list_con, .video_list_con').css('display','none').filter('.' + $(this).attr('forItem')).css('display','');
+			$('.knockout, .rank, .match, .player, .news, .video').css('display','none').filter('.' + $(this).attr('forItem')).css('display','');
 
 			$(window,'body','html').scrollTop(function(){
 				var SCT = 0;
@@ -49,7 +49,12 @@ function setSelect (obj) {
 }
 
 
-
+$(window).scroll(function(){
+	// console.log($(this).scrollTop())
+	if (checkToBottom()) {
+		console.log('Bottom');
+	}
+})
 
 
 

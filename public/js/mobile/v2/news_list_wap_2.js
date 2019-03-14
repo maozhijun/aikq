@@ -1,5 +1,3 @@
-var PageHeight = document.documentElement.clientHeight || document.body.clientHeight;
-var BodyHeight = $('body').height();
 var CanNextPage = true;
 
 function setPage() {
@@ -12,7 +10,7 @@ function setPage() {
 
 $(window).scroll(function(){
 	// console.log($(this).scrollTop())
-	if ($(this).scrollTop() + PageHeight >= BodyHeight && CanNextPage) {
+	if (checkToBottom()) {
 		LoadNextPage()
 	}
 })

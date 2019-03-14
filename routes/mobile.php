@@ -60,6 +60,8 @@ Route::group(["namespace" => 'Article'], function () {
 
     Route::get("/news/{param}.html", "ArticleController@detail");//文章终端页
     Route::get("/{name_en}/news{id}.html", "ArticleController@detailByName");//文章终端页 与上面的一样，只是匹配路径不一样
+
+    Route::get("/{name_en}/news/page{page}.html", "ArticleController@subjectNews");//专题页文章终端翻页
 });
 
 /**
@@ -67,6 +69,7 @@ Route::group(["namespace" => 'Article'], function () {
  */
 Route::group([], function () {
     foreach (\App\Http\Controllers\Controller::SUBJECT_NAME_IDS as $name=>$id) {
+        Route::get("/v2/$name/{season?}", "Subject\\SubjectController@detailV2");//专题页
         Route::get("/$name/", "Subject\\SubjectController@detail");//专题页
         Route::get("/$name/video{id}.html", "Live\\LiveController@subjectVideoDetail");//专题录像终端
     }
