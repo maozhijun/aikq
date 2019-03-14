@@ -64,7 +64,7 @@
         @foreach($channels as $channel)
             @continue($channel['platform'] == 5){{-- APP链接过滤 --}}
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
+                <a target="_blank" rel="nofollow" href="{{$channel['link']}}">{{$channel['name']}}</a>
             @else
                 <?php
                 if(isset($channel['akq_url']) && strlen($channel['akq_url']) > 0){
@@ -74,7 +74,7 @@
                     $tmp_url = $url;
                 }
                 ?>
-                <a target="_blank" href="{{$tmp_url . '#btn=' . ($index++)}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$tmp_url}}">{{$channel['name']}}</a>
             @endif
         @endforeach
         <?php
