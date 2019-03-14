@@ -249,6 +249,9 @@ class MatchController extends Controller
         $room_num = $request->input('room_num');
         $match_id = $request->input('match_id');
         $sport = $request->input('sport');
+        $link_od = $request->input("link_od");
+        $pc_od = $request->input("pc_od");
+        $wap_od = $request->input("wap_od");
 
         if (empty($room_num)) {
             return response()->json(['code'=>401, 'msg'=>'房间号码不能为空']);
@@ -268,6 +271,9 @@ class MatchController extends Controller
         $m3u8 = $json['m3u8'];
         $lehu_url = env('LH_URL_MAJIA')."/room/".$room_num.".html";
         $lehu_player = env('LH_URL_MAJIA')."/player/".$room_num.".html";
+        $link_od = is_numeric($link_od) ? $link_od : 13;
+        $pc_od = is_numeric($pc_od) ? $pc_od : 11;
+        $wap_od = is_numeric($wap_od) ? $wap_od : 12;
 
         $channelType = MatchLiveChannel::kTypeOther;
         $flvPlayer = MatchLiveChannel::kPlayerFlv;
@@ -281,7 +287,7 @@ class MatchController extends Controller
 
         try {
             //创建外链
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, 13,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $lehu_url, $link_od,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "乐虎直播", $show, $isPrivate, $use, $auto, $room_num);
 
             /**
@@ -297,11 +303,11 @@ class MatchController extends Controller
 //                MatchLiveChannel::kPlatformApp, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
 //
             //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 11,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, $pc_od,
                 MatchLiveChannel::kPlatformPC, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
 //
             //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 12,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, $wap_od,
                 MatchLiveChannel::kPlatformWAP, $m3u8Player, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -319,6 +325,9 @@ class MatchController extends Controller
         $room_num = $request->input('room_num');
         $match_id = $request->input('match_id');
         $sport = $request->input('sport');
+        $link_od = $request->input("link_od");
+        $pc_od = $request->input("pc_od");
+        $wap_od = $request->input("wap_od");
 
         if (empty($room_num)) {
             return response()->json(['code'=>401, 'msg'=>'房间号码不能为空']);
@@ -338,6 +347,9 @@ class MatchController extends Controller
         $m3u8 = $json['m3u8'];
         $sy_url = env('SY_URL')."/room/".$room_num.".html";
         $lehu_player = env('SY_URL')."/player/".$room_num.".html";
+        $link_od = is_numeric($link_od) ? $link_od : 16;
+        $pc_od = is_numeric($pc_od) ? $pc_od : 14;
+        $wap_od = is_numeric($wap_od) ? $wap_od : 15;
 
         $channelType = MatchLiveChannel::kTypeOther;
         $flvPlayer = MatchLiveChannel::kPlayerFlv;
@@ -351,7 +363,7 @@ class MatchController extends Controller
         $roomNumType = MatchLiveChannel::kRoomNumTypeSY;
         try {
             //创建外链
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $sy_url, 16,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $sy_url, $link_od,
                 MatchLiveChannel::kPlatformAll, $exPlayer, "鲨鱼直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
 
             /**
@@ -367,11 +379,11 @@ class MatchController extends Controller
 //                MatchLiveChannel::kPlatformApp, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num);
 //
             //创建电脑端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, 14,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $flv, $pc_od,
                 MatchLiveChannel::kPlatformPC, $flvPlayer, "高清直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
 //
             //创建手机端链接
-            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, 15,
+            MatchLiveChannel::saveSpiderChannel($match_id, $sport, $channelType, $m3u8, $wap_od,
                 MatchLiveChannel::kPlatformWAP, $m3u8Player, "高清直播", $show, $isPrivate, $use, $auto, $room_num, $roomNumType);
         } catch (\Exception $exception) {
             Log::error($exception);

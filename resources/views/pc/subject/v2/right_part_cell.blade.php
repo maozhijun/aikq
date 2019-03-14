@@ -18,46 +18,51 @@
             @endif
         </div>
     </div>
-    @if(isset($articles) && count($articles) > 0 )
-        <div class="con_box">
-            <div class="header_con">
-                <h4>{{$sl["name"]}}资讯</h4>
-                <a target="_blank" href="/{{$sl["name_en"]}}/news/">全部{{$sl["name"]}}资讯</a>
-            </div>
-            <div class="news">
-                @foreach($articles as $index=>$article)
-                    @if($index < 2)
-                        <a target="_blank" href="{{$article["link"]}}" class="img_news">
-                            <p class="img_box"><img src="{{$article["cover"]}}"></p>
-                            <h3>{{$article["title"]}}</h3>
-                        </a>
-                    @else
-                        <a target="_blank" href="{{$article["link"]}}" class="text_new"><h4>{{$article["title"]}}</h4></a>
-                    @endif
-                @endforeach
-            </div>
+
+    <div class="con_box">
+        <div class="header_con">
+            <h4>{{$sl["name"]}}资讯</h4>
+            <a target="_blank" href="/{{$sl["name_en"]}}/news/">全部{{$sl["name"]}}资讯</a>
         </div>
-    @endif
-    @if(isset($videos) && count($videos) > 0)
-        <div class="con_box">
-            <div class="header_con">
-                <h4>{{$sl["name"]}}视频</h4>
-                <a target="_blank" href="/{{$sl["name_en"]}}/video">{{$sl["name"]}}视频集锦</a>
-                <a target="_blank" href="/{{$sl["name_en"]}}/record">{{$sl["name"]}}比赛录像</a>
-            </div>
-            <div class="video">
-                @foreach($videos as $video)
-                    <div class="video_item">
-                        <a target="_blank" href="{{$video["link"]}}">
-                            <p class="img_box"><img src="{{$video["image"]}}"></p>
-                            <p class="text_box">{{$video["title"]}}</p>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
+        <div class="news">
+            @if(isset($articles) && count($articles) > 0 )
+            @foreach($articles as $index=>$article)
+                @if($index < 2)
+                    <a target="_blank" href="{{$article["link"]}}" class="img_news">
+                        <p class="img_box"><img src="{{$article["cover"]}}"></p>
+                        <h3>{{$article["title"]}}</h3>
+                    </a>
+                @else
+                    <a target="_blank" href="{{$article["link"]}}" class="text_new"><h4>{{$article["title"]}}</h4></a>
+                @endif
+            @endforeach
+            @endif
         </div>
-    @endif
+    </div>
+
+
+    <div class="con_box">
+        <div class="header_con">
+            <h4>{{$sl["name"]}}视频</h4>
+            <a target="_blank" href="/{{$sl["name_en"]}}/video">{{$sl["name"]}}视频集锦</a>
+            <a target="_blank" href="/{{$sl["name_en"]}}/record">{{$sl["name"]}}比赛录像</a>
+        </div>
+        <div class="video">
+            @if(isset($videos) && count($videos) > 0)
+            @foreach($videos as $video)
+                <div class="video_item">
+                    <a target="_blank" href="{{$video["link"]}}">
+                        <p class="img_box"><img src="{{$video["image"]}}"></p>
+                        <p class="text_box">{{$video["title"]}}</p>
+                    </a>
+                </div>
+            @endforeach
+            @endif
+        </div>
+    </div>
+
     @if(!isset($isLeague) && isset($data))
+        <?php $dataCount = 9; ?>
         @if($sl["sport"] == 1)
         <div class="con_box">
             <div class="header_con">
@@ -76,6 +81,7 @@
                         <colgroup><col width="15%"><col><col width="30%"></colgroup>
                         <tbody>
                         @foreach($data["goal"] as $index=>$goal)
+                            @break($index > $dataCount)
                             <tr>
                                 <td class="num">{{$index + 1}}</td>
                                 <td>
@@ -92,6 +98,7 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["assist"] as $index=>$assist)
+                            @break($index > $dataCount)
                             <tr>
                                 <td class="num">{{$index + 1}}</td>
                                 <td>
@@ -108,6 +115,7 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["yellow"] as $index=>$yellow)
+                            @break($index > $dataCount)
                             <tr>
                                 <td class="num">{{$index + 1}}</td>
                                 <td>
@@ -124,6 +132,7 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["red"] as $index=>$red)
+                            @break($index > $dataCount)
                             <tr>
                                 <td class="num">{{$index + 1}}</td>
                                 <td>
@@ -151,14 +160,15 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["ppg"] as $index=>$ppg)
-                        <tr>
-                            <td class="num">{{$index+1}}</td>
-                            <td>
-                                <p class="name">{{$ppg["name"]}}</p>
-                                <p class="info">{{$ppg["tname"]}}</p>
-                            </td>
-                            <td class="score">{{$ppg["ppg"]}}</td>
-                        </tr>
+                            @break($index > $dataCount)
+                            <tr>
+                                <td class="num">{{$index+1}}</td>
+                                <td>
+                                    <p class="name">{{$ppg["name"]}}</p>
+                                    <p class="info">{{$ppg["tname"]}}</p>
+                                </td>
+                                <td class="score">{{$ppg["ppg"]}}</td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -167,14 +177,15 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["rpg"] as $index=>$rpg)
-                        <tr>
-                            <td class="num">{{$index+1}}</td>
-                            <td>
-                                <p class="name">{{$rpg["name"]}}</p>
-                                <p class="info">{{$rpg["tname"]}}</p>
-                            </td>
-                            <td class="score">{{$rpg["rpg"]}}</td>
-                        </tr>
+                            @break($index > $dataCount)
+                            <tr>
+                                <td class="num">{{$index+1}}</td>
+                                <td>
+                                    <p class="name">{{$rpg["name"]}}</p>
+                                    <p class="info">{{$rpg["tname"]}}</p>
+                                </td>
+                                <td class="score">{{$rpg["rpg"]}}</td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -182,14 +193,15 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["apg"] as $index=>$apg)
-                        <tr>
-                            <td class="num">{{$index+1}}</td>
-                            <td>
-                                <p class="name">{{$apg["name"]}}</p>
-                                <p class="info">{{$apg["tname"]}}</p>
-                            </td>
-                            <td class="score">{{$apg["apg"]}}</td>
-                        </tr>
+                            @break($index > $dataCount)
+                            <tr>
+                                <td class="num">{{$index+1}}</td>
+                                <td>
+                                    <p class="name">{{$apg["name"]}}</p>
+                                    <p class="info">{{$apg["tname"]}}</p>
+                                </td>
+                                <td class="score">{{$apg["apg"]}}</td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -197,14 +209,15 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["spg"] as $index=>$spg)
-                        <tr>
-                            <td class="num">{{$index+1}}</td>
-                            <td>
-                                <p class="name">{{$spg["name"]}}</p>
-                                <p class="info">{{$spg["tname"]}}</p>
-                            </td>
-                            <td class="score">{{$spg["spg"]}}</td>
-                        </tr>
+                            @break($index > $dataCount)
+                            <tr>
+                                <td class="num">{{$index+1}}</td>
+                                <td>
+                                    <p class="name">{{$spg["name"]}}</p>
+                                    <p class="info">{{$spg["tname"]}}</p>
+                                </td>
+                                <td class="score">{{$spg["spg"]}}</td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>
@@ -212,14 +225,15 @@
                         <colgroup><col width="15%"><col><col width="24%"></colgroup>
                         <tbody>
                         @foreach($data["bpg"] as $index=>$bpg)
-                        <tr>
-                            <td class="num">{{$index+1}}</td>
-                            <td>
-                                <p class="name">{{$bpg["name"]}}</p>
-                                <p class="info">{{$bpg["tname"]}}</p>
-                            </td>
-                            <td class="score">{{$bpg["bpg"]}}</td>
-                        </tr>
+                            @break($index > $dataCount)
+                            <tr>
+                                <td class="num">{{$index+1}}</td>
+                                <td>
+                                    <p class="name">{{$bpg["name"]}}</p>
+                                    <p class="info">{{$bpg["tname"]}}</p>
+                                </td>
+                                <td class="score">{{$bpg["bpg"]}}</td>
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>

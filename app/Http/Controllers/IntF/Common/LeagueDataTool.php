@@ -25,7 +25,7 @@ class LeagueDataTool
      * @param $timeout
      * @return mixed
      */
-    private static function curlData($url,$timeout = 5){
+    private static function curlData($url,$timeout = 8){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

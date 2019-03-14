@@ -1,7 +1,5 @@
 <table round="{{$round}}" class="match" @if($status == 0) style="display: none;" @endif >
-    <colgroup>
-        <col width="11%"><col><col width="12%"><col><col width="42.5%">
-    </colgroup>
+    <colgroup><col width="25%"><col><col width="12%"><col><col width="20%"></colgroup>
     <tbody>
     @foreach($schMatches as $match)
         <?php
@@ -13,7 +11,7 @@
         $liveUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid).".html";
         ?>
         <tr>
-            <td>{{substr($time, 5, 11)}}</td>
+            <td><span>{{$time}}</span></td>
             <td class="host"><a target="_blank" href="{{$hTeamUrl}}">{{$match["hname"]}}</a></td>
             <td class="vs">
                 @if($status > 0) <span class="living">直播中</span>
