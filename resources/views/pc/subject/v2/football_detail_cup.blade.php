@@ -59,7 +59,7 @@
                     @else
                         <div class="team_con">
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($hid)}}"><span>{{$final["host"]["name"]}}</span></p>
-                            <p class="score">@if(!empty($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
+                            <p class="score">@if(isset($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($aid)}}"><span>{{$final["away"]["name"]}}</span></p>
                         </div>
                     @endif
