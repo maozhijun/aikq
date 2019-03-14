@@ -15,7 +15,7 @@ class LeagueDataTool
         } else {
             $url = "http://match.liaogou168.com/static/league/$sport/$lid.json";
         }
-        return self::curlData($url);
+        return self::curlData($url, 10);
     }
 
 

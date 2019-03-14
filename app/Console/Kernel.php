@@ -198,7 +198,7 @@ class Kernel extends ConsoleKernel
         //视频 静态化
         $schedule->command('hot_video_page_cache:run tab')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  右侧tab栏分页
         $schedule->command('hot_video_page_cache:run league')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  左侧 赛事、联赛
-        $schedule->command('hot_video_page_cache:run tags')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
+        $schedule->command('hot_video_page_cache:run tag')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
 
         //专题静态化
         //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化

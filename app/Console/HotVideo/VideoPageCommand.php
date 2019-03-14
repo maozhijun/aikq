@@ -61,6 +61,7 @@ class VideoPageCommand extends Command
                 //右侧视频tab列表静态化
                 $tabs = HotVideo::getVideoTabs();
                 foreach ($tabs as $tab) {
+                    echo " tag ：" . $tab . "\n";
                     $json = HotVideo::staticHotVideosHtml($tab, 1);
 
                     $array = json_decode($json, true);
@@ -89,6 +90,7 @@ class VideoPageCommand extends Command
                 $leagues = HotVideo::getVideoLeagues();
                 foreach ($leagues as $league) {
                     $name_en = $league["name_en"];
+                    echo " league name_en ：" . $name_en . "\n";
                     $json = HotVideo::staticHotVideosLeagueHtml($name_en, 1);
 
                     $array = json_decode($json, true);
@@ -115,6 +117,7 @@ class VideoPageCommand extends Command
                 //球星视频列表静态化
                 $stars = HotVideo::getVideoStars();
                 foreach ($stars as $star) {
+                    echo " start tag_id ：" . $star["tag_id"] . " sport ：" . $star["sport"] . "\n";
                     $tagId = $star["tag_id"];
                     $json = HotVideo::staticHotVideosTagHtml($tagId, $star["sport"], 1);
 

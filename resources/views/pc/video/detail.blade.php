@@ -128,7 +128,7 @@
                 </div>
                 <table class="record">
                  @if(isset($comboData["records"]) && count($comboData["records"]) > 0)
-                    <col width="25%"><col><col width="25%">
+                    <col width="22%"><col><col width="24%">
                     @foreach($comboData["records"] as $vRecord)
                     <?php
                         $vTime = $vRecord["match"]["time"];

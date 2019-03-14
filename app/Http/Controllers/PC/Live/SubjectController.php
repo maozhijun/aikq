@@ -106,6 +106,7 @@ class SubjectController extends Controller
         }
         $sport = $sl->sport;
         $lid = $sl->lid;
+        $type = $sl->type;
 
         if ($sport == SubjectLeague::kSportBasketball) {
             return $this->basketDetailHtml($sl, $season);//篮球
@@ -120,8 +121,7 @@ class SubjectController extends Controller
         }
 
         //判断是否杯赛
-        $total_round = $footballSeason["total_round"];
-        if (is_null($total_round)) {
+        if ($type == 2) {
             return $this->footballCupDetailHtml($sl, $footballSeason);//无轮次则是 杯赛
         }
 
