@@ -52,6 +52,7 @@ class ArticlePageCommand extends BaseCommand
             }
         }
 
+        $query = PcArticle::getPublishQuery();
         $articles = $query->paginate(ArticleController::PageSize, ['*'], '', $page);
         //mobile只静态化首页
         $wapCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
