@@ -201,16 +201,10 @@ class SubjectController extends Controller
 
     //===============aikq2.0===================================//
 
-    public function detailV2(Request $request, $season = "") {
-        $path = $request->path();
-        $name_en = str_replace("m/v2/", "", $path);
-        if (!array_key_exists($name_en, self::SUBJECT_NAME_IDS)) {
-            return abort(404);
-        }
-
+    public function detailV2(Request $request, $name_en, $season = "") {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl)) {
-            return "";
+            return abort(404);
         }
         $sport = $sl->sport;
         $lid = $sl->lid;
@@ -350,6 +344,7 @@ class SubjectController extends Controller
         $result["scheduleMatches"] = $scheduleMatches;
         $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
 
+//        dump($result);
         return view("mobile.subject.v2.basketball_detail", $result);
     }
 

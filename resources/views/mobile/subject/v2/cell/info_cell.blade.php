@@ -1,15 +1,15 @@
+<?php
+    $curSeasonName = isset($season) ? $season['name'] : "";
+?>
 <div id="Info_con">
     <div class="name_con">
-        <img src="http://zq.win007.com/Image/league_match/images/20160816164328.png">
-        <h1>英超</h1>
-        <h2>英格兰超级足球联赛</h2>
+        <img src="{{$sl['icon']}}">
+        <h1>{{$sl['name']}}</h1>
+        <h2>{{$sl['name_long']}}</h2>
         <select>
-            <option value="league.html">18-19赛季</option>
-            <option value="league.html">17-18赛季</option>
-            <option value="league.html">16-17赛季</option>
-            <option value="league.html">15-16赛季</option>
-            <option value="league.html">14-15赛季</option>
-            <option value="league.html">13-14赛季</option>
+            @foreach($seasons as $seasonName)
+                <option @if($seasonName == $curSeasonName) selected @endif value="/{{$sl['name_en']}}/{{$seasonName}}/">{{$seasonName}}赛季</option>
+            @endforeach
         </select>
     </div>
     <div class="tab_con">

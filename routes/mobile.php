@@ -68,8 +68,8 @@ Route::group(["namespace" => 'Article'], function () {
  * 赛事专题
  */
 Route::group([], function () {
+    Route::get("/v2/{name_en}/{season?}", "Subject\\SubjectController@detailV2");//专题页
     foreach (\App\Http\Controllers\Controller::SUBJECT_NAME_IDS as $name=>$id) {
-        Route::get("/v2/$name/{season?}", "Subject\\SubjectController@detailV2");//专题页
         Route::get("/$name/", "Subject\\SubjectController@detail");//专题页
         Route::get("/$name/video{id}.html", "Live\\LiveController@subjectVideoDetail");//专题录像终端
     }
