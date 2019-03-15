@@ -358,7 +358,7 @@ class SubjectController extends Controller
             $season = $basketSeason['name'];
         }
 
-        $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
+        $leagueData = LeagueDataTool::getLeagueDataBySeasonNew($sl["sport"], $sl["lid"], $season);
 
         $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
         $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
