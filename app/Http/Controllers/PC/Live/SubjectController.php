@@ -322,7 +322,7 @@ class SubjectController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {}
 
-        $result['ranks'] = Score::footballCupScores($lid);//杯赛小组排名
+        $result['ranks'] = Score::footballCupScores($lid, $season["name"]);//杯赛小组排名
         $result["sl"] = $sl;
         $result["season"] = $season;
         $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
