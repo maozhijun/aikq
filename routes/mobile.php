@@ -89,3 +89,9 @@ Route::group(["namespace" => 'Live'], function () {
 Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
 });
+
+Route::group(["namespace" => 'Data'], function () {
+    Route::get("/data/", "DataController@index");
+    //静态化
+    Route::get("/static/data_index/", "DataController@staticIndex");
+});
