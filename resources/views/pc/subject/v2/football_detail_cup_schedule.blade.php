@@ -21,7 +21,7 @@
             </td>
             <td class="away"><a target="_blank" href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
             <td class="line">
-                <a target="_blank" href="{{$liveUrl}}" class="live">观看直播</a>
+                @if($status >= 0)<a target="_blank" href="{{$liveUrl}}" class="live">观看直播</a>@endif
             </td>
         </tr>
     @endforeach

@@ -12,7 +12,7 @@
     </div>
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
-            @if(isset($knockouts))
+            @if(isset($knockouts) && count($knockouts) > 0)
             <div class="knockout_con football">
                 <div class="round_con">
                     @component("pc.subject.v2.football_detail_cup_kk", ["knockouts"=>$knockouts, "count"=>16, "sl"=>$sl, "p"=>"before"]) @endcomponent
