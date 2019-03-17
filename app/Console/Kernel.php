@@ -127,6 +127,7 @@ class Kernel extends ConsoleKernel
         RecordCommand::class,//录像静态化
 
         TagCommand::class,//tag更新 ,对应静态化
+        SubjectTeamCommand::class,//用于专题球队静态化
     ];
 
     /**

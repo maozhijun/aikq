@@ -322,7 +322,7 @@ class SubjectController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {}
 
-        $result['ranks'] = Score::footballCupScores($lid);//杯赛小组排名
+        $result['ranks'] = Score::footballCupScores($lid, $season["name"]);//杯赛小组排名
         $result["sl"] = $sl;
         $result["season"] = $season;
         $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
@@ -358,7 +358,7 @@ class SubjectController extends Controller
             $season = $basketSeason['name'];
         }
 
-        $leagueData = LeagueDataTool::getLeagueDataBySeason($sl["sport"], $sl["lid"], $season);
+        $leagueData = LeagueDataTool::getLeagueDataBySeasonNew($sl["sport"], $sl["lid"], $season);
 
         $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
         $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);

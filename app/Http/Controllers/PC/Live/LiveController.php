@@ -467,13 +467,13 @@ class LiveController extends Controller
         }
         //录像
         $hRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],1,4);
         foreach ($records as $record){
             $hRecord[] = $record;
         }
         $json['hRecords'] = $hRecord;
         $aRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],1,4);
         foreach ($records as $record){
             $aRecord[] = $record;
         }
@@ -564,13 +564,13 @@ class LiveController extends Controller
         }
         //录像
         $hRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],1,4);
         foreach ($records as $record){
             $hRecord[] = $record;
         }
         $json['hRecords'] = $hRecord;
         $aRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],1,4);
         foreach ($records as $record){
             $aRecord[] = $record;
         }

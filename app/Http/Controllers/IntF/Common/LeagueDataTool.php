@@ -15,9 +15,24 @@ class LeagueDataTool
         } else {
             $url = "http://match.liaogou168.com/static/league/$sport/$lid.json";
         }
-        return self::curlData($url, 10);
+        return self::curlData($url, 20);
     }
 
+    /**
+     * 新服务器获取数据
+     * @param $sport
+     * @param $lid
+     * @param string $season
+     * @return mixed
+     */
+    public static function getLeagueDataBySeasonNew($sport, $lid, $season = "") {
+        if (strlen($season) > 0) {
+            $url = env("CMS_URL_NEW"). "/static/league/$sport/$lid/$season/detail.json";
+        } else {
+            $url = env("CMS_URL_NEW") . "/static/league/$sport/$lid.json";
+        }
+        return self::curlData($url, 5);
+    }
 
     /**
      * 请求match接口

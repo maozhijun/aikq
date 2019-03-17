@@ -73,6 +73,7 @@ class Score extends Model
             if ($count > 0) {
                 $query->take($count);
             }
+            $query->whereNotNull("rank");
             $scores = $query->orderBy("rank")->get();
         }
         return $scores;
@@ -81,13 +82,19 @@ class Score extends Model
     /**
      * 获取足球杯赛积分榜
      * @param $lid
+     * @param $season
      * @return array
      */
-    public static function footballCupScores($lid) {
+    public static function footballCupScores($lid, $season = "") {
         $array = [];
-        $season = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
-        if ($season) {
-            $year = $season->name;//获取最后的赛季
+        if (empty($season)) {
+            $fs = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
+        } else {
+            $fs = Season::query()->where("lid", $lid)->where("name", $season)->first();
+        }
+
+        if ($fs) {
+            $year = $fs->name;//获取最后的赛季
             $query = self::query();
             $query->join('teams', 'teams.id', '=', 'scores.tid');
             $query->where('lid', $lid);

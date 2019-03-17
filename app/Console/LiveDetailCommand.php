@@ -10,8 +10,16 @@ namespace App\Console;
 
 
 use App\Http\Controllers\IntF\AikanQController;
+use App\Http\Controllers\IntF\Common\LeagueDataTool;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\LiveController;
+use App\Http\Controllers\PC\Live\SubjectController;
 use App\Models\Article\PcArticle;
+use App\Models\LgMatch\BasketMatch;
+use App\Models\LgMatch\BasketTeam;
+use App\Models\LgMatch\Match;
+use App\Models\LgMatch\Season;
+use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -77,7 +85,69 @@ class LiveDetailCommand extends Command
                 $this->staticPcLiveDetail();
                 $this->staticMLiveDetail();
                 break;
+            default :
+                $this->staticLeagueLiveDetail($type);
+                break;
         }
+    }
+
+
+
+    protected function staticLeagueLiveDetail($type) {
+        $start = time();
+        //静态化专题 未开始的赛事终端
+        $sl = SubjectLeague::getSubjectLeagueByEn($type);
+        if (!isset($sl)) {
+            echo "没有 $type 赛事专题";
+        }
+        $sport = $sl["sport"];
+        $lid = $sl["lid"];
+        echo $type . "专题比赛终端静态化开始 \n";
+
+        //获取当前赛季 未开始 的赛程
+        if ($sport == SubjectLeague::kSportBasketball) {//篮球
+            $season = BasketTeam::query()->where("lid", $lid)->orderByDesc("year")->first();
+            if (!isset($season)) {
+                echo "没有赛季 \n";
+                return;
+            }
+            $year = $season["name"];
+            $query = BasketMatch::query()->where("lid", $lid)->where("season", $year);
+            $matches = $query->where("status", 0)->get();
+        } else {//足球
+            $season = Season::query()->where("lid", $lid)->orderByDesc("year")->first();
+            if (!isset($season)) {
+                echo "没有赛季 \n";
+                return;
+            }
+            $year = $season["name"];
+            $matches = Match::query()->where("lid", $lid)->where("season", $year)->where("status", 0)->get();
+        }
+
+        echo " 总共赛事 " . count($matches) . "场 \n";
+        $cache = [];
+        foreach ($matches as $index=>$match) {
+            $staticTime = time();
+            $mid = $match["id"];
+            $time = $match["time"];
+            $hname = $match["hname"];
+            $aname = $match["aname"];
+
+            $hid = $match["hid"];
+            $aid = $match["aid"];
+            $key = $sport . "_" . $hid . "_" . $aid;
+            if (!isset($cache[$key])) {
+                $cache[$key] = 1;
+                $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '/';
+                echo $index . "  " . $time . " $hname VS $aname  url = " . $url . "\n";
+                self::flushLiveDetailHtml($url);
+                echo "静态化耗时 ".(time() - $staticTime)." 秒 \n";
+            } else {
+                echo $index . "  " . $time . " $hname VS $aname  已静态化过了 \n";
+            }
+        }
+
+        echo $type . "专题比赛终端静态化结束 使用时间 ".(time() - $start)."秒 \n";
     }
 
     protected function staticPcLiveDetail() {
@@ -104,12 +174,14 @@ class LiveDetailCommand extends Command
                 $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
                 if ( $flg_1 || $flg_2 ) {
                     try {
-                        $channels = $match['channels'];
-                        foreach ($channels as $channel) {
-                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
-                            dump($url);
-                            self::flushLiveDetailHtml($url);
-                        }
+                        $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?';
+                        self::flushLiveDetailHtml($url);
+//                        $channels = $match['channels'];
+//                        foreach ($channels as $channel) {
+//                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
+//                            dump($url);
+//                            self::flushLiveDetailHtml($url);
+//                        }
                     } catch (\Exception $exception) {
                         dump($exception);
                     }
@@ -139,13 +211,14 @@ class LiveDetailCommand extends Command
                 $flg_2 = false;//$start_time <= $now && $start_time + 3 * 60 * 60  >= $now;//开赛后3小时 开赛后编辑修改，会即时更新。
                 if ( $flg_1 || $flg_2 ) {
                     try {
-                        $channels = $match['channels'];
-                        foreach ($channels as $channel) {
-                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
-                            dump($url);
-                            self::flushLiveDetailHtml($url);
-                        }
-                        $liveCon->staticLiveDetailById($request, $mid, $sport);
+                        $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '/';
+                        self::flushLiveDetailHtml($url);
+//                        $channels = $match['channels'];
+//                        foreach ($channels as $channel) {
+//                            $url = env('CMS_URL').'/live/cache/match/detail_id/' . $mid . '/' . $sport . '?ch_id=' . $channel['id'];
+//                            dump($url);
+//                            self::flushLiveDetailHtml($url);
+//                        }
                     } catch (\Exception $exception) {
                         dump($exception);
                     }

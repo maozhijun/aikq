@@ -152,7 +152,7 @@
                             <tr><th>球员</th><th>进球</th><th>点球</th></tr>
                             @foreach($data["goal"] as $index=>$goal)
                             @break($index > $dataCount)
-                            <tr><td><a href="">{{$index + 1}} {{$goal["pname"]}}</a></td><td>{{$goal["value"]}}</td><td>{{$goal["penalty"]}}</td></tr>
+                            <tr><td>{{$index + 1}} {{$goal["pname"]}}</td><td>{{$goal["value"]}}</td><td>{{$goal["penalty"]}}</td></tr>
                             @endforeach
                         </table>
                     </div>
