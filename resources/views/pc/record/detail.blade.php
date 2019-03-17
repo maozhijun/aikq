@@ -75,7 +75,7 @@
                 <div class="header">
                     <h3><p>{{strlen($sTitle) == 0 ? '最新' : $sTitle}}视频</p></h3>
                     <p class="aline">
-                        <a href="{{is_null($zhuanti) ? '/video/':'/'.$zhuanti['name_en'].'/video/'}}">全部{{strlen($sTitle) == 0 ? '' : $sTitle}}视频 ></a>
+                        <a href="{{!isset($zhuanti) ? '/video/':'/'.$zhuanti['name_en'].'/video/'}}">全部{{strlen($sTitle) == 0 ? '' : $sTitle}}视频 ></a>
                     </p>
                 </div>
                 <div class="video_list">
@@ -123,7 +123,7 @@
                 <div class="header_con">
                     <h4>{{strlen($sTitle) == 0 ? '最新' : $sTitle}}资讯</h4>
                     {{--@if(isset($zhuanti))--}}
-                    <a href="{{is_null($zhuanti) ? '/news/':'/'.$zhuanti['name_en'].'/news/'}}">全部{{$sTitle}}资讯</a>
+                    <a href="{{!isset($zhuanti) ? '/news/':'/'.$zhuanti['name_en'].'/news/'}}">全部{{$sTitle}}资讯</a>
                     {{--<a href="/news/">全部资讯</a>--}}
                 </div>
                 <div class="news">
