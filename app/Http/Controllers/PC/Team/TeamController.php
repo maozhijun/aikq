@@ -84,6 +84,7 @@ class TeamController extends Controller
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
         $data['zhuanti'] = $this->getSujectLeagueData($name_en, $subj);
         $data['tid'] = explode('_',$tid)[0];
+        $data['sport'] = $sport;
         $data['show_right'] = false;
         if ($sport == 2){
             $tids = array();
