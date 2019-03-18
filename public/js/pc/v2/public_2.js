@@ -1,6 +1,6 @@
 
 //公共传参头部
-var PubHeader = 'http://api.aikanqiu.com/app/comboData/';
+var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
 
 //获取联赛名2皆匹配规则
 var CanGetTeamLink = false;
