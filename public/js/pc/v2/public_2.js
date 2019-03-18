@@ -1,10 +1,10 @@
 
 //公共传参头部
-var PubHeader = 'http://cms.aikanqiu.com/app/comboData/';
+var PubHeader = '//api.dlfyb.com/json/pc/comboData/';
 
 //获取联赛名2皆匹配规则
 var CanGetTeamLink = false;
-$.getScript("js/id_2_league_name.js",function(){CanGetTeamLink = true});
+$.getScript("//static.dlfyb.com/js/pc/v2/id_2_league_name.js",function(){CanGetTeamLink = true});
 
 //获取链点参数
 function GetQueryString(str,href) {
@@ -57,11 +57,11 @@ function reTurnTeamId (ID) {
 
 //球队图片设置
 function reTurnTeamIcon (img) {
-	if (img && img != '') {
-		return img
-	}else{
-		return 'https://static.dlfyb.com/img/pc/v2/icon_teamDefault.png'
-	}
+    if (img && img != '') {
+        return img
+    }else{
+        return 'https://static.dlfyb.com/img/pc/v2/icon_teamDefault.png'
+    }
 }
 
 
@@ -84,7 +84,7 @@ function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
 
             var Target = MatchObj[Key[i]],
 
-            newLive = $('<tr><td><img src="img/' + (Target.sport == 1 ? 'icon_foot_light_opaque.png' : 'icon_basket_light_opaque.png') + '" class="type"></td>' + 
+            newLive = $('<tr><td><img src="//static.dlfyb.com/img/pc/v2/' + (Target.sport == 1 ? 'icon_foot_light_opaque.png' : 'icon_basket_light_opaque.png') + '" class="type"></td>' +
                           '<td><span>' + Target.league_name + '</span></td>' + 
                           '<td><span>' + setMyTime(Target.time,'date') + '<br/>' + setMyTime(Target.time,'time') + '</span></td>' + 
                           '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></td>' + 
