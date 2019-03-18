@@ -155,7 +155,7 @@ class HomeController extends Controller
                 $json = json_decode($cache, true);
             }
             if (isset($json) && count($json) > 0) {
-                $matches = collect($json)->collapse()->take(10)->all();
+                $matches = collect($json)->collapse()->where("status", ">=", 0)->take(10)->all();
             }
         } catch (\Exception $e) {
 
