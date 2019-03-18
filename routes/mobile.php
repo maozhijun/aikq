@@ -103,3 +103,14 @@ Route::group(["namespace" => 'Data'], function () {
     //静态化
     Route::get("/static/data_index/", "DataController@staticIndex");
 });
+
+//录像 2.0版本
+Route::group(["namespace" => 'Record'], function () {
+    Route::get('/record/', 'RecordController@index');//首页
+
+    Route::get('/record/other{id}.html', 'RecordController@detail2');//终端
+    Route::get('/{name_en}/record{id}.html', 'RecordController@detail');//终端
+
+    Route::get("/static/record/{id}", "RecordController@recordDetailHtml");//静态化终端
+    Route::get("/static/record_index", "RecordController@staticIndex");//静态化首页
+});
