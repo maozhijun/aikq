@@ -63,9 +63,10 @@
                                 $detailUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid, $mid).".html";
                             }
                             if (empty($hid)) {
-                                $hTeamUrl = "#";
+                                $hTeamUrl = "javascript:void(0);";
                                 $detailUrl = "";
                             }
+                            if (empty($aid)) $aTeamUrl = "javascript:void(0);";
                         ?>
                         <tr>
                             <td><span>{{substr($time, 5, 5)}}</span><br/>{{substr($time, 11, 5)}}</td>

@@ -98,7 +98,11 @@
                                     <td class="line"><a class="live" target="_blank" href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a></td>
                                 @endforeach
                             @elseif(isset($fv))
-                                <td class="line"><a class="live" target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getRecordDetailUrl('nba',$match['mid'])}}">全场录像</a></td>
+                                <?php
+                                    $name_en = isset($zhuanti['name_en']) ? $zhuanti['name_en'] : 'other';
+                                    $fvUrl = \App\Http\Controllers\PC\CommonTool::getRecordDetailUrl($name_en, $match['mid']);
+                                ?>
+                                <td class="line"><a class="live" target="_blank" href="{{$fvUrl}}">全场录像</a></td>
                             @else
                                 <td class="line"></td>
                             @endif
