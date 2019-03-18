@@ -128,7 +128,7 @@
     <script src="{{env('CDN_URL')}}/js/public/mobile/fifa/rank.js?time=201803030002"></script>
     <script type="text/javascript">
         function refreshScore() {
-            var url = "http://match.liaogou168.com/static/league/1/57.json";
+            var url = {{env('MATCH_URL')}}+"/static/league/1/57.json";
             $.ajax({
                 "url": url,
                 dataType: "jsonp",
@@ -159,7 +159,7 @@
         }
 
         function refreshRank() {
-            var url = "http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json";
+            var url = {{env('MATCH_URL')}}+"/static/league/1/FIFA/2018/rank.json";
             $.ajax({
                 "url": url,
                 dataType: "jsonp",

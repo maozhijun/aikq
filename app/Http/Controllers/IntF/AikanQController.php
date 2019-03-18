@@ -1757,7 +1757,7 @@ class AikanQController extends Controller
         if (strlen($tid) > 2) {
             $flag = substr($tid, 0, 2);
         }
-        $url = "http://match.liaogou168.com/static/team/$sport/$flag/$tid.json";
+        $url = env('MATCH_URL')."/static/team/$sport/$flag/$tid.json";
         $data = self::curlData($url);
         return $data;
     }

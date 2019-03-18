@@ -108,7 +108,7 @@ class MatchController extends Controller
     }
 
     protected static function getMatchUrl() {
-        return env('MATCH_URL', 'http://match.liaogou168.com');
+        return env('MATCH_URL', 'http://api.match.aikanqiu.com:81');
     }
 
 }

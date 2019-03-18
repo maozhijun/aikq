@@ -35,7 +35,7 @@ class DataController extends Controller{
                     $season = $season['name'];
                 }
                 //球队积分
-                $leagueData = self::curlData('http://match.liaogou168.com/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                $leagueData = self::curlData(env('MATCH_URL').'/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
                 if (isset($leagueData['scores']) && isset($leagueData['scores']['east'])) {
                     $scores['east'] = $leagueData['scores']['east'];
                 }
@@ -45,7 +45,7 @@ class DataController extends Controller{
                 $scores['league'] = $leagueData['league'];
 
                 //球员
-                $playerTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+                $playerTech = self::curlData(env('MATCH_URL').'/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
                 $scores['playerTech'] = $playerTech;
                 $scores['subject'] = $subject;
                 $scores['tabs'] = array(
@@ -66,14 +66,14 @@ class DataController extends Controller{
                     $season = $season['name'];
                 }
                 //球队积分
-                $leagueData = self::curlData('http://match.liaogou168.com/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                $leagueData = self::curlData(env('MATCH_URL').'/static/league/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
                 if (isset($leagueData['scores']) && isset($leagueData['scores']['west'])) {
                     $scores['score'] = $leagueData['scores']['west'];
                 }
                 $scores['league'] = $leagueData['league'];
 
                 //球员
-                $playerTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+                $playerTech = self::curlData(env('MATCH_URL').'/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
                 $scores['playerTech'] = $playerTech;
                 $scores['subject'] = $subject;
                 $scores['tabs'] = array(
@@ -93,7 +93,7 @@ class DataController extends Controller{
                 }
                 $kind = 0;
                 //球队积分
-                $leagueData = self::curlData('http://match.liaogou168.com/static/league/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
+                $leagueData = self::curlData(env('MATCH_URL').'/static/league/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'.json',10);
                 $scores['score'] = isset($leagueData['score'])?$leagueData['score']:array();
                 $scores['league'] = $leagueData['league'];
 
@@ -101,7 +101,7 @@ class DataController extends Controller{
                 $scores['tabs'] = array(
                 );
                 //球员
-                $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+                $playerTech = self::curlData(env('MATCH_URL').'/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
                 $scores['playerTech'] = $playerTech;
                 $subData[] = $scores;
             }
@@ -178,8 +178,8 @@ class DataController extends Controller{
             return null;
         }
 
-        $teamTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
-        $playerTech = self::curlData('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+        $teamTech = self::curlData(env('MATCH_URL').'/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
+        $playerTech = self::curlData(env('MATCH_URL').'/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
         $this->html_var['scores'] = $scores;
 //        dump('http://match.liaogou168.com/static/technical/1/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json');
 //        dump($playerTech);
@@ -279,8 +279,8 @@ class DataController extends Controller{
             return null;
         }
 
-        $teamTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
-        $playerTech = self::curlData('http://match.liaogou168.com/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
+        $teamTech = self::curlData(env('MATCH_URL').'/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/team/'.$season.'_'.$kind.'.json',5);
+        $playerTech = self::curlData(env('MATCH_URL').'/static/technical/2/'.Controller::SUBJECT_NAME_IDS[$subject]['lid'].'/player/'.$season.'_'.$kind.'.json',5);
         $this->html_var['scores'] = $scores;
 //        dump($teamTech);
 //        dump($playerTech);

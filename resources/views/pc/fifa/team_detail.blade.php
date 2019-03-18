@@ -280,7 +280,7 @@
         refreshHead();
 
         function refreshScore() {
-            var url = "http://match.liaogou168.com/static/league/1/57.json";
+            var url = env('MATCH_URL')."/static/league/1/57.json";
             $.ajax({
                 "url": url,
                 dataType: "jsonp",
@@ -323,7 +323,7 @@
             if (strDate >= 0 && strDate <= 9) {
                 strDate = "0" + strDate;
             }
-            var url = "http://match.liaogou168.com/static/schedule/"+year+month+strDate+"/1/all.json";
+            var url = {{env('MATCH_URL')}}+"/static/schedule/"+year+month+strDate+"/1/all.json";
             $.ajax({
                 "url": url,
                 dataType: "jsonp",

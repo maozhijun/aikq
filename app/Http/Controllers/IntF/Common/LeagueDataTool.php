@@ -11,9 +11,9 @@ class LeagueDataTool
 {
     public static function getLeagueDataBySeason($sport, $lid, $season = "") {
         if (strlen($season) > 0) {
-            $url = "http://match.liaogou168.com/static/league/$sport/$lid/$season/detail.json";
+            $url = env('MATCH_URL')."/static/league/$sport/$lid/$season/detail.json";
         } else {
-            $url = "http://match.liaogou168.com/static/league/$sport/$lid.json";
+            $url = env('MATCH_URL')."/static/league/$sport/$lid.json";
         }
         return self::curlData($url, 20);
     }

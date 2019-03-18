@@ -115,7 +115,7 @@
                                 <input id="sy_wap_{{$match["id"]}}" placeholder="手机排序" value="" style="width: 60px;">
                             </p>
                             <p><button class="btn btn-sm btn-info" onclick="saveSYChannel(this, '{{$match->id}}');">鲨鱼房间填写</button></p>
-                            <p><a class="btn btn-sm" style="color: white;background-color: rgb(135, 81, 231)" target="_blank" href="http://match.liaogou168.com/api/spider{{$sport == 1 ? "/spiderMatchDetailById?mid=" : "/basket/spiderMatchById?id="}}{{$match->win_id}}">刷新数据</a></p>
+                            <p><a class="btn btn-sm" style="color: white;background-color: rgb(135, 81, 231)" target="_blank" href="{{env('MATCH_URL')}}/api/spider{{$sport == 1 ? "/spiderMatchDetailById?mid=" : "/basket/spiderMatchById?id="}}{{$match->win_id}}">刷新数据</a></p>
                         </td>
                         <td id="td_{{$match->id}}" match_id="{{$match->id}}" lid="{{$match->lid}}" isPri="{{in_array($match->lid, $private_arr)}}">
                             @foreach($channels as $channel)

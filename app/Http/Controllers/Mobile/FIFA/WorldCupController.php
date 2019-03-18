@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class WorldCupController extends Controller{
     public function index(Request $request){
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',10);
+        $json = self::curlData(env('MATCH_URL').'/static/league/1/57.json',10);
         $rest = $json;
 //        dump($rest);
         return view('mobile.fifa.index',$rest);
@@ -30,24 +30,24 @@ class WorldCupController extends Controller{
      */
     public function rank(Request $request){
 //        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/rank.json',10);
+        $json = self::curlData(env('MATCH_URL').'/static/league/1/FIFA/2018/rank.json',10);
         $rest = array();
         $rest['rank'] = $json;
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',10);
+        $json = self::curlData(env('MATCH_URL').'/static/league/1/57.json',10);
         $rest['score'] = $json;
         return view('mobile.fifa.rank',$rest);
     }
 
     //球队列表
     public function teamIndex(Request $request){
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/57.json',10);
+        $json = self::curlData(env('MATCH_URL').'/static/league/1/57.json',10);
         $rest['group'] = $json['stages'][0]['groupMatch'];
         return view('mobile.fifa.team_index',$rest);
     }
 
     //球队终端
     public function teamDetail(Request $request,$tid){
-        $json = self::curlData('http://match.liaogou168.com/static/league/1/FIFA/2018/'.$tid.'/detail.json',10);
+        $json = self::curlData(env('MATCH_URL').'/static/league/1/FIFA/2018/'.$tid.'/detail.json',10);
         $rest = $json;
         return view('mobile.fifa.team_detail',$rest);
     }

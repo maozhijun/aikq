@@ -51,7 +51,7 @@
             if (strDate >= 0 && strDate <= 9) {
                 strDate = "0" + strDate;
             }
-            var url = "http://match.liaogou168.com/static/schedule/"+year+month+strDate+"/1/all.json";
+            var url = {{env('MATCH_URL')}}+"/static/schedule/"+year+month+strDate+"/1/all.json";
             $.ajax({
                 "url": url,
                 dataType: "jsonp",
