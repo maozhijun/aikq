@@ -12,6 +12,7 @@ use App\Models\LgMatch\BasketLeague;
 use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\League;
 use App\Models\LgMatch\Team;
+use App\Models\Match\HotVideo;
 use function GuzzleHttp\default_user_agent;
 use Illuminate\Database\Eloquent\Model;
 
@@ -146,6 +147,8 @@ class Tag extends Model
         $query->whereExists(function ($eQuery) use ($type) {
             $eQuery->selectRaw("1");
             $eQuery->from("tag_relations");
+            $eQuery->join("hot_videos", "hot_videos.id", "=", "tag_relations.source_id");
+            $eQuery->where("hot_videos.show", HotVideo::kShow);
             $eQuery->where("tag_relations.type", $type);
             $eQuery->whereRaw("tag_relations.tag_id = tags.id");
         });

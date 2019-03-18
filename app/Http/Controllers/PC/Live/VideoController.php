@@ -358,6 +358,7 @@ class VideoController extends Controller
         $page = $query->paginate($pageSize, ['*'], null, $pageNo);
 
         $videos = $page->items();
+        $array['videos'] = [];
         $array['page'] = ['curPage'=>$page->currentPage(), 'total'=>$page->total(), 'pageSize'=>$pageSize, 'lastPage'=>$page->lastPage()];
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
@@ -411,7 +412,7 @@ class VideoController extends Controller
      * @param $pageNo
      * @return array|mixed
      */
-    protected function getVideosByTag($sport, $tag_id, $pageNo) {
+    public function getVideosByTag($sport, $tag_id, $pageNo) {
         $pageSize = self::page_size;
 
         $query = HotVideo::query();

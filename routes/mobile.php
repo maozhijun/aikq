@@ -37,11 +37,19 @@ Route::group(["namespace" => 'FIFA'], function () {
 Route::group(["namespace" => 'Live'], function () {
     Route::any("/", "LiveController@lives");
     Route::get("/lives", "LiveController@lives");//直播列表
-
-    Route::get("/live/subject/videos/{type}/{page}.html", 'LiveController@subjectVideos');//录像列表
-//    Route::get("/live/subject/video/{first}/{second}/{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
-    Route::get("/videos/video{vid}.html", 'LiveController@subjectVideoDetail');//录像终端
     Route::get("/lives/data/refresh.json", "LiveController@match_live");//比赛比分数据
+});
+
+/**
+ * 视频相关
+ */
+Route::group(["namespace"=>"Video"], function () {
+    Route::get("/video/footballstar_{id}", 'VideoController@videosByFootballStar');//视频列表 足球球星
+    Route::get("/video/basketballstar_{id}", 'VideoController@videosByBasketballStar');//视频列表 篮球球星
+    Route::get("/video/{type?}", 'VideoController@videos');//视频列表 类型
+
+    Route::get("/video{id}.html", "VideoController@videoDetail");//视频终端
+    Route::get("{name_en}/video{id}.html", "VideoController@videoDetailByNameEn");
 });
 
 //主播
