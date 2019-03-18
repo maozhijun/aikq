@@ -1,7 +1,7 @@
 @extends("pc.layout.v2.base")
 <?php $cdnUrl = env("CDN_URL"); ?>
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?time=201903181056">
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_nba_2.css">
 @endsection
 @section("content")
@@ -100,7 +100,7 @@
 </div>
 @endsection
 @section("js")
-    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903141726"></script>
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903181052"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{$sl["name_en"]}}';
         var NowDate = '{{date('Y-m-d')}}';//'2019-02-21';

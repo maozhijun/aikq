@@ -13,6 +13,7 @@
 
 //直播相关
 Route::group(["namespace" => 'Live'], function () {
+
     Route::any("/", "LiveController@lives");
     Route::get('/index.html',"LiveController@lives");//首页
 
@@ -96,6 +97,8 @@ Route::group([], function () {
     Route::get('/api/recordData.json', 'Record\RecordController@getMatchWithDate');//接口
     Route::get("/app/teamRecentMatch/{sport}/{tid}.json", 'Team\TeamController@getRecentMatches');
     Route::get("/app/teamHistoryMatch/{sport}/{tid}.json", 'Team\TeamController@getHistoryMatches');
+
+    Route::get("/download_2.html", "HomeController@download");
 });
 
 /**

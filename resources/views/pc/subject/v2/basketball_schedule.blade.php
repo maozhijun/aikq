@@ -35,7 +35,7 @@
                 @if($living)
                     <span class="living">直播中</span>
                 @elseif($status == -1 || $status > 0)
-                    {{$statusCn}}
+                    {{$match["hscore"] ." - ". $match["ascore"]}}
                 @elseif($status == 0)
                     vs
                 @endif

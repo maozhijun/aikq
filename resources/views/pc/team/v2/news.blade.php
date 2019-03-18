@@ -1,6 +1,6 @@
 @extends('pc.team.v2.base')
 @section('teamCss')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_list_2.css?time=20192191536">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_list_2.css?time=201903181032">
 @endsection
 @section('teamJs')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_other_2.js"></script>

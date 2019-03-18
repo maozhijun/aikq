@@ -1,6 +1,6 @@
 @extends('pc.layout.v2.base')
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/left_right_2.css?201903071908">
+    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/left_right_2.css?201903181056">
     <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/video_2.css">
 @endsection
 @section("content")
@@ -59,7 +59,7 @@
             </div>
             @endif
             @if(isset($comboData["matches"]) && count($comboData["matches"]) > 0)
-            <div class="el_con">
+            <div class="el_con more_live_con">
                 <div class="header">
                     <h3><p>{{isset($def) ? $def["name"] : "最新"}}直播</p></h3>
                     <p class="aline">

@@ -112,6 +112,10 @@ class HomeController extends Controller
         return view('pc.home');
     }
 
+    public function download(Request $request) {
+        return view("pc.download");
+    }
+
     /**
      * 邀请
      * @param Request $request

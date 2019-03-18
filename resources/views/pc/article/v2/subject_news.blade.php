@@ -4,8 +4,8 @@ $leaguePath = isset($zhuanti) ? '/'.$zhuanti['name_en'].'/' : "/";
 ?>
 @extends("pc.layout.v2.base")
 @section("css")
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_list_2.css?{{date('YmdHi')}}">
-	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908}}">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_list_2.css?201903181032">
+	<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903181056">
 @endsection
 @section('h1')
 	<h1>体育新闻资讯</h1>

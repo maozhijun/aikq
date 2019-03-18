@@ -102,7 +102,7 @@ function tableHtml(matches) {
 		} else if (status > 0) {
         	vs = '<span class="living">直播中</span>';
 		} else {
-            vs = "已结束";
+            vs = match["hscore"] + " - " + match["ascore"];
 		}
 
         live = status >= 0 ? '<a class="live" target="_blank" href="'+match["detailUrl"]+'">观看直播</a>' : '';

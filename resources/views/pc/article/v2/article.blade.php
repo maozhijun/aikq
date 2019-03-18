@@ -2,7 +2,7 @@
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/news_2.css?201903071908}}">
     {{--<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/jqcloud.css?rd={{date('YmdHi')}}">--}}
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903071908}}">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903181056}}">
 @endsection
 @section("content")
     <div id="Crumbs">

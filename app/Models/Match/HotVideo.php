@@ -213,7 +213,6 @@ class HotVideo extends Model
         if (!isset($sl)) {
             $query = self::query();
             $query->where('hot_videos.show', self::kShow);
-            $query->orderByDesc('hot_videos.created_at');
         } else {
             $query = self::query();
             $sport = $sl->sport;
@@ -228,6 +227,7 @@ class HotVideo extends Model
                 $existsQuery->whereRaw("hot_videos.id = tag_relations.source_id");
             });
         }
+        $query->orderByDesc('hot_videos.created_at');
         $videos = $query->take($size)->get();
         $videoArray = [];
         foreach ($videos as $video) {

@@ -32,6 +32,7 @@
 }
 .ind_box .img_news p{
 	height: 34px; 
+	padding: 0 10px;
 	background: #fff;
 	font-size: 12px; line-height: 34px; text-align: center;
 	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -123,31 +124,3 @@
 .page{
 	margin-bottom: -20px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
