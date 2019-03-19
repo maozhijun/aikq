@@ -1,5 +1,5 @@
 @extends("pc.layout.v2.base")
-<?php $cdnUrl = env("CDN_URL"); ?>
+<?php $cdnUrl = env("CDN_URL");$name_en = $sl["name_en"]; $sport = $sl["sport"]; ?>
 @section("css")
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903181056">
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css?201903141016">
@@ -49,8 +49,13 @@
                         $aid = $final["away"]["id"];
                         break;
                     }
+                    $liveUrl = "javascript:void(0);";
+                    if (!empty($hid)) {
+                        $tempMid = \App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid);
+                        $liveUrl = "/".$name_en."/live".$sport.$tempMid.".html";
+                    }
                 ?>
-                <a class="finals_match" @if(!empty($hid)) href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sl["sport"], $sl["lid"], $mid)}}" @endif >
+                <a class="finals_match" href="{{$liveUrl}}" >
                     <img src="{{$cdnUrl}}/img/pc/image_football_n.png" class="cup">
                     @if(empty($hid))
                         <div class="team_con">

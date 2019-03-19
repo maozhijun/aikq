@@ -31,6 +31,7 @@ use App\Console\LiveCheck\LiveCollectCommands;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
 //use App\Console\HotVideo\VideoPageCommand;
+use App\Console\Subject\SubjectAllCommand;
 use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 //use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 //use App\Console\SubjectVideo\SubjectVideoDetailCommand;
@@ -128,6 +129,7 @@ class Kernel extends ConsoleKernel
 
         TagCommand::class,//tag更新 ,对应静态化
         SubjectTeamCommand::class,//用于专题球队静态化
+        SubjectAllCommand::class,//静态化所有专题页面
     ];
 
     /**

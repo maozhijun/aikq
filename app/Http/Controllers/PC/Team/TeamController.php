@@ -139,6 +139,13 @@ class TeamController extends Controller
         TeamController::detailStatic($name_en,$tid,$sport);
     }
 
+    public function staticTeamAll(Request $request, $sport, $name_en, $tid, $page) {
+        self::detailStatic($name_en,$tid,$sport);
+        $this->staticRecordHtml($request, $sport, $name_en, $tid, $page);
+        $this->staticNewsHtml($request, $sport, $name_en, $tid, $page);
+        $this->staticVideoHtml($request, $sport, $name_en, $tid, $page);
+    }
+
     public static function detailStatic($name_en, $tid, $sport)
     {
 //        $html = self::detailHtml($data);
