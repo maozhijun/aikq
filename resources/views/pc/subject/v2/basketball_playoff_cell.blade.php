@@ -65,14 +65,31 @@
             </div>
             @include('pc.subject.v2.basketball_playoff_final_cell', ['item'=>isset($playoff['final']) ? $playoff['final'] : null])
         </div>
-    @elseif(isset($playoff['west']))
+    @elseif(isset($playoff['west']) || isset($playoff['add']))
         <div class="knockout_con basketball">
             @if(isset($playoff['add']['up']))
                 <div class="round_con">
-                    <div class="match_con">
-                        @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['up'], 'lid'=>$lid])
-                    </div>
-                    <div class="line_left_con" style="height: 41px; top: 32px; left: 10px; border-bottom: none;"></div>
+                    @if(count($playoff['add']['up']) == 1)
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['up'][0], 'lid'=>$lid])
+                        </div>
+                        <div class="line_left_con" style="height: 41px; top: 32px; left: 10px; border-bottom: none;"></div>
+                    @elseif(count($playoff['add']['up']) == 2)
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['up'][0], 'lid'=>$lid])
+                        </div>
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>array(), 'lid'=>$lid])
+                        </div>
+                        <div class="match_con" style="margin-top: 30px;">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>array(), 'lid'=>$lid])
+                        </div>
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['up'][1], 'lid'=>$lid])
+                        </div>
+                        <div class="line_left_con" style="height: 82px; top: 32px; left: 10px;"></div>
+                        <div class="line_left_con" style="height: 82px; top: 210px; left: 10px;"></div>
+                    @endif
                 </div>
             @endif
             <div class="round_con">
@@ -107,10 +124,27 @@
             </div>
             @if(isset($playoff['add']['down']))
                 <div class="round_con">
-                    <div class="match_con">
-                        @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['down'], 'lid'=>$lid])
-                    </div>
-                    <div class="line_right_con" style="height: 41px; top: 32px; right: 10px; border-bottom: none;"></div>
+                    @if(count($playoff['add']['down']) == 1)
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['down'][0], 'lid'=>$lid])
+                        </div>
+                        <div class="line_right_con" style="height: 41px; top: 32px; right: 10px; border-bottom: none;"></div>
+                    @elseif(count($playoff['add']['down']) == 2)
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['down'][0], 'lid'=>$lid])
+                        </div>
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>array(), 'lid'=>$lid])
+                        </div>
+                        <div class="match_con" style="margin-top: 30px;">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>array(), 'lid'=>$lid])
+                        </div>
+                        <div class="match_con">
+                            @include('pc.subject.v2.basketball_playoff_match_con_cell', ['item'=>$playoff['add']['down'][1], 'lid'=>$lid])
+                        </div>
+                        <div class="line_right_con" style="height: 82px; top: 32px; right: 10px;"></div>
+                        <div class="line_right_con" style="height: 82px; top: 210px; right: 10px;"></div>
+                    @endif
                 </div>
             @endif
             <?php

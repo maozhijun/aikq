@@ -418,6 +418,7 @@ class SubjectController extends Controller
         $result["start"] = $startTime;
         $result["end"] = $endTime;
         $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        dump($leagueData, $result);
         return view("pc.subject.v2.basketball_detail", $result);
     }
 
