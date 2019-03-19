@@ -109,7 +109,7 @@ class RecordController extends Controller
             $match = Match::where('id',$mid)->first();
         }
         if (is_null($sv) || is_null($match)){
-            return view('pc.record.detail',$this->html_var);
+            return view('mobile.record.detail',$this->html_var);
         }
         $match['time'] = date_create($match['time'])->getTimestamp();
         $records = SubjectVideoChannels::where('sv_id',$sv->id)
@@ -130,6 +130,7 @@ class RecordController extends Controller
         $this->html_var["title"] = '['.$sv["hname"].'VS'.$sv["aname"].']'.$sv["lname"].$sv["hname"].'VS'.$sv["aname"].'比赛录像_爱看球直播';
         $keywords = $sv->tagsCn();
         $this->html_var["keywords"] = str_replace("，", ",", $keywords);
+//        dump($this->html_var);
         return view('mobile.record.detail',$this->html_var);
     }
 
