@@ -121,18 +121,18 @@ class LiveDetailCommand extends Command
                 $type = $matches[4];
                 $url = $host . "/static/team_".$type."/".$sport."/".$name_en."/".intval($tid) ."/1";
                 echo $index++ . " 静态化 " . $url.
-                Controller::execUrl($url);
+                Controller::execUrl($url, 40);
                 echo "耗时：" . (time() - $start) . " \n";
             } else {
-                preg_match('/\/(\w+)\/team(\d)(\d+)/', $url, $matches);
-                if (count($matches) >= 3) {//静态化球队终端
+                preg_match('/\/(\w+)\/team(\d)(\d+)/', $url, $newMatches);
+                if (count($newMatches) >= 3) {//静态化球队终端
                     $start = time();
-                    $name_en = $matches[1];
-                    $sport = $matches[2];
-                    $tid = $matches[3];
-                    $url = $host . "/static/team_index/".$sport."/".$name_en."/".intval($tid) ."/1";
+                    $name_en = $newMatches[1];
+                    $sport = $newMatches[2];
+                    $tid = $newMatches[3];
+                    $url = $host . "/static/team_all/".$sport."/".$name_en."/".intval($tid) ."/1";
                     echo $index++ . "静态化 " . $url.
-                    Controller::execUrl($url);
+                    Controller::execUrl($url, 40);
                     echo "耗时：" . (time() - $start) . " \n";
                 }
             }

@@ -102,9 +102,9 @@ class TeamController extends Controller
                     $tids[] = $item['tid'];
                 }
             }
-            $o_teams = BasketTeam::whereIn('id',$tids)->get();
-            foreach ($o_teams as $item){
-                $teams[$item['id']] = $item;
+            foreach ($tids as $tid) {
+                $item = BasketTeam::query()->find($tid);
+                if (isset($item)) $teams[$item['id']] = $item;
             }
             $data['teams'] = $teams;
         }
@@ -118,9 +118,11 @@ class TeamController extends Controller
                     }
                 }
             }
-            $o_teams = Team::whereIn('id',$tids)->get();
-            foreach ($o_teams as $item){
-                $teams[$item['id']] = $item;
+            foreach ($tids as $tid) {
+                $item = BasketTeam::query()->find($tid);
+                if (isset($item)) {
+                    $teams[$item['id']] = $item;
+                }
             }
             $data['teams'] = $teams;
         }

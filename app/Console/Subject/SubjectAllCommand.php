@@ -12,12 +12,14 @@ namespace App\Console\Subject;
 use App\Console\HtmlStaticCommand\BaseCommand;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\Common\LeagueDataTool;
+use App\Http\Controllers\PC\Team\TeamController;
 use App\Models\LgMatch\BasketLeague;
 use App\Models\LgMatch\BasketMatch;
 use App\Models\LgMatch\BasketSeason;
 use App\Models\LgMatch\Match;
 use App\Models\LgMatch\Season;
 use App\Models\Subject\SubjectLeague;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class SubjectAllCommand extends BaseCommand
@@ -88,6 +90,8 @@ class SubjectAllCommand extends BaseCommand
             $seasons = Season::query()->where("lid", $lid)->orderByDesc("year")->get();
             $league = \App\Models\LgMatch\League::query()->find($lid);
         }
+        $teamCon = new TeamController();
+        $request = new Request();
 
         foreach ($seasons as $index=>$season) {
             $name = $season["name"];
@@ -108,25 +112,26 @@ class SubjectAllCommand extends BaseCommand
                 $matches = $this->getMatchesFromCup($sport, $lid, $name);
                 echo "一共 " . count($matches) . " 场比赛 \n";
             }
-            $this->staticMatchesTeam($matches, $sport, $name_en);
+            $this->staticMatchesTeam($matches, $sport, $name_en, $teamCon, $request);
+            sleep(1);
         }
         echo "静态化完成 耗时：" . (time() - $start) . "秒";
     }
 
 
-    public function staticMatchesTeam($matches, $sport, $name_en) {
+    public function staticMatchesTeam($matches, $sport, $name_en, $teamCon, $request) {
         foreach ($matches as $match) {
             $hid = isset($match["hid"]) ?$match["hid"] : "";
             $aid = isset($match["aid"]) ?$match["aid"] : "";
 
             echo "静态化 " . $match["hname"] . " vs " . $match["aname"] . " " . $match["time"];
 
-            $this->staticTeam($sport, $name_en, $hid);
-            $this->staticTeam($sport, $name_en, $aid);
+            $this->staticTeam($sport, $name_en, $hid, $teamCon, $request);
+            $this->staticTeam($sport, $name_en, $aid, $teamCon, $request);
         }
     }
 
-    public function staticTeam($sport, $name_en, $tid) {
+    public function staticTeam($sport, $name_en, $tid, TeamController $teamCon, $request) {
         if (empty($tid)) return;
         $start = time();
         echo "静态化球队开始 \n";
@@ -142,7 +147,13 @@ class SubjectAllCommand extends BaseCommand
         $host = "http://cms.aikanqiu.com";
         $url1 = $host . "/static/team_all/". $sport . "/" . $name_en . "/" . $tid . "/1";
 
-        Controller::execUrl($url1);
+        Controller::execUrl($url1, 30);
+
+//        $teamCon->staticIndexHtml($request, $sport, $name_en, $tid, 1);
+//        $teamCon->staticNewsHtml($request, $sport, $name_en, $tid, 1);
+//        $teamCon->staticRecordHtml($request, $sport, $name_en, $tid, 1);
+//        $teamCon->staticVideoHtml($request, $sport, $name_en, $tid, 1);
+
         echo "\n 球队静态化耗时：" . (time() - $start) . " \n";
     }
 

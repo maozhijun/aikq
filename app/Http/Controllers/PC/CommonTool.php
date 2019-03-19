@@ -9,14 +9,9 @@
 namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PC\Live\SubjectController;
-use App\Http\Controllers\PC\Live\SubjectVideoController;
-use App\Models\Match\BasketMatch;
-use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\OtherMatch;
 use App\Models\Subject\SubjectLeague;
-use App\Models\Subject\SubjectVideo;
 use Illuminate\Support\Facades\Storage;
 
 class CommonTool
@@ -424,9 +419,9 @@ class CommonTool
         }
 
         if ($sport == MatchLive::kSportFootball) {
-            $match = Match::query()->find($mid);
+            $match = \App\Models\LgMatch\Match::query()->find($mid);
         } else if ($sport == MatchLive::kSportBasketball) {
-            $match = BasketMatch::query()->find($mid);
+            $match = \App\Models\LgMatch\BasketMatch::query()->find($mid);
         } else if ($sport == MatchLive::kSportSelfMatch) {
             $match = OtherMatch::query()->find($mid);
         }
@@ -486,9 +481,9 @@ class CommonTool
      */
     private static function getRecentMidByTid($mid, $sport, $hid, $aid) {
         if ($sport == MatchLive::kSportFootball) {
-            $query = Match::query();
+            $query = \App\Models\LgMatch\Match::query();
         } else if ($sport == MatchLive::kSportBasketball) {
-            $query = BasketMatch::query();
+            $query = \App\Models\LgMatch\BasketMatch::query();
         }
         if (isset($query)) {
             $recentMatch = $query->whereIn('hid', [$hid, $aid])
