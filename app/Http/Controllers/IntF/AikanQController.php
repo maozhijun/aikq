@@ -397,7 +397,7 @@ class AikanQController extends Controller
      * @return mixed
      */
     public function basketDetailJsonData($id, $mobile = false){
-        $match = BasketMatch::query()->select('basket_matches.*',"basket_matches.id as mid")->find($id);
+        $match = \App\Models\LgMatch\BasketMatch::query()->select('basket_matches.*',"basket_matches.id as mid")->find($id);
         if (!isset($match)) {
             return null;
         }
@@ -540,7 +540,7 @@ class AikanQController extends Controller
      * @return mixed
      */
     public function detailJsonData($id, $mobile) {
-        $match = Match::query()->select('matches.*',"matches.id as mid")->find($id);
+        $match = \App\Models\LgMatch\Match::query()->select('matches.*',"matches.id as mid")->find($id);
         if (!isset($match)) {
             return null;
         }

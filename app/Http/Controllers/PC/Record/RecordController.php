@@ -404,4 +404,22 @@ class RecordController extends Controller
             echo 'fail ' . $id;
         }
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function batchRecordDetailHtml(Request $request) {
+        $page = $request->input("page");
+        $pageSize = $request->input("pageSize", 20);
+
+        $query = SubjectVideo::query();
+        $pages = $query->paginate($pageSize, ["*"], null, $page);
+        $host = env("CMS_URL");
+        foreach ($pages as $record) {
+            $this->recordDetailHtml($request, $record["id"]);
+        }
+        return ["lastPage"=>$pages->lastPage(), "curPage"=>$pages->currentPage()];
+    }
+
 }
