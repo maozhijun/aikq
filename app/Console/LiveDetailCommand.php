@@ -9,6 +9,7 @@
 namespace App\Console;
 
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\IntF\Common\LeagueDataTool;
 use App\Http\Controllers\PC\CommonTool;
@@ -85,14 +86,113 @@ class LiveDetailCommand extends Command
                 $this->staticPcLiveDetail();
                 $this->staticMLiveDetail();
                 break;
+
+            case 'check404':
+                $this->check404();
+                break;
+            case 'static404':
+                $this->static404();
+                break;
             default :
                 $this->staticLeagueLiveDetail($type);
                 break;
         }
     }
 
+    protected function static404() {
+        $path = 'c:\Users\11247\Desktop\404_new.txt';
+        $content = file_get_contents($path);
+        $urls = explode("\n", $content);
+        $host = "http://cms.aikanqiu.com";
+        //"/static/team_record/{sport}/{name_en}/{tid}/{page}";
+        $index = 1;
+        foreach ($urls as $url) {
+            $url = trim($url);
+            if (empty($url)) continue;
+            //判断url
+            //preg_match('/\/\w+\/team\d+/', $url, $matches);
+            preg_match('/\/(\w+)\/team(\d)(\d+)_(\w+)_\d/', $url, $matches);
+            if (count($matches) >= 5) {
+                //先静态化球队 视频、录像、新闻 终端
+                $start = time();
+                $name_en = $matches[1];
+                $sport = $matches[2];
+                $tid = $matches[3];
+                $type = $matches[4];
+                $url = $host . "/static/team_".$type."/".$sport."/".$name_en."/".intval($tid) ."/1";
+                echo $index++ . " 静态化 " . $url.
+                Controller::execUrl($url);
+                echo "耗时：" . (time() - $start) . " \n";
+            } else {
+                preg_match('/\/(\w+)\/team(\d)(\d+)/', $url, $matches);
+                if (count($matches) >= 3) {//静态化球队终端
+                    $start = time();
+                    $name_en = $matches[1];
+                    $sport = $matches[2];
+                    $tid = $matches[3];
+                    $url = $host . "/static/team_index/".$sport."/".$name_en."/".intval($tid) ."/1";
+                    echo $index++ . "静态化 " . $url.
+                    Controller::execUrl($url);
+                    echo "耗时：" . (time() - $start) . " \n";
+                }
+            }
+        }
+    }
 
 
+    /**
+     * 本机测试代码，检查文件链接是否成功
+     */
+    protected function check404() {
+        $path = 'c:\Users\11247\Desktop\404.txt';
+        $content = file_get_contents($path);
+        $urls = explode("\n", $content);
+        $txt = "";
+        foreach ($urls as $url) {
+            $url = str_replace("\r", "", $url);
+            $code = $this->getUrlCode($url);
+            echo "返回码： " . $code . "  链接： " . $url . " \n";
+            if ($code > 200) {
+                $txt .= $code . "    " . $url . " \n ";
+            }
+        }
+        $outPath = 'c:\Users\11247\Desktop\404_new.txt';
+        file_put_contents($outPath, $txt);
+    }
+
+    /**
+     * 获取url返回码
+     * @param $url
+     * @param int $timeout
+     * @return mixed
+     */
+    protected function getUrlCode($url, $timeout = 5) {
+        $isHttps = preg_match('/^https:/', $url);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);//8秒超时
+
+        // 返回 response_header, 该选项非常重要,如果不为 true, 只会获得响应的正文
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        // 是否不需要响应的正文,为了节省带宽及时间,在只需要响应头的情况下可以不要
+        //正文
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        if ($isHttps) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);    // https请求 不验证证书和hosts
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        }
+        curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        return $code;
+    }
+
+    /**
+     * 静态化专题所有比赛终端
+     * @param $type
+     */
     protected function staticLeagueLiveDetail($type) {
         $start = time();
         //静态化专题 未开始的赛事终端
@@ -150,6 +250,9 @@ class LiveDetailCommand extends Command
         echo $type . "专题比赛终端静态化结束 使用时间 ".(time() - $start)."秒 \n";
     }
 
+    /**
+     * 静态化PC比赛终端
+     */
     protected function staticPcLiveDetail() {
         $cache = Storage::get('/public/static/json/pc/lives.json');
         $json = json_decode($cache, true);
@@ -191,6 +294,9 @@ class LiveDetailCommand extends Command
     }
 
 
+    /**
+     * 静态化M站比赛终端
+     */
     protected function staticMLiveDetail() {
         $liveCon = new LiveController();
         $request = new Request();
