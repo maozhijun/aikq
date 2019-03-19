@@ -388,7 +388,7 @@
                                 @foreach($mChannels as $mch)
                                     @continue(isset($mch['platform']) && $mch['platform'] == 5)
                                     @if(isset($mch['player']) && $mch['player'] == 16){{-- 外链 --}}
-                                    <a class="live" target="_blank" href="/live/ex-link/{{$mch['id']}}">{{$mch['name']}}</a>
+                                        <a class="live" target="_blank" href="{{$mch["link"]}}">{{$mch['name']}}</a>
                                     @else
                                         <?php
                                         if(isset($mch['akq_url']) && strlen($mch['akq_url']) > 0){
