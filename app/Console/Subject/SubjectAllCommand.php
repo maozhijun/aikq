@@ -44,10 +44,11 @@ class SubjectAllCommand extends BaseCommand
             return;
         }
         $name_en = $params[1];
+        $staticTeam = isset($params[2]) && $params[2] == 1 ? true : false;
 
         switch ($type) {
             case "pc":
-                $this->staticPc($name_en);
+                $this->staticPc($name_en, $staticTeam);
                 break;
 
             case "mobile":
@@ -68,7 +69,7 @@ class SubjectAllCommand extends BaseCommand
         }
     }
 
-    public function staticPc($name_en) {
+    public function staticPc($name_en, $staticTeam = false) {
         $start = time();
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl)) {
@@ -92,10 +93,14 @@ class SubjectAllCommand extends BaseCommand
             $name = $season["name"];
             $type = $league["type"];
 
+            $liveStart = time();
             $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
-            echo "静态化专题：" . $url . " \n ";
             Controller::execUrl($url);//静态化 专题
-
+            echo "静态化专题：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
+            if (!$staticTeam) {
+                echo "不静态化 球队终端";
+                continue;
+            }
             if ($type == 1) {
                 $matches = $this->getMatchesFromSchedule($sport, $lid, $name);
                 echo "一共 " . count($matches) . " 场比赛 \n";
@@ -218,6 +223,7 @@ class SubjectAllCommand extends BaseCommand
             $cache[$key] = 1;
 
             $url = "http://cms.aikanqiu.com/live/cache/match/detail_id/".$match["id"]."/1";
+            echo "静态化终端 " . $url . " \n";
             Controller::execUrl($url, 10);
         }
 
