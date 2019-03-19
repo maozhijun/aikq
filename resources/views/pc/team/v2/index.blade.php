@@ -1,8 +1,8 @@
 @extends('pc.team.v2.base')
 @section('teamJs')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js?201903181919"></script>
     <script type="text/javascript">
-        var TeamId = '{{$tid}}', SportId = '{{$match['sport']}}';
+        var TeamId = '{{intval($tid)}}', SportId = '{{$sport}}';
     </script>
 @endsection
 @section('detail')
