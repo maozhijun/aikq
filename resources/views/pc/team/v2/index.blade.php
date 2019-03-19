@@ -1,6 +1,9 @@
 @extends('pc.team.v2.base')
 @section('teamJs')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/team_2.js?201903181919"></script>
+    <script type="text/javascript">
+        var TeamId = '{{intval($tid)}}', SportId = '{{$sport}}';
+    </script>
 @endsection
 @section('detail')
     @if(isset($zhuanti))
@@ -62,7 +65,7 @@
         </div>
     @endif
     @if(isset($lives['recent']) && count($lives['recent']) > 0)
-        <div class="el_con">
+        <div class="el_con history">
             <div class="header">
                 <h3><p>历史战绩</p></h3>
             </div>
@@ -72,7 +75,7 @@
                     @foreach($lives['recent'] as $match)
                         <?php
                         $liveUrl = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($match['sport'], $match['lid'], $match['mid']);
-                        $fv = \App\Models\Subject\SubjectVideo::firstVideo($match['mid']);
+                        $fv = count($match['channels']) > 0 ? $match['channels'][0]:null;
                         ?>
                         <tr>
                             <td><span>{{$match['lname']}}</span></td>
@@ -98,11 +101,7 @@
                                     <td class="line"><a class="live" target="_blank" href="{{$liveUrl}}#btn={{$c_index}}">{{$channel['name']}}</a></td>
                                 @endforeach
                             @elseif(isset($fv))
-                                <?php
-                                    $name_en = isset($zhuanti['name_en']) ? $zhuanti['name_en'] : 'other';
-                                    $fvUrl = \App\Http\Controllers\PC\CommonTool::getRecordDetailUrl($name_en, $match['mid']);
-                                ?>
-                                <td class="line"><a class="live" target="_blank" href="{{$fvUrl}}">全场录像</a></td>
+                                <td class="line"><a class="live" target="_blank" href="{{$fv}}">全场录像</a></td>
                             @else
                                 <td class="line"></td>
                             @endif
@@ -113,7 +112,7 @@
         </div>
     @endif
     @if(isset($lives['schedule']) && count($lives['schedule']) > 0)
-        <div class="el_con">
+        <div class="el_con schedule">
             <div class="header">
                 <h3><p>未来赛程</p></h3>
             </div>
