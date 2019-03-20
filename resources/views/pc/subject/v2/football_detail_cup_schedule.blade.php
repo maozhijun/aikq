@@ -6,9 +6,22 @@
         $status = $match["status"]; $sport = $sl["sport"]; $lid = $sl["lid"]; $mid = $match["mid"];
         $time = date('Y-m-d H:i', $match["time"]); $hid = $match["hid"]; $aid = $match["aid"];
         $name_en = $sl["name_en"];
-        $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
-        $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
-        $liveUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid).".html";
+        if (empty($hid)) {
+            $hTeamUrl = "javascript:void(0);";
+        } else {
+            $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
+        }
+        if (empty($aid)) {
+            $aTeamUrl = "javascript:void(0);";
+        } else {
+            $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
+        }
+        if (empty($hid) || empty($aid)) {
+            $liveUrl = "";
+        } else {
+            $liveUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid).".html";
+        }
+        $eightDayAfterTime = strtotime(date("Y-m-d", strtotime("8 days")));
         ?>
         <tr>
             <td><span>{{$time}}</span></td>
@@ -21,7 +34,7 @@
             </td>
             <td class="away"><a target="_blank" href="{{$aTeamUrl}}">{{$match["aname"]}}</a></td>
             <td class="line">
-                @if($status >= 0)<a target="_blank" href="{{$liveUrl}}" class="live">观看直播</a>@endif
+                @if(!empty($liveUrl) && $status >= 0 && $match["time"] <= $eightDayAfterTime)<a target="_blank" href="{{$liveUrl}}" class="live">观看直播</a>@endif
             </td>
         </tr>
     @endforeach

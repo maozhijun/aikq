@@ -99,7 +99,7 @@ class TeamController extends Controller
             }
             else if (isset($data["rank"])) {
                 foreach ($data['rank'] as $item){
-                    $tids[] = $item['tid'];
+                    if (isset($item['tid'])) $tids[] = $item['tid'];
                 }
             }
             foreach ($tids as $tid) {
@@ -114,7 +114,7 @@ class TeamController extends Controller
             if (isset($data['rank'])) {
                 foreach ($data['rank'] as $item){
                     if (isset($item['tid'])) {
-                        $tids[] = $item['tid'];
+                        if (isset($item['tid'])) $tids[] = $item['tid'];
                     }
                 }
             }

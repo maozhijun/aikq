@@ -23,7 +23,7 @@
                     </tr>
                     @foreach($ranks as $rank)
                         <?php
-                            $steam = $teams[$rank['tid']];
+                        $steam = isset($teams[$rank['tid']]) ? $teams[$rank['tid']] : ["icon"=>""];
                             $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $rank['sport'], $rank['tid']);
                         ?>
                         <tr>
@@ -61,7 +61,7 @@
                 @if(isset($ranks['east']))
                     @foreach($ranks['east'] as $east)
                         <?php
-                        $steam = $teams[$east['tid']];
+                        $steam = isset($teams[$east['tid']]) ? $teams[$east['tid']] : ["icon"=>""];
                         $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $east['sport'], $east['tid']);
                         ?>
                         <tr>
@@ -88,7 +88,7 @@
                 @if(isset($ranks['west']))
                     @foreach($ranks['west'] as $west)
                         <?php
-                        $steam = $teams[$west['tid']];
+                        $steam = isset($teams[$west['tid']]) ? $teams[$west['tid']] : ["icon"=>""];
                         $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $west['sport'], $west['tid']);
                         ?>
                         <tr>
@@ -120,7 +120,7 @@
                 </tr>
                 @foreach($ranks as $rank)
                     <?php
-                    $steam = $teams[$rank['tid']];
+                    $steam = isset($teams[$rank['tid']]) ? $teams[$rank['tid']] : ["icon"=>""];
                     $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $rank['sport'], $rank['tid']);
                     ?>
                     <tr>

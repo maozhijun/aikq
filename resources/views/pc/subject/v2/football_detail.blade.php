@@ -32,6 +32,7 @@
                     $lid = $sl["lid"];
                     $teamUrlArray = [];
                     $detailArray = [];
+                    $eightDayAfterTime = strtotime(date("Y-m-d", strtotime("8 days")));
                 ?>
                 @foreach($schedule as $round=>$matches)
                     <table class="match" round="{{$round}}" @if($round != $curRound) style="display: none;" @endif >
@@ -63,7 +64,7 @@
                             } else {
                                 $detailUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid, $mid).".html";
                             }
-                            if (empty($hid) || $status < 0) $detailUrl = "";
+                            if (empty($hid) || $status < 0 || $match["time"] > $eightDayAfterTime) $detailUrl = "";//7天内的显示观看直播
                             if (empty($aid)) $aTeamUrl = "javascript:void(0);";
                             if (empty($hid)) $hTeamUrl = "javascript:void(0);";
                         ?>

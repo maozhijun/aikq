@@ -90,8 +90,6 @@ class SubjectAllCommand extends BaseCommand
             $seasons = Season::query()->where("lid", $lid)->orderByDesc("year")->get();
             $league = \App\Models\LgMatch\League::query()->find($lid);
         }
-        $teamCon = new TeamController();
-        $request = new Request();
 
         foreach ($seasons as $index=>$season) {
             $name = $season["name"];
@@ -100,9 +98,9 @@ class SubjectAllCommand extends BaseCommand
             $liveStart = time();
             $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
             Controller::execUrl($url);//静态化 专题
-            echo "静态化专题：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
+            echo "静态化专题 $name_en $name ：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
             if (!$staticTeam) {
-                echo "不静态化 球队终端";
+                echo "不静态化 球队终端 \n";
                 continue;
             }
             if ($type == 1) {
@@ -112,49 +110,47 @@ class SubjectAllCommand extends BaseCommand
                 $matches = $this->getMatchesFromCup($sport, $lid, $name);
                 echo "一共 " . count($matches) . " 场比赛 \n";
             }
-            $this->staticMatchesTeam($matches, $sport, $name_en, $teamCon, $request);
-            sleep(1);
+            $this->staticMatchesTeam($matches, $sport, $name_en);
         }
         echo "静态化完成 耗时：" . (time() - $start) . "秒";
     }
 
 
-    public function staticMatchesTeam($matches, $sport, $name_en, $teamCon, $request) {
+    public function staticMatchesTeam($matches, $sport, $name_en) {
         foreach ($matches as $match) {
             $hid = isset($match["hid"]) ?$match["hid"] : "";
             $aid = isset($match["aid"]) ?$match["aid"] : "";
+            $hname = $match["hname"];
+            $aname = $match["aname"];
 
-            echo "静态化 " . $match["hname"] . " vs " . $match["aname"] . " " . $match["time"];
-
-            $this->staticTeam($sport, $name_en, $hid, $teamCon, $request);
-            $this->staticTeam($sport, $name_en, $aid, $teamCon, $request);
+            echo "静态化 " . $match["hname"] . " vs " . $match["aname"] . " " . date("Y-m-d H:i", $match["time"]) . "\n";
+            $this->staticTeam($sport, $name_en, $hid, $hname);
+            $this->staticTeam($sport, $name_en, $aid, $aname);
+            echo "\n";
         }
     }
 
-    public function staticTeam($sport, $name_en, $tid, TeamController $teamCon, $request) {
+    public function staticTeam($sport, $name_en, $tid, $tName) {
         if (empty($tid)) return;
         $start = time();
-        echo "静态化球队开始 \n";
 
         $key = $name_en . "_" . $tid;
         $cache = Redis::get($key);
         if (isset($cache)) {
-            echo "该球队已经静态化过了  耗时：" . (time() - $start) . " \n";
+            echo $tName . "球队已经静态化过了  耗时：" . (time() - $start) . " \n";
             return;
         }
         Redis::setEx($key, 60 * 60 * 10, "1");
 
         $host = "http://cms.aikanqiu.com";
-        $url1 = $host . "/static/team_all/". $sport . "/" . $name_en . "/" . $tid . "/1";
-
-        Controller::execUrl($url1, 30);
-
-//        $teamCon->staticIndexHtml($request, $sport, $name_en, $tid, 1);
-//        $teamCon->staticNewsHtml($request, $sport, $name_en, $tid, 1);
-//        $teamCon->staticRecordHtml($request, $sport, $name_en, $tid, 1);
-//        $teamCon->staticVideoHtml($request, $sport, $name_en, $tid, 1);
-
-        echo "\n 球队静态化耗时：" . (time() - $start) . " \n";
+        if ($name_en == "other") {
+            $url = $host . "/static/team_index/". $sport . "/" . $name_en . "/" . $tid . "/1";
+        } else {
+            $url = $host . "/static/team_all/". $sport . "/" . $name_en . "/" . $tid . "/1";
+        }
+        Controller::execUrl($url, 15);
+        echo "  静态化球队 $tName 耗时：". (time() - $start) ." " . $url . "\n";
+        sleep(2);
     }
 
 

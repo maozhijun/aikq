@@ -208,12 +208,20 @@ class SubjectController extends Controller
                 if (isset($leagueStage["matches"])) {
                     $matches = $leagueStage["matches"];
                     if ($this->isKnockout($name)) {//
-                        $kkCount = count($matches);
+                        if ($name == "半准决赛") {
+                            $kkCount = 4;
+                        } else {
+                            $kkCount = count($matches);
+                        }
                         $teams = [];
                         foreach ($matches as $kMatch) {
+                            $hName = $kMatch["hname"];
+                            $aName = $kMatch["aname"];
                             $mid = $kMatch["mid"];
-                            $teams[$mid]["host"] = ["name"=>$kMatch["hname"], "score"=>$kMatch["hscore"], "id"=>$kMatch["hid"], "mid"=>$mid];
-                            $teams[$mid]["away"] = ["name"=>$kMatch["aname"], "score"=>$kMatch["ascore"], "id"=>$kMatch["aid"], "mid"=>$mid];
+                            $key = $hName > $aName ? $hName.$aName : $aName.$hName;
+                            $key = md5($key);
+                            $teams[$key]["host"] = ["name"=>$hName, "score"=>$kMatch["hscore"], "id"=>$kMatch["hid"], "mid"=>$mid];
+                            $teams[$key]["away"] = ["name"=>$aName, "score"=>$kMatch["ascore"], "id"=>$kMatch["aid"], "mid"=>$mid];
                         }
                         $knockouts[$kkCount * 2] = $teams;
                     }
@@ -233,7 +241,6 @@ class SubjectController extends Controller
                         $teams[$key]["host"] = ["name"=>$combo["hname"], "score"=>$combo["hscore"], "id"=>$combo["hid"], "mid"=>""];
                         $teams[$key]["away"] = ["name"=>$combo["aname"], "score"=>$combo["ascore"], "id"=>$combo["aid"], "mid"=>""];
                         //处理淘汰赛 赛程 结束
-
                     }
                     if (count($teams) > 0) {
                         $knockouts[$count * 2] = $teams;
