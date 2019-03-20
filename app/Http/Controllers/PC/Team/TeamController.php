@@ -89,7 +89,7 @@ class TeamController extends Controller
         if ($sport == 2){
             $tids = array();
             $teams = array();
-            if ($lid == 1){
+            if ($lid == 1 && isset($data["rank"])){
                 foreach ($data['rank']['west'] as $item){
                     $tids[] = $item['tid'];
                 }
@@ -97,7 +97,7 @@ class TeamController extends Controller
                     $tids[] = $item['tid'];
                 }
             }
-            else{
+            else if (isset($data["rank"])) {
                 foreach ($data['rank'] as $item){
                     $tids[] = $item['tid'];
                 }

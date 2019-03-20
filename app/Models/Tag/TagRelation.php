@@ -13,6 +13,7 @@ use App\Models\Article\PcArticle;
 use App\Models\Match\HotVideo;
 use App\Models\Subject\SubjectVideo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TagRelation extends Model
@@ -229,9 +230,11 @@ class TagRelation extends Model
         if ($type == self::kTypeArticle) {
             $query = PcArticle::query();
             $tName = "pc_articles";
+            $query->where($tName.".status", "=", PcArticle::kStatusPublish);
         } else if ($type == self::kTypeVideo) {
             $query = HotVideo::query();
             $tName = "hot_videos";
+            $query->where($tName.".show", "=", HotVideo::kShow);
         } else if ($type == self::kTypePlayBack) {
             $query = SubjectVideo::query();
             $tName = "subject_videos";
@@ -239,19 +242,27 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tagName)) {
-                $eQuery->where("tags.name", "like", "%$tagName%");
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport." AND `tags`.`level` = ".$level." AND `tags`.`name` LIKE '%".$tagName."%')";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tagName)) {
+//                $eQuery->where("tags.name", "like", "%$tagName%");
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id1");
+//        });
+
         if ($type == self::kTypeArticle) {
             $query->orderby('publish_at','desc');
         }

@@ -408,6 +408,26 @@ class CommonTool
         return $url;
     }
 
+    /**
+     * 根据参数获取直播链接
+     * @param $name_en
+     * @param $sport
+     * @param $hid
+     * @param $aid
+     * @param $mid
+     * @return string
+     */
+    public static function getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid) {
+        $tempMid = $mid;
+        $len = strlen($mid);
+        for ($index = $len; $index < 4; $index++) {
+            $tempMid = "0".$tempMid;
+        }
+        $name = self::getMatchVsByTid($hid, $aid, $tempMid);
+        $url = "/".$name_en."/live".$sport.$name.".html";
+        return $url;
+    }
+
     public static function getDetailNameDataByMid($mid, $sport) {
         $name_en = "other";
         $len = strlen($mid);
