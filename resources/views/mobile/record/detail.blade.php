@@ -6,7 +6,7 @@
 @endsection
 @section('banner')
     <div id="Navigation">
-        <a href="index.html" class="home"><img src="{{env('CDN_URL')}}/img/mobile/v2/logo_white.png"></a>
+        <a href="/" class="home"><img src="{{env('CDN_URL')}}/img/mobile/v2/logo_white.png"></a>
         <p class="inner_column_con">
             <a href="/">直播</a>
             <a href="/news/">资讯</a>

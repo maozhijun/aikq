@@ -13,9 +13,8 @@ use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\IntF\MatchController;
 use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mobile\UrlCommonTool;
+use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
-use App\Models\Match\BasketMatch;
-use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
@@ -23,6 +22,8 @@ use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Models\LgMatch\Match;
+use App\Models\Match\BasketMatch;
 
 class LiveController extends Controller
 {
@@ -319,6 +320,7 @@ class LiveController extends Controller
     public function footballDetailHtml($json, $id) {
         $colum = 'other';
         $sport = 1;
+        $json['lid'] = $json['match']['lid'];
         if (array_key_exists($json['match']['lid'],\App\Models\LgMatch\Match::path_league_football_arrays)){
             $colum = \App\Models\LgMatch\Match::path_league_football_arrays[$json['match']['lid']];
         }
@@ -398,7 +400,13 @@ class LiveController extends Controller
         $lineup = MatchController::basketballLineup($mid);//球队阵容
 
         $articles = PcArticle::liveRelationArticle([$hname, $aname], 15);//相关新闻
-        $videos = SubjectVideo::relationVideosByTid($hid, $aid, $sport);//相关录像
+        if($match['sport'] == 2 && array_key_exists($match['lid'],Match::path_league_basketball_arrays)){
+            $zhuangti = Match::path_league_basketball_arrays[$match['lid']];
+            $data = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$zhuangti];
+            $data['name_en'] = $zhuangti;
+            $name_en = $zhuangti;
+            $json['comboData'] = CommonTool::getComboData($name_en);
+        }
 
         $json['tech'] = $tech;
         $json['hasTech'] = isset($tech) && count($tech) > 0;
@@ -408,13 +416,15 @@ class LiveController extends Controller
         $json['hasVideos'] = isset($videos) && count($videos) > 0;
         $json['hasArticle'] = isset($articles) && count($articles) > 0;
 
-        $json['videos'] = $videos;
         $json['articles'] = $articles;
 
         $json['passVSMatches'] = $passVSMatches;
         $json['hNearMatches'] = $hNearMatches;
         $json['aNearMatches'] = $aNearMatches;
 
+        $json['lid'] = $json['match']['lid'];
+
+//        dump($json);
         return view('mobile.live.detail', $json);
     }
 
