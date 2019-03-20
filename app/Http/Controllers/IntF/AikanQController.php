@@ -1687,7 +1687,7 @@ class AikanQController extends Controller
     /**
      * 球队终端页面数据
      */
-    public static function teamDetailData($sport, $lid, $tid, $isMobile = false) {
+    public static function teamDetailData($sport, $lid, $tid, $isMobile = false, $articleSize = 6) {
         $teamData = self::teamData($sport, $tid);
         $result = [];
         if (!isset($teamData)) {
@@ -1710,14 +1710,14 @@ class AikanQController extends Controller
 
         //专题资讯 开始
 //        $articles = PcArticle::liveRelationArticle([$teamName]);
-        $articles = TagRelation::getRelationsByTag(TagRelation::kTypeArticle,$sport,3,$teamName,1,6);
+        $articles = TagRelation::getRelationsByTag(TagRelation::kTypeArticle,$sport,3,$teamName,1,$articleSize);
         $article_array = [];
         foreach ($articles as $article) {
             $url = $article->url;
             if (is_null($url)){
                 $url = $article->getUrl();
             }
-            $article_array[] = ['title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
+            $article_array[] = ['id'=>$article->id,'title'=>$article->title, 'link'=>$url,'update_at'=>$article->publish_at, 'cover'=>$article->cover];
         }
         $result['articles'] = $article_array;
         //专题资讯 结束

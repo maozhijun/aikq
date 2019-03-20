@@ -98,6 +98,12 @@ Route::group(["namespace" => 'Team'], function () {
     Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端
 });
 
+Route::group(["namespace" => 'Team'], function () {
+    //v2
+    Route::get('/{name_en}/team{id}.html',"TeamController@detail");//球队终端 首页
+    Route::get("/static/team_index/{sport}/{name_en}/{tid}/{page}", "TeamController@staticIndexHtml");//球队录像终端静态化
+});
+
 Route::group(["namespace" => 'Data'], function () {
     Route::get("/data/", "DataController@index");
     //静态化
