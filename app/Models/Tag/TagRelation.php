@@ -275,9 +275,11 @@ class TagRelation extends Model
         if ($type == self::kTypeArticle) {
             $query = PcArticle::query();
             $tName = "pc_articles";
+            $query->where($tName.".status", "=", PcArticle::kStatusPublish);
         } else if ($type == self::kTypeVideo) {
             $query = HotVideo::query();
             $tName = "hot_videos";
+            $query->where($tName.".show", "=", HotVideo::kShow);
         } else if ($type == self::kTypePlayBack) {
             $query = SubjectVideo::query();
             $tName = "subject_videos";
@@ -285,19 +287,32 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tagName)) {
-                $eQuery->where("tags.name", "like", "%$tagName%");
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport;
+        if (is_numeric($level)) {
+            $joinSql .= " AND `tags`.`level` = ".$level;
+        }
+        if (!empty($tagName)) {
+            $joinSql .= " AND `tags`.`name` LIKE '%".$tagName."%'";
+        }
+        $joinSql .= ")";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tagName)) {
+//                $eQuery->where("tags.name", "like", "%$tagName%");
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+//        });
 
         $query->orderby('updated_at','desc');
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
@@ -318,19 +333,32 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tag_tId) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tag_tId)) {
-                $eQuery->where("tags.tid", "=", $tag_tId);
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport;
+        if (is_numeric($level)) {
+            $joinSql .= " AND `tags`.`level` = ".$level;
+        }
+        if (!empty($tag_tId)) {
+            $joinSql .= " AND `tags`.`tid` = " . $tag_tId;
+        }
+        $joinSql .= ")";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tag_tId) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tag_tId)) {
+//                $eQuery->where("tags.tid", "=", $tag_tId);
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+//        });
 
         $query->orderby('updated_at','desc');
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
