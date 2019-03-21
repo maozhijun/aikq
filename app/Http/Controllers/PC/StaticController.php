@@ -104,6 +104,9 @@ class StaticController extends Controller
                                     $tcon->staticNewsHtml(new Request(),$sport,$name_en,$tid,$i);
                                 }
                                 StaticController::pushStaticTeam($name_en,$sport,$tid,"news",3);
+
+                                //m站球队终端 (只有一个页面
+                                \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($name_en,$sport,$tid);
                             }
                         }
                             break;
@@ -184,6 +187,9 @@ class StaticController extends Controller
                                 }
                                 //球队加入更新队列
                                 StaticController::pushStaticTeam($name_en,$sport,$tid,"video",3);
+
+                                //m站球队终端 (只有一个页面
+                                \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($name_en,$sport,$tid);
                             }
                         }
                             break;
@@ -226,6 +232,8 @@ class StaticController extends Controller
                                 //录像 只有一页
                                 $rcon = new RecordController();
                                 $rcon->staticIndex(new Request());
+                                $mcon = new \App\Http\Controllers\Mobile\Record\RecordController();
+                                $mcon->staticIndex(new Request());
 
                                 //资讯 只有一页
 //                                $con = new ArticleController();
@@ -243,7 +251,7 @@ class StaticController extends Controller
                                 }
                                 StaticController::pushStaticLeague($name_en,"record",3);
                             }
-                        }
+                            }
                             break;
                         case Tag::kLevelThree:{
                             //录像对应球队综合页与录像页(更新2页

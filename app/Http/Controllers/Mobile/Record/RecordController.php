@@ -233,7 +233,7 @@ class RecordController extends Controller
         $html = $this->index($request);
         if (!is_null($html) && strlen($html) > 0){
             try {
-                Storage::disk("public")->put("/www/record/index.html", $html);
+                Storage::disk("public")->put("/m/record/index.html", $html);
             }
             catch (\Exception $exception){
                 echo $exception;
@@ -243,29 +243,6 @@ class RecordController extends Controller
             echo 'html为空';
         }
     }
-
-    /**
-     * 静态化专题录像首页
-     * @param Request $request
-     * @param $league
-     * @param int $page
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|null
-     */
-    public function subjectDetailHtml(Request $request,$league,$page = 1){
-        $html = $this->subject($request,$league,$page);
-        if (is_null($html)){
-            echo 'RecordController subjectDetailHtml error ' . $league . ' ' . $page;
-        }
-        if (!empty($html)) {
-            if ($page == 1){
-                Storage::disk("public")->put("/www/$league/record/index.html", $html);
-            }
-            else{
-                Storage::disk("public")->put("/www/$league/record/index$page.html", $html);
-            }
-        }
-    }
-
 
     public function recordDetailHtml(Request $request,$id){
         $record = SubjectVideo::find($id);
@@ -286,7 +263,7 @@ class RecordController extends Controller
             $record->url = CommonTool::getRecordDetailUrl($name_en, $record->mid);
             $record->save();
 
-            Storage::disk("public")->put('/www'.$path, $html);
+            Storage::disk("public")->put('/m'.$path, $html);
 //            $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
 //            $wapHtml = $mobileCon->detailHtml($article);
 //            Storage::disk("public")->put('/m'.$path, $wapHtml);
