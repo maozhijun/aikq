@@ -34,10 +34,14 @@
                     if (count($_4) > 0) {
                         foreach($_4 as $key=>$item) {
                             $ids = [$item['hid'], $item['aid']];
-                            foreach ($finalIds as $a=>$id) {
-                                if (in_array($id, $ids)) {
-                                    $_4Ids[$a] = $ids;
+                            if (count($finalIds) > 0) {
+                                foreach ($finalIds as $a=>$id) {
+                                    if (in_array($id, $ids)) {
+                                        $_4Ids[$a] = $ids;
+                                    }
                                 }
+                            } else {
+                                $_4Ids[] = $ids;
                             }
                         }
                     }
@@ -52,11 +56,23 @@
                     if(count($_8) > 0) {
                         foreach($_8 as $key=>$item) {
                             $ids = [$item['hid'], $item['aid']];
-                            foreach ($_4Ids as $a=>$aIds) {
-                                foreach ($aIds as $b=>$id) {
-                                    if (in_array($id, $ids)) {
-                                        $_8Ids[$a][$b] = $ids;
+                            if (count($_4Ids) > 0) {
+                                foreach ($_4Ids as $a=>$aIds) {
+                                    foreach ($aIds as $b=>$id) {
+                                        if (in_array($id, $ids)) {
+                                            $_8Ids[$a][$b] = $ids;
+                                        }
                                     }
+                                }
+                            } else {
+                                if (!isset($_8Ids[0][0])) {
+                                    $_8Ids[0][0] = $ids;
+                                } else if (!isset($_8Ids[0][1])) {
+                                    $_8Ids[0][1] = $ids;
+                                } else if (!isset($_8Ids[1][0])) {
+                                    $_8Ids[1][0] = $ids;
+                                } else if (!isset($_8Ids[1][1])) {
+                                    $_8Ids[1][1] = $ids;
                                 }
                             }
                         }
