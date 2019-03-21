@@ -152,7 +152,7 @@ class DataController extends Controller{
         $html = $this->index($request);
         if (!is_null($html) && strlen($html) > 0){
             try {
-                Storage::disk("public")->put("/www/data/index.html", $html);
+                Storage::disk("public")->put("/m/data/index.html", $html);
             }
             catch (\Exception $exception){
                 echo $exception;

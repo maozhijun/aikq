@@ -43,11 +43,27 @@ class TeamController extends Controller
         return view('mobile.team.v2.detail', $data);
     }
 
-    public static function detailStatic($data, $path)
-    {
-        $html = self::detailHtml($data);
+    public function staticIndexHtml(Request $request, $sport, $name_en, $tid, $page){
+        TeamController::detailStatic($name_en,$tid,$sport);
+    }
 
-        Storage::disk('public')->put("m/$path", $html);
-//        echo "mobile: $path </br>";
+    public static function detailStatic($name_en, $tid, $sport)
+    {
+//        $html = self::detailHtml($data);
+//
+//        Storage::disk('public')->put("www/$path", $html);
+//        echo "pc: $path </br>";
+        $path = CommonTool::getTeamDetailPathWithType($sport, $name_en, $tid,'index',1);
+
+        $con = new TeamController();
+        $tempTid = $tid;
+        while (strlen($tempTid) < 4) {
+            $tempTid = "0".$tempTid;
+        }
+        $tempTid = $sport.$tempTid;
+        $html = $con->detail(new Request(), $name_en, $tempTid);
+        if (isset($html) && strlen($html) > 0){
+            Storage::disk('public')->put("m/$path", $html);
+        }
     }
 }

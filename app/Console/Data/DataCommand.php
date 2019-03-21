@@ -54,8 +54,10 @@ class DataCommand extends Command
         $type = $this->argument('type');
         $this->type = $type;
         $aiCon = new DataController();
+        $mCon = new \App\Http\Controllers\Mobile\Data\DataController();
         if ($this->type == 'index' || $this->type == 'all'){
             $aiCon->staticIndex(new Request());
+            $mCon->staticIndex(new Request());
         }
         if ($this->type == 'league' || $this->type == 'all'){
             $leagues = SubjectLeague::getAllLeagues();

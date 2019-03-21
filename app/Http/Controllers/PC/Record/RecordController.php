@@ -403,6 +403,10 @@ class RecordController extends Controller
         else{
             echo 'fail ' . $id;
         }
+
+        //手机的
+        $mCon = new \App\Http\Controllers\Mobile\Record\RecordController();
+        $mCon->recordDetailHtml($request,$id);
     }
 
     /**
