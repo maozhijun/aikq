@@ -1,17 +1,13 @@
 @if(isset($match))
     <?php
     $isShowDate = true;
-    $channels = $match['channels'];
-    $firstChannel = isset($channels[0]) ? $channels[0] : [];
-    $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
-    $link = isset($firstChannel['link']) ? $firstChannel['link'] : '';
     $clazz = $match['sport'] == 2 ? "basketball" : "football";
 
     $isHomeLose = false; $isAwayLose = false;
-    if ($impt == 2) {
-        $clazz .= ' good';
-    }
-    if ($match['isMatching']){
+//    if ($impt == 2) {
+//        $clazz .= ' good';
+//    }
+    if ($match["status"] > 0){
         $clazz .= ' live';
     } elseif ($match["status"] == -1) {
         $clazz .= ' end';
@@ -35,11 +31,11 @@
         </div>
         <div class="info_con">
             @if(isset($hideLeague) && $hideLeague)
-                <p>{{date('m-d', strtotime($match['time']))}}</p>
+                <p>{{date('m-d', is_numeric($match['time']) ? $match['time'] : strtotime($match['time']))}}</p>
             @else
                 <p>{{$match['league']}}</p>
             @endif
-            <p>{{date('H:i', strtotime($match['time']))}}</p>
+            <p>{{date('H:i', is_numeric($match['time']) ? $match['time'] : strtotime($match['time']))}}</p>
         </div>
         <div class="status_con"></div>
     </a>

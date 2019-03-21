@@ -14,11 +14,12 @@
         @endforeach
     </div>
     @foreach($players as $name=>$itemPlayers)
+        @if(!array_key_exists($name, $names)) @continue @endif
         <div class="player_change_con {{$name}}" style="display: {{$name == $firstName?'':'none'}};">
         <div class="inner_title">
             <p class="name_con">球员</p>
             <p class="team_con">球队</p>
-            <p>场均</p>
+            <p><p>{{$names[$name]}}</p></p>
             <p>场次</p>
         </div>
         <div class="inner_con">

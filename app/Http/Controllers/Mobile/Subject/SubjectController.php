@@ -239,6 +239,11 @@ class SubjectController extends Controller
             $season = $footballSeason["name"];
         }
 
+        //数据榜单（球员榜单）
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
+        $players = json_decode($playerString, true);
+        $result["players"] = $players;
+
         //判断是否杯赛
         $total_round = $footballSeason["total_round"];
         if (is_null($total_round)) {
@@ -252,7 +257,7 @@ class SubjectController extends Controller
         $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
-        $scores = $leagueData['scores'];
+        $scores = $leagueData['score'];
         //赛程
         if (!isset($leagueSeason["curr_round"])) {
             $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
@@ -261,19 +266,14 @@ class SubjectController extends Controller
             $curr_round = $leagueSeason["curr_round"];//当前轮次
         }
 
-        //数据榜单
-        //右侧内容（球员信息）
-        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
-        $data = json_decode($playerString, true);
-
         $result["sl"] = $sl;
         $result["season"] = $footballSeason;
         $result["seasons"] = $seasons;
         $result["curRound"] = $curr_round;
-        $result["ranks"] = $scores;
-        $result["schedule"] = $schedule;
-        $result["data"] = $data;
+        $result["ranks"] = [$scores];
+        $result["schedules"] = $schedule;
         $result['title'] = '[' . $sl->name . '直播]' . $sl->name . '免费在线直播观看_哪里可以看' . $sl->name . '直播网址-爱看球直播';
+
         return view("mobile.subject.v2.football_detail", $result);
     }
 
@@ -302,9 +302,10 @@ class SubjectController extends Controller
         $result["sl"] = $sl;
         $result["season"] = $season;
         $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
-        $result["stages"] = $stageDatas;
+        $result["schedules"] = $stageDatas;
+        $result["knockout"] = $stageDatas;
         $result['title'] = '[' . $sl["name"] . '直播]' . $sl["name"] . '免费在线直播观看_哪里可以看' . $sl["name"] . '直播网址-爱看球直播';
-        return view("mobile.subject.v2.football_detail_cup", $result);
+        return view("mobile.subject.v2.football_cup_detail", $result);
     }
 
     /**
@@ -337,23 +338,23 @@ class SubjectController extends Controller
         $eastRanks = isset($leagueData['scores']['east']) ? $leagueData['scores']['east'] : array();
 
         //三天 赛程
-        $curYear = substr(date('Y'), 2, 2);
-        $scheduleMatches = array();
-        if (preg_match("#" . $curYear . "#", $season)) {//当前赛季
-            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
-        } else {//非当前赛季
-            //获取总决赛比赛场次
-            $bs = BasketStage::getFinal($lid, $season);
-            if (isset($bs)) {
-                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
-            }
-        }
+//        $curYear = substr(date('Y'), 2, 2);
+        $scheduleMatches = $leagueData['schedule'];
+//        if (preg_match("#" . $curYear . "#", $season)) {//当前赛季
+//            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
+//        } else {//非当前赛季
+//            //获取总决赛比赛场次
+//            $bs = BasketStage::getFinal($lid, $season);
+//            if (isset($bs)) {
+//                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
+//            }
+//        }
 
         $playerString = CommonTool::getPlayerData($sport, $lid, $season, $kind == 2 ? 1 : $kind);
         $data = json_decode($playerString, true);
+        $result["players"] = $data;
 
         $result["sl"] = $sl;
-        $result["players"] = $data;
 
         if (count($westRanks) > 0 && count($eastRanks) > 0) {
             $result["ranks"] = ['西部' => $westRanks, '东部' => $eastRanks];
@@ -368,10 +369,9 @@ class SubjectController extends Controller
         if (isset($leagueData["playoff"])) {
             $result["playoff"] = $leagueData["playoff"];
         }
-        $result["lives"] = $scheduleMatches;
+        $result["schedules"] = [$scheduleMatches];
         $result['title'] = '[' . $sl->name . '直播]' . $sl->name . '免费在线直播观看_哪里可以看' . $sl->name . '直播网址-爱看球直播';
 
-//        dump($result);
         return view("mobile.subject.v2.basketball_detail", $result);
     }
 

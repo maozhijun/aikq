@@ -1,4 +1,5 @@
-<div class="rank_con rank" style="display: none;">
+<?php $display = isset($display) ? $display : "none"; ?>
+<div class="rank_con rank" style="display: {{$display}};">
     @foreach($ranks as $name=>$itemRanks)
         @if(strlen($name) > 0 && !is_numeric($name))
             <p class="title_text">{{$name}}</p>
