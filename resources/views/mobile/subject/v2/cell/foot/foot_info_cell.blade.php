@@ -13,8 +13,12 @@
         </select>
     </div>
     <div class="tab_con">
-        <p class="tab_item on" forItem="knockout">淘汰赛</p>
-        <p class="tab_item" forItem="rank">排名</p>
+        @if(isset($hasKnockout) && $hasKnockout)
+            <p class="tab_item on" forItem="knockout">淘汰赛</p>
+            <p class="tab_item" forItem="rank">排名</p>
+        @else
+            <p class="tab_item on" forItem="rank">排名</p>
+        @endif
         <p class="tab_item" forItem="match">赛程</p>
         <p class="tab_item" forItem="player">球员榜</p>
         <p class="tab_item" forItem="news">资讯</p>

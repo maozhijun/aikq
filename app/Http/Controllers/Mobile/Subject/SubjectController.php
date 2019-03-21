@@ -15,13 +15,12 @@ use App\Http\Controllers\IntF\Common\LeagueDataTool;
 use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Live\SubjectVideoController;
 use App\Http\Controllers\PC\MatchTool;
-use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketSeason;
-use App\Models\LgMatch\Match;
+use App\Models\LgMatch\BasketStage;
 use App\Models\LgMatch\Season;
-use App\Models\LgMatch\Stage;
+use App\Models\Match\BasketMatch;
+use App\Models\Match\Match;
 use App\Models\Subject\SubjectLeague;
-use App\Models\Subject\SubjectVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,7 +45,8 @@ class SubjectController extends Controller
      * @param $name 名字
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function detail(Request $request,$name = null) {
+    public function detail(Request $request, $name = null)
+    {
         if (is_null($name)) {
             $path = $request->path();
             $name = str_replace("m/", "", $path);
@@ -67,7 +67,7 @@ class SubjectController extends Controller
         $content_array = explode("\r", $content);
         $new_content = '';
         foreach ($content_array as $c) {
-            $new_content .= '<p>' . $c. '</p>';
+            $new_content .= '<p>' . $c . '</p>';
         }
         $subject['content'] = $new_content;
         $icon = $subject['icon'];
@@ -86,7 +86,7 @@ class SubjectController extends Controller
         $hasRound = false;//是否有轮次
         if (isset($result['lives']) && count($result['lives']) > 0) {
             $lives = $result['lives'];
-            foreach ($lives as $day=>$matches) {
+            foreach ($lives as $day => $matches) {
                 $hasRound = isset($matches[0]['round']);
                 break;
             }
@@ -107,7 +107,8 @@ class SubjectController extends Controller
      * @param $vid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectVideo(Request $request,$first, $second, $vid) {
+    public function subjectVideo(Request $request, $first, $second, $vid)
+    {
         //录像 播放页面
         $video = $this->getSubjectVideo($vid);
         if (isset($video['error'])) {
@@ -131,7 +132,8 @@ class SubjectController extends Controller
      * @param $video
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function subjectVideoHtml($video) {
+    protected function subjectVideoHtml($video)
+    {
         $result['match'] = $video;
         $result['type'] = 'video';
 
@@ -153,7 +155,8 @@ class SubjectController extends Controller
      * @param $sid
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectSpecimen(Request $request, $first, $second, $sid) {
+    public function subjectSpecimen(Request $request, $first, $second, $sid)
+    {
         $specimen = $this->getSubjectSpecimen($sid);
         if (isset($specimen['error'])) {
             return "";
@@ -171,7 +174,8 @@ class SubjectController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectVideoChannelJson(Request $request, $first, $second, $id) {
+    public function subjectVideoChannelJson(Request $request, $first, $second, $id)
+    {
         $json = $this->getSubjectVideoChannel($id);
         return response()->json($json);
     }
@@ -184,7 +188,8 @@ class SubjectController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function subjectSpecimenChannelJson(Request $request,$first, $second, $id) {
+    public function subjectSpecimenChannelJson(Request $request, $first, $second, $id)
+    {
         $json = $this->getSubjectSpecimenChannel($id);
         return response()->json($json);
     }
@@ -194,14 +199,16 @@ class SubjectController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function subjectPlayer(Request $request) {
-        return view('pc.subject.player', ['cdn'=>env('CDN_URL')]);
+    public function subjectPlayer(Request $request)
+    {
+        return view('pc.subject.player', ['cdn' => env('CDN_URL')]);
     }
     //=====================================================//
 
     //===============aikq2.0===================================//
 
-    public function detailV2(Request $request, $name_en, $season = "") {
+    public function detailV2(Request $request, $name_en, $season = "")
+    {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (!isset($sl)) {
             return abort(404);
@@ -209,16 +216,16 @@ class SubjectController extends Controller
         $sport = $sl->sport;
         $lid = $sl->lid;
 
-        //专题资讯 开始
-        $query = PcArticle::getPublishQuery($name_en);
-        $articles = array();
-        if (isset($query)) {
-            $articles = $query->take(20)->get();
+        $result = array();
+        try {
+            $comboData = CommonTool::getComboData($name_en);
+            $result["comboData"] = $comboData;
+            //专题资讯 开始
+            $result['articles'] = isset($comboData['articles']) ? $comboData['articles'] : array();
+            //专题视频 开始
+            $result['videos'] = isset($comboData['videos']) ? $comboData['videos'] : array();
+        } catch (\Exception $exception) {
         }
-        $result['articles'] = $articles;
-
-        //专题录像 开始
-        $result['videos'] = SubjectVideo::newVideos($lid, true);
 
         if ($sport == SubjectLeague::kSportBasketball) {
             return $this->basketDetailHtml($sl, $season, $result);//篮球
@@ -231,6 +238,11 @@ class SubjectController extends Controller
             $footballSeason = Season::query()->where("lid", $lid)->orderBy("year", "desc")->first();
             $season = $footballSeason["name"];
         }
+
+        //数据榜单（球员榜单）
+        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
+        $players = json_decode($playerString, true);
+        $result["players"] = $players;
 
         //判断是否杯赛
         $total_round = $footballSeason["total_round"];
@@ -245,7 +257,7 @@ class SubjectController extends Controller
         $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
-        $scores = $leagueData['scores'];
+        $scores = $leagueData['score'];
         //赛程
         if (!isset($leagueSeason["curr_round"])) {
             $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
@@ -254,26 +266,22 @@ class SubjectController extends Controller
             $curr_round = $leagueSeason["curr_round"];//当前轮次
         }
 
-        //数据榜单
-        //右侧内容（球员信息）
-        $playerString = CommonTool::getPlayerData($sport, $lid, $season, 0);
-        $data = json_decode($playerString, true);
-
         $result["sl"] = $sl;
         $result["season"] = $footballSeason;
         $result["seasons"] = $seasons;
         $result["curRound"] = $curr_round;
-        $result["ranks"] = $scores;
-        $result["schedule"] = $schedule;
-        $result["data"] = $data;
-        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        $result["ranks"] = [$scores];
+        $result["schedules"] = $schedule;
+        $result['title'] = '[' . $sl->name . '直播]' . $sl->name . '免费在线直播观看_哪里可以看' . $sl->name . '直播网址-爱看球直播';
+
         return view("mobile.subject.v2.football_detail", $result);
     }
 
     /**
      * 杯赛终端
      */
-    public function footballCupDetailHtml(SubjectLeague $sl, Season $season, $result = array()) {
+    public function footballCupDetailHtml(SubjectLeague $sl, Season $season, $result = array())
+    {
         $sport = $sl["sport"];
         $lid = $sl["lid"];
 
@@ -283,7 +291,7 @@ class SubjectController extends Controller
         $ranks = array();
         foreach ($stageDatas as $stageData) {
             if ($stageData['name'] == "分组赛") {
-                $ranks = collect($stageData['groupMatch'])->map(function ($item){
+                $ranks = collect($stageData['groupMatch'])->map(function ($item) {
                     return $item['scores'];
                 })->all();
                 break;
@@ -294,9 +302,10 @@ class SubjectController extends Controller
         $result["sl"] = $sl;
         $result["season"] = $season;
         $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
-        $result["stages"] = $stageDatas;
-        $result['title'] = '['.$sl["name"].'直播]'.$sl["name"].'免费在线直播观看_哪里可以看'.$sl["name"].'直播网址-爱看球直播';
-        return view("mobile.subject.v2.football_detail_cup", $result);
+        $result["schedules"] = $stageDatas;
+        $result["knockout"] = $stageDatas;
+        $result['title'] = '[' . $sl["name"] . '直播]' . $sl["name"] . '免费在线直播观看_哪里可以看' . $sl["name"] . '直播网址-爱看球直播';
+        return view("mobile.subject.v2.football_cup_detail", $result);
     }
 
     /**
@@ -305,19 +314,20 @@ class SubjectController extends Controller
      * @param $season = ""  赛季 例：18-19
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function basketDetailHtml(SubjectLeague $sl, $season = "", $result = array()) {
+    public function basketDetailHtml(SubjectLeague $sl, $season = "", $result = array())
+    {
         $sport = $sl["sport"];
         $lid = $sl["lid"];
 
         if (!empty($season)) {
             $basketSeason = BasketSeason::query()->where('lid', $lid)->where('name', $season)->first();
         }
-        if (!isset($basketSeason)){
-            $basketSeason = BasketSeason::query()->where('lid', $lid)->orderby('name','desc')->first();
+        if (!isset($basketSeason)) {
+            $basketSeason = BasketSeason::query()->where('lid', $lid)->orderby('name', 'desc')->first();
         }
 
-        $kind = 0;$year = '';
-        if (isset($basketSeason)){
+        $kind = 0;
+        if (isset($basketSeason)) {
             $kind = $basketSeason['kind'];
             $season = $basketSeason['name'];
         }
@@ -328,23 +338,40 @@ class SubjectController extends Controller
         $eastRanks = isset($leagueData['scores']['east']) ? $leagueData['scores']['east'] : array();
 
         //三天 赛程
-        $scheduleMatches = $leagueData["schedule"];//从接口获取赛程
+//        $curYear = substr(date('Y'), 2, 2);
+        $scheduleMatches = $leagueData['schedule'];
+//        if (preg_match("#" . $curYear . "#", $season)) {//当前赛季
+//            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
+//        } else {//非当前赛季
+//            //获取总决赛比赛场次
+//            $bs = BasketStage::getFinal($lid, $season);
+//            if (isset($bs)) {
+//                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
+//            }
+//        }
 
         $playerString = CommonTool::getPlayerData($sport, $lid, $season, $kind == 2 ? 1 : $kind);
         $data = json_decode($playerString, true);
+        $result["players"] = $data;
 
         $result["sl"] = $sl;
-        $result["data"] = $data;
-        $result["ranks"] = ['西部'=>$westRanks, '东部'=>$eastRanks];
+
+        if (count($westRanks) > 0 && count($eastRanks) > 0) {
+            $result["ranks"] = ['西部' => $westRanks, '东部' => $eastRanks];
+        } else if (count($westRanks) > 0) {
+            $result["ranks"] = [$westRanks];
+        } else if (count($eastRanks) > 0) {
+            $result["ranks"] = [$eastRanks];
+        }
+
         $result["season"] = $basketSeason;
         $result["seasons"] = $leagueData["seasons"];
         if (isset($leagueData["playoff"])) {
             $result["playoff"] = $leagueData["playoff"];
         }
-        $result["scheduleMatches"] = $scheduleMatches;
-        $result['title'] = '['.$sl->name.'直播]'.$sl->name.'免费在线直播观看_哪里可以看'.$sl->name.'直播网址-爱看球直播';
+        $result["schedules"] = [$scheduleMatches];
+        $result['title'] = '[' . $sl->name . '直播]' . $sl->name . '免费在线直播观看_哪里可以看' . $sl->name . '直播网址-爱看球直播';
 
-//        dump($result);
         return view("mobile.subject.v2.basketball_detail", $result);
     }
 
@@ -353,7 +380,8 @@ class SubjectController extends Controller
     /**
      * 通过接口获取专题列表内容
      */
-    public static function getSubjects() {
+    public static function getSubjects()
+    {
         //先从文件获取内容
         try {
             $server_output = Storage::get('public/static/json/pc/subject/leagues.json');
@@ -370,7 +398,8 @@ class SubjectController extends Controller
      * @param $id
      * @return array|mixed|void
      */
-    public function getSubjectDetail($id) {
+    public function getSubjectDetail($id)
+    {
         $aiCon = new AikanQController();
         $data = $aiCon->subjectDetail(new Request(), $id)->getData();
         $data = json_encode($data);
@@ -383,7 +412,8 @@ class SubjectController extends Controller
      * @param $id
      * @return array|mixed
      */
-    public function getSubjectVideo($id) {
+    public function getSubjectVideo($id)
+    {
         $video = $this->akqCon->subjectVideo($id);
         $video = isset($video) ? $video : [];
         return $video;
@@ -394,7 +424,8 @@ class SubjectController extends Controller
      * @param $id
      * @return array|mixed
      */
-    public function getSubjectSpecimen($id) {
+    public function getSubjectSpecimen($id)
+    {
         $specimen = $this->akqCon->subjectSpecimen($id);
         $specimen = isset($specimen) ? $specimen : [];
         return $specimen;
@@ -405,9 +436,10 @@ class SubjectController extends Controller
      * @param $cid
      * @return array|mixed
      */
-    public function getSubjectVideoChannel($cid) {
+    public function getSubjectVideoChannel($cid)
+    {
         $channel = $this->akqCon->subjectVideoChannelJson(new Request(), $cid);
-        $channel = isset($channel) ? $channel : ['code'=>-1];
+        $channel = isset($channel) ? $channel : ['code' => -1];
         return $channel;
     }
 
@@ -416,9 +448,10 @@ class SubjectController extends Controller
      * @param $cid
      * @return array|mixed
      */
-    public function getSubjectSpecimenChannel($cid) {
+    public function getSubjectSpecimenChannel($cid)
+    {
         $specimen = $this->akqCon->subjectSpecimenChannelJson(new Request(), $cid)->getData();
-        $specimen = isset($specimen) ? $specimen : ['code'=>-1];
+        $specimen = isset($specimen) ? $specimen : ['code' => -1];
         return $specimen;
     }
     //================================================静态化================================================//
@@ -427,7 +460,8 @@ class SubjectController extends Controller
      * 静态化专题列表json
      * @param Request $request
      */
-    public function staticSubjectLeagues(Request $request) {
+    public function staticSubjectLeagues(Request $request)
+    {
         $aiCon = new AikanQController();
         $data = $aiCon->subjects(new Request())->getData();
         $server_output = json_encode($data);
@@ -441,7 +475,8 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $slid
      */
-    public function staticSubjectDetailJson(Request $request, $slid) {
+    public function staticSubjectDetailJson(Request $request, $slid)
+    {
         $server_output = $this->akqCon->subjectDetail($request, $slid)->getData();
         $server_output = json_encode($server_output);
         if (!empty($server_output)) {
@@ -454,10 +489,11 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $str
      */
-    public function staticSubjectHtml(Request $request, $str) {
+    public function staticSubjectHtml(Request $request, $str)
+    {
         $html = $this->detail($request, $str);
         if (!empty($html)) {
-            Storage::disk("public")->put("/m/".$str."/index.html", $html);
+            Storage::disk("public")->put("/m/" . $str . "/index.html", $html);
         }
     }
 
@@ -466,7 +502,8 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $vid
      */
-    public function staticSubjectVideoHtml(Request $request, $vid) {
+    public function staticSubjectVideoHtml(Request $request, $vid)
+    {
         $html = $this->subjectVideo($request, '', '', $vid);
         if (!empty($html)) {//静态化录像终端
             $patch = MatchTool::subjectLink($vid, 'video');
@@ -480,7 +517,8 @@ class SubjectController extends Controller
      * @param $type
      * @param $page
      */
-    public function staticSubjectVideoHtmlFromVideos(Request $request, $type, $page) {
+    public function staticSubjectVideoHtmlFromVideos(Request $request, $type, $page)
+    {
         $videoIntF = new SubjectVideoController();
         $data = $videoIntF->getSubjectVideos($type, $page);
         if (!isset($data['videos'])) {
@@ -503,7 +541,8 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $ch_id
      */
-    public function staticSubjectVideoChannelJson(Request $request, $ch_id) {
+    public function staticSubjectVideoChannelJson(Request $request, $ch_id)
+    {
         $json = $this->getSubjectVideoChannel($ch_id);//$this->getSubjectVideo($ch_id);//
         $jsonStr = json_encode($json);
         if (!empty($jsonStr)) {
@@ -519,7 +558,8 @@ class SubjectController extends Controller
      * @param Request $request
      * @param $sid
      */
-    public function staticSubjectSpecimenHtml(Request $request, $sid) {
+    public function staticSubjectSpecimenHtml(Request $request, $sid)
+    {
         $html = $this->subjectSpecimen($request, '', '', $sid);
         if (!empty($html)) {
             $patch = MatchTool::subjectLink($sid, 'specimen');
@@ -537,7 +577,8 @@ class SubjectController extends Controller
      * 静态化player页面
      * @param Request $request
      */
-    public function staticPlayer(Request $request) {
+    public function staticPlayer(Request $request)
+    {
         $html = $this->subjectPlayer($request);
         if (!empty($html)) {
             Storage::disk("public")->put("/live/subject/player.html", $html);
