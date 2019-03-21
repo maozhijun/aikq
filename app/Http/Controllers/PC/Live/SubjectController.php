@@ -132,7 +132,7 @@ class SubjectController extends Controller
         $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
-        $scores = Score::getFootballScores($lid, $season);
+        $scores = isset($leagueData["score"]) ? $leagueData["score"] : [];//Score::getFootballScores($lid, $season);
         //赛程
         if (!isset($leagueSeason["curr_round"])) {
             $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
@@ -376,7 +376,7 @@ class SubjectController extends Controller
         $leagueData = LeagueDataTool::getLeagueDataBySeasonNew($sl["sport"], $sl["lid"], $season);
 
         $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
-        $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
+        $eastRanks =  BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
 
         //三天 赛程
         $schedule = $leagueData["schedule"];//从接口获取赛程
