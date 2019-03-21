@@ -10,8 +10,10 @@ namespace App\Console\Subject;
 
 
 use App\Console\HtmlStaticCommand\BaseCommand;
+use App\Console\LiveDetailCommand;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\Common\LeagueDataTool;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\Team\TeamController;
 use App\Models\LgMatch\BasketLeague;
 use App\Models\LgMatch\BasketMatch;
@@ -21,6 +23,7 @@ use App\Models\LgMatch\Season;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 
 class SubjectAllCommand extends BaseCommand
 {
@@ -68,6 +71,64 @@ class SubjectAllCommand extends BaseCommand
             case "basketball":
                 $this->staticFinalBasketballMatchDetail($name_en);
                 break;
+            case "index":
+                $cache = Storage::get('/public/static/json/pc/lives.json');
+                $json = json_decode($cache, true);
+                if (!isset($json["matches"])) {
+                    echo "没有数据";
+                    return;
+                }
+                $matches = $json["matches"];
+                $sls = SubjectLeague::query()->get();
+                $slArray = [];
+                foreach ($sls as $sl) {
+                    $sport = $sl["sport"];
+                    $lid = $sl["lid"];
+                    $slArray[$sport."_".$lid] = $sl["name_en"];
+                }
+                $wwwUrl = "http://www.aikanqiu.com";
+                $host = "http://cms.aikanqiu.com";
+                foreach ($matches as $date=>$array) {
+                    foreach ($array as $key=>$item) {
+                        $sport = $item["sport"];
+                        $lid = $item["lid"];
+                        $slKey = $sport."_".$lid;
+                        $hid = $item["hid"];
+                        $aid = $item["aid"];
+                        $mid = $item["mid"];
+                        $msg = $item["hname"] . " VS " . $item["aname"] . " " . $item["time"];
+                        $name_en = isset($slArray[$slKey]) ? $slArray[$slKey] : "other";
+                        $liveDetailUrl = $wwwUrl . CommonTool::getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid);
+                        dump($liveDetailUrl);
+                        $code = LiveDetailCommand::getUrlCode($liveDetailUrl);
+                        if ($code == 200) {
+                            echo "已存在 直播终端  " . $msg . " \n";
+                        } else {
+                            //不存在则静态化
+                            $url = $host."/live/cache/match/detail_id/".$mid."/".$sport;
+                            Controller::execUrl($url, 20);
+                            echo "静态化直播终端 $url \n";
+                            sleep(1);
+                        }
+
+                        $hTeamUrl = $wwwUrl.CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
+                        $code = LiveDetailCommand::getUrlCode($hTeamUrl);
+                        if ($code == 200) {
+                            echo "已存在 球队页面 " . $item["hname"] . " $hTeamUrl \n";
+                        } else {
+                            $this->staticTeam($sport, $name_en, $hid, $item["hname"]);
+                        }
+
+                        $aTeamUrl = $wwwUrl.CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
+                        $code = LiveDetailCommand::getUrlCode($aTeamUrl);
+                        if ($code == 200) {
+                            echo "已存在 球队页面 " . $item["aname"] . " $aTeamUrl \n";
+                        } else {
+                            $this->staticTeam($sport, $name_en, $aid, $item["aname"]);
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -96,9 +157,9 @@ class SubjectAllCommand extends BaseCommand
             $type = $league["type"];
 
             $liveStart = time();
-            $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
-            Controller::execUrl($url);//静态化 专题
-            echo "静态化专题 $name_en $name ：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
+//            $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
+//            Controller::execUrl($url);//静态化 专题
+//            echo "静态化专题 $name_en $name ：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
             if (!$staticTeam) {
                 echo "不静态化 球队终端 \n";
                 continue;
@@ -141,6 +202,15 @@ class SubjectAllCommand extends BaseCommand
             return;
         }
         Redis::setEx($key, 60 * 60 * 10, "1");
+
+        //判断是否有静态化页面
+
+        $wwwUrl = "http://www.aikanqiu.com".CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
+        $code = LiveDetailCommand::getUrlCode($wwwUrl);
+        if ($code == 200) {
+            echo "已存在静态化页面 $wwwUrl \n";
+            return;
+        }
 
         $host = "http://cms.aikanqiu.com";
         if ($name_en == "other") {

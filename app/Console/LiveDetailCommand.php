@@ -183,7 +183,7 @@ class LiveDetailCommand extends Command
      * @param int $timeout
      * @return mixed
      */
-    protected function getUrlCode($url, $timeout = 5) {
+    public static function getUrlCode($url, $timeout = 5) {
         $isHttps = preg_match('/^https:/', $url);
 
         $ch = curl_init();
