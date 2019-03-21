@@ -82,8 +82,12 @@ body{
 }
 #Navigation .header .item_content a:after{
 	margin-left: -6px;
-	border-top: 8px solid #fff; border-left: 6px solid transparent; border-right: 6px solid transparent;
-	position: absolute; top: -1px; left: 50%;
+	border-bottom: 8px solid #fff;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
 	display: none;
 	content: '';
 }
