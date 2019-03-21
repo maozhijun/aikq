@@ -40,14 +40,20 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($eastRanks as $rank)
-                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]);
+                        $win = $rank["win"];
+                        $lose = $rank["lose"];
+                        $total = $win + $lose;
+                        $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
+                    ?>
                         <tr>
                             <td>{{$rank["rank"]}}</td>
-                            <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                            <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["ticon"]}}">{{$rank["tname"]}}</a></td>
                             <td>{{$rank["win"]}}</td>
                             <td>{{$rank["lose"]}}</td>
                             <td>{{$rank["win_diff"]}}</td>
-                            <td>{{$rank["win_p"]}}%</td>
+                            <td>{{$win_p}}%</td>
                             <td>{{$rank["home_bat_w"]}}-{{$rank["home_bat_l"]}}</td>
                             <td>{{$rank["away_bat_w"]}}-{{$rank["away_bat_l"]}}</td>
                             <td>{{$rank["goal"]}}</td>
@@ -76,14 +82,20 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($westRanks as $rank)
-                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]);
+                        $win = $rank["win"];
+                        $lose = $rank["lose"];
+                        $total = $win + $lose;
+                        $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
+                    ?>
                     <tr>
                         <td>{{$rank["rank"]}}</td>
-                        <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                        <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["ticon"]}}">{{$rank["tname"]}}</a></td>
                         <td>{{$rank["win"]}}</td>
                         <td>{{$rank["lose"]}}</td>
                         <td>{{$rank["win_diff"]}}</td>
-                        <td>{{$rank["win_p"]}}%</td>
+                        <td>{{$win_p}}%</td>
                         <td>{{$rank["home_bat_w"]}}-{{$rank["home_bat_l"]}}</td>
                         <td>{{$rank["away_bat_w"]}}-{{$rank["away_bat_l"]}}</td>
                         <td>{{$rank["goal"]}}</td>

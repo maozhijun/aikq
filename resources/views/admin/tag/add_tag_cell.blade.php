@@ -2,8 +2,9 @@
     <span class="input-group-addon">竞技</span>
     <select class="form-control" name="sport" onchange="findLeagueTag(this.value, 'league{{isset($mul_id) ? $mul_id : ''}}');" id="sport">
         <option value="">请选择</option>
-        <option value="1" @if(isset($sport) && $sport["tag_id"] == 1) selected @endif >足球</option>
-        <option value="2" @if(isset($sport) && $sport["tag_id"] == 2) selected @endif >篮球</option>
+        @foreach($sports as $sp)
+            <option value="{{$sp["id"]}}" @if(isset($sport) && $sp["id"] == $sport["tag_id"]) selected @endif >{{$sp["name"]}}</option>
+        @endforeach
     </select>
 </div>
 

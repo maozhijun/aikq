@@ -375,8 +375,8 @@ class SubjectController extends Controller
 
         $leagueData = LeagueDataTool::getLeagueDataBySeasonNew($sl["sport"], $sl["lid"], $season);
 
-        $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
-        $eastRanks =  BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
+        $westRanks = isset($leagueData["scores"]["west"]) ? $leagueData["scores"]["west"] : [];//BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
+        $eastRanks = isset($leagueData["scores"]["east"]) ? $leagueData["scores"]["east"] : [];//BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
 
         //三天 赛程
         $schedule = $leagueData["schedule"];//从接口获取赛程

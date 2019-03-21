@@ -266,7 +266,7 @@ class VideoController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {
         }
-        $keywords = $video->tagsCn();
+        $keywords = $video->htmlKeywords();
         $result["title"] = $video["title"];
         $result["keywords"] = str_replace("，", ",", $keywords);
         $result['check'] = 'videos';

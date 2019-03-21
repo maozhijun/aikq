@@ -64,7 +64,8 @@
                         <td>{{$video->platformCn()}}</td>
                         <td>{{$video->playerCn()}}</td>
                         <td>
-                            {{$video->tagsCn()}}
+                            <p><strong>关系标签：</strong>{{$video->tagsCn()}}</p>
+                            <p><strong>关键字：</strong>{{$video->labels}}</p>
                         </td>
                         <td>
                             <a class="btn btn-xs btn-success" target="_blank" href="/admin/live/videos/edit?id={{$video->id}}">编辑</a>

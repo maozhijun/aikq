@@ -80,9 +80,11 @@ class HotVideoController extends Controller
         $id = $request->input("id");
         if (is_numeric($id)) {
             $result["video"] = HotVideo::query()->find($id);
-            $tags = TagRelation::getTagRelations(TagRelation::kTypeVideo, $id);
-            $result["tags"] = $tags;
-            $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+            $array = TagRelation::tagCellArray(TagRelation::kTypeVideo, $id);
+            $result = array_merge($result, $array);
+        }
+        if (!isset($result["sports"])) {
+            $result["sports"] = Tag::sports();
         }
         $result["players"] = HotVideo::kPlayerArrayCn;
         $result["platforms"] = HotVideo::kPlatformArray;
@@ -104,6 +106,7 @@ class HotVideoController extends Controller
         $platform = $request->input("platform");
         $player = $request->input("player");
         $sport = $request->input("sport");
+        $labels = $request->input("labels");
 
         $tags = $request->input("tags");//标签
         //判断参数是否正确
@@ -132,6 +135,10 @@ class HotVideoController extends Controller
             return response()->json(["code"=>401, "message"=>"请选择竞技"]);
         }
 
+        if (!empty($labels)) {
+            $labels = str_replace("，", ",", $labels);
+        }
+
         try {
             if (is_numeric($id)) {
                 $video = HotVideo::query()->find($id);
@@ -145,6 +152,8 @@ class HotVideoController extends Controller
             $video->platform = $platform;
             $video->image = $image;
             $video->ad_id = $adAccount->id;
+            $video->labels = $labels;
+
             DB::transaction(function () use ($video, $tags, $sport) {
                 $video->save();
                 $tagArray = json_decode($tags, true);

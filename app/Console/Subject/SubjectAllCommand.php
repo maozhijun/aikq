@@ -133,7 +133,7 @@ class SubjectAllCommand extends BaseCommand
     }
 
     protected function indexStaticTeam($sport, $name_en, $tid, $tName) {
-        $key = $this->getTeamKey($sport, $tid);
+        $key = $this->getTeamKey($name_en, $tid);
         $cache = Redis::get($key);
         if (isset($cache)) {
             return;
@@ -215,7 +215,7 @@ class SubjectAllCommand extends BaseCommand
         if (empty($tid)) return;
         $start = time();
 
-        $key = $this->getTeamKey($sport, $tid);
+        $key = $this->getTeamKey($name_en, $tid);
         $cache = Redis::get($key);
         if (isset($cache)) {
             echo $tName . "球队已经静态化过了  耗时：" . (time() - $start) . " \n";
@@ -352,8 +352,8 @@ class SubjectAllCommand extends BaseCommand
         }
     }
 
-    protected function getTeamKey($sport, $tid) {
-        return "team".$sport."_".$tid;
+    protected function getTeamKey($name_en, $tid) {
+        return "team".$name_en."_".$tid;
     }
 
 }

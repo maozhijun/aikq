@@ -158,6 +158,20 @@ class TagRelation extends Model
         self::saveTagRelation($sport,self::kTypeVideo, $source_id, $tags);
     }
 
+    /**
+     * 标签cell填充数据
+     * @param $type
+     * @param $id
+     * @return mixed
+     */
+    public static function tagCellArray($type, $id) {
+        $tags = TagRelation::getTagRelations($type, $id);
+        $result["sports"] = Tag::sports();
+        $result["tags"] = $tags;
+        $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+        return $result;
+    }
+
     public static function getTagRelations($type, $source_id) {
         $query = self::query();
         $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
