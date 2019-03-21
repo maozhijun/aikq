@@ -292,7 +292,8 @@ class CommonTool
         if (isset($subject)) {
             $name_en = $subject->name_en;
         } else {
-            $name_en = "other";
+            //$name_en = "other";
+            return "javascript:void(0);";
         }
         return self::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
     }
@@ -305,12 +306,12 @@ class CommonTool
      * @return string
      */
     public static function getTeamDetailUrlByNameEn($name_en, $sport, $tid) {
+        if ($name_en == 'other'){
+            return "javascript:void(0)";
+        }
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
-        }
-        if ($name_en == 'other'){
-//            return "javascript:void(0)";
         }
         return "/$name_en/team$sport$tempTid".".html";
     }
