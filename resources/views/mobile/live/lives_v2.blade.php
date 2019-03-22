@@ -1,4 +1,4 @@
-<?php $cdnUrl = env("CDN_URL", ""); $index = 0; ?>
+<?php $cdnUrl = env("CDN_URL", ""); ?>
 @extends('mobile.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/mobile/v2/match_list_wap_2.css">
@@ -18,6 +18,7 @@
             {{--<a class="tab_item" href="match_end.html">完赛</a>--}}
         </div>
         <div class="date_con">
+            <?php $index = 0; ?>
             @foreach($matches as $time=>$match_array)
                 <?php
                     $mt = strtotime($time);
@@ -27,7 +28,7 @@
                     $date = date('m-d', $mt);
                     $now = strtotime(date("Y-m-d"));
                 ?>
-                <div class="date_item {{$mt == $now ? "on" : ""}}" forItem="{{date('m_d', $mt)}}">
+                <div class="date_item {{$index++ == 0 ? "on" : ""}}" forItem="{{date('m_d', $mt)}}">
                     <p class="week">{{$now == $mt ? "今天" : $week_array[$week]}}</p>
                     <p class="date">{{$date}}</p>
                 </div>
@@ -36,8 +37,9 @@
     </div>
 @endsection
 @section('content')
+    <?php $index = 0; ?>
     @foreach($matches as $time=>$match_array)
-        <?php $date = date('m_d', strtotime($time)); ?>
+        <?php $date = date('m_d', strtotime($time));?>
         <div class="match_list_con {{$date}}" style="display: {{$index++ == 0 ? "block" : "none"}}">
             @foreach($match_array as $key=>$match)
             @continue($match["status"] == -1)
