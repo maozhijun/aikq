@@ -14,6 +14,7 @@ use App\Models\Article\PcArticleType;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -146,6 +147,21 @@ class ArticleController extends Controller
             return view('mobile.articles.v2.news_cell', $articles);
         } else {
             return '';
+        }
+    }
+
+    public function subjectDetailHtml(Request $request, $name_en ,$page = 1){
+        $html = $this->subjectNews($request,$name_en,$page);
+        if (is_null($html)){
+            echo 'ArticleController subjectDetailHtml error ' . $name_en . ' ' . $page;
+        }
+        if (!empty($html)) {
+            if ($page == 1){
+                Storage::disk("public")->put("/m/$name_en/news/index.html", $html);
+            }
+            else{
+                Storage::disk("public")->put("/m/$name_en/news/index$page.html", $html);
+            }
         }
     }
 }
