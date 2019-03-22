@@ -553,6 +553,28 @@ class SubjectController extends Controller
      * @param $season
      */
     public function staticSubjectHtml(Request $request, $name_en, $season = "") {
+        if ($season == "all") { //全部赛季
+            $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
+            $lid = $sl->lid;
+            $sport = $sl->sport;
+            if ($sport == 2) {
+                $query = BasketSeason::query();
+            } else {
+                $query = Season::query();
+            }
+            $seasons = $query->where('lid', $lid)->orderBy('year', 'desc')->get();
+            foreach ($seasons as $index=>$seasonItem) {
+                $seasonName = $seasonItem->name;
+                dump($seasonName);
+                if ($index == 0) $seasonName = "";
+                $this->onStaticSubjectHtml($request, $name_en, $seasonName);
+            }
+        } else {
+            $this->onStaticSubjectHtml($request, $name_en, $season);
+        }
+    }
+
+    private function onStaticSubjectHtml(Request $request, $name_en, $season = "") {
         $html = $this->detailV2($request, $name_en, $season);
         if (!empty($html)) {
             $mobile = new \App\Http\Controllers\Mobile\Subject\SubjectController();
@@ -566,7 +588,6 @@ class SubjectController extends Controller
             }
         }
     }
-
 
     public function staticSubjectVideoDetailPc(SubjectVideoChannels $ch) {
         $video = $ch->video;
