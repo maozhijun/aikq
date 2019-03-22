@@ -67,7 +67,7 @@
                     </a>
                 </div>
             @endforeach
-            @component("pc.video.page_cell", ["page"=>$page, "pageUrl"=>$pageUrl]) @endcomponent
+            @component("pc.video.page_cell", ["page"=>$page, "pageUrl"=>isset($pageUrl) ? $pageUrl : ""]) @endcomponent
         </div>
     </div>
 @endsection

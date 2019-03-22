@@ -2,7 +2,7 @@
     $cdn = env('CDN_URL');
     $cur = empty($cur) ? 'live' : $cur;
     if ($cur == "live") {
-        $liveIco = $cdn . "/img/mobile/v2/icon_live_s.png.png";
+        $liveIco = $cdn . "/img/mobile/v2/icon_live_s.png";
         $liveUrl = '';
         $liveClass = 'on';
     } else {

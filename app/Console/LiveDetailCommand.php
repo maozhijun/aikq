@@ -16,9 +16,12 @@ use App\Models\LgMatch\BasketMatch;
 use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\Match;
 use App\Models\LgMatch\Season;
+use App\Models\Match\MatchLive;
+use App\Models\Match\MatchLiveChannel;
 use App\Models\Subject\SubjectLeague;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class LiveDetailCommand extends Command
@@ -91,68 +94,108 @@ class LiveDetailCommand extends Command
             case 'static404':
                 $this->static404();
                 break;
+            case 'staticExLink':
+                $this->staticExLink();
+                break;
             default :
                 $this->staticLeagueLiveDetail($type);
                 break;
         }
     }
 
-    protected function static404() {
-        $path = 'c:\Users\11247\Desktop\404_new.txt';
+    protected function staticExLink() {
+        $path = 'c:\Users\11247\Desktop\ex_link404.txt';
         $content = file_get_contents($path);
-        $urls = explode("\n", $content);
+        $ids = explode("\n", $content);
         $host = "http://cms.aikanqiu.com";
-        //"/static/team_record/{sport}/{name_en}/{tid}/{page}";
-        $index = 1;
-        foreach ($urls as $url) {
-            $url = trim($url);
-            if (empty($url)) continue;
-            $code = $this->getUrlCode($url);
-            if ($code == 200) {
-                echo "$url \n";
+        foreach ($ids as $id) {
+            $id = trim($id);
+            $mc = MatchLiveChannel::query()->find($id);
+            if (!isset($mc)) {
                 continue;
             }
-            //判断url
-            //preg_match('/\/\w+\/team\d+/', $url, $matches);
-            preg_match('/\/(\w+)\/team(\d)(\d+)_(\w+)_\d/', $url, $matches);
-            if (count($matches) >= 5) {
-                //先静态化球队 视频、录像、新闻 终端
-                $start = time();
-                $name_en = $matches[1];
-                $sport = $matches[2];
-                $tid = $matches[3];
-                //$type = $matches[4];
-
-                if ($name_en == "other") {
-                    $url = $host . "/static/team_index/".$sport."/".$name_en."/".intval($tid) ."/1";
-                } else {
-                    $url = $host . "/static/team_all/".$sport."/".$name_en."/".intval($tid) ."/1";
-                }
-
-                echo $index++ . " 静态化 " . $url.
-                Controller::execUrl($url, self::TIME_OUT);
-                echo "耗时：" . (time() - $start) . " \n";
-                sleep(3);
-            } else {
-                preg_match('/\/(\w+)\/team(\d)(\d+)/', $url, $newMatches);
-                if (count($newMatches) >= 3) {//静态化球队终端
-                    $start = time();
-                    $name_en = $newMatches[1];
-                    $sport = $newMatches[2];
-                    $tid = $newMatches[3];
-
-                    if ($name_en == "other") {
-                        $url = $host . "/static/team_index/".$sport."/".$name_en."/".intval($tid) ."/1";
-                    } else {
-                        $url = $host . "/static/team_all/".$sport."/".$name_en."/".intval($tid) ."/1";
-                    }
-
-                    echo $index++ . "静态化 " . $url.
-                    Controller::execUrl($url, self::TIME_OUT);
-                    echo "耗时：" . (time() - $start) . " \n";
-                    sleep(3);
-                }
+            $liveId = $mc["live_id"];
+            $ml = MatchLive::query()->find($liveId);
+            if (!isset($ml)) {
+                continue;
             }
+            $mid = $ml["match_id"];
+            $sport = $ml["sport"];
+            $url = $host."/live/cache/match/detail_id/".$mid."/".$sport;
+            Controller::execUrl($url, 20);
+            echo "静态化直播终端 $url \n";
+            sleep(1);
+        }
+    }
+
+    protected function static404() {
+        $path = 'c:\Users\11247\Desktop\404_ex.txt';
+        $content = file_get_contents($path);
+        $urls = explode("\r", $content);
+        $host = "http://cms.aikanqiu.com";
+        $index = 1;
+        $len = count($urls);
+        foreach ($urls as $url) {
+            $lenMsg = $len ."/" . $index++;
+            $startTime = time();
+            $params = explode("404", $url);
+            if (!isset($params[1])) {
+                echo $lenMsg . " 没有参数 " . $url;
+                continue;
+            }
+            $url = trim($params[1]);
+            if (empty($url)) continue;
+
+            preg_match('/live(\d)(\d{4})(\d+).html/', $url, $matches);
+
+            if (count($matches) != 4) {
+                echo $lenMsg . " 不匹配 " . $url;
+                continue;
+            }
+
+            $sport = $matches[1];
+            $minId = $matches[2];
+            $maxId = $matches[3];
+
+            $key = $sport."".$minId."".$maxId;
+            $cache = Redis::get($key);
+            if (!empty($cache)) {
+                echo $lenMsg . " 已静态化". $cache . "\n";
+                continue;
+            }
+
+            $minId = intval($minId);
+            $maxId = intval($maxId);
+
+            //查询比赛
+            if ($sport == 1) {
+                //足球
+                $query = \App\Models\Match\Match::query();
+            } else {
+                //篮球
+                $query = \App\Models\Match\BasketMatch::query();
+            }
+            $query->where(function ($or) use ($minId, $maxId) {
+                $or->where("aid", $minId);
+                $or->where("hid", $maxId);
+            });
+
+            $query->orWhere(function ($or) use ($minId, $maxId) {
+                $or->where("aid", $maxId);
+                $or->where("hid", $minId);
+            });
+            //echo $sport . "    "  .$minId . "   " . $maxId . " \n";
+            $query->where("status", -1)->orderByDesc("time");
+            $match = $query->first();
+            if (!isset($match)) {
+                echo $lenMsg." 不存在 $key \n";
+                continue;
+            }
+            $msg = $match["hname"]." VS " .$match["aname"] . " " . $match["time"];
+            $url = "http://cms.aikanqiu.com/live/cache/match/detail_id/".$match["id"]."/" . $sport . "/";
+            echo $lenMsg . "  " . $msg . " 耗时： " . (time() - $startTime)  . "  $url  \n";
+            Redis::setEx($key, 60*60, $msg);
+            sleep(1);
         }
     }
 
@@ -161,19 +204,16 @@ class LiveDetailCommand extends Command
      * 本机测试代码，检查文件链接是否成功
      */
     protected function check404() {
-        $path = 'c:\Users\11247\Desktop\404.txt';
+        $path = 'c:\Users\11247\Desktop\404_new.txt';
         $content = file_get_contents($path);
         $urls = explode("\n", $content);
         $txt = "";
         foreach ($urls as $url) {
-            $url = str_replace("\r", "", $url);
-            $code = $this->getUrlCode($url);
-            echo "返回码： " . $code . "  链接： " . $url . " \n";
-            if ($code > 200) {
-                $txt .= $code . "    " . $url . " \n ";
+            if (preg_match('/live\/ex-link/', $url)) {
+                $txt .= $url;
             }
         }
-        $outPath = 'c:\Users\11247\Desktop\404_new.txt';
+        $outPath = 'c:\Users\11247\Desktop\404_ex.txt';
         file_put_contents($outPath, $txt);
     }
 
