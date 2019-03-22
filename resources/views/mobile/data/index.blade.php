@@ -47,13 +47,13 @@
                                 <th>负</th>
                                 <th>胜场差</th>
                             </tr>
-                            @for($i = 0 ; $i < min(8,count($league['east'])); $i++)
+                            @for($i = 0 ; $i < count($league['east']); $i++)
                                 <?php
                                 $item = $league['east'][$i];
                                 ?>
                                 <tr>
                                     <td>{{$item['rank']}}</td>
-                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($item['ticon'])}}">{{$item['tname']}}</a></td>
+                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{$item['ticon']}}">{{$item['tname']}}</a></td>
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>
@@ -71,13 +71,13 @@
                                 <th>负</th>
                                 <th>胜场差</th>
                             </tr>
-                            @for($i = 0 ; $i < min(8,count($league['west'])); $i++)
+                            @for($i = 0 ; $i < count($league['west']); $i++)
                                 <?php
                                 $item = $league['west'][$i];
                                 ?>
                                 <tr>
                                     <td>{{$item['rank']}}</td>
-                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($item['ticon'])}}">{{$item['tname']}}</a></td>
+                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{$item['ticon']}}">{{$item['tname']}}</a></td>
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>
