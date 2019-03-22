@@ -157,7 +157,7 @@ class LiveDetailCommand extends Command
             $minId = $matches[2];
             $maxId = $matches[3];
 
-            $key = $sport."".$minId."".$maxId;
+            $key = $sport."_".$minId."_".$maxId . "_";
             $cache = Redis::get($key);
             if (!empty($cache)) {
                 echo $lenMsg . " 已静态化". $cache . "\n";
@@ -193,6 +193,7 @@ class LiveDetailCommand extends Command
             }
             $msg = $match["hname"]." VS " .$match["aname"] . " " . $match["time"];
             $url = "http://cms.aikanqiu.com/live/cache/match/detail_id/".$match["id"]."/" . $sport . "/";
+            Controller::execUrl($url, 10);
             echo $lenMsg . "  " . $msg . " 耗时： " . (time() - $startTime)  . "  $url  \n";
             Redis::setEx($key, 60*60, $msg);
             sleep(1);

@@ -937,7 +937,7 @@ class LiveController extends Controller
 
             $jsonData = json_decode(json_encode($jsonStr), true);
             if (isset($jsonData["code"]) && $jsonData['code'] == -1) {
-                Log::info("======= 获取线路内容失败 =======");
+                Log::info($id . " mobile " . $has_mobile ,  "======= 获取线路内容失败 =======");
                 return;
             }
             $playurl = isset($jsonData['playurl']) ? $jsonData['playurl'] : '';
