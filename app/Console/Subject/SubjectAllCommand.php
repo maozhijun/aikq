@@ -89,7 +89,6 @@ class SubjectAllCommand extends BaseCommand
                 $wwwUrl = "http://www.aikanqiu.com";
                 $host = "http://cms.aikanqiu.com";
 
-                $liveCache = [];
                 $teamCache = [];
                 foreach ($matches as $date=>$array) {
                     foreach ($array as $key=>$item) {
@@ -105,11 +104,12 @@ class SubjectAllCommand extends BaseCommand
                         $slKey = $sport."_".$lid;
                         $name_en = isset($slArray[$slKey]) ? $slArray[$slKey] : "other";
 
-                        $liveKey = $hid > $aid ? ($sport."_".$hid."_".$aid) : ($sport."_".$aid."_".$hid);
-                        if (!isset($liveCache[$liveKey])) {
+                        $liveKey = $hid > $aid ? ($sport."_".$lid."_".$hid."_".$aid) : ($sport."_".$lid."_".$aid."_".$hid);
+                        $liveCache = Redis::get($liveKey);
+                        if (empty($liveCache)) {
 
-                            $liveDetailUrl = $wwwUrl . CommonTool::getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid);
-                            $code = 400;//LiveDetailCommand::getUrlCode($liveDetailUrl);
+                            //$liveDetailUrl = $wwwUrl . CommonTool::getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid);
+                            $code = 0;//LiveDetailCommand::getUrlCode($liveDetailUrl);
                             if ($code == 200) {
                                 echo "已存在 直播终端  " . $msg . " \n";
                             } else {
@@ -119,10 +119,10 @@ class SubjectAllCommand extends BaseCommand
                                 echo "静态化直播终端 $msg $url \n";
                                 sleep(1);
                             }
-                            $liveCache[$liveKey] = 1;
+                            Redis::setEx($liveKey, 60 * 60, 1);
                         }
 
-                        if ($name_en != "other") {
+                        if ($name_en != "other" && $static) {
                             $this->indexStaticTeam($sport, $name_en, $hid, $hname);
                             $this->indexStaticTeam($sport, $name_en, $aid, $aname);
                         }

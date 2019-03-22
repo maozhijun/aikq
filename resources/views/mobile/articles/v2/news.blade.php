@@ -9,7 +9,7 @@
             <div class="run_line">
                 <a class="column_item on">全部</a>
                 @foreach($subjects as $sub)
-                    <a class="column_item" href="/{{$sub['name_en']}}/news">{{$sub['name']}}</a>
+                    <a class="column_item" href="/{{$sub['name_en']}}/?type=news">{{$sub['name']}}</a>
                 @endforeach
             </div>
         </div>

@@ -45,10 +45,10 @@ class DetailCommand extends BaseCommand
 
         //手机
         $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
-        $con->detailV2($request,$sl->name_en);
+        $mobile_html = $con->detailV2($request,$sl->name_en);
         echo "mobile : " . $sl->name_en . " ";
         if (!empty($html)) {
-            Storage::disk("public")->put("/m/$name_en/index.html", $html);
+            Storage::disk("public")->put("/m/$name_en/index.html", $mobile_html);
         }
 
         $result = $aiCon->subjectDetailData(false, $sl);

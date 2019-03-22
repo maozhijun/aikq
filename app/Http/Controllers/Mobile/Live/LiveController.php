@@ -113,7 +113,7 @@ class LiveController extends Controller
             return;
         }
         $json['type'] = 'live';
-        return view('mobile.live.lives', $json);
+        return view('mobile.live.lives_v2', $json);
     }
 
     /**
