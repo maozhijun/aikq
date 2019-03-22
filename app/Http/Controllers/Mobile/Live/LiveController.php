@@ -15,6 +15,7 @@ use App\Http\Controllers\IntF\SubjectVideoController;
 use App\Http\Controllers\Mobile\UrlCommonTool;
 use App\Http\Controllers\PC\CommonTool;
 use App\Models\Article\PcArticle;
+use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Subject\SubjectLeague;
 use App\Models\Subject\SubjectVideo;
@@ -22,7 +23,6 @@ use App\Models\Subject\SubjectVideoChannels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Models\LgMatch\Match;
 use App\Models\Match\BasketMatch;
 
 class LiveController extends Controller
