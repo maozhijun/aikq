@@ -32,6 +32,9 @@ class VideoController extends Controller
 
     const page_size = 20;
     const TYPES = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
+    const TYPE_TITLES = ["new"=>"最新国内外篮球、足球精彩视频、集锦-爱看球直播", "basketball"=>"精彩篮球集锦视频_NBA,CBA精彩集锦视频-爱看球直播",
+        "football"=>"精彩足球集锦视频_英超、德甲、法甲、欧冠等精彩集锦视频-爱看球直播", "basketballstar"=>"篮球球星精彩集锦大全_NBA球星视频大全-爱看球直播",
+        "footballstar"=>"足球球星精彩集锦大全_英超、德甲、法甲、欧冠等球星视频大全-爱看球直播", "other"=>"最新国内外篮球、足球精彩视频、集锦-爱看球直播"];
     //=====================================页面内容 开始=====================================//
 
     /**
@@ -74,7 +77,7 @@ class VideoController extends Controller
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($sl)) {
             $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
-            $videos = $this->getVideosByLeague($sl->sport, $sl->lid, $page);
+            $videos = $this->getVideosByLeague($sl, $page);
             return $this->videosHtml($name_en, $types, $videos);
         }
         return $this->videos($request, $page);
@@ -128,6 +131,7 @@ class VideoController extends Controller
         $result["sport"] = isset($videos["sport"]) ? $videos["sport"] : null;
         $result['type'] = $type;
         $result['check'] = 'videos';
+        $result["title"] = isset($videos["title"]) ? $videos["title"] : null;
         if (array_key_exists($type,\App\Http\Controllers\Controller::SUBJECT_NAME_IDS)){
             $bj = \App\Http\Controllers\Controller::SUBJECT_NAME_IDS[$type];
             $bj['name_en'] = $type;
@@ -363,19 +367,22 @@ class VideoController extends Controller
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
         }
+        $titles = self::TYPE_TITLES;
+        $array["title"] = isset($titles[$type]) ? $titles[$type] : null;
         return $array;
     }
 
     /**
      * 获取录像列表
-     * @param $sport
-     * @param $lid
+     * @param SubjectLeague $sl
      * @param $pageNo
      * @return array|mixed
      */
-    public function getVideosByLeague($sport, $lid, $pageNo) {
+    public function getVideosByLeague(SubjectLeague $sl, $pageNo) {
         $pageSize = self::page_size;
-
+        $sport = $sl["sport"];
+        $lid = $sl["lid"];
+        $name = $sl["name"];
         $tag = Tag::query()->where("sport", $sport)->where("tid", $lid)->first();
         if (!isset($tag)) {
             return null;
@@ -402,6 +409,7 @@ class VideoController extends Controller
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
         }
+        $array["title"] = $name."精彩视频大全_".$name."精彩过人视频、投篮视频-爱看球直播";
         return $array;
     }
 
@@ -414,7 +422,7 @@ class VideoController extends Controller
      */
     public function getVideosByTag($sport, $tag_id, $pageNo) {
         $pageSize = self::page_size;
-
+        $tag = Tag::query()->find($tag_id);
         $query = HotVideo::query();
         $query->whereExists(function ($existsQuery) use ($tag_id) {
             $existsQuery->selectRaw("1");
@@ -434,6 +442,15 @@ class VideoController extends Controller
         foreach ($videos as $video) {
             $array['videos'][] = self::hotVideo2Array($video);
         }
+        if (isset($tag)) {
+            $name = $tag["name"];
+            if ($sport == 1) {
+                $array["title"] = $name."视频集锦大全_".$name."过人视频_".$name."射门视频-爱看球直播";
+            } else {
+                $array["title"] = $name."视频集锦大全_".$name."过人视频_".$name."投篮视频-爱看球直播";
+            }
+
+        }
         return $array;
     }
 
@@ -444,22 +461,26 @@ class VideoController extends Controller
     //=====================================静态化 开始=====================================//
 
     /**
-     * 静态化单个录像终端
+     * 静态化单个录像终端 PC、M 站都一起静态化
      * @param Request $request
      * @param $id
      */
     public function staticVideoDetail(Request $request, $id) {
         $video = HotVideo::query()->find($id);
         if (isset($video)) {
+            $videoPath = HotVideo::getVideoDetailPath($id);
             $html = $this->videoDetailHtml($video);
             if (!empty($html)) {
-                $path = "www" . HotVideo::getVideoDetailPath($id);
+                $path = "www" . $videoPath;
                 Storage::disk("public")->put($path, $html);
 
                 $json = ["id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
                 $jsonPath = HotVideo::getVideoDetailJsonPath($id);
                 Storage::disk("public")->put($jsonPath, json_encode($json));
             }
+
+            $mCon = new \App\Http\Controllers\Mobile\Video\VideoController();
+            $mCon->staticVideoDetailHtml($video, $videoPath);
         } else {
             echo "视频不存在<br/>";
         }
@@ -485,16 +506,23 @@ class VideoController extends Controller
         $query = HotVideo::query()->where("show", HotVideo::kShow);
         $videos = $query->paginate(20, ["*"], null, $page);
         foreach ($videos as $video) {
+            $id = $video->id;
             $html = $this->videoDetailHtml($video);
+            $videoPath = HotVideo::getVideoDetailPath($id);
+
             if (!empty($html)) {
-                $id = $video->id;
-                $path = "www" . HotVideo::getVideoDetailPath($id);
+                //静态化 PC 终端
+                $path = "www" . $videoPath;
                 Storage::disk("public")->put($path, $html);
 
                 $json = ["id"=>$id, "playurl"=>$video->link, "player"=>$video->player, "platform"=>$video->platform];
                 $jsonPath = HotVideo::getVideoDetailJsonPath($id);
-                Storage::disk("public")->put($jsonPath, json_encode($json));
+                Storage::disk("public")->put($jsonPath, json_encode($json));//静态化 播放 json
             }
+
+            //静态化 M 站终端
+            $mCon = new \App\Http\Controllers\Mobile\Video\VideoController();
+            $mCon->staticVideoDetailHtml($video, $videoPath);
         }
         echo "curPage = " . $videos->currentPage() . " ， lastPage = " . $videos->lastPage();
     }
@@ -510,14 +538,22 @@ class VideoController extends Controller
         $tabs = HotVideo::getVideoTabs();
         $array = [];
         if (in_array($tab, $tabs)) {
-            $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
             $videos = $this->getVideos($tab, $page);
-            $html = $this->videosHtml($tab, $types, $videos);
+            $listPath = HotVideo::getVideoListTabPath($tab, $page);
+
+            //PC端静态化
+            $html = $this->videosHtml($tab, self::TYPES, $videos);
             if (!empty($html)) {
-                $path = "www" . HotVideo::getVideoListTabPath($tab, $page);
+                $path = "www" . $listPath;
                 $array["path"] = $path;
                 Storage::disk("public")->put($path, $html);
             }
+
+            //M端静态化
+            $mCon = new \App\Http\Controllers\Mobile\Video\VideoController();
+            $mCon->staticVideosHtml($tab, $videos, $listPath);
+            $array["m_path"] = "m".$listPath;
+
             if (isset($videos["page"])) {
                 $videoPage = $videos["page"];
                 $array["curPage"] = $videoPage["curPage"];
@@ -539,13 +575,21 @@ class VideoController extends Controller
         $array = [];
         if (isset($sl)) {
             $types = ["new"=>"最新", "basketball"=>"篮球", "football"=>"足球", "basketballstar"=>"篮球球星", "footballstar"=>"足球球星", "other"=>"其他"];
-            $videos = $this->getVideosByLeague($sl->sport, $sl->lid, $page);
+            $videos = $this->getVideosByLeague($sl, $page);
             $html = $this->videosHtml($name_en, $types, $videos);
+            $leaguePath = HotVideo::getVideoListLeaguePath($name_en, $page);
+
             if (!empty($html)) {
-                $path = "www" . HotVideo::getVideoListLeaguePath($name_en, $page);
+                $path = "www" . $leaguePath;
                 $array["path"] = $path;
                 Storage::disk("public")->put($path, $html);
             }
+
+            //M端静态化 m站没有league的页面，直接跳到专题页
+            //$mCon = new \App\Http\Controllers\Mobile\Video\VideoController();
+            //$mCon->staticVideosHtml($name_en, $videos, $leaguePath);
+            //$array["m_path"] = "m".$leaguePath;
+
             if (isset($videos["page"])) {
                 $videoPage = $videos["page"];
                 $array["curPage"] = $videoPage["curPage"];
@@ -568,11 +612,18 @@ class VideoController extends Controller
         $videos = $this->getVideosByTag($sport, $tagId, $page);
         $html = $this->videosHtml($tagId, $types, $videos);
         $array = [];
+        $tagPath = HotVideo::getVideoListTagPath($sport, $tagId, $page);
         if (!empty($html)) {
-            $path = "www" . HotVideo::getVideoListTagPath($sport, $tagId, $page);
+            $path = "www" . $tagPath;
             $array["path"] = $path;
             Storage::disk("public")->put($path, $html);
         }
+
+        //M端静态化
+        $mCon = new \App\Http\Controllers\Mobile\Video\VideoController();
+        $mCon->staticVideosHtml($tagId, $videos, $tagPath);
+        $array["m_path"] = "m".$tagPath;
+
         if (isset($videos["page"])) {
             $videoPage = $videos["page"];
             $array["curPage"] = $videoPage["curPage"];
