@@ -63,7 +63,7 @@ body{
 }
 
 /*调整*/
-.date_con.fixed + .match_list_con{
+.date_con.fixed ~ .match_list_con{
 	margin-top: 78px;
 }
 

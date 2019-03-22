@@ -1,7 +1,7 @@
 @extends('mobile.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/v2/match_list_wap_2.css?t=201903140936">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/v2/record_list_wap_2.css?t=201903140936">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/v2/record_list_wap_2.css?t=201903221615">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/mobile/v2/record_wap_2.css?t=201903140936">
 @endsection
 @section('banner')

@@ -20,9 +20,8 @@ function setPage() {
 		if (!$(this).hasClass('on')) {
 			$(this).addClass('on').siblings('.on').removeClass('on');
 			$('.match_list_con').css('display','none').filter('.' + $(this).attr('forItem')).css('display','');
+			$(window,'body','html').scrollTop(0);
 		}
-
-		$(window,'body','html').scrollTop(0);
 	})
 
 	$('.date_con .date_item.other').click(function(){
@@ -36,8 +35,9 @@ function setPage() {
 			$(this).siblings('.date').text($(this).val().split('-')[1] + '-' + $(this).val().split('-')[2])
 
 			$(window,'body','html').scrollTop(0);
-			
-			alert(1)
+
+			loadDateRecord($(this).val())
+
 		}
 	})
 }
@@ -51,20 +51,28 @@ $(window).scroll(function(){
 	}
 })
 
+function loadDateRecord (Time) {
+	var TargetDate = setMyTime(Time,'year');
+	$('.match_list_con.other').html('');
 
 
+	$.ajax({
+		url: '//api.aikanqiu.com/api/recordData.json?date=' + TargetDate,
+		dataType: 'jsonp',
+		success: function(res){
+			// console.log(res[TargetDate])
 
+			for (var i = 0; i < res[TargetDate].records.length; i++) {
+				var Target = res[TargetDate].records[i],
+					NewRecord = $('<a href="' + Target.url + '" class="' + (Target.sport == '1' ? 'football' : (Target.sport == '2' ? 'basketball' : '')) + '">' +
+						'<div class="team_con"><p class="' + (Target.hscore < Target.ascore ? 'lose' : '') + '"><span>' + Target.hscore + '</span>' + Target.hname + '</p>' +
+						'<p class="' + (Target.ascore < Target.hscore ? 'lose' : '') + '"><span>' + Target.ascore + '</span>' + Target.aname + '</p></div>' +
+						'<div class="info_con"><p>' + Target.lname + '</p><p>' + Target.time.split(' ')[1].split(':')[0] + ':' + Target.time.split(' ')[1].split(':')[1] + '</p></div><div class="status_con"></div></a>');
 
+				$('.match_list_con.other').append(NewRecord)
+			}
 
-
-
-
-
-
-
-
-
-
-
-
-
+			$('#Navigation .column_con .column_item.on').removeClass('on').trigger('click');
+		}
+	});
+}
