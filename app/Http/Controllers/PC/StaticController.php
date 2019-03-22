@@ -54,6 +54,7 @@ class StaticController extends Controller
 
                                 //资讯 只有一页
                                 $con = new ArticleController();
+                                $mobileCon = new \App\Http\Controllers\Mobile\Article\ArticleController();
                                 $html = $con->newsHome(new Request());
                                 if (!empty($html)) {
                                     Storage::disk("public")->put("/www/news/index.html", $html);
@@ -64,6 +65,7 @@ class StaticController extends Controller
                                 for ($i = 1 ; $i < 3 ; $i++){
 //                                    StaticController::loadUrl('/static/record_subject/'.$name_en.'/'.$i);
                                     $con->subjectDetailHtml(new Request(),$name_en,$i);
+                                    $mobileCon->subjectDetailHtml(new Request(),$name_en,$i);
                                 }
                                 StaticController::pushStaticLeague($name_en,"news",3);
                             }

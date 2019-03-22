@@ -49,7 +49,13 @@ Route::group(["namespace"=>"Video"], function () {
     Route::get("/video/{type?}", 'VideoController@videos');//视频列表 类型
 
     Route::get("/video{id}.html", "VideoController@videoDetail");//视频终端
-    Route::get("{name_en}/video{id}.html", "VideoController@videoDetailByNameEn");
+    Route::get("{name_en}/video{id}.html", "VideoController@videoDetailByNameEn");//视频终端
+
+    //静态化
+    Route::get("/static/video/list/{tab}/{page?}", "VideoController@staticVideosTab");//静态化 视频 tab（最新、篮球、足球等） 列表页面
+    //Route::get("/static/video/list-leg/{name_en}/{page?}", "VideoController@staticVideosLeague");//静态化 视频 专题列表页
+    Route::get("/static/video/list-tag/{tagId}-{sport}/{page?}", "VideoController@staticVideosTag");//静态化 视频 球星列表页
+
 });
 
 //主播

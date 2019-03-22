@@ -43,15 +43,23 @@ class DetailCommand extends BaseCommand
             Storage::disk("public")->put("/www/$name_en/index.html", $html);
         }
 
+        //手机
+        $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
+        $con->detailV2($request,$sl->name_en);
+        echo "mobile : " . $sl->name_en . " ";
+        if (!empty($html)) {
+            Storage::disk("public")->put("/m/$name_en/index.html", $html);
+        }
+
         $result = $aiCon->subjectDetailData(false, $sl);
         if (!isset($result) || !isset($result['subject'])) {
             return;
         }
 
-        //手机
-        $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
-        echo "mobile : " . $sl->name_en . " ";
-        $con->staticSubjectHtml($request,$sl->name_en);
+//        //手机
+//        $con = new \App\Http\Controllers\Mobile\Subject\SubjectController();
+//        echo "mobile : " . $sl->name_en . " ";
+//        $con->staticSubjectHtml($request,$sl->name_en);
 
         //mip
         $mipCon = new \App\Http\Controllers\Mip\Subject\SubjectController();

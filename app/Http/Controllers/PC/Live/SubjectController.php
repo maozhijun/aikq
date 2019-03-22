@@ -555,10 +555,14 @@ class SubjectController extends Controller
     public function staticSubjectHtml(Request $request, $name_en, $season = "") {
         $html = $this->detailV2($request, $name_en, $season);
         if (!empty($html)) {
+            $mobile = new \App\Http\Controllers\Mobile\Subject\SubjectController();
+            $mobile_html = $mobile->detailV2($request, $name_en, $season);
             if (empty($season)) {
                 Storage::disk("public")->put("/www/$name_en/index.html", $html);
+                Storage::disk("public")->put("/m/$name_en/index.html", $mobile_html);
             } else {
                 Storage::disk("public")->put("/www/$name_en/".$season."/index.html", $html);
+                Storage::disk("public")->put("/m/$name_en/".$season."/index.html", $mobile_html);
             }
         }
     }
