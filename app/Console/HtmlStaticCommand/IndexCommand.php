@@ -2,6 +2,7 @@
 
 namespace App\Console\HtmlStaticCommand;
 
+use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\Live\LiveController;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,9 @@ class IndexCommand extends BaseCommand
     {
         $home = new LiveController();
         $home->staticIndex($request);
+        //新首页
+        $con = new HomeController();
+        $con->staticIndex($request);
     }
 
     protected function onMobileHandler(Request $request)

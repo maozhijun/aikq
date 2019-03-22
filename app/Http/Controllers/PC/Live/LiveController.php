@@ -81,7 +81,7 @@ class LiveController extends Controller
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
-                Storage::disk("public")->put("/www/index.html", $html);
+                Storage::disk("public")->put("/www/live/index.html", $html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
@@ -257,6 +257,7 @@ class LiveController extends Controller
         $json['isIndex'] = true;
         $json['ma_url'] = self::getMobileHttpUrl("");
 //        dump($articles);
+        $json['title'] = '[乐虎播]免费体育赛事直播_360直播吧、CC直播吧_cctv5在线直播-爱看球直播';
         return view('pc.home', $json);
     }
 
