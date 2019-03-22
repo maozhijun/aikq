@@ -76,6 +76,9 @@
         <?php $i++;?>
     @endforeach
 @endsection
+@section('bottom')
+    @include("mobile.layout.v2.bottom_cell", ['cur'=>'record'])
+@endsection
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/mobile/v2/record_list_wap_2.js"></script>
     <script type="text/javascript">
