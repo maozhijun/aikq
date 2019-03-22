@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\IntF\AikanQController;
 use App\Models\Article\PcArticle;
 use App\Models\Match\HotVideo;
 use App\Models\LgMatch\BasketScore;
@@ -109,7 +110,83 @@ class HomeController extends Controller
     }
 
     public function index(Request $request){
-        return view('pc.home');
+        $this->html_var['check'] = 'index';
+        $comboData = CommonTool::getComboData();
+        $this->html_var['articles'] = $comboData['articles'];
+        $records = $comboData['records'];
+        $this->html_var['videos'] = $comboData['videos'];
+
+        //比赛
+        $cache = Storage::get('/public/static/json/pc/lives.json');
+        $json = json_decode($cache, true);
+        $this->html_var['matches'] = array();
+        $this->html_var['endMatches'] = array();
+        if (is_null($json)){
+            //return abort(404);
+        }
+        else{
+            $tmp = array();
+            $i = 0;
+            foreach ($json['matches'] as $key =>$matches) {
+                $tmp = array_merge($tmp,$matches);
+                if ($i > 1){
+                    break;
+                }
+                $i++;
+            }
+//            foreach ($records as $record){
+//                $key = $record['match']['sport'].'_'.$record['match']['id'];
+//                if (isset($tmp[$key])){
+//                    $tmp[$key]['recordUrl'] = $record['link'];
+//                }
+//            }
+            foreach ($tmp as $key=>$match){
+                //有需要再把录像搞回来
+                $this->html_var['matches'][] = $match;
+                if (count($this->html_var['matches']) > 20)
+                    break;
+            }
+        }
+
+        //录像
+        for ($i = 0 ; $i < min(10,count($records)) ;$i++){
+            $record = $records[$i];
+            $this->html_var['endMatches'][] = $record;
+        }
+
+        //积分
+        $url = env('MATCH_URL')."/static/league/allScores.json";
+        $score = HomeController::curlData($url,10);
+        $this->html_var['scores'] = $score;
+        $this->html_var['leagues'] = array(
+            "1_46"=>["name_en"=>"zhongchao", "sid"=>1002, 'name'=>'中超'],
+            "1_31"=>["name_en"=>"yingchao", "sid"=>1000, 'name'=>'英超'],
+            "1_26"=>["name_en"=>"xijia", "sid"=>1003, 'name'=>'西甲'],
+            "1_29"=>["name_en"=>"yijia", "sid"=>1004, 'name'=>'意甲'],
+            "1_11"=>["name_en"=>"fajia", "sid"=>1005, 'name'=>'法甲']);
+        return view('pc.index',$this->html_var);
+    }
+    
+    public function staticIndex(Request $request){
+        $html = $this->index(new Request());
+        try {
+            if (!empty($html)) {
+                Storage::disk("public")->put("/www/index.html", $html);
+            }
+        } catch (\Exception $exception) {
+            echo $exception->getMessage();
+        }
+    }
+
+    protected static function curlData($url,$timeout = 5){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);//5秒超时
+        $pc_json = curl_exec ($ch);
+        curl_close ($ch);
+        $pc_json = json_decode($pc_json,true);
+        return $pc_json;
     }
 
     public function download(Request $request) {
@@ -139,7 +216,7 @@ class HomeController extends Controller
         //录像
         $records = SubjectVideo::getRecordsByName($name_en);
         //资讯
-        $articles = PcArticle::getLastArticle($name_en);
+        $articles = PcArticle::getLastArticle($name_en,20);
 
         //赛程
         $matches = array();

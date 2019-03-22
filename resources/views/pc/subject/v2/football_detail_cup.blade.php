@@ -1,7 +1,7 @@
 @extends("pc.layout.v2.base")
 <?php $cdnUrl = env("CDN_URL");$name_en = $sl["name_en"]; $sport = $sl["sport"]; ?>
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903181056">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903221050">
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css?201903141016">
 @endsection
 @section("content")
