@@ -39,7 +39,7 @@ function goPage (num,target) {
 
 		}
 	});
-}}
+}
 
 
 
