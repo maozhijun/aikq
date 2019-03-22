@@ -383,4 +383,17 @@ class TagRelation extends Model
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
         return $pages;
     }
+
+    /**
+     * 删除关系标签
+     * @param $type
+     * @param $source_id
+     */
+    public static function deleteTagRelations($type, $source_id) {
+        $query = self::query();
+        $query->where("type", $type);
+        $query->where("source_id", $source_id);
+        $query->delete();
+    }
+
 }

@@ -278,10 +278,10 @@ class ArticleController extends Controller
         if (!isset($article)) {
             return back()->with('error', '无效的文章');
         }
-        DB::transaction(function () use ($article) {
+        DB::transaction(function () use ($article, $id) {
             $path = $article->path;
 
-            $pai = PcArticleDetail::query()->find($article->id);
+            $pai = PcArticleDetail::query()->find($id);
             if(isset($pai)) {
                 $pai->delete();//删除文章内容。
             }
@@ -289,6 +289,8 @@ class ArticleController extends Controller
             if (!empty($path)) {
                 //Storage::delete('public/' . $path);
             }
+            //删除文件对应的标签关系
+            TagRelation::deleteTagRelations(TagRelation::kTypeArticle, $id);
         });
         return back()->with('success', '删除成功');
     }

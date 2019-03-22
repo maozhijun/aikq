@@ -191,12 +191,15 @@ class SubjectVideoController extends Controller
         if (is_numeric($id)) {
             $sv = SubjectVideo::query()->find($id);
             if (isset($sv)) {
-                $links = $sv->getChannels();
-                foreach ($links as $link) {
-                    $link->delete();
-                }
-                $sv->delete();
-                $this->flushVideo($id);
+                DB::transaction(function () use ($sv, $id) {
+                    $links = $sv->getChannels();
+                    foreach ($links as $link) {
+                        $link->delete();
+                    }
+                    $sv->delete();
+                    TagRelation::deleteTagRelations(TagRelation::kTypePlayBack, $id);//删除录像标签关系
+                    $this->flushVideo($id);
+                });
             }
         }
         return back()->with('success', '删除成功');

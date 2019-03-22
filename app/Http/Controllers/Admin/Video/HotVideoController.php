@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Admin\Video;
 
 
+use App\Console\DeleteExpireFileCommand;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\StaticController;
 use App\Models\Match\HotVideo;
@@ -194,7 +196,13 @@ class HotVideoController extends Controller
             return response()->json(["code"=>403, "message"=>"参数错误"]);
         }
         try {
-            HotVideo::query()->where("id", $id)->delete();
+            DB::transaction(function () use ($id) {
+                $path = HotVideo::getVideoDetailPath($id);
+                HotVideo::query()->where("id", $id)->delete();
+                TagRelation::deleteTagRelations(TagRelation::kTypeVideo, $id);//删除关系标签
+                DeleteExpireFileCommand::delStoragePublicFile("www".$path);//删除文件
+                DeleteExpireFileCommand::delStoragePublicFile("m".$path);//删除文件
+            });
         } catch (\Exception $exception) {
             Log::error($exception);
             return response()->json(["code"=>500, "message"=>"服务器错误"]);
