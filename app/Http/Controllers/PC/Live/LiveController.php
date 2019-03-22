@@ -415,6 +415,10 @@ class LiveController extends Controller
         $json = $akqCon->detailJsonData($id, false);
         $json['articles'] = PcArticle::randArticles(12);
 
+        if (is_null($json) || !isset($json['match'])){
+            return null;
+        }
+
         $match = $json['match'];
 
         $lid = isset($match['lid']) ? $match['lid'] : null;
