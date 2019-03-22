@@ -160,7 +160,7 @@ class LiveDetailCommand extends Command
             $key = $sport."_".$minId."_".$maxId . "_";
             $cache = Redis::get($key);
             if (!empty($cache)) {
-                echo $lenMsg . " 已静态化". $cache . "\n";
+                echo $lenMsg . " 已静态化". $cache . "  $url \n";
                 continue;
             }
 
