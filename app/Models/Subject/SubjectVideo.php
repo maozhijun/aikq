@@ -275,6 +275,7 @@ class SubjectVideo extends Model
                 'match'=>array(
                     'sport'=>$record->sport,
                     'lid'=>$record->lid,
+                    'id'=>$record->mid,
                     'hid'=>$record->hid,
                     'aid'=>$record->aid,
                     'lname'=>$record->lname,
@@ -299,6 +300,7 @@ class SubjectVideo extends Model
                     'sport'=>$record->sport,
                     'lid'=>$record->lid,
                     'hid'=>$record->hid,
+                    'id'=>$record->mid,
                     'aid'=>$record->aid,
                     'lname'=>$record->lname,
                     'hname'=>$record->hname,
@@ -309,7 +311,6 @@ class SubjectVideo extends Model
                     'hscore'=>$record->hscore,
                     'ascore'=>$record->ascore,
                     'group'=>$record->group,
-                    'season'=>$record->season,
                     'time'=>$record->time,
                     'hicon'=>$hicon,
                     'aicon'=>$aicon,

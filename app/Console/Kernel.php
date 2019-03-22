@@ -31,6 +31,7 @@ use App\Console\LiveCheck\LiveCollectCommands;
 use App\Console\Subject\LeaguesJsonCommand;
 use App\Console\Subject\PlayerCommand;
 //use App\Console\HotVideo\VideoPageCommand;
+use App\Console\Subject\SubjectAllCommand;
 use App\Console\SubjectVideo\MobileSubjectVideoPageCommand;
 //use App\Console\SubjectVideo\SubjectVideoCoverCommand;
 //use App\Console\SubjectVideo\SubjectVideoDetailCommand;
@@ -127,6 +128,8 @@ class Kernel extends ConsoleKernel
         RecordCommand::class,//录像静态化
 
         TagCommand::class,//tag更新 ,对应静态化
+        SubjectTeamCommand::class,//用于专题球队静态化
+        SubjectAllCommand::class,//静态化所有专题页面
     ];
 
     /**
@@ -198,7 +201,7 @@ class Kernel extends ConsoleKernel
         //视频 静态化
         $schedule->command('hot_video_page_cache:run tab')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  右侧tab栏分页
         $schedule->command('hot_video_page_cache:run league')->everyFiveMinutes();//5分钟刷新一次视频分页静态化  左侧 赛事、联赛
-        $schedule->command('hot_video_page_cache:run tags')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
+        $schedule->command('hot_video_page_cache:run tag')->everyFiveMinutes();//5分钟刷新一次视频分页静态化    左侧 球员
 
         //专题静态化
         //$schedule->command('subject_cover_sync:run')->everyFiveMinutes();//->everyMinute();//5分钟同步一次专题封面                               待优化

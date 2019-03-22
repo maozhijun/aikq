@@ -85,10 +85,11 @@ function changeDate (obj) {
 function tableHtml(matches) {
 	if (matches.length == 0) return "";
 	var table = '<table class="match">';
-    table += '<colgroup><col width="11%"><col><col width="12%"><col><col width="42.5%"></colgroup>';
+    table += '<colgroup><col width="20%"><col><col width="15%"><col><col width="20%"></colgroup>';
 	table += '<tbody>';
 	var tr;
 	var vs;
+	var live;
 	$.each(matches, function (index, match) {
 		var hname = match["hname"];
 		var aname = match["aname"];
@@ -101,15 +102,17 @@ function tableHtml(matches) {
 		} else if (status > 0) {
         	vs = '<span class="living">直播中</span>';
 		} else {
-            vs = "已结束";
+            vs = match["hscore"] + " - " + match["ascore"];
 		}
+
+        live = status >= 0 ? '<a class="live" target="_blank" href="'+match["detailUrl"]+'">观看直播</a>' : '';
 
         tr = '<tr>';
         tr += '<td>'+time+'</td>';
         tr += '<td class="host"><a target="_blank" href="'+match["hUrl"]+'">'+hname+'</a></td>';
         tr += '<td class="vs">'+vs+'</td>';
         tr += '<td class="away"><a target="_blank" href="'+match["aUrl"]+'">'+aname+'</a></td>';
-        tr += '<td class="line"><a class="live" target="_blank" href="'+match["detailUrl"]+'">观看直播</a></td>';
+        tr += '<td class="line">' + live + '</td>';
         tr += '</tr>';
         table += tr;
 	});

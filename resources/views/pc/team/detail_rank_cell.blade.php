@@ -3,6 +3,7 @@
     if (!isset($subject['type'])) {
         $subject['type'] = 1;
     }
+    $name_en = isset($subject["name_en"]) ? $subject["name_en"] : "other";
     ?>
 
     @if($subject['sport'] == 1)
@@ -22,12 +23,13 @@
                     </tr>
                     @foreach($ranks as $rank)
                         <?php
-                        $steam = $teams[$rank['tid']];
+                        $steam = isset($teams[$rank['tid']]) ? $teams[$rank['tid']] : ["icon"=>""];
+                            $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $rank['sport'], $rank['tid']);
                         ?>
                         <tr>
                             <td>{{$rank['rank']}}</td>
                             @if(isset($rank['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
                             @else
                                 <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                             @endif
@@ -59,12 +61,13 @@
                 @if(isset($ranks['east']))
                     @foreach($ranks['east'] as $east)
                         <?php
-                        $steam = $teams[$east['tid']];
+                        $steam = isset($teams[$east['tid']]) ? $teams[$east['tid']] : ["icon"=>""];
+                        $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $east['sport'], $east['tid']);
                         ?>
                         <tr>
                             <td>{{$east['rank']}}</td>
                             @if(isset($east['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($east['sport'], $east['lid'], $east['tid'])}}">{{$east['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$east['name']}}</a></td>
                             @else
                                 <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$east['name']}}</td>
                             @endif
@@ -85,12 +88,13 @@
                 @if(isset($ranks['west']))
                     @foreach($ranks['west'] as $west)
                         <?php
-                        $steam = $teams[$west['tid']];
+                        $steam = isset($teams[$west['tid']]) ? $teams[$west['tid']] : ["icon"=>""];
+                        $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $west['sport'], $west['tid']);
                         ?>
                         <tr>
                             <td>{{$west['rank']}}</td>
                             @if(isset($west['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($west['sport'], $west['lid'], $west['tid'])}}">{{$west['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$west['name']}}</a></td>
                             @else
                                 <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$west['name']}}</td>
                             @endif
@@ -116,12 +120,13 @@
                 </tr>
                 @foreach($ranks as $rank)
                     <?php
-                    $steam = $teams[$rank['tid']];
+                    $steam = isset($teams[$rank['tid']]) ? $teams[$rank['tid']] : ["icon"=>""];
+                    $tUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($name_en, $rank['sport'], $rank['tid']);
                     ?>
                     <tr>
                         <td>{{$rank['rank']}}</td>
                         @if(isset($rank['tid']))
-                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($rank['sport'], $rank['lid'], $rank['tid'])}}">{{$rank['name']}}</a></td>
+                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
                         @else
                             <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                         @endif

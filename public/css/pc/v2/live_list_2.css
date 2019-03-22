@@ -35,6 +35,20 @@
 	font-size: 13px; line-height: 30px; text-align: center; color: #e1e1e1;
 	float: left;
 }
+#Date input{
+	height: 28px; width: 110px;
+	padding-left: 30px;
+	border-radius: 2px; border: 1px solid #e1e1e1;
+	background: url(../img/icon_match_n.png) no-repeat 10px center; background: url(../img/icon_match_n_20.png) no-repeat 10px center\9; background-size: 20px;
+	font-size: 13px; line-height: 28px; text-align: center;
+	cursor: pointer;
+	float: right;
+}
+:root #Date input{
+	background: url(../img/icon_match_n.png) no-repeat 10px center; background-size: 20px;
+}
+
+
 #Date.fix{
 	background: #fff;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
@@ -53,11 +67,13 @@
 	width: 100%;
 	border-radius: 12px;
 	background: #fff;
+	overflow: hidden;
 }
 .el_con table td{
 	height: 50px;
 	border-top: 1px solid #e1e1e1;
 	font-size: 14px; line-height: 20px;
+	position: relative; top: -1px;
 }
 .el_con table td:first-child{
 	padding-left: 15px;
@@ -99,6 +115,9 @@
 .el_con table td .live{
 	color: #d0021b;
 }
+.el_con table td .score{
+	font-size: 16px; color: #d0021b;	
+}
 .el_con table td.channel a{
 	margin-right: 12px;
 	display: inline-block;
@@ -106,7 +125,9 @@
 .el_con table td.channel a:hover{
 	text-decoration: underline;
 }
-
+.el_con table td.channel span{
+	color: #9b9b9b;
+}
 
 
 

@@ -75,7 +75,7 @@
                 <thead>
                 <tr>
                     <th>比赛信息</th>
-                    <th width="85%">直播地址</th>
+                    <th width="83%">直播地址</th>
                     {{--<th width="100px;">操作</th>--}}
                 </tr>
                 </thead>
@@ -100,9 +100,22 @@
                             <p>对阵：{{$match->hname}} VS {{$match->aname}}</p>
                             <p>时间：{{$match->time}}</p>
                             <p><button class="btn btn-sm btn-primary" onclick="addChannel('{{$match->id}}');">添加直播地址</button></p>
-                            <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-warning" onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
-                            <p><input placeholder="房间号" value=""/><button class="btn btn-sm btn-default" onclick="saveSYChannel(this, '{{$match->id}}');">鲨鱼房间填写</button></p>
-                            <p><a class="btn btn-sm" style="color: white;background-color: rgb(135, 81, 231)" target="_blank" href="http://match.liaogou168.com/api/spider{{$sport == 1 ? "/spiderMatchDetailById?mid=" : "/basket/spiderMatchById?id="}}{{$match->win_id}}">刷新数据</a></p>
+                            <p><input id="lh_{{$match["id"]}}" placeholder="房间号" value=""/></p>
+                            <p>
+                                <input id="lh_link_{{$match["id"]}}" placeholder="外链排序" value="" style="width: 60px;">
+                                <input id="lh_pc_{{$match["id"]}}" placeholder="电脑排序" value="" style="width: 60px;">
+                                <input id="lh_wap_{{$match["id"]}}" placeholder="手机排序" value="" style="width: 60px;">
+                            </p>
+                            <p><button class="btn btn-sm btn-warning" onclick="saveLHChannel(this, '{{$match->id}}');">乐虎房间填写</button></p>
+
+                            <p><input id="sy_{{$match["id"]}}" placeholder="房间号" value=""/></p>
+                            <p>
+                                <input id="sy_link_{{$match["id"]}}" placeholder="外链排序" value="" style="width: 60px;">
+                                <input id="sy_pc_{{$match["id"]}}" placeholder="电脑排序" value="" style="width: 60px;">
+                                <input id="sy_wap_{{$match["id"]}}" placeholder="手机排序" value="" style="width: 60px;">
+                            </p>
+                            <p><button class="btn btn-sm btn-info" onclick="saveSYChannel(this, '{{$match->id}}');">鲨鱼房间填写</button></p>
+                            <p><a class="btn btn-sm" style="color: white;background-color: rgb(135, 81, 231)" target="_blank" href="{{env('MATCH_URL')}}/api/spider{{$sport == 1 ? "/spiderMatchDetailById?mid=" : "/basket/spiderMatchById?id="}}{{$match->win_id}}">刷新数据</a></p>
                         </td>
                         <td id="td_{{$match->id}}" match_id="{{$match->id}}" lid="{{$match->lid}}" isPri="{{in_array($match->lid, $private_arr)}}">
                             @foreach($channels as $channel)
@@ -478,7 +491,11 @@
         function saveLHChannel(thisBtn, mid) {
             var $thisBtn = $(thisBtn);
             var sport = "{{$sport}}";
-            var roomNum = $thisBtn.prev().val();
+            var roomNum = $("#lh_" + mid).val();
+            var link_od = $("#lh_link_" + mid).val();
+            var pc_od = $("#lh_pc_" + mid).val();
+            var wap_od = $("#lh_wap_" + mid).val();
+
             if ($.trim(roomNum) == "") {
                 alert("请填写乐虎房间号");
                 return;
@@ -486,12 +503,13 @@
             if (!confirm("是否确认自动填写乐虎房间？")) {
                 return;
             }
+            var data = {"sport": sport, "match_id": mid, "room_num": roomNum, "link_od": link_od, "pc_od": pc_od, "wap_od":wap_od};
             $thisBtn.button("loading");
             $.ajax({
                 "url": "/admin/live/matches/channel/save_lehu",
                 "type": "post",
                 "dataType": "json",
-                "data": {"sport": sport, "match_id": mid, "room_num": roomNum},
+                "data": data,
                 "success": function (data) {
                     if (data.code == 200) {
                         alert(data.msg);
@@ -511,7 +529,11 @@
         function saveSYChannel(thisBtn, mid) {
             var $thisBtn = $(thisBtn);
             var sport = "{{$sport}}";
-            var roomNum = $thisBtn.prev().val();
+            var roomNum = $("#sy_" + mid).val();
+            var link_od = $("#sy_link_" + mid).val();
+            var pc_od = $("#sy_pc_" + mid).val();
+            var wap_od = $("#sy_wap_" + mid).val();
+
             if ($.trim(roomNum) == "") {
                 alert("请填写鲨鱼房间号");
                 return;
@@ -520,11 +542,12 @@
                 return;
             }
             $thisBtn.button("loading");
+            var data = {"sport": sport, "match_id": mid, "room_num": roomNum, "link_od": link_od, "pc_od": pc_od, "wap_od": wap_od};
             $.ajax({
                 "url": "/admin/live/matches/channel/save_sy",
                 "type": "post",
                 "dataType": "json",
-                "data": {"sport": sport, "match_id": mid, "room_num": roomNum},
+                "data": data,
                 "success": function (data) {
                     if (data.code == 200) {
                         alert(data.msg);

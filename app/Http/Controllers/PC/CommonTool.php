@@ -9,14 +9,9 @@
 namespace App\Http\Controllers\PC;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PC\Live\SubjectController;
-use App\Http\Controllers\PC\Live\SubjectVideoController;
-use App\Models\Match\BasketMatch;
-use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\OtherMatch;
 use App\Models\Subject\SubjectLeague;
-use App\Models\Subject\SubjectVideo;
 use Illuminate\Support\Facades\Storage;
 
 class CommonTool
@@ -281,7 +276,12 @@ class CommonTool
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
         }
-        return "/$name_en/team/$type/$sport/".substr($tempTid, 0, 2). "/". $tempTid."_". $page . ".html";
+        if ($type == 'index'){
+            return "/$name_en/team/$sport/".substr($tempTid, 0, 2). "/". $tempTid . ".html";
+        }
+        else{
+            return "/$name_en/team/$type/$sport/".substr($tempTid, 0, 2). "/". $tempTid."_". $page . ".html";
+        }
     }
 
     /**
@@ -292,7 +292,8 @@ class CommonTool
         if (isset($subject)) {
             $name_en = $subject->name_en;
         } else {
-            $name_en = "other";
+            //$name_en = "other";
+            return "javascript:void(0);";
         }
         return self::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
     }
@@ -305,12 +306,12 @@ class CommonTool
      * @return string
      */
     public static function getTeamDetailUrlByNameEn($name_en, $sport, $tid) {
+        if ($name_en == 'other'){
+            return "javascript:void(0)";
+        }
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
-        }
-        if ($name_en == 'other'){
-            return "javascript:void(0)";
         }
         return "/$name_en/team$sport$tempTid".".html";
     }
@@ -327,7 +328,7 @@ class CommonTool
             $tempTid = "0".$tempTid;
         }
         if ($name_en == 'other'){
-            return "javascript:void(0)";
+//            return "javascript:void(0)";
         }
         return "/$name_en/team$sport$tempTid".".html";
     }
@@ -356,6 +357,10 @@ class CommonTool
         } else {
             $name_en = "other";
         }
+        return self::getTeamVideoUrlByNameEn($sport, $tid, $name_en);
+    }
+
+    public static function getTeamVideoUrlByNameEn($sport, $tid, $name_en = "other") {
         $tempTid = $tid;
         while (strlen($tempTid) < 4) {
             $tempTid = "0".$tempTid;
@@ -404,6 +409,26 @@ class CommonTool
         return $url;
     }
 
+    /**
+     * 根据参数获取直播链接
+     * @param $name_en
+     * @param $sport
+     * @param $hid
+     * @param $aid
+     * @param $mid
+     * @return string
+     */
+    public static function getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid) {
+        $tempMid = $mid;
+        $len = strlen($mid);
+        for ($index = $len; $index < 4; $index++) {
+            $tempMid = "0".$tempMid;
+        }
+        $name = self::getMatchVsByTid($hid, $aid, $tempMid);
+        $url = "/".$name_en."/live".$sport.$name.".html";
+        return $url;
+    }
+
     public static function getDetailNameDataByMid($mid, $sport) {
         $name_en = "other";
         $len = strlen($mid);
@@ -415,9 +440,9 @@ class CommonTool
         }
 
         if ($sport == MatchLive::kSportFootball) {
-            $match = Match::query()->find($mid);
+            $match = \App\Models\LgMatch\Match::query()->find($mid);
         } else if ($sport == MatchLive::kSportBasketball) {
-            $match = BasketMatch::query()->find($mid);
+            $match = \App\Models\LgMatch\BasketMatch::query()->find($mid);
         } else if ($sport == MatchLive::kSportSelfMatch) {
             $match = OtherMatch::query()->find($mid);
         }
@@ -477,9 +502,9 @@ class CommonTool
      */
     private static function getRecentMidByTid($mid, $sport, $hid, $aid) {
         if ($sport == MatchLive::kSportFootball) {
-            $query = Match::query();
+            $query = \App\Models\LgMatch\Match::query();
         } else if ($sport == MatchLive::kSportBasketball) {
-            $query = BasketMatch::query();
+            $query = \App\Models\LgMatch\BasketMatch::query();
         }
         if (isset($query)) {
             $recentMatch = $query->whereIn('hid', [$hid, $aid])
@@ -553,7 +578,7 @@ class CommonTool
 
     public static function getPlayerData($sport, $lid, $season, $kind) {
         $url = "/static/technical/".$sport."/" . $lid . "/player/" . $season . '_' . $kind . ".json";
-        $url = "http://match.liaogou168.com" . $url;
+        $url = env('MATCH_URL') . $url;
         $playerTech = Controller::execUrl($url, 5);
         return $playerTech;
     }

@@ -61,6 +61,7 @@ class VideoPageCommand extends Command
                 //右侧视频tab列表静态化
                 $tabs = HotVideo::getVideoTabs();
                 foreach ($tabs as $tab) {
+                    echo " tag ：" . $tab . "\n";
                     $json = HotVideo::staticHotVideosHtml($tab, 1);
 
                     $array = json_decode($json, true);
@@ -93,17 +94,15 @@ class VideoPageCommand extends Command
 
                     $array = json_decode($json, true);
                     if (is_null($array) || !isset($array["curPage"]) || !isset($array["lastPage"])) {
-                        return;
+                        continue;
                     }
                     $lastPage = $array["lastPage"];
                     $curPage = $this->getCurPage($name_en);
                     $forPage = self::STATIC_PAGE_SIZE + $curPage;
-
                     for (; $curPage <= $forPage; $curPage++) {
                         if ($curPage > $lastPage) continue;
                         HotVideo::staticHotVideosLeagueHtml($league["name_en"], $curPage);
                     }
-
                     if ($curPage > $lastPage) {
                         $this->setCurPage($name_en, 2);
                     } else {
@@ -115,6 +114,7 @@ class VideoPageCommand extends Command
                 //球星视频列表静态化
                 $stars = HotVideo::getVideoStars();
                 foreach ($stars as $star) {
+                    echo " start tag_id ：" . $star["tag_id"] . " sport ：" . $star["sport"] . "\n";
                     $tagId = $star["tag_id"];
                     $json = HotVideo::staticHotVideosTagHtml($tagId, $star["sport"], 1);
 

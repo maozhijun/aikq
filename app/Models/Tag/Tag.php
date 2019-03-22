@@ -160,4 +160,13 @@ class Tag extends Model
         return $query->get();
     }
 
+    public static function isFirstTag($id) {
+        $tag = self::query()->find($id);
+        return isset($tag) && $tag["level"] == self::kLevelOne;
+    }
+
+    public static function sports() {
+        return Tag::query()->where("level", Tag::kLevelOne)->orderBy("id")->get();
+    }
+
 }

@@ -15,9 +15,24 @@ class LeagueDataTool
         } else {
             $url = env('MATCH_URL')."/static/league/$sport/$lid.json";
         }
-        return self::curlData($url);
+        return self::curlData($url, 20);
     }
 
+    /**
+     * 新服务器获取数据
+     * @param $sport
+     * @param $lid
+     * @param string $season
+     * @return mixed
+     */
+    public static function getLeagueDataBySeasonNew($sport, $lid, $season = "") {
+        if (strlen($season) > 0) {
+            $url = env("MATCH_URL"). "/static/league/$sport/$lid/$season/detail.json";
+        } else {
+            $url = env("MATCH_URL") . "/static/league/$sport/$lid.json";
+        }
+        return self::curlData($url, 5);
+    }
 
     /**
      * 请求match接口
@@ -25,7 +40,7 @@ class LeagueDataTool
      * @param $timeout
      * @return mixed
      */
-    private static function curlData($url,$timeout = 5){
+    private static function curlData($url,$timeout = 8){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

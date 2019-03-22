@@ -1,131 +1,63 @@
-@extends('pc.layout.base')<?php $submitBD = true;//主动提交 ?>
+@extends('pc.layout.v2.base')
+<?php
+    $submitBD = true;//主动提交
+    $bj = 0;
+?>
 @section('css')
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/home.css?time={{date('YmdHi')}}">
+<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/live_list_2.css">
 @endsection
 @section('content')
-    <div id="Content">
-        <div class="inner">
-            <table class="list" id="TableHead">
-                <col number="1" width="50px">
-                <col number="2" width="80px">
-                <col number="3" width="70px">
-                <col number="4" width="16%">
-                <col number="5" width="12px">
-                <col number="6" width="26px">
-                <col number="7" width="12px">
-                <col number="8" width="16%">
-                <col number="9" width="300px">
-                <col number="10" width="60px">
-                <thead>
-                <tr>
-                    <th>项目</th>
-                    <th>赛事</th>
-                    <th>时间</th>
-                    <th colspan="5">对阵
-                        <div class="choose">
-                            <p>全部</p>
-                            <ul>
-                                <li value="all" class="on">全部</li>
-                                <li value="lottery">竞彩</li>
-                                <li value="first">一级</li>
-                                <li value="imp">重要</li>
-                            </ul>
-                        </div>
-                    </th>
-                    <th>直播频道</th>
-                    <th>状态</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr><th colspan="10"></th></tr>
-                </tbody>
-            </table>
-            <table class="list" id="Show">
-                <col number="1" width="50px">
-                <col number="2" width="80px">
-                <col number="3" width="70px">
-                <col number="4" width="16%">
-                <col number="5" width="12px">
-                <col number="6" width="26px">
-                <col number="7" width="12px">
-                <col number="8" width="16%">
-                <col number="9" width="300px">
-                <col number="10" width="60px">
-                <thead>
-                <tr>
-                    <th>项目</th>
-                    <th>赛事</th>
-                    <th>时间</th>
-                    <th colspan="5">
-                        对阵
-                        <div class="choose">
-                            <p>全部</p>
-                            <ul>
-                                <li value="all" class="on">全部</li>
-                                <li value="lottery">竞彩</li>
-                                <li value="first">一级</li>
-                                <li value="imp">重要</li>
-                            </ul>
-                        </div>
-                    </th>
-                    <th>直播频道</th>
-                    <th>状态</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php $bj = 0;
-                ?>
-                @foreach($matches as $time=>$match_array)
-                    <?php
-                        $mt = strtotime($time);
-                        $week = date('w', $mt);
-                        $isShowDate = false;
-                    ?>
-                    <tr class="date" id="{{$time}}">
-                        <th colspan="10">{{date_format(date_create($time),'Y年m月d日')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$week_array[$week]}}</th>
-                    </tr>
+<div id="Date">
+    <div class="def_content">
+        @foreach($matches as $time=>$match_array)
+        <?php
+        $mt = strtotime($time);
+        $week = date('w', $mt);
+        $isShowDate = false;
+        ?>
+        <a href="#{{date_format(date_create($time),'m_d')}}" class="date_con {{$bj == 0 ? 'on' : ''}}">{{date_format(date_create($time),'m-d')}}</a>
+        @if($bj < count($matches))
+            <p class="separate">/</p>
+        @endif
+        <?php $bj++ ?>
+        @endforeach
+        {{--<a href="live_match_end.html" class="type_con">完赛</a>--}}
+        <a href="javascript:void(0)" class="type_con" forItem="basketball">篮球</a>
+        <a href="javascript:void(0)" class="type_con" forItem="football">足球</a>
+        <a href="javascript:void(0)" class="type_con on" forItem="all">全部</a>
+    </div>
+</div>
+
+<div class="def_content" id="Content">
+
+    @foreach($matches as $time=>$match_array)
+        <?php
+        $mt = strtotime($time);
+        $week = date('w', $mt);
+        $isShowDate = false;
+        ?>
+
+            <div id="{{date_format(date_create($time),'m_d')}}" class="el_con">
+                <div class="header">
+                    <h3><p>{{date_format(date_create($time),'m月d日')}}</p></h3>
+                </div>
+                <table>
+                    <col width="6.8%"><col width="9.3%"><col width="6.6%"><col><col width="8.3%"><col><col width="27%"><col width="7.2%">
                     @foreach($match_array as $match)
                         @continue($match["status"] == -1) {{-- 完结的赛事不显示 --}}
-                        <?php $isShowDate = true ?>
                         @include('pc.cell.home_match_cell',['match'=>$match])
                     @endforeach
-                    @if($bj == 0 && $loop->index == 0)
-                        <?php $bj = 1; $adShow = env("TOUZHU_AD", "false") == "true"; ?>
-                        @if($adShow)<tr class="adbanner"><td colspan="10"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env('CDN_URL')}}/img/pc/main_long.gif"><button class="close"></button></a></td></tr>@endif
-                    @endif
-                    @if(!$isShowDate)<script>document.getElementById("{{$mt}}").style.display= "none";</script>@endif
-                @endforeach
-                </tbody>
-            </table>
-            <div id="News">
-                <div class="title">最新文章</div>
-                @if(isset($arts))
-                    @foreach($arts as $index=>$art)
-                        <a target="_blank" href="{{$art['url']}}">{{$art['title']}}</a>
-                    @endforeach
-                @endif
-                <p class="clear"></p>
+                </table>
             </div>
-        </div>
-    </div>
-    {{--<div class="adflag left">--}}
-    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-    {{--<br>--}}
-    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-    {{--</div>--}}
-    {{--<div class="adflag right">--}}
-    {{--<button class="close" onclick="document.body.removeChild(this.parentNode)"></button>--}}
-    {{--<a href="http://91889188.87.cn" target="_blank"><img src="/img/pc/ad_zhong_double.jpg"></a>--}}
-    {{--<br>--}}
-    {{--<a><img src="/img/pc/ad/double.jpg"></a>--}}
-    {{--</div>--}}
+    @endforeach
+</div>
+
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/home.js?time=201808201830"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/live_list_2.js"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
-            setADClose();
+//            setADClose();
             setPage();
         }
     </script>

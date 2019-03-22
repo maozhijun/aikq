@@ -13,6 +13,7 @@ use App\Models\Article\PcArticle;
 use App\Models\Match\HotVideo;
 use App\Models\Subject\SubjectVideo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class TagRelation extends Model
@@ -24,6 +25,12 @@ class TagRelation extends Model
         $query = self::query()->where("type", $type)->where("source_id", $source_id);
         $query->where("tag_id", $tag_id);
         return $query->count() > 0;
+    }
+
+    public static function firstTag($type, $source_id, $tag_id) {
+        $query = self::query()->where("type", $type)->where("source_id", $source_id);
+        $query->where("tag_id", $tag_id);
+        return $query->first();
     }
 
     public static function saveRelation($type, $source_id, $tag_id) {
@@ -43,10 +50,9 @@ class TagRelation extends Model
      */
     public static function saveFirstRelation($type, $source_id, $sport) {
         $query = self::query()->where("type", $type)->where("source_id", $source_id);
-        $query->where(function ($orQuery) {
-            $orQuery->where("tag_id", Tag::kSportFootball);
-            $orQuery->orWhere("tag_id", Tag::kSportBasketball);
-        });
+        $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $query->where("tags.level", "=", Tag::kLevelOne);
+        $query->select("tag_relations.*");
         $firstRelation = $query->first();
         if (isset($firstRelation)) {
             if ($firstRelation->tag_id != $sport) {
@@ -157,14 +163,28 @@ class TagRelation extends Model
         self::saveTagRelation($sport,self::kTypeVideo, $source_id, $tags);
     }
 
+    /**
+     * 标签cell填充数据
+     * @param $type
+     * @param $id
+     * @return mixed
+     */
+    public static function tagCellArray($type, $id) {
+        $tags = TagRelation::getTagRelations($type, $id);
+        $result["sports"] = Tag::sports();
+        $result["tags"] = $tags;
+        $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+        return $result;
+    }
+
     public static function getTagRelations($type, $source_id) {
         $query = self::query();
         $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
         $query->where("type", $type);
         $query->where("source_id", $source_id);
-        $query->orderBy("tags.level");
+        $query->orderBy("tags.level")->orderBy("tag_relations.id");
         $query->selectRaw("tag_relations.id");
-        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid"]);
+        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid", "tags.sport"]);
         $tags = $query->get();
         $array = [];
         foreach ($tags as $tag) {
@@ -229,9 +249,11 @@ class TagRelation extends Model
         if ($type == self::kTypeArticle) {
             $query = PcArticle::query();
             $tName = "pc_articles";
+            $query->where($tName.".status", "=", PcArticle::kStatusPublish);
         } else if ($type == self::kTypeVideo) {
             $query = HotVideo::query();
             $tName = "hot_videos";
+            $query->where($tName.".show", "=", HotVideo::kShow);
         } else if ($type == self::kTypePlayBack) {
             $query = SubjectVideo::query();
             $tName = "subject_videos";
@@ -239,19 +261,27 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tagName)) {
-                $eQuery->where("tags.name", "like", "%$tagName%");
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport." AND `tags`.`level` = ".$level." AND `tags`.`name` LIKE '%".$tagName."%')";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tagName)) {
+//                $eQuery->where("tags.name", "like", "%$tagName%");
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id1");
+//        });
+
         if ($type == self::kTypeArticle) {
             $query->orderby('publish_at','desc');
         }
@@ -264,9 +294,11 @@ class TagRelation extends Model
         if ($type == self::kTypeArticle) {
             $query = PcArticle::query();
             $tName = "pc_articles";
+            $query->where($tName.".status", "=", PcArticle::kStatusPublish);
         } else if ($type == self::kTypeVideo) {
             $query = HotVideo::query();
             $tName = "hot_videos";
+            $query->where($tName.".show", "=", HotVideo::kShow);
         } else if ($type == self::kTypePlayBack) {
             $query = SubjectVideo::query();
             $tName = "subject_videos";
@@ -274,19 +306,32 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tagName)) {
-                $eQuery->where("tags.name", "like", "%$tagName%");
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport;
+        if (is_numeric($level)) {
+            $joinSql .= " AND `tags`.`level` = ".$level;
+        }
+        if (!empty($tagName)) {
+            $joinSql .= " AND `tags`.`name` LIKE '%".$tagName."%'";
+        }
+        $joinSql .= ")";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tagName) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tagName)) {
+//                $eQuery->where("tags.name", "like", "%$tagName%");
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+//        });
 
         $query->orderby('updated_at','desc');
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
@@ -307,22 +352,48 @@ class TagRelation extends Model
             return null;
         }
 
-        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tag_tId) {
-            $eQuery->selectRaw("1");
-            $eQuery->from("tag_relations");
-            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-            $eQuery->where("tags.sport", $sport);
-            if (is_numeric($level)) {
-                $eQuery->where("tags.level", $level);
-            }
-            if (!empty($tag_tId)) {
-                $eQuery->where("tags.tid", "=", $tag_tId);
-            }
-            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
-        });
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport;
+        if (is_numeric($level)) {
+            $joinSql .= " AND `tags`.`level` = ".$level;
+        }
+        if (!empty($tag_tId)) {
+            $joinSql .= " AND `tags`.`tid` = " . $tag_tId;
+        }
+        $joinSql .= ")";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+//        $query->whereExists(function ($eQuery) use ($tName, $sport, $level, $tag_tId) {
+//            $eQuery->selectRaw("1");
+//            $eQuery->from("tag_relations");
+//            $eQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//            $eQuery->where("tags.sport", $sport);
+//            if (is_numeric($level)) {
+//                $eQuery->where("tags.level", $level);
+//            }
+//            if (!empty($tag_tId)) {
+//                $eQuery->where("tags.tid", "=", $tag_tId);
+//            }
+//            $eQuery->whereRaw("tag_relations.source_id = " . $tName . ".id");
+//        });
 
         $query->orderby('updated_at','desc');
         $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
         return $pages;
     }
+
+    /**
+     * 删除关系标签
+     * @param $type
+     * @param $source_id
+     */
+    public static function deleteTagRelations($type, $source_id) {
+        $query = self::query();
+        $query->where("type", $type);
+        $query->where("source_id", $source_id);
+        $query->delete();
+    }
+
 }

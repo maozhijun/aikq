@@ -24,7 +24,6 @@ function goPage (num,target) {
 		success: function(res){
 			// console.log(res)
 			var ArrDate = res.data;
-
 			target.find('table tr').remove();
 
 			for (var i = 0; i < ArrDate.length; i++) {
@@ -40,12 +39,7 @@ function goPage (num,target) {
 
 		}
 	});
-}
-
-
-
-
-
+}}
 
 
 

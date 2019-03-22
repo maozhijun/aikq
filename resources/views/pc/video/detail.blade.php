@@ -1,6 +1,6 @@
 @extends('pc.layout.v2.base')
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/left_right_2.css?201903071908">
+    <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/left_right_2.css?201903221050">
     <link rel="stylesheet" type="text/css" href="{{env("CDN_URL")}}/css/pc/v2/video_2.css">
 @endsection
 @section("content")
@@ -59,7 +59,7 @@
             </div>
             @endif
             @if(isset($comboData["matches"]) && count($comboData["matches"]) > 0)
-            <div class="el_con">
+            <div class="el_con more_live_con">
                 <div class="header">
                     <h3><p>{{isset($def) ? $def["name"] : "最新"}}直播</p></h3>
                     <p class="aline">
@@ -87,7 +87,7 @@
             @endif
         </div>
         <div id="Right_part">
-            @include("pc.cell.v2.right_league_cell", ['zhuanti'=>$def])
+            @if(isset($def)) @include("pc.cell.v2.right_league_cell", ['zhuanti'=>$def]) @endif
             {{--<a class="banner_entra" href="team.html">--}}
                 {{--<img src="http://img1.gtimg.com/sports/pics/hv1/231/116/2220/144385311.png">--}}
                 {{--<h3>圣安东尼奥马刺</h3>--}}
@@ -128,7 +128,7 @@
                 </div>
                 <table class="record">
                  @if(isset($comboData["records"]) && count($comboData["records"]) > 0)
-                    <col width="25%"><col><col width="25%">
+                    <col width="22%"><col><col width="24%">
                     @foreach($comboData["records"] as $vRecord)
                     <?php
                         $vTime = $vRecord["match"]["time"];

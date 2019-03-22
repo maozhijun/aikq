@@ -514,6 +514,7 @@
 	overflow: hidden;
 }
 #Right_part .con_box .header_con h4{
+	padding-right: 20px;
 	font-size: 14px; line-height: 40px;
 	float: left;
 }
@@ -909,17 +910,17 @@
 }
 
 /*无内容*/
-#Right_part .noList_con{
+#Right_part .noList_con, #Left_part .noList_con{
 	height: 30px;
 	padding: 90px 0 0;
 	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 15px; background: url(/img/pc/v2/bg_vip_nolist_80.png) no-repeat center 15px\9; background-size: auto 70px;
 	font-size: 12px; line-height: 30px; text-align: center; color: #9b9b9b;
 	display: none;
 }
-:root #Right_part .noList_con{
-	background: url(/img/pc/v2/bg_vip_nolist.png) no-repeat center 15px; background-size: auto 70px;
+:root #Right_part .noList_con, :root #Left_part .noList_con{
+	background: url(/img/pc/v2//bg_vip_nolist.png) no-repeat center 15px; background-size: auto 70px;
 }
-#Right_part .noList_con:first-child{
+#Right_part .noList_con:first-child, #Left_part .noList_con:first-child{
 	display: block;
 }
 

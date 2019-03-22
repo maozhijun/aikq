@@ -20,6 +20,7 @@ use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
+use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -61,9 +62,12 @@ class SubjectVideoController extends Controller
 
         $leagues = SubjectLeague::getAllLeagues();
 
+        $sports = Tag::sports();
+
         $result['page'] = $page;
         $result['leagues'] = $leagues;
         $result['players'] = MatchLiveChannel::kPlayerArrayCn;
+        $result["sports"] = $sports;
         return view('admin.subject.video.list', $result);
     }
 
@@ -187,12 +191,15 @@ class SubjectVideoController extends Controller
         if (is_numeric($id)) {
             $sv = SubjectVideo::query()->find($id);
             if (isset($sv)) {
-                $links = $sv->getChannels();
-                foreach ($links as $link) {
-                    $link->delete();
-                }
-                $sv->delete();
-                $this->flushVideo($id);
+                DB::transaction(function () use ($sv, $id) {
+                    $links = $sv->getChannels();
+                    foreach ($links as $link) {
+                        $link->delete();
+                    }
+                    $sv->delete();
+                    TagRelation::deleteTagRelations(TagRelation::kTypePlayBack, $id);//删除录像标签关系
+                    $this->flushVideo($id);
+                });
             }
         }
         return back()->with('success', '删除成功');

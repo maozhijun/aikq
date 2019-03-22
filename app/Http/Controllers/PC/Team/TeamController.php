@@ -12,16 +12,12 @@ namespace App\Http\Controllers\PC\Team;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\IntF\AikanQController;
 use App\Http\Controllers\PC\CommonTool;
-use App\Http\Controllers\PC\StaticController;
-use App\Models\Article\PcArticle;
 use App\Models\LgMatch\BasketMatch;
-use App\Models\LgMatch\BasketTeam;
 use App\Models\LgMatch\Match;
 use App\Models\LgMatch\MatchLive;
-use App\Models\LgMatch\Team;
-use App\Models\Match\HotVideo;
+use App\Models\Match\Team;
+use App\Models\Match\BasketTeam;
 use App\Models\Subject\SubjectLeague;
-use App\Models\Subject\SubjectVideo;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -88,11 +84,12 @@ class TeamController extends Controller
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();
         $data['zhuanti'] = $this->getSujectLeagueData($name_en, $subj);
         $data['tid'] = explode('_',$tid)[0];
+        $data['sport'] = $sport;
         $data['show_right'] = false;
         if ($sport == 2){
             $tids = array();
             $teams = array();
-            if ($lid == 1){
+            if ($lid == 1 && isset($data["rank"])){
                 foreach ($data['rank']['west'] as $item){
                     $tids[] = $item['tid'];
                 }
@@ -100,14 +97,14 @@ class TeamController extends Controller
                     $tids[] = $item['tid'];
                 }
             }
-            else{
+            else if (isset($data["rank"])) {
                 foreach ($data['rank'] as $item){
-                    $tids[] = $item['tid'];
+                    if (isset($item['tid'])) $tids[] = $item['tid'];
                 }
             }
-            $o_teams = BasketTeam::whereIn('id',$tids)->get();
-            foreach ($o_teams as $item){
-                $teams[$item['id']] = $item;
+            foreach ($tids as $tid) {
+                $item = BasketTeam::query()->find($tid);
+                if (isset($item)) $teams[$item['id']] = $item;
             }
             $data['teams'] = $teams;
         }
@@ -117,13 +114,15 @@ class TeamController extends Controller
             if (isset($data['rank'])) {
                 foreach ($data['rank'] as $item){
                     if (isset($item['tid'])) {
-                        $tids[] = $item['tid'];
+                        if (isset($item['tid'])) $tids[] = $item['tid'];
                     }
                 }
             }
-            $o_teams = Team::whereIn('id',$tids)->get();
-            foreach ($o_teams as $item){
-                $teams[$item['id']] = $item;
+            foreach ($tids as $tid) {
+                $item = BasketTeam::query()->find($tid);
+                if (isset($item)) {
+                    $teams[$item['id']] = $item;
+                }
             }
             $data['teams'] = $teams;
         }
@@ -183,14 +182,12 @@ class TeamController extends Controller
         $lid = $data['lid'];
         $sport = substr($tid, 0, 1);
         $tid = substr($tid, 1);
-
         $rdata = TeamController::recordData($name_en,$sport, $tid, $lid);
         $this->html_var['team'] = $rdata['team'];
         $this->html_var['title'] = $rdata['title'];
         $this->html_var['league'] = $rdata['league'];
         $this->html_var['comboData'] = CommonTool::getComboData($name_en);
         $this->html_var['name_en'] = $name_en;
-
         //录像
         $records = TagRelation::getRelationsPageByTagId(TagRelation::kTypePlayBack,$sport,3,$tid,$page,20);
 
@@ -494,7 +491,13 @@ class TeamController extends Controller
 
         $array = array();
         foreach ($matches as $match){
-            $array[] = AikanQController::onMatchItemConvert($sport, $match, "", false);
+            if (array_key_exists($sport.'-'.$match['lid'],Controller::MATCH_LEAGUE_IDS)){
+                $lname = Controller::MATCH_LEAGUE_IDS[$sport.'-'.$match['lid']]['name_en'];
+            }
+            else{
+                $lname = 'other';
+            }
+            $array[] = AikanQController::onMatchItemConvert2($sport, $match, $lname, false);
         }
         return response()->json(array('code'=>0,'data'=>$array));
     }

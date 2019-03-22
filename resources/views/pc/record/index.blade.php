@@ -17,7 +17,9 @@
             <?php if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
             @if(isset($subjects) && count($subjects) > 0)
                 @foreach($subjects as $id=>$su_obj)
-                    <a href="/{{$su_obj['name_en']}}/record/" class="date_con">{{$su_obj['name']}}</a>
+                    @if($su_obj['name_en'] != 'worldcup')
+                        <a href="/{{$su_obj['name_en']}}/record/" class="date_con">{{$su_obj['name']}}</a>
+                    @endif
                 @endforeach
             @endif
             <div style="" class="date"><input type="text" name="date" placeholder="选择日期"></div>
@@ -67,7 +69,7 @@
 @section('js')
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/jquery-ui.js"></script>
     <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/record_list_2.js?201903111750"></script>
-    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903071918"></script>
+    <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903181145"></script>
     <script type="text/javascript">
         window.onload = function () { //需要添加的监控放在这里
             setPage();

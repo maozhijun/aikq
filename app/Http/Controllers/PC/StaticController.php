@@ -218,6 +218,12 @@ class StaticController extends Controller
                     ->select('tags.*')->get();
                 $name_en = null;
                 $lid = null;
+
+                //录像 只有一页
+                $rcon = new RecordController();
+                $rcon->staticIndex(new Request());
+                $mcon = new \App\Http\Controllers\Mobile\Record\RecordController();
+                $mcon->staticIndex(new Request());
                 foreach ($trs as $tr){
                     //没错了,就是这么蛋疼,tag和以前的subject_leagues不通,但是又有更新关系,这里做个对应
                     switch ($tr->level){
@@ -229,11 +235,6 @@ class StaticController extends Controller
                                 $lid = $sl->lid;
                                 HomeController::updateFileComboData($name_en);
                                 //赛事终端(录像、资讯、视频)加入更新列表,并且触发page为4,首页直接刷新
-                                //录像 只有一页
-                                $rcon = new RecordController();
-                                $rcon->staticIndex(new Request());
-                                $mcon = new \App\Http\Controllers\Mobile\Record\RecordController();
-                                $mcon->staticIndex(new Request());
 
                                 //资讯 只有一页
 //                                $con = new ArticleController();

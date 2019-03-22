@@ -117,7 +117,7 @@ class VideoController extends Controller
      */
     protected function videosHtml($type, $types, $videos) {
         if (!isset($videos['videos'])) {
-            return "";
+            $videos["videos"] = [];
         }
         $result['types'] = $types;
         $result['page'] = $videos['page'];
@@ -178,7 +178,7 @@ class VideoController extends Controller
                 foreach ($o_score as $item){
                     $tids[] = $item['tid'];
                 }
-                $o_teams = BasketTeam::whereIn('id',$tids)->get();
+                $o_teams = \App\Models\Match\BasketTeam::whereIn('id',$tids)->get();
                 $teams = array();
                 foreach ($o_teams as $item){
                     $teams[$item['id']] = $item;
@@ -201,7 +201,7 @@ class VideoController extends Controller
                 foreach ($o_score as $item){
                     $tids[] = $item['tid'];
                 }
-                $o_teams = Team::whereIn('id',$tids)->get();
+                $o_teams = \App\Models\Match\Team::whereIn('id',$tids)->get();
                 $teams = array();
                 foreach ($o_teams as $item){
                     $teams[$item['id']] = $item;
@@ -266,7 +266,7 @@ class VideoController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {
         }
-        $keywords = $video->tagsCn();
+        $keywords = $video->htmlKeywords();
         $result["title"] = $video["title"];
         $result["keywords"] = str_replace("，", ",", $keywords);
         $result['check'] = 'videos';

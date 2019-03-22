@@ -38,12 +38,12 @@ class AnchorRoomTag extends Model{
 
     public function getMatch(){
         if($this->sport == 1){
-            $url = 'http://match.liaogou168.com/static/terminal/1/'.substr($this->match_id,0,2).'/'.substr($this->match_id,2,2).'/'.$this->match_id.'/match.json';
+            $url = env('MATCH_URL').'/static/terminal/1/'.substr($this->match_id,0,2).'/'.substr($this->match_id,2,2).'/'.$this->match_id.'/match.json';
             $match = AnchorRoomTag::curlData($url,5);
             return $match;
         }
         if($this->sport == 2){
-            $url = 'http://match.liaogou168.com/static/terminal/2/'.substr($this->match_id,0,2).'/'.substr($this->match_id,2,2).'/'.$this->match_id.'/match.json';
+            $url = env('MATCH_URL').'/static/terminal/2/'.substr($this->match_id,0,2).'/'.substr($this->match_id,2,2).'/'.$this->match_id.'/match.json';
             $match = AnchorRoomTag::curlData($url,5);
             return $match;
         }

@@ -74,4 +74,9 @@ class DeleteExpireFileCommand extends Command
         }
     }
 
+    public static function delStoragePublicFile($filePath) {
+        $disk = Storage::disk('public');
+        $disk->delete($filePath);
+    }
+
 }

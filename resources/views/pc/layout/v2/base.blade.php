@@ -23,7 +23,7 @@
         <meta http-equiv="mobile-agent" content="format=xhtml; url={{$ma_url}}">
         <meta http-equiv="mobile-agent" content="format=html5; url={{$ma_url}}">
     @endif
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/style_2.css?time={{date('YmdHi')}}">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/style_2.css?201903211541">
     @yield('css')
     <link rel="Shortcut Icon" data-ng-href="{{env('CDN_URL')}}/img/pc/ico.ico" href="{{env('CDN_URL')}}/img/pc/ico.ico">
     <script type="text/javascript">
@@ -53,10 +53,10 @@
                 var url = window.location.href;
                 if (url.indexOf("mp.dlfyb.com") != -1) {
                     url = url.replace(/(https?:\/\/)(mp\.)?/, "$1m.");
-//                    window.location.href = url;
+                    window.location.href = url;
                 } else {
                     url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
-//                    window.location.href = url;
+                    window.location.href = url;
                 }
             }
         }
@@ -73,7 +73,8 @@
                     {{--<img alt="爱看球" class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png">--}}
                 {{--</a>--}}
                 {{--<p class="wx">关注【<span> i看球 </span>】公众号，看球领现金红包！<img src="{{env('CDN_URL')}}/img/pc/WechatIMG60.jpeg"></p>--}}
-                <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/">直播</a>
+                <a class="column{{isset($check) && $check == 'index' ? ' on' : ''}}" href="/">首页</a>
+                <a class="column{{isset($check) && $check == 'all' ? ' on' : ''}}" href="/live/">直播</a>
                 {{--<a class="column{{isset($check) && $check == 'anchor' ? ' on' : ''}}" href="/anchor/">主播</a>--}}
                 {{--<a class="column{{isset($check) && $check == 'videos' ? ' on' : ''}}" href="/live/subject/videos/all/1.html">录像</a>--}}
                 <a class="column{{isset($check) && $check == 'news' ? ' on' : ''}}" href="/news/">资讯</a>
@@ -120,7 +121,7 @@
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/public/pc/jquery_191.js"></script>
 <![endif]-->
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/id_2_league_name.js"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903111654"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/pc/v2/public_2.js?201903181145"></script>
 @yield('js')
 <script>
     var _hmt = _hmt || [];

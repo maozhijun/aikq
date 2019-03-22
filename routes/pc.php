@@ -13,8 +13,7 @@
 
 //直播相关
 Route::group(["namespace" => 'Live'], function () {
-    Route::any("/", "LiveController@lives");
-    Route::get('/index.html',"LiveController@lives");//首页
+    Route::get('/live/',"LiveController@lives");//直播
 
     //直播终端改为在最路由最底部
 
@@ -96,6 +95,12 @@ Route::group([], function () {
     Route::get('/api/recordData.json', 'Record\RecordController@getMatchWithDate');//接口
     Route::get("/app/teamRecentMatch/{sport}/{tid}.json", 'Team\TeamController@getRecentMatches');
     Route::get("/app/teamHistoryMatch/{sport}/{tid}.json", 'Team\TeamController@getHistoryMatches');
+
+    Route::get("/download_2.html", "HomeController@download");
+
+    //首页
+    Route::any("/", "HomeController@index");
+    Route::get('/index.html',"HomeController@index");//首页
 });
 
 /**

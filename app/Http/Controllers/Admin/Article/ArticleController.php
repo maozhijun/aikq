@@ -79,10 +79,12 @@ class ArticleController extends Controller
         $id = $request->input("id");
         if (isset($id)) {
             $article = PcArticle::query()->find($id);
-            $tags = TagRelation::getTagRelations(TagRelation::kTypeArticle, $id);
             $result['article'] = $article;
-            $result["tags"] = $tags;
-            $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+
+            $array = TagRelation::tagCellArray(TagRelation::kTypeArticle, $id);
+            $result = array_merge($result, $array);
+        } else {
+            $result["sports"] = Tag::sports();
         }
 
         $types = PcArticleType::allTypes();
@@ -135,7 +137,7 @@ class ArticleController extends Controller
                 return response()->json(['code' => 403, 'error' => '摘要必须不少于30字符，不能多于100字符']);
             }
         }
-        if (!in_array($sport, Tag::kSportArray)) {
+        if (!is_numeric($sport) || !Tag::isFirstTag($sport)) {
             return response()->json(['code' => 403, 'error' => '请选择竞技']);
         }
         if (mb_strlen($content) < 10 || mb_strlen($content) > 100000) {
@@ -276,10 +278,10 @@ class ArticleController extends Controller
         if (!isset($article)) {
             return back()->with('error', '无效的文章');
         }
-        DB::transaction(function () use ($article) {
+        DB::transaction(function () use ($article, $id) {
             $path = $article->path;
 
-            $pai = PcArticleDetail::query()->find($article->id);
+            $pai = PcArticleDetail::query()->find($id);
             if(isset($pai)) {
                 $pai->delete();//删除文章内容。
             }
@@ -287,6 +289,8 @@ class ArticleController extends Controller
             if (!empty($path)) {
                 //Storage::delete('public/' . $path);
             }
+            //删除文件对应的标签关系
+            TagRelation::deleteTagRelations(TagRelation::kTypeArticle, $id);
         });
         return back()->with('success', '删除成功');
     }

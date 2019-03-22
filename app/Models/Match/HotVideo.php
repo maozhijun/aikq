@@ -79,12 +79,37 @@ class HotVideo extends Model
         return $tagCn;
     }
 
+    public function htmlKeywords() {
+        $tagCn = $this->tagsCn();
+        $labels = $this->labels;
+        if (empty($tagCn) && empty($labels)) {
+            return "";
+        }
+
+        if (empty($labels)) {
+            return $tagCn;
+        }
+
+        if (empty($tagCn)) {
+            return $labels;
+        }
+
+        $labelArray = explode(",", $labels);
+        $tagCnArray = explode(",", $tagCn);
+        foreach ($labelArray as $item) {
+            if (!in_array($item, $tagCnArray)) {
+                $tagCn = $tagCn . "," . $item;
+            }
+        }
+        return $tagCn;
+    }
+
     protected function appendTagCn($array, &$cn) {
         foreach ($array as $tag) {
             if (empty($cn)) {
                 $cn .= $tag->name;
             } else {
-                $cn .= "，" . $tag->name;
+                $cn .= "," . $tag->name;
             }
         }
     }
@@ -213,7 +238,6 @@ class HotVideo extends Model
         if (!isset($sl)) {
             $query = self::query();
             $query->where('hot_videos.show', self::kShow);
-            $query->orderByDesc('hot_videos.created_at');
         } else {
             $query = self::query();
             $sport = $sl->sport;
@@ -228,6 +252,7 @@ class HotVideo extends Model
                 $existsQuery->whereRaw("hot_videos.id = tag_relations.source_id");
             });
         }
+        $query->orderByDesc('hot_videos.created_at');
         $videos = $query->take($size)->get();
         $videoArray = [];
         foreach ($videos as $video) {
@@ -320,7 +345,7 @@ class HotVideo extends Model
      */
     public static function staticHotVideosLeagueHtml($name_en, $page) {
         $url = env('CMS_URL') . "/static/video/list-leg/" . $name_en . "/" . $page;
-        return Controller::execUrl($url, 3);
+        return Controller::execUrl($url, 10);
     }
 
     /**

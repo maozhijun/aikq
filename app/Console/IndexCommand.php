@@ -9,6 +9,7 @@
 namespace App\Console;
 
 
+use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\Live\LiveController;
 use App\Http\Controllers\PC\RecommendsController;
 use App\Http\Controllers\PC\TaskController;
@@ -53,8 +54,12 @@ class IndexCommand extends Command
         $type = $this->argument('type');
         switch ($type) {
             case "pc":
+                //直播页
                 $home = new LiveController();
                 $home->staticIndex(new Request());
+                //新首页
+                $con = new HomeController();
+                $con->staticIndex(new Request());
                 break;
             case "mobile":
                 $home = new \App\Http\Controllers\Mobile\Live\LiveController();

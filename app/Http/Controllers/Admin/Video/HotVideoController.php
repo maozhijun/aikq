@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Admin\Video;
 
 
+use App\Console\DeleteExpireFileCommand;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PC\CommonTool;
 use App\Http\Controllers\PC\HomeController;
 use App\Http\Controllers\PC\StaticController;
 use App\Models\Match\HotVideo;
@@ -80,9 +82,11 @@ class HotVideoController extends Controller
         $id = $request->input("id");
         if (is_numeric($id)) {
             $result["video"] = HotVideo::query()->find($id);
-            $tags = TagRelation::getTagRelations(TagRelation::kTypeVideo, $id);
-            $result["tags"] = $tags;
-            $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+            $array = TagRelation::tagCellArray(TagRelation::kTypeVideo, $id);
+            $result = array_merge($result, $array);
+        }
+        if (!isset($result["sports"])) {
+            $result["sports"] = Tag::sports();
         }
         $result["players"] = HotVideo::kPlayerArrayCn;
         $result["platforms"] = HotVideo::kPlatformArray;
@@ -104,6 +108,7 @@ class HotVideoController extends Controller
         $platform = $request->input("platform");
         $player = $request->input("player");
         $sport = $request->input("sport");
+        $labels = $request->input("labels");
 
         $tags = $request->input("tags");//标签
         //判断参数是否正确
@@ -132,6 +137,10 @@ class HotVideoController extends Controller
             return response()->json(["code"=>401, "message"=>"请选择竞技"]);
         }
 
+        if (!empty($labels)) {
+            $labels = str_replace("，", ",", $labels);
+        }
+
         try {
             if (is_numeric($id)) {
                 $video = HotVideo::query()->find($id);
@@ -145,6 +154,8 @@ class HotVideoController extends Controller
             $video->platform = $platform;
             $video->image = $image;
             $video->ad_id = $adAccount->id;
+            $video->labels = $labels;
+
             DB::transaction(function () use ($video, $tags, $sport) {
                 $video->save();
                 $tagArray = json_decode($tags, true);
@@ -185,7 +196,13 @@ class HotVideoController extends Controller
             return response()->json(["code"=>403, "message"=>"参数错误"]);
         }
         try {
-            HotVideo::query()->where("id", $id)->delete();
+            DB::transaction(function () use ($id) {
+                $path = HotVideo::getVideoDetailPath($id);
+                HotVideo::query()->where("id", $id)->delete();
+                TagRelation::deleteTagRelations(TagRelation::kTypeVideo, $id);//删除关系标签
+                DeleteExpireFileCommand::delStoragePublicFile("www".$path);//删除文件
+                DeleteExpireFileCommand::delStoragePublicFile("m".$path);//删除文件
+            });
         } catch (\Exception $exception) {
             Log::error($exception);
             return response()->json(["code"=>500, "message"=>"服务器错误"]);

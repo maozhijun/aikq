@@ -425,5 +425,4 @@ class RecordController extends Controller
         }
         return ["lastPage"=>$pages->lastPage(), "curPage"=>$pages->currentPage()];
     }
-
 }

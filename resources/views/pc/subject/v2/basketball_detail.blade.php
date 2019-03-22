@@ -1,7 +1,7 @@
 @extends("pc.layout.v2.base")
 <?php $cdnUrl = env("CDN_URL"); ?>
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903221050">
     <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_nba_2.css">
 @endsection
 @section("content")
@@ -40,14 +40,20 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($eastRanks as $rank)
-                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]);
+                        $win = $rank["win"];
+                        $lose = $rank["lose"];
+                        $total = $win + $lose;
+                        $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
+                    ?>
                         <tr>
                             <td>{{$rank["rank"]}}</td>
-                            <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                            <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["ticon"]}}">{{$rank["tname"]}}</a></td>
                             <td>{{$rank["win"]}}</td>
                             <td>{{$rank["lose"]}}</td>
                             <td>{{$rank["win_diff"]}}</td>
-                            <td>{{$rank["win_p"]}}%</td>
+                            <td>{{$win_p}}%</td>
                             <td>{{$rank["home_bat_w"]}}-{{$rank["home_bat_l"]}}</td>
                             <td>{{$rank["away_bat_w"]}}-{{$rank["away_bat_l"]}}</td>
                             <td>{{$rank["goal"]}}</td>
@@ -76,14 +82,20 @@
                         <th>连胜/负</th>
                     </tr>
                     @foreach($westRanks as $rank)
-                    <?php $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]); ?>
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $rank["tid"]);
+                        $win = $rank["win"];
+                        $lose = $rank["lose"];
+                        $total = $win + $lose;
+                        $win_p = $total > 0 ? round($win / $total, 2) * 100 : 0;
+                    ?>
                     <tr>
                         <td>{{$rank["rank"]}}</td>
-                        <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["icon"]}}">{{$rank["name"]}}</a></td>
+                        <td class="team"><a href="{{$teamUrl}}"><img src="{{$rank["ticon"]}}">{{$rank["tname"]}}</a></td>
                         <td>{{$rank["win"]}}</td>
                         <td>{{$rank["lose"]}}</td>
                         <td>{{$rank["win_diff"]}}</td>
-                        <td>{{$rank["win_p"]}}%</td>
+                        <td>{{$win_p}}%</td>
                         <td>{{$rank["home_bat_w"]}}-{{$rank["home_bat_l"]}}</td>
                         <td>{{$rank["away_bat_w"]}}-{{$rank["away_bat_l"]}}</td>
                         <td>{{$rank["goal"]}}</td>
@@ -100,7 +112,7 @@
 </div>
 @endsection
 @section("js")
-    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903121821"></script>
+    <script type="text/javascript" src="{{env("CDN_URL")}}/js/pc/v2/league_nba_2.js?time=201903181052"></script>
     <script type="text/javascript">
         var LeagueKeyword = '{{$sl["name_en"]}}';
         var NowDate = '{{date('Y-m-d')}}';//'2019-02-21';

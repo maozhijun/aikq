@@ -157,7 +157,7 @@
                         </tr>
                         <tr style="{!! $tr_color !!}" >
                             <td colspan="5">
-                                @component("admin.tag.add_tag_cell", ["mul_id"=>$video->id, "sport"=>["tag_id"=>$video->sport], "tags"=>$video->tagRelations() ]) @endcomponent
+                                @component("admin.tag.add_tag_cell", ["sports"=>$sports, "mul_id"=>$video->id, "sport"=>["tag_id"=>$video->sport], "tags"=>$video->tagRelations() ]) @endcomponent
                             </td>
                         </tr>
                     </form>

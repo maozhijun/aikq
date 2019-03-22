@@ -1,70 +1,71 @@
 <?php if (!isset($match)) return ""; ?>
 <?php
-    $channels = $match['channels'];
-    $sport = $match['sport'];
-    $mid = $match['mid'];
-    $lid = isset($match['lid']) ? $match['lid'] : 0;
-    $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
+$channels = $match['channels'];
+$sport = $match['sport'];
+$mid = $match['mid'];
+$lid = isset($match['lid']) ? $match['lid'] : 0;
+$url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sport, $lid, $mid);
 
-    $firstChannel = isset($channels[0]) ? $channels[0] : [];
-    $impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
-    $impt_style = '';
-    if ($impt == 2) {
-        if ($sport == 1) {
-            $impt_style = 'class=good_ft';
-        } else if ($sport == 2) {
-            $impt_style = 'class=good_bk';
-        }
+$firstChannel = isset($channels[0]) ? $channels[0] : [];
+$impt = isset($firstChannel['impt']) ? $firstChannel['impt'] : 1;
+$impt_style = '';
+if ($impt == 2) {
+    if ($sport == 1) {
+        $impt_style = 'football';
+    } else if ($sport == 2) {
+        $impt_style = 'basketball';
     }
-    //等级类型
-    if ($match['sport'] == 1){
-        if (isset($match['genre'])){
-            //是否是一级赛事
-            $isFirst = ($match['genre'] >> 1 & 1) == 1;
-        }
-        else{
-            $isFirst = 0;
-        }
-    }
-    else if($match['sport'] == 2){
-        $isFirst = $match['league_name'] == 'NBA' || $match['league_name'] == 'CBA';
+}
+$type = '';
+if ($sport == 1) {
+    $type = 'foot';
+} else if ($sport == 2) {
+    $type = 'basket';
+}
+//等级类型
+if ($match['sport'] == 1){
+    if (isset($match['genre'])){
+        //是否是一级赛事
+        $isFirst = ($match['genre'] >> 1 & 1) == 1;
     }
     else{
         $isFirst = 0;
     }
-    //是否是竞彩
-    $isLottery = isset($match['betting_num']);
+}
+else if($match['sport'] == 2){
+    $isFirst = $match['league_name'] == 'NBA' || $match['league_name'] == 'CBA';
+}
+else{
+    $isFirst = 0;
+}
+//是否是竞彩
+$isLottery = isset($match['betting_num']);
 ?>
-<tr match="1" lottery="{{$isLottery}}" first="{{$isFirst}}" imp="{{$impt}}" {!! $impt_style !!}>
-    <td>
-        @if($match['sport'] == 2) <p class="basketball">篮球</p> @elseif($match['sport'] == 1) <p class="football">足球</p>
-        @else <p class="football">{{isset($match['project']) ? $match['project'] : ''}}</p> @endif
-    </td>
+
+<tr type="{{$type.'ball'}}">
+    <td><img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png"></td>
     <td>{{$match['league_name']}}</td>
     <td>{{date('H:i', strtotime($match['time']))}}</td>
-    @if(isset($match['type']) && $match['type'] == 1)
-        <td colspan="5">{{$match['hname']}}</td>
+    @if(isset($match['hid']))
+        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
     @else
-        @if(isset($match['hid']))
-            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['hid'])}}">{{$match['hname']}}</a></td>
-        @else
-            <td>{{$match['hname']}}</td>
-        @endif
-        <td></td>
-        <td>VS</td>
-        <td></td>
-        @if(isset($match['aid']))
-            <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
-        @else
-            <td>{{$match['aname']}}</td>
-        @endif
+        <td>{{$match['hname']}}</td>
     @endif
-    <td>
-        <?php $index = 0; ?>
+    @if(isset($match['isMatching']) && $match['isMatching'])
+        <td><p class="live">直播中</p></td>
+    @else
+        <td>vs</td>
+    @endif
+    @if(isset($match['aid']))
+        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
+    @else
+        <td>{{$match['aname']}}</td>
+    @endif
+    <td class="channel">
         @foreach($channels as $channel)
             @continue($channel['platform'] == 5){{-- APP链接过滤 --}}
             @if(isset($channel['player']) && $channel['player'] == 16){{-- 外链 --}}
-                <a target="_blank" href="{{$channel['link']}}">{{$channel['name']}}</a>
+            <a target="_blank" rel="nofollow" href="{{$channel['link']}}">{{$channel['name']}}</a>
             @else
                 <?php
                 if(isset($channel['akq_url']) && strlen($channel['akq_url']) > 0){
@@ -74,22 +75,13 @@
                     $tmp_url = $url;
                 }
                 ?>
-                <a target="_blank" href="{{$tmp_url . '#btn=' . ($index++)}}">{{$channel['name']}}</a>
+                <a target="_blank" href="{{$tmp_url}}">{{$channel['name']}}</a>
             @endif
         @endforeach
-        <?php
-            $adShow = env("TOUZHU_AD", "false") == "true";
-            $league_name = $match['league_name'];
-            $adName = (mb_strlen($league_name) > 3 ? "体育" : $league_name) . "投注";
-        ?>
-        @if($adShow)
-            <a style="color: red" target="_blank" href="http://b.aikq.cc/b8888.html">{{$adName}}</a>
-        @endif
-        {{--@if($match['sport'] == 1)--}}
-            {{--<a style="color: red" target="_blank" href="https://liaogou168.com/match_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html#Article">专家推荐</a>--}}
-        {{--@elseif($match['sport'] == 2)--}}
-            {{--<a style="color: red" target="_blank" href="https://liaogou168.com/basket_detail/{{date('Ymd', strtotime($match['time']))}}/{{$match['mid']}}.html">专家推荐</a>--}}
-        {{--@endif--}}
     </td>
-    <td>@if(isset($match['isMatching']) && $match['isMatching'])<p class="live">直播中</p> @endif</td>
+    <td>
+        @if(strlen($impt_style) > 0)
+            <img class="major" src="{{env('CDN_URL')}}/img/pc/v2/icon_import_n.png">
+        @endif
+    </td>
 </tr>

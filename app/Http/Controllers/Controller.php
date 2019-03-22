@@ -36,7 +36,7 @@ class Controller extends BaseController
         "1-29"=>["name_en"=>"yijia", "sid"=>1004, 'name'=>'意甲'],
         "1-11"=>["name_en"=>"fajia", "sid"=>1005, 'name'=>'法甲'],
         "1-8"=>["name_en"=>"dejia", "sid"=>1006, 'name'=>'德甲'],
-//        "1-57"=>["name_en"=>"worldcup", "sid"=>1008, 'name'=>'世界杯'],
+        "1-57"=>["name_en"=>"worldcup", "sid"=>1008, 'name'=>'世界杯'],
         "1-73"=>["name_en"=>"uefacl", "sid"=>1001, 'name'=>'欧冠杯'],
         "1-77"=>["name_en"=>"uefael", "sid"=>1011, 'name'=>'欧罗巴杯'],
         "1-139"=>["name_en"=>"afccl", "sid"=>1007, 'name'=>'亚冠杯'],

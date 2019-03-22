@@ -1,8 +1,8 @@
 @extends("pc.layout.v2.base")
-<?php $cdnUrl = env("CDN_URL"); ?>
+<?php $cdnUrl = env("CDN_URL");$name_en = $sl["name_en"]; $sport = $sl["sport"]; ?>
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903221050">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css?201903141016">
 @endsection
 @section("content")
     <div id="Crumbs">
@@ -12,7 +12,7 @@
     </div>
     <div class="def_content" id="Part_parent">
         <div id="Left_part">
-            @if(isset($knockouts))
+            @if(isset($knockouts) && count($knockouts) > 0)
             <div class="knockout_con football">
                 <div class="round_con">
                     @component("pc.subject.v2.football_detail_cup_kk", ["knockouts"=>$knockouts, "count"=>16, "sl"=>$sl, "p"=>"before"]) @endcomponent
@@ -49,8 +49,13 @@
                         $aid = $final["away"]["id"];
                         break;
                     }
+                    $liveUrl = "javascript:void(0);";
+                    if (!empty($hid)) {
+                        $tempMid = \App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid);
+                        $liveUrl = "/".$name_en."/live".$sport.$tempMid.".html";
+                    }
                 ?>
-                <a class="finals_match" @if(!empty($hid)) href="{{\App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($sl["sport"], $sl["lid"], $mid)}}" @endif >
+                <a class="finals_match" href="{{$liveUrl}}" >
                     <img src="{{$cdnUrl}}/img/pc/image_football_n.png" class="cup">
                     @if(empty($hid))
                         <div class="team_con">
@@ -59,7 +64,7 @@
                     @else
                         <div class="team_con">
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($hid)}}"><span>{{$final["host"]["name"]}}</span></p>
-                            <p class="score">@if(!empty($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
+                            <p class="score">@if(isset($final["host"]["score"])) {{$final["host"]["score"]}}&nbsp;&nbsp;&nbsp;{{$final["away"]["score"]}} @else @endif</p>
                             <p class="team"><img src="{{\App\Models\Match\Team::getIconById($aid)}}"><span>{{$final["away"]["name"]}}</span></p>
                         </div>
                     @endif
@@ -100,8 +105,9 @@
                     @foreach($schedules as $stageId=>$schedule)
                     <?php $hasGroup = isset($schedule["groupMatches"]) && count($schedule["groupMatches"]) > 0;?>
                         @if($hasGroup)
+                            <?php $gIndex = 0; ?>
                             @foreach($schedule["groupMatches"] as $g=>$groupMatch)
-                                @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId."-".$g, "schMatches"=>$groupMatch["matches"], "status"=>$schedule["status"]]) @endcomponent
+                                @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId."-".$g, "schMatches"=>$groupMatch["matches"], "status"=>($schedule["status"] == 1 && $gIndex++ == 0) ? 1 : 0]) @endcomponent
                             @endforeach
                         @else
                             @component("pc.subject.v2.football_detail_cup_schedule", ["sl"=>$sl, "round"=>$stageId, "schMatches"=>$schedule["matches"], "status"=>$schedule["status"]]) @endcomponent
@@ -138,15 +144,15 @@
                             @foreach($scores as $index=>$score)
                                 <?php
                                     if (isset($score['tid'])) {
-                                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($score['sport'], $score['lid'], $score['tid']);
+                                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl['name_en'], $sl['sport'], $score['tid']);
                                     } else {
-                                        $teamUrl = "#";
+                                        $teamUrl = "javascript:void(0);";
                                     }
-                                    $icon = \App\Models\Match\Team::getIcon($score["icon"]);
+                                    $icon = $score["ticon"];//\App\Models\Match\Team::getIcon($score["icon"]);
                                 ?>
                                 <tr>
                                     <td>{{$index + 1}}</td>
-                                    <td class="team"><a target="_blank" href="{{$teamUrl}}"><img src="{{$icon}}">{{$score['name']}}</a></td>
+                                    <td class="team"><a target="_blank" href="{{$teamUrl}}"><img src="{{$icon}}">{{$score['tname']}}</a></td>
                                     <td>{{$score["count"]}}</td>
                                     <td>{{$score['win']}}</td>
                                     <td>{{$score['draw']}}</td>

@@ -55,6 +55,15 @@ function reTurnTeamId (ID) {
     }
 }
 
+//球队图片设置
+function reTurnTeamIcon (img) {
+    if (img && img != '') {
+        return img
+    }else{
+        return 'https://static.dlfyb.com/img/pc/v2/icon_teamDefault.png'
+    }
+}
+
 
 /*共用重置左边part内容*/
 function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
@@ -62,7 +71,9 @@ function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
     count = count ? count : 8;
 
     if (Key.length == 0) {
-        $('#Left_part .more_live_con').remove();
+        $('#Left_part .more_live_con .match').html('<tr><td colspan="5" class="noList_con">暂无相关直播</td></tr>');
+
+        return;
     }else{
         $('#Left_part .more_live_con .match tr').remove();
     }
@@ -76,9 +87,9 @@ function ResetLeftMatch (MatchObj,count) { //match是对象，不是数组
             newLive = $('<tr><td><img src="//static.dlfyb.com/img/pc/v2/' + (Target.sport == 1 ? 'icon_foot_light_opaque.png' : 'icon_basket_light_opaque.png') + '" class="type"></td>' +
                           '<td><span>' + Target.league_name + '</span></td>' + 
                           '<td><span>' + setMyTime(Target.time,'date') + '<br/>' + setMyTime(Target.time,'time') + '</span></td>' + 
-                          '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></td>' +
+                          '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></td>' + 
                           '<td class="vs">' + (Target.isMatching ? '<span class="living">直播中</span>' : (Target.status == '-1' ? '已结束' : 'vs')) + '</td>' + 
-                          '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '.html">' + Target.aname + '</a></td>' +
+                          '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '.html">' + Target.aname + '</a></td>' + 
                           '<td class="line"></td></tr>')
 
             for (var j = 0; j < Target.channels.length; j++) {
@@ -95,7 +106,9 @@ function ResetLeftMatch_2 (MatchObj,count) { //match是对象，不是数组
     count = count ? count : 8;
 
     if (Key.length == 0) {
-        $('#Left_part .more_live_con').remove();
+        $('#Left_part .more_live_con .match').html('<tr><td colspan="5" class="noList_con">暂无相关直播</td></tr>');
+
+        return;
     }else{
         $('#Left_part .more_live_con .match tr').remove();
     }
@@ -107,9 +120,9 @@ function ResetLeftMatch_2 (MatchObj,count) { //match是对象，不是数组
             var Target = MatchObj[Key[i]],
 
             newLive = $('<tr><td>' + setMyTime(Target.time,'date') + '<br/><span>' + setMyTime(Target.time,'time') + '</span></td>' + 
-                        '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '_index_1.html">' + Target.hname + '</a></td>' + 
+                        '<td class="host"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></td>' + 
                         '<td class="vs">' + (Target.isMatching ? '<span class="living">直播中</span>' : (Target.status == '-1' ? '已结束' : 'vs')) + '</td>' + 
-                        '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '_index_1.html">' + Target.aname + '</a></td>' + 
+                        '<td class="away"><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '.html">' + Target.aname + '</a></td>' + 
                         '<td class="line"></td></tr>')
 
             for (var j = 0; j < Target.channels.length; j++) {
@@ -129,11 +142,15 @@ function ResetLeftNews (newsArr){
     }
 
     for (var i = 0; i < (newsArr.length < 10 ? newsArr.length : 10); i++) {
-        var newNews = '<div class="news_con"><a href="' + newsArr[i].link + '">' + 
+        var newNews = $('<div class="news_con"><a href="' + newsArr[i].link + '">' + 
                       '<p class="img_box"><img src="' + newsArr[i].cover + '"></p>' + 
                       '<h5>' + newsArr[i].title + '</h5>' + 
                       '<p class="other_info">' + setMyTime(newsArr[i].update_at,'date') + '</p>' +
-                      '<p class="tag_list"><span>英超</span><span>利物浦</span><span>萨拉赫</span><span>利物浦</span><span>萨拉赫</span></p></a></div>';
+                      '<p class="tag_list"></p></a></div>');
+
+        for (var j in newsArr[i].tags) {
+            newNews.find('.tag_list').append('<span>' + newsArr[i].tags[j] + '</span>')
+        }
 
         $('#Left_part .el_con .news_list').append(newNews)
     }
@@ -164,9 +181,9 @@ function ResetLeftRecord (recordArr){
 
     for (var i = 0; i < (recordArr.length < 10 ? recordArr.length : 10); i++) {
         var newRecord = '<tr><td><span>' + setMyTime(recordArr[i].match.time) + '</span></td>' +
-                        '<td class="host"><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '_index_1.html">' + recordArr[i].match.hname + '</a></td>' +
+                        '<td class="host"><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '.html">' + recordArr[i].match.hname + '</a></td>' +
                         '<td class="vs">' + recordArr[i].match.hscore + ' - ' + recordArr[i].match.ascore + '</td>' +
-                        '<td class="away"><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '_index_1.html">' + recordArr[i].match.aname + '</a></td>' + 
+                        '<td class="away"><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '.html">' + recordArr[i].match.aname + '</a></td>' + 
                         '<td class="line"><a href="' + recordArr[i].link + '" class="live">观看录像</a></td></tr>';
 
         $('#Left_part .el_con .record_list').append(newRecord)
@@ -229,9 +246,9 @@ function ResetRightMatch (MatchObj,count) { //match是对象，不是数组
             var Target = MatchObj[Key[i]];
 
             var newLive = $('<div class="live_item"><p class="live_match_info">' + Target.league_name + '<span>' + setMyTime(Target.time,'month') + '</span></p>' + 
-                          '<div class="live_match_team"><p class="team"><span><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '_index_1.html">' + Target.hname + '</a></span></p>' + 
+                          '<div class="live_match_team"><p class="team"><span><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.hid) + '.html">' + Target.hname + '</a></span></p>' + 
                           '<p class="vs">' + (Target.isMatching ? '<span>直播中</span>' : (Target.status == '-1' ? '已结束' : 'VS')) + '</p>' + 
-                          '<p class="team"><span><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '_index_1.html">' + Target.aname + '</a></span></p></div>' + 
+                          '<p class="team"><span><a href="/' + (FindLeagueName(Target.sport,Target.lid) ? FindLeagueName(Target.sport,Target.lid).name_en : 'other') + '/team' + Target.sport + reTurnTeamId(Target.aid) + '.html">' + Target.aname + '</a></span></p></div>' + 
                           '<div class="live_match_line"></div></div>');
 
             for (var j = 0; j < Target.channels.length; j++) {
@@ -256,8 +273,8 @@ function ResetRightRecord (recordArr) {
 
     for (var i = 0; i < (recordArr.length < 10 ? recordArr.length : 10); i++) {
         var newRecord = '<tr><td class="time">' + setMyTime(recordArr[i].match.time,'date') + '<br/>' + setMyTime(recordArr[i].match.time,'time') + '</td><td>' + 
-                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '_index_1.html"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/30.png">' + recordArr[i].match.hname + '</a><span>' + recordArr[i].match.hscore + '</span></p>' + 
-                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '_index_1.html"><img src="http://mat1.gtimg.com/sports/nba/logo/1602/30.png">' + recordArr[i].match.aname + '</a><span>' + recordArr[i].match.ascore + '</span></p></td>' + 
+                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.hid) + '.html"><img src="' + reTurnTeamIcon(recordArr[i].match.hicon) + '">' + recordArr[i].match.hname + '</a><span>' + recordArr[i].match.hscore + '</span></p>' + 
+                       '<p><a href="/' + (FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid) ? FindLeagueName(recordArr[i].match.sport,recordArr[i].match.lid).name_en : 'other') + '/team' + recordArr[i].match.sport + reTurnTeamId(recordArr[i].match.aid) + '.html"><img src="' + reTurnTeamIcon(recordArr[i].match.aicon) + '">' + recordArr[i].match.aname + '</a><span>' + recordArr[i].match.ascore + '</span></p></td>' + 
                        '<td><a href="' + recordArr[i].link + '">观看录像</a></td></tr>';
 
         $('#Right_part .con_box .record').append(newRecord)
@@ -266,9 +283,7 @@ function ResetRightRecord (recordArr) {
     $('#Right_part .con_box .record').addClass('show')
 }
 
-function GetTeamDetailUrl(Sport, Lid, Tid) {
-    return '/' + (FindLeagueName(Sport,Lid) ? FindLeagueName(Sport,Lid).name_en : 'other') + '/team' + Sport + reTurnTeamId(Tid) + '_index_1.html';
-}
+
 
 
 

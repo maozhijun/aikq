@@ -1,4 +1,4 @@
-@if(!isset($page) || $page["lastPage"] == 1)
+@if(!isset($page) || $page["lastPage"] <= 1)
     <div class="page"><a href="#" class="on">1</a></div>
 @else
 <?php

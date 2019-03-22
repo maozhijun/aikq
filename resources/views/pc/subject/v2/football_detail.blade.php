@@ -1,8 +1,8 @@
 @extends("pc.layout.v2.base")
 <?php $cdnUrl = env("CDN_URL"); ?>
 @section("css")
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903071908">
-    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/left_right_2.css?201903221050">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/league_2.css?201903141015">
 @endsection
 @section("content")
 <div id="Crumbs">
@@ -32,16 +32,18 @@
                     $lid = $sl["lid"];
                     $teamUrlArray = [];
                     $detailArray = [];
+                    $eightDayAfterTime = strtotime(date("Y-m-d", strtotime("8 days")));
                 ?>
                 @foreach($schedule as $round=>$matches)
                     <table class="match" round="{{$round}}" @if($round != $curRound) style="display: none;" @endif >
-                        <col width="11%"><col><col width="12%"><col><col width="42.5%">
+                        <colgroup><col width="25%"><col><col width="12%"><col><col width="20%"></colgroup>
                         @foreach($matches as $match)
                         <?php
                             $mid = $match["mid"];
                             $time = date("Y-m-d H:i", $match["time"]);
                             $hid = $match["hid"];
                             $aid = $match["aid"];
+                            $status = $match["status"];
                             $name_en = $sl["name_en"];
                             $detailKey = $hid > $aid ? ($hid . "_" . $aid) : ($aid . "_" . $hid);
 
@@ -62,14 +64,12 @@
                             } else {
                                 $detailUrl = "/".$sl["name_en"]."/live".$sport.\App\Http\Controllers\PC\CommonTool::getMatchVsByTid($hid, $aid, $mid).".html";
                             }
-                            if (empty($hid)) {
-                                $hTeamUrl = "javascript:void(0);";
-                                $detailUrl = "";
-                            }
+                            if (empty($hid) || $status < 0 || $match["time"] > $eightDayAfterTime) $detailUrl = "";//7天内的显示观看直播
                             if (empty($aid)) $aTeamUrl = "javascript:void(0);";
+                            if (empty($hid)) $hTeamUrl = "javascript:void(0);";
                         ?>
                         <tr>
-                            <td><span>{{substr($time, 5, 5)}}</span><br/>{{substr($time, 11, 5)}}</td>
+                            <td><span>{{$time}}</span></td>
                             <td class="host"><a href="{{$hTeamUrl}}">{{$match["hname"]}}</a></td>
                             <td class="vs">
                                 @if($match["status"] == -1 || $match["status"] > 0)
@@ -110,10 +110,14 @@
                         <th>积分</th>
                     </tr>
                     @foreach($scores as $score)
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $score["tid"]);
+                        $tIcon = $score["ticon"];//\App\Models\Match\Team::getIcon($score["ticon"])
+                    ?>
                     <tr>
                         <td>{{$score["rank"]}}</td>
                         <td class="team">
-                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sl["sport"], $sl["lid"], $score["tid"])}}"><img src="{{\App\Models\Match\Team::getIcon($score["ticon"])}}">{{$score["tname"]}}</a>
+                            <a href="{{$teamUrl}}"><img src="{{$tIcon}}">{{$score["tname"]}}</a>
                         </td>
                         <td>{{$score["count"]}}</td>
                         <td>{{$score["win"]}}</td>
@@ -136,6 +140,7 @@
                 </p>
             </div>
             @if(isset($data))
+            <?php $dataCount = 9; ?>
             <div class="data_con">
                 @if(isset($data["goal"]))
                 <div class="con_in" style="width: 40%;">
@@ -147,7 +152,8 @@
                             <col><col width="22%"><col width="22%">
                             <tr><th>球员</th><th>进球</th><th>点球</th></tr>
                             @foreach($data["goal"] as $index=>$goal)
-                            <tr><td><a href="">{{$index + 1}} {{$goal["pname"]}}</a></td><td>{{$goal["value"]}}</td><td>{{$goal["penalty"]}}</td></tr>
+                            @break($index > $dataCount)
+                            <tr><td>{{$index + 1}} {{$goal["pname"]}}</td><td>{{$goal["value"]}}</td><td>{{$goal["penalty"]}}</td></tr>
                             @endforeach
                         </table>
                     </div>
@@ -163,6 +169,7 @@
                             <col><col width="35%">
                             <tr><th>球员</th><th>助攻</th></tr>
                             @foreach($data["assist"] as $index=>$assist)
+                            @break($index > $dataCount)
                             <tr><td>{{$index + 1}} {{$assist["pname"]}}</td><td>{{$assist["value"]}}</td></tr>
                             @endforeach
                         </table>
@@ -181,6 +188,7 @@
                             <col><col width="35%">
                             <tr><th>球员</th><th>黄牌</th></tr>
                             @foreach($data["yellow"] as $index=>$yellow)
+                            @break($index > $dataCount)
                             <tr><td>{{$index+1}} {{$yellow["pname"]}}</td><td>{{$yellow["value"]}}</td></tr>
                             @endforeach
                         </table>
@@ -188,6 +196,7 @@
                             <col><col width="35%">
                             <tr><th>球员</th><th>红牌</th></tr>
                             @foreach($data["red"] as $index=>$red)
+                            @break($index > $dataCount)
                             <tr><td>{{$index+1}} {{$red["pname"]}}</td><td>{{$red["value"]}}</td></tr>
                             @endforeach
                         </table>

@@ -81,7 +81,7 @@ class LiveController extends Controller
         $html = $this->lives(new Request());
         try {
             if (!empty($html)) {
-                Storage::disk("public")->put("/www/index.html", $html);
+                Storage::disk("public")->put("/www/live/index.html", $html);
             }
         } catch (\Exception $exception) {
             echo $exception->getMessage();
@@ -257,6 +257,7 @@ class LiveController extends Controller
         $json['isIndex'] = true;
         $json['ma_url'] = self::getMobileHttpUrl("");
 //        dump($articles);
+        $json['title'] = '[乐虎播]免费体育赛事直播_360直播吧、CC直播吧_cctv5在线直播-爱看球直播';
         return view('pc.home', $json);
     }
 
@@ -467,13 +468,13 @@ class LiveController extends Controller
         }
         //录像
         $hRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['hname'],1,4);
         foreach ($records as $record){
             $hRecord[] = $record;
         }
         $json['hRecords'] = $hRecord;
         $aRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,1,3,$match['aname'],1,4);
         foreach ($records as $record){
             $aRecord[] = $record;
         }
@@ -564,13 +565,13 @@ class LiveController extends Controller
         }
         //录像
         $hRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['hname'],1,4);
         foreach ($records as $record){
             $hRecord[] = $record;
         }
         $json['hRecords'] = $hRecord;
         $aRecord = array();
-        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],4,1);
+        $records = TagRelation::getRelationsByTag(TagRelation::kTypePlayBack,2,3,$match['aname'],1,4);
         foreach ($records as $record){
             $aRecord[] = $record;
         }
