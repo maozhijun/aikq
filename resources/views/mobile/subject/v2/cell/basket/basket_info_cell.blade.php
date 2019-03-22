@@ -7,8 +7,12 @@
         <h1>{{$sl['name']}}</h1>
         <h2>{{$sl['name_long']}}</h2>
         <select>
-            @foreach($seasons as $seasonName)
-                <option @if($seasonName == $curSeasonName) selected @endif value="/{{$sl['name_en']}}/{{$seasonName}}/">{{$seasonName}}赛季</option>
+            @foreach($seasons as $index=>$seasonName)
+                @if($index == 0)
+                    <option @if($seasonName == $curSeasonName) selected @endif value="/{{$sl['name_en']}}/">{{$seasonName}}赛季</option>
+                @else
+                    <option @if($seasonName == $curSeasonName) selected @endif value="/{{$sl['name_en']}}/{{$seasonName}}/">{{$seasonName}}赛季</option>
+                @endif
             @endforeach
         </select>
     </div>
