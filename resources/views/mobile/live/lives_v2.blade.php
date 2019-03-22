@@ -40,6 +40,7 @@
         <?php $date = date('m_d', strtotime($time)); ?>
         <div class="match_list_con {{$date}}" style="display: {{$index++ == 0 ? "block" : "none"}}">
             @foreach($match_array as $key=>$match)
+            @continue($match["status"] == -1)
             <?php
                 $sport = $match["sport"];
                 $lid = $match["lid"];
