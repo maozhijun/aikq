@@ -142,6 +142,8 @@ class HomeController extends Controller
 //            }
             foreach ($tmp as $key=>$match){
                 //有需要再把录像搞回来
+                if ($match['status'] == -1)
+                    continue;
                 $this->html_var['matches'][] = $match;
                 if (count($this->html_var['matches']) > 20)
                     break;

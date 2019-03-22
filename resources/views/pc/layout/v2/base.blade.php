@@ -53,10 +53,10 @@
                 var url = window.location.href;
                 if (url.indexOf("mp.dlfyb.com") != -1) {
                     url = url.replace(/(https?:\/\/)(mp\.)?/, "$1m.");
-//                    window.location.href = url;
+                    window.location.href = url;
                 } else {
                     url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
-//                    window.location.href = url;
+                    window.location.href = url;
                 }
             }
         }

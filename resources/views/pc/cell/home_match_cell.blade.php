@@ -57,7 +57,7 @@ $isLottery = isset($match['betting_num']);
         <td>vs</td>
     @endif
     @if(isset($match['aid']))
-        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['hname']}}</a></td>
+        <td><a target="_blank" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match['sport'], $match['lid'], $match['aid'])}}">{{$match['aname']}}</a></td>
     @else
         <td>{{$match['aname']}}</td>
     @endif
