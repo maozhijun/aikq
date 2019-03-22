@@ -20,6 +20,7 @@ use App\Models\Match\BasketMatch;
 use App\Models\Match\Match;
 use App\Models\Match\MatchLive;
 use App\Models\Match\MatchLiveChannel;
+use App\Models\Tag\Tag;
 use App\Models\Tag\TagRelation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -61,9 +62,12 @@ class SubjectVideoController extends Controller
 
         $leagues = SubjectLeague::getAllLeagues();
 
+        $sports = Tag::sports();
+
         $result['page'] = $page;
         $result['leagues'] = $leagues;
         $result['players'] = MatchLiveChannel::kPlayerArrayCn;
+        $result["sports"] = $sports;
         return view('admin.subject.video.list', $result);
     }
 

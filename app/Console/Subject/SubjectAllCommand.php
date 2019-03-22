@@ -49,11 +49,11 @@ class SubjectAllCommand extends BaseCommand
             return;
         }
         $name_en = $params[1];
-        $staticTeam = isset($params[2]) && $params[2] == 1 ? true : false;
+        $static = isset($params[2]) && $params[2] == 1 ? true : false;
 
         switch ($type) {
             case "pc":
-                $this->staticPc($name_en, $staticTeam);
+                $this->staticPc($name_en, $static);
                 break;
 
             case "mobile":
@@ -88,48 +88,67 @@ class SubjectAllCommand extends BaseCommand
                 }
                 $wwwUrl = "http://www.aikanqiu.com";
                 $host = "http://cms.aikanqiu.com";
+
+                $liveCache = [];
+                $teamCache = [];
                 foreach ($matches as $date=>$array) {
                     foreach ($array as $key=>$item) {
                         $sport = $item["sport"];
                         $lid = $item["lid"];
-                        $slKey = $sport."_".$lid;
                         $hid = $item["hid"];
                         $aid = $item["aid"];
                         $mid = $item["mid"];
-                        $msg = $item["hname"] . " VS " . $item["aname"] . " " . $item["time"];
+                        $hname = $item["hname"];
+                        $aname = $item["aname"];
+                        $msg = $hname . " VS " . $aname . " " . $item["time"];
+
+                        $slKey = $sport."_".$lid;
                         $name_en = isset($slArray[$slKey]) ? $slArray[$slKey] : "other";
-                        $liveDetailUrl = $wwwUrl . CommonTool::getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid);
-                        dump($liveDetailUrl);
-                        $code = LiveDetailCommand::getUrlCode($liveDetailUrl);
-                        if ($code == 200) {
-                            echo "已存在 直播终端  " . $msg . " \n";
-                        } else {
-                            //不存在则静态化
-                            $url = $host."/live/cache/match/detail_id/".$mid."/".$sport;
-                            Controller::execUrl($url, 20);
-                            echo "静态化直播终端 $url \n";
-                            sleep(1);
+
+                        $liveKey = $hid > $aid ? ($sport."_".$hid."_".$aid) : ($sport."_".$aid."_".$hid);
+                        if (!isset($liveCache[$liveKey])) {
+
+                            $liveDetailUrl = $wwwUrl . CommonTool::getLiveDetailUrlByParam($name_en, $sport, $hid, $aid, $mid);
+                            $code = 400;//LiveDetailCommand::getUrlCode($liveDetailUrl);
+                            if ($code == 200) {
+                                echo "已存在 直播终端  " . $msg . " \n";
+                            } else {
+                                //不存在则静态化
+                                $url = $host."/live/cache/match/detail_id/".$mid."/".$sport;
+                                Controller::execUrl($url, 20);
+                                echo "静态化直播终端 $msg $url \n";
+                                sleep(1);
+                            }
+                            $liveCache[$liveKey] = 1;
                         }
 
-                        $hTeamUrl = $wwwUrl.CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $hid);
-                        $code = LiveDetailCommand::getUrlCode($hTeamUrl);
-                        if ($code == 200) {
-                            echo "已存在 球队页面 " . $item["hname"] . " $hTeamUrl \n";
-                        } else {
-                            $this->staticTeam($sport, $name_en, $hid, $item["hname"]);
-                        }
-
-                        $aTeamUrl = $wwwUrl.CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $aid);
-                        $code = LiveDetailCommand::getUrlCode($aTeamUrl);
-                        if ($code == 200) {
-                            echo "已存在 球队页面 " . $item["aname"] . " $aTeamUrl \n";
-                        } else {
-                            $this->staticTeam($sport, $name_en, $aid, $item["aname"]);
+                        if ($name_en != "other") {
+                            $this->indexStaticTeam($sport, $name_en, $hid, $hname);
+                            $this->indexStaticTeam($sport, $name_en, $aid, $aname);
                         }
                     }
                 }
                 break;
         }
+    }
+
+    protected function indexStaticTeam($sport, $name_en, $tid, $tName) {
+        $key = $this->getTeamKey($name_en, $tid);
+        $cache = Redis::get($key);
+        if (isset($cache)) {
+            return;
+        }
+        $start = time();
+        $host = "http://cms.aikanqiu.com";
+        if ($name_en == "other") {
+            $url = $host . "/static/team_index/". $sport . "/" . $name_en . "/" . $tid . "/1";
+        } else {
+            $url = $host . "/static/team_all/". $sport . "/" . $name_en . "/" . $tid . "/1";
+        }
+        Controller::execUrl($url, 15);
+        echo "  静态化球队 $tName 耗时：". (time() - $start) ." " . $url . "\n";
+        Redis::setEx($key, 60 * 60, 1);
+        sleep(1);
     }
 
     public function staticPc($name_en, $staticTeam = false) {
@@ -157,9 +176,10 @@ class SubjectAllCommand extends BaseCommand
             $type = $league["type"];
 
             $liveStart = time();
-//            $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
-//            Controller::execUrl($url);//静态化 专题
-//            echo "静态化专题 $name_en $name ：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
+            $url = $host."/static/subject/detail/".$name_en.($index > 0 ? ("/".$name."/") : "/");
+            Controller::execUrl($url);//静态化 专题
+            echo "静态化专题 $name_en $name ：" . $url . " 耗时 ".(time() - $liveStart)." \n ";
+
             if (!$staticTeam) {
                 echo "不静态化 球队终端 \n";
                 continue;
@@ -195,22 +215,20 @@ class SubjectAllCommand extends BaseCommand
         if (empty($tid)) return;
         $start = time();
 
-        $key = $name_en . "_" . $tid;
+        $key = $this->getTeamKey($name_en, $tid);
         $cache = Redis::get($key);
         if (isset($cache)) {
             echo $tName . "球队已经静态化过了  耗时：" . (time() - $start) . " \n";
             return;
         }
-        Redis::setEx($key, 60 * 60 * 10, "1");
-
         //判断是否有静态化页面
 
-        $wwwUrl = "http://www.aikanqiu.com".CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
-        $code = LiveDetailCommand::getUrlCode($wwwUrl);
-        if ($code == 200) {
-            echo "已存在静态化页面 $wwwUrl \n";
-            return;
-        }
+        //$wwwUrl = "http://www.aikanqiu.com".CommonTool::getTeamDetailUrlByNameEn($name_en, $sport, $tid);
+        //$code = LiveDetailCommand::getUrlCode($wwwUrl);
+        //if ($code == 200) {
+            //echo "已存在静态化页面 $wwwUrl \n";
+            //return;
+        //}
 
         $host = "http://cms.aikanqiu.com";
         if ($name_en == "other") {
@@ -220,7 +238,8 @@ class SubjectAllCommand extends BaseCommand
         }
         Controller::execUrl($url, 15);
         echo "  静态化球队 $tName 耗时：". (time() - $start) ." " . $url . "\n";
-        sleep(2);
+        Redis::setEx($key, 60 * 60, "1");
+        sleep(1);
     }
 
 
@@ -331,7 +350,10 @@ class SubjectAllCommand extends BaseCommand
             dump($url);
             Controller::execUrl($url, 10);
         }
+    }
 
+    protected function getTeamKey($name_en, $tid) {
+        return "team".$name_en."_".$tid;
     }
 
 }

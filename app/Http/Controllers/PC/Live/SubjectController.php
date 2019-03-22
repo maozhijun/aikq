@@ -132,7 +132,7 @@ class SubjectController extends Controller
         $seasons = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
 
         //积分
-        $scores = Score::getFootballScores($lid, $season);
+        $scores = isset($leagueData["score"]) ? $leagueData["score"] : [];//Score::getFootballScores($lid, $season);
         //赛程
         if (!isset($leagueSeason["curr_round"])) {
             $fMatch = Match::scheduleNearMatch($lid); //数据库获取当前轮次
@@ -196,6 +196,7 @@ class SubjectController extends Controller
 //dump($leagueData);
         $schedules = null;
         $knockouts = [];//淘汰赛
+        $ranks = [];
         if (isset($leagueData["stages"])) {//全部赛程 组装成简单的数组
             $leagueStages = $leagueData["stages"];
             foreach ($leagueStages as $leagueStage) {
@@ -238,8 +239,10 @@ class SubjectController extends Controller
                         if (!$this->isKnockout($name)) {
                             continue;
                         }
-                        $teams[$key]["host"] = ["name"=>$combo["hname"], "score"=>$combo["hscore"], "id"=>$combo["hid"], "mid"=>""];
-                        $teams[$key]["away"] = ["name"=>$combo["aname"], "score"=>$combo["ascore"], "id"=>$combo["aid"], "mid"=>""];
+                        $hscore = isset($combo["hscore"]) ? $combo["hscore"] : "";
+                        $ascore = isset($combo["ascore"]) ? $combo["ascore"] : "";
+                        $teams[$key]["host"] = ["name"=>$combo["hname"], "score"=>$hscore, "id"=>$combo["hid"], "mid"=>""];
+                        $teams[$key]["away"] = ["name"=>$combo["aname"], "score"=>$ascore, "id"=>$combo["aid"], "mid"=>""];
                         //处理淘汰赛 赛程 结束
                     }
                     if (count($teams) > 0) {
@@ -247,6 +250,11 @@ class SubjectController extends Controller
                     }
                 } else if (isset($leagueStage["groupMatch"])) {//分组赛
                     $groupMatches = $leagueStage["groupMatch"];
+                    foreach ($groupMatches as $g=>$group) {
+                        if (isset($group["scores"])) {
+                            $ranks[$g] = $group["scores"];
+                        }
+                    }
                 }
                 usort($matches, function ($a, $b) {
                     return $a["time"] - $b["time"];
@@ -329,7 +337,7 @@ class SubjectController extends Controller
             $result["comboData"] = $comboData;
         } catch (\Exception $exception) {}
 
-        $result['ranks'] = Score::footballCupScores($lid, $season["name"]);//杯赛小组排名
+        $result['ranks'] = $ranks;//Score::footballCupScores($lid, $season["name"]);//杯赛小组排名
         $result["sl"] = $sl;
         $result["season"] = $season;
         $result["seasons"] = isset($leagueData["seasons"]) ? $leagueData["seasons"] : null;
@@ -367,8 +375,8 @@ class SubjectController extends Controller
 
         $leagueData = LeagueDataTool::getLeagueDataBySeasonNew($sl["sport"], $sl["lid"], $season);
 
-        $westRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
-        $eastRanks = BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
+        $westRanks = isset($leagueData["scores"]["west"]) ? $leagueData["scores"]["west"] : [];//BasketScore::getScoresByLid($lid, BasketScore::kZoneWest, $season);
+        $eastRanks = isset($leagueData["scores"]["east"]) ? $leagueData["scores"]["east"] : [];//BasketScore::getScoresByLid($lid, BasketScore::kZoneEast, $season);
 
         //三天 赛程
         $schedule = $leagueData["schedule"];//从接口获取赛程

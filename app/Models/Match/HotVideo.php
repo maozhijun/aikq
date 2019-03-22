@@ -79,12 +79,37 @@ class HotVideo extends Model
         return $tagCn;
     }
 
+    public function htmlKeywords() {
+        $tagCn = $this->tagsCn();
+        $labels = $this->labels;
+        if (empty($tagCn) && empty($labels)) {
+            return "";
+        }
+
+        if (empty($labels)) {
+            return $tagCn;
+        }
+
+        if (empty($tagCn)) {
+            return $labels;
+        }
+
+        $labelArray = explode(",", $labels);
+        $tagCnArray = explode(",", $tagCn);
+        foreach ($labelArray as $item) {
+            if (!in_array($item, $tagCnArray)) {
+                $tagCn = $tagCn . "," . $item;
+            }
+        }
+        return $tagCn;
+    }
+
     protected function appendTagCn($array, &$cn) {
         foreach ($array as $tag) {
             if (empty($cn)) {
                 $cn .= $tag->name;
             } else {
-                $cn .= "，" . $tag->name;
+                $cn .= "," . $tag->name;
             }
         }
     }

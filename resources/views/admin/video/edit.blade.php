@@ -63,13 +63,23 @@
 
                 @include("admin.tag.add_tag_cell")
 
+                <div class="input-group form-group">
+                    <span class="input-group-addon">关键字</span>
+                    <input type="text"
+                           name="labels"
+                           value="{{ session('labels', isset($video) ? $video->labels : '') }}"
+                           class="form-control"
+                           placeholder="多个关键字，请使用逗号分隔（不分中文、英文逗号）"
+                           required autofocus>
+                </div>
+
                 <div class="checkbox">
                     <button type="button" class="btn btn-sm btn-default" onclick="uploadCover()">
                         <span class="glyphicon glyphicon-upload"></span>上传封面
                     </button>
                 </div>
 
-                <img class="img-thumbnail" id="coverImage" src="{{ isset($video) ? $video->image:'' }}" style="display: {{!empty($video->image) ? 'block' : 'none'}};" >
+                <img class="img-thumbnail" id="coverImage" src="{{ isset($video) ? $video->image:'' }}" style="display: {{!empty($video->image) ? 'block' : 'none'}};max-height: 200px;" >
                 <input type="hidden" name="image" id="coverImageInput" value="{{ isset($video) ? $video->image : '' }}">
 
                 <div style="text-align: center;margin-top: 10px;">

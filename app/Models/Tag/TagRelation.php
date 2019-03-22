@@ -27,6 +27,12 @@ class TagRelation extends Model
         return $query->count() > 0;
     }
 
+    public static function firstTag($type, $source_id, $tag_id) {
+        $query = self::query()->where("type", $type)->where("source_id", $source_id);
+        $query->where("tag_id", $tag_id);
+        return $query->first();
+    }
+
     public static function saveRelation($type, $source_id, $tag_id) {
         $relation = new TagRelation();
         $relation->type = $type;
@@ -44,10 +50,9 @@ class TagRelation extends Model
      */
     public static function saveFirstRelation($type, $source_id, $sport) {
         $query = self::query()->where("type", $type)->where("source_id", $source_id);
-        $query->where(function ($orQuery) {
-            $orQuery->where("tag_id", Tag::kSportFootball);
-            $orQuery->orWhere("tag_id", Tag::kSportBasketball);
-        });
+        $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
+        $query->where("tags.level", "=", Tag::kLevelOne);
+        $query->select("tag_relations.*");
         $firstRelation = $query->first();
         if (isset($firstRelation)) {
             if ($firstRelation->tag_id != $sport) {
@@ -158,14 +163,28 @@ class TagRelation extends Model
         self::saveTagRelation($sport,self::kTypeVideo, $source_id, $tags);
     }
 
+    /**
+     * 标签cell填充数据
+     * @param $type
+     * @param $id
+     * @return mixed
+     */
+    public static function tagCellArray($type, $id) {
+        $tags = TagRelation::getTagRelations($type, $id);
+        $result["sports"] = Tag::sports();
+        $result["tags"] = $tags;
+        $result["sport"] = isset($tags["sport"]) ? $tags["sport"] : null;
+        return $result;
+    }
+
     public static function getTagRelations($type, $source_id) {
         $query = self::query();
         $query->join("tags", "tags.id", "=", "tag_relations.tag_id");
         $query->where("type", $type);
         $query->where("source_id", $source_id);
-        $query->orderBy("tags.level");
+        $query->orderBy("tags.level")->orderBy("tag_relations.id");
         $query->selectRaw("tag_relations.id");
-        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid"]);
+        $query->addSelect(["tag_relations.id", "tag_relations.tag_id", "tags.name", "tags.level", "tags.tid", "tags.sport"]);
         $tags = $query->get();
         $array = [];
         foreach ($tags as $tag) {

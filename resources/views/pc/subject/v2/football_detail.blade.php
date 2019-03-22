@@ -110,10 +110,14 @@
                         <th>积分</th>
                     </tr>
                     @foreach($scores as $score)
+                    <?php
+                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl["name_en"], $sl["sport"], $score["tid"]);
+                        $tIcon = $score["ticon"];//\App\Models\Match\Team::getIcon($score["ticon"])
+                    ?>
                     <tr>
                         <td>{{$score["rank"]}}</td>
                         <td class="team">
-                            <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($sl["sport"], $sl["lid"], $score["tid"])}}"><img src="{{\App\Models\Match\Team::getIcon($score["ticon"])}}">{{$score["tname"]}}</a>
+                            <a href="{{$teamUrl}}"><img src="{{$tIcon}}">{{$score["tname"]}}</a>
                         </td>
                         <td>{{$score["count"]}}</td>
                         <td>{{$score["win"]}}</td>

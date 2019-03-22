@@ -144,15 +144,15 @@
                             @foreach($scores as $index=>$score)
                                 <?php
                                     if (isset($score['tid'])) {
-                                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($score['sport'], $score['lid'], $score['tid']);
+                                        $teamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrlByNameEn($sl['name_en'], $sl['sport'], $score['tid']);
                                     } else {
-                                        $teamUrl = "#";
+                                        $teamUrl = "javascript:void(0);";
                                     }
-                                    $icon = \App\Models\Match\Team::getIcon($score["icon"]);
+                                    $icon = $score["ticon"];//\App\Models\Match\Team::getIcon($score["icon"]);
                                 ?>
                                 <tr>
                                     <td>{{$index + 1}}</td>
-                                    <td class="team"><a target="_blank" href="{{$teamUrl}}"><img src="{{$icon}}">{{$score['name']}}</a></td>
+                                    <td class="team"><a target="_blank" href="{{$teamUrl}}"><img src="{{$icon}}">{{$score['tname']}}</a></td>
                                     <td>{{$score["count"]}}</td>
                                     <td>{{$score['win']}}</td>
                                     <td>{{$score['draw']}}</td>
