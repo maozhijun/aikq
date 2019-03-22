@@ -27,10 +27,10 @@
             var url = window.location.href;
             if (url.indexOf("m.dlfyb.com") != -1) {
                 url = url.replace(/(https?:\/\/)m\./, "$1mp.");
-//                window.location.href = url;
+                window.location.href = url;
             } else {
                 url = url.replace(/(https?:\/\/)m\./, "$1www.");
-//                window.location.href = url;
+                window.location.href = url;
             }
         }
     </script>
