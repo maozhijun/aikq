@@ -221,7 +221,7 @@
 }
 #Focus .news h2{
 	height: 24px;
-	margin-top: 20px;
+	margin-top: 20px; padding-right: 10px;
 	font-size: 18px; line-height: 24px; font-weight: 600px;
 	overflow: hidden;
 }
@@ -230,7 +230,7 @@
 }
 #Focus .news p{
 	height: 20px;
-	margin-top: 10px;
+	margin-top: 10px; padding-right: 10px;
 	font-size: 13px; line-height: 20px;
 	overflow: hidden;
 }
@@ -251,7 +251,7 @@
 	overflow: hidden;
 }
 #Focus .focus .first_con img{
-	min-width: 440px; min-height: 214px;
+	width: 440px; min-height: 214px;
 	margin: -107px 0 0 -220px;
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;
@@ -283,7 +283,7 @@
 	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 36px;
 }
 #Focus .focus .second_con img{
-	min-width: 440px; min-height: 166px;
+	width: 440px; min-height: 166px;
 	margin: -107px 0 0 -220px;
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;
@@ -336,7 +336,7 @@
 	display: none;
 }
 #Focus .video a img{
-	min-width: 280px; min-height: 106px;
+	width: 280px; min-height: 106px;
 	margin: -53px 0 0 -140px;
 	transition: transform 0.3s; -ms-transition: -ms-transform 0.3s; -moz-transition: -moz-transform 0.3s; -webkit-transition: -webkit-transform 0.3s; -o-transition: -o-transform 0.3s;
 	position: absolute; top: 50%; left: 50%;

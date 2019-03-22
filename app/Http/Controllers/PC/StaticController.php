@@ -211,6 +211,15 @@ class StaticController extends Controller
                 curl_setopt($ch, CURLOPT_TIMEOUT, 5);//8秒超时
                 curl_exec ($ch);
                 curl_close ($ch);
+
+                $ch = curl_init();
+                $url = env('CMS_URL').'/m/static/record/'.$id;
+                curl_setopt($ch, CURLOPT_URL,$url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 5);//8秒超时
+                curl_exec ($ch);
+                curl_close ($ch);
+
                 //找到对应的tags
                 $trs = TagRelation::where('type',$type)
                     ->join('tags','tags.id','=','tag_relations.tag_id')

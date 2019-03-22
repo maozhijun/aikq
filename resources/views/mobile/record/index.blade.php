@@ -75,6 +75,9 @@
         </div>
         <?php $i++;?>
     @endforeach
+    <div class="match_list_con other" style="display: none;">
+
+    </div>
 @endsection
 @section('bottom')
     @include("mobile.layout.v2.bottom_cell", ['cur'=>'record'])
