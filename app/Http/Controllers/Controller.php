@@ -48,9 +48,9 @@ class Controller extends BaseController
 
     function __construct()
     {
-        $this->html_var['title'] = '爱看球-爱看球直播|爱看球-JRS|JRS直播|NBA直播|NBA录像|CBA直播|英超直播|西甲直播|低调看|直播吧|CCTV5在线';
+        $this->html_var['title'] = '【JRS低调看】低调看直播,JRS直播吧高清无插件-爱看球直播';
         $this->html_var['keywords'] = '爱看球,爱看球直播,JRS,JRS直播,NBA直播,NBA录像,CBA直播,英超直播,西甲直播,足球直播,篮球直播,低调看,直播吧,CCTV5在线,CCTV5+';
-        $this->html_var['description'] = '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播、解说平台，无广告，无插件，高清，直播线路多';
+        $this->html_var['description'] = '爱看球是一个专业为球迷提供免费的NBA,CBA,英超,西甲,德甲,意甲,法甲,中超,欧冠,世界杯等各大体育赛事直播平台，无广告，无插件，高清，直播线路多';
         $this->html_var['subjects'] = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();//self::SUBJECT_NAME_IDS;
     }
 
