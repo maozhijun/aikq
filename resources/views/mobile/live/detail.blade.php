@@ -24,6 +24,12 @@ $mid = $match["mid"];
 while (strlen($mid) < 4) {
     $mid = "0".$mid;
 }
+$hTeamUrl = "javascript:void(0);";
+$aTeamUrl = "javascript:void(0);";
+if (!empty($lid)) {
+    $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"], $lid,$match['hid']);
+    $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"], $lid,$match['aid']);
+}
 ?>
 @section("banner")
     <div id="Navigation">
@@ -41,7 +47,7 @@ while (strlen($mid) < 4) {
 @section('content')
     <div id="Match_info">
         <div class="info_con">
-            <a class="team_con" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['hid'])}}">
+            <a class="team_con" href="{{$hTeamUrl}}">
                 <img src="{{$host_icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
                 <p>{{$match['hname']}}</p>
             </a>
@@ -69,7 +75,7 @@ while (strlen($mid) < 4) {
                     <option value="https://xinhi.com/live_detail/{{$match['sport']}}_{{$mid}}.html">备用信号</option>
                 </select>
             </div>
-            <a class="team_con" href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['aid'])}}">
+            <a class="team_con" href="{{$aTeamUrl}}">
                 <img src="{{$away_icon or ''}}" onerror="this.src='{{env('CDN_URL').'/img/pc/icon_teamDefault.png'}}'">
                 <p>{{$match['aname']}}</p>
             </a>
