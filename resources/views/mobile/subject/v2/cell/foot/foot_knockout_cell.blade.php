@@ -5,7 +5,8 @@
     $finalIds = array(); $_4Ids = array(); $_8Ids = array();; $_16Ids = array();
     if(isset($knockout)) {
         foreach (array_reverse($knockout) as $stage) {
-            switch ($stage['name']) {
+            $name = trim($stage['name']);
+            switch ($name) {
                 case '决赛':
                     if(isset($stage['combo'])) {
                         $tempFinal = $stage['combo'];

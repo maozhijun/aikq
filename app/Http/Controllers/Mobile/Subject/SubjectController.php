@@ -289,12 +289,14 @@ class SubjectController extends Controller
         $stageDatas = $leagueData['stages'];
 
         $ranks = array();
-        foreach ($stageDatas as $stageData) {
-            if ($stageData['name'] == "分组赛") {
-                $ranks = collect($stageData['groupMatch'])->map(function ($item) {
-                    return $item['scores'];
-                })->all();
-                break;
+        if (isset($stageDatas)) {
+            foreach ($stageDatas as $stageData) {
+                if ($stageData['name'] == "分组赛") {
+                    $ranks = collect($stageData['groupMatch'])->map(function ($item) {
+                        return $item['scores'];
+                    })->all();
+                    break;
+                }
             }
         }
 
