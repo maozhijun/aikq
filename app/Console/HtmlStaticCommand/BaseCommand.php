@@ -68,4 +68,33 @@ abstract class BaseCommand extends Command
     protected function onCommonHandler(Request $request) {
 
     }
+
+    /**
+     * 获取url返回码
+     * @param $url
+     * @param int $timeout
+     * @return mixed
+     */
+    public static function getUrlCode($url, $timeout = 5) {
+        $isHttps = preg_match('/^https:/', $url);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);//8秒超时
+
+        // 返回 response_header, 该选项非常重要,如果不为 true, 只会获得响应的正文
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        // 是否不需要响应的正文,为了节省带宽及时间,在只需要响应头的情况下可以不要
+        //正文
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        if ($isHttps) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);    // https请求 不验证证书和hosts
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        }
+        curl_exec ($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close ($ch);
+        return $code;
+    }
 }

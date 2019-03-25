@@ -10,6 +10,7 @@ use App\Console\Article\ArticlesCacheCommand;
 use App\Console\Cms\CmsChannelsCommand;
 use App\Console\Data\DataCommand;
 use App\Console\HotVideo\VideoPageCommand;
+use App\Console\HtmlStaticCommand\AllVideoStaticCommand;
 use App\Console\HtmlStaticCommand\TagCommand;
 use App\Console\Record\RecordCommand;
 use App\Console\Download\DownloadCommand;
@@ -130,6 +131,8 @@ class Kernel extends ConsoleKernel
         TagCommand::class,//tag更新 ,对应静态化
         SubjectTeamCommand::class,//用于专题球队静态化
         SubjectAllCommand::class,//静态化所有专题页面
+
+        AllVideoStaticCommand::class, //所有录像静态化（all_video_static:run pc_100_0）
     ];
 
     /**
