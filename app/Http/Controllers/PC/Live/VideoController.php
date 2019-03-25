@@ -306,7 +306,7 @@ class VideoController extends Controller
      */
     public function getVideos($type, $pageNo) {
         $pageSize = self::page_size;
-        $query = HotVideo::query();
+        //$query = HotVideo::query();
         $array = [];
 
         switch ($type) {
@@ -319,13 +319,14 @@ class VideoController extends Controller
                 }
                 $tags = Tag::leagueTags(TagRelation::kTypeVideo, $tag_id);///获取篮球、足球 赛事视频 列表
                 $array["tags"] = $tags;
-                $query->whereExists(function ($existsQuery) use ($tag_id) {
-                    $existsQuery->selectRaw("1");
-                    $existsQuery->from("tag_relations");
-                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
-                    $existsQuery->where("tag_relations.tag_id", $tag_id);
-                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
-                });
+//                $query->whereExists(function ($existsQuery) use ($tag_id) {
+//                    $existsQuery->selectRaw("1");
+//                    $existsQuery->from("tag_relations");
+//                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+//                    $existsQuery->where("tag_relations.tag_id", $tag_id);
+//                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+//                });
+                $page = TagRelation::getRelationsPageById(TagRelation::kTypeVideo, $tag_id, Tag::kLevelTwo, null, $pageNo, $pageSize);
                 break;
             case "basketballstar":
             case "footballstar":
@@ -336,30 +337,32 @@ class VideoController extends Controller
                 }
                 $array["stars"] = Tag::starTags(TagRelation::kTypeVideo, $tag_id);
                 $array["sport"] = $tag_id;
-                $query->whereExists(function ($existsQuery) use ($tag_id) {
-                    $existsQuery->selectRaw("1");
-                    $existsQuery->from("tag_relations");
-                    $existsQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
-                    $existsQuery->where("tags.level", Tag::kLevelFour);
-                    $existsQuery->where("tags.sport", $tag_id);
-                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
-                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
-                });
+//                $query->whereExists(function ($existsQuery) use ($tag_id) {
+//                    $existsQuery->selectRaw("1");
+//                    $existsQuery->from("tag_relations");
+//                    $existsQuery->join("tags", "tags.id", "=", "tag_relations.tag_id");
+//                    $existsQuery->where("tags.level", Tag::kLevelFour);
+//                    $existsQuery->where("tags.sport", $tag_id);
+//                    $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+//                    $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+//                });
+                $page = TagRelation::getRelationsPageById(TagRelation::kTypeVideo, $tag_id, Tag::kLevelFour, null, $pageNo, $pageSize);
                 break;
             case "other":
-                $query->whereNotExists(function ($notExistsQuery) {
-                    $notExistsQuery->selectRaw("1");
-                    $notExistsQuery->from("tag_relations");
-                    $notExistsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
-                    $notExistsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
-                });
+//                $query->whereNotExists(function ($notExistsQuery) {
+//                    $notExistsQuery->selectRaw("1");
+//                    $notExistsQuery->from("tag_relations");
+//                    $notExistsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+//                    $notExistsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+//                });
+                $page = TagRelation::getRelationsPageById(TagRelation::kTypeVideo, 3, null, null, $pageNo, $pageSize);
                 break;
             default:
+                $query = HotVideo::query();
+                $query->where("hot_videos.show", HotVideo::kShow);
+                $query->orderByDesc('updated_at');
+                $page = $query->paginate($pageSize, ['*'], null, $pageNo);
         }
-
-        $query->where("hot_videos.show", HotVideo::kShow);
-        $query->orderByDesc('updated_at');
-        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
 
         $videos = $page->items();
         $array['videos'] = [];
@@ -389,17 +392,19 @@ class VideoController extends Controller
         }
 
         $tag_id = $tag->id;
-        $query = HotVideo::query();
-        $query->whereExists(function ($existsQuery) use ($tag_id) {
-            $existsQuery->selectRaw("1");
-            $existsQuery->from("tag_relations");
-            $existsQuery->where("tag_relations.tag_id", $tag_id);
-            $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
-            $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
-        });
-        $query->where("hot_videos.show", HotVideo::kShow);
-        $query->orderByDesc('updated_at');
-        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+
+//        $query = HotVideo::query();
+//        $query->whereExists(function ($existsQuery) use ($tag_id) {
+//            $existsQuery->selectRaw("1");
+//            $existsQuery->from("tag_relations");
+//            $existsQuery->where("tag_relations.tag_id", $tag_id);
+//            $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+//            $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+//        });
+//        $query->where("hot_videos.show", HotVideo::kShow);
+//        $query->orderByDesc('updated_at');
+//        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+        $page = TagRelation::getRelationsPageById(TagRelation::kTypeVideo, $sport, null, $tag_id, $pageNo, $pageSize);
 
         $videos = $page->items();
         $array = [];
@@ -423,17 +428,22 @@ class VideoController extends Controller
     public function getVideosByTag($sport, $tag_id, $pageNo) {
         $pageSize = self::page_size;
         $tag = Tag::query()->find($tag_id);
-        $query = HotVideo::query();
-        $query->whereExists(function ($existsQuery) use ($tag_id) {
-            $existsQuery->selectRaw("1");
-            $existsQuery->from("tag_relations");
-            $existsQuery->where("tag_relations.tag_id", $tag_id);
-            $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
-            $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
-        });
-        $query->where("hot_videos.show", HotVideo::kShow);
-        $query->orderByDesc('updated_at');
-        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+
+//        $query = HotVideo::query();
+//        $query->whereExists(function ($existsQuery) use ($tag_id) {
+//            $existsQuery->selectRaw("1");
+//            $existsQuery->from("tag_relations");
+//            $existsQuery->where("tag_relations.tag_id", $tag_id);
+//            $existsQuery->where("tag_relations.type", TagRelation::kTypeVideo);
+//            $existsQuery->whereRaw("tag_relations.source_id = hot_videos.id");
+//        });
+//
+//        $query->where("hot_videos.show", HotVideo::kShow);
+//        $query->orderByDesc('updated_at');
+//        $page = $query->paginate($pageSize, ['*'], null, $pageNo);
+
+        $page = TagRelation::getRelationsPageById(TagRelation::kTypeVideo, $sport, null, $tag_id, $pageNo, $pageSize);
+
         $videos = $page->items();
         $array = [];
         $array["sport"] = $sport;

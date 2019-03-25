@@ -179,6 +179,40 @@ class VideoController extends Controller
     }
 
 
+    //=======================================接口 开始=======================================//
+
+
+    /**
+     *
+     * @param Request $request
+     * @param string $type
+     * @param int $page
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function pageVideo(Request $request, $type = "new", $page = 1) {
+        $callback = $request->input("callback");
+        $pcCon = new \App\Http\Controllers\PC\Live\VideoController();
+        if (is_numeric($type)) {
+            $tag = Tag::query()->find($type);
+            if (!isset($tag)) {
+                $videos = [];
+            } else {
+                $videos = $pcCon->getVideosByTag($tag["sport"], $type, $page);
+            }
+        } else {
+            $videos = $pcCon->getVideos($type, $page);
+        }
+        if (!empty($callback)) {
+            return response()->jsonp($callback, $videos);//
+            //return response($callback . "(" . json_encode($videos) . ")", 200, ["Content-Type"=>"text/javascript"]);
+        } else {
+            return response()->json($videos);
+        }
+    }
+
+
+
+
     //=======================================静态化 开始=======================================//
 
     /**
