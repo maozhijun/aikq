@@ -58,7 +58,7 @@ class RecordController extends Controller
     }
 
     public function getMatchWithDate(Request $request){
-        $date = $request->input('date');
+        $date = $request->input('date', date('Y-m-d'));
         $start = date_create($date)->format("Y-m-d");
         $end = date_create($start)->modify("+1 day")->format("Y-m-d");
         $data = $this->getRecordByDate($start,$end);

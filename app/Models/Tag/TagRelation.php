@@ -384,6 +384,39 @@ class TagRelation extends Model
         return $pages;
     }
 
+    public static function getRelationsPageById($type, $sport, $level, $tag_id, $pageNo = 1, $pageSize = 12) {
+        if ($type == self::kTypeArticle) {
+            $query = PcArticle::query();
+            $tName = "pc_articles";
+        } else if ($type == self::kTypeVideo) {
+            $query = HotVideo::query();
+            $tName = "hot_videos";
+            $query->where($tName.".show", HotVideo::kShow);
+        } else if ($type == self::kTypePlayBack) {
+            $query = SubjectVideo::query();
+            $tName = "subject_videos";
+        } else {
+            return null;
+        }
+
+        $joinSql = "(select `tag_relations`.`source_id` from `tag_relations` INNER JOIN tags ON `tags`.`id` = `tag_relations`.`tag_id` ";
+        $joinSql .= "WHERE `tags`.`sport` = ".$sport;
+        if (is_numeric($level)) {
+            $joinSql .= " AND `tags`.`level` = ".$level;
+        }
+        if (!empty($tag_id)) {
+            $joinSql .= " AND `tags`.`id` = " . $tag_id;
+        }
+        $joinSql .= ")";
+        $joinTable = DB::raw($joinSql . " as tag ");
+
+        $query->join($joinTable, $tName.'.id', '=', 'tag.source_id');
+
+        $query->orderby('updated_at','desc');
+        $pages = $query->paginate($pageSize, ["*"], null, $pageNo);
+        return $pages;
+    }
+
     /**
      * 删除关系标签
      * @param $type

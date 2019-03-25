@@ -51,6 +51,9 @@ Route::group(["namespace"=>"Video"], function () {
     Route::get("/video{id}.html", "VideoController@videoDetail");//视频终端
     Route::get("{name_en}/video{id}.html", "VideoController@videoDetailByNameEn");//视频终端
 
+    //--------- 静态化接口 ---------//
+    Route::get("/video/page/{type}/{page}.json", "VideoController@pageVideo");//录像分页接口
+
     //静态化
     Route::get("/static/video/list/{tab}/{page?}", "VideoController@staticVideosTab");//静态化 视频 tab（最新、篮球、足球等） 列表页面
     //Route::get("/static/video/list-leg/{name_en}/{page?}", "VideoController@staticVideosLeague");//静态化 视频 专题列表页
