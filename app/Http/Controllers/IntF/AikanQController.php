@@ -1740,7 +1740,7 @@ class AikanQController extends Controller
         //球队集锦 结束
 
         $result['title'] = "[".$teamName."]".$leagueName.$teamName."直播_".$teamName."赛程、球员阵容、新闻-爱看球直播";
-        $result['h1'] = $teamData['name'].'直播';
+        $result['h1'] = $teamName.'直播';
         $result['ma_url'] = self::getMobileHttpUrl(CommonTool::getTeamDetailUrl($sport,  $lid, $tid));
         return $result;
     }

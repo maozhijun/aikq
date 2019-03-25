@@ -191,7 +191,7 @@ class StaticController extends Controller
                                 StaticController::pushStaticTeam($name_en,$sport,$tid,"video",3);
 
                                 //m站球队终端 (只有一个页面
-                                \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($name_en, $tempTid, $sport);
+                                \App\Http\Controllers\Mobile\Team\TeamController::detailStatic($name_en, $tid, $sport);
                             }
                         }
                             break;
