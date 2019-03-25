@@ -2,14 +2,14 @@
 
 namespace App\Console\HtmlStaticCommand;
 
-use App\Models\Match\HotVideo;
+use App\Models\Subject\SubjectVideo;
 
-class AllVideoStaticCommand extends BaseCommand
+class AllRecordStaticCommand extends BaseCommand
 {
 
     protected function command_name()
     {
-        return "all_video_static";
+        return "all_record_static";
     }
 
     protected function description()
@@ -28,27 +28,27 @@ class AllVideoStaticCommand extends BaseCommand
 
         list($type, $count, $offset) = explode('_', $type);
 
-        $videos = HotVideo::query()->where('show', HotVideo::kShow)->orderBy('created_at', 'desc')->offset($offset)->take($count)->get();
+        $records = SubjectVideo::query()->orderBy('created_at', 'desc')->offset($offset)->take($count)->get();
 
         switch ($type) {
             case "pc":
-                $this->onPcHandler2($videos);
+                $this->onPcHandler2($records);
                 break;
             case "mobile":
-                $this->onMobileHandler2($videos);
+                $this->onMobileHandler2($records);
                 break;
             case "mip":
                 break;
             case "all":
-                $this->onPcHandler2($videos);
-                $this->onMobileHandler2($videos);
+                $this->onPcHandler2($records);
+                $this->onMobileHandler2($records);
                 break;
         }
     }
 
-    protected function onPcHandler2($videos)
+    protected function onPcHandler2($records)
     {
-        foreach ($videos as $video) {
+        foreach ($records as $video) {
             $url = "http://cms.aikanqiu.com/static/record/".$video->id;
             echo "$url<br>";
             $code = self::getUrlCode($url);
@@ -58,9 +58,9 @@ class AllVideoStaticCommand extends BaseCommand
         }
     }
 
-    protected function onMobileHandler2($videos)
+    protected function onMobileHandler2($records)
     {
-        foreach ($videos as $video) {
+        foreach ($records as $video) {
             $url = "http://cms.aikanqiu.com/m/static/record/".$video->id;
             echo "$url<br>";
             $code = self::getUrlCode($url);
