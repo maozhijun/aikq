@@ -524,9 +524,10 @@ class CommonTool
      * 获取录像终端静态化页面路径
      * @param $name_en
      * @param $id
+     * @param $sport
      * @return string
      */
-    public static function getRecordDetailPath($name_en, $id) {
+    public static function getRecordDetailPath($name_en, $id, $sport = 1) {
         $len = strlen($id);
         if ($len < 4) {
             return "";
@@ -537,7 +538,7 @@ class CommonTool
         if (isset($sl)) {
             $path = "/".$name_en."/record/".$first."/".$second."/".$id.".html";
         } else {
-            $path = "/record/".$name_en."/".$first."/".$second."/".$id.".html";
+            $path = "/record/".$name_en."/".$first."/".$second."/".$id."_".$sport.".html";
         }
         return $path;
     }
@@ -546,14 +547,15 @@ class CommonTool
      * 获取录像终端静态化页面路径
      * @param $name_en
      * @param $id
+     * @param $sport
      * @return string
      */
-    public static function getRecordDetailUrl($name_en, $id) {
+    public static function getRecordDetailUrl($name_en, $id, $sport = 1) {
         $sl = SubjectLeague::getSubjectLeagueByEn($name_en);
         if (isset($sl)) {
             $path = "/".$name_en."/record".$id.".html";
         } else {
-            $path = "/record/".$name_en.$id.".html";
+            $path = "/record/".$name_en.$id."_".$sport.".html";
         }
         return $path;
     }

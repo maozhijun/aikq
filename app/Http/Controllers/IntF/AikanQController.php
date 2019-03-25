@@ -1940,7 +1940,7 @@ class AikanQController extends Controller
             else{
                 $lname_en = 'other';
             }
-            $obj['channels'][] = CommonTool::getRecordDetailUrl($lname_en,$match['mid']);
+            $obj['channels'][] = CommonTool::getRecordDetailUrl($lname_en,$match['mid'],$sport);
         }
         else{
             $obj['channels'] = array();

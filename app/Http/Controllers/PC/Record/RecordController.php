@@ -209,10 +209,28 @@ class RecordController extends Controller
             $match = BasketMatch::where('id',$mid)->first();
         }
         else{
-            $sv = SubjectVideo::where('sport',1)
-                ->where('mid',$mid)
-                ->first();
-            $match = Match::where('id',$mid)->first();
+            if (count(explode('_',$mid)) == 2){
+                $sport = explode('_',$mid)[1];
+                $mid = explode('_',$mid)[0];
+                if ($sport == 2){
+                    $sv = SubjectVideo::where('sport',2)
+                        ->where('mid',$mid)
+                        ->first();
+                    $match = BasketMatch::where('id',$mid)->first();
+                }
+                else{
+                    $sv = SubjectVideo::where('sport',1)
+                        ->where('mid',$mid)
+                        ->first();
+                    $match = Match::where('id',$mid)->first();
+                }
+            }
+            else{
+                $sv = SubjectVideo::where('sport',1)
+                    ->where('mid',$mid)
+                    ->first();
+                $match = Match::where('id',$mid)->first();
+            }
         }
         if (is_null($sv) || is_null($match)){
             return view('pc.record.detail',$this->html_var);
@@ -380,15 +398,16 @@ class RecordController extends Controller
         $s = SubjectLeague::find($record->s_lid);
         if (is_null($s)){
             $name_en = 'other';
+            $html = $this->detail($request,$name_en,$record->mid.'_'.$record->sport);
         }
         else{
             $name_en = $s->name_en;
+            $html = $this->detail($request,$name_en,$record->mid);
         }
-        $html = $this->detail($request,$name_en,$record->mid);
         if (!is_null($html) && strlen($html) > 0){
-            $path = CommonTool::getRecordDetailPath($name_en, $record->mid);
+            $path = CommonTool::getRecordDetailPath($name_en, $record->mid,$record->sport);
             $record->path = $path;
-            $record->url = CommonTool::getRecordDetailUrl($name_en, $record->mid);
+            $record->url = CommonTool::getRecordDetailUrl($name_en, $record->mid, $record->sport);
             $record->save();
 
             Storage::disk("public")->put('/www'.$path, $html);
