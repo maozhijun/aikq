@@ -166,6 +166,7 @@ class HotVideoController extends Controller
 
 
             StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);//静态化视频相关页面
+            HomeController::updateFileComboData("all");//更新全部，专题的 在 StaticController::staticDetail更新
 //            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $video->id);
 //            if (isset($array) && count($array) > 0) {//更新combo.json
 //                foreach ($array as $item) {
