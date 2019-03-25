@@ -162,21 +162,21 @@ class HotVideoController extends Controller
                 $tagArray = is_null($tagArray) ? [] : $tagArray;
                 TagRelation::saveVideoTagRelation($sport, $video->id, $tagArray);
             });
-            StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);
+            HotVideo::staticHotVideoDetailHtml($video->id);//静态化视频终端
 
 
-            HotVideo::staticHotVideoDetailHtml($video->id);//静态化录像终端
-            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $video->id);
-            if (isset($array) && count($array) > 0) {
-                foreach ($array as $item) {
-                    $sport = $item["sport"];
-                    $tid = $item["tid"];
-                    $sl = SubjectLeague::getSubjectLeagueByLid($sport, $tid);
-                    if (isset($sl)) {
-                        HomeController::updateFileComboData($sl["name_en"]);
-                    }
-                }
-            }
+            StaticController::staticDetail(TagRelation::kTypeVideo,$video->id);//静态化视频相关页面
+//            $array = TagRelation::getLeagueTagRelations(TagRelation::kTypeVideo, $video->id);
+//            if (isset($array) && count($array) > 0) {//更新combo.json
+//                foreach ($array as $item) {
+//                    $sport = $item["sport"];
+//                    $tid = $item["tid"];
+//                    $sl = SubjectLeague::getSubjectLeagueByLid($sport, $tid);
+//                    if (isset($sl)) {
+//                        HomeController::updateFileComboData($sl["name_en"]);
+//                    }
+//                }
+//            }
 
             return response()->json(["code"=>200, "message"=>"保存成功", "id"=>$video->id]);
         } catch (\Exception $exception) {
