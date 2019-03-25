@@ -341,7 +341,7 @@ class SubjectController extends Controller
 
         //三天 赛程
 //        $curYear = substr(date('Y'), 2, 2);
-        $scheduleMatches = $leagueData['schedule'];
+//        $scheduleMatches = $leagueData['schedule'];
 //        if (preg_match("#" . $curYear . "#", $season)) {//当前赛季
 //            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
 //        } else {//非当前赛季
@@ -351,6 +351,28 @@ class SubjectController extends Controller
 //                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
 //            }
 //        }
+
+        $curYear = substr(date('Y'), 2, 2);
+        $startTime = strtotime(date('Y-m-d 00:00'));
+        $endTime = date('Y-m-d 23:59', strtotime('+2 day', $startTime));
+        $endTime = strtotime($endTime);
+        if (preg_match("#".$curYear."#", $season)) {//当前赛季
+            $scheduleMatches = BasketMatch::scheduleMatchesByLidAndTime($lid, $season);//从数据库获取 赛程
+        } else {//非当前赛季
+            //获取总决赛比赛场次
+            $bs = BasketStage::getFinal($lid, $season);
+            if (isset($bs)) {
+                $scheduleMatches = BasketMatch::scheduleMatchesByStage($lid, $bs->id);
+                $index = 0;
+                foreach ($scheduleMatches as $date=>$sm) {
+                    if ($index++ == 0) {
+                        $startTime = strtotime($date . " 00:00");
+                    }
+                    $endTime = strtotime($date . " 23:59");
+                }
+            }
+        }
+
 
         $playerString = CommonTool::getPlayerData($sport, $lid, $season, $kind == 2 ? 1 : $kind);
         $data = json_decode($playerString, true);
@@ -371,7 +393,7 @@ class SubjectController extends Controller
         if (isset($leagueData["playoff"])) {
             $result["playoff"] = $leagueData["playoff"];
         }
-        $result["schedules"] = [$scheduleMatches];
+        $result["schedules"] = $scheduleMatches;
         $result['title'] = '[' . $sl->name . '直播]' . $sl->name . '免费在线直播观看_哪里可以看' . $sl->name . '直播网址-爱看球直播';
 
         return view("mobile.subject.v2.basketball_detail", $result);
