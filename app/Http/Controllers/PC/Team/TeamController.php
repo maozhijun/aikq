@@ -119,7 +119,7 @@ class TeamController extends Controller
                 }
             }
             foreach ($tids as $tid) {
-                $item = BasketTeam::query()->find($tid);
+                $item = Team::query()->find($tid);
                 if (isset($item)) {
                     $teams[$item['id']] = $item;
                 }
