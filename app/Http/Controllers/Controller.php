@@ -23,10 +23,10 @@ class Controller extends BaseController
 ////        "aojia"=>['id'=>1002, 'name'=>'澳甲'],
         "nba"=>['id'=>1009, 'name'=>'NBA','lid'=>1],
         "cba"=>['id'=>1010, 'name'=>'CBA','lid'=>4],
-        "worldcup"=>['id'=>1008, 'name'=>'世界杯','lid'=>57],
         "uefacl"=>['id'=>1001, 'name'=>'欧冠杯','lid'=>73],
         "uefael"=>['id'=>1011, 'name'=>'欧罗巴杯','lid'=>77],
         "afccl"=>['id'=>1007, 'name'=>'亚冠杯','lid'=>139],
+        "worldcup"=>['id'=>1008, 'name'=>'世界杯','lid'=>57],
     ];
 
     const MATCH_LEAGUE_IDS = [
