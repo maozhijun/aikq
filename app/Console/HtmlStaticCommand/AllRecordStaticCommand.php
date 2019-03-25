@@ -26,9 +26,13 @@ class AllRecordStaticCommand extends BaseCommand
     {
         $type = $this->argument('type');
 
-        list($type, $count, $offset) = explode('_', $type);
+        list($type, $count, $rid) = explode('_', $type);
 
-        $records = SubjectVideo::query()->orderBy('created_at', 'desc')->offset($offset)->take($count)->get();
+        if ($rid > 0) {
+            $records = SubjectVideo::query()->where('id', '<', $rid)->orderBy('id', 'desc')->take($count)->get();
+        } else {
+            $records = SubjectVideo::query()->orderBy('id', 'desc')->take($count)->get();
+        }
 
         switch ($type) {
             case "pc":
