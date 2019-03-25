@@ -4,7 +4,7 @@
     $bj = 0;
 ?>
 @section('css')
-<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/live_list_2.css">
+<link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/live_list_2.css?201903251714">
 @endsection
 @section('content')
 <div id="Date">

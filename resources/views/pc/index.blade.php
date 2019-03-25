@@ -1,9 +1,9 @@
 @extends('pc.layout.v2.base')
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/left_right_2.css?201903221050">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/live_list_2.css">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/live_list_2.css?201903251714">
     <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/league_nba_2.css">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/home_2.css?201903221901">
+    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/v2/home_2.css?201903251713">
 @endsection
 @section('content')
     <div class="def_content" id="Content">

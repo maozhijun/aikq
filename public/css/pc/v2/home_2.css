@@ -56,39 +56,39 @@
 }
 #Schedule button.left_btn{
 	margin-left: 4px;
-	background: url(../img/icon_left_h.png) no-repeat center; background: none\9; background-size: 16px;
+	background: url(/img/pc/v2/icon_left_h.png) no-repeat center; background: none\9; background-size: 16px;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_left_h.png',sizingMethod='scale');
 	left: 64px;
 }
 #Schedule button.left_btn:disabled{
-	background: url(../img/icon_left_n.png) no-repeat center; background: none\9; background-size: 16px;
+	background: url(/img/pc/v2/icon_left_n.png) no-repeat center; background: none\9; background-size: 16px;
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_left_n.png',sizingMethod='scale');
 }
 :root #Schedule button.left_btn{
 	filter: none;
-	background: url(../img/icon_left_h.png) no-repeat center; background-size: 16px;
+	background: url(/img/pc/v2/icon_left_h.png) no-repeat center; background-size: 16px;
 }
 :root #Schedule button.left_btn:disabled{
 	filter: none;
-	background: url(../img/icon_left_n.png) no-repeat center; background-size: 16px;
+	background: url(/img/pc/v2/icon_left_n.png) no-repeat center; background-size: 16px;
 }
 #Schedule button.right_btn{
 	margin-right: 4px;
-	background: url(../img/icon_right_h.png) no-repeat center; background-size: 16px;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_right_h.png',sizingMethod='scale');
+	background: url(/img/pc/v2/icon_right_h.png) no-repeat center; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/img/pc/v2/icon_right_h.png',sizingMethod='scale');
 	right: 64px;
 }
 #Schedule button.right_btn:disabled{
-	background: url(../img/icon_right_n.png) no-repeat center; background-size: 16px;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/icon_right_n.png',sizingMethod='scale');
+	background: url(/img/pc/v2/icon_right_n.png) no-repeat center; background-size: 16px;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/img/pc/v2/icon_right_n.png',sizingMethod='scale');
 }
 :root #Schedule button.right_btn{
 	filter: none;
-	background: url(../img/icon_right_h.png) no-repeat center; background-size: 16px;
+	background: url(/img/pc/v2/icon_right_h.png) no-repeat center; background-size: 16px;
 }
 :root #Schedule button.right_btn:disabled{
 	filter: none;
-	background: url(../img/icon_right_n.png) no-repeat center; background-size: 16px;
+	background: url(/img/pc/v2/icon_right_n.png) no-repeat center; background-size: 16px;
 }
 #Schedule .inbox{
 	height: 120px;
@@ -118,28 +118,28 @@
 	content: '';
 }
 #Schedule .inbox ul li .inner.football{
-	background: url(../img/icon_foot_light.png) no-repeat 1px 4px #fff; background: url(../img/icon_foot_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+	background: url(/img/pc/v2/icon_foot_light.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_foot_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.football.end{
-	background: url(../img/icon_foot_n.png) no-repeat 1px 4px #fff; background: url(../img/icon_foot_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+	background: url(/img/pc/v2/icon_foot_n.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_foot_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
 }
 :root #Schedule .inbox ul li .inner.football{
-	background: url(../img/icon_foot_light.png) no-repeat 1px 4px #fff; background-size: 115px;
+	background: url(/img/pc/v2/icon_foot_light.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 :root #Schedule .inbox ul li .inner.football.end{
-	background: url(../img/icon_foot_n.png) no-repeat 1px 4px #fff; background-size: 115px;
+	background: url(/img/pc/v2/icon_foot_n.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.basketball{
-	background: url(../img/icon_basket_light.png) no-repeat 1px 4px #fff; background: url(../img/icon_basket_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+	background: url(/img/pc/v2/icon_basket_light.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_basket_light_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.basketball.end{
-	background: url(../img/icon_basket_n.png) no-repeat 1px 4px #fff; background: url(../img/icon_basket_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
+	background: url(/img/pc/v2/icon_basket_n.png) no-repeat 1px 4px #fff; background: url(/img/pc/v2/icon_basket_n_115.png) no-repeat 1px 4px #fff\9; background-size: 115px;
 }
 :root #Schedule .inbox ul li .inner.basketball{
-	background: url(../img/icon_basket_light.png) no-repeat 1px 4px #fff; background-size: 115px;
+	background: url(/img/pc/v2/icon_basket_light.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 :root #Schedule .inbox ul li .inner.basketball.end{
-	background: url(../img/icon_basket_n.png) no-repeat 1px 4px #fff; background-size: 115px;
+	background: url(/img/pc/v2/icon_basket_n.png) no-repeat 1px 4px #fff; background-size: 115px;
 }
 #Schedule .inbox ul li .inner.football:before{
 	background: #4391fd;
@@ -275,12 +275,12 @@
 }
 #Focus .focus .second_con:before{
 	width: 36px; height: 36px;
-	background: url(../img/icon_video_n.png) no-repeat center; background: url(../img/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
 	position: absolute; left: 14px; bottom: 61px; z-index: 1;
 	content: '';
 }
 :root #Focus .focus .second_con:before{
-	background: url(../img/icon_video_n.png) no-repeat center; background-size: 36px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 36px;
 }
 #Focus .focus .second_con img{
 	width: 440px; min-height: 166px;
@@ -321,12 +321,12 @@
 #Focus .video a:after{
 	width: 28px; height: 28px;
 	margin-left: -14px;
-	background: url(../img/icon_video_n.png) no-repeat center; background: url(../img/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
 	position: absolute; top: 39px; left: 50%; z-index: 1;
 	content: '';
 }
 :root #Focus .video a:after{
-	background: url(../img/icon_video_n.png) no-repeat center; background-size: 28px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 28px;
 }
 #Focus .video a.icon{
 	height: 214px;
@@ -376,12 +376,12 @@
 }
 .el_con .img .first_con:before{
 	width: 36px; height: 36px;
-	background: url(../img/icon_video_n.png) no-repeat center; background: url(../img/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_36.png) no-repeat center\9; background-size: 36px;
 	position: absolute; left: 14px; bottom: 61px; z-index: 1;
 	content: '';
 }
 :root .el_con .img .first_con:before{
-	background: url(../img/icon_video_n.png) no-repeat center; background-size: 36px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 36px;
 }
 .el_con .img .first_con a{
 	width: 440px; height: 214px;
@@ -430,12 +430,12 @@
 .el_con .img .second_con .item a:after{
 	width: 28px; height: 28px;
 	margin-left: -14px;
-	background: url(../img/icon_video_n.png) no-repeat center; background: url(../img/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background: url(/img/pc/v2/icon_video_n_28.png) no-repeat center\9; background-size: 28px;
 	position: absolute; top: 39px; left: 50%; z-index: 2;
 	content: '';
 }
 :root .el_con .img .second_con .item a:after{
-	background: url(../img/icon_video_n.png) no-repeat center; background-size: 28px;
+	background: url(/img/pc/v2/icon_video_n.png) no-repeat center; background-size: 28px;
 }
 .el_con .img .second_con .item a img{
 	min-width: 220px; min-height: 106px;
