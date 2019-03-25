@@ -38,7 +38,7 @@ if (!empty($lid)) {
             <a href="/">直播</a>
             <a href="/news/">资讯</a>
             <a href="/video/">视频</a>
-            <a href="/record/" class="on">录像</a>
+            <a href="/record/">录像</a>
             <a href="/data/">数据</a>
         </p>
     </div>
