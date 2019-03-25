@@ -35,7 +35,7 @@
     @endif
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{$cdnUrl}}/js/mobile/v2/public_wap_2.js?201903221615"></script>
+    <script type="text/javascript" src="{{$cdnUrl}}/js/mobile/v2/public_wap_2.js?201903250913"></script>
     <script type="text/javascript">
         window.onload = function () {
             // setPage()
