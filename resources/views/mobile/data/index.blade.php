@@ -149,10 +149,9 @@
                                         <th>负</th>
                                         <th>积分</th>
                                     </tr>
-                                    <?php $r = 1;?>
-                                    @foreach($gscore['scores'] as $item)
+                                    @foreach($gscore['scores'] as $key=>$item)
                                         <tr>
-                                            <td>{{++$r}}</td>
+                                            <td>{{$key+1}}</td>
                                             <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(1,$item['lid'],$item['tid'])}}"><img src="{{$item['ticon']}}">{{$item['tname']}}</a></td>
                                             <td>{{$item['win']}}</td>
                                             <td>{{$item['draw']}}</td>

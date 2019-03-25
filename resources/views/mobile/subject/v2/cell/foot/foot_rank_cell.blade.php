@@ -17,9 +17,9 @@
                     <th>失球</th>
                     <th>积分</th>
                 </tr>
-                @foreach($itemRanks as $item)
+                @foreach($itemRanks as $key=>$item)
                     <tr>
-                        <td>{{$item['rank']}}</td>
+                        <td>{{$key+1}}</td>
                         <td><img src="{{$item['ticon']}}">{{empty($item['tname_short'])?$item['tname']:$item['tname_short']}}</td>
                         <td>{{$item['win']}}</td>
                         <td>{{$item['draw']}}</td>
