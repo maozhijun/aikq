@@ -35,7 +35,7 @@ if (!empty($lid)) {
     <div id="Navigation">
         <a href="/" class="home"><img src="{{env('CDN_URL')}}/img/mobile/v2/logo_white.png"></a>
         <p class="inner_column_con">
-            <a href="/">直播</a>
+            <a href="/" class="on">直播</a>
             <a href="/news/">资讯</a>
             <a href="/video/">视频</a>
             <a href="/record/">录像</a>
