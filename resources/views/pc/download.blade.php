@@ -1,10 +1,11 @@
+<?php $cdnUrl = env("CDN_URL", ""); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
     <meta charset="UTF-8">
     <title>爱看球APP下载_爱看球官网软件下载-爱看球直播</title>
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/style.css?t={{time()}}">
-    <link rel="stylesheet" type="text/css" href="{{env('CDN_URL')}}/css/pc/download.css?t={{time()}}">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/style_2.css?t={{time()}}">
+    <link rel="stylesheet" type="text/css" href="{{$cdnUrl}}/css/pc/v2/download.css?t={{time()}}">
     <meta name="Keywords" content="爱看球,app下载">
     <meta name="Description" content="爱看球手机APP,足球、NBA、电竞赛事免费看。">
     <meta http-equiv="X-UA-Compatible" content="edge" />
@@ -26,20 +27,30 @@
 </script>
 <body>
 <!-- <div class="adbanner inner"><a href=""><img src="http://img2.titan007.com/image/56456gjf5.gif"></a></div> -->
-<div id="Navigation">
-    <h1>爱看球APP下载</h1>
-    <div class="inner">
-        <a href="/"><img class="icon" src="{{env('CDN_URL')}}/img/pc/logo_akq.png"></a>
-        <a class="column" href="/">直播</a>
-        {{--<a class="column" href="/anchor/">主播</a>--}}
-        <!--<a class="column" href="/live/subject/videos/all/1.html">录像</a>-->
-        <a class="column" href="/news/">资讯</a>
-        <a class="column" href="/record/">录像</a>
-        <a class="column" href="/data/">数据</a>
-        <!--<a class="column" href="https://www.liaogou168.com/recommends.html" target="_blank">推荐</a>-->
-        {{--<a class="column" href="/business.html" target="_blank">源调用</a>--}}
-        <a class="column on" href="/download/index.html" target="">下载</a>
+<div id="Navigation"><h1>爱看球APP下载_爱看球官网软件下载-爱看球直播</h1>
+    <div class="header">
+        <h1>爱看球APP下载</h1>
+        <div class="def_content">
+            <a href="/" class="home"></a>
+            <div class="item_content">
+                <a class="column" href="/">首页</a>
+                <a class="column" href="/live/">直播</a>
+                <a class="column" href="/news/">资讯</a>
+                <a class="column" href="/video/">视频</a>
+                <a class="column" href="/record/">录像</a>
+                <a class="column" href="/data/">数据</a>
+                <a class="column on" href="/download/index.html" target="">下载</a>
+                @yield('nav_inner')
+            </div>
+        </div>
     </div>
+    <?php
+    if (!isset($subjects)) $subjects = \App\Http\Controllers\PC\Live\SubjectController::getSubjects();?>
+    @if(isset($subjects) && count($subjects) > 0)
+        <div class="league">
+            @foreach($subjects as $id=>$su_obj) <a href="/{{$su_obj['name_en']}}/">{{$su_obj['name']}}</a> @endforeach
+        </div>
+    @endif
 </div>
 <div id="Content">
     <div class="aboxF">
