@@ -96,7 +96,7 @@ class DataController extends Controller{
                     $tmp = array();
                     if (isset($leagueData['stages'])){
                         foreach ($leagueData['stages'] as $stage){
-                            if ($stage['status'] == 1 && isset($stage['groupMatch'])){
+                            if (isset($stage['groupMatch'])){
                                 $tmp = $stage['groupMatch'];
                             }
                         }

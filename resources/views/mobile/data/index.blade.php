@@ -5,7 +5,9 @@
             <div class="run_line">
                 <?php $bj = 0?>
                 @foreach($leagues as $league)
-                    @if((isset($league['score']) && count($league['score']) > 0) || isset($league['west']) && count($league['west']) > 0)
+                    @if((isset($league['score']) && count($league['score']) > 0)
+                    || isset($league['west']) && count($league['west']) > 0
+                    || ($league['league']['type'] == 2 && count($league['score']) > 0))
                         <p class="column_item {{$bj == 0 ? 'on':''}}" forItem="{{$league['subject']}}">{{$league['league']['name']}}</p>
                         <?php
                         $bj++;
