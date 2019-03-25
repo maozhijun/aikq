@@ -31,18 +31,20 @@
             $lname = mb_strlen($lname) > 3 ? "体育" : $lname;
             $adName = $lname."投注";
             $adUrl = "http://b.aikq.cc/b8888.html";
+            $hTurl = !isset($lid) ? "javascript:viod(0);" : \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['hid']);
+            $aTurl = !isset($lid) ? "javascript:viod(0);" : \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['aid']);
             ?>
             {{--<div class="adbanner inner"><a href="http://b.aikq.cc/b8888.html" target="_blank"><img src="{{env("CDN_URL")}}/img/pc/room.gif"><button class="close"></button></a></div>--}}
             <div id="Live_info">
                 <div class="team_con">
                     <div class="team">
-                        <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['hid'])}}">
+                        <a href="{{$hTurl}}">
                             <img src="{{$host_icon}}"><h2>{{$match['hname']}}</h2>
                         </a>
                     </div>
                     <p class="vs">VS</p>
                     <div class="team">
-                        <a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($match["sport"],$lid,$match['aid'])}}">
+                        <a href="{{$aTurl}}">
                             <img src="{{$away_icon}}"><h2>{{$match['aname']}}</h2>
                         </a>
                     </div>
@@ -368,8 +370,16 @@
                         $mChannels = $more['channels'];
                         $url = \App\Http\Controllers\PC\CommonTool::getLiveDetailUrl($more['sport'], $more['lid'], $more['mid']);
                         $mIndex = 0;
-                        $hteamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['hid']);
-                        $ateamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['aid']);
+                        if (!empty($more["hid"])) {
+                            $hteamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['hid']);
+                        } else {
+                            $hteamUrl = "javascript:void(0);";
+                        }
+                        if (!empty($more["aid"])) {
+                            $ateamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($more['sport'], $more['lid'], $more['aid']);
+                        } else {
+                            $ateamUrl = "javascript:void(0);";
+                        }
                         ?>
                         <tr>
                             <td>

@@ -69,11 +69,20 @@
                 <table class="match">
                     <col width="11%"><col><col width="11%"><col><col width="40%">
                     @foreach($comboData["matches"] as $cMatch)
+                    <?php
+                        $hTeamUrl = "javascript:void(0);";
+                        $aTeamUrl = "javascript:void(0);";
+                        $sport = $cMatch["sport"];
+                        if ($sport == 1 || $sport == 2) {
+                            $hTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid']);
+                            $aTeamUrl = \App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid']);
+                        }
+                    ?>
                     <tr>
                         <td>{{substr($cMatch["time"], 5, 5)}}<br/><span>{{substr($cMatch["time"], 11, 5)}}</span></td>
-                        <td class="host"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid'])}}">{{$cMatch["hname"]}}</a></td>
+                        <td class="host"><a href="{{$hTeamUrl}}">{{$cMatch["hname"]}}</a></td>
                         <td class="vs">@if($cMatch["isMatching"])<span class="living">直播中</span>@else vs @endif</td>
-                        <td class="away"><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl($cMatch['sport'], $cMatch['lid'], $cMatch['hid'])}}">{{$cMatch["aname"]}}</a></td>
+                        <td class="away"><a href="{{$aTeamUrl}}">{{$cMatch["aname"]}}</a></td>
                         <td class="line">
                             @foreach($cMatch["channels"] as $channel)
                                 <?php $liveUrl = $channel["player"] == 16 ? $channel["link"] : $channel["live_url"]; ?>

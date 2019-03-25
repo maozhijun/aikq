@@ -19,7 +19,7 @@
         <div class="inner_title">
             <p class="name_con">球员</p>
             <p class="team_con">球队</p>
-            <p><p>{{$names[$name]}}</p></p>
+            <p>{{$names[$name]}}</p>
             <p>场次</p>
         </div>
         <div class="inner_con">

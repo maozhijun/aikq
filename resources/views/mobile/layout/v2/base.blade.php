@@ -42,7 +42,7 @@
 </body>
 {{--<script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>--}}
 <script type="text/javascript" src="{{env('CDN_URL')}}/js/mobile/v2/jquery.js?"></script>
-<script type="text/javascript" src="{{env('CDN_URL')}}/js/mobile/v2/public_wap_2.js?time=201903221615"></script>
+<script type="text/javascript" src="{{env('CDN_URL')}}/js/mobile/v2/public_wap_2.js?time=201903250913"></script>
 @yield('js')
 <script>
     var _hmt = _hmt || [];

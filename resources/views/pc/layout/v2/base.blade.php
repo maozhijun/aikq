@@ -55,6 +55,10 @@
                     url = url.replace(/(https?:\/\/)(mp\.)?/, "$1m.");
                     window.location.href = url;
                 } else {
+                    var path = location.pathname;
+                    if (path == "/live/" || path == "/live") {
+                        url = url.replace("/live/", "").replace("/live", "");
+                    }
                     url = url.replace(/(https?:\/\/)(www\.)?/, "$1m.");
                     window.location.href = url;
                 }

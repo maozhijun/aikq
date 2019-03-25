@@ -43,26 +43,36 @@ function checkToBottom () {
 
 //时间设定
 function setMyTime (time,type) {
-    var newTime = new Date(time)
+  var newTime = new Date(time)
+  
+  var newYear = newTime.getFullYear(),
+  newMonth = (newTime.getMonth() + 1) > 9 ? (newTime.getMonth() + 1) : '0' + (newTime.getMonth() + 1),
+  newDay = newTime.getDate() > 9 ? newTime.getDate() : '0' + newTime.getDate(),
+  newHour = newTime.getHours() > 9 ? newTime.getHours() : '0' + newTime.getHours(),
+  newMinute = newTime.getMinutes() > 9 ? newTime.getMinutes() : '0' + newTime.getMinutes()
 
-    var newYear = newTime.getFullYear(),
-        newMonth = (newTime.getMonth() + 1) > 9 ? (newTime.getMonth() + 1) : '0' + (newTime.getMonth() + 1),
-        newDay = newTime.getDate() > 9 ? newTime.getDate() : '0' + newTime.getDate(),
-        newHour = newTime.getHours() > 9 ? newTime.getHours() : '0' + newTime.getHours(),
-        newMinute = newTime.getMinutes() > 9 ? newTime.getMinutes() : '0' + newTime.getMinutes()
-
-    if (type == 'time') {
-        return newHour + ':' + newMinute
-    }else if (type == 'year') {
-        return newYear + '-' + newMonth + '-' + newDay
-    }else if (type == 'date') {
-        return newMonth + '-' + newDay
-    }else if (type == 'month') {
-        return newMonth + '-' + newDay + ' ' + newHour + ':' + newMinute
-    }else{
-        return newYear + '-' + newMonth + '-' + newDay + ' ' + newHour + ':' + newMinute
-    }
+  if (type == 'time') {
+    return newHour + ':' + newMinute
+  }else if (type == 'year') {
+    return newYear + '-' + newMonth + '-' + newDay
+  }else if (type == 'date') {
+    return newMonth + '-' + newDay
+  }else if (type == 'month') {
+    return newMonth + '-' + newDay + ' ' + newHour + ':' + newMinute
+  }else{
+    return newYear + '-' + newMonth + '-' + newDay + ' ' + newHour + ':' + newMinute
+  }
 }
+
+
+//判断是否安卓手机
+function checkAndroid () {
+  var u = navigator.userAgent;
+  var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+  return isAndroid;
+}
+
+
 
 /*广告关闭*/
 $(function(){

@@ -43,7 +43,9 @@ $isLottery = isset($match['betting_num']);
 ?>
 
 <tr type="{{$type.'ball'}}">
-    <td><img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png"></td>
+    <td>
+        @if($sport == 1 || $sport == 2)<img class="icon" src="{{env('CDN_URL')}}/img/pc/v2/icon_{{$type}}_light_opaque.png">@endif
+    </td>
     <td>{{$match['league_name']}}</td>
     <td>{{date('H:i', strtotime($match['time']))}}</td>
     @if(isset($match['hid']))
