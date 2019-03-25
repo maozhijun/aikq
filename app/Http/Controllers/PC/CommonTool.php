@@ -538,7 +538,11 @@ class CommonTool
         if (isset($sl)) {
             $path = "/".$name_en."/record/".$first."/".$second."/".$id.".html";
         } else {
-            $path = "/record/".$name_en."/".$first."/".$second."/".$id."_".$sport.".html";
+            if ($sport == 2)
+                $path = "/record/".$name_en."/".$first."/".$second."/".$id."_".$sport.".html";
+            else{
+                $path = "/record/".$name_en."/".$first."/".$second."/".$id.".html";
+            }
         }
         return $path;
     }
@@ -555,7 +559,11 @@ class CommonTool
         if (isset($sl)) {
             $path = "/".$name_en."/record".$id.".html";
         } else {
-            $path = "/record/".$name_en.$id."_".$sport.".html";
+            if ($sport == 2)
+                $path = "/record/".$name_en.$id."_".$sport.".html";
+            else{
+                $path = "/record/".$name_en.$id.".html";
+            }
         }
         return $path;
     }
