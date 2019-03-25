@@ -1695,7 +1695,7 @@ class AikanQController extends Controller
             return null;
         }
 
-        $teamName = isset($teamData['shortName']) ? $teamData['shortName'] : $teamData['name'];
+        $teamName = isset($teamData['shortName']) ? $teamData['shortName'] : (isset($teamData['name'])?$teamData['name']:'');
         if (!isset($lid) || strlen($lid) <= 0) {
             $lid = self::getLeagueByTid($sport, $tid);
         }

@@ -119,7 +119,7 @@ class TeamController extends Controller
                 }
             }
             foreach ($tids as $tid) {
-                $item = BasketTeam::query()->find($tid);
+                $item = Team::query()->find($tid);
                 if (isset($item)) {
                     $teams[$item['id']] = $item;
                 }
@@ -131,7 +131,7 @@ class TeamController extends Controller
 
     private static function detailHtml($data)
     {
-        if ($data == null) return abort(404);
+        if ($data == null || !isset($data['team'])) return abort(404);
         $data['keywords'] = '';
         $data['description'] = '';
         return view('pc.team.v2.index', $data);

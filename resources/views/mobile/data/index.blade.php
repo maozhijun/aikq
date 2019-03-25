@@ -113,7 +113,7 @@
                                 ?>
                                 <tr>
                                     <td>{{$item['rank']}}</td>
-                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($item['ticon'])}}">{{$item['tname']}}</a></td>
+                                    <td><a href="{{\App\Http\Controllers\PC\CommonTool::getTeamDetailUrl(2,$league['league']['id'],$item['tid'])}}"><img src="{{$item['ticon']}}">{{$item['tname']}}</a></td>
                                     <td>{{$item['win']}}</td>
                                     <td>{{$item['lose']}}</td>
                                     <td>{{$item['win_diff']}}</td>

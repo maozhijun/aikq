@@ -29,9 +29,9 @@
                         <tr>
                             <td>{{$rank['rank']}}</td>
                             @if(isset($rank['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\Match\Team::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
                             @else
-                                <td class="name"><img src="{{\App\Models\LgMatch\Team::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\Match\Team::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                             @endif
                             <td>{{$rank['win']}}/{{$rank['draw']}}/{{$rank['lose']}}</td>
                             <td>{{isset($rank['goal'])?$rank['goal']:'-'}}/{{isset($rank['fumble']) ? $rank['fumble'] : '-'}}</td>
@@ -67,9 +67,9 @@
                         <tr>
                             <td>{{$east['rank']}}</td>
                             @if(isset($east['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$east['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$east['name']}}</a></td>
                             @else
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$east['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}">{{$east['name']}}</td>
                             @endif
                             <td>{{$east['win']}}/{{$east['lose']}}</td>
                             <td>{{$east['win_p']}}%</td>
@@ -94,9 +94,9 @@
                         <tr>
                             <td>{{$west['rank']}}</td>
                             @if(isset($west['tid']))
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$west['name']}}</a></td>
+                                <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$west['name']}}</a></td>
                             @else
-                                <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$west['name']}}</td>
+                                <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}">{{$west['name']}}</td>
                             @endif
                             <td>{{$west['win']}}/{{$west['lose']}}</td>
                             <td>{{$west['win_p']}}%</td>
@@ -126,9 +126,9 @@
                     <tr>
                         <td>{{$rank['rank']}}</td>
                         @if(isset($rank['tid']))
-                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
+                            <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}"><a target="_blank" href="{{$tUrl}}">{{$rank['name']}}</a></td>
                         @else
-                            <td class="name"><img src="{{\App\Models\LgMatch\BasketTeam::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
+                            <td class="name"><img src="{{\App\Models\Match\BasketTeam::getIcon($steam['icon'])}}">{{$rank['name']}}</td>
                         @endif
                         <td>{{$rank['win']}}/{{$rank['lose']}}</td>
                         <td>{{$rank['win_p']}}%</td>
